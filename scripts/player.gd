@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 signal laser_shot(laser)
 signal died
+signal is_warping
 
 @export var acceleration := 10.0
 @export var max_speed := 350.0
@@ -36,13 +37,10 @@ func _process(delta):
 		if warping == true:
 			warping = false
 			warp_multiplier = 1
-			print("warping false")
-			print(warp_multiplier)
 		else:
 			warping = true
 			warp_multiplier = 0.3
-			print("warping true")
-			print(warp_multiplier)
+			emit_signal("is_warping")
 			
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
