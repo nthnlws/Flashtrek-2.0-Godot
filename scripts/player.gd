@@ -17,6 +17,8 @@ signal died
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionShape2D
+@onready var glow_left = $PointLight2D_left
+@onready var glow_right = $PointLight2D_right
 
 #func warp_input():
 
@@ -66,16 +68,6 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, 3)
 	
 	move_and_slide()
-	
-	var screen_size = get_viewport_rect().size
-	if global_position.y < 0:
-		global_position.y = screen_size.y
-	elif global_position.y > screen_size.y:
-		global_position.y = 0
-	if global_position.x < 0:
-		global_position.x = screen_size.x
-	elif global_position.x > screen_size.x:
-		global_position.x = 0
 
 func shoot_laser():
 	var l = laser_scene.instantiate()
@@ -87,6 +79,8 @@ func die():
 	if alive==true:
 		alive = false
 		sprite.visible = false
+		glow_right.visible = false
+		glow_left.visible = false
 		cshape.set_deferred("disabled", true)
 		emit_signal("died")
 		
