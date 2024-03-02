@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://test/rigs/asteroid_projectile.gd" type="Script" id=1]
+[ext_resource path="res://entities/projectile.tscn" type="PackedScene" id=2]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "A projectile is fired repeatedly at an asteroid, which respawns every few seconds. Demonstrates collision calculation, physics interaction, damage taken, particle effects."
+}
+projectile_scene = ExtResource( 2 )
+
+[node name="fire" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+__meta__ = {
+"_editor_description_": "Trigger for firing a projectile."
+}
+
+[node name="respawn" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+__meta__ = {
+"_editor_description_": "Trigger for respawning the asteroid, if it still exists."
+}
+
+[node name="entity_container" type="Node" parent="."]
+__meta__ = {
+"_editor_description_": ""
+}
+
+[connection signal="timeout" from="fire" to="." method="_on_fire_timeout"]
+[connection signal="timeout" from="respawn" to="." method="_on_respawn_timeout"]

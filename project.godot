@@ -1,0 +1,169 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Entity2D",
+"class": "Asteroid",
+"language": "GDScript",
+"path": "res://entities/entity_asteroid.gd"
+}, {
+"base": "Node",
+"class": "Background2D",
+"language": "GDScript",
+"path": "res://entities/background.gd"
+}, {
+"base": "Polygon2D",
+"class": "BackgroundStar2D",
+"language": "GDScript",
+"path": "res://entities/background_star.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Entity2D",
+"language": "GDScript",
+"path": "res://entities/entity2d.gd"
+}, {
+"base": "HBoxContainer",
+"class": "HighScoreLabel",
+"language": "GDScript",
+"path": "res://menu/high_score_label.gd"
+}, {
+"base": "Ship2D",
+"class": "Player2D",
+"language": "GDScript",
+"path": "res://entities/ship_player.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Projectile2D",
+"language": "GDScript",
+"path": "res://entities/projectile2d.gd"
+}, {
+"base": "Entity2D",
+"class": "Ship2D",
+"language": "GDScript",
+"path": "res://entities/entity_ship.gd"
+}, {
+"base": "Reference",
+"class": "Sparks",
+"language": "GDScript",
+"path": "res://effects/sparks.gd"
+}, {
+"base": "Ship2D",
+"class": "UFO",
+"language": "GDScript",
+"path": "res://entities/ship_ufo.gd"
+} ]
+_global_script_class_icons={
+"Asteroid": "",
+"Background2D": "",
+"BackgroundStar2D": "",
+"Entity2D": "",
+"HighScoreLabel": "",
+"Player2D": "",
+"Projectile2D": "",
+"Ship2D": "",
+"Sparks": "",
+"UFO": ""
+}
+
+[application]
+
+config/name="02.SpaceFighter"
+run/main_scene="res://splash_screen/JWR26SplashScreen.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+EventBus="*res://autoload/event_bus.gd"
+MusicManager="*res://autoload/music_manager.tscn"
+SceneChanger="*res://autoload/scene_changer.tscn"
+HighScoreManager="*res://autoload/high_score_manager.gd"
+Globals="*res://autoload/globals.gd"
+
+[debug]
+
+shapes/collision/shape_color=Color( 1, 1, 1, 1 )
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[global]
+
+color=false
+
+[input]
+
+turn_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777231,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+}
+turn_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777233,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+ ]
+}
+thrust={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777232,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+break={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+fire_cannon={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":88,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+fire_laser={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":67,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+stop={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":8,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+strafe_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+strafe_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+
+[physics]
+
+common/physics_fps=120
+common/enable_pause_aware_picking=true
+2d/default_gravity=0
+2d/default_gravity_vector=Vector2( 0, 0 )
+
+[rendering]
+
+environment/default_clear_color=Color( 0, 0, 0, 1 )
+environment/default_environment="res://default_env.tres"

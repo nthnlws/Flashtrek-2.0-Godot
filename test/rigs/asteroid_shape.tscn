@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://test/rigs/asteroid_shape.gd" type="Script" id=1]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "Spawns a sample of asteroids, for visual inspection. Renews the sample continuously. Demonstrates asteroid shape generation algorithm."
+}
+
+[node name="spawn_asteroid" type="Timer" parent="."]
+wait_time = 0.167
+autostart = true
+__meta__ = {
+"_editor_description_": "Trigger to redraw one of the displayed asteroids."
+}
+
+[connection signal="timeout" from="spawn_asteroid" to="." method="_on_spawn_asteroid_timeout"]

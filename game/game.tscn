@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://entities/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/powerup_manager.gd" type="Script" id=2]
+[ext_resource path="res://entities/UFO.tscn" type="PackedScene" id=4]
+[ext_resource path="res://entities/Boundary.tscn" type="PackedScene" id=5]
+[ext_resource path="res://entities/Health.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/game.gd" type="Script" id=7]
+[ext_resource path="res://entities/BouncingBulletPowerup.tscn" type="PackedScene" id=8]
+[ext_resource path="res://entities/LaserPowerup.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Environment" id=1]
+background_mode = 4
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/5 = false
+glow_intensity = 0.6
+glow_bloom = 0.5
+glow_blend_mode = 0
+glow_hdr_threshold = 1.25
+glow_hdr_luminance_cap = 1.0
+glow_bicubic_upscale = true
+glow_high_quality = true
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -1216, -768, 0, 0, 0, 0, 1216, -768, 0, 0, 0, 0, 1216, 768, 0, 0, 0, 0, -1216, 768, 0, 0, 0, 0, -1216, -768 )
+}
+
+[node name="Game" type="Node"]
+script = ExtResource( 7 )
+enemy = ExtResource( 4 )
+
+[node name="EntityContainer" type="Node" parent="."]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="EntityPath" type="Path2D" parent="."]
+curve = SubResource( 2 )
+
+[node name="EntitySpawnPoint" type="PathFollow2D" parent="EntityPath"]
+position = Vector2( -1216, -768 )
+
+[node name="GarbageCollector" type="Timer" parent="."]
+autostart = true
+
+[node name="PowerupManager" type="Node" parent="."]
+script = ExtResource( 2 )
+health = ExtResource( 6 )
+bouncing = ExtResource( 8 )
+laser = ExtResource( 9 )
+
+[node name="Timer" type="Timer" parent="PowerupManager"]
+wait_time = 10.0
+autostart = true
+
+[node name="Health" parent="PowerupManager" instance=ExtResource( 6 )]
+position = Vector2( -484, -206 )
+
+[node name="BouncingBullletPowerup" parent="PowerupManager" instance=ExtResource( 8 )]
+position = Vector2( -595, -267 )
+
+[node name="UFOTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="UFO" parent="UFOTimer" instance=ExtResource( 4 )]
+position = Vector2( -694, -342 )
+
+[node name="AsteroidTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="Boundary" parent="." instance=ExtResource( 5 )]
+
+[connection signal="timeout" from="GarbageCollector" to="." method="free_explosions"]
+[connection signal="timeout" from="PowerupManager/Timer" to="PowerupManager" method="_on_Timer_timeout"]
+[connection signal="timeout" from="UFOTimer" to="." method="_on_UFOTimer_timeout"]
+[connection signal="timeout" from="AsteroidTimer" to="." method="_on_AsteroidTimer_timeout"]

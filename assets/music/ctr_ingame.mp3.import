@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ctr_ingame.mp3-5767a4192d45f965e0710e1ba64ed19e.mp3str"
+
+[deps]
+
+source_file="res://assets/music/ctr_ingame.mp3"
+dest_files=[ "res://.import/ctr_ingame.mp3-5767a4192d45f965e0710e1ba64ed19e.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
