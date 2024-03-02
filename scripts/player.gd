@@ -7,6 +7,9 @@ signal died
 @export var max_speed := 350.0
 @export var rotation_speed := 250.0
 
+@export var warping := false
+@export var warp_multiplier := 1.0
+
 @export var warpmax_speed := 600.0
 @export var warprotation_speed := 110.0
 
@@ -14,6 +17,8 @@ signal died
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionShape2D
+
+#func warp_input():
 
 var laser_scene = preload("res://scenes/laser.tscn")
 
@@ -25,6 +30,18 @@ var alive := true
 func _process(delta):
 	if !alive: return
 	
+	if Input.is_action_just_pressed("warp"):
+		if warping == true:
+			warping = false
+			warp_multiplier = 1
+			print("warping false")
+			print(warp_multiplier)
+		else:
+			warping = true
+			warp_multiplier = 0.3
+			print("warping true")
+			print(warp_multiplier)
+			
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
 			shoot_cd = true
@@ -38,12 +55,12 @@ func _physics_process(delta):
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
 	velocity += input_vector.rotated(rotation) * acceleration
-	velocity = velocity.limit_length(max_speed)
+	velocity = velocity.limit_length(max_speed/warp_multiplier)
 	
 	if Input.is_action_pressed("rotate_right"):
-		rotate(deg_to_rad(rotation_speed*delta))
+		rotate(deg_to_rad(rotation_speed*delta*warp_multiplier))
 	if Input.is_action_pressed("rotate_left"):
-		rotate(deg_to_rad(-rotation_speed*delta))
+		rotate(deg_to_rad(-rotation_speed*delta*warp_multiplier))
 	
 	if input_vector.y == 0:
 		velocity = velocity.move_toward(Vector2.ZERO, 3)
