@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://bh1r82178c2u1" path="res://scenes/asteroid.tscn" id="3_6btt6"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_kp4kv"]
-[ext_resource type="AudioStream" uid="uid://dfi55prjkcvmm" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="6_l5xml"]
-[ext_resource type="AudioStream" uid="uid://cbomqpfhfn5pu" path="res://assets/audio/Explosion+2.mp3" id="8_go3he"]
-[ext_resource type="AudioStream" uid="uid://ds7u075xt8ibi" path="res://assets/audio/hit.wav" id="8_p30em"]
+[ext_resource type="AudioStream" uid="uid://cqnw6gm42r33i" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="6_l5xml"]
+[ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="8_go3he"]
+[ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="8_p30em"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6ya6y"]
 particle_flag_disable_z = true
