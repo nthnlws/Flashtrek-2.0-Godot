@@ -7,6 +7,10 @@ signal died
 @export var max_speed := 350.0
 @export var rotation_speed := 250.0
 
+@export var warpmax_speed := 600.0
+@export var warprotation_speed := 110.0
+
+
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionShape2D
