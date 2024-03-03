@@ -11,12 +11,20 @@ signal died
 @export var warp_multiplier := 1.0
 
 @export var warpmax_speed := 600.0
-@export var warprotation_speed := 110.0
+@export var warpRotation_speed := 110.0
 
 
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionShape2D
+<<<<<<< Updated upstream
+=======
+@onready var glow_left = $PointLight2D_left
+@onready var glow_right = $PointLight2D_right
+@onready var playersprite = $Sprite2D
+@onready var collision = $CollisionShape2D
+
+>>>>>>> Stashed changes
 
 #func warp_input():
 
@@ -33,6 +41,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("warp"):
 		if warping == true:
 			warping = false
+<<<<<<< Updated upstream
 			warp_multiplier = 1
 			print("warping false")
 			print(warp_multiplier)
@@ -41,6 +50,20 @@ func _process(delta):
 			warp_multiplier = 0.3
 			print("warping true")
 			print(warp_multiplier)
+=======
+		elif warping == false:
+			warping = true
+			
+	if warping == true:
+		warp_multiplier = 0.3
+		playersprite.scale.y = 1.05
+		collision.scale.y = 1.05
+	elif warping == false:
+		warp_multiplier = 1
+		playersprite.scale.y = 0.6
+		collision.scale.y = 0.6
+		
+>>>>>>> Stashed changes
 			
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
@@ -88,6 +111,7 @@ func die():
 		alive = false
 		sprite.visible = false
 		cshape.set_deferred("disabled", true)
+		warping = false
 		emit_signal("died")
 		
 
@@ -97,4 +121,5 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		sprite.visible = true
+		warp_multiplier = 1
 		cshape.set_deferred("disabled", false)

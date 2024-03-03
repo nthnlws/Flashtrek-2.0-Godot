@@ -33,13 +33,13 @@ scale_max = 3.0
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ws6fu"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1, 360, 1)
+emission_box_extents = Vector3(1, 5000, 1)
 spread = 0.0
 initial_velocity_min = -30.0
 initial_velocity_max = -30.0
 gravity = Vector3(0, 0, 0)
-scale_min = 5.0
-scale_max = 5.0
+scale_min = 2.0
+scale_max = 2.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
@@ -52,18 +52,25 @@ script = ExtResource("1_ci0lx")
 visible = false
 
 [node name="BackgroundStarFields" type="Node2D" parent="."]
+position = Vector2(1308, 360)
 
 [node name="StarFieldBack" type="GPUParticles2D" parent="BackgroundStarFields"]
+visible = false
 z_index = -100
-position = Vector2(1308, 360)
 amount = 1000
 process_material = SubResource("ParticleProcessMaterial_6ya6y")
 lifetime = 140.0
 preprocess = 280.0
+<<<<<<< Updated upstream
+=======
+speed_scale = 0.5
+fixed_fps = 60
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+>>>>>>> Stashed changes
 
 [node name="StarFieldMiddle" type="GPUParticles2D" parent="BackgroundStarFields"]
+visible = false
 z_index = -95
-position = Vector2(1308, 360)
 amount = 250
 process_material = SubResource("ParticleProcessMaterial_qn0gc")
 lifetime = 140.0
@@ -71,11 +78,17 @@ preprocess = 280.0
 
 [node name="StarFieldFront" type="GPUParticles2D" parent="BackgroundStarFields"]
 z_index = -90
-position = Vector2(1308, 360)
-amount = 30
+amount = 10000
 process_material = SubResource("ParticleProcessMaterial_ws6fu")
+<<<<<<< Updated upstream
 lifetime = 140.0
 preprocess = 280.0
+=======
+lifetime = 1000.0
+preprocess = 600.0
+fixed_fps = 60
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+>>>>>>> Stashed changes
 
 [node name="Lasers" type="Node" parent="."]
 
@@ -83,18 +96,6 @@ preprocess = 280.0
 
 [node name="Asteroid" parent="Asteroids" instance=ExtResource("3_6btt6")]
 position = Vector2(396, 244)
-
-[node name="Asteroid2" parent="Asteroids" instance=ExtResource("3_6btt6")]
-position = Vector2(987, 111)
-
-[node name="Asteroid3" parent="Asteroids" instance=ExtResource("3_6btt6")]
-position = Vector2(1033, 445)
-
-[node name="Asteroid4" parent="Asteroids" instance=ExtResource("3_6btt6")]
-position = Vector2(263, 615)
-
-[node name="Asteroid5" parent="Asteroids" instance=ExtResource("3_6btt6")]
-position = Vector2(143, 107)
 
 [node name="PlayerSpawnPos" type="Node2D" parent="."]
 position = Vector2(640, 360)
