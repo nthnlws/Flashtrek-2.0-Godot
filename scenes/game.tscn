@@ -61,12 +61,6 @@ amount = 1000
 process_material = SubResource("ParticleProcessMaterial_6ya6y")
 lifetime = 140.0
 preprocess = 280.0
-<<<<<<< Updated upstream
-=======
-speed_scale = 0.5
-fixed_fps = 60
-visibility_rect = Rect2(-1000, -1000, 2000, 2000)
->>>>>>> Stashed changes
 
 [node name="StarFieldMiddle" type="GPUParticles2D" parent="BackgroundStarFields"]
 visible = false
@@ -75,20 +69,13 @@ amount = 250
 process_material = SubResource("ParticleProcessMaterial_qn0gc")
 lifetime = 140.0
 preprocess = 280.0
+speed_scale = 0.5
+fixed_fps = 60
 
 [node name="StarFieldFront" type="GPUParticles2D" parent="BackgroundStarFields"]
 z_index = -90
 amount = 10000
 process_material = SubResource("ParticleProcessMaterial_ws6fu")
-<<<<<<< Updated upstream
-lifetime = 140.0
-preprocess = 280.0
-=======
-lifetime = 1000.0
-preprocess = 600.0
-fixed_fps = 60
-visibility_rect = Rect2(-1000, -1000, 2000, 2000)
->>>>>>> Stashed changes
 
 [node name="Lasers" type="Node" parent="."]
 

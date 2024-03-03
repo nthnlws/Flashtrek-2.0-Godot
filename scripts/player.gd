@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 signal laser_shot(laser)
 signal died
+signal is_warping
 
 @export var acceleration := 10.0
 @export var max_speed := 350.0
@@ -17,14 +18,11 @@ signal died
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionShape2D
-<<<<<<< Updated upstream
-=======
+
 @onready var glow_left = $PointLight2D_left
 @onready var glow_right = $PointLight2D_right
 @onready var playersprite = $Sprite2D
 @onready var collision = $CollisionShape2D
-
->>>>>>> Stashed changes
 
 #func warp_input():
 
@@ -41,16 +39,8 @@ func _process(delta):
 	if Input.is_action_just_pressed("warp"):
 		if warping == true:
 			warping = false
-<<<<<<< Updated upstream
-			warp_multiplier = 1
-			print("warping false")
-			print(warp_multiplier)
 		else:
 			warping = true
-			warp_multiplier = 0.3
-			print("warping true")
-			print(warp_multiplier)
-=======
 		elif warping == false:
 			warping = true
 			
@@ -62,8 +52,6 @@ func _process(delta):
 		warp_multiplier = 1
 		playersprite.scale.y = 0.6
 		collision.scale.y = 0.6
-		
->>>>>>> Stashed changes
 			
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
@@ -89,16 +77,6 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, 3)
 	
 	move_and_slide()
-	
-	var screen_size = get_viewport_rect().size
-	if global_position.y < 0:
-		global_position.y = screen_size.y
-	elif global_position.y > screen_size.y:
-		global_position.y = 0
-	if global_position.x < 0:
-		global_position.x = screen_size.x
-	elif global_position.x > screen_size.x:
-		global_position.x = 0
 
 func shoot_laser():
 	var l = laser_scene.instantiate()
@@ -110,6 +88,8 @@ func die():
 	if alive==true:
 		alive = false
 		sprite.visible = false
+		glow_right.visible = false
+		glow_left.visible = false
 		cshape.set_deferred("disabled", true)
 		warping = false
 		emit_signal("died")
