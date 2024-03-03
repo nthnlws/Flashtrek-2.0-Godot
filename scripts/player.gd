@@ -39,8 +39,6 @@ func _process(delta):
 	if Input.is_action_just_pressed("warp"):
 		if warping == true:
 			warping = false
-		else:
-			warping = true
 		elif warping == false:
 			warping = true
 			
