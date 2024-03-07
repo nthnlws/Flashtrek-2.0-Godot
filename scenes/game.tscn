@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://7f1k0tsx7cnx"]
+[gd_scene load_steps=11 format=3 uid="uid://7f1k0tsx7cnx"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="1_lp7mr"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://cqnw6gm42r33i" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="6_l5xml"]
 [ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="8_go3he"]
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="8_p30em"]
+[ext_resource type="Texture2D" uid="uid://i4sgd82hrwh5" path="res://assets/textures/Star Background.png" id="10_66oa3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
@@ -44,3 +45,17 @@ stream = ExtResource("8_go3he")
 
 [node name="Player" parent="." instance=ExtResource("1_lp7mr")]
 position = Vector2(640, 361)
+
+[node name="StarBackground" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="StarBackground"]
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="StarBackground/ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(4096, 4096)
+
+[node name="Sprite2D" type="Sprite2D" parent="StarBackground/ParallaxBackground/ParallaxLayer"]
+position = Vector2(515, 515)
+scale = Vector2(4, 4)
+texture = ExtResource("10_66oa3")
