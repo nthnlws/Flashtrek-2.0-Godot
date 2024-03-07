@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=13 format=3 uid="uid://7f1k0tsx7cnx"]
-=======
 [gd_scene load_steps=11 format=3 uid="uid://7f1k0tsx7cnx"]
->>>>>>> Stashed changes
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="1_lp7mr"]
@@ -15,37 +11,6 @@
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="8_p30em"]
 [ext_resource type="Texture2D" uid="uid://i4sgd82hrwh5" path="res://assets/textures/Star Background.png" id="10_66oa3"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6ya6y"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(1, 360, 1)
-spread = 0.0
-initial_velocity_min = -10.0
-initial_velocity_max = -10.0
-gravity = Vector3(0, 0, 0)
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qn0gc"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(1, 360, 1)
-spread = 0.0
-initial_velocity_min = -20.0
-initial_velocity_max = -20.0
-gravity = Vector3(0, 0, 0)
-scale_min = 3.0
-scale_max = 3.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ws6fu"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(1, 5000, 1)
-spread = 0.0
-initial_velocity_min = -30.0
-initial_velocity_max = -30.0
-gravity = Vector3(0, 0, 0)
-scale_min = 2.0
-scale_max = 2.0
-
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
 
@@ -55,32 +20,6 @@ script = ExtResource("1_ci0lx")
 
 [node name="GameOverScreen" parent="UI" instance=ExtResource("3_km7re")]
 visible = false
-
-[node name="BackgroundStarFields" type="Node2D" parent="."]
-position = Vector2(1308, 360)
-
-[node name="StarFieldBack" type="GPUParticles2D" parent="BackgroundStarFields"]
-visible = false
-z_index = -100
-amount = 1000
-process_material = SubResource("ParticleProcessMaterial_6ya6y")
-lifetime = 140.0
-preprocess = 280.0
-
-[node name="StarFieldMiddle" type="GPUParticles2D" parent="BackgroundStarFields"]
-visible = false
-z_index = -95
-amount = 250
-process_material = SubResource("ParticleProcessMaterial_qn0gc")
-lifetime = 140.0
-preprocess = 280.0
-speed_scale = 0.5
-fixed_fps = 60
-
-[node name="StarFieldFront" type="GPUParticles2D" parent="BackgroundStarFields"]
-z_index = -90
-amount = 10000
-process_material = SubResource("ParticleProcessMaterial_ws6fu")
 
 [node name="Lasers" type="Node" parent="."]
 
