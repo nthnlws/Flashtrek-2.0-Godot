@@ -45,11 +45,11 @@ func _process(delta):
 	if warping == true:
 		warp_multiplier = 0.3
 		playersprite.scale.y = 1.05
-		collision.scale.y = 1.05
+		collision.scale.y = 1.1
 	elif warping == false:
 		warp_multiplier = 1
 		playersprite.scale.y = 0.6
-		collision.scale.y = 0.6
+		collision.scale.y = 0.7
 			
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
