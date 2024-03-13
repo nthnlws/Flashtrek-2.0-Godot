@@ -65,7 +65,10 @@ func _on_player_died():
 		await get_tree().create_timer(2).timeout
 		game_over_screen.visible = true
 	else:
+		if global.warping == true:
+			player.warping_state_change()
 		await get_tree().create_timer(1).timeout
 		while !player_spawn_area.is_empty:
 			await get_tree().create_timer(0.1).timeout
 		player.respawn(player_spawn_pos.global_position)
+		

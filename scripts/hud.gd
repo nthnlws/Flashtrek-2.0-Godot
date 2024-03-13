@@ -14,3 +14,7 @@ func init_lives(amount):
 	for i in amount:
 		var ul = uilife_scene.instantiate()
 		lives.add_child(ul)
+
+@onready var Warping = $Warping:
+	set(value):
+		Warping.text = global.warping

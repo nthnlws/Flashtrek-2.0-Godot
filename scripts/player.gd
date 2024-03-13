@@ -8,21 +8,19 @@ signal is_warping
 @export var max_speed := 350.0
 @export var rotation_speed := 250.0
 
-@export var warping := false
 @export var warp_multiplier := 1.0
 
 @export var warpmax_speed := 600.0
 @export var warpRotation_speed := 110.0
 
-
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
-@onready var cshape = $CollisionShape2D
+@onready var cshape = $CollisionPolygon2D
 
 @onready var glow_left = $PointLight2D_left
 @onready var glow_right = $PointLight2D_right
 @onready var playersprite = $Sprite2D
-@onready var collision = $CollisionShape2D
+@onready var collision = $CollisionPolygon2D
 
 #func warp_input():
 
@@ -32,25 +30,14 @@ var shoot_cd = false
 var rate_of_fire = 0.15
 
 var alive := true
-
+	
 func _process(delta):
 	if !alive: return
 	
 	if Input.is_action_just_pressed("warp"):
-		if warping == true:
-			warping = false
-		elif warping == false:
-			warping = true
-			
-	if warping == true:
-		warp_multiplier = 0.3
-		playersprite.scale.y = 1.05
-		collision.scale.y = 1.1
-	elif warping == false:
-		warp_multiplier = 1
-		playersprite.scale.y = 0.6
-		collision.scale.y = 0.7
-			
+		warping_state_change()
+	
+
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
 			shoot_cd = true
@@ -76,6 +63,18 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+# Reverses warping state and all associated properties
+func warping_state_change():
+	if global.warping == true:
+		global.warping = false
+		create_tween().tween_property(self, "scale", Vector2(1, 1), 0.5)
+		warp_multiplier = 1
+	elif global.warping == false:
+		global.warping = true
+		emit_signal("is_warping")
+		warp_multiplier = 0.3
+		create_tween().tween_property(self, "scale", Vector2(1, 1.75), 0.5)
+
 func shoot_laser():
 	var l = laser_scene.instantiate()
 	l.global_position = muzzle.global_position
@@ -89,7 +88,6 @@ func die():
 		glow_right.visible = false
 		glow_left.visible = false
 		cshape.set_deferred("disabled", true)
-		warping = false
 		emit_signal("died")
 		
 
@@ -99,5 +97,4 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		sprite.visible = true
-		warp_multiplier = 1
 		cshape.set_deferred("disabled", false)

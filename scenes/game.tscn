@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://7f1k0tsx7cnx"]
+[gd_scene load_steps=13 format=3 uid="uid://7f1k0tsx7cnx"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
+[ext_resource type="Script" path="res://scenes/global.gd" id="1_ff2jh"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="1_lp7mr"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
 [ext_resource type="PackedScene" uid="uid://bh1r82178c2u1" path="res://scenes/asteroid.tscn" id="3_6btt6"]
@@ -9,142 +10,47 @@
 [ext_resource type="AudioStream" uid="uid://cqnw6gm42r33i" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="6_l5xml"]
 [ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="8_go3he"]
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="8_p30em"]
-[ext_resource type="Texture2D" uid="uid://i4sgd82hrwh5" path="res://assets/textures/Star Background.png" id="10_66oa3"]
-[ext_resource type="Texture2D" uid="uid://dvd2324d8w8vf" path="res://assets/textures/energyWall.jpg" id="11_jkh0t"]
+[ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
+[ext_resource type="PackedScene" uid="uid://ckyf2grb8ts10" path="res://scenes/zone_walls.tscn" id="11_l52o4"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w2win"]
-particle_flag_disable_z = true
-spread = 0.0
-gravity = Vector3(0, 98, 0)
+[node name="Global" type="Node"]
+script = ExtResource("1_ff2jh")
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qxnmy"]
-bounce = 0.5
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w46tr"]
-normal = Vector2(1, 0)
-distance = -7.75
-
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" parent="."]
 script = ExtResource("1_ci0lx")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="Game"]
 
-[node name="HUD" parent="UI" instance=ExtResource("2_g7hwg")]
+[node name="HUD" parent="Game/UI" instance=ExtResource("2_g7hwg")]
 
-[node name="GameOverScreen" parent="UI" instance=ExtResource("3_km7re")]
+[node name="GameOverScreen" parent="Game/UI" instance=ExtResource("3_km7re")]
 visible = false
 
-[node name="Lasers" type="Node" parent="."]
+[node name="Lasers" type="Node" parent="Game"]
 
-[node name="Asteroids" type="Node" parent="."]
+[node name="Asteroids" type="Node" parent="Game"]
 
-[node name="Asteroid" parent="Asteroids" instance=ExtResource("3_6btt6")]
+[node name="Asteroid" parent="Game/Asteroids" instance=ExtResource("3_6btt6")]
 position = Vector2(396, 244)
 
-[node name="PlayerSpawnPos" type="Node2D" parent="."]
+[node name="PlayerSpawnPos" type="Node2D" parent="Game"]
 position = Vector2(640, 360)
 
-[node name="PlayerSpawnArea" parent="PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
+[node name="PlayerSpawnArea" parent="Game/PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
 
-[node name="LaserSound" type="AudioStreamPlayer" parent="."]
+[node name="LaserSound" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource("6_l5xml")
 volume_db = -20.613
 
-[node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
+[node name="AsteroidHitSound" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource("8_p30em")
 
-[node name="PlayerDieSound" type="AudioStreamPlayer" parent="."]
+[node name="PlayerDieSound" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource("8_go3he")
 
-[node name="Player" parent="." instance=ExtResource("1_lp7mr")]
+[node name="Player" parent="Game" instance=ExtResource("1_lp7mr")]
 position = Vector2(640, 361)
 
-[node name="StarBackground" type="Node2D" parent="."]
+[node name="StarBackground" parent="Game" instance=ExtResource("10_mj5ek")]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="StarBackground"]
-scroll_ignore_camera_zoom = true
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="StarBackground/ParallaxBackground"]
-motion_mirroring = Vector2(4096, 4096)
-
-[node name="Sprite2D" type="Sprite2D" parent="StarBackground/ParallaxBackground/ParallaxLayer"]
-position = Vector2(641, 419)
-scale = Vector2(4, 4)
-texture = ExtResource("10_66oa3")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="StarBackground"]
-position = Vector2(515, 515)
-scale = Vector2(4, 4)
-process_material = SubResource("ParticleProcessMaterial_w2win")
-
-[node name="ZoneWall" type="Node2D" parent="."]
-position = Vector2(120, 201)
-
-[node name="WestWall" type="StaticBody2D" parent="ZoneWall"]
-scale = Vector2(4, 4)
-physics_material_override = SubResource("PhysicsMaterial_qxnmy")
-
-[node name="Sprite2D" type="Sprite2D" parent="ZoneWall/WestWall"]
-modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
-position = Vector2(-5000, 0.120981)
-rotation = 1.5708
-scale = Vector2(42.9813, 0.311)
-texture = ExtResource("11_jkh0t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneWall/WestWall"]
-position = Vector2(-4983.5, 0)
-shape = SubResource("WorldBoundaryShape2D_w46tr")
-one_way_collision_margin = 0.0
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
-
-[node name="EastWall" type="StaticBody2D" parent="ZoneWall"]
-scale = Vector2(4, 4)
-physics_material_override = SubResource("PhysicsMaterial_qxnmy")
-
-[node name="Sprite2D" type="Sprite2D" parent="ZoneWall/EastWall"]
-modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
-position = Vector2(5000, 0.121)
-rotation = 4.71239
-scale = Vector2(42.9813, 0.311)
-texture = ExtResource("11_jkh0t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneWall/EastWall"]
-position = Vector2(4983.5, 0)
-rotation = 3.14159
-shape = SubResource("WorldBoundaryShape2D_w46tr")
-one_way_collision_margin = 0.0
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
-
-[node name="NorthWall" type="StaticBody2D" parent="ZoneWall"]
-scale = Vector2(4, 4)
-physics_material_override = SubResource("PhysicsMaterial_qxnmy")
-
-[node name="Sprite2D" type="Sprite2D" parent="ZoneWall/NorthWall"]
-modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
-position = Vector2(0.124981, -5000)
-scale = Vector2(42.8552, 0.311)
-texture = ExtResource("11_jkh0t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneWall/NorthWall"]
-position = Vector2(0, -4983.5)
-rotation = 1.5708
-shape = SubResource("WorldBoundaryShape2D_w46tr")
-one_way_collision_margin = 0.0
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
-
-[node name="SouthWall" type="StaticBody2D" parent="ZoneWall"]
-scale = Vector2(4, 4)
-physics_material_override = SubResource("PhysicsMaterial_qxnmy")
-
-[node name="Sprite2D" type="Sprite2D" parent="ZoneWall/SouthWall"]
-modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
-position = Vector2(0.125409, 5000)
-scale = Vector2(42.8551, 0.311)
-texture = ExtResource("11_jkh0t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneWall/SouthWall"]
-position = Vector2(0, 4983.5)
-rotation = 4.71239
-shape = SubResource("WorldBoundaryShape2D_w46tr")
-one_way_collision_margin = 0.0
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
+[node name="ZoneWall" parent="Game" instance=ExtResource("11_l52o4")]

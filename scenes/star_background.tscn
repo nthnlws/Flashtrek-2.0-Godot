@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv6xjhovoan8e"]
+
+[ext_resource type="Texture2D" uid="uid://i4sgd82hrwh5" path="res://assets/textures/Star Background.png" id="1_wapir"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w2win"]
+particle_flag_disable_z = true
+spread = 0.0
+gravity = Vector3(0, 98, 0)
+
+[node name="StarBackground" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(4096, 4096)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(641, 419)
+scale = Vector2(4, 4)
+texture = ExtResource("1_wapir")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(515, 515)
+scale = Vector2(4, 4)
+process_material = SubResource("ParticleProcessMaterial_w2win")

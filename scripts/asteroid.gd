@@ -42,19 +42,8 @@ func _ready():
 			cshape.set_deferred("shape", preload("res://resources/asteroid_cshape_small.tres"))
 
 func _physics_process(delta):
-	global_position += movement_vector.rotated(rotation) * speed * delta
-	
-	#Room wrapping for asteroid
-	#var radius = cshape.shape.radius
-	#var screen_size = get_viewport_rect().size
-	#if (global_position.y+radius) < 0:
-		#global_position.y = (screen_size.y+radius)
-	#elif (global_position.y-radius) > screen_size.y:
-		#global_position.y = -radius
-	#if (global_position.x+radius) < 0:
-		#global_position.x = (screen_size.x+radius)
-	#elif (global_position.x-radius) > screen_size.x:
-		#global_position.x = -radius
+	pass
+	#global_position += movement_vector.rotated(rotation) * speed * delta
 
 func explode():
 	emit_signal("exploded", global_position, size, points)

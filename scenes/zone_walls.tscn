@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckyf2grb8ts10"]
+
+[ext_resource type="Texture2D" uid="uid://dvd2324d8w8vf" path="res://assets/textures/energyWall.jpg" id="1_f3t3a"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qxnmy"]
+bounce = 0.5
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w46tr"]
+normal = Vector2(1, 0)
+distance = -7.75
+
+[node name="ZoneWall" type="Node2D"]
+position = Vector2(120, 201)
+
+[node name="WestWall" type="StaticBody2D" parent="."]
+scale = Vector2(4, 4)
+physics_material_override = SubResource("PhysicsMaterial_qxnmy")
+
+[node name="Sprite2D" type="Sprite2D" parent="WestWall"]
+modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
+position = Vector2(-5000, 0.120981)
+rotation = 1.5708
+scale = Vector2(42.9813, 0.311)
+texture = ExtResource("1_f3t3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WestWall"]
+position = Vector2(-4983.5, 0)
+shape = SubResource("WorldBoundaryShape2D_w46tr")
+one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="EastWall" type="StaticBody2D" parent="."]
+scale = Vector2(4, 4)
+physics_material_override = SubResource("PhysicsMaterial_qxnmy")
+
+[node name="Sprite2D" type="Sprite2D" parent="EastWall"]
+modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
+position = Vector2(5000, 0.121)
+rotation = 4.71239
+scale = Vector2(42.9813, 0.311)
+texture = ExtResource("1_f3t3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWall"]
+position = Vector2(4983.5, 0)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_w46tr")
+one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="NorthWall" type="StaticBody2D" parent="."]
+scale = Vector2(4, 4)
+physics_material_override = SubResource("PhysicsMaterial_qxnmy")
+
+[node name="Sprite2D" type="Sprite2D" parent="NorthWall"]
+modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
+position = Vector2(0.124981, -5000)
+scale = Vector2(42.8552, 0.311)
+texture = ExtResource("1_f3t3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NorthWall"]
+position = Vector2(0, -4983.5)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_w46tr")
+one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="SouthWall" type="StaticBody2D" parent="."]
+scale = Vector2(4, 4)
+physics_material_override = SubResource("PhysicsMaterial_qxnmy")
+
+[node name="Sprite2D" type="Sprite2D" parent="SouthWall"]
+modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
+position = Vector2(0.125409, 5000)
+scale = Vector2(42.8551, 0.311)
+texture = ExtResource("1_f3t3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWall"]
+position = Vector2(0, 4983.5)
+rotation = 4.71239
+shape = SubResource("WorldBoundaryShape2D_w46tr")
+one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0.419608)

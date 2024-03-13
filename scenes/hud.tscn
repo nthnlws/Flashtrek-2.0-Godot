@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
-[ext_resource type="FontFile" uid="uid://tluvqhrb5xjg" path="res://assets/font/Kenney Blocks.ttf" id="2_tb6up"]
+[ext_resource type="FontFile" uid="uid://ditklbrcn63jp" path="res://assets/font/Kenney Blocks.ttf" id="2_tb6up"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_tb6up")
@@ -30,3 +30,8 @@ offset_top = 89.0
 offset_right = 201.0
 offset_bottom = 115.0
 scale = Vector2(1.5, 1.5)
+
+[node name="Warping" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
