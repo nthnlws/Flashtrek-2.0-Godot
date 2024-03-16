@@ -58,3 +58,4 @@ position = Vector2(640, 361)
 [node name="ZoneWall" parent="Game" instance=ExtResource("11_l52o4")]
 
 [node name="Starbase" parent="Game" instance=ExtResource("13_v8gpu")]
+z_index = -1

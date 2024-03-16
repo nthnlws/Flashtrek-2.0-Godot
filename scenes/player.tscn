@@ -14,6 +14,7 @@ shader_parameter/color = Color(0.4, 0.705882, 0.976471, 1)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_w51pe")
+rotation_speed = 150
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -22)

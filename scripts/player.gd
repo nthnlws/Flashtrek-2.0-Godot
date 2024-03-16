@@ -6,9 +6,10 @@ signal is_warping
 
 @export var acceleration := 10.0
 @export var max_speed := 350.0
-@export var rotation_speed := 250.0
+@export var rotation_speed := 175
 
-@export var warp_multiplier := 1.0
+@export var warp_multiplier:float = 0.3
+@onready var warpm:float = 1
 
 @export var warpmax_speed := 600.0
 @export var warpRotation_speed := 110.0
@@ -31,6 +32,9 @@ var shoot_cd = false
 var rate_of_fire = 0.15
 
 var alive := true
+
+func _ready():
+	pass
 	
 func _process(delta):
 	if !alive: return
@@ -51,12 +55,12 @@ func _physics_process(delta):
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
 	velocity += input_vector.rotated(rotation) * acceleration
-	velocity = velocity.limit_length(max_speed/warp_multiplier)
+	velocity = velocity.limit_length(max_speed/warpm)
 	
 	if Input.is_action_pressed("rotate_right"):
-		rotate(deg_to_rad(rotation_speed*delta*warp_multiplier))
+		rotate(deg_to_rad(rotation_speed*delta*warpm))
 	if Input.is_action_pressed("rotate_left"):
-		rotate(deg_to_rad(-rotation_speed*delta*warp_multiplier))
+		rotate(deg_to_rad(-rotation_speed*delta*warpm))
 	
 	if input_vector.y == 0:
 		velocity = velocity.move_toward(Vector2.ZERO, 3)
@@ -68,11 +72,11 @@ func warping_state_change():
 	if global.warping == true:
 		global.warping = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), 0.5)
-		warp_multiplier = 1
+		warpm = 1
 	elif global.warping == false:
 		global.warping = true
 		emit_signal("is_warping")
-		warp_multiplier = 0.3
+		warpm = warp_multiplier
 		create_tween().tween_property(self, "scale", Vector2(1, 1.75), 0.5)
 
 func shoot_laser():
