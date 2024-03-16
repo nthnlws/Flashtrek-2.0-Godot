@@ -50,6 +50,7 @@ stream = ExtResource("8_p30em")
 stream = ExtResource("8_go3he")
 
 [node name="Player" parent="Game" instance=ExtResource("1_lp7mr")]
+z_index = 1
 position = Vector2(640, 361)
 
 [node name="StarBackground" parent="Game" instance=ExtResource("10_mj5ek")]
