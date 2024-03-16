@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://oexei8cmm0yk"]
+
+[ext_resource type="Texture2D" uid="uid://2mfhp1ovea3p" path="res://assets/textures/starbase.png" id="1_qj6dg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0kshu"]
+radius = 488.636
+
+[node name="Starbase" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_qj6dg")
+
+[node name="Area2D" type="Area2D" parent="."]
+gravity_space_override = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_0kshu")

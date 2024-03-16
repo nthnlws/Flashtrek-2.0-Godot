@@ -21,7 +21,6 @@ scale = Vector2(4, 4)
 texture = ExtResource("1_wapir")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
 position = Vector2(515, 515)
 scale = Vector2(4, 4)
 process_material = SubResource("ParticleProcessMaterial_w2win")

@@ -1,7 +1,5 @@
-extends Node
+extends Sprite2D
 
-@export var warping = false
-@export var shield_active = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

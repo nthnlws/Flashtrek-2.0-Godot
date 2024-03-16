@@ -15,6 +15,7 @@ signal is_warping
 
 @onready var muzzle = $Muzzle
 @onready var sprite = $Sprite2D
+@onready var shield = $Shield
 @onready var cshape = $CollisionPolygon2D
 
 @onready var glow_left = $PointLight2D_left
@@ -36,7 +37,6 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
-	
 
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
@@ -85,6 +85,7 @@ func die():
 	if alive==true:
 		alive = false
 		sprite.visible = false
+		shield.visible = false
 		glow_right.visible = false
 		glow_left.visible = false
 		cshape.set_deferred("disabled", true)
@@ -97,4 +98,5 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		sprite.visible = true
+		shield.visible = true
 		cshape.set_deferred("disabled", false)

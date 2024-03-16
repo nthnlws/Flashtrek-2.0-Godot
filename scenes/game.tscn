@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://7f1k0tsx7cnx"]
+[gd_scene load_steps=14 format=3 uid="uid://7f1k0tsx7cnx"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scenes/global.gd" id="1_ff2jh"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="8_p30em"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="PackedScene" uid="uid://ckyf2grb8ts10" path="res://scenes/zone_walls.tscn" id="11_l52o4"]
+[ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://starbase.tscn" id="13_v8gpu"]
 
 [node name="Global" type="Node"]
 script = ExtResource("1_ff2jh")
@@ -31,7 +32,7 @@ visible = false
 [node name="Asteroids" type="Node" parent="Game"]
 
 [node name="Asteroid" parent="Game/Asteroids" instance=ExtResource("3_6btt6")]
-position = Vector2(396, 244)
+position = Vector2(600, 100)
 
 [node name="PlayerSpawnPos" type="Node2D" parent="Game"]
 position = Vector2(640, 360)
@@ -54,3 +55,5 @@ position = Vector2(640, 361)
 [node name="StarBackground" parent="Game" instance=ExtResource("10_mj5ek")]
 
 [node name="ZoneWall" parent="Game" instance=ExtResource("11_l52o4")]
+
+[node name="Starbase" parent="Game" instance=ExtResource("13_v8gpu")]
