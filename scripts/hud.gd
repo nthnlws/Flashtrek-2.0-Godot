@@ -15,6 +15,6 @@ func init_lives(amount):
 		var ul = uilife_scene.instantiate()
 		lives.add_child(ul)
 
-@onready var Warping = $Warping:
+@onready var cords = $Cords:
 	set(value):
-		Warping.text = global.warping
+		score.text = "SCORE: " + str(value)

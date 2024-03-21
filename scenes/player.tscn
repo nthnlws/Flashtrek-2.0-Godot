@@ -1,20 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=9 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="Texture2D" uid="uid://cx8gtktgvo0di" path="res://assets/textures/player_ship.png" id="2_kg745"]
 [ext_resource type="Script" path="res://scenes/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Shader" path="res://resources/shield.gdshader" id="4_tu32u"]
 [ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
+[ext_resource type="Script" path="res://scenes/Shield.gd" id="6_ecfni"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
 shader = ExtResource("4_tu32u")
 shader_parameter/color = Color(0.4, 0.705882, 0.976471, 1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
+radius = 4.93933
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_w51pe")
-rotation_speed = 150
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-4, -36, 4, -36, 10, -33, 16, -26, 18, -21, 18, -12, 14, -6, 5, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -14, -6, -18, -13, -18, -22, -15, -28, -9, -34)
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -22)
@@ -44,7 +51,7 @@ energy = 7.5
 texture = ExtResource("4_xg1hi")
 texture_scale = 1.4
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
 texture = ExtResource("2_kg745")
 
@@ -54,7 +61,10 @@ material = SubResource("ShaderMaterial_ksrv6")
 position = Vector2(0, 3)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_kg745")
+script = ExtResource("6_ecfni")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
-polygon = PackedVector2Array(-4, -36, 4, -36, 10, -33, 16, -26, 18, -21, 18, -12, 14, -6, 5, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -14, -6, -18, -13, -18, -22, -15, -28, -9, -34)
+[node name="Area2D" type="Area2D" parent="Shield"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield/Area2D"]
+scale = Vector2(2.97285, 5.45383)
+shape = SubResource("CircleShape2D_5nxll")

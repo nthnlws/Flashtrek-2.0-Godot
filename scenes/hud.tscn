@@ -23,6 +23,15 @@ offset_bottom = 87.0
 text = "SCORE: 6666"
 label_settings = SubResource("LabelSettings_amtcr")
 
+[node name="Cords" type="Label" parent="."]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 12.0
+offset_right = 377.0
+offset_bottom = 87.0
+text = "SCORE: 6666"
+label_settings = SubResource("LabelSettings_amtcr")
+
 [node name="Lives" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 20.0
@@ -30,8 +39,3 @@ offset_top = 89.0
 offset_right = 201.0
 offset_bottom = 115.0
 scale = Vector2(1.5, 1.5)
-
-[node name="Warping" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0

@@ -2,29 +2,23 @@ class_name Player extends CharacterBody2D
 
 signal laser_shot(laser)
 signal died
-signal is_warping
 
 @export var acceleration := 10.0
 @export var max_speed := 350.0
-@export var rotation_speed := 175
+@export var rotation_speed := 150
 
 @export var warp_multiplier:float = 0.3
 @onready var warpm:float = 1
 
-@export var warpmax_speed := 600.0
-@export var warpRotation_speed := 110.0
-
 @onready var muzzle = $Muzzle
-@onready var sprite = $Sprite2D
+@onready var sprite = $PlayerSprite
 @onready var shield = $Shield
 @onready var cshape = $CollisionPolygon2D
 
 @onready var glow_left = $PointLight2D_left
 @onready var glow_right = $PointLight2D_right
-@onready var playersprite = $Sprite2D
 @onready var collision = $CollisionPolygon2D
 
-#func warp_input():
 
 var laser_scene = preload("res://scenes/laser.tscn")
 
@@ -69,15 +63,14 @@ func _physics_process(delta):
 
 # Reverses warping state and all associated properties
 func warping_state_change():
-	if global.warping == true:
-		global.warping = false
+	if global.warping_active == true:
+		global.warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), 0.5)
 		warpm = 1
-	elif global.warping == false:
-		global.warping = true
-		emit_signal("is_warping")
-		warpm = warp_multiplier
+	elif global.warping_active == false:
+		global.warping_active = true
 		create_tween().tween_property(self, "scale", Vector2(1, 1.75), 0.5)
+		warpm = warp_multiplier
 
 func shoot_laser():
 	var l = laser_scene.instantiate()
