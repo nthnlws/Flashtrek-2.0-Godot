@@ -1,14 +1,14 @@
 extends Area2D
 
 @export var speed := 500.0
+var room_barrier:int = 19750
 
 var movement_vector := Vector2(0, -1)
 
 func _process(delta):
-	if (self.global_position.x >= 19750 or self.global_position.x < -19750 or 
-		self.global_position.y >= 19750 or self.global_position.y < -19750):
+	if (self.global_position.x >= room_barrier or self.global_position.x < -room_barrier or 
+		self.global_position.y >= room_barrier or self.global_position.y < -room_barrier):
 			self.free()
-			print("laser")
 
 func _physics_process(delta):
 	global_position += movement_vector.rotated(rotation) * speed * delta

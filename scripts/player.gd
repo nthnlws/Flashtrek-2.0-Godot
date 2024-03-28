@@ -3,9 +3,9 @@ class_name Player extends CharacterBody2D
 signal laser_shot(laser)
 signal died
 
-@export var acceleration := 10.0
-@export var max_speed := 350.0
-@export var rotation_speed := 150
+@export var acceleration:float= 10.0
+@export var max_speed:float= 350.0
+@export var rotation_speed:float= 150
 
 @export var warp_multiplier:float = 0.3
 @onready var warpm:float = 1
