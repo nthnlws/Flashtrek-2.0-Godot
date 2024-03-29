@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var lasers = $Lasers
+@onready var torpedos = $Torpedos
 @onready var player = $Player
 @onready var asteroids = $Asteroids
 @onready var hud = $UI/HUD
@@ -24,7 +24,7 @@ func _ready():
 	game_over_screen.visible = false
 	score = 0
 	lives = 3
-	player.connect("laser_shot", _on_player_laser_shot)
+	player.connect("torpedo_shot", _on_player_torpedo_shot)
 	player.connect("died", _on_player_died)
 	
 	for asteroid in asteroids.get_children():
@@ -34,9 +34,9 @@ func _process(delta):
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
 
-func _on_player_laser_shot(laser):
-	$LaserSound.play()
-	lasers.add_child(laser)
+func _on_player_torpedo_shot(torpedo):
+	$TorpedoSound.play()
+	torpedos.add_child(torpedo)
 
 func _on_asteroid_exploded(pos, size, points):
 	$AsteroidHitSound.play()

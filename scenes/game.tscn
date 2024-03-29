@@ -27,7 +27,7 @@ script = ExtResource("1_ci0lx")
 [node name="GameOverScreen" parent="Game/UI" instance=ExtResource("3_km7re")]
 visible = false
 
-[node name="Lasers" type="Node" parent="Game"]
+[node name="Torpedos" type="Node" parent="Game"]
 
 [node name="Asteroids" type="Node" parent="Game"]
 
@@ -39,7 +39,7 @@ position = Vector2(640, 360)
 
 [node name="PlayerSpawnArea" parent="Game/PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
 
-[node name="LaserSound" type="AudioStreamPlayer" parent="Game"]
+[node name="TorpedoSound" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource("6_l5xml")
 volume_db = -20.613
 

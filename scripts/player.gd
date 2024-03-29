@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-signal laser_shot(laser)
+signal torpedo_shot(torpedo)
 signal died
 
 @export var acceleration:float= 10.0
@@ -20,7 +20,7 @@ signal died
 @onready var collision = $CollisionPolygon2D
 
 
-var laser_scene = preload("res://scenes/laser.tscn")
+var torpedo_scene = preload("res://scenes/torpedo.tscn")
 
 var shoot_cd = false
 var rate_of_fire = 0.15
@@ -39,7 +39,7 @@ func _process(delta):
 	if Input.is_action_pressed("shoot"):
 		if !shoot_cd:
 			shoot_cd = true
-			shoot_laser()
+			shoot_torpedo()
 			await get_tree().create_timer(rate_of_fire).timeout
 			shoot_cd = false
 
@@ -72,11 +72,11 @@ func warping_state_change():
 		create_tween().tween_property(self, "scale", Vector2(1, 1.75), 0.5)
 		warpm = warp_multiplier
 
-func shoot_laser():
-	var l = laser_scene.instantiate()
+func shoot_torpedo():
+	var l = torpedo_scene.instantiate()
 	l.global_position = muzzle.global_position
 	l.rotation = rotation
-	emit_signal("laser_shot", l)
+	emit_signal("torpedo_shot", l)
 
 func die():
 	if alive==true:
