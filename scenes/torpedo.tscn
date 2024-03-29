@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dkwrosj64i8ur"]
 
 [ext_resource type="Script" path="res://scripts/torpedo.gd" id="1_uf70w"]
-[ext_resource type="Texture2D" uid="uid://cnoefjyfr4ci5" path="res://resources/TorpedoBlue.png" id="2_0lxw6"]
+[ext_resource type="Texture2D" uid="uid://cnoefjyfr4ci5" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hsjqf"]
 radius = 3.0
@@ -15,7 +15,7 @@ script = ExtResource("1_uf70w")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_0lxw6")
+texture = ExtResource("2_m13ix")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -16)

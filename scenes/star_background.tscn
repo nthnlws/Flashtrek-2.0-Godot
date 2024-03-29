@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bv6xjhovoan8e"]
 
-[ext_resource type="Texture2D" uid="uid://i4sgd82hrwh5" path="res://assets/textures/Star Background.png" id="1_wapir"]
+[ext_resource type="Texture2D" uid="uid://cueeiue4fn8cv" path="res://assets/textures/Star Background.png" id="1_wapir"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w2win"]
 particle_flag_disable_z = true

@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="Texture2D" uid="uid://cx8gtktgvo0di" path="res://assets/textures/player_ship.png" id="2_kg745"]
-[ext_resource type="Script" path="res://scenes/Camera2D.gd" id="3_fns5h"]
+[ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Shader" path="res://resources/shield.gdshader" id="4_tu32u"]
 [ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
-[ext_resource type="Script" path="res://scenes/Shield.gd" id="6_ecfni"]
+[ext_resource type="Script" path="res://scripts/Shield.gd" id="6_p77it"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
 shader = ExtResource("4_tu32u")
@@ -61,7 +61,7 @@ material = SubResource("ShaderMaterial_ksrv6")
 position = Vector2(0, 3)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_kg745")
-script = ExtResource("6_ecfni")
+script = ExtResource("6_p77it")
 
 [node name="Area2D" type="Area2D" parent="Shield"]
 
