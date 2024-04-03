@@ -30,7 +30,9 @@ var rate_of_fire = 0.15
 var alive := true
 
 func _ready():
-	pass
+	var shieldScene = preload("res://scenes/shield.tscn")
+	var newShield = shieldScene.instantiate()
+	add_child(newShield)
 	
 func _process(delta):
 	if !alive: return
@@ -68,29 +70,18 @@ func _physics_process(delta):
 
 # Reverses warping state and all associated properties
 func warping_state_change():
-	if global.warping_active == true:
+	if global.warping_active == true: #Not warping
 		global.warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		warpm = 1
+		$Shield.fadein()
 		
-		#Shield fade effect
-		var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-		tween.tween_property($Shield, "modulate:a", 1, trans_length)
-		
-	elif global.warping_active == false:
+	elif global.warping_active == false: #Warping
 		global.warping_active = true
 		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
 		warpm = warp_multiplier
-		
-		#Shield fade effect
-		var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
-		tween.tween_property($Shield, "modulate:a", 0, trans_length)
-		
+		$Shield.fadeout()
 
-# tween value automatically gets passed into this function
-func set_shader_value(value: float):
-	# in my case i'm tweening a shader on a texture rect, but you can use anything with a material on it
-	$Shield.material.set_shader_parameter("shader_parameter/color", value);
 	
 func shoot_torpedo():
 	var l = torpedo_scene.instantiate()

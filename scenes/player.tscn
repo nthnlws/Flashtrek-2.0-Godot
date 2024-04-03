@@ -1,18 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=5 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="Texture2D" uid="uid://cx8gtktgvo0di" path="res://assets/textures/player_ship.png" id="2_kg745"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
-[ext_resource type="Shader" path="res://resources/shield.gdshader" id="4_tu32u"]
 [ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
-[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/blank_pship.png" id="6_287rb"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
-shader = ExtResource("4_tu32u")
-shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
-radius = 4.93933
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -53,15 +44,3 @@ texture_scale = 1.4
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
 texture = ExtResource("2_kg745")
-
-[node name="Shield" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_ksrv6")
-position = Vector2(0, 3)
-scale = Vector2(2.5, 2.5)
-texture = ExtResource("6_287rb")
-
-[node name="Area2D" type="Area2D" parent="Shield"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield/Area2D"]
-scale = Vector2(2.97285, 5.45383)
-shape = SubResource("CircleShape2D_5nxll")
