@@ -16,7 +16,6 @@ void fragment(){
 	
 	float inner = 1.0 - circle(vec2(UV.x, UV.y), 0.275, 0.1 - fade_effect );
 	
-	COLOR = color;
-	COLOR.a -= outer + inner;
-	
+	COLOR.rgb = color.rgb;
+	COLOR.a *= color.a - (outer + inner);
 }

@@ -5,11 +5,11 @@
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Shader" path="res://resources/shield.gdshader" id="4_tu32u"]
 [ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
-[ext_resource type="Script" path="res://scripts/Shield.gd" id="6_p77it"]
+[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/blank_pship.png" id="6_287rb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
 shader = ExtResource("4_tu32u")
-shader_parameter/color = Color(0.4, 0.705882, 0.976471, 1)
+shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
 radius = 4.93933
@@ -20,7 +20,6 @@ collision_mask = 5
 script = ExtResource("1_w51pe")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PackedVector2Array(-4, -36, 4, -36, 10, -33, 16, -26, 18, -21, 18, -12, 14, -6, 5, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -14, -6, -18, -13, -18, -22, -15, -28, -9, -34)
 
 [node name="Muzzle" type="Node2D" parent="."]
@@ -56,12 +55,10 @@ show_behind_parent = true
 texture = ExtResource("2_kg745")
 
 [node name="Shield" type="Sprite2D" parent="."]
-show_behind_parent = true
 material = SubResource("ShaderMaterial_ksrv6")
 position = Vector2(0, 3)
 scale = Vector2(2.5, 2.5)
-texture = ExtResource("2_kg745")
-script = ExtResource("6_p77it")
+texture = ExtResource("6_287rb")
 
 [node name="Area2D" type="Area2D" parent="Shield"]
 

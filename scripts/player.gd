@@ -6,6 +6,7 @@ signal died
 @export var acceleration:float= 10.0
 @export var max_speed:float= 350.0
 @export var rotation_speed:float= 150
+@export var trans_length:float= 0.5
 
 @export var warp_multiplier:float = 0.3
 @onready var warpm:float = 1
@@ -21,6 +22,7 @@ signal died
 
 
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
+var laser_scene = preload("res://scenes/laser.tscn")
 
 var shoot_cd = false
 var rate_of_fire = 0.15
@@ -36,12 +38,15 @@ func _process(delta):
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
-	if Input.is_action_pressed("shoot"):
+	if Input.is_action_pressed("shoot_torpedo"):
 		if !shoot_cd:
 			shoot_cd = true
 			shoot_torpedo()
 			await get_tree().create_timer(rate_of_fire).timeout
 			shoot_cd = false
+			
+	if Input.is_action_pressed("shoot_laser"):
+		shoot_laser()
 
 func _physics_process(delta):
 	if !alive: return
@@ -65,26 +70,42 @@ func _physics_process(delta):
 func warping_state_change():
 	if global.warping_active == true:
 		global.warping_active = false
-		create_tween().tween_property(self, "scale", Vector2(1, 1), 0.5)
+		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		warpm = 1
+		
+		#Shield fade effect
+		var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+		tween.tween_property($Shield, "modulate:a", 1, trans_length)
+		
 	elif global.warping_active == false:
 		global.warping_active = true
-		create_tween().tween_property(self, "scale", Vector2(1, 1.75), 0.5)
+		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
 		warpm = warp_multiplier
+		
+		#Shield fade effect
+		var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+		tween.tween_property($Shield, "modulate:a", 0, trans_length)
+		
 
+# tween value automatically gets passed into this function
+func set_shader_value(value: float):
+	# in my case i'm tweening a shader on a texture rect, but you can use anything with a material on it
+	$Shield.material.set_shader_parameter("shader_parameter/color", value);
+	
 func shoot_torpedo():
 	var l = torpedo_scene.instantiate()
 	l.global_position = muzzle.global_position
 	l.rotation = rotation
 	emit_signal("torpedo_shot", l)
+	
+func shoot_laser():
+	var t = laser_scene.instantiate()
+	t.global_position = self.global_position
 
 func die():
 	if alive==true:
 		alive = false
-		sprite.visible = false
-		shield.visible = false
-		glow_right.visible = false
-		glow_left.visible = false
+		self.visible = false
 		cshape.set_deferred("disabled", true)
 		emit_signal("died")
 		
@@ -94,6 +115,5 @@ func respawn(pos):
 		alive = true
 		global_position = pos
 		velocity = Vector2.ZERO
-		sprite.visible = true
-		shield.visible = true
+		self.visible = true
 		cshape.set_deferred("disabled", false)
