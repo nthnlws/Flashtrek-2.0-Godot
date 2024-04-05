@@ -12,6 +12,7 @@ var speed := 200
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionPolygon2D
 
+
 var points: int:
 	get:
 		match size:
@@ -25,6 +26,7 @@ var points: int:
 				return 0
 
 func _ready():
+	add_to_group("enemies")
 	
 	match size:
 		AsteroidSize.LARGE:
@@ -48,7 +50,7 @@ func explode():
 	emit_signal("exploded", global_position, size, points)
 	queue_free()
 
-func _on_body_entered(body):
-	if body is Player:
-		var player = body
-		player.die()
+func player_collision(area):
+	if area_entered(area):
+		if area.is_in_group("player"):
+			emit_signal("area_entered")

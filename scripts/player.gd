@@ -13,7 +13,6 @@ signal died
 
 @onready var muzzle = $Muzzle
 @onready var sprite = $PlayerSprite
-@onready var shield = $Shield
 @onready var cshape = $CollisionPolygon2D
 
 @onready var glow_left = $PointLight2D_left
@@ -33,6 +32,8 @@ func _ready():
 	var shieldScene = preload("res://scenes/shield.tscn")
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
+	
+	player.connect("collision", _on_player_collision)
 	
 func _process(delta):
 	if !alive: return
@@ -108,3 +109,6 @@ func respawn(pos):
 		velocity = Vector2.ZERO
 		self.visible = true
 		cshape.set_deferred("disabled", false)
+		
+func _on_player_collision():
+	die()

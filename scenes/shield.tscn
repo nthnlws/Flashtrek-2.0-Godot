@@ -18,7 +18,7 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_m41bq")
 script = ExtResource("3_ciepr")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
 collision_layer = 2
 collision_mask = 5
 

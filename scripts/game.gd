@@ -71,4 +71,3 @@ func _on_player_died():
 		while !player_spawn_area.is_empty:
 			await get_tree().create_timer(0.1).timeout
 		player.respawn(player_spawn_pos.global_position)
-		
