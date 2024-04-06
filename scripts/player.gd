@@ -13,11 +13,13 @@ signal died
 
 @onready var muzzle = $Muzzle
 @onready var sprite = $PlayerSprite
-@onready var cshape = $CollisionPolygon2D
+
+# FIXME:
+@onready var asteroid = $"../Asteroids/Asteroid"
+
 
 @onready var glow_left = $PointLight2D_left
 @onready var glow_right = $PointLight2D_right
-@onready var collision = $CollisionPolygon2D
 
 
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
@@ -33,7 +35,9 @@ func _ready():
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
 	
-	player.connect("collision", _on_player_collision)
+	
+	
+
 	
 func _process(delta):
 	if !alive: return
@@ -94,12 +98,12 @@ func shoot_laser():
 	var t = laser_scene.instantiate()
 	t.global_position = self.global_position
 
-func die():
+func die(area2D):
 	if alive==true:
 		alive = false
 		self.visible = false
-		cshape.set_deferred("disabled", true)
 		emit_signal("died")
+		print("died")
 		
 
 func respawn(pos):
@@ -108,7 +112,3 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true
-		cshape.set_deferred("disabled", false)
-		
-func _on_player_collision():
-	die()

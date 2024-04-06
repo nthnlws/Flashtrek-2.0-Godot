@@ -1,6 +1,7 @@
 class_name Asteroid extends Area2D
 
 signal exploded(pos, size, points)
+signal player_collision(Area: Area2D)
 
 var movement_vector := Vector2(0, -1)
 
@@ -12,7 +13,11 @@ var speed := 200
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionPolygon2D
 
-
+func _init():
+	monitoring = true
+	monitorable = false
+	
+	
 var points: int:
 	get:
 		match size:
@@ -44,13 +49,7 @@ func _ready():
 
 func _physics_process(delta):
 	pass
-	#global_position += movement_vector.rotated(rotation) * speed * delta
 
 func explode():
 	emit_signal("exploded", global_position, size, points)
 	queue_free()
-
-func player_collision(area):
-	if area_entered(area):
-		if area.is_in_group("player"):
-			emit_signal("area_entered")
