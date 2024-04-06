@@ -4,7 +4,7 @@ signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
 var movement_vector := Vector2(0, -1)
-
+ 
 enum AsteroidSize{LARGE, MEDIUM, SMALL}
 @export var size := AsteroidSize.LARGE
 
@@ -15,7 +15,7 @@ var speed := 200
 
 func _init():
 	monitoring = true
-	monitorable = false
+	monitorable = true
 	
 	
 var points: int:

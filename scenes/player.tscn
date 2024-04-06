@@ -1,19 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
-[ext_resource type="Texture2D" uid="uid://cx8gtktgvo0di" path="res://assets/textures/player_ship.png" id="2_kg745"]
+[ext_resource type="Texture2D" uid="uid://3vn6sv4kvqxn" path="res://assets/textures/player_ship.png" id="2_kg745"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
-[ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
+[ext_resource type="Texture2D" uid="uid://b42xbsm6wa88m" path="res://assets/textures/light.png" id="4_xg1hi"]
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_w51pe")
-acceleration = null
-max_speed = null
-rotation_speed = null
-trans_length = null
-warp_multiplier = null
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -22)
@@ -47,7 +42,7 @@ texture_scale = 1.4
 show_behind_parent = true
 texture = ExtResource("2_kg745")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="player_area" type="Area2D" parent="." groups=["player"]]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" groups=["player"]]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="player_area"]
 polygon = PackedVector2Array(-4, -35, 4, -35, 10, -33, 17, -26, 19, -21, 19, -13, 13, -4, 6, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -15, -6, -19, -13, -19, -22, -15, -28, -9, -34)

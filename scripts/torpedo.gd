@@ -5,6 +5,10 @@ var room_barrier:int = 19750
 
 var movement_vector := Vector2(0, -1)
 
+func _init():
+	monitoring = true
+	monitorable = true
+	
 func _process(delta):
 	if (self.global_position.x >= room_barrier or self.global_position.x < -room_barrier or 
 		self.global_position.y >= room_barrier or self.global_position.y < -room_barrier):
