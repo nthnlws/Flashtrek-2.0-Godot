@@ -8,7 +8,7 @@ var movement_vector := Vector2(0, -1)
 enum AsteroidSize{LARGE, MEDIUM, SMALL}
 @export var size := AsteroidSize.LARGE
 
-var speed := 200
+var speed:float= 200
 
 @onready var sprite = $Sprite2D
 @onready var cshape = $CollisionPolygon2D

@@ -30,6 +30,8 @@ func _ready():
 	var shieldScene = preload("res://scenes/shield.tscn")
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
+	
+	
 
 
 func _process(delta):
@@ -66,8 +68,7 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-# Reverses warping state and all associated properties
-func warping_state_change():
+func warping_state_change(): #Reverses warping state
 	if warping_active == true: #Transition to impulse
 		warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)

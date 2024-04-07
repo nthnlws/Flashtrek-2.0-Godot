@@ -29,6 +29,12 @@ window/stretch/scale_mode="integer"
 
 enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg")
 
+[importer_defaults]
+
+animation_library={
+"animation/fps": 30.0
+}
+
 [input]
 
 move_forward={

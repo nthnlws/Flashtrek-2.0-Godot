@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dkwrosj64i8ur"]
 
 [ext_resource type="Script" path="res://scripts/torpedo.gd" id="1_uf70w"]
-[ext_resource type="Texture2D" uid="uid://bv8xsrd46ogyr" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
+[ext_resource type="Texture2D" uid="uid://cnoefjyfr4ci5" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hsjqf"]
 radius = 3.0

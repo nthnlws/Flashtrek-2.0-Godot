@@ -1,0 +1,13 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://c3516veu8j8q2"]
+
+[sub_resource type="AudioEffectPanner" id="AudioEffectPanner_7a1wu"]
+resource_name = "Panner"
+
+[sub_resource type="AudioEffectSpectrumAnalyzer" id="AudioEffectSpectrumAnalyzer_njy4j"]
+resource_name = "SpectrumAnalyzer"
+
+[resource]
+bus/0/effect/0/effect = SubResource("AudioEffectPanner_7a1wu")
+bus/0/effect/0/enabled = false
+bus/0/effect/1/effect = SubResource("AudioEffectSpectrumAnalyzer_njy4j")
+bus/0/effect/1/enabled = false

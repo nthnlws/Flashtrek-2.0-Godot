@@ -1,6 +1,6 @@
 class_name Shield extends Sprite2D
 
-@onready var shield_collision = $Area2D/CollisionShape2D
+@onready var shield_collision = $Area2D
 @onready var player = get_tree().current_scene.get_node("Game/Player")
 
 
