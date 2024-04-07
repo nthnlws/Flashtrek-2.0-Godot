@@ -95,11 +95,11 @@ func shoot_laser():
 	l.global_position = self.global_position
 
 func die(area2D):
-	if area2D.is_in_group("player") && alive == true:
-		alive = false
-		self.visible = false
-		emit_signal("died")
-
+	if area2D.is_in_group("player") or area2D.is_in_group("shield"):
+		if alive == true:
+			alive = false
+			self.visible = false
+			emit_signal("died")
 
 func respawn(pos):
 	if alive==false:

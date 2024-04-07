@@ -8,4 +8,3 @@ func _ready():
 
 func asteroid_collision():
 	pass
-	

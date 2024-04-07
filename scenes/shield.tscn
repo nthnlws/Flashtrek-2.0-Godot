@@ -18,10 +18,8 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_m41bq")
 script = ExtResource("3_ciepr")
 
-[node name="Area2D" type="Area2D" parent="." groups=["player"]]
-collision_layer = 2
-collision_mask = 5
+[node name="shield_area" type="Area2D" parent="." groups=["shield"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
 scale = Vector2(2.97285, 5.45383)
 shape = SubResource("CircleShape2D_5nxll")

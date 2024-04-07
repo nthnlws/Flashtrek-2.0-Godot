@@ -31,8 +31,6 @@ var points: int:
 				return 0
 
 func _ready():
-	add_to_group("enemies")
-	
 	match size:
 		AsteroidSize.LARGE:
 			speed = randf_range(50, 100)
@@ -46,6 +44,7 @@ func _ready():
 			speed = randf_range(100, 200)
 			sprite.texture = preload("res://assets/textures/meteorGrey_tiny1.png")
 			cshape.set_deferred("shape", preload("res://resources/asteroid_cshape_small.tres"))
+			
 
 func _physics_process(delta):
 	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=15 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://global.gd" id="1_ff2jh"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
 [ext_resource type="PackedScene" uid="uid://bh1r82178c2u1" path="res://scenes/asteroid.tscn" id="3_6btt6"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
+[ext_resource type="PackedScene" uid="uid://ceyhqgmjewgcl" path="res://scenes/mini_map.tscn" id="5_p4r4k"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_kp4kv"]
 [ext_resource type="AudioStream" uid="uid://cqnw6gm42r33i" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="6_l5xml"]
 [ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="8_go3he"]
@@ -26,6 +27,10 @@ script = ExtResource("1_ci0lx")
 
 [node name="GameOverScreen" parent="Game/UI" instance=ExtResource("3_km7re")]
 visible = false
+
+[node name="MiniMap" parent="Game/UI" instance=ExtResource("5_p4r4k")]
+offset_right = 250.0
+offset_bottom = 250.0
 
 [node name="Torpedos" type="Node" parent="Game"]
 
