@@ -27,9 +27,7 @@ func _on_area_exited():
 		collided_with_player = true
 		
 func _on_area_entered(area):
-	#if area is Asteroid:
-		#pass
-	if area.is_in_group("enemy"):
+	if area.is_in_group("enemy") or area.has_method("explode"):
 		var asteroid = area
 		asteroid.explode()
 		queue_free()
