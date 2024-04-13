@@ -5,12 +5,12 @@ signal died
 signal warping
 signal impulse
 
-@export var acceleration:float= 10.0
-@export var max_speed:float= 350.0
+@export var acceleration:float= 5
+@export var max_speed:float= 400.0
 @export var rotation_speed:float= 150
-@export var trans_length:float= 0.5
+@export var trans_length:float= 0.8
 
-@export var warp_multiplier:float = 0.3
+@export var warp_multiplier:float = 0.4
 @onready var warpm:float = 1
 
 @onready var muzzle = $Muzzle
@@ -30,9 +30,6 @@ func _ready():
 	var shieldScene = preload("res://scenes/shield.tscn")
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
-	
-	
-
 
 func _process(delta):
 	if !alive: return
@@ -55,7 +52,7 @@ func _physics_process(delta):
 	
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
-	velocity += input_vector.rotated(rotation) * acceleration
+	velocity += input_vector.rotated(rotation) * acceleration / warpm
 	velocity = velocity.limit_length(max_speed/warpm)
 	
 	if Input.is_action_pressed("rotate_right"):
@@ -72,14 +69,15 @@ func warping_state_change(): #Reverses warping state
 	if warping_active == true: #Transition to impulse
 		warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
-		warpm = 1
+		create_tween().tween_property(self, "warpm", 1.0, trans_length)
+		#warpm = 1
 		$Shield.fadein()
 		warping.emit()
 		
 	elif warping_active == false: #Transition to warp
 		warping_active = true
 		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
-		warpm = warp_multiplier
+		create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
 		$Shield.fadeout()
 		impulse.emit()
 
@@ -94,12 +92,12 @@ func shoot_laser():
 	var l = laser_scene.instantiate()
 	l.global_position = self.global_position
 
-func die(area2D):
+func die(area2D): # Recieves a connect from 
 	if area2D.is_in_group("player") or area2D.is_in_group("shield"):
 		if alive == true:
 			alive = false
 			self.visible = false
-			emit_signal("died")
+			emit_signal("died") # Connected to "_on_player_died()" in game.gd
 
 func respawn(pos):
 	if alive==false:

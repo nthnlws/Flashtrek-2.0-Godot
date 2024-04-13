@@ -12,8 +12,7 @@ func _input(event):
 	if Input.is_action_pressed("zoom_out"):
 		if zoom > zoom_min:
 			zoom -= zoom_speed
-		
-			
+
 	if Input.is_action_pressed("zoom_in"):
 		if zoom < zoom_max:
 			zoom += zoom_speed

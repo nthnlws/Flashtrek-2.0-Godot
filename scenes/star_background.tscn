@@ -1,17 +1,16 @@
 [gd_scene load_steps=2 format=3 uid="uid://bv6xjhovoan8e"]
 
-[ext_resource type="Texture2D" uid="uid://cueeiue4fn8cv" path="res://assets/textures/Star Background.png" id="1_wapir"]
+[ext_resource type="Texture2D" uid="uid://bng2fe0ma1hap" path="res://assets/textures/Star Background2.png" id="1_gsiyt"]
 
 [node name="StarBackground" type="Node2D"]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_mirroring = Vector2(4096, 4096)
+motion_mirroring = Vector2(4096, 4098)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2(641, 419)
 scale = Vector2(4, 4)
-texture = ExtResource("1_wapir")
+texture = ExtResource("1_gsiyt")
+region_enabled = true
+region_rect = Rect2(0, 0, 1024, 1024)

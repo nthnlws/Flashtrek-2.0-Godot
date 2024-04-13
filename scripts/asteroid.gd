@@ -56,5 +56,5 @@ func _physics_process(delta):
 	pass
 
 func explode():
-	emit_signal("exploded", global_position, size, points)
+	emit_signal("exploded", global_position, size, points) # Connects to game.gd _on_asteroid_exploded()
 	queue_free()
