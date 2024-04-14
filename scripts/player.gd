@@ -5,13 +5,15 @@ signal died
 signal warping
 signal impulse
 
-@export var acceleration:float= 5
+@export var acceleration:int= 5
 @export var max_speed:float= 400.0
-@export var rotation_speed:float= 150
+@export var rotation_speed:int= 150
 @export var trans_length:float= 0.8
 
 @export var warp_multiplier:float = 0.4
-@onready var warpm:float = 1
+@onready var warpm:float = 1.0
+@onready var max_health:int = 100
+@onready var current_health:int = max_health
 
 @onready var muzzle = $Muzzle
 
@@ -66,11 +68,11 @@ func _physics_process(delta):
 	move_and_slide()
 
 func warping_state_change(): #Reverses warping state
+	var warpm:float = 1.0
 	if warping_active == true: #Transition to impulse
 		warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		create_tween().tween_property(self, "warpm", 1.0, trans_length)
-		#warpm = 1
 		$Shield.fadein()
 		warping.emit()
 		
@@ -86,18 +88,18 @@ func shoot_torpedo():
 	var t = torpedo_scene.instantiate()
 	t.global_position = muzzle.global_position
 	t.rotation = rotation
+	t.shooter = "player"
 	emit_signal("torpedo_shot", t)
 	
 func shoot_laser():
 	var l = laser_scene.instantiate()
 	l.global_position = self.global_position
 
-func die(area2D): # Recieves a connect from 
-	if area2D.is_in_group("player") or area2D.is_in_group("shield"):
-		if alive == true:
-			alive = false
-			self.visible = false
-			emit_signal("died") # Connected to "_on_player_died()" in game.gd
+func die(): # Recieves a connect from 
+	if alive == true:
+		alive = false
+		self.visible = false
+		emit_signal("died") # Connected to "_on_player_died()" in game.gd
 
 func respawn(pos):
 	if alive==false:
@@ -105,3 +107,15 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true
+
+
+func _on_player_area_entered(area):
+	if area.is_in_group("torpedo") and area.shooter != "player":
+		area.queue_free()
+		current_health -= 20
+		print("Player: " + str(current_health))
+		if current_health <= 0:
+			die()
+			current_health = max_health
+	elif area.is_in_group("enemy"):
+		die()

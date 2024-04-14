@@ -10,7 +10,7 @@ extends Node2D
 
 var asteroid_scene = preload("res://scenes/asteroid.tscn")
 
-var score := 0:
+var score:int = 0:
 	set(value):
 		score = value
 		hud.score = score

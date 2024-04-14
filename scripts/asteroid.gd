@@ -58,3 +58,9 @@ func _physics_process(delta):
 func explode():
 	emit_signal("exploded", global_position, size, points) # Connects to game.gd _on_asteroid_exploded()
 	queue_free()
+
+
+func _on_asteroid_area_entered(area):
+	if area.is_in_group("torpedo"):
+		explode()
+		area.queue_free()
