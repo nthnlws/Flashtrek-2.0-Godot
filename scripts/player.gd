@@ -12,8 +12,8 @@ signal impulse
 
 @export var warp_multiplier:float = 0.4
 @onready var warpm:float = 1.0
-@onready var max_health:int = 100
-@onready var current_health:int = max_health
+@onready var hp_max:int = 100
+@onready var hp_current:int = hp_max
 
 @onready var muzzle = $Muzzle
 
@@ -107,15 +107,19 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true
+		hp_current = hp_max
+		get_node("Shield").shieldActive = true
+		get_node("Shield").shieldAlive()
+		get_node("Shield").shield_current = get_node("Shield").max_health
 
 
 func _on_player_area_entered(area):
 	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
-		current_health -= 20
-		print("Player: " + str(current_health))
-		if current_health <= 0:
+		var damage_taken = area.damage
+		hp_current -= damage_taken
+		if hp_current <= 0:
 			die()
-			current_health = max_health
+			hp_current = max_health
 	elif area.is_in_group("enemy"):
 		die()

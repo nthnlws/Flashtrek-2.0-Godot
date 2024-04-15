@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://vrb6kndkqrbq"]
 
 [ext_resource type="Shader" path="res://resources/shield.gdshader" id="1_gvw1y"]
-[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/blank_pship.png" id="2_m41bq"]
+[ext_resource type="Texture2D" uid="uid://cv81k5wmetrci" path="res://assets/textures/blank_pship.png" id="2_m41bq"]
 [ext_resource type="Script" path="res://scripts/Shield.gd" id="3_ciepr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]

@@ -1,45 +1,54 @@
 class_name Shield extends Sprite2D
 
+@export var regen_speed:float = 2.5
+@export var sp_max:int = 50
+
 @onready var trans_length = get_parent().trans_length
 @onready var shield_area = $shield_area
 
-@onready var max_health:int = 50
-@onready var shield_current:int = max_health
+@onready var sp_current:float = sp_max
+@onready var shieldActive:bool = true
 
 func _process(delta):
-	pass
+	if shieldActive == true and sp_current <= sp_max:
+		sp_current += regen_speed * delta
 
 func fadeout(): #Fades shield to 0 Alpha
 	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
-	shield_area.monitoring = false #Turns collision off for shield
-	shield_area.monitorable = false
+	shield_area.set_monitoring.call_deferred(false)
+	shield_area.set_monitorable.call_deferred(false)
 
 func fadein(): #Fades shield in to 255 Alpha
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 1, trans_length)
 	await tween.finished
-	shield_area.monitoring = true # Turns collision on for shield
-	shield_area.monitorable = true
+	shield_area.set_monitoring.call_deferred(true)
+	shield_area.set_monitorable.call_deferred(true)
 	
 func shieldDie(): #Instantly turns off shield when health goes to 0
-	shield_area.monitoring = false
-	shield_area.monitorable = false
+	shield_area.set_monitoring.call_deferred(false)
+	shield_area.set_monitorable.call_deferred(false)
 	self.visible = false
 	
 func shieldAlive(): #Instant on shield
-	shield_area.monitoring = true
-	shield_area.monitorable = true
+	shield_area.set_monitoring.call_deferred(true)
+	shield_area.set_monitorable.call_deferred(true)
 	self.visible = true
 
 func _on_shield_area_entered(area):
-	if area.is_in_group("torpedo"): #and area.shooter != "player":
+	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
-		shield_current -= 20
-		print("Shield: " + str(shield_current))
-		if shield_current <= 0:
+		var damage_taken = area.damage
+		sp_current -= damage_taken
+		if sp_current <= 0:
+			shieldActive = false
+			get_parent().hp_current += sp_current #Passes extra damage to player hull health
 			shieldDie()
-			await get_tree().create_timer(2).timeout
-			shield_current = max_health
-			#shieldAlive()
+			sp_current = 0
+			await get_tree().create_timer(5).timeout
+			shieldActive = true
+			shieldAlive()
+	elif area.is_in_group("enemy"):
+		get_parent().die()

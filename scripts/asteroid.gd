@@ -11,12 +11,7 @@ enum AsteroidSize{LARGE, MEDIUM, SMALL}
 var speed:float= 200
 
 @onready var sprite = $Sprite2D
-@onready var cshape = $CollisionPolygon2D
-
-func _init():
-	monitoring = true
-	monitorable = true
-	
+@onready var cshape = $CollisionPolygon2D	
 	
 var points: int:
 	get:
@@ -50,7 +45,6 @@ func _ready():
 			cshape.set_deferred("shape", preload("res://resources/asteroid_cshape_small.tres"))
 			set_scale(Vector2(0.3,0.3))
 			$Sprite2D.set_scale(Vector2(6.0,6.0))
-			
 
 func _physics_process(delta):
 	pass
@@ -58,7 +52,6 @@ func _physics_process(delta):
 func explode():
 	emit_signal("exploded", global_position, size, points) # Connects to game.gd _on_asteroid_exploded()
 	queue_free()
-
 
 func _on_asteroid_area_entered(area):
 	if area.is_in_group("torpedo"):
