@@ -5,7 +5,7 @@ var room_barrier:int = 19750
 var shooter #Saves the shooter ID so that collision detection does not shoot self
 var movement_vector := Vector2(0, -1)
 
-@export var damage:int = 20
+@export var damage:int = 10
 	
 func _process(delta):
 	if (self.global_position.x >= room_barrier or self.global_position.x < -room_barrier or 

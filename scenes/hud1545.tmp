@@ -32,7 +32,7 @@ offset_bottom = 91.0
 scale = Vector2(1.5, 1.5)
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-modulate = Color(0.192157, 0.392157, 0.101961, 1)
+modulate = Color(0.239216, 0.180392, 1, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = 110.0
@@ -42,7 +42,7 @@ step = 1.0
 show_percentage = false
 
 [node name="ShieldBar" type="ProgressBar" parent="."]
-modulate = Color(0.141176, 0.329412, 0.827451, 1)
+modulate = Color(0.121569, 0.4, 0.164706, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = 138.0

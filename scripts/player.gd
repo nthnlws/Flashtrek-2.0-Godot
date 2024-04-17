@@ -99,6 +99,7 @@ func die(): # Recieves a connect from
 	if alive == true:
 		alive = false
 		self.visible = false
+		get_node("Shield").shieldActive = false
 		emit_signal("died") # Connected to "_on_player_died()" in game.gd
 
 func respawn(pos):
@@ -107,19 +108,20 @@ func respawn(pos):
 		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true
-		hp_current = hp_max
+		hp_current = hp_max #Resets HP
+		rotation = 0 #Sets rotation to straight up
 		get_node("Shield").shieldActive = true
 		get_node("Shield").shieldAlive()
-		get_node("Shield").shield_current = get_node("Shield").max_health
+		get_node("Shield").sp_current = get_node("Shield").sp_max
 
 
 func _on_player_area_entered(area):
-	if area.is_in_group("torpedo") and area.shooter != "player":
+	if area.is_in_group("torpedo"): # and area.shooter != "player":
 		area.queue_free()
 		var damage_taken = area.damage
 		hp_current -= damage_taken
 		if hp_current <= 0:
 			die()
-			hp_current = max_health
+			hp_current = hp_max
 	elif area.is_in_group("enemy"):
 		die()

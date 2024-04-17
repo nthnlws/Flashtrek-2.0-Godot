@@ -1,5 +1,20 @@
 extends Control
 
+@onready var hp_current
+@onready var hp_max
+@onready var sp_current
+@onready var sp_max
+
+@onready var hud = $"."
+@onready var player = $"../../Player"
+@onready var healthBar = $HealthBar
+@onready var shieldBar = $ShieldBar
+
+func test():
+	var shield = get_node("../../Player/Shield")
+
+var shieldActive:bool = false
+
 @onready var score = $Score:
 	set(value):
 		score.text = "SCORE: " + str(value)
@@ -15,6 +30,14 @@ func init_lives(amount):
 		var ul = uilife_scene.instantiate()
 		lives.add_child(ul)
 
-@onready var cords = $Cords:
-	set(value):
-		score.text = "SCORE: " + str(value)
+func _process(delta):
+	healthBar.value = player.hp_current
+	healthBar.max_value = player.hp_max
+	if is_instance_valid(get_node("../../Player/Shield")):
+		var shield = get_node("../../Player/Shield")
+		shieldBar.value = shield.sp_current
+		shieldBar.max_value = shield.sp_max
+	
+func _on_shield_ready():
+	var shield = get_node("../../Player/Shield")
+	shieldActive = true
