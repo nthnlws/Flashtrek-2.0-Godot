@@ -1,6 +1,6 @@
 class_name Shield extends Sprite2D
 
-
+var damageTime:bool = false
 @export var regen_speed:float = 2.5
 @export var sp_max:int = 50
 
@@ -11,12 +11,15 @@ class_name Shield extends Sprite2D
 @onready var shieldActive:bool = true
 
 func _ready():
-	emit_signal("ready")
-
+	pass
 
 func _process(delta):
-	if shieldActive == true and sp_current <= sp_max:
+	if shieldActive == true and sp_current <= sp_max and damageTime == false:
 		sp_current += regen_speed * delta
+	if get_parent().warping_active == true and shieldActive == true:
+		#Forces shieldActive to false when player is warping
+		shieldActive = false
+		
 
 func fadeout(): #Fades shield to 0 Alpha
 	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
@@ -46,11 +49,18 @@ func shieldAlive(): #Instant on shield
 	self.visible = true
 	shieldActive = true
 
-func _on_shield_area_entered(area):
-	if area.is_in_group("torpedo"): # and area.shooter != "player":
+func damageTimeout(): #Turns off shield regen for 1 second after damage taken
+	if damageTime == false:
+		damageTime = true
+		await get_tree().create_timer(1).timeout
+		damageTime = false
+	
+func _on_shield_area_entered(area): #Torpedo damage
+	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
-		var damage_taken = area.damage
+		var damage_taken = area.damage	
 		sp_current -= damage_taken
+		damageTimeout()
 		if sp_current <= 0:
 			#get_parent().hp_current += sp_current #Passes extra damage to player hull health
 			shieldDie()

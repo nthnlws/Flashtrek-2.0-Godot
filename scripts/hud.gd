@@ -9,6 +9,7 @@ extends Control
 @onready var player = $"../../Player"
 @onready var healthBar = $HealthBar
 @onready var shieldBar = $ShieldBar
+@onready var coords = $Coords
 
 func test():
 	var shield = get_node("../../Player/Shield")
@@ -37,6 +38,8 @@ func _process(delta):
 		var shield = get_node("../../Player/Shield")
 		shieldBar.value = shield.sp_current
 		shieldBar.max_value = shield.sp_max
+		
+	coords.text = str(round(player.global_position))
 	
 func _on_shield_ready():
 	var shield = get_node("../../Player/Shield")

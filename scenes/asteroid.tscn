@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bh1r82178c2u1"]
 
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="1_gnmhb"]
-[ext_resource type="Texture2D" uid="uid://coj32tn3spyqf" path="res://assets/textures/meteorGrey_big4.png" id="1_vsfed"]
+[ext_resource type="Texture2D" uid="uid://bn0c33k020a7d" path="res://assets/textures/meteorGrey_big4.png" id="1_vsfed"]
 
 [node name="Asteroid" type="Area2D" groups=["enemy"]]
 collision_layer = 4
