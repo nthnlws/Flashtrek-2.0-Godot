@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=17 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://global.gd" id="1_ff2jh"]
@@ -15,8 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="PackedScene" uid="uid://ckyf2grb8ts10" path="res://scenes/zone_walls.tscn" id="11_l52o4"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="13_v8gpu"]
-[ext_resource type="Script" path="res://scenes/Enemy.gd" id="16_fuutv"]
-[ext_resource type="Texture2D" uid="uid://c6hfhl58vpgpc" path="res://assets/textures/birdofprey.png" id="16_rilyb"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="16_1061f"]
 
 [node name="Global" type="Node"]
 script = ExtResource("1_ff2jh")
@@ -79,18 +78,7 @@ z_index = -1
 
 [node name="Hostiles" type="Node2D" parent="Game/ZoneWall"]
 
-[node name="BirdOfPrey" type="Area2D" parent="Game/ZoneWall/Hostiles" groups=["enemy"]]
-collision_layer = 4
-collision_mask = 11
-script = ExtResource("16_fuutv")
-
-[node name="Sprite2D" type="Sprite2D" parent="Game/ZoneWall/Hostiles/BirdOfPrey"]
-position = Vector2(781.75, -109.5)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("16_rilyb")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/ZoneWall/Hostiles/BirdOfPrey"]
-polygon = PackedVector2Array(17, -48, 50, -12, 31, 43, -19, 48, -50, 10, -35, -34)
+[node name="BirdOfPrey" parent="Game/ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
+position = Vector2(728, -124)
 
 [connection signal="area_entered" from="Game/Asteroids/Asteroid" to="Game/Asteroids/Asteroid" method="_on_asteroid_area_entered"]
-[connection signal="area_entered" from="Game/ZoneWall/Hostiles/BirdOfPrey" to="Game/ZoneWall/Hostiles/BirdOfPrey" method="_on_enemy_area_entered"]

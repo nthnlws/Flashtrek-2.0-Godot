@@ -6,8 +6,7 @@ extends Node
 @onready var hud = $Game/UI/HUD
 
 func _ready():
-	asteroid.area_entered.connect(player.die)
-	shield.ready.connect(hud._on_shield_ready)
+	pass
 
 func asteroid_collision():
 	pass

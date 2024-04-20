@@ -32,7 +32,7 @@ func _ready():
 	var shieldScene = preload("res://scenes/shield.tscn")
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
-	global_position = Vector2(500, -200)
+	global_position = Vector2(640, 360)
 
 func _process(delta):
 	if !alive: return
