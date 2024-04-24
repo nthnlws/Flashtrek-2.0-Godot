@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://vrb6kndkqrbq"]
+
+[ext_resource type="Shader" path="res://resources/shield.gdshader" id="1_rvxaq"]
+[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/blank_pship.png" id="2_48cnq"]
+[ext_resource type="Script" path="res://scripts/playerShield.gd" id="3_83jbl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
+shader = ExtResource("1_rvxaq")
+shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
+radius = 4.93933
+
+[node name="playerShield" type="Sprite2D"]
+material = SubResource("ShaderMaterial_ksrv6")
+position = Vector2(0, 3)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_48cnq")
+script = ExtResource("3_83jbl")
+
+[node name="shield_area" type="Area2D" parent="." groups=["shield"]]
+collision_layer = 2
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
+scale = Vector2(2.97285, 5.45383)
+shape = SubResource("CircleShape2D_5nxll")
+
+[connection signal="area_entered" from="shield_area" to="." method="_on_shield_area_entered"]

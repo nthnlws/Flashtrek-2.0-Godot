@@ -16,7 +16,6 @@ signal impulse
 @onready var hp_current:int = hp_max
 
 @onready var muzzle = $Muzzle
-
 @onready var warping_active = false
 @onready var shield_active = false
 
@@ -29,7 +28,7 @@ var rate_of_fire = 0.2
 var alive := true
 
 func _ready():
-	var shieldScene = preload("res://scenes/shield.tscn")
+	var shieldScene = preload("res://scenes/playerShield.tscn")
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
 	global_position = Vector2(640, 360)
@@ -74,14 +73,14 @@ func warping_state_change(): #Reverses warping state
 		warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		create_tween().tween_property(self, "warpm", 1.0, trans_length)
-		$Shield.fadein()
+		get_node("playerShield").fadein()
 		warping.emit()
 		
 	elif warping_active == false: #Transition to warp
 		warping_active = true
 		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
 		create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
-		$Shield.fadeout()
+		get_node("playerShield").fadeout()
 		impulse.emit()
 
 	
@@ -96,11 +95,11 @@ func shoot_laser():
 	var l = laser_scene.instantiate()
 	l.global_position = self.global_position
 
-func die(): # Recieves a connect from 
+func die():
 	if alive == true:
 		alive = false
 		self.visible = false
-		get_node("Shield").shieldActive = false
+		get_node("playerShield").shieldActive = false
 		emit_signal("died") # Connected to "_on_player_died()" in game.gd
 
 func respawn(pos):
@@ -111,13 +110,13 @@ func respawn(pos):
 		self.visible = true
 		hp_current = hp_max #Resets HP
 		rotation = 0 #Sets rotation to straight up
-		get_node("Shield").shieldActive = true
-		get_node("Shield").shieldAlive()
-		get_node("Shield").sp_current = get_node("Shield").sp_max
+		get_node("playerShield").shieldActive = true
+		get_node("playerShield").shieldAlive()
+		get_node("playerShield").sp_current = get_node("playerShield").sp_max
 
 
 func _on_player_area_entered(area):
-	if area.is_in_group("torpedo"): # and area.shooter != "player":
+	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
 		var damage_taken = area.damage
 		hp_current -= damage_taken
@@ -125,4 +124,4 @@ func _on_player_area_entered(area):
 			die()
 			hp_current = hp_max
 	elif area.is_in_group("enemy"):
-		die()
+		pass

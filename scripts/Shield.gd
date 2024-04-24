@@ -4,8 +4,8 @@ var damageTime:bool = false
 @export var regen_speed:float = 2.5
 @export var sp_max:int = 50
 
-@onready var trans_length = get_parent().trans_length
-@onready var shield_area = $shield_area
+@onready var trans_length:int = 1
+@onready var shield_area:Area2D = $shield_area
 
 @onready var sp_current:float = sp_max
 @onready var shieldActive:bool = true
@@ -58,7 +58,7 @@ func damageTimeout(): #Turns off shield regen for 1 second after damage taken
 func _on_shield_area_entered(area): #Torpedo damage
 	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
-		var damage_taken = area.damage	
+		var damage_taken = area.damage
 		sp_current -= damage_taken
 		damageTimeout()
 		if sp_current <= 0:
@@ -68,4 +68,5 @@ func _on_shield_area_entered(area): #Torpedo damage
 			await get_tree().create_timer(3).timeout
 			shieldAlive()
 	elif area.is_in_group("enemy"):
-		get_parent().die()
+		pass
+		#get_parent().die()

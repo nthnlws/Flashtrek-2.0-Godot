@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
-[ext_resource type="FontFile" uid="uid://cbknnb0sm33yv" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
+[ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_158n7")

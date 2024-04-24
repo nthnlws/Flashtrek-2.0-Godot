@@ -34,8 +34,8 @@ func init_lives(amount):
 func _process(delta):
 	healthBar.value = player.hp_current
 	healthBar.max_value = player.hp_max
-	if is_instance_valid(get_node("../../Player/Shield")):
-		var shield = get_node("../../Player/Shield")
+	if is_instance_valid(get_node("../../Player/playerShield")):
+		var shield = get_node("../../Player/playerShield")
 		shieldBar.value = shield.sp_current
 		shieldBar.max_value = shield.sp_max
 		
