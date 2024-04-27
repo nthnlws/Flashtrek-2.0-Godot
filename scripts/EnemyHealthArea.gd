@@ -8,7 +8,6 @@ func _on_enemy_area_entered(area):
 		area.queue_free()
 		var damage_taken = area.damage
 		hp_current -= damage_taken
-		print(hp_current)
 		if hp_current <= 0:
 			get_parent().explode()
 	elif area.is_in_group("enemy"):

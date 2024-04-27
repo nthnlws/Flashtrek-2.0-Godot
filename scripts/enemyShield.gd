@@ -10,22 +10,10 @@ var damageTime:bool = false
 
 @onready var sp_current:float = sp_max
 @onready var shieldActive:bool = true
-
-func fadeout(): #Fades shield to 0 Alpha
-	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 0, trans_length)
-	await tween.finished
-	shield_area.set_monitoring.call_deferred(false)
-	shield_area.set_monitorable.call_deferred(false)
-	shieldActive = false
-
-func fadein(): #Fades shield in to 255 Alpha
-	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 1, trans_length)
-	await tween.finished
-	shield_area.set_monitoring.call_deferred(true)
-	shield_area.set_monitorable.call_deferred(true)
-	shieldActive = true
+	
+func _ready():
+	self.position.y = -2
+	self.scale = Vector2(3.611,2.833)
 	
 func shieldDie(): #Instantly turns off shield when health goes to 0
 	shield_area.set_monitoring.call_deferred(false)

@@ -3,35 +3,60 @@ class_name Enemy extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-@export var speed:int= 50
+@export var speed:int= 1000
+@onready var starbase = get_node("/root/Game/Starbase")
+@onready var player = get_node("/root/Game/Player")
 
-@onready var trans_length:float= 0.8
+var trans_length:float= 0.8
 
+var playerAgro:bool = false
 var startPosition
 var endPosition
+var randomMove:bool = false
 
 func _ready():
-	#var shieldScene = preload("res://scenes/enemyShield.tscn")
-	#var newShield = shieldScene.instantiate()
-	#add_child(newShield)
-	
-	startPosition = position
-	endPosition = startPosition + Vector2(100, 500)
+	var shieldScene = preload("res://scenes/enemyShield.tscn")
+	var newShield = shieldScene.instantiate()
+	add_child(newShield)
 	
 func _physics_process(delta):
 	if self.visible == false: return
 	
-	updateVelocity()
+	#if self.global_position.distance_to(starbase.global_position) < 1000:
+		#randomMove = true
+		#randomMovement()
+	if playerAgro == true and self.global_position.distance_to(starbase.position) > 600 and randomMove != true:
+		playerMovement()
+	elif playerAgro == false and self.global_position.distance_to(starbase.position) > 600 and randomMove != true:
+		starbaseMovement()
+
 	move_and_slide()
 
-	var direction = velocity.normalized() # Determine the direction of movement
-	var angle = direction.angle() # Calculate the angle of rotation
-	angle += deg_to_rad(90) # Adjust the angle by adding 90 degrees
-	rotation = angle
 
-func updateVelocity():
-	var moveDirection = endPosition - position
-	velocity = moveDirection.normalized()*speed
+func starbaseMovement():
+	var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
+	velocity = direction.normalized()*speed
+	rotateToDirection(direction)
+	
+func playerMovement():
+	var direction = global_position.direction_to(player.global_position) # Sets movement direction to player
+	velocity = direction.normalized()*speed
+	rotateToDirection(direction)
+	
+func randomMovement():
+	var endPoint = Vector2(randi_range(-10000, -1000), randi_range(10000, 1000))
+	print(endPoint)
+	var direction = global_position.direction_to(endPoint) # Sets movement direction to player
+	velocity = direction.normalized()*speed
+	rotateToDirection(direction)
+	if self.global_position.distance_to(endPoint) < 5:
+		randomMove = false
+	
+	
+func rotateToDirection(target_direction: Vector2):
+	var target_angle = atan2(target_direction.y, target_direction.x) + deg_to_rad(90)
+	var difference = rotation - target_angle
+	rotation = lerp_angle(rotation, target_angle, 0.1)
 
 func explode():
 	queue_free()
@@ -44,4 +69,8 @@ func _on_enemy_area_entered(area):
 
 func _on_agro_box_area_entered(area):
 	if area.is_in_group("player"):
-		return # Replace with function body.
+		playerAgro =  true
+
+func _on_agro_box_area_exited(area):
+	if area.is_in_group("player"):
+		playerAgro =  false # Replace with function body.

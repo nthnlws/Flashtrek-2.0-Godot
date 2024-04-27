@@ -1,17 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=5 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_vh84p"]
 [ext_resource type="Script" path="res://scripts/EnemyHealthArea.gd" id="2_qicp6"]
 [ext_resource type="Texture2D" uid="uid://cyo8q8eimqa8w" path="res://assets/textures/birdofprey.png" id="2_wav21"]
-[ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="4_sfrnk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
-radius = 234.913
+radius = 3000.0
 
 [node name="BirdOfPrey" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_vh84p")
+
+[node name="AgroBox" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox"]
+shape = SubResource("CircleShape2D_ugric")
 
 [node name="CollisionArea" type="Area2D" parent="."]
 collision_layer = 4
@@ -26,15 +31,6 @@ polygon = PackedVector2Array(6, -34, 6, -5, 9, 4, 23, 4, 36, -4, 36, -22, 41, -2
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_wav21")
 
-[node name="AgroBox" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox"]
-shape = SubResource("CircleShape2D_ugric")
-
-[node name="enemyShield" parent="." instance=ExtResource("4_sfrnk")]
-position = Vector2(0, -3)
-scale = Vector2(3.45946, 3.00347)
-
-[connection signal="area_entered" from="CollisionArea" to="CollisionArea" method="_on_enemy_area_entered"]
 [connection signal="area_entered" from="AgroBox" to="." method="_on_agro_box_area_entered"]
+[connection signal="area_exited" from="AgroBox" to="." method="_on_agro_box_area_exited"]
+[connection signal="area_entered" from="CollisionArea" to="CollisionArea" method="_on_enemy_area_entered"]
