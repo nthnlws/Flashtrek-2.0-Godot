@@ -3,7 +3,7 @@ class_name Enemy extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-@export var speed:int= 1000
+@export var speed:int= 100
 @onready var starbase = get_node("/root/Game/Starbase")
 @onready var player = get_node("/root/Game/Player")
 
@@ -12,7 +12,9 @@ var trans_length:float= 0.8
 var playerAgro:bool = false
 var startPosition
 var endPosition
+var endPoint:Vector2
 var randomMove:bool = false
+var enemyTarget:String
 
 func _ready():
 	var shieldScene = preload("res://scenes/enemyShield.tscn")
@@ -22,13 +24,21 @@ func _ready():
 func _physics_process(delta):
 	if self.visible == false: return
 	
-	#if self.global_position.distance_to(starbase.global_position) < 1000:
-		#randomMove = true
-		#randomMovement()
-	if playerAgro == true and self.global_position.distance_to(starbase.position) > 600 and randomMove != true:
+	# Movement state setter
+	if playerAgro == true:
 		playerMovement()
-	elif playerAgro == false and self.global_position.distance_to(starbase.position) > 600 and randomMove != true:
+		enemyTarget = "Player"
+	elif randomMove == true:
+		randomMovement(endPoint)
+		enemyTarget = "Random"
+	elif self.global_position.distance_to(starbase.global_position) < 1000:
+		# Sets random point to move to if too close to center and not agro'd on player
+		randomMove = true
+		endPoint = Vector2(randi_range(-5000, 5000), randi_range(-5000, 5000))
+	elif randomMove == !true and playerAgro == !true:
 		starbaseMovement()
+		enemyTarget = "Starbase"
+	else: print("No matching movement status")
 
 	move_and_slide()
 
@@ -43,15 +53,12 @@ func playerMovement():
 	velocity = direction.normalized()*speed
 	rotateToDirection(direction)
 	
-func randomMovement():
-	var endPoint = Vector2(randi_range(-10000, -1000), randi_range(10000, 1000))
-	print(endPoint)
+func randomMovement(endPoint): 
 	var direction = global_position.direction_to(endPoint) # Sets movement direction to player
 	velocity = direction.normalized()*speed
 	rotateToDirection(direction)
 	if self.global_position.distance_to(endPoint) < 5:
 		randomMove = false
-	
 	
 func rotateToDirection(target_direction: Vector2):
 	var target_angle = atan2(target_direction.y, target_direction.x) + deg_to_rad(90)

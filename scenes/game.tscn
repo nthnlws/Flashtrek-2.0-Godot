@@ -75,7 +75,7 @@ z_index = -1
 [node name="Hostiles" type="Node2D" parent="ZoneWall"]
 
 [node name="BirdOfPrey" parent="ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
-position = Vector2(1407, -460)
+position = Vector2(-2988, -1699)
 
 [node name="Global" type="Node" parent="."]
 

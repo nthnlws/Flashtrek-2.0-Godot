@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cyo8q8eimqa8w" path="res://assets/textures/birdofprey.png" id="2_wav21"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
-radius = 3000.0
+radius = 750.0
 
 [node name="BirdOfPrey" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
