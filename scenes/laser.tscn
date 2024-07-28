@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://p5elivo633p4"]
+[gd_scene load_steps=2 format=3 uid="uid://p5elivo633p4"]
 
-[node name="Laser" type="Node2D"]
+[ext_resource type="Script" path="res://scenes/laser.gd" id="1_c4bx1"]
+
+[node name="Laser" type="RayCast2D"]
+collision_mask = 6
+collide_with_areas = true
+script = ExtResource("1_c4bx1")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, -300)
+width = 5.0
+default_color = Color(0.5, 3, 6, 1)

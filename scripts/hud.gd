@@ -40,7 +40,13 @@ func _process(delta):
 		shieldBar.max_value = shield.sp_max
 		
 	coords.text = str(round(player.global_position))
-	
+		
+		
+func _input(event):
+	if event.is_action_pressed("toggleHUD"):
+		self.visible = !self.visible
+		
+		
 func _on_shield_ready():
 	var shield = get_node("../../Player/Shield")
 	shieldActive = true

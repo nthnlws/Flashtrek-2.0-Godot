@@ -29,19 +29,19 @@ func _ready():
 	match size:
 		AsteroidSize.LARGE:
 			speed = randf_range(50, 100)
-			sprite.texture = preload("res://assets/textures/meteorGrey_big4.png")
+			sprite.texture = preload("res://assets/textures/ships/meteorGrey_big4.png")
 			cshape.set_deferred("shape", preload("res://resources/asteroid_cshape_large.tres"))
 			
 		AsteroidSize.MEDIUM:
 			speed = randf_range(100, 150)
-			sprite.texture = preload("res://assets/textures/meteorGrey_med2.png")
+			sprite.texture = preload("res://assets/textures/ships/meteorGrey_med2.png")
 			cshape.set_deferred("shape", preload("res://resources/asteroid_cshape_medium.tres"))
 			set_scale(Vector2(0.6,0.6))
 			$Sprite2D.set_scale(Vector2(2.0,2.0))
 			
 		AsteroidSize.SMALL:
 			speed = randf_range(100, 200)
-			sprite.texture = preload("res://assets/textures/meteorGrey_tiny1.png")
+			sprite.texture = preload("res://assets/textures/ships/meteorGrey_tiny1.png")
 			cshape.set_deferred("shape", preload("res://resources/asteroid_cshape_small.tres"))
 			set_scale(Vector2(0.3,0.3))
 			$Sprite2D.set_scale(Vector2(6.0,6.0))

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b22yde5yoq56c"]
 
 [ext_resource type="Shader" path="res://resources/shield.gdshader" id="1_uausp"]
-[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/blank_pship.png" id="2_50deu"]
+[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/ships/blank_pship.png" id="2_h8s3t"]
 [ext_resource type="Script" path="res://scripts/enemyShield.gd" id="3_0y86e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
@@ -15,7 +15,7 @@ radius = 4.93933
 material = SubResource("ShaderMaterial_ksrv6")
 position = Vector2(0, 3)
 scale = Vector2(2.5, 2.5)
-texture = ExtResource("2_50deu")
+texture = ExtResource("2_h8s3t")
 script = ExtResource("3_0y86e")
 
 [node name="shield_area" type="Area2D" parent="." groups=["shield"]]
