@@ -11,9 +11,6 @@ extends Control
 @onready var shieldBar = $ShieldBar
 @onready var coords = $Coords
 
-func test():
-	var shield = get_node("../../Player/Shield")
-
 var shieldActive:bool = false
 
 @onready var score = $Score:

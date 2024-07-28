@@ -7,6 +7,3 @@ func _ready():
 	
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)
-
-func _process(delta):
-	pass

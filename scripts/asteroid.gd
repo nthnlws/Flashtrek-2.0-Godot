@@ -46,9 +46,6 @@ func _ready():
 			set_scale(Vector2(0.3,0.3))
 			$Sprite2D.set_scale(Vector2(6.0,6.0))
 
-func _physics_process(delta):
-	pass
-
 func explode():
 	emit_signal("exploded", global_position, size, points) # Connects to game.gd _on_asteroid_exploded()
 	queue_free()

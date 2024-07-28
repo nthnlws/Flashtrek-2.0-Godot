@@ -12,6 +12,8 @@ signal impulse
 
 @export var warp_multiplier:float = 0.4
 @onready var warpm:float = 1.0
+
+#Health variables
 @onready var hp_max:int = 100
 @onready var hp_current:int = hp_max
 
@@ -22,8 +24,8 @@ signal impulse
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
 var laser_scene = preload("res://scenes/laser.tscn")
 
-var shoot_cd = false
-var rate_of_fire = 0.2
+var shoot_cd:bool = false
+var rate_of_fire:float = 0.2
 
 var alive := true
 
@@ -98,6 +100,7 @@ func die():
 	if alive == true:
 		alive = false
 		self.visible = false
+		hp_current = hp_max
 		get_node("playerShield").shieldActive = false
 		emit_signal("died") # Connected to "_on_player_died()" in game.gd
 
@@ -121,6 +124,5 @@ func _on_player_area_entered(area):
 		hp_current -= damage_taken
 		if hp_current <= 0:
 			die()
-			hp_current = hp_max
 	elif area.is_in_group("enemy"):
 		pass

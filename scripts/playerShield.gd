@@ -1,17 +1,15 @@
 extends Sprite2D
 
 var damageTime:bool = false
+@onready var shieldActive:bool = true
 @export var regen_speed:float = 2.5
-@export var sp_max:int = 50
 
 @onready var trans_length:int = 1
 @onready var shield_area:Area2D = $shield_area
 
+# Player shield health variables
 @onready var sp_current:float = sp_max
-@onready var shieldActive:bool = true
-
-func _ready():
-	pass
+@export var sp_max:int = 50
 
 func _process(delta):
 	if shieldActive == true and sp_current <= sp_max and damageTime == false:
@@ -19,6 +17,8 @@ func _process(delta):
 	if get_parent().warping_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
+	if sp_current <= 0: shieldDie()
+	if sp_current > sp_max: sp_current = sp_max
 		
 
 func fadeout(): #Fades shield to 0 Alpha
@@ -42,6 +42,9 @@ func shieldDie(): #Instantly turns off shield when health goes to 0
 	shield_area.set_monitorable.call_deferred(false)
 	self.visible = false
 	shieldActive = false
+	sp_current = 0.0001
+	await get_tree().create_timer(3).timeout
+	shieldAlive()
 	
 func shieldAlive(): #Instant on shield
 	shield_area.set_monitoring.call_deferred(true)
@@ -61,12 +64,6 @@ func _on_shield_area_entered(area): #Torpedo damage
 		var damage_taken = area.damage
 		sp_current -= damage_taken
 		damageTimeout()
-		if sp_current <= 0:
-			#get_parent().hp_current += sp_current #Passes extra damage to player hull health
-			shieldDie()
-			sp_current = 0
-			await get_tree().create_timer(3).timeout
-			shieldAlive()
 	elif area.is_in_group("enemy"):
 		pass
 		#get_parent().die()

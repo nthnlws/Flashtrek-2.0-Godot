@@ -7,6 +7,10 @@ signal player_collision(Area: Area2D)
 @onready var starbase = get_node("/root/Game/Starbase")
 @onready var player = get_node("/root/Game/Player")
 
+#Enemy health variables
+@onready var hp_max:int = 60
+@onready var hp_current:float = hp_max
+
 var trans_length:float= 0.8
 
 var playerAgro:bool = false
@@ -21,6 +25,11 @@ func _ready():
 	var newShield = shieldScene.instantiate()
 	add_child(newShield)
 	
+func _process(delta):
+	if hp_current <= 0:
+		explode()
+	print(hp_current)
+
 func _physics_process(delta):
 	if self.visible == false: return
 	
@@ -70,9 +79,17 @@ func explode():
 	self.visible = false
 
 func _on_enemy_area_entered(area):
-	if area.is_in_group("torpedo"):
+	if area.is_in_group("torpedo") and area.shooter != "enemy":
 		area.queue_free()
-		explode()
+		var damage_taken = area.damage
+		hp_current -= damage_taken
+	elif area.is_in_group("enemy"):
+		pass
+
+#func _on_enemy_area_entered(area):
+	#if area.is_in_group("torpedo"):
+		#area.queue_free()
+		#explode()
 
 func _on_agro_box_area_entered(area):
 	if area.is_in_group("player"):

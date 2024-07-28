@@ -4,6 +4,8 @@ var laserState := false
 var first_collision := false # Checks if a shield has been targeted yet
 var target_shield # Stores ID of the target shield to check status later
 
+@export var damage_rate:float = 20
+
 func _ready():
 	set_physics_process(false)
 	$Line2D.visible = false
@@ -16,21 +18,21 @@ func _physics_process(delta):
 	force_raycast_update()
 	
 	if is_colliding():
-		var collider = get_collider()
+		var collider:Area2D = get_collider()
 		if collider.name == "shield_area":
-			if first_collision == false:
-				target_shield = collider
-			first_collision = true
+			target_shield = collider
 			if target_shield.get_parent().shieldActive == true:
 				cast_point = to_local(get_collision_point())
+				collider.get_parent().sp_current -= damage_rate*delta
 			if target_shield.get_parent().shieldActive == false:
 				add_exception(target_shield)
-		if collider.name == "Hitbox":
+		elif collider.name == "Hitbox":
 			if target_shield.get_parent().shieldActive == true:
 				clear_exceptions()
 				return
 			else:
 				cast_point = to_local(collider.global_position)
+				collider.get_parent().hp_current -= damage_rate*delta
 		
 	$Line2D.points[1] = cast_point
 	
