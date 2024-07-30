@@ -3,7 +3,7 @@ class_name Enemy extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-@export var speed:int= 100
+@export var speed:int= 0
 @onready var starbase = get_node("/root/Game/Starbase")
 @onready var player = get_node("/root/Game/Player")
 
@@ -28,7 +28,6 @@ func _ready():
 func _process(delta):
 	if hp_current <= 0:
 		explode()
-	print(hp_current)
 
 func _physics_process(delta):
 	if self.visible == false: return
@@ -78,19 +77,6 @@ func explode():
 	queue_free()
 	self.visible = false
 
-func _on_enemy_area_entered(area):
-	if area.is_in_group("torpedo") and area.shooter != "enemy":
-		area.queue_free()
-		var damage_taken = area.damage
-		hp_current -= damage_taken
-	elif area.is_in_group("enemy"):
-		pass
-
-#func _on_enemy_area_entered(area):
-	#if area.is_in_group("torpedo"):
-		#area.queue_free()
-		#explode()
-
 func _on_agro_box_area_entered(area):
 	if area.is_in_group("player"):
 		playerAgro =  true
@@ -98,3 +84,9 @@ func _on_agro_box_area_entered(area):
 func _on_agro_box_area_exited(area):
 	if area.is_in_group("player"):
 		playerAgro =  false # Replace with function body.
+
+func _on_hitbox_area_entered(area):
+	if area.is_in_group("torpedo") and area.shooter != "enemy":
+		area.queue_free()
+		var damage_taken = area.damage
+		hp_current -= damage_taken

@@ -12,7 +12,7 @@ collision_mask = 15
 script = ExtResource("1_w51pe")
 
 [node name="Laser" parent="." instance=ExtResource("2_vj0n8")]
-position = Vector2(0, -35)
+z_index = -1
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -35)

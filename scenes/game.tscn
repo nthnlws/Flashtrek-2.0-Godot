@@ -72,4 +72,7 @@ z_index = -1
 [node name="BirdOfPrey" parent="ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
 position = Vector2(-2988, -1699)
 
+[node name="BirdOfPrey2" parent="ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
+position = Vector2(1101, -804)
+
 [connection signal="area_entered" from="Asteroids/Asteroid" to="Asteroids/Asteroid" method="_on_asteroid_area_entered"]

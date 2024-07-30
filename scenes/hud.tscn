@@ -23,6 +23,24 @@ offset_bottom = 70.0
 text = "SCORE: XYZ"
 label_settings = SubResource("LabelSettings_amtcr")
 
+[node name="Variable" type="Label" parent="."]
+layout_mode = 0
+offset_left = 486.0
+offset_top = 11.0
+offset_right = 896.0
+offset_bottom = 71.0
+text = "SCORE: XYZ"
+label_settings = SubResource("LabelSettings_amtcr")
+
+[node name="Variable2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 489.0
+offset_top = 64.0
+offset_right = 899.0
+offset_bottom = 124.0
+text = "SCORE: XYZ"
+label_settings = SubResource("LabelSettings_amtcr")
+
 [node name="Coords" type="Label" parent="."]
 layout_mode = 0
 offset_left = 15.0

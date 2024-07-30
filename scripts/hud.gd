@@ -7,6 +7,7 @@ extends Control
 
 @onready var hud = $"."
 @onready var player = $"../../Player"
+@onready var laser = $"../../Player/Laser"
 @onready var healthBar = $HealthBar
 @onready var shieldBar = $ShieldBar
 @onready var coords = $Coords
@@ -21,6 +22,7 @@ var uilife_scene = preload("res://scenes/ui_life.tscn")
 
 @onready var lives = $Lives
 
+
 func init_lives(amount):
 	for ul in lives.get_children():
 		ul.queue_free()
@@ -29,6 +31,9 @@ func init_lives(amount):
 		lives.add_child(ul)
 
 func _process(delta):
+	$Variable.text = "Coll: " + str(laser.enemy_collision)
+	$Variable2.text = "cast: " + str(round(laser.cast_point))
+	
 	healthBar.value = player.hp_current
 	healthBar.max_value = player.hp_max
 	if is_instance_valid(get_node("../../Player/playerShield")):

@@ -37,7 +37,6 @@ func shieldAlive(): #Instant on shield
 	shield_area.set_monitorable.call_deferred(true)
 	self.visible = true
 	shieldActive = true
-	print("shieldAlive")
 
 func damageTimeout(): #Turns off shield regen for 1 second after damage taken
 	if damageTime == false:
