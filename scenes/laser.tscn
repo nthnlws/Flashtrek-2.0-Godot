@@ -1,6 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://p5elivo633p4"]
+[gd_scene load_steps=12 format=3 uid="uid://p5elivo633p4"]
 
 [ext_resource type="Script" path="res://scenes/laser.gd" id="1_c4bx1"]
+[ext_resource type="Texture2D" uid="uid://bjuixacy8gpmr" path="res://assets/textures/glowing_circle25.png" id="2_el4j4"]
+[ext_resource type="Texture2D" uid="uid://dd6s81vxyfssb" path="res://assets/textures/circle25.png" id="3_yh6sv"]
+[ext_resource type="AudioStream" uid="uid://bum52yrev77td" path="res://assets/audio/tos_ship_phaser.mp3" id="4_jeuqt"]
+[ext_resource type="AudioStream" uid="uid://cqab8d5vgib64" path="res://assets/audio/laser_fizzle.mp3" id="5_85x6m"]
+
+[sub_resource type="Gradient" id="Gradient_k33yi"]
+offsets = PackedFloat32Array(0, 0.493151, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0.753425, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_idc08"]
+gradient = SubResource("Gradient_k33yi")
+width = 1024
+
+[sub_resource type="Curve" id="Curve_4fbcb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.609195, 1), 0.0, 0.0, 0, 0, Vector2(0.994253, 0.010989), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_84q1s"]
+width = 2048
+curve = SubResource("Curve_4fbcb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_irlj2"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 70.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_84q1s")
+color = Color(0.5, 3, 6, 1)
+color_ramp = SubResource("GradientTexture1D_idc08")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gwks7"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 70.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_84q1s")
+color = Color(0.5, 3, 6, 1)
 
 [node name="Laser" type="RayCast2D"]
 collision_mask = 6
@@ -11,3 +50,29 @@ script = ExtResource("1_c4bx1")
 points = PackedVector2Array(0, 0, 0, -300)
 width = 5.0
 default_color = Color(0.5, 3, 6, 1)
+
+[node name="ship_particles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -37)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_irlj2")
+texture = ExtResource("2_el4j4")
+lifetime = 0.7
+
+[node name="collision_particles" type="GPUParticles2D" parent="."]
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_gwks7")
+texture = ExtResource("3_yh6sv")
+lifetime = 0.7
+
+[node name="laserSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jeuqt")
+volume_db = -6.0
+
+[node name="laserFizzle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_85x6m")
+volume_db = -25.0
+pitch_scale = 1.6
