@@ -1,11 +1,13 @@
 extends RayCast2D
 
-var laserClickState:bool= false
+var laserClickState:bool= false # Bool to check input hold status
 var first_collision := false # Checks if a shield has been targeted yet
 var target_shield # Stores ID of the target shield to check status later
-var enemy_collision:bool = false
-var laserStatus:bool = false
-var cast_point:Vector2
+var enemy_collision:bool = false # Bool to check if Raycast is hitting one of desired target areas
+var laserStatus:bool = false # Final variable created after switching laser on or off
+var cast_point:Vector2 # Coords of where Line2D will cast too, result of Raycast logic
+
+var collision_area # Global variable for HUD and debug
 
 @export var damage_rate:int = 20
 @export var view_distance:int = 1200
@@ -20,8 +22,11 @@ func _ready():
 func _physics_process(delta):
 	force_raycast_update()
 	if is_colliding():
+		var collider: = get_collider()
+		collision_area = collider
+		if collider.is_in_group("player"):
+			add_exception(collider)
 		if laserClickState == true:
-			var collider:Area2D = get_collider()
 			if collider.name == "shield_area":
 				print(collider.name)
 				enemy_collision = true
@@ -43,7 +48,6 @@ func _physics_process(delta):
 	else:
 		enemy_collision = false
 		cast_point = Vector2(0, -view_distance)
-		print("else")
 	$Line2D.points[1] = cast_point
 	
 	
