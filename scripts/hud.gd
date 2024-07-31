@@ -31,7 +31,7 @@ func init_lives(amount):
 		lives.add_child(ul)
 
 func _process(delta):
-	$Variable.text = "Last Col: " + str(laser.collision_area)
+	$Variable.text = "Last Col: " + str(round(player.energy_current))
 	
 	healthBar.value = player.hp_current
 	healthBar.max_value = player.hp_max

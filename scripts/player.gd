@@ -6,20 +6,28 @@ signal warping
 signal impulse
 
 @export var acceleration:int= 5
-@export var max_speed:float= 400.0
+@export var max_speed:int= 400.0
 @export var rotation_speed:int= 150
 @export var trans_length:float= 0.8
 
 @export var warp_multiplier:float = 0.4
-@onready var warpm:float = 1.0
+var warpm:float = 1.0
 
 #Health variables
-@onready var hp_max:int = 100
-@onready var hp_current:int = hp_max
+var hp_max:int = 100
+var hp_current:int = hp_max
+
+#Energy system variables
+var energy_max:int = 100
+var energy_current:float = energy_max
+var laser_drain_rate:int = 10
+var torpedo_drain:int = 10
 
 @onready var muzzle = $Muzzle
-@onready var warping_active = false
-@onready var shield_active = false
+var warping_active:bool = false
+var shield_active:bool = false
+var energyTime:bool = false
+var regen_speed:int = 10
 
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
 var laser_scene = preload("res://scenes/laser.tscn")
@@ -37,6 +45,19 @@ func _ready():
 func _process(delta):
 	if !alive: return
 	
+	#Laser energy drain system
+	#print(energy_current)
+	if $Laser.laserClickState == true:
+		energy_current -= laser_drain_rate * delta
+		energyTimeout()
+	if energy_current < 0:
+		energy_current = 0
+		energyTimeout()
+	if energy_current > energy_max: energy_current = energy_max
+	if $Laser.laserClickState == false and energy_current < energy_max and energyTime == false:
+		energy_current += regen_speed * delta
+		
+	
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
@@ -47,8 +68,8 @@ func _process(delta):
 			await get_tree().create_timer(rate_of_fire).timeout
 			shoot_cd = false
 			
-	if Input.is_action_pressed("shoot_laser"):
-		shoot_laser()
+	#if Input.is_action_pressed("shoot_laser"):
+		#shoot_laser()
 
 func _physics_process(delta):
 	if !alive: return
@@ -86,15 +107,18 @@ func warping_state_change(): #Reverses warping state
 
 	
 func shoot_torpedo():
-	var t = torpedo_scene.instantiate()
-	t.global_position = muzzle.global_position
-	t.rotation = rotation
-	t.shooter = "player"
-	emit_signal("torpedo_shot", t)
+	if energy_current > torpedo_drain:
+		var t = torpedo_scene.instantiate()
+		t.global_position = muzzle.global_position
+		t.rotation = rotation
+		t.shooter = "player"
+		emit_signal("torpedo_shot", t)
+		energy_current -= torpedo_drain
+		energyTimeout()
 	
-func shoot_laser():
-	var l = laser_scene.instantiate()
-	l.global_position = self.global_position
+#func shoot_laser():
+	#var l = laser_scene.instantiate()
+	#l.global_position = self.global_position
 
 func die():
 	if alive == true:
@@ -126,3 +150,8 @@ func _on_player_area_entered(area):
 			die()
 	elif area.is_in_group("enemy"):
 		pass
+
+func energyTimeout(): #Turns off shield regen for 1 second after damage taken
+	energyTime = true
+	await get_tree().create_timer(1).timeout
+	energyTime = false

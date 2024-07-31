@@ -1,11 +1,10 @@
 extends RayCast2D
 
 var laserClickState:bool= false # Bool to check input hold status
-var first_collision := false # Checks if a shield has been targeted yet
 var target_shield # Stores ID of the target shield to check status later
 var enemy_collision:bool = false # Bool to check if Raycast is hitting one of desired target areas
 var laserStatus:bool = false # Final variable created after switching laser on or off
-var cast_point:Vector2 # Coords of where Line2D will cast too, result of Raycast logic
+var cast_point:Vector2 # Coords of where Line2D will cast to, result of Raycast logic
 
 var collision_area # Global variable for HUD and debug
 
@@ -59,28 +58,28 @@ func _process(delta):
 			laserClickState = true
 			
 	#Turns off laser if right click is released or player is warping
-	if Input.is_action_just_released("shoot_laser") or get_parent().warping_active == true:
+	if Input.is_action_just_released("shoot_laser") or get_parent().warping_active == true or get_parent().energy_current <= 0:
 		laserClickState = false
 		#set_physics_process(false)
 	
+	#State Logic Machine for laser status
 	if laserClickState == true && enemy_collision == true:
 		if laserStatus == false:
-			turnOn()
-			
+			laserOn()
 	elif enemy_collision == false or laserClickState == false:
 		if laserStatus == true:
-			turnOff()
+			laserOff()
 	elif enemy_collision == false && laserClickState == false:
 		if laserStatus == true:
-			turnOff()
+			laserOff()
 	
-func turnOn(): 
+func laserOn(): 
 	$Line2D.visible = true
 	var tween = create_tween()
 	tween.tween_property($Line2D, "width", 5, 0.1)
 	laserStatus = true
 	
-func turnOff():
+func laserOff():
 	var tween = create_tween()
 	tween.tween_property($Line2D, "width", 0, 0.1)
 	await tween.finished
