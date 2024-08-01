@@ -86,10 +86,11 @@ func _process(delta):
 	
 	#Laser fizzle sound
 	if Input.is_action_just_pressed("shoot_laser"):
-		await get_tree().process_frame
-		await get_tree().process_frame
-		if enemy_collision == false:
-			$laserFizzle.play()
+		if get_parent().warping_active == false:
+			await get_tree().process_frame
+			await get_tree().process_frame
+			if enemy_collision == false:
+				$laserFizzle.play()
 		
 
 	#Ship laser particles

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=13 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="1_lp7mr"]
@@ -7,11 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://coj32tn3spyqf" path="res://assets/textures/ships/meteorGrey_big4.png" id="6_1lm3j"]
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="6_d6r2l"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_kp4kv"]
-[ext_resource type="AudioStream" uid="uid://cqnw6gm42r33i" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="6_l5xml"]
-[ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="8_go3he"]
-[ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="8_p30em"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="PackedScene" uid="uid://ckyf2grb8ts10" path="res://scenes/zone_walls.tscn" id="11_l52o4"]
+[ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="13_v8gpu"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="16_1061f"]
 
@@ -46,16 +44,6 @@ position = Vector2(640, 360)
 
 [node name="PlayerSpawnArea" parent="PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
 
-[node name="TorpedoSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_l5xml")
-volume_db = -20.613
-
-[node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_p30em")
-
-[node name="PlayerDieSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_go3he")
-
 [node name="Player" parent="." instance=ExtResource("1_lp7mr")]
 z_index = 1
 position = Vector2(640, 361)
@@ -74,5 +62,12 @@ position = Vector2(-2988, -1699)
 
 [node name="BirdOfPrey2" parent="ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
 position = Vector2(1101, -804)
+
+[node name="MainMenuBackground" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_j3k8r")
+volume_db = -10.0
+
+[node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_j3k8r")
 
 [connection signal="area_entered" from="Asteroids/Asteroid" to="Asteroids/Asteroid" method="_on_asteroid_area_entered"]

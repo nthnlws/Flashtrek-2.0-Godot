@@ -35,7 +35,6 @@ func _process(delta):
 		get_tree().reload_current_scene()
 
 func _on_player_torpedo_shot(torpedo):
-	$TorpedoSound.play()
 	torpedos.add_child(torpedo)
 
 func _on_asteroid_exploded(pos, size, points):
@@ -58,12 +57,12 @@ func spawn_asteroid(pos, size):
 	asteroids.call_deferred("add_child", a)
 
 func _on_player_died():
-	$PlayerDieSound.play()
 	lives -= 1
 	player.global_position = player_spawn_pos.global_position
 	if lives <= 0:
 		await get_tree().create_timer(1.0).timeout
 		game_over_screen.visible = true
+		$MainMenuBackground.play()
 	else:
 		if player.warping_active == true:
 			player.warping_state_change()
