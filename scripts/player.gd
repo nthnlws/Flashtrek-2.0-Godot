@@ -5,17 +5,18 @@ signal died
 signal warping
 signal impulse
 
-@export var acceleration:int= 5
+var acceleration:int= 5
 @export var max_speed:int= 400.0
-@export var rotation_speed:int= 150
-@export var trans_length:float= 0.8
+var rotation_speed:int= 150
+var trans_length:float= 0.8
 
-@export var warp_multiplier:float = 0.4
+var warp_multiplier:float = 0.4
 var warpm:float = 1.0
 
 #Health variables
 var hp_max:int = 100
 var hp_current:int = hp_max
+@export var shield_on:bool = true
 
 #Energy system variables
 var energy_max:int = 100
@@ -38,9 +39,10 @@ var rate_of_fire:float = 0.2
 var alive := true
 
 func _ready():
-	var shieldScene = preload("res://scenes/playerShield.tscn")
-	var newShield = shieldScene.instantiate()
-	add_child(newShield)
+	if shield_on == true:
+		var shieldScene = preload("res://scenes/playerShield.tscn")
+		var newShield = shieldScene.instantiate()
+		add_child(newShield)
 
 func _process(delta):
 	if !alive: return

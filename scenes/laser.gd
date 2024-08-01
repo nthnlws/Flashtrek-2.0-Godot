@@ -28,6 +28,7 @@ func _ready():
 func _physics_process(delta):
 	force_raycast_update()
 	if is_colliding():
+		
 		var collider: = get_collider()
 		collision_area = collider
 		if collider.is_in_group("player"):
@@ -45,19 +46,19 @@ func _physics_process(delta):
 					add_exception(target_shield)
 			elif collider.name == "Hitbox":
 				enemy_collision = true
-				if target_shield.get_parent().shieldActive == true:
-					clear_exceptions()
-					return
-				else:
-					cast_point = to_local(collider.global_position)
-					cast_point_exact = to_local(get_collision_point())
-					collider.get_parent().hp_current -= damage_rate*delta
-					collision_particles.process_material.color = Color(1.0, 1.0, 0.0, 1.0)
+				cast_point = to_local(collider.global_position)
+				cast_point_exact = to_local(get_collision_point())
+				collider.get_parent().hp_current -= damage_rate*delta
+				collision_particles.process_material.color = Color(1.0, 1.0, 0.0, 1.0)
+				clear_exceptions()
 	else:
 		enemy_collision = false
 		cast_point = Vector2(0, -view_distance)
 	$Line2D.points[1] = cast_point
 	
+	#Particles for laser beam path
+	$laser_particles.position = cast_point * 0.5
+	$laser_particles.process_material.emission_box_extents.y = cast_point.length() * 0.5
 	
 func _process(delta):
 	#Turns on laser if player is right clicking and not warping
@@ -99,6 +100,7 @@ func _process(delta):
 	
 func laserOn(): 
 	$Line2D.visible = true
+	$laser_particles.emitting = true
 	var tween = create_tween()
 	tween.tween_property($Line2D, "width", 5, 0.1)
 	laserStatus = true
@@ -110,6 +112,7 @@ func laserOff():
 	tween.tween_property($Line2D, "width", 0, 0.1)
 	await tween.finished
 	$Line2D.visible = false
+	$laser_particles.emitting = false
 	laserStatus = false
 	collision_particles.emitting = false
 	$laserSound.stop()

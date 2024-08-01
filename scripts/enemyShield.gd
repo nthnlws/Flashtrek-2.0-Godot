@@ -52,4 +52,3 @@ func _on_shield_area_entered(area): #Torpedo damage
 		damageTimeout()
 	elif area.is_in_group("enemy"):
 		pass
-		#get_parent().die()

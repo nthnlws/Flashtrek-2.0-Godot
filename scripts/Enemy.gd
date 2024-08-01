@@ -3,27 +3,27 @@ class_name Enemy extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-@export var speed:int= 0
+@export var speed:int= 50
+@export var shield_on:bool = true
 @onready var starbase = get_node("/root/Game/Starbase")
 @onready var player = get_node("/root/Game/Player")
 
 #Enemy health variables
-@onready var hp_max:int = 60
-@onready var hp_current:float = hp_max
+@export var hp_max:int = 50
+var hp_current:float = hp_max
 
 var trans_length:float= 0.8
 
 var playerAgro:bool = false
-var startPosition
-var endPosition
 var endPoint:Vector2
 var randomMove:bool = false
 var enemyTarget:String
 
 func _ready():
-	var shieldScene = preload("res://scenes/enemyShield.tscn")
-	var newShield = shieldScene.instantiate()
-	add_child(newShield)
+	if shield_on == true:
+		var shieldScene = preload("res://scenes/enemyShield.tscn")
+		var newShield = shieldScene.instantiate()
+		add_child(newShield)
 	
 func _process(delta):
 	if hp_current <= 0:
