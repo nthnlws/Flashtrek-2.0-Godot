@@ -36,6 +36,7 @@ var laser_scene = preload("res://scenes/laser.tscn")
 var shoot_cd:bool = false
 var rate_of_fire:float = 0.2
 
+var player_moving:bool
 var alive := true
 
 func _ready():
@@ -47,6 +48,12 @@ func _ready():
 func _process(delta):
 	if !alive: return
 	
+	# Movement check for idle audio
+	if abs(velocity.x)+abs(velocity.y)>100:
+		idle_sound(true)
+	else:
+		idle_sound(false)
+		
 	#Laser energy drain system
 	#print(energy_current)
 	if $Laser.laserClickState == true:
@@ -70,8 +77,7 @@ func _process(delta):
 			await get_tree().create_timer(rate_of_fire).timeout
 			shoot_cd = false
 			
-	#if Input.is_action_pressed("shoot_laser"):
-		#shoot_laser()
+
 
 func _physics_process(delta):
 	if !alive: return
@@ -99,6 +105,8 @@ func warping_state_change(): #Reverses warping state
 		create_tween().tween_property(self, "warpm", 1.0, trans_length)
 		get_node("playerShield").fadein()
 		warping.emit()
+		warp_sound_off()
+		
 		
 	elif warping_active == false: #Transition to warp
 		warping_active = true
@@ -117,10 +125,7 @@ func shoot_torpedo():
 		emit_signal("torpedo_shot", t)
 		energy_current -= torpedo_drain
 		energyTimeout()
-	
-#func shoot_laser():
-	#var l = laser_scene.instantiate()
-	#l.global_position = self.global_position
+
 
 func die():
 	if alive == true:
@@ -157,3 +162,27 @@ func energyTimeout(): #Turns off shield regen for 1 second after damage taken
 	energyTime = true
 	await get_tree().create_timer(1).timeout
 	energyTime = false
+
+#Audio functions
+# Movement
+func warp_sound_on():
+	pass
+
+func warp_sound_off():
+	$warp_off.play()
+
+func idle_sound(active):
+	print($ship_idle.volume_db)
+	if warping_active == true:
+		$ship_idle.stop()
+	elif $ship_idle.playing == false:
+		$ship_idle.play()
+	elif $ship_idle.playing == true:
+		if active == false:
+				var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+				tween.tween_property($ship_idle, "volume_db", -25, 2.0)
+		elif active == true:
+				var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+				tween.tween_property($ship_idle, "volume_db", -12, 2.0)
+
+#Weapons
