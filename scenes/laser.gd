@@ -28,7 +28,6 @@ func _ready():
 func _physics_process(delta):
 	force_raycast_update()
 	if is_colliding():
-		
 		var collider: = get_collider()
 		collision_area = collider
 		if collider.is_in_group("player"):
@@ -53,7 +52,6 @@ func _physics_process(delta):
 				clear_exceptions()
 	else:
 		enemy_collision = false
-		cast_point = Vector2(0, -view_distance)
 	$Line2D.points[1] = cast_point
 	
 	#Particles for laser beam path

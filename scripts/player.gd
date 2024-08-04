@@ -71,11 +71,12 @@ func _process(delta):
 		warping_state_change()
 
 	if Input.is_action_pressed("shoot_torpedo"):
-		if !shoot_cd:
-			shoot_cd = true
-			shoot_torpedo()
-			await get_tree().create_timer(rate_of_fire).timeout
-			shoot_cd = false
+		if warping_active == false:
+			if !shoot_cd:
+				shoot_cd = true
+				shoot_torpedo()
+				await get_tree().create_timer(rate_of_fire).timeout
+				shoot_cd = false
 			
 
 
@@ -100,6 +101,7 @@ func _physics_process(delta):
 func warping_state_change(): #Reverses warping state
 	var warpm:float = 1.0
 	if warping_active == true: #Transition to impulse
+		
 		warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		create_tween().tween_property(self, "warpm", 1.0, trans_length)
@@ -126,7 +128,6 @@ func shoot_torpedo():
 		$TorpedoSound.play()
 		emit_signal("torpedo_shot", t)
 		energy_current -= torpedo_drain
-		energyTimeout()
 
 
 func die():

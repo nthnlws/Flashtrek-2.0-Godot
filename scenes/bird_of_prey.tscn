@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=6 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_vh84p"]
 [ext_resource type="Texture2D" uid="uid://cyo8q8eimqa8w" path="res://assets/textures/ships/birdofprey.png" id="2_8kfpk"]
+[ext_resource type="AudioStream" uid="uid://c7amwmpplssv7" path="res://assets/audio/smallexplosion3.mp3" id="3_bqw1s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
 radius = 750.0
@@ -43,6 +44,11 @@ collision_mask = 8
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
 build_mode = 1
 polygon = PackedVector2Array(6, -34, 6, -5, 9, 4, 23, 4, 36, -4, 36, -22, 41, -22, 41, 7, 21, 30, 10, 34, -8, 34, -17, 33, -27.304, 25.0003, -42, 9, -42, -21, -37, -21, -37, -6, -25, 3, -11, 4, -7, -2, -7, -34)
+
+[node name="TorpedoHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_bqw1s")
+volume_db = -20.0
+pitch_scale = 2.0
 
 [connection signal="area_entered" from="AgroBox" to="." method="_on_agro_box_area_entered"]
 [connection signal="area_exited" from="AgroBox" to="." method="_on_agro_box_area_exited"]

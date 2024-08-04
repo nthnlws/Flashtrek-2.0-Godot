@@ -8,9 +8,11 @@ extends Control
 @onready var hud = $"."
 @onready var player = $"../../Player"
 @onready var laser = $"../../Player/Laser"
+@onready var camera = $"../../Player/Camera2D"
 @onready var healthBar = $HealthBar
 @onready var shieldBar = $ShieldBar
 @onready var coords = $Coords
+@onready var energyBar = $EnergyBar
 
 var shieldActive:bool = false
 
@@ -31,8 +33,10 @@ func init_lives(amount):
 		lives.add_child(ul)
 
 func _process(delta):
-	$Variable.text = " " + str(round(laser.cast_point))
+	$Variable.text = "Zoom: " + str(camera.zoom)
 	
+	energyBar.value = player.energy_current
+	energyBar.max_value = player.energy_max
 	healthBar.value = player.hp_current
 	healthBar.max_value = player.hp_max
 	if is_instance_valid(get_node("../../Player/playerShield")):

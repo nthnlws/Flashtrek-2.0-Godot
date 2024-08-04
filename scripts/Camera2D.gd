@@ -1,8 +1,11 @@
 extends Camera2D
 
-var zoom_min = Vector2(0.3000001, 0.4000001)
-var zoom_max = Vector2(1.0000001, 1.0000001)
-var zoom_speed = Vector2(0.15000001, 0.15000001)
+@onready var player = $".."
+
+var zoom_min:Vector2
+var zoom_max:Vector2 = Vector2(1.0, 1.0)
+var zoom_speed = Vector2(0.10, 0.10)
+
 
 func _input(event):
 	if Input.is_action_pressed("zoom_out"):
@@ -12,3 +15,15 @@ func _input(event):
 	if Input.is_action_pressed("zoom_in"):
 		if zoom < zoom_max:
 			zoom += zoom_speed
+
+func _process(delta):
+	if player.warping_active == true:
+		zoom_min = Vector2(0.3,0.3)
+	elif player.warping_active == false:
+		zoom_min = Vector2(0.4,0.4)
+	
+	if zoom < zoom_min:
+		zoom = zoom_min
+
+	if zoom > zoom_max:
+		zoom = zoom_max

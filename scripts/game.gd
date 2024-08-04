@@ -30,9 +30,16 @@ func _ready():
 	for asteroid in asteroids.get_children():
 		asteroid.connect("exploded", _on_asteroid_exploded)
 
-func _process(delta):
+func _input(event):
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
+	
+	if Input.is_action_just_pressed("f11"):
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		
 
 func _on_player_torpedo_shot(torpedo):
 	torpedos.add_child(torpedo)

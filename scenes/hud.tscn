@@ -38,10 +38,10 @@ label_settings = SubResource("LabelSettings_qqd3h")
 
 [node name="Coords" type="Label" parent="."]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 180.0
-offset_right = 425.0
-offset_bottom = 240.0
+offset_left = 16.0
+offset_top = 209.0
+offset_right = 426.0
+offset_bottom = 269.0
 rotation = 0.00157602
 text = "Coords:"
 label_settings = SubResource("LabelSettings_amtcr")
@@ -71,5 +71,15 @@ offset_left = 16.0
 offset_top = 138.0
 offset_right = 431.0
 offset_bottom = 165.0
+step = 1.0
+show_percentage = false
+
+[node name="EnergyBar" type="ProgressBar" parent="."]
+modulate = Color(0.772549, 0.584314, 0.0235294, 1)
+layout_mode = 0
+offset_left = 16.0
+offset_top = 168.0
+offset_right = 431.0
+offset_bottom = 195.0
 step = 1.0
 show_percentage = false
