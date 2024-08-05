@@ -29,6 +29,7 @@ var torpedo_drain:int = 10
 var warping_active:bool = false
 var shield_active:bool = false
 var energyTime:bool = false
+var warpTime:bool = false
 var regen_speed:int = 10
 
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
@@ -109,7 +110,7 @@ func _physics_process(delta):
 func warping_state_change(): #Reverses warping state
 	var warpm:float = 1.0
 	if warping_active == true: #Transition to impulse
-		
+		warpTimeout()
 		warping_active = false
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		create_tween().tween_property(self, "warpm", 1.0, trans_length)
@@ -128,7 +129,8 @@ func warping_state_change(): #Reverses warping state
 
 	
 func shoot_torpedo():
-	if energy_current > torpedo_drain:
+	if energy_current > torpedo_drain && warpTime == false:
+		
 		var t = torpedo_scene.instantiate()
 		t.global_position = muzzle.global_position
 		t.rotation = rotation
@@ -177,6 +179,11 @@ func energyTimeout(): #Turns off shield regen for 1 second after damage taken
 	energyTime = true
 	await get_tree().create_timer(1).timeout
 	energyTime = false
+	
+func warpTimeout(): #Turns off torpedo shooting for 1 second after leaving warp
+	warpTime = true
+	await get_tree().create_timer(trans_length/2).timeout
+	warpTime = false
 
 #Audio functions
 # Movement

@@ -3,8 +3,11 @@ extends Node2D
 @onready var torpedos = $Torpedos
 @onready var player = $Player
 @onready var asteroids = $Asteroids
+
 @onready var hud = $UI/HUD
+@onready var ui = $UI
 @onready var game_over_screen = $UI/GameOverScreen
+
 @onready var player_spawn_pos = $PlayerSpawnPos
 @onready var player_spawn_area = $PlayerSpawnPos/PlayerSpawnArea
 
@@ -21,6 +24,7 @@ var lives: int:
 		hud.init_lives(lives)
 
 func _ready():
+	
 	game_over_screen.visible = false
 	score = 0
 	lives = 3

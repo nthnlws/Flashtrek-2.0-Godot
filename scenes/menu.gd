@@ -2,6 +2,7 @@ extends Control
 
 @onready var energy_button = $ColorRect/CheatsVBox/MarginContainer/HBoxContainer/EnergyButton
 
+
 #signal energyCheat(enabled: bool)
 
 
@@ -65,3 +66,4 @@ func _on_vsync_select_item_selected(index):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
 	elif index == 2: # Disabled
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
