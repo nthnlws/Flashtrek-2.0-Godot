@@ -1,7 +1,7 @@
 #class_name Shield
 extends Sprite2D
 
-var damageTime:bool = false
+var damageTime:bool = false # Timeout
 @onready var shieldActive:bool = true
 @export var regen_speed:float = 2.5
 
@@ -14,6 +14,7 @@ var damageTime:bool = false
 
 
 func _ready():
+	GameSettings.enemyShield = true
 	self.position.y = -2
 	self.scale = Vector2(3.611,2.833)
 	
@@ -22,6 +23,16 @@ func _process(delta):
 		sp_current += regen_speed * delta
 	if sp_current <= 0: shieldDie()
 	if sp_current > sp_max: sp_current = sp_max
+	
+	if GameSettings.enemyShield != null:
+		if GameSettings.enemyShield == false:
+			visible = false
+			shield_area.collision_layer = 0
+			shield_area.collision_mask = 0
+		elif GameSettings.enemyShield == true && shieldActive == true:
+			visible = true
+			shield_area.collision_layer = 3
+			shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
 	
 func shieldDie(): #Instantly turns off shield when health goes to 0
 	shield_area.set_monitoring.call_deferred(false)

@@ -14,7 +14,8 @@ var fizzlePlayed:bool
 
 var collision_area # Global variable for HUD and debug
 
-@export var damage_rate:int = 20
+@export var default_damage:int = 20
+var damage_rate:int = default_damage
 @export var view_distance:int = 1200
 
 func _ready():
@@ -59,6 +60,12 @@ func _physics_process(delta):
 	$laser_particles.process_material.emission_box_extents.y = cast_point.length() * 0.5
 	
 func _process(delta):
+	# Damage setting from Cheat Menu
+	if GameSettings.laserOverride == true:
+		damage_rate = GameSettings.laserDamage
+	else:
+		damage_rate = default_damage
+	
 	#Turns on laser if player is right clicking and not warping
 	if Input.is_action_just_pressed("shoot_laser"):
 		if get_parent().warping_active == false:

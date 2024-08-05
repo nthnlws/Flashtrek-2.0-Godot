@@ -6,7 +6,8 @@ signal warping
 signal impulse
 
 var acceleration:int= 5
-@export var max_speed:int= 400.0
+@export var default_max_speed:int = 400
+var max_speed:int = default_max_speed
 var rotation_speed:int= 150
 var trans_length:float= 0.8
 
@@ -41,6 +42,7 @@ var alive := true
 
 func _ready():
 	if shield_on == true:
+		GameSettings.playerShield = true
 		var shieldScene = preload("res://scenes/playerShield.tscn")
 		var newShield = shieldScene.instantiate()
 		add_child(newShield)
@@ -48,6 +50,11 @@ func _ready():
 func _process(delta):
 	if !alive: return
 	
+	if GameSettings.speedOverride == true:
+		max_speed = GameSettings.maxSpeed
+	else:
+		max_speed = default_max_speed
+
 	# Movement check for idle audio
 	if abs(velocity.x)+abs(velocity.y)>100:
 		idle_sound(true)
@@ -57,7 +64,8 @@ func _process(delta):
 	#Laser energy drain system
 	#print(energy_current)
 	if $Laser.laserClickState == true:
-		energy_current -= laser_drain_rate * delta
+		if GameSettings.unlimitedEnergy == false:
+			energy_current -= laser_drain_rate * delta
 		energyTimeout()
 	if energy_current < 0:
 		energy_current = 0
@@ -127,7 +135,8 @@ func shoot_torpedo():
 		t.shooter = "player"
 		$TorpedoSound.play()
 		emit_signal("torpedo_shot", t)
-		energy_current -= torpedo_drain
+		if GameSettings.unlimitedEnergy == false:
+			energy_current -= torpedo_drain
 
 
 func die():
@@ -156,8 +165,9 @@ func respawn(pos):
 func _on_player_area_entered(area):
 	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
-		var damage_taken = area.damage
-		hp_current -= damage_taken
+		if GameSettings.unlimitedHealth == false:
+			var damage_taken = area.damage
+			hp_current -= damage_taken
 		if hp_current <= 0:
 			die()
 	elif area.is_in_group("enemy"):

@@ -3,7 +3,8 @@ class_name Enemy extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-@export var speed:int= 50
+@export var default_speed:int = 50
+var speed:int = default_speed
 @export var shield_on:bool = true
 @onready var starbase = get_node("/root/Game/Starbase")
 @onready var player = get_node("/root/Game/Player")
@@ -31,6 +32,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	if self.visible == false: return
+	if GameSettings.enemyMovement == false: return
+	
 	
 	# Movement state setter
 	if playerAgro == true:
