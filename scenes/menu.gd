@@ -13,6 +13,7 @@ func _input(event):
 	if Input.is_action_just_pressed("escape"):
 		if visible == false:
 			visible = true
+			
 		elif visible == true:
 			visible = false
 

@@ -74,8 +74,8 @@ func _process(delta):
 	if energy_current > energy_max: energy_current = energy_max
 	if $Laser.laserClickState == false and energy_current < energy_max and energyTime == false:
 		energy_current += regen_speed * delta
-		
-	
+
+func _unhandled_input(event):
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
@@ -86,9 +86,8 @@ func _process(delta):
 				shoot_torpedo()
 				await get_tree().create_timer(rate_of_fire).timeout
 				shoot_cd = false
-			
-
-
+				
+				
 func _physics_process(delta):
 	if !alive: return
 	
