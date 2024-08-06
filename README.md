@@ -1,5 +1,5 @@
 
-# FlashTrek recreation
+# FlashTrek inspired recreation in Godot
 
 An attempt at creating a mostly faithful recreation of the original FlashTrek game by Vex Xiang
 
