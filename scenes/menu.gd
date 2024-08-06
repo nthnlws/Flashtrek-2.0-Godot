@@ -1,15 +1,13 @@
 extends Control
 
 @onready var energy_button = $ColorRect/CheatsVBox/MarginContainer/HBoxContainer/EnergyButton
+@onready var volume_slider = $ColorRect/WorldVBox/VolumeContainer/HBoxContainer/volumeSlider
 
-
-#signal energyCheat(enabled: bool)
-
-
+@onready var _bus := AudioServer.get_bus_index("Master")
 
 func _ready():
 	self.visible = false
-	
+	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
 	
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
@@ -32,8 +30,13 @@ func _on_shield_button_toggled(toggled_on):
 func _on_player_shield_button_toggled(toggled_on):
 	GameSettings.playerShield = toggled_on
 
+func _on_laser_slider_value_changed(value):
+	GameSettings.laserRange = value
+func _on_laser_damage_enabled_toggled(toggled_on):
+	GameSettings.laserRangeOverride = toggled_on
+
 func _on_damage_enabled_toggled(toggled_on):
-	GameSettings.laserOverride = toggled_on
+	GameSettings.laserDamageOverride = toggled_on
 func _on_damage_slider_value_changed(value):
 	GameSettings.laserDamage = value
 	
@@ -66,4 +69,8 @@ func _on_vsync_select_item_selected(index):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
 	elif index == 2: # Disabled
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+func _on_volume_slider_value_changed(value):
+	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
+
 

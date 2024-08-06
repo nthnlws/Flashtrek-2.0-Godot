@@ -19,6 +19,7 @@ var damage_rate:int = default_damage
 @export var view_distance:int = 1200
 
 func _ready():
+	GameSettings.laserRange = view_distance
 	$Line2D.visible = false
 	$Line2D.width = 0
 	$Line2D.points[1] = Vector2.ZERO
@@ -28,6 +29,14 @@ func _ready():
 	
 func _physics_process(delta):
 	force_raycast_update()
+	
+	# Laser range override from options menu
+	if GameSettings.laserRangeOverride == true:
+		target_position = Vector2(0, -GameSettings.laserRange)
+	elif GameSettings.laserRangeOverride == false:
+		target_position = Vector2(0, -view_distance)
+
+	# Collision logic
 	if is_colliding():
 		var collider: = get_collider()
 		collision_area = collider
@@ -61,7 +70,7 @@ func _physics_process(delta):
 	
 func _process(delta):
 	# Damage setting from Cheat Menu
-	if GameSettings.laserOverride == true:
+	if GameSettings.laserDamageOverride == true:
 		damage_rate = GameSettings.laserDamage
 	else:
 		damage_rate = default_damage

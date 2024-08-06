@@ -12,9 +12,11 @@ var unlimitedShield: bool = false
 
 #Player
 var playerShield: bool
-var laserOverride: bool
+var laserRangeOverride: bool = false
+var laserRange: int
+var laserDamageOverride: bool = false
 var laserDamage: int
-var speedOverride: bool
+var speedOverride: bool  = false
 var maxSpeed: int
 
 #Enemy
