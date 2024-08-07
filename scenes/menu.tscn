@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/menu.gd" id="1_trih8"]
 [ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
 
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" type="Control" groups=["menu"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

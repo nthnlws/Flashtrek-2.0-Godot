@@ -1,6 +1,5 @@
 extends Control
 
-@onready var energy_button = $ColorRect/CheatsVBox/MarginContainer/HBoxContainer/EnergyButton
 @onready var volume_slider = $ColorRect/WorldVBox/VolumeContainer/HBoxContainer/volumeSlider
 
 @onready var _bus := AudioServer.get_bus_index("Master")
@@ -11,11 +10,14 @@ func _ready():
 	
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
-		if visible == false:
-			visible = true
-			
-		elif visible == true:
-			visible = false
+		toggle_menu()
+		
+
+func toggle_menu():
+	if visible == false:
+		visible = true
+	elif visible == true:
+		visible = false
 
 # Cheats Column
 func _on_energy_button_toggled(toggled_on):

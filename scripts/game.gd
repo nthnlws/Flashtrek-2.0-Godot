@@ -1,15 +1,15 @@
 extends Node2D
 
-@onready var torpedos = $Torpedos
-@onready var player = $Player
-@onready var asteroids = $Asteroids
+@onready var torpedos = $Level/Torpedos
+@onready var player = $Level/Player
+@onready var asteroids = $Level/Asteroids
 
-@onready var hud = $UI/HUD
-@onready var ui = $UI
-@onready var game_over_screen = $UI/GameOverScreen
+@onready var hud = $Overlay/HUD
+@onready var menus = $Menus
+@onready var game_over_screen = $Menus/GameOverScreen
 
-@onready var player_spawn_pos = $PlayerSpawnPos
-@onready var player_spawn_area = $PlayerSpawnPos/PlayerSpawnArea
+@onready var player_spawn_pos = $Level/PlayerSpawnPos
+@onready var player_spawn_area = $Level/PlayerSpawnPos/PlayerSpawnArea
 
 var asteroid_scene = preload("res://scenes/asteroid.tscn")
 

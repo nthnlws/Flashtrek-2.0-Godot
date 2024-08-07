@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cyg1avbtmwoj7"]
+[gd_scene load_steps=8 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
 [ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
+[ext_resource type="Texture2D" uid="uid://vn2pe1gnlkqx" path="res://assets/textures/Engineering_Insignia.png" id="3_sku65"]
+[ext_resource type="Script" path="res://scenes/SettingsButton.gd" id="4_145kx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_158n7")
@@ -11,11 +13,15 @@ font_size = 48
 font = ExtResource("2_158n7")
 font_size = 20
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdsre"]
+size = Vector2(41, 50)
+
 [node name="HUD" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 script = ExtResource("1_3evr2")
 
 [node name="Score" type="Label" parent="."]
@@ -33,7 +39,7 @@ offset_left = 486.0
 offset_top = 11.0
 offset_right = 895.0
 offset_bottom = 70.0
-text = "SCORE: XYZ"
+text = "Zoom: (0.x, 0.x)"
 label_settings = SubResource("LabelSettings_qqd3h")
 
 [node name="Coords" type="Label" parent="."]
@@ -83,3 +89,26 @@ offset_right = 431.0
 offset_bottom = 195.0
 step = 1.0
 show_percentage = false
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(1229, 7)
+
+[node name="SettingsButton" type="TextureRect" parent="Node2D"]
+offset_right = 41.1824
+offset_bottom = 50.0
+mouse_filter = 0
+texture = ExtResource("3_sku65")
+expand_mode = 3
+script = ExtResource("4_145kx")
+
+[node name="Area2D" type="Area2D" parent="Node2D/SettingsButton"]
+position = Vector2(41.182, 50)
+collision_layer = 32
+collision_mask = 32
+priority = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/SettingsButton/Area2D"]
+position = Vector2(-20.682, -25)
+shape = SubResource("RectangleShape2D_fdsre")
+
+[connection signal="input_event" from="Node2D/SettingsButton/Area2D" to="Node2D/SettingsButton" method="_on_area_2d_input_event"]

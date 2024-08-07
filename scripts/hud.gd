@@ -6,9 +6,10 @@ extends Control
 @onready var sp_max
 
 @onready var hud = $"."
-@onready var player = $"../../Player"
-@onready var laser = $"../../Player/Laser"
-@onready var camera = $"../../Player/Camera2D"
+
+@onready var player = $"../../Level/Player"
+@onready var laser = $"../../Level/Player/Laser"
+@onready var camera = $"../../Level/Player/Camera2D"
 @onready var healthBar = $HealthBar
 @onready var shieldBar = $ShieldBar
 @onready var coords = $Coords
@@ -39,10 +40,11 @@ func _process(delta):
 	energyBar.max_value = player.energy_max
 	healthBar.value = player.hp_current
 	healthBar.max_value = player.hp_max
-	if is_instance_valid(get_node("../../Player/playerShield")):
-		var shield = get_node("../../Player/playerShield")
-		shieldBar.value = shield.sp_current
-		shieldBar.max_value = shield.sp_max
+	
+
+	var shield = get_node("../../Level/Player/playerShield")
+	shieldBar.value = shield.sp_current
+	shieldBar.max_value = shield.sp_max
 		
 	coords.text = str(round(player.global_position))
 		
@@ -52,6 +54,7 @@ func _input(event):
 		self.visible = !self.visible
 		
 		
+		
 func _on_shield_ready():
-	var shield = get_node("../../Player/Shield")
+	var shield = get_node("../../Level/Player/Shield")
 	shieldActive = true

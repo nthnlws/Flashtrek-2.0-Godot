@@ -6,8 +6,8 @@ signal player_collision(Area: Area2D)
 @export var default_speed:int = 50
 var speed:int = default_speed
 @export var shield_on:bool = true
-@onready var starbase = get_node("/root/Game/Starbase")
-@onready var player = get_node("/root/Game/Player")
+@onready var starbase = get_node("/root/Game/Level/Starbase")
+@onready var player = get_node("/root/Game/Level/Player")
 
 #Enemy health variables
 @export var hp_max:int = 50

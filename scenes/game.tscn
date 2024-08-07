@@ -19,61 +19,65 @@
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
 
-[node name="StarBackground" parent="." instance=ExtResource("10_mj5ek")]
+[node name="Level" type="Node" parent="."]
 
-[node name="Torpedos" type="Node" parent="."]
+[node name="Player" parent="Level" instance=ExtResource("1_lp7mr")]
+z_index = 1
+position = Vector2(640, 361)
 
-[node name="Asteroids" type="Node" parent="."]
+[node name="Torpedos" type="Node" parent="Level"]
 
-[node name="Asteroid" type="Area2D" parent="Asteroids" groups=["enemy"]]
+[node name="Asteroids" type="Node" parent="Level"]
+
+[node name="Asteroid" type="Area2D" parent="Level/Asteroids" groups=["enemy"]]
 position = Vector2(600, 100)
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("6_d6r2l")
 
-[node name="Sprite2D" type="Sprite2D" parent="Asteroids/Asteroid"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Asteroids/Asteroid"]
 texture = ExtResource("6_1lm3j")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Level/Asteroids/Asteroid"]
 polygon = PackedVector2Array(17, -48, 50, -12, 31, 43, -19, 48, -50, 10, -35, -34)
 
-[node name="PlayerSpawnPos" type="Node2D" parent="."]
+[node name="PlayerSpawnPos" type="Node2D" parent="Level"]
 position = Vector2(640, 360)
 
-[node name="PlayerSpawnArea" parent="PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
+[node name="PlayerSpawnArea" parent="Level/PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
 
-[node name="Player" parent="." instance=ExtResource("1_lp7mr")]
-z_index = 1
-position = Vector2(640, 361)
+[node name="ZoneWall" parent="Level" instance=ExtResource("11_l52o4")]
 
-[node name="Starbase" parent="." instance=ExtResource("13_v8gpu")]
-z_index = -1
+[node name="Hostiles" type="Node2D" parent="Level/ZoneWall"]
 
-[node name="ZoneWall" parent="." instance=ExtResource("11_l52o4")]
-
-[node name="Hostiles" type="Node2D" parent="ZoneWall"]
-
-[node name="BirdOfPrey" parent="ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
+[node name="BirdOfPrey" parent="Level/ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
 position = Vector2(-2988, -1699)
 
-[node name="BirdOfPrey2" parent="ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
+[node name="BirdOfPrey2" parent="Level/ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
 position = Vector2(1101, -804)
 
-[node name="MainMenuBackground" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("12_j3k8r")
-volume_db = -10.0
+[node name="Starbase" parent="Level" instance=ExtResource("13_v8gpu")]
+z_index = -1
+
+[node name="StarBackground" parent="." instance=ExtResource("10_mj5ek")]
 
 [node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_63k06")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="Menus" type="CanvasLayer" parent="."]
 script = ExtResource("12_ufgrf")
 
-[node name="HUD" parent="UI" instance=ExtResource("2_g7hwg")]
-
-[node name="GameOverScreen" parent="UI" instance=ExtResource("3_km7re")]
+[node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
 visible = false
 
-[node name="Menu" parent="UI" instance=ExtResource("4_kawko")]
+[node name="Menu" parent="Menus" instance=ExtResource("4_kawko")]
 
-[connection signal="area_entered" from="Asteroids/Asteroid" to="Asteroids/Asteroid" method="_on_asteroid_area_entered"]
+[node name="MainMenuBackground" type="AudioStreamPlayer" parent="Menus"]
+stream = ExtResource("12_j3k8r")
+volume_db = -10.0
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
+
+[connection signal="area_entered" from="Level/Asteroids/Asteroid" to="Level/Asteroids/Asteroid" method="_on_asteroid_area_entered"]
