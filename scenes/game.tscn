@@ -2,16 +2,16 @@
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="1_lp7mr"]
+[ext_resource type="Script" path="res://scenes/room_walls.gd" id="2_agwtv"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menu.tscn" id="4_kawko"]
-[ext_resource type="Texture2D" uid="uid://coj32tn3spyqf" path="res://assets/textures/ships/meteorGrey_big4.png" id="6_1lm3j"]
+[ext_resource type="Texture2D" uid="uid://djch431sg651d" path="res://assets/textures/ships/meteorGrey_big4.png" id="6_1lm3j"]
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="6_d6r2l"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_kp4kv"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
-[ext_resource type="PackedScene" uid="uid://ckyf2grb8ts10" path="res://scenes/zone_walls.tscn" id="11_l52o4"]
-[ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="12_63k06"]
-[ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
+[ext_resource type="AudioStream" uid="uid://dl8op7yxmwjbw" path="res://assets/audio/hit.wav" id="12_63k06"]
+[ext_resource type="AudioStream" uid="uid://dsnxk7iqrhb76" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
 [ext_resource type="Script" path="res://scenes/UI.gd" id="12_ufgrf"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="13_v8gpu"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="16_1061f"]
@@ -20,6 +20,9 @@
 script = ExtResource("1_ci0lx")
 
 [node name="Level" type="Node" parent="."]
+
+[node name="RoomBorders" type="Node2D" parent="Level"]
+script = ExtResource("2_agwtv")
 
 [node name="Player" parent="Level" instance=ExtResource("1_lp7mr")]
 z_index = 1
@@ -45,15 +48,14 @@ polygon = PackedVector2Array(17, -48, 50, -12, 31, 43, -19, 48, -50, 10, -35, -3
 position = Vector2(640, 360)
 
 [node name="PlayerSpawnArea" parent="Level/PlayerSpawnPos" instance=ExtResource("6_kp4kv")]
+collision_mask = 6
 
-[node name="ZoneWall" parent="Level" instance=ExtResource("11_l52o4")]
+[node name="Hostiles" type="Node2D" parent="Level"]
 
-[node name="Hostiles" type="Node2D" parent="Level/ZoneWall"]
-
-[node name="BirdOfPrey" parent="Level/ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
+[node name="BirdOfPrey" parent="Level/Hostiles" instance=ExtResource("16_1061f")]
 position = Vector2(-2988, -1699)
 
-[node name="BirdOfPrey2" parent="Level/ZoneWall/Hostiles" instance=ExtResource("16_1061f")]
+[node name="BirdOfPrey2" parent="Level/Hostiles" instance=ExtResource("16_1061f")]
 position = Vector2(1101, -804)
 
 [node name="Starbase" parent="Level" instance=ExtResource("13_v8gpu")]
@@ -64,20 +66,22 @@ z_index = -1
 [node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_63k06")
 
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
+z_index = 1
+
 [node name="Menus" type="CanvasLayer" parent="."]
 script = ExtResource("12_ufgrf")
 
 [node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
 visible = false
 
-[node name="Menu" parent="Menus" instance=ExtResource("4_kawko")]
+[node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
+visible = false
 
 [node name="MainMenuBackground" type="AudioStreamPlayer" parent="Menus"]
 stream = ExtResource("12_j3k8r")
 volume_db = -10.0
-
-[node name="Overlay" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
 
 [connection signal="area_entered" from="Level/Asteroids/Asteroid" to="Level/Asteroids/Asteroid" method="_on_asteroid_area_entered"]

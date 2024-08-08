@@ -9,6 +9,7 @@ var vSync: bool = true
 var unlimitedEnergy: bool = false
 var unlimitedHealth: bool = false
 var unlimitedShield: bool = false
+var teleportCoords: Vector2
 
 #Player
 var playerShield: bool

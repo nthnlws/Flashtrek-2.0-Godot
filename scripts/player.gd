@@ -132,7 +132,7 @@ func shoot_torpedo():
 		
 		var t = torpedo_scene.instantiate()
 		t.global_position = muzzle.global_position
-		t.rotation = rotation
+		t.rotation = self.rotation
 		t.shooter = "player"
 		$TorpedoSound.play()
 		emit_signal("torpedo_shot", t)
@@ -183,6 +183,12 @@ func warpTimeout(): #Turns off torpedo shooting for 1 second after leaving warp
 	warpTime = true
 	await get_tree().create_timer(trans_length/2).timeout
 	warpTime = false
+	
+func teleport(): #Uses coords from cheat menu to teleport player
+	global_position = GameSettings.teleportCoords
+	print(GameSettings.teleportCoords)
+	velocity = Vector2(0, 0)
+	
 
 #Audio functions
 # Movement

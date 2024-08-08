@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://3st5s0ue3nj4"]
 
 [ext_resource type="Script" path="res://scenes/menu.gd" id="1_trih8"]
-[ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
+[ext_resource type="FontFile" uid="uid://b1nmehj3xrtfm" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
 
 [node name="PauseMenu" type="Control" groups=["menu"]]
 layout_mode = 3
@@ -135,6 +135,44 @@ text = "Unlimited Shield"
 
 [node name="ShieldButton" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
 layout_mode = 2
+
+[node name="TeleportContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CheatsVBox/TeleportContainer"]
+layout_mode = 2
+
+[node name="teleportCheat" type="Label" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Teleport Coords:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+
+[node name="xCoordInput" type="LineEdit" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "X:"
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+
+[node name="yCoordInput" type="LineEdit" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Y:"
+
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 15
 
 [node name="PlayerVBox" type="VBoxContainer" parent="ColorRect"]
 layout_mode = 1
@@ -610,6 +648,10 @@ ticks_on_borders = true
 [connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/EnergyButton" to="." method="_on_energy_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/HealthButton" to="." method="_on_health_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/ShieldButton" to="." method="_on_shield_button_toggled"]
+[connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_changed"]
+[connection signal="text_submitted" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_submitted"]
+[connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/yCoordInput" to="." method="_on_y_coord_input_text_changed"]
+[connection signal="text_submitted" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/yCoordInput" to="." method="_on_y_coord_input_text_submitted"]
 [connection signal="toggled" from="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer/player_shield_button" to="." method="_on_player_shield_button_toggled"]
 [connection signal="toggled" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer/laserDamageEnabled" to="." method="_on_laser_damage_enabled_toggled"]
 [connection signal="value_changed" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserSlider" to="." method="_on_laser_slider_value_changed"]

@@ -49,9 +49,9 @@ func _process(delta):
 	coords.text = str(round(player.global_position))
 		
 		
-func _input(event):
-	if event.is_action_pressed("toggleHUD"):
-		self.visible = !self.visible
+#func _unhandled_input(event):
+	#if event.is_action_pressed("toggleHUD"):
+		#self.visible = !self.visible
 		
 		
 		

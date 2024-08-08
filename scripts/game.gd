@@ -5,7 +5,7 @@ extends Node2D
 @onready var asteroids = $Level/Asteroids
 
 @onready var hud = $Overlay/HUD
-@onready var menus = $Menus
+@onready var pauseMenu = $Menus/PauseMenu
 @onready var game_over_screen = $Menus/GameOverScreen
 
 @onready var player_spawn_pos = $Level/PlayerSpawnPos
@@ -25,11 +25,13 @@ var lives: int:
 
 func _ready():
 	
+	
 	game_over_screen.visible = false
 	score = 0
 	lives = 3
 	player.connect("torpedo_shot", _on_player_torpedo_shot)
 	player.connect("died", _on_player_died)
+	pauseMenu.connect("teleport", Callable(player, "teleport"))
 	
 	for asteroid in asteroids.get_children():
 		asteroid.connect("exploded", _on_asteroid_exploded)

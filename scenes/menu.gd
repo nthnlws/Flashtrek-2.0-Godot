@@ -1,8 +1,12 @@
 extends Control
 
 @onready var volume_slider = $ColorRect/WorldVBox/VolumeContainer/HBoxContainer/volumeSlider
-
 @onready var _bus := AudioServer.get_bus_index("Master")
+
+signal teleport
+
+var xCoord
+var yCoord
 
 func _ready():
 	self.visible = false
@@ -28,6 +32,20 @@ func _on_health_button_toggled(toggled_on):
 	
 func _on_shield_button_toggled(toggled_on):
 	GameSettings.unlimitedShield = toggled_on
+	
+func _on_x_coord_input_text_changed(new_text):
+	xCoord = new_text.strip_edges().to_float()
+func _on_y_coord_input_text_changed(new_text):
+	yCoord = new_text.strip_edges().to_float()
+func _on_x_coord_input_text_submitted(new_text):
+	xCoord = new_text.strip_edges().to_float()
+	updateVector()
+	toggle_menu()
+func _on_y_coord_input_text_submitted(new_text):
+	yCoord = new_text.strip_edges().to_float()
+	updateVector()
+	toggle_menu()
+
 
 # Player Column
 func _on_player_shield_button_toggled(toggled_on):
@@ -76,4 +94,7 @@ func _on_vsync_select_item_selected(index):
 func _on_volume_slider_value_changed(value):
 	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
 
-
+# Called functions
+func updateVector():
+	GameSettings.teleportCoords = Vector2(xCoord, yCoord)
+	teleport.emit()
