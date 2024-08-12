@@ -1,5 +1,7 @@
 extends Sprite2D
 
+signal playerShieldChanged
+
 var damageTime:bool = false
 @onready var shieldActive:bool = true
 @export var regen_speed:float = 2.5
@@ -74,6 +76,7 @@ func _on_shield_area_entered(area): #Torpedo damage
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			sp_current -= damage_taken
+			playerShieldChanged.emit(sp_current)
 		damageTimeout()
 	elif area.is_in_group("enemy"):
 		pass

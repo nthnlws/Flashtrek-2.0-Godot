@@ -1,8 +1,9 @@
-extends Node2D
+
+extends Node
 
 #Options
 var gameVolume: float = 100.0
-var gameSize: Vector2
+var gameSize: int
 var vSync: bool = true
 
 #Cheats

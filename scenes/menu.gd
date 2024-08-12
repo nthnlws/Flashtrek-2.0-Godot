@@ -9,6 +9,8 @@ var xCoord
 var yCoord
 
 func _ready():
+	Global.pauseMenu = self
+	
 	self.visible = false
 	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
 	

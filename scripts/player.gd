@@ -5,6 +5,9 @@ signal died
 signal warping
 signal impulse
 
+signal playerHealthChanged
+signal playerEnergyChanged
+
 var acceleration:int= 5
 @export var default_max_speed:int = 400
 var max_speed:int = default_max_speed
@@ -42,6 +45,7 @@ var player_moving:bool
 var alive := true
 
 func _ready():
+	Global.player = self
 	if shield_on == true:
 		GameSettings.playerShield = true
 		var shieldScene = preload("res://scenes/playerShield.tscn")
@@ -63,17 +67,22 @@ func _process(delta):
 		idle_sound(false)
 		
 	#Laser energy drain system
-	#print(energy_current)
 	if $Laser.laserClickState == true:
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= laser_drain_rate * delta
+			playerEnergyChanged.emit(energy_current)
 		energyTimeout()
 	if energy_current < 0:
 		energy_current = 0
+		playerEnergyChanged.emit(energy_current)
 		energyTimeout()
-	if energy_current > energy_max: energy_current = energy_max
+	if energy_current > energy_max:
+		energy_current = energy_max
+		playerEnergyChanged.emit(energy_current)
+	
 	if $Laser.laserClickState == false and energy_current < energy_max and energyTime == false:
 		energy_current += regen_speed * delta
+		playerEnergyChanged.emit(energy_current)
 
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("warp"):
@@ -138,6 +147,7 @@ func shoot_torpedo():
 		emit_signal("torpedo_shot", t)
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= torpedo_drain
+			playerEnergyChanged.emit(energy_current)
 
 
 func die():
@@ -162,13 +172,14 @@ func respawn(pos):
 		get_node("playerShield").shieldAlive()
 		get_node("playerShield").sp_current = get_node("playerShield").sp_max
 
-
+# Take torpedo damage
 func _on_player_area_entered(area):
 	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			hp_current -= damage_taken
+			playerHealthChanged.emit(hp_current)
 		if hp_current <= 0:
 			die()
 	elif area.is_in_group("enemy"):

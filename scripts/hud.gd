@@ -1,19 +1,22 @@
 extends Control
 
+var screen_size:Vector2
+var base_size = Vector2(1280, 720)
+
 @onready var hp_current
 @onready var hp_max
 @onready var sp_current
 @onready var sp_max
 
-@onready var hud = $"."
-
-@onready var player = $"../../Level/Player"
-@onready var laser = $"../../Level/Player/Laser"
-@onready var camera = $"../../Level/Player/Camera2D"
+@onready var player = Global.player
+@onready var playerShield = Global.player.get_node("playerShield")
+@onready var laser = Global.player.get_node("Laser")
+@onready var camera = Global.player.get_node("Camera2D")
 @onready var healthBar = $HealthBar
 @onready var shieldBar = $ShieldBar
 @onready var coords = $Coords
 @onready var energyBar = $EnergyBar
+@onready var lives = $Lives
 
 var shieldActive:bool = false
 
@@ -23,38 +26,60 @@ var shieldActive:bool = false
 
 var uilife_scene = preload("res://scenes/ui_life.tscn")
 
-@onready var lives = $Lives
 
 
+func _ready():
+	Global.HUD = self
+	# Sets value bars
+	set_bar_maxes() # Initializes bar values
+	
+	# Scales HUD with screen resizing
+	screen_size = get_viewport().get_visible_rect().size
+	get_tree().get_root().connect("size_changed", Callable(self, "_on_window_size_changed"))
+	adjust_canvas_layer_scale()
+	
+
+func _process(delta):
+	$Variable.text = "Zoom: " + str(camera.zoom)
+	coords.text = str(round(player.global_position))
+
+func adjust_canvas_layer_scale():
+	screen_size = get_viewport().get_visible_rect().size
+	base_size = Vector2(1280, 720)
+	var scale_factor = screen_size / base_size
+	scale = scale_factor
+
+func _on_window_size_changed():
+	adjust_canvas_layer_scale()
+
+#func _unhandled_input(event):
+	#if event.is_action_pressed("toggleHUD"):
+		#self.visible = !self.visible
+		
+func _on_player_health_changed(hp_current):
+	healthBar.value = hp_current
+	
+func _on_player_shield_changed(sp_current):
+	shieldBar.value = sp_current
+
+func _on_player_energy_changed(energy_current):
+	energyBar.value = energy_current
+		
+func _on_shield_ready():
+	var shield = get_node("../../Level/Player/Shield")
+	shieldActive = true
+	
 func init_lives(amount):
 	for ul in lives.get_children():
 		ul.queue_free()
 	for i in amount:
 		var ul = uilife_scene.instantiate()
 		lives.add_child(ul)
-
-func _process(delta):
-	$Variable.text = "Zoom: " + str(camera.zoom)
-	
-	energyBar.value = player.energy_current
+		
+func set_bar_maxes():
+	healthBar.max_value = player.hp_max
+	shieldBar.max_value = playerShield.sp_max
 	energyBar.max_value = player.energy_max
 	healthBar.value = player.hp_current
-	healthBar.max_value = player.hp_max
-	
-
-	var shield = get_node("../../Level/Player/playerShield")
-	shieldBar.value = shield.sp_current
-	shieldBar.max_value = shield.sp_max
-		
-	coords.text = str(round(player.global_position))
-		
-		
-#func _unhandled_input(event):
-	#if event.is_action_pressed("toggleHUD"):
-		#self.visible = !self.visible
-		
-		
-		
-func _on_shield_ready():
-	var shield = get_node("../../Level/Player/Shield")
-	shieldActive = true
+	shieldBar.value = playerShield.sp_current
+	energyBar.value = player.energy_current
