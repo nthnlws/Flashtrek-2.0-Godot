@@ -1,8 +1,5 @@
 extends Control
 
-var screen_size:Vector2
-var base_size = Vector2(1280, 720)
-
 @onready var hp_current
 @onready var hp_max
 @onready var sp_current
@@ -27,30 +24,17 @@ var shieldActive:bool = false
 var uilife_scene = preload("res://scenes/ui_life.tscn")
 
 
-
 func _ready():
 	Global.HUD = self
+	
 	# Sets value bars
 	set_bar_maxes() # Initializes bar values
-	
-	# Scales HUD with screen resizing
-	screen_size = get_viewport().get_visible_rect().size
-	get_tree().get_root().connect("size_changed", Callable(self, "_on_window_size_changed"))
-	adjust_canvas_layer_scale()
+
 	
 
 func _process(delta):
 	$Variable.text = "Zoom: " + str(camera.zoom)
 	coords.text = str(round(player.global_position))
-
-func adjust_canvas_layer_scale():
-	screen_size = get_viewport().get_visible_rect().size
-	base_size = Vector2(1280, 720)
-	var scale_factor = screen_size / base_size
-	scale = scale_factor
-
-func _on_window_size_changed():
-	adjust_canvas_layer_scale()
 
 #func _unhandled_input(event):
 	#if event.is_action_pressed("toggleHUD"):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=18 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="1_lp7mr"]
@@ -10,8 +10,10 @@
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="6_d6r2l"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_kp4kv"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
+[ext_resource type="Script" path="res://scenes/ScreenScaling.gd" id="11_et6bi"]
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="12_63k06"]
 [ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
+[ext_resource type="PackedScene" uid="uid://buo2ljq40uxxa" path="res://scenes/settings_button.tscn" id="12_k1cqf"]
 [ext_resource type="Script" path="res://scenes/UI.gd" id="12_ufgrf"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="13_v8gpu"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="16_1061f"]
@@ -67,9 +69,20 @@ z_index = -1
 stream = ExtResource("12_63k06")
 
 [node name="Overlay" type="CanvasLayer" parent="."]
+script = ExtResource("11_et6bi")
 
 [node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
+anchors_preset = -1
+offset_right = 0.0
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+
+[node name="SettingsButtonNode" parent="Overlay" instance=ExtResource("12_k1cqf")]
 z_index = 1
+anchors_preset = -1
+offset_left = 120.0
+offset_right = 120.0
+mouse_default_cursor_shape = 0
 
 [node name="Menus" type="CanvasLayer" parent="."]
 script = ExtResource("12_ufgrf")

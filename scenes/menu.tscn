@@ -18,52 +18,79 @@ offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0.152941, 0.152941, 0.152941, 1)
 
-[node name="ColumnHeaders" type="HBoxContainer" parent="ColorRect"]
-custom_minimum_size = Vector2(340, 120)
-layout_mode = 2
+[node name="HeaderArea" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 0
 offset_right = 1280.0
-offset_bottom = 120.0
+offset_bottom = 132.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="XbuttonArea" type="HBoxContainer" parent="ColorRect/HeaderArea"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea/XbuttonArea"]
+custom_minimum_size = Vector2(1220, 0)
+layout_mode = 2
+
+[node name="closeButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+text = "X"
+
+[node name="HeaderNames" type="HBoxContainer" parent="ColorRect/HeaderArea"]
+layout_mode = 2
+mouse_filter = 0
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ColumnHeaders"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
-[node name="Cheats" type="Label" parent="ColorRect/ColumnHeaders/MarginContainer"]
+[node name="Cheats" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_ut74y")
 theme_override_font_sizes/font_size = 32
 text = "Cheats"
 horizontal_alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/ColumnHeaders"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
-[node name="Player" type="Label" parent="ColorRect/ColumnHeaders/MarginContainer2"]
+[node name="Player" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer2"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_ut74y")
 theme_override_font_sizes/font_size = 32
 text = "Player"
 horizontal_alignment = 1
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/ColumnHeaders"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
-[node name="Enemy" type="Label" parent="ColorRect/ColumnHeaders/MarginContainer3"]
+[node name="Enemy" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_ut74y")
 theme_override_font_sizes/font_size = 32
 text = "Enemy"
 horizontal_alignment = 1
 
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/ColumnHeaders"]
+[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
-[node name="World" type="Label" parent="ColorRect/ColumnHeaders/MarginContainer4"]
+[node name="World" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_ut74y")
 theme_override_font_sizes/font_size = 32
 text = "World"
@@ -77,21 +104,25 @@ anchor_bottom = 1.0
 offset_top = -600.0
 offset_right = 320.0
 grow_vertical = 0
+mouse_filter = 0
 theme_override_constants/separation = 10
 
 [node name="energyContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/energyContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="energyCheat" type="Label" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Energy"
 
@@ -101,16 +132,19 @@ layout_mode = 2
 [node name="healthContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/healthContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="healthCheat" type="Label" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Health"
 
@@ -120,16 +154,19 @@ layout_mode = 2
 [node name="shieldContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/shieldContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="shieldCheat" type="Label" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Shield"
 
@@ -138,22 +175,27 @@ layout_mode = 2
 
 [node name="TeleportContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CheatsVBox/TeleportContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="teleportCheat" type="Label" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Teleport Coords:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 15
 
 [node name="xCoordInput" type="LineEdit" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
@@ -163,6 +205,7 @@ placeholder_text = "X:"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 15
 
 [node name="yCoordInput" type="LineEdit" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
@@ -172,6 +215,7 @@ placeholder_text = "Y:"
 
 [node name="MarginContainer3" type="MarginContainer" parent="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_right = 15
 
 [node name="PlayerVBox" type="VBoxContainer" parent="ColorRect"]
@@ -183,18 +227,22 @@ offset_left = 320.0
 offset_top = -600.0
 offset_right = 640.0
 grow_vertical = 0
+mouse_filter = 0
 theme_override_constants/separation = 10
 
 [node name="ShieldContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/ShieldContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="playerShield" type="Label" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Player Shield"
 
@@ -204,17 +252,21 @@ button_pressed = true
 
 [node name="LaserRangeContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="LaserRange" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Max Laser Range"
 
@@ -232,68 +284,85 @@ ticks_on_borders = true
 
 [node name="laserTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 0
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer"]
 layout_mode = 2
+mouse_filter = 0
 text = "400"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 23
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer2"]
 layout_mode = 2
+mouse_filter = 0
 text = "1k"
 
 [node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 0
 text = "1.7k"
 
 [node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 22
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 0
 text = "2.3k"
 
 [node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer5"]
 layout_mode = 2
+mouse_filter = 0
 text = "3k"
 
 [node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 18
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer6"]
 layout_mode = 2
+mouse_filter = 0
 text = "3.6k"
 
 [node name="DamageContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="playerDamage" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Laser Damage"
 
@@ -309,68 +378,85 @@ ticks_on_borders = true
 
 [node name="damageTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 3
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer"]
 layout_mode = 2
+mouse_filter = 0
 text = "0"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 37
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer2"]
 layout_mode = 2
+mouse_filter = 0
 text = "20"
 
 [node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 34
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 0
 text = "40"
 
 [node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 32
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 0
 text = "60"
 
 [node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 33
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer5"]
 layout_mode = 2
+mouse_filter = 0
 text = "80"
 
 [node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 22
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer6"]
 layout_mode = 2
+mouse_filter = 0
 text = "100"
 
 [node name="SpeedContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="maxSpeed" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Max Speed"
 
@@ -387,53 +473,66 @@ ticks_on_borders = true
 
 [node name="speedTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 3
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer"]
 layout_mode = 2
+mouse_filter = 0
 text = "0"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 32
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer2"]
 layout_mode = 2
+mouse_filter = 0
 text = "200"
 
 [node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 24
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 0
 text = "400"
 
 [node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 24
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 0
 text = "600"
 
 [node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 24
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer5"]
 layout_mode = 2
+mouse_filter = 0
 text = "800"
 
 [node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 27
 
 [node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer6"]
 layout_mode = 2
+mouse_filter = 0
 text = "1k"
 
 [node name="EnemyVBox" type="VBoxContainer" parent="ColorRect"]
@@ -448,18 +547,22 @@ offset_top = -600.0
 offset_right = -320.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 0
 theme_override_constants/separation = 10
 
 [node name="shieldContainer" type="MarginContainer" parent="ColorRect/EnemyVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/EnemyVBox/shieldContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="enemyShield" type="Label" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Enemy Shield"
 
@@ -469,14 +572,17 @@ button_pressed = true
 
 [node name="movementContainer" type="MarginContainer" parent="ColorRect/EnemyVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/EnemyVBox/movementContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="enemyMovement" type="Label" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Enemy Move"
 
@@ -495,11 +601,13 @@ offset_left = -320.0
 offset_top = -600.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 0
 theme_override_constants/separation = 10
 
 [node name="worldResetContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 0
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 
@@ -510,18 +618,22 @@ text = "Reset World"
 
 [node name="WorldBorderContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="WorldBorder" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 25
 text = "World Border Coords"
 
@@ -539,70 +651,87 @@ ticks_on_borders = true
 
 [node name="borderTickMarks" type="HBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 0
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer"]
 layout_mode = 2
+mouse_filter = 0
 text = "1k"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 28
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer2"]
 layout_mode = 2
+mouse_filter = 0
 text = "10k"
 
 [node name="MarginContainer3" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 26
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 0
 text = "20k"
 
 [node name="MarginContainer4" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 0
 text = "30k"
 
 [node name="MarginContainer5" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 26
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer5"]
 layout_mode = 2
+mouse_filter = 0
 text = "40k"
 
 [node name="MarginContainer6" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 20
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer6"]
 layout_mode = 2
+mouse_filter = 0
 text = "50k"
 
 [node name="vSyncContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/vSyncContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="enemyMovement" type="Label" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "vSync:"
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 41
 
@@ -619,23 +748,28 @@ popup/item_2/id = 2
 
 [node name="VolumeContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/VolumeContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 0
 
 [node name="Volume" type="Label" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_font_sizes/font_size = 25
 text = "Volume:"
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 0
 theme_override_constants/margin_left = 20
 
 [node name="volumeSlider" type="HSlider" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -645,6 +779,7 @@ value = 1.0
 tick_count = 6
 ticks_on_borders = true
 
+[connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeButton" to="." method="_on_close_button_pressed"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/EnergyButton" to="." method="_on_energy_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/HealthButton" to="." method="_on_health_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/ShieldButton" to="." method="_on_shield_button_toggled"]

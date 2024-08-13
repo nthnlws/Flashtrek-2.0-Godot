@@ -88,7 +88,7 @@ func _process(delta):
 	if laserClickState == true && enemy_collision == true:
 		collision_particles.position = cast_point_exact
 		collision_particles.global_rotation = get_collision_normal().angle()
-		if laserStatus == false:
+		if laserStatus == false && GameSettings.menuStatus == false:
 			laserOn()
 	elif enemy_collision == false or laserClickState == false:
 		if laserStatus == true:
@@ -100,7 +100,7 @@ func _process(delta):
 	
 	#Laser fizzle sound
 	if Input.is_action_just_pressed("shoot_laser"):
-		if get_parent().warping_active == false:
+		if get_parent().warping_active == false && GameSettings.menuStatus == false:
 			await get_tree().process_frame
 			await get_tree().process_frame
 			if enemy_collision == false:

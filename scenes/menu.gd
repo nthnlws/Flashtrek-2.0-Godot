@@ -1,6 +1,5 @@
 extends Control
 
-@onready var volume_slider = $ColorRect/WorldVBox/VolumeContainer/HBoxContainer/volumeSlider
 @onready var _bus := AudioServer.get_bus_index("Master")
 
 signal teleport
@@ -12,7 +11,7 @@ func _ready():
 	Global.pauseMenu = self
 	
 	self.visible = false
-	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
+	%volumeSlider.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
 	
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
@@ -21,9 +20,16 @@ func _input(event):
 
 func toggle_menu():
 	if visible == false:
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		GameSettings.menuStatus = true
 		visible = true
 	elif visible == true:
+		mouse_filter = Control.MOUSE_FILTER_PASS
+		GameSettings.menuStatus = false
 		visible = false
+
+func _on_close_button_pressed():
+	toggle_menu()
 
 # Cheats Column
 func _on_energy_button_toggled(toggled_on):
@@ -100,3 +106,5 @@ func _on_volume_slider_value_changed(value):
 func updateVector():
 	GameSettings.teleportCoords = Vector2(xCoord, yCoord)
 	teleport.emit()
+
+

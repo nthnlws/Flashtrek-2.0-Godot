@@ -1,6 +1,8 @@
 
 extends Node
 
+var menuStatus: bool = false
+
 #Options
 var gameVolume: float = 100.0
 var gameSize: int

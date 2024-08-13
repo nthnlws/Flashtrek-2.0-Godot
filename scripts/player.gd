@@ -84,21 +84,20 @@ func _process(delta):
 		energy_current += regen_speed * delta
 		playerEnergyChanged.emit(energy_current)
 
-func _unhandled_input(event):
+
+func _physics_process(delta):
+	if !alive: return
+	
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
-	if Input.is_action_pressed("shoot_torpedo"):
+	if Input.is_action_pressed("shoot_torpedo") && GameSettings.menuStatus == false:
 		if warping_active == false:
 			if !shoot_cd:
 				shoot_cd = true
 				shoot_torpedo()
 				await get_tree().create_timer(rate_of_fire).timeout
 				shoot_cd = false
-				
-				
-func _physics_process(delta):
-	if !alive: return
 	
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
