@@ -21,8 +21,8 @@ func _ready():
 func _process(delta):
 	if shieldActive == true and sp_current <= sp_max and damageTime == false:
 		sp_current += regen_speed * delta
+		sp_current = clamp(sp_current, 0, sp_max)
 	if sp_current <= 0: shieldDie()
-	if sp_current > sp_max: sp_current = sp_max
 	
 	if GameSettings.enemyShield != null:
 		if GameSettings.enemyShield == false:

@@ -125,7 +125,6 @@ func warping_state_change(): #Reverses warping state
 		warping.emit()
 		warp_sound_off()
 		
-		
 	elif warping_active == false: #Transition to warp
 		warping_active = true
 		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
@@ -142,7 +141,7 @@ func shoot_torpedo():
 		t.global_position = muzzle.global_position
 		t.rotation = self.rotation
 		t.shooter = "player"
-		$TorpedoSound.play()
+		%TorpedoSound.play()
 		emit_signal("torpedo_shot", t)
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= torpedo_drain
@@ -151,7 +150,7 @@ func shoot_torpedo():
 
 func die():
 	if alive == true:
-		$PlayerDieSound.play()
+		%PlayerDieSound.play()
 		alive = false
 		self.visible = false
 		hp_current = hp_max
@@ -186,42 +185,50 @@ func _on_player_area_entered(area):
 
 func energyTimeout(): #Turns off shield regen for 1 second after damage taken
 	energyTime = true
-	await get_tree().create_timer(1).timeout
-	energyTime = false
+	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
+		$Timer.stop()
+		$Timer.start()
+		await $Timer.timeout
+		energyTime = false
+	if $Timer.is_stopped() == true: # Starts timer if it is not already
+		$Timer.start()
+		await $Timer.timeout
+		energyTime = false
 	
-func warpTimeout(): #Turns off torpedo shooting for 1 second after leaving warp
+func warpTimeout(): #Turns off torpedo shooting for half of trans_length after leaving warp
 	warpTime = true
 	await get_tree().create_timer(trans_length/2).timeout
 	warpTime = false
 	
-func teleport(): #Uses coords from cheat menu to teleport player
+func teleport(): # Uses coords from cheat menu to teleport player
 	global_position = GameSettings.teleportCoords
-	print(GameSettings.teleportCoords)
 	velocity = Vector2(0, 0)
+	if warping_active == true:
+		warping_state_change()
 	
 
 #Audio functions
 # Movement
 func warp_sound_on():
 	var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property($ship_idle, "volume_db", -60, 2.0)
-	$warp_on.play()
+	tween.tween_property(%ship_idle, "volume_db", -60, 2.0)
+	%warp_on.play()
 
 func warp_sound_off():
-	$warp_off.play()
+	%warp_off.play()
 
 func idle_sound(active):
 	if warping_active == true:
 		#$ship_idle.stop()
 		pass
-	elif $ship_idle.playing == false:
-		$ship_idle.play()
-	elif $ship_idle.playing == true:
+	elif %ship_idle.playing == false:
+		%ship_idle.play()
+	elif %ship_idle.playing == true:
 		if active == false:
 				var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-				tween.tween_property($ship_idle, "volume_db", -25, 2.0)
+				tween.tween_property(%ship_idle, "volume_db", -25, 2.0)
 		elif active == true:
 				var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-				tween.tween_property($ship_idle, "volume_db", -15, 2.0)
+				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons

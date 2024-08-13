@@ -60,28 +60,38 @@ collision_mask = 13
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="player_area" groups=["player"]]
 polygon = PackedVector2Array(-4, -35, 4, -35, 10, -33, 17, -26, 19, -21, 19, -13, 13, -4, 6, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -15, -6, -19, -13, -19, -22, -15, -28, -9, -34)
 
-[node name="warp_on" type="AudioStreamPlayer" parent="."]
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="warp_on" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
 stream = ExtResource("6_ihea4")
 volume_db = -12.0
 pitch_scale = 0.7
 
-[node name="warp_off" type="AudioStreamPlayer" parent="."]
+[node name="warp_off" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
 stream = ExtResource("6_c035k")
 volume_db = -15.0
 
-[node name="ship_idle" type="AudioStreamPlayer" parent="."]
+[node name="ship_idle" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
 stream = ExtResource("7_8rbfi")
 volume_db = -25.0
 
-[node name="PlayerDieSound" type="AudioStreamPlayer" parent="."]
+[node name="PlayerDieSound" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
 stream = ExtResource("9_ejl8a")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
 stream = ExtResource("11_u2r70")
 volume_db = 9.301
 pitch_scale = 1.51
 
-[node name="TorpedoSound" type="AudioStreamPlayer" parent="."]
+[node name="TorpedoSound" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
 stream = ExtResource("8_a4vqp")
 volume_db = -10.0
 

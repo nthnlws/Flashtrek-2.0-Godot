@@ -16,11 +16,11 @@ var damageTime:bool = false
 func _process(delta):
 	if shieldActive == true and sp_current <= sp_max and damageTime == false:
 		sp_current += regen_speed * delta
+		sp_current = clamp(sp_current, 0, sp_max)
 	if get_parent().warping_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
 	if sp_current <= 0: shieldDie()
-	if sp_current > sp_max: sp_current = sp_max
 	
 	if GameSettings.playerShield != null:
 		if GameSettings.playerShield == false:
