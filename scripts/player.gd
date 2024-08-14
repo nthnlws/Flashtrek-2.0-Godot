@@ -11,8 +11,8 @@ signal playerEnergyChanged
 var acceleration:int= 5
 @export var default_max_speed:int = 400
 var max_speed:int = default_max_speed
-var rotation_speed:int= 150
-var trans_length:float= 0.8
+var rotation_speed:int = 150
+var trans_length:float = 0.8
 
 var warp_multiplier:float = 0.4
 var warpm:float = 1.0
@@ -33,7 +33,7 @@ var warping_active:bool = false
 var shield_active:bool = false
 var energyTime:bool = false
 var warpTime:bool = false
-var regen_speed:int = 10
+@export var energy_regen_speed:int = 10
 
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
 var laser_scene = preload("res://scenes/laser.tscn")
@@ -41,8 +41,7 @@ var laser_scene = preload("res://scenes/laser.tscn")
 var shoot_cd:bool = false
 var rate_of_fire:float = 0.2
 
-var player_moving:bool
-var alive := true
+var alive: bool = true
 
 func _ready():
 	Global.player = self
@@ -81,7 +80,7 @@ func _process(delta):
 		playerEnergyChanged.emit(energy_current)
 	
 	if $Laser.laserClickState == false and energy_current < energy_max and energyTime == false:
-		energy_current += regen_speed * delta
+		energy_current += energy_regen_speed * delta
 		playerEnergyChanged.emit(energy_current)
 
 
