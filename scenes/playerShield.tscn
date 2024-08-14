@@ -26,4 +26,6 @@ collision_mask = 15
 scale = Vector2(2.97285, 5.45383)
 shape = SubResource("CircleShape2D_5nxll")
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="area_entered" from="shield_area" to="." method="_on_shield_area_entered"]

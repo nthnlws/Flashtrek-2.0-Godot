@@ -25,8 +25,8 @@ var hp_current:int = hp_max
 #Energy system variables
 var energy_max:int = 100
 var energy_current:float = energy_max
-var laser_drain_rate:int = 10
-var torpedo_drain:int = 10
+@export var laser_drain_rate:float = 7.5
+@export var torpedo_drain:int = 10
 
 @onready var muzzle = $Muzzle
 var warping_active:bool = false
@@ -183,7 +183,7 @@ func _on_player_area_entered(area):
 	elif area.is_in_group("enemy"):
 		pass
 
-func energyTimeout(): #Turns off shield regen for 1 second after damage taken
+func energyTimeout(): #Turns off energy regen for 1 second after firing laser
 	energyTime = true
 	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
 		$Timer.stop()

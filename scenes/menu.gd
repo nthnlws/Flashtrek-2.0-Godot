@@ -85,6 +85,7 @@ func _on_move_button_toggled(toggled_on):
 # World Column
 func _on_reset_pressed():
 	get_tree().reload_current_scene()
+	GameSettings.menuStatus = false
 
 func _on_border_toggle_toggled(toggled_on):
 	GameSettings.borderToggle = toggled_on

@@ -65,9 +65,15 @@ func shieldAlive(): #Instant on shield
 	shieldActive = true
 
 func damageTimeout(): #Turns off shield regen for 1 second after damage taken
-	if damageTime == false:
-		damageTime = true
-		await get_tree().create_timer(1).timeout
+	damageTime = true
+	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
+		$Timer.stop()
+		$Timer.start()
+		await $Timer.timeout
+		damageTime = false
+	if $Timer.is_stopped() == true: # Starts timer if it is not already
+		$Timer.start()
+		await $Timer.timeout
 		damageTime = false
 	
 func _on_shield_area_entered(area): #Torpedo damage
