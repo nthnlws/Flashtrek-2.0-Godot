@@ -14,6 +14,7 @@ extends Control
 @onready var coords = $Coords
 @onready var energyBar = $EnergyBar
 @onready var lives = $Lives
+@onready var variable = $Variable
 
 var shieldActive:bool = false
 
@@ -23,7 +24,12 @@ var shieldActive:bool = false
 
 var uilife_scene = preload("res://scenes/ui_life.tscn")
 
-
+func _reset_node_references():
+	var playerShield = Global.player.get_node("playerShield")
+	var laser = Global.player.get_node("Laser")
+	var camera = Global.player.get_node("Camera2D")
+	variable = get_node("Variable")
+	
 func _ready():
 	Global.HUD = self
 	
@@ -33,7 +39,7 @@ func _ready():
 	
 
 func _process(delta):
-	$Variable.text = "Zoom: " + str(camera.zoom)
+	variable.text = "Zoom: " + str(camera.zoom)
 	coords.text = str(round(player.global_position))
 
 #func _unhandled_input(event):

@@ -3,11 +3,13 @@ extends Control
 @onready var _bus := AudioServer.get_bus_index("Master")
 
 signal teleport
+signal world_reset
 
 var xCoord
-var yCoord
+var yCoord 
 
 func _ready():
+	store_menu_state()
 	Global.pauseMenu = self
 	
 	self.visible = false
@@ -84,7 +86,28 @@ func _on_move_button_toggled(toggled_on):
 
 # World Column
 func _on_reset_pressed():
-	get_tree().reload_current_scene()
+	world_reset.emit()
+	var level_node_path = "res://scenes/Level.tscn"  # Path to the Level scene
+	var level_node = get_node("/root/Game/Level")  # Reference to the existing Level node
+
+	if level_node:
+		store_menu_state()
+		
+		var parent_node = level_node.get_parent()  # Get the parent of the Level node
+		var level_node_index = level_node.get_index()  # Get the index of the Level node in the parent's children
+
+		 # Remove the current Level node
+		level_node.queue_free()
+
+		# Load the Level scene again
+		var new_level_instance = preload("res://scenes/level.tscn").instantiate()
+
+		parent_node.add_child(new_level_instance)
+		
+		# Optionally, restore the position in the scene tree
+		parent_node.move_child(new_level_instance, level_node_index)
+		
+		# Restore any saved state if necessary (optional)
 	GameSettings.menuStatus = false
 
 func _on_border_toggle_toggled(toggled_on):
@@ -108,4 +131,6 @@ func updateVector():
 	GameSettings.teleportCoords = Vector2(xCoord, yCoord)
 	teleport.emit()
 
+func store_menu_state():
+	pass
 

@@ -86,11 +86,12 @@ func _process(delta):
 
 func _physics_process(delta):
 	if !alive: return
+	if GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
-	if Input.is_action_pressed("shoot_torpedo") && GameSettings.menuStatus == false:
+	if Input.is_action_pressed("shoot_torpedo"):
 		if warping_active == false:
 			if !shoot_cd:
 				shoot_cd = true

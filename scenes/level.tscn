@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3jaoy0wr34qy"]
+
+[ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="1_p8dy3"]
+[ext_resource type="Script" path="res://scenes/room_walls.gd" id="2_ek417"]
+[ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="3_oyg8m"]
+[ext_resource type="Script" path="res://scripts/asteroid.gd" id="4_4t2pi"]
+[ext_resource type="Texture2D" uid="uid://djch431sg651d" path="res://assets/textures/ships/meteorGrey_big4.png" id="5_0itx6"]
+[ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_y0ht4"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="7_cv3po"]
+[ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="8_evrud"]
+
+[node name="Level" type="Node"]
+script = ExtResource("1_p8dy3")
+
+[node name="RoomBorders" type="Node2D" parent="."]
+script = ExtResource("2_ek417")
+
+[node name="Player" parent="." instance=ExtResource("3_oyg8m")]
+z_index = 1
+position = Vector2(640, 361)
+
+[node name="Torpedos" type="Node" parent="."]
+
+[node name="Asteroids" type="Node" parent="."]
+
+[node name="Asteroid" type="Area2D" parent="Asteroids" groups=["enemy"]]
+position = Vector2(600, 100)
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("4_4t2pi")
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroids/Asteroid"]
+texture = ExtResource("5_0itx6")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid"]
+polygon = PackedVector2Array(17, -48, 50, -12, 31, 43, -19, 48, -50, 10, -35, -34)
+
+[node name="PlayerSpawnPos" type="Node2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="PlayerSpawnArea" parent="PlayerSpawnPos" instance=ExtResource("6_y0ht4")]
+collision_mask = 6
+
+[node name="Hostiles" type="Node2D" parent="."]
+
+[node name="BirdOfPrey" parent="Hostiles" instance=ExtResource("7_cv3po")]
+position = Vector2(-2988, -1699)
+
+[node name="BirdOfPrey2" parent="Hostiles" instance=ExtResource("7_cv3po")]
+position = Vector2(1101, -804)
+
+[node name="Starbase" parent="." instance=ExtResource("8_evrud")]
+z_index = -1
+
+[connection signal="area_entered" from="Asteroids/Asteroid" to="Asteroids/Asteroid" method="_on_asteroid_area_entered"]

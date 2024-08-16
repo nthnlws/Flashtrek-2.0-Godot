@@ -20,7 +20,12 @@ var endPoint:Vector2
 var randomMove:bool = false
 var enemyTarget:String
 
+func _reset_node_references():
+	var starbase = get_node("/root/Game/Level/Starbase")
+	var player = get_node("/root/Game/Level/Player")
+	
 func _ready():
+	Global.enemies.append(self)
 	if shield_on == true:
 		var shieldScene = preload("res://scenes/enemyShield.tscn")
 		var newShield = shieldScene.instantiate()
@@ -42,7 +47,7 @@ func _physics_process(delta):
 	elif randomMove == true:
 		randomMovement(endPoint)
 		enemyTarget = "Random"
-	elif self.global_position.distance_to(starbase.global_position) < 1000:
+	elif global_position.distance_to(starbase.global_position) < 1000:
 		# Sets random point to move to if too close to center and not agro'd on player
 		randomMove = true
 		endPoint = Vector2(randi_range(-5000, 5000), randi_range(-5000, 5000))
@@ -77,8 +82,8 @@ func rotateToDirection(target_direction: Vector2):
 	rotation = lerp_angle(rotation, target_angle, 0.1)
 
 func explode():
-	queue_free()
-	self.visible = false
+	Global.enemies.erase(self)
+	self.queue_free()
 
 func _on_agro_box_area_entered(area):
 	if area.is_in_group("player"):
