@@ -3,9 +3,10 @@ extends Node
 var player: Node = null
 var HUD: Node = null
 var pauseMenu: Node = null
-var levelBorders: Node = null
 var settingsButton: Node = null
+var levelBorderNode: Node = null
 var enemies = []
+var levelWalls = []
 
 
 func _ready():
@@ -18,6 +19,7 @@ func connect_signals():
 	player.get_node("playerShield").connect("playerShieldChanged", Callable(HUD, "_on_player_shield_changed"))
 	settingsButton.connect("menu_clicked", Callable(pauseMenu, "toggle_menu"))
 	pauseMenu.connect("world_reset", Callable(self, "_reset_node_references"))
+	pauseMenu.connect("border_size_moved", Callable(levelBorderNode, "_on_border_coords_moved"))
 	
 func _reset_node_references():
 	HUD._reset_node_references()

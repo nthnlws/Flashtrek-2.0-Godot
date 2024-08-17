@@ -28,15 +28,12 @@ func _reset_node_references():
 	var playerShield = Global.player.get_node("playerShield")
 	var laser = Global.player.get_node("Laser")
 	var camera = Global.player.get_node("Camera2D")
-	variable = get_node("Variable")
 	
 func _ready():
 	Global.HUD = self
 	
 	# Sets value bars
 	set_bar_maxes() # Initializes bar values
-
-	
 
 func _process(delta):
 	variable.text = "Zoom: " + str(camera.zoom)

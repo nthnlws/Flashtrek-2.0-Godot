@@ -32,18 +32,15 @@ var wall_rotations = [
 ]
 
 func _ready():
-	Global.levelBorders = self
+	Global.levelBorderNode = self
 	GameSettings.gameSize = borderCoords
 	for i in range(len(wall_positions)):
 		var wall_instance = WallScene.instantiate()
 		wall_instance.position = wall_positions[i]
 		wall_instance.rotation = wall_rotations[i]
 		wall_instance.name = wall_names[i]
+		wall_instance.scale = wall_scales[i]
 		add_child(wall_instance)
-		
-		#Scale Sprite
-		var sprite = wall_instance.get_node("Barrier")
-		sprite.scale = wall_scales[i]
 		
 		# Create a label for the wall
 		var label = Label.new()
@@ -53,3 +50,24 @@ func _ready():
 		# Position the label near the wall
 		label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
 		label.scale = Vector2(2, 2) # Makes the label larger and easier to see
+		
+		Global.levelWalls.append(wall_instance)
+		
+func _on_border_coords_moved():
+	wall_positions = [
+	Vector2(0, GameSettings.gameSize),
+	Vector2(0, -GameSettings.gameSize),
+	Vector2(GameSettings.gameSize, 0),
+	Vector2(-GameSettings.gameSize, 0)
+]
+	wall_scales = [
+	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
+	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
+	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
+	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
+]
+	for i in range(Global.levelWalls.size()):
+		var wall = Global.levelWalls[i]
+		if is_instance_valid(wall):
+			wall.position = wall_positions[i]
+			wall.scale = wall_scales[i]

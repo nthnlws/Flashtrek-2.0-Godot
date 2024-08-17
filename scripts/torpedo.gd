@@ -20,4 +20,3 @@ func _ready():
 	
 func _physics_process(delta):
 	global_position += movement_vector.rotated(rotation) * speed * delta
-

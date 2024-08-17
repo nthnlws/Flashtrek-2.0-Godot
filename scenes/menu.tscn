@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://3st5s0ue3nj4"]
 
 [ext_resource type="Script" path="res://scenes/menu.gd" id="1_trih8"]
-[ext_resource type="FontFile" uid="uid://b1nmehj3xrtfm" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
+[ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
 
 [node name="PauseMenu" type="Control" groups=["menu"]]
 layout_mode = 3
@@ -642,10 +642,9 @@ layout_mode = 2
 
 [node name="borderSlider" type="HSlider" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
 layout_mode = 2
-min_value = 1000.0
 max_value = 50000.0
-step = 5000.0
-value = 21000.0
+step = 1000.0
+value = 20000.0
 tick_count = 11
 ticks_on_borders = true
 
@@ -656,17 +655,17 @@ mouse_filter = 0
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
 mouse_filter = 0
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 3
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer"]
 layout_mode = 2
 mouse_filter = 0
-text = "1k"
+text = "0"
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
 layout_mode = 2
 mouse_filter = 0
-theme_override_constants/margin_left = 28
+theme_override_constants/margin_left = 34
 
 [node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer2"]
 layout_mode = 2
@@ -738,7 +737,6 @@ theme_override_constants/margin_right = 41
 [node name="vsyncSelect" type="OptionButton" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
 layout_mode = 2
 item_count = 3
-selected = 0
 popup/item_0/text = "Enabled"
 popup/item_0/id = 0
 popup/item_1/text = "Adaptive"

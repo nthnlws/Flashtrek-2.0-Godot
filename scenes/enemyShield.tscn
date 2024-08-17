@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b22yde5yoq56c"]
 
 [ext_resource type="Shader" path="res://resources/shield.gdshader" id="1_uausp"]
-[ext_resource type="Texture2D" uid="uid://b5amdkwhcb860" path="res://assets/textures/ships/blank_pship.png" id="2_h8s3t"]
+[ext_resource type="Texture2D" uid="uid://ycmpu1ut2td5" path="res://assets/textures/ships/blank_pship.png" id="2_h8s3t"]
 [ext_resource type="Script" path="res://scripts/enemyShield.gd" id="3_0y86e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
@@ -20,7 +20,7 @@ script = ExtResource("3_0y86e")
 
 [node name="shield_area" type="Area2D" parent="." groups=["shield"]]
 collision_layer = 4
-collision_mask = 15
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
 scale = Vector2(2.97285, 5.45383)

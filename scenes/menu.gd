@@ -4,6 +4,7 @@ extends Control
 
 signal teleport
 signal world_reset
+signal border_size_moved
 
 var xCoord
 var yCoord 
@@ -112,8 +113,12 @@ func _on_reset_pressed():
 
 func _on_border_toggle_toggled(toggled_on):
 	GameSettings.borderToggle = toggled_on
+	border_size_moved.emit() 
 func _on_border_slider_value_changed(value):
-	GameSettings.borderValue = value
+	GameSettings.gameSize = value
+	print(GameSettings.gameSize)
+	if GameSettings.borderToggle == true:
+		border_size_moved.emit()
 
 func _on_vsync_select_item_selected(index):
 	if index == 0: # Enabled (default)
@@ -133,4 +138,3 @@ func updateVector():
 
 func store_menu_state():
 	pass
-
