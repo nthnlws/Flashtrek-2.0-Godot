@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=13 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Texture2D" uid="uid://cx8gtktgvo0di" path="res://assets/textures/ships/player_ship.png" id="4_kji6a"]
 [ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
+[ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="6_bwxj0"]
 [ext_resource type="AudioStream" uid="uid://csmb2dvx8utih" path="res://assets/audio/warp_off.mp3" id="6_c035k"]
 [ext_resource type="AudioStream" uid="uid://k0bxverre66v" path="res://assets/audio/warp_on.mp3" id="6_ihea4"]
 [ext_resource type="AudioStream" uid="uid://dw3xim5i6v4rh" path="res://assets/audio/ship_idle.mp3" id="7_8rbfi"]
@@ -19,6 +20,7 @@ script = ExtResource("1_w51pe")
 
 [node name="Laser" parent="." groups=["player"] instance=ExtResource("2_vj0n8")]
 z_index = -1
+position = Vector2(0, -17)
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -35)
@@ -53,12 +55,12 @@ texture_scale = 1.4
 show_behind_parent = true
 texture = ExtResource("4_kji6a")
 
-[node name="player_area" type="Area2D" parent="." groups=["player"]]
+[node name="Hitbox" type="Area2D" parent="." groups=["player"]]
 collision_layer = 2
 collision_mask = 13
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="player_area" groups=["player"]]
-polygon = PackedVector2Array(-4, -35, 4, -35, 10, -33, 17, -26, 19, -21, 19, -13, 13, -4, 6, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -15, -6, -19, -13, -19, -22, -15, -28, -9, -34)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" groups=["player"]]
+shape = ExtResource("6_bwxj0")
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -95,4 +97,4 @@ unique_name_in_owner = true
 stream = ExtResource("8_a4vqp")
 volume_db = -10.0
 
-[connection signal="area_entered" from="player_area" to="." method="_on_player_area_entered"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

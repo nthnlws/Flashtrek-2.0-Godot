@@ -172,7 +172,7 @@ func respawn(pos):
 		get_node("playerShield").sp_current = get_node("playerShield").sp_max
 
 # Take torpedo damage
-func _on_player_area_entered(area):
+func _on_hitbox_area_entered(area):
 	if area.is_in_group("torpedo") and area.shooter != "player":
 		area.queue_free()
 		if GameSettings.unlimitedHealth == false:
