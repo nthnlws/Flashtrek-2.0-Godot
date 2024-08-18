@@ -12,6 +12,7 @@ extends Node2D
 @onready var player_spawn_area = $Level/PlayerSpawnPos/PlayerSpawnArea
 
 var asteroid_scene = preload("res://scenes/asteroid.tscn")
+var Asteroid = preload("res://scripts/asteroid.gd")
 
 var score:int = 0:
 	set(value):

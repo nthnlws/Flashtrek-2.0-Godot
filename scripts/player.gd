@@ -44,6 +44,7 @@ var rate_of_fire:float = 0.2
 var alive: bool = true
 
 func _ready():
+	GameSettings.maxSpeed = default_max_speed
 	Global.player = self
 	if shield_on == true:
 		GameSettings.playerShield = true

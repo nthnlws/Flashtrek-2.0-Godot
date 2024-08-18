@@ -1,20 +1,15 @@
 extends Control
 
-@onready var hp_current
-@onready var hp_max
-@onready var sp_current
-@onready var sp_max
+var hp_current
+var hp_max
+var sp_current
+var sp_max
 
-@onready var player = Global.player
-@onready var playerShield = Global.player.get_node("playerShield")
-@onready var laser = Global.player.get_node("Laser")
-@onready var camera = Global.player.get_node("Camera2D")
-@onready var healthBar = $HealthBar
-@onready var shieldBar = $ShieldBar
+@onready var player = %Player
+@onready var playerShield = %Player.get_node("playerShield")
+@onready var camera = %Player.get_node("Camera2D")
 @onready var coords = $Coords
-@onready var energyBar = $EnergyBar
 @onready var lives = $Lives
-@onready var variable = $Variable
 
 var shieldActive:bool = false
 
@@ -24,10 +19,6 @@ var shieldActive:bool = false
 
 var uilife_scene = preload("res://scenes/ui_life.tscn")
 
-func _reset_node_references():
-	var playerShield = Global.player.get_node("playerShield")
-	var laser = Global.player.get_node("Laser")
-	var camera = Global.player.get_node("Camera2D")
 	
 func _ready():
 	Global.HUD = self
@@ -36,7 +27,7 @@ func _ready():
 	set_bar_maxes() # Initializes bar values
 
 func _process(delta):
-	variable.text = "Zoom: " + str(camera.zoom)
+	$Variable.text = "Zoom: " + str(camera.zoom)
 	coords.text = str(round(player.global_position))
 
 #func _unhandled_input(event):
@@ -44,13 +35,13 @@ func _process(delta):
 		#self.visible = !self.visible
 		
 func _on_player_health_changed(hp_current):
-	healthBar.value = hp_current
+	$HealthBar.value = hp_current
 	
 func _on_player_shield_changed(sp_current):
-	shieldBar.value = sp_current
+	$ShieldBar.value = sp_current
 
 func _on_player_energy_changed(energy_current):
-	energyBar.value = energy_current
+	$EnergyBar.value = energy_current
 		
 func _on_shield_ready():
 	var shield = get_node("../../Level/Player/Shield")
@@ -64,9 +55,9 @@ func init_lives(amount):
 		lives.add_child(ul)
 		
 func set_bar_maxes():
-	healthBar.max_value = player.hp_max
-	shieldBar.max_value = playerShield.sp_max
-	energyBar.max_value = player.energy_max
-	healthBar.value = player.hp_current
-	shieldBar.value = playerShield.sp_current
-	energyBar.value = player.energy_current
+	$HealthBar.max_value = player.hp_max
+	$ShieldBar.max_value = playerShield.sp_max
+	$EnergyBar.max_value = player.energy_max
+	$HealthBar.value = player.hp_current
+	$ShieldBar.value = playerShield.sp_current
+	$EnergyBar.value = player.energy_current

@@ -20,6 +20,7 @@ var damage_rate:int = default_damage
 
 func _ready():
 	GameSettings.laserRange = view_distance
+	GameSettings.laserDamage = default_damage
 	$Line2D.visible = false
 	$Line2D.width = 0
 	$Line2D.points[1] = Vector2.ZERO

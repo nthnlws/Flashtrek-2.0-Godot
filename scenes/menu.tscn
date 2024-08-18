@@ -126,7 +126,7 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Energy"
 
-[node name="EnergyButton" type="CheckButton" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer"]
+[node name="unlimitedEnergy" type="CheckButton" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="healthContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
@@ -148,7 +148,7 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Health"
 
-[node name="HealthButton" type="CheckButton" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer"]
+[node name="unlimitedHealth" type="CheckButton" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="shieldContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
@@ -170,7 +170,7 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Shield"
 
-[node name="ShieldButton" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
+[node name="unlimitedShield" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="TeleportContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
@@ -240,13 +240,13 @@ layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="playerShield" type="Label" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
+[node name="playerShieldLabel" type="Label" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Player Shield"
 
-[node name="player_shield_button" type="CheckButton" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
+[node name="playerShield" type="CheckButton" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
 layout_mode = 2
 button_pressed = true
 
@@ -264,16 +264,16 @@ layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="LaserRange" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
+[node name="LaserRangeLabel" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Max Laser Range"
 
-[node name="laserDamageEnabled" type="CheckButton" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
+[node name="laserRangeOverride" type="CheckButton" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="laserSlider" type="HSlider" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
+[node name="laserRange" type="HSlider" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 400.0
 max_value = 3600.0
@@ -366,10 +366,10 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Laser Damage"
 
-[node name="damageEnabled" type="CheckButton" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer"]
+[node name="laserDamageOverride" type="CheckButton" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="damageSlider" type="HSlider" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
+[node name="laserDamage" type="HSlider" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
 layout_mode = 2
 step = 5.0
 value = 20.0
@@ -460,10 +460,10 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Max Speed"
 
-[node name="speedEnabled" type="CheckButton" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer"]
+[node name="speedOverride" type="CheckButton" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="speedSlider" type="HSlider" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
+[node name="maxSpeed" type="HSlider" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
 layout_mode = 2
 max_value = 1000.0
 step = 50.0
@@ -560,13 +560,13 @@ layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="enemyShield" type="Label" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
+[node name="enemyShieldLabel" type="Label" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Enemy Shield"
 
-[node name="enemy_shield_button" type="CheckButton" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
+[node name="enemyShield" type="CheckButton" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
 layout_mode = 2
 button_pressed = true
 
@@ -580,13 +580,13 @@ layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="enemyMovement" type="Label" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
+[node name="enemyMovementLabel" type="Label" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Enemy Move"
 
-[node name="moveButton" type="CheckButton" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
+[node name="enemyMovement" type="CheckButton" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
 layout_mode = 2
 button_pressed = true
 
@@ -640,7 +640,7 @@ text = "World Border Coords"
 [node name="borderToggle" type="CheckButton" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="borderSlider" type="HSlider" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
+[node name="gameSize" type="HSlider" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
 layout_mode = 2
 max_value = 50000.0
 step = 1000.0
@@ -722,7 +722,7 @@ layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="enemyMovement" type="Label" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
+[node name="vSync" type="Label" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 30
@@ -734,9 +734,10 @@ mouse_filter = 0
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 41
 
-[node name="vsyncSelect" type="OptionButton" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
+[node name="vSyncSetting" type="OptionButton" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
 layout_mode = 2
 item_count = 3
+selected = 0
 popup/item_0/text = "Enabled"
 popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
@@ -766,7 +767,7 @@ layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 20
 
-[node name="volumeSlider" type="HSlider" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
+[node name="gameVolume" type="HSlider" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -778,24 +779,24 @@ tick_count = 6
 ticks_on_borders = true
 
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeButton" to="." method="_on_close_button_pressed"]
-[connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/EnergyButton" to="." method="_on_energy_button_toggled"]
-[connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/HealthButton" to="." method="_on_health_button_toggled"]
-[connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/ShieldButton" to="." method="_on_shield_button_toggled"]
+[connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/unlimitedEnergy" to="." method="_on_energy_button_toggled"]
+[connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/unlimitedHealth" to="." method="_on_health_button_toggled"]
+[connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/unlimitedShield" to="." method="_on_shield_button_toggled"]
 [connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_changed"]
 [connection signal="text_submitted" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_submitted"]
 [connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/yCoordInput" to="." method="_on_y_coord_input_text_changed"]
 [connection signal="text_submitted" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/yCoordInput" to="." method="_on_y_coord_input_text_submitted"]
-[connection signal="toggled" from="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer/player_shield_button" to="." method="_on_player_shield_button_toggled"]
-[connection signal="toggled" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer/laserDamageEnabled" to="." method="_on_laser_damage_enabled_toggled"]
-[connection signal="value_changed" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserSlider" to="." method="_on_laser_slider_value_changed"]
-[connection signal="toggled" from="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer/damageEnabled" to="." method="_on_damage_enabled_toggled"]
-[connection signal="value_changed" from="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageSlider" to="." method="_on_damage_slider_value_changed"]
-[connection signal="toggled" from="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer/speedEnabled" to="." method="_on_speed_enabled_toggled"]
-[connection signal="value_changed" from="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedSlider" to="." method="_on_speed_slider_value_changed"]
-[connection signal="toggled" from="ColorRect/EnemyVBox/shieldContainer/HBoxContainer/enemy_shield_button" to="." method="_on_enemy_shield_button_toggled"]
-[connection signal="toggled" from="ColorRect/EnemyVBox/movementContainer/HBoxContainer/moveButton" to="." method="_on_move_button_toggled"]
+[connection signal="toggled" from="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer/playerShield" to="." method="_on_player_shield_button_toggled"]
+[connection signal="toggled" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer/laserRangeOverride" to="." method="_on_laser_damage_enabled_toggled"]
+[connection signal="value_changed" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserRange" to="." method="_on_laser_slider_value_changed"]
+[connection signal="toggled" from="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer/laserDamageOverride" to="." method="_on_damage_enabled_toggled"]
+[connection signal="value_changed" from="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/laserDamage" to="." method="_on_damage_slider_value_changed"]
+[connection signal="toggled" from="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer/speedOverride" to="." method="_on_speed_enabled_toggled"]
+[connection signal="value_changed" from="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/maxSpeed" to="." method="_on_speed_slider_value_changed"]
+[connection signal="toggled" from="ColorRect/EnemyVBox/shieldContainer/HBoxContainer/enemyShield" to="." method="_on_enemy_shield_button_toggled"]
+[connection signal="toggled" from="ColorRect/EnemyVBox/movementContainer/HBoxContainer/enemyMovement" to="." method="_on_move_button_toggled"]
 [connection signal="pressed" from="ColorRect/WorldVBox/worldResetContainer/ResetButton" to="." method="_on_reset_pressed"]
 [connection signal="toggled" from="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer/borderToggle" to="." method="_on_border_toggle_toggled"]
-[connection signal="value_changed" from="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderSlider" to="." method="_on_border_slider_value_changed"]
-[connection signal="item_selected" from="ColorRect/WorldVBox/vSyncContainer/HBoxContainer/vsyncSelect" to="." method="_on_vsync_select_item_selected"]
-[connection signal="value_changed" from="ColorRect/WorldVBox/VolumeContainer/HBoxContainer/volumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="value_changed" from="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/gameSize" to="." method="_on_border_slider_value_changed"]
+[connection signal="item_selected" from="ColorRect/WorldVBox/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_select_item_selected"]
+[connection signal="value_changed" from="ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="." method="_on_volume_slider_value_changed"]

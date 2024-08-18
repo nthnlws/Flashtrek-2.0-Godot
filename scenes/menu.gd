@@ -7,14 +7,22 @@ signal world_reset
 signal border_size_moved
 
 var xCoord
-var yCoord 
+var yCoord
+var file
+
 
 func _ready():
-	store_menu_state()
+	print(GameSettings.loadNumber)
 	Global.pauseMenu = self
+	if GameSettings.loadNumber == 0: 
+		store_menu_state(0)
+		set_menu_to_savefile(0)
+	elif GameSettings.loadNumber > 0: 
+		set_menu_to_savefile(1)
+		world_reset.emit()
 	
 	self.visible = false
-	%volumeSlider.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
+	%gameVolume.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
 	
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
@@ -87,28 +95,13 @@ func _on_move_button_toggled(toggled_on):
 
 # World Column
 func _on_reset_pressed():
-	world_reset.emit()
-	var level_node_path = "res://scenes/Level.tscn"  # Path to the Level scene
-	var level_node = get_node("/root/Game/Level")  # Reference to the existing Level node
+	GameSettings.loadNumber += 1
+	store_menu_state(1)
+	get_tree().reload_current_scene()
+	
+	#var level_node_path = "res://scenes/Level.tscn"  # Path to the Level scene
+	#var level_node = get_node("/root/Game/Level")  # Reference to the existing Level node
 
-	if level_node:
-		store_menu_state()
-		
-		var parent_node = level_node.get_parent()  # Get the parent of the Level node
-		var level_node_index = level_node.get_index()  # Get the index of the Level node in the parent's children
-
-		 # Remove the current Level node
-		level_node.queue_free()
-
-		# Load the Level scene again
-		var new_level_instance = preload("res://scenes/level.tscn").instantiate()
-
-		parent_node.add_child(new_level_instance)
-		
-		# Optionally, restore the position in the scene tree
-		parent_node.move_child(new_level_instance, level_node_index)
-		
-		# Restore any saved state if necessary (optional)
 	GameSettings.menuStatus = false
 
 func _on_border_toggle_toggled(toggled_on):
@@ -116,25 +109,63 @@ func _on_border_toggle_toggled(toggled_on):
 	border_size_moved.emit() 
 func _on_border_slider_value_changed(value):
 	GameSettings.gameSize = value
-	print(GameSettings.gameSize)
 	if GameSettings.borderToggle == true:
 		border_size_moved.emit()
 
 func _on_vsync_select_item_selected(index):
 	if index == 0: # Enabled (default)
+		GameSettings.vSyncSetting = 0
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	elif index == 1: # Adaptive
+		GameSettings.vSyncSetting = 1
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
 	elif index == 2: # Disabled
+		GameSettings.vSyncSetting = 2
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 func _on_volume_slider_value_changed(value):
 	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
+	GameSettings.gameVolume = value
 
 # Called functions
 func updateVector():
 	GameSettings.teleportCoords = Vector2(xCoord, yCoord)
 	teleport.emit()
 
-func store_menu_state():
-	pass
+func store_menu_state(resets):
+	if resets == 0:
+		file = FileAccess.open("user://defaultmenuoptions.json", FileAccess.WRITE)
+	elif resets > 0:
+		file = FileAccess.open("user://menuoptions.json", FileAccess.WRITE)
+	
+	var save_data = {}
+	
+	# Get the property list of GlobalSettings
+	for variables in GameSettings.get_script().get_script_property_list():
+		var name = variables.name
+		# Add each property to save_data if it's not a built-in property
+		if variables.type != 0:
+			save_data[name] = GameSettings.get(name)
+	
+	var json = JSON.stringify(save_data)
+	file.store_string(json)
+	file.close()
+
+func set_menu_to_savefile(resets):
+	# Chooses file to read based on number of resets
+	if resets == 0:
+		file = FileAccess.open("user://defaultmenuoptions.json", FileAccess.READ)
+	elif resets > 0:
+		file = FileAccess.open("user://menuoptions.json", FileAccess.READ)
+		
+	var json = file.get_as_text()
+	var save_data = JSON.parse_string(json)
+	
+	for child in $ColorRect.find_children("", "CheckButton", true, false):
+		var value = save_data.get(child.name)
+		child.button_pressed = value
+	for child in $ColorRect.find_children("", "HSlider", true, false):
+		var value = save_data.get(child.name)
+		child.value = value
+	
+	file.close()

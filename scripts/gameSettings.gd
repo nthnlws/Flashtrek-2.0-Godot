@@ -1,12 +1,14 @@
 
 extends Node
 
+var loadNumber: int = 0
 var menuStatus: bool = false
+
 
 #Options
 var gameVolume: float = 100.0
 var gameSize: int
-var vSync: bool = true
+var vSyncSetting: bool = true
 
 #Cheats
 var unlimitedEnergy: bool = false

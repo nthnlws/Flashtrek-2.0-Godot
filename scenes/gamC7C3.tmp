@@ -29,7 +29,6 @@ script = ExtResource("2_85g5u")
 script = ExtResource("3_j38kx")
 
 [node name="Player" parent="Level" instance=ExtResource("4_s6h4r")]
-unique_name_in_owner = true
 z_index = 1
 position = Vector2(640, 361)
 
