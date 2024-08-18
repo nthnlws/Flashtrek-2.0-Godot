@@ -1,21 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://lp3n1ckd77bd"]
+[gd_scene load_steps=3 format=3 uid="uid://lp3n1ckd77bd"]
 
 [ext_resource type="Texture2D" uid="uid://do6mw833feqjn" path="res://assets/textures/energyWall.jpg" id="1_5g6v5"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qxnmy"]
-bounce = 0.5
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_updos"]
-size = Vector2(233, 47)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mqm5d"]
+distance = 23.0
 
 [node name="BorderWall" type="StaticBody2D"]
 collision_mask = 15
-physics_material_override = SubResource("PhysicsMaterial_qxnmy")
 
 [node name="Barrier" type="Sprite2D" parent="."]
 modulate = Color(0.580392, 0.607843, 0.85098, 0.396078)
 texture = ExtResource("1_5g6v5")
 
 [node name="WorldBoundary" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_updos")
+shape = SubResource("WorldBoundaryShape2D_mqm5d")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)

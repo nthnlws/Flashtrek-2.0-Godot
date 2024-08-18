@@ -31,10 +31,18 @@ theme_override_constants/margin_top = 10
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea/XbuttonArea"]
-custom_minimum_size = Vector2(1220, 0)
 layout_mode = 2
+theme_override_constants/margin_left = 595
 
-[node name="closeButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea"]
+[node name="closeGameButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea"]
+layout_mode = 2
+text = "Close Game"
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/HeaderArea/XbuttonArea"]
+layout_mode = 2
+theme_override_constants/margin_right = 515
+
+[node name="closeMenuButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea"]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 text = "X"
@@ -778,7 +786,8 @@ value = 1.0
 tick_count = 6
 ticks_on_borders = true
 
-[connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
+[connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/unlimitedEnergy" to="." method="_on_energy_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/unlimitedHealth" to="." method="_on_health_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/unlimitedShield" to="." method="_on_shield_button_toggled"]

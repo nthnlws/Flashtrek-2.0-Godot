@@ -42,14 +42,14 @@ func _ready():
 		wall_instance.scale = wall_scales[i]
 		add_child(wall_instance)
 		
-		# Create a label for the wall
-		var label = Label.new()
-		label.text = wall_names[i]
-		add_child(label)
-
-		# Position the label near the wall
-		label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
-		label.scale = Vector2(2, 2) # Makes the label larger and easier to see
+		## Create a label for the wall
+		#var label = Label.new()
+		#label.text = wall_names[i]
+		#add_child(label)
+#
+		## Position the label near the wall
+		#label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
+		#label.scale = Vector2(2, 2) # Makes the label larger and easier to see
 		
 		Global.levelWalls.append(wall_instance)
 		

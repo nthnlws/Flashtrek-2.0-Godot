@@ -115,6 +115,12 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+
+func on_wall_collision():
+	print("collide")
+	
+	
+	
 func warping_state_change(): #Reverses warping state
 	var warpm:float = 1.0
 	if warping_active == true: #Transition to impulse
@@ -233,3 +239,4 @@ func idle_sound(active):
 				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
+

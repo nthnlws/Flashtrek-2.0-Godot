@@ -39,8 +39,12 @@ func toggle_menu():
 		GameSettings.menuStatus = false
 		visible = false
 
-func _on_close_button_pressed():
+#Header buttons
+func _on_close_menu_button_pressed():
 	toggle_menu()
+	
+func _on_close_game_button_pressed():
+	get_tree().quit()
 
 # Cheats Column
 func _on_energy_button_toggled(toggled_on):

@@ -63,7 +63,6 @@ func _physics_process(delta):
 	$laser_particles.process_material.emission_box_extents.y = cast_point.length() * 0.5
 	
 func _process(delta):
-	print(laserStatus)
 	# Damage setting from Cheat Menu
 	if GameSettings.laserDamageOverride == true:
 		damage_rate = GameSettings.laserDamage
