@@ -94,7 +94,7 @@ func _on_agro_box_area_exited(area):
 		playerAgro =  false # Replace with function body.
 
 func _on_hitbox_area_entered(area):
-	if area.is_in_group("torpedo") and area.shooter != "enemy":
+	if area.is_in_group("projectile") and area.shooter != "enemy":
 		$TorpedoHit.play()
 		area.queue_free()
 		var damage_taken = area.damage

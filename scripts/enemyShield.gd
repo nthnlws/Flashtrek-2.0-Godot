@@ -62,7 +62,7 @@ func damageTimeout(): #Turns off shield regen for 1 second after damage taken
 		damageTime = false
 	
 func _on_shield_area_entered(area): #Torpedo damage
-	if area.is_in_group("torpedo") and area.shooter != "enemy":
+	if area.is_in_group("projectile") and area.shooter != "enemy":
 		area.queue_free()
 		var damage_taken = area.damage
 		sp_current -= damage_taken

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=14 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
@@ -12,10 +12,11 @@
 [ext_resource type="AudioStream" uid="uid://cqnw6gm42r33i" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="8_a4vqp"]
 [ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="9_ejl8a"]
 [ext_resource type="AudioStream" uid="uid://lygwmn8cp4ud" path="res://assets/audio/torpedo explosion.mp3" id="11_u2r70"]
+[ext_resource type="AudioStream" uid="uid://c7amwmpplssv7" path="res://assets/audio/smallexplosion3.mp3" id="13_klvb2"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
-collision_mask = 15
+collision_mask = 11
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
@@ -101,5 +102,10 @@ pitch_scale = 1.51
 unique_name_in_owner = true
 stream = ExtResource("8_a4vqp")
 volume_db = -10.0
+
+[node name="TorpedoHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_klvb2")
+volume_db = -20.0
+pitch_scale = 2.0
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

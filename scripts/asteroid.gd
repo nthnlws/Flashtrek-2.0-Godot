@@ -51,6 +51,6 @@ func explode():
 	queue_free()
 
 func _on_asteroid_area_entered(area):
-	if area.is_in_group("torpedo"):
+	if area.is_in_group("projectile"):
 		explode()
 		area.queue_free()

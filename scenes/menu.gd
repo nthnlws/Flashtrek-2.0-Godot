@@ -12,7 +12,6 @@ var file
 
 
 func _ready():
-	print(GameSettings.loadNumber)
 	Global.pauseMenu = self
 	if GameSettings.loadNumber == 0: 
 		store_menu_state(0)
@@ -110,7 +109,10 @@ func _on_reset_pressed():
 
 func _on_border_toggle_toggled(toggled_on):
 	GameSettings.borderToggle = toggled_on
-	border_size_moved.emit() 
+	GameSettings.gameSize = %gameSize.value
+	border_size_moved.emit()
+	
+	
 func _on_border_slider_value_changed(value):
 	GameSettings.gameSize = value
 	if GameSettings.borderToggle == true:

@@ -45,12 +45,16 @@ func _physics_process(delta):
 		if collider.name == "shield_area":
 			var target_shield = collider
 			if target_shield.get_parent().shieldActive == true:
+				cast_point = to_local(get_collision_point())
+				cast_point_exact = cast_point
 				target_to_shield(collider, delta)
 				laserOn()
 			elif target_shield.get_parent().shieldActive == false:
 				add_exception(target_shield)
 		elif collider.name == "Hitbox":
 			var target_hitbox = collider
+			cast_point = to_local(collider.global_position)
+			cast_point_exact = to_local(get_collision_point())
 			target_to_hitbox(collider, delta)
 			laserOn()
 	else:
@@ -107,8 +111,6 @@ func _process(delta):
 		
 func target_to_shield(collider, delta):
 	enemy_collision = true
-	cast_point = to_local(get_collision_point())
-	cast_point_exact = cast_point
 	
 	#Sets collision particle position and color
 	collision_particles.process_material.color = Color(0.5, 3.0, 6.0, 1.0) #Color to blue
@@ -120,8 +122,6 @@ func target_to_shield(collider, delta):
 	
 func target_to_hitbox(collider, delta):
 	enemy_collision = true
-	cast_point = to_local(collider.global_position)
-	cast_point_exact = to_local(get_collision_point())
 	
 	##Sets collision particle position and color
 	collision_particles.position = cast_point_exact

@@ -92,6 +92,7 @@ script = ExtResource("12_ufgrf")
 
 [node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
 visible = false
+z_index = 1
 
 [node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
 visible = false

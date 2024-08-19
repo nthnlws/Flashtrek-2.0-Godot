@@ -17,6 +17,7 @@ func _process(delta):
 	if shieldActive == true and sp_current <= sp_max and damageTime == false:
 		sp_current += regen_speed * delta
 		sp_current = clamp(sp_current, 0, sp_max)
+		playerShieldChanged.emit(sp_current)
 	if get_parent().warping_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
@@ -27,10 +28,12 @@ func _process(delta):
 			visible = false
 			shield_area.collision_layer = 0
 			shield_area.collision_mask = 0
+			playerShieldChanged.emit(0)
 		elif GameSettings.playerShield == true && shieldActive == true:
 			visible = true
 			shield_area.collision_layer = 2
 			shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
+			playerShieldChanged.emit(sp_current)
 		
 
 func fadeout(): #Fades shield to 0 Alpha
@@ -77,7 +80,7 @@ func damageTimeout(): #Turns off shield regen for 1 second after damage taken
 		damageTime = false
 	
 func _on_shield_area_entered(area): #Torpedo damage
-	if area.is_in_group("torpedo") and area.shooter != "player":
+	if area.is_in_group("projectile") and area.shooter != "player":
 		area.queue_free()
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage

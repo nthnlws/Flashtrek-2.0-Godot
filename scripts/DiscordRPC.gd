@@ -5,7 +5,7 @@ func _ready():
 	DiscordRPC.state = "In Solarus"
 	DiscordRPC.large_image = "icon" # Image key from "Art Assets"
 	DiscordRPC.large_image_text = "FlashTrek 2.0"
-	DiscordRPC.small_image = "tosenterprise" # Image key from "Art Assets"
+	DiscordRPC.small_image = "enterprisetos" # Image key from "Art Assets"
 	DiscordRPC.small_image_text = "Player Ship"
 
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system()) # "02:46 elapsed"

@@ -11,10 +11,10 @@ var wall_positions = [
 ]
 
 var wall_scales = [
-	Vector2((borderCoords/233*2)*1.01, 1),
-	Vector2((borderCoords/233*2)*1.01, 1),
-	Vector2((borderCoords/233*2)*1.01, 1),
-	Vector2((borderCoords/233*2)*1.01, 1),
+	Vector2(((borderCoords+23.5)/233*2), 1),
+	Vector2(((borderCoords+23.5)/233*2), 1),
+	Vector2(((borderCoords-23.5)/233*2), 1),
+	Vector2(((borderCoords-23.5)/233*2), 1),
 ]
 
 var wall_names = [
@@ -32,8 +32,14 @@ var wall_rotations = [
 ]
 
 func _ready():
+	Global.levelWalls.clear()
 	Global.levelBorderNode = self
-	GameSettings.gameSize = borderCoords
+	
+	if GameSettings.loadNumber == 0:
+		GameSettings.gameSize = borderCoords
+	elif GameSettings.loadNumber > 0:
+		_on_border_coords_moved()
+
 	for i in range(len(wall_positions)):
 		var wall_instance = WallScene.instantiate()
 		wall_instance.position = wall_positions[i]
@@ -61,10 +67,10 @@ func _on_border_coords_moved():
 	Vector2(-GameSettings.gameSize, 0)
 ]
 	wall_scales = [
-	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
-	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
-	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
-	Vector2((GameSettings.gameSize/233*2)*1.01, 1),
+	Vector2(((GameSettings.gameSize+23.5)/233*2), 1),
+	Vector2(((GameSettings.gameSize+23.5)/233*2), 1),
+	Vector2(((GameSettings.gameSize-23.5)/233*2), 1),
+	Vector2(((GameSettings.gameSize-23.5)/233*2), 1),
 ]
 	for i in range(Global.levelWalls.size()):
 		var wall = Global.levelWalls[i]

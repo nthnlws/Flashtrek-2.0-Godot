@@ -36,8 +36,6 @@ func _ready():
 		asteroid.connect("exploded", _on_asteroid_exploded)
 
 func _input(event):
-	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
 	
 	if Input.is_action_just_pressed("f11"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
@@ -79,6 +77,4 @@ func _on_player_died():
 		if player.warping_active == true:
 			player.warping_state_change()
 		await get_tree().create_timer(1).timeout
-		while !player_spawn_area.is_empty:
-			await get_tree().create_timer(0.1).timeout
 		player.respawn(player_spawn_pos.global_position)
