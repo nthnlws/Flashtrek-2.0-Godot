@@ -5,6 +5,7 @@ extends Control
 signal teleport
 signal world_reset
 signal border_size_moved
+signal collisionChanged
 
 var xCoord
 var yCoord
@@ -54,6 +55,11 @@ func _on_health_button_toggled(toggled_on):
 	
 func _on_shield_button_toggled(toggled_on):
 	GameSettings.unlimitedShield = toggled_on
+
+func _on_no_collision_toggled(toggled_on):
+	GameSettings.noCollision = toggled_on
+	collisionChanged.emit(toggled_on)
+
 	
 func _on_x_coord_input_text_changed(new_text):
 	xCoord = new_text.strip_edges().to_float()
@@ -175,3 +181,4 @@ func set_menu_to_savefile(resets):
 		child.value = value
 	
 	file.close()
+

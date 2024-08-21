@@ -28,3 +28,4 @@ func connect_signals():
 	settingsButton.connect("menu_clicked", Callable(pauseMenu, "toggle_menu"))
 	pauseMenu.connect("world_reset", Callable(self, "_on_world_reset"))
 	pauseMenu.connect("border_size_moved", Callable(levelBorderNode, "_on_border_coords_moved"))
+	pauseMenu.connect("collisionChanged", Callable(levelBorderNode, "_on_collision_changed"))

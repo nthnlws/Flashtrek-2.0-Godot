@@ -14,6 +14,7 @@ var vSyncSetting: bool = true
 var unlimitedEnergy: bool = false
 var unlimitedHealth: bool = false
 var unlimitedShield: bool = false
+var noCollision: bool = false
 var teleportCoords: Vector2
 
 #Player

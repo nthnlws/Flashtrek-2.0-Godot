@@ -179,7 +179,37 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 30
 text = "Unlimited Shield"
 
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
 [node name="unlimitedShield" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="collisionContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 0
+theme_override_constants/margin_left = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/collisionContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="collisionCheat" type="Label" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+theme_override_font_sizes/font_size = 30
+text = "No Collision"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 71
+
+[node name="noCollision" type="CheckButton" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="TeleportContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
@@ -798,6 +828,7 @@ ticks_on_borders = true
 [connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/unlimitedEnergy" to="." method="_on_energy_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/unlimitedHealth" to="." method="_on_health_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/unlimitedShield" to="." method="_on_shield_button_toggled"]
+[connection signal="toggled" from="ColorRect/CheatsVBox/collisionContainer/HBoxContainer/noCollision" to="." method="_on_no_collision_toggled"]
 [connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_changed"]
 [connection signal="text_submitted" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_submitted"]
 [connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/yCoordInput" to="." method="_on_y_coord_input_text_changed"]
