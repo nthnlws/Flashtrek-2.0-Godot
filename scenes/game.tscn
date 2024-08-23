@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=18 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="2_85g5u"]
@@ -14,13 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
-[ext_resource type="Script" path="res://scripts/ScreenScaling.gd" id="11_et6bi"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="12_63k06"]
 [ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
 
 [node name="Game" type="Node2D"]
-visible = false
 script = ExtResource("1_ci0lx")
 
 [node name="Level" type="Node" parent="."]
@@ -85,7 +83,6 @@ stream = ExtResource("12_63k06")
 [node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
 
 [node name="Menus" type="CanvasLayer" parent="."]
-script = ExtResource("11_et6bi")
 
 [node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
 visible = false

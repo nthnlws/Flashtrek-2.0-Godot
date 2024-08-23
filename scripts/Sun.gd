@@ -8,7 +8,7 @@ extends Node2D
 func _ready():
 	rotation_degrees = 20
 	
-	var random_index = "%02d" % randi_range(1, 4)
+	var random_index = "%02d" % randi_range(1, 6)
 	var sprite_path = "res://assets/textures/suns/sun_%s.png" % random_index
 	sprite.texture = load(sprite_path)
 	

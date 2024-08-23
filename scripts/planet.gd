@@ -7,7 +7,7 @@ func _ready():
 	rotation_degrees = 40
 
 	
-	var random_index = "%03d" % randi_range(1, 223)
+	var random_index = "%03d" % randi_range(1, 221)
 	var sprite_path = "res://assets/textures/planets/planet_%s.png" % random_index
 	sprite.texture = load(sprite_path)
 

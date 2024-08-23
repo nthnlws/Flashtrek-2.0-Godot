@@ -28,6 +28,7 @@ func _ready():
 	game_over_screen.visible = false
 	score = 0
 	lives = 3
+
 	
 	Global.connect_signals()
 	player.connect("torpedo_shot", _on_player_torpedo_shot)
@@ -39,13 +40,6 @@ func _ready():
 	
 	#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
-func _input(event):
-	if Input.is_action_just_pressed("f11"):
-		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		
 
 func _on_player_torpedo_shot(torpedo):
 	torpedos.add_child(torpedo)

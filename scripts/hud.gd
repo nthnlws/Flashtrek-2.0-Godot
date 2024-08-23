@@ -28,6 +28,9 @@ func _ready():
 func _process(delta):
 	%Variable.text = "Zoom: " + str(camera.zoom)
 	%Coords.text = str(round(player.global_position))
+	
+	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
+	
 
 
 func _on_player_health_changed(hp_current):
