@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=19 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="2_85g5u"]
@@ -18,8 +18,6 @@
 [ext_resource type="Script" path="res://scenes/Sun.gd" id="11_r83m0"]
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="12_63k06"]
 [ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
-[ext_resource type="PackedScene" uid="uid://buo2ljq40uxxa" path="res://scenes/settings_button.tscn" id="12_k1cqf"]
-[ext_resource type="Script" path="res://scenes/UI.gd" id="12_ufgrf"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
@@ -82,23 +80,11 @@ script = ExtResource("11_r83m0")
 stream = ExtResource("12_63k06")
 
 [node name="Overlay" type="CanvasLayer" parent="."]
-script = ExtResource("11_et6bi")
 
 [node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
-anchors_preset = -1
-offset_right = 0.0
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-
-[node name="SettingsButtonNode" parent="Overlay" instance=ExtResource("12_k1cqf")]
-z_index = 1
-anchors_preset = -1
-offset_left = 120.0
-offset_right = 120.0
-mouse_default_cursor_shape = 0
 
 [node name="Menus" type="CanvasLayer" parent="."]
-script = ExtResource("12_ufgrf")
+script = ExtResource("11_et6bi")
 
 [node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
 visible = false

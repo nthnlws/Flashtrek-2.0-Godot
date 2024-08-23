@@ -1,7 +1,5 @@
 extends CanvasLayer
 
-#@onready var menu_button = $"../Overlay/HUD/Node2D/SettingsButton"
-
 var screen_size:Vector2
 var base_size = Vector2(1280, 720)
 
@@ -9,8 +7,6 @@ func _ready():
 	screen_size = get_viewport().get_visible_rect().size
 	get_tree().get_root().connect("size_changed", Callable(self, "_on_window_size_changed"))
 	adjust_canvas_layer_scale()
-	
-	#menu_button.connect("menu_clicked", Callable(self, "_on_menu_button_clicked"))
 
 func adjust_canvas_layer_scale():
 	screen_size = get_viewport().get_visible_rect().size

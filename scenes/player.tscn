@@ -29,7 +29,6 @@ position = Vector2(0, -17)
 position = Vector2(0, -35)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.8, 0.8)
 limit_smoothed = true
 script = ExtResource("3_fns5h")
 

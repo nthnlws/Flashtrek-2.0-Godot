@@ -94,7 +94,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
-	if Input.is_action_pressed("shoot_torpedo"):
+	if Input.is_action_pressed("left_click"):
 		if warping_active == false:
 			if !shoot_cd:
 				shoot_cd = true

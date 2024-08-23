@@ -1,94 +1,128 @@
-[gd_scene load_steps=5 format=3 uid="uid://cyg1avbtmwoj7"]
+[gd_scene load_steps=6 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
 [ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
+[ext_resource type="Texture2D" uid="uid://vn2pe1gnlkqx" path="res://assets/textures/Engineering_Insignia.png" id="3_8t62i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_158n7")
-font_size = 48
+font_size = 32
 
 [sub_resource type="LabelSettings" id="LabelSettings_qqd3h"]
 font = ExtResource("2_158n7")
-font_size = 20
 
 [node name="HUD" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(0.55, 0.55)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 1
-mouse_default_cursor_shape = 8
 script = ExtResource("1_3evr2")
 
-[node name="Score" type="Label" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = 425.0
-offset_bottom = 70.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LeftContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Score" type="Label" parent="MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 mouse_filter = 1
 text = "SCORE: XYZ"
 label_settings = SubResource("LabelSettings_amtcr")
 
-[node name="Variable" type="Label" parent="."]
-layout_mode = 0
-offset_left = 486.0
-offset_top = 11.0
-offset_right = 895.0
-offset_bottom = 70.0
-mouse_filter = 1
-text = "Zoom: (0.x, 0.x)"
-label_settings = SubResource("LabelSettings_qqd3h")
-
-[node name="Coords" type="Label" parent="."]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 209.0
-offset_right = 426.0
-offset_bottom = 269.0
-rotation = 0.00157602
+[node name="Coords" type="Label" parent="MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 mouse_filter = 1
 text = "Coords:"
 label_settings = SubResource("LabelSettings_amtcr")
 
-[node name="Lives" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 65.0
-offset_right = 196.0
-offset_bottom = 91.0
-scale = Vector2(1.5, 1.5)
+[node name="Lives" type="HBoxContainer" parent="MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/LeftContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
 modulate = Color(0.192157, 0.392157, 0.101961, 1)
-layout_mode = 0
-offset_left = 16.0
-offset_top = 110.0
-offset_right = 431.0
-offset_bottom = 137.0
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 mouse_filter = 1
 step = 1.0
 show_percentage = false
 
-[node name="ShieldBar" type="ProgressBar" parent="."]
+[node name="ShieldBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
 modulate = Color(0.141176, 0.329412, 0.827451, 1)
-layout_mode = 0
-offset_left = 16.0
-offset_top = 138.0
-offset_right = 431.0
-offset_bottom = 165.0
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 mouse_filter = 1
 step = 1.0
 show_percentage = false
 
-[node name="EnergyBar" type="ProgressBar" parent="."]
+[node name="EnergyBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
 modulate = Color(0.772549, 0.584314, 0.0235294, 1)
-layout_mode = 0
-offset_left = 16.0
-offset_top = 168.0
-offset_right = 431.0
-offset_bottom = 195.0
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 mouse_filter = 1
 step = 1.0
 show_percentage = false
+
+[node name="MiddleContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Variable" type="Label" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 1
+text = "Zoom: (0.x, 0.x)"
+label_settings = SubResource("LabelSettings_qqd3h")
+
+[node name="RightContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+mouse_default_cursor_shape = 8
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/RightContainer"]
+custom_minimum_size = Vector2(45, 60)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_8t62i")
+expand_mode = 1
+stretch_mode = 4
+
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/RightContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]

@@ -13,6 +13,6 @@ func _on_window_size_changed():
 	
 func adjust_canvas_layer_scale():
 	screen_size = get_viewport().get_visible_rect().size
-	base_size = Vector2(1280, 720)/0.7
+	base_size = Vector2(1280, 720)
 	var scale_factor = screen_size / base_size
 	scale = scale_factor

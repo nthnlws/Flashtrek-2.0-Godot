@@ -1,7 +1,7 @@
 extends Node2D
 
 var WallScene = preload("res://scenes/border_wall.tscn")
-@export var borderCoords:float = 10000
+@export var borderCoords:float = 40000
 
 var wall_positions = [
 	Vector2(0, borderCoords),
