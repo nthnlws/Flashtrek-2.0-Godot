@@ -1,0 +1,206 @@
+[gd_scene load_steps=4 format=3 uid="uid://b28vbasgqihyh"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
+[ext_resource type="FontFile" uid="uid://bfgx6i1dsuj67" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
+font = ExtResource("2_1bju2")
+font_size = 75
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_k143m")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LeftContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Copyright" type="Label" parent="MarginContainer/HBoxContainer/LeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
+text = "© Nathan Lewis 2024"
+vertical_alignment = 2
+
+[node name="MiddleContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 100
+
+[node name="GameLogo" type="Label" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "FLASHTREK"
+label_settings = SubResource("LabelSettings_fa2ty")
+
+[node name="MarginContainer5" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 75
+
+[node name="SPcontainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/SPcontainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SPbutton" type="Button" parent="MarginContainer/HBoxContainer/MiddleContainer/SPcontainer"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Single Player"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/SPcontainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="MPcontainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MPbutton" type="Button" parent="MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Multiplayer (coming soon)"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="SettingsContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/SettingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/HBoxContainer/MiddleContainer/SettingsContainer"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/SettingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="CheatsContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CheatsMenu" type="Button" parent="MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cheats"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer6" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="CreditsContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreditsButton" type="Button" parent="MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Credits"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer7" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="ExitContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/ExitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ExitButton" type="Button" parent="MarginContainer/HBoxContainer/MiddleContainer/ExitContainer"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Exit Game"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/HBoxContainer/MiddleContainer/ExitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/RightContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+text = "V 0.0.01"
+vertical_alignment = 2
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
+[connection signal="toggled" from="MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_toggled"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/MPbutton" to="." method="_on_mp_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MiddleContainer/SettingsContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MiddleContainer/ExitContainer/ExitButton" to="." method="_on_exit_button_pressed"]

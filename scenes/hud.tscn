@@ -102,7 +102,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Variable" type="Label" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MiddleContainer"]
+layout_mode = 2
+
+[node name="Variable" type="Label" parent="MarginContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -110,6 +113,9 @@ size_flags_vertical = 0
 mouse_filter = 1
 text = "Zoom: (0.x, 0.x)"
 label_settings = SubResource("LabelSettings_qqd3h")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
+layout_mode = 2
 
 [node name="RightContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

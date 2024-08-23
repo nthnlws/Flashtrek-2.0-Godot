@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://3st5s0ue3nj4"]
 
-[ext_resource type="Script" path="res://scripts/menu.gd" id="1_trih8"]
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_trih8"]
 [ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
 [ext_resource type="AudioStream" uid="uid://c7amwmpplssv7" path="res://assets/audio/smallexplosion3.mp3" id="3_pbw0g"]
 

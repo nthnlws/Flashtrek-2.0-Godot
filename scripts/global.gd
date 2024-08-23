@@ -10,11 +10,11 @@ var enemies = []
 var levelWalls = []
 
 func _process(delta):
-	if !player.is_connected("playerEnergyChanged", Callable(HUD, "_on_player_energy_changed")):
-		connect_signals()
+	pass
 	
-func _ready():
-	call_deferred("connect_signals")
+func _ready(): 
+	if get_tree().get_current_scene().name == "Game":
+		call_deferred("connect_signals")
 	
 	
 func _on_world_reset():
