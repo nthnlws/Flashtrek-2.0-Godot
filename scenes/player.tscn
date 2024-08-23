@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=15 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
+[ext_resource type="Script" path="res://scripts/laser.gd" id="3_oh4li"]
 [ext_resource type="Texture2D" uid="uid://cx8gtktgvo0di" path="res://assets/textures/ships/player_ship.png" id="4_kji6a"]
 [ext_resource type="Texture2D" uid="uid://bteff77uf5d1w" path="res://assets/textures/light.png" id="4_xg1hi"]
 [ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="6_bwxj0"]
@@ -24,6 +25,7 @@ script = ExtResource("1_w51pe")
 [node name="Laser" parent="." groups=["player"] instance=ExtResource("2_vj0n8")]
 z_index = -1
 position = Vector2(0, -17)
+script = ExtResource("3_oh4li")
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -35)

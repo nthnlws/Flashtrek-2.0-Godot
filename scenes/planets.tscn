@@ -1,12 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjwf6ulibdpvr"]
-
-[ext_resource type="Script" path="res://scenes/planet.gd" id="1_3tn0h"]
+[gd_scene load_steps=2 format=3 uid="uid://cjwf6ulibdpvr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kshu"]
 radius = 1072.1
 
 [node name="Planet" type="Node2D"]
-script = ExtResource("1_3tn0h")
 
 [node name="PlanetTexture" type="Sprite2D" parent="."]
 
