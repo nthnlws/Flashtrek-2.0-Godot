@@ -37,8 +37,6 @@ func _ready():
 	
 	for asteroid in asteroids.get_children():
 		asteroid.connect("exploded", _on_asteroid_exploded)
-	
-	#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 
 func _on_player_torpedo_shot(torpedo):

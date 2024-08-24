@@ -9,13 +9,6 @@ const min_rotation:float = 10.0
 var direction: int
 var speed = randi_range(min_speed, max_speed)
 
-#func _ready():
-	#var rand = randi_range(0, 1)
-	#if rand == 0: direction = -1
-	#elif rand == 1: direction = 1
-	#print(direction)
-	#print(rand)
-	
 
 func _process(delta):
 	position.x -= speed * delta

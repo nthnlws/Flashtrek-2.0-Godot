@@ -14,15 +14,19 @@ var file
 
 func _ready():
 	Global.pauseMenu = self
+	
 	if GameSettings.loadNumber == 0: 
 		store_menu_state(0)
 		set_menu_to_savefile(0)
 	elif GameSettings.loadNumber > 0: 
 		set_menu_to_savefile(1)
 		world_reset.emit()
-	
-	self.visible = false
+		
 	%gameVolume.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
+	mouse_filter = Control.MOUSE_FILTER_PASS
+	GameSettings.menuStatus = false
+	visible = false
+	
 	
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
@@ -42,6 +46,9 @@ func toggle_menu():
 #Header buttons
 func _on_close_menu_button_pressed():
 	toggle_menu()
+	
+func _on_main_menu_button_pressed():
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 func _on_close_game_button_pressed():
 	get_tree().quit()
@@ -181,4 +188,7 @@ func set_menu_to_savefile(resets):
 		child.value = value
 	
 	file.close()
+
+
+
 
