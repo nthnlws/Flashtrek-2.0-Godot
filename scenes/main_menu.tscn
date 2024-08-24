@@ -1,14 +1,69 @@
-[gd_scene load_steps=7 format=3 uid="uid://b28vbasgqihyh"]
+[gd_scene load_steps=12 format=3 uid="uid://b28vbasgqihyh"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
 [ext_resource type="FontFile" uid="uid://bfgx6i1dsuj67" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
 [ext_resource type="Script" path="res://scenes/ParallaxBackground.gd" id="3_u5b7k"]
 [ext_resource type="Texture2D" uid="uid://bdi541jjbyxjx" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]
 [ext_resource type="Script" path="res://scenes/scrolling_planets.gd" id="5_44yls"]
+[ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="6_qtabb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_1bju2")
 font_size = 75
+
+[sub_resource type="Animation" id="Animation_vunk4"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8j3nr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1d4sy"]
+resource_name = "fade_in"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4tg"]
+_data = {
+"RESET": SubResource("Animation_8j3nr"),
+"fade_in": SubResource("Animation_1d4sy"),
+"fade_out": SubResource("Animation_vunk4")
+}
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
@@ -215,6 +270,28 @@ texture = ExtResource("3_ynlqk")
 motion_scale = Vector2(0, 0)
 script = ExtResource("5_44yls")
 
+[node name="ColorRect" type="ColorRect" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MainMenu"]
+root_node = NodePath("../ColorRect")
+libraries = {
+"": SubResource("AnimationLibrary_eo4tg")
+}
+
+[node name="MainMenuBackground" type="AudioStreamPlayer" parent="MainMenu"]
+unique_name_in_owner = true
+stream = ExtResource("6_qtabb")
+volume_db = -20.0
+
+[connection signal="ready" from="MainMenu" to="MainMenu" method="_on_ready"]
 [connection signal="pressed" from="MainMenu/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="MainMenu" method="_on_sp_button_pressed"]
 [connection signal="toggled" from="MainMenu/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="MainMenu" method="_on_sp_button_toggled"]
 [connection signal="pressed" from="MainMenu/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/MPbutton" to="MainMenu" method="_on_mp_button_pressed"]

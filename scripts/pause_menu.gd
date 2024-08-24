@@ -1,6 +1,9 @@
 extends Control
 
 @onready var _bus := AudioServer.get_bus_index("Master")
+@onready var anim: AnimationPlayer = $"../../transition_overlays/AnimationPlayer"
+@onready var color_rect: ColorRect = $"../../transition_overlays/ColorRect"
+
 
 signal teleport
 signal world_reset
@@ -48,6 +51,10 @@ func _on_close_menu_button_pressed():
 	toggle_menu()
 	
 func _on_main_menu_button_pressed():
+	color_rect.z_index = 2
+	z_index = 0
+	anim.play("fade_out")
+	await anim.animation_finished
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 func _on_close_game_button_pressed():
@@ -67,19 +74,26 @@ func _on_no_collision_toggled(toggled_on):
 	GameSettings.noCollision = toggled_on
 	collisionChanged.emit(toggled_on)
 
-	
+
+func _on_x_coord_input_focus_entered():
+	%xCoordInput.select_all()
 func _on_x_coord_input_text_changed(new_text):
 	xCoord = new_text.strip_edges().to_float()
-func _on_y_coord_input_text_changed(new_text):
-	yCoord = new_text.strip_edges().to_float()
 func _on_x_coord_input_text_submitted(new_text):
 	xCoord = new_text.strip_edges().to_float()
 	updateVector()
 	toggle_menu()
+
+func _on_y_coord_input_text_changed(new_text):
+	yCoord = new_text.strip_edges().to_float()
 func _on_y_coord_input_text_submitted(new_text):
 	yCoord = new_text.strip_edges().to_float()
 	updateVector()
 	toggle_menu()
+func _on_y_coord_input_focus_entered():
+	%yCoordInput.select_all()
+	
+	
 
 
 # Player Column
@@ -188,6 +202,10 @@ func set_menu_to_savefile(resets):
 		child.value = value
 	
 	file.close()
+
+
+
+
 
 
 

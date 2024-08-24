@@ -37,7 +37,6 @@ var warpTime:bool = false
 
 var shield
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
-var laser_scene = preload("res://scenes/laser.tscn")
 
 var shoot_cd:bool = false
 var rate_of_fire:float = 0.2

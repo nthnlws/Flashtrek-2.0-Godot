@@ -1,13 +1,11 @@
 extends Control
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-	
+@onready var anim = $AnimationPlayer
 
 
 func _on_sp_button_pressed():
+	anim.play("fade_out")
+	await anim.animation_finished
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
@@ -29,3 +27,8 @@ func _on_credits_button_pressed():
 
 func _on_exit_button_pressed():
 	get_tree().quit()
+
+
+func _on_ready() -> void:
+	%MainMenuBackground.play()
+	anim.play("fade_in")

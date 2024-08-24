@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=21 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="2_85g5u"]
@@ -16,7 +16,60 @@
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
 [ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="12_63k06"]
-[ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="12_j3k8r"]
+
+[sub_resource type="Animation" id="Animation_7i6fp"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../transition_overlays/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_llleq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../transition_overlays/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_w4od5"]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../transition_overlays/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2ionv"]
+_data = {
+"RESET": SubResource("Animation_llleq"),
+"fade_in": SubResource("Animation_w4od5"),
+"fade_out": SubResource("Animation_7i6fp")
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
@@ -78,9 +131,9 @@ script = ExtResource("11_r83m0")
 [node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_63k06")
 
-[node name="Overlay" type="CanvasLayer" parent="."]
+[node name="HUD_layer" type="CanvasLayer" parent="."]
 
-[node name="HUD" parent="Overlay" instance=ExtResource("2_g7hwg")]
+[node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
 
 [node name="Menus" type="CanvasLayer" parent="."]
 
@@ -91,8 +144,24 @@ z_index = 1
 [node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
 visible = false
 
-[node name="MainMenuBackground" type="AudioStreamPlayer" parent="Menus"]
-stream = ExtResource("12_j3k8r")
-volume_db = -10.0
+[node name="transition_overlays" type="CanvasLayer" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="transition_overlays"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="transition_overlays"]
+unique_name_in_owner = true
+root_node = NodePath("../../HUD_layer")
+libraries = {
+"": SubResource("AnimationLibrary_2ionv")
+}
+
+[connection signal="ready" from="Level" to="." method="_on_level_ready"]
 [connection signal="area_entered" from="Level/Asteroids/Asteroid" to="Level/Asteroids/Asteroid" method="_on_asteroid_area_entered"]

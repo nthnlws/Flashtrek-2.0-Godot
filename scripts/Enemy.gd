@@ -20,9 +20,6 @@ var endPoint:Vector2
 var randomMove:bool = false
 var enemyTarget:String
 
-func _reset_node_references():
-	var starbase = get_node("/root/Game/Level/Starbase")
-	var player = get_node("/root/Game/Level/Player")
 	
 func _ready():
 	Global.enemies.append(self)

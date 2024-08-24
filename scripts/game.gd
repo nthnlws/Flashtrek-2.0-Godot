@@ -4,9 +4,11 @@ extends Node2D
 @onready var player = $Level/Player
 @onready var asteroids = $Level/Asteroids
 
-@onready var hud = $Overlay/HUD
+@onready var hud = $HUD_layer/HUD
 @onready var pauseMenu = $Menus/PauseMenu
 @onready var game_over_screen = $Menus/GameOverScreen
+@onready var anim = %AnimationPlayer
+
 
 @onready var player_spawn_pos = $Level/PlayerSpawnPos
 @onready var player_spawn_area = $Level/PlayerSpawnPos/PlayerSpawnArea
@@ -29,7 +31,6 @@ func _ready():
 	score = 0
 	lives = 3
 
-	
 	Global.connect_signals()
 	player.connect("torpedo_shot", _on_player_torpedo_shot)
 	player.connect("died", _on_player_died)
@@ -37,7 +38,9 @@ func _ready():
 	
 	for asteroid in asteroids.get_children():
 		asteroid.connect("exploded", _on_asteroid_exploded)
-
+	
+	%ColorRect.visible
+	anim.play("fade_in")
 
 func _on_player_torpedo_shot(torpedo):
 	torpedos.add_child(torpedo)
@@ -73,3 +76,5 @@ func _on_player_died():
 			player.warping_state_change()
 		await get_tree().create_timer(1).timeout
 		player.respawn(player_spawn_pos.global_position)
+
+
