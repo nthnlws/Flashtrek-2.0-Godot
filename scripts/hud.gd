@@ -7,9 +7,9 @@ var sp_max
 
 signal menu_clicked
 
-@onready var player = Global.player
-@onready var playerShield = Global.player.get_node("playerShield")
-@onready var camera = Global.player.get_node("Camera2D")
+@onready var player = SignalBus.player
+@onready var playerShield = SignalBus.player.get_node("playerShield")
+@onready var camera = SignalBus.player.get_node("Camera2D")
 
 var shieldActive:bool = false
 
@@ -21,8 +21,13 @@ var uilife_scene = preload("res://scenes/ui_life.tscn")
 
 	
 func _ready():
-	Global.HUD = self
+	SignalBus.HUD = self
 	
+	# Signal connections
+	SignalBus.playerHealthChanged.connect(_on_player_health_changed)
+	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
+	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
+
 	set_bar_maxes() # Initializes bar values
 
 func _process(delta):
@@ -34,7 +39,7 @@ func _process(delta):
 
 
 func _on_player_health_changed(hp_current):
-	$HealthBar.value = hp_current
+	%HealthBar.value = hp_current
 	
 func _on_player_shield_changed(sp_current):
 	%ShieldBar.value = sp_current
@@ -64,4 +69,5 @@ func set_bar_maxes():
 
 func _on_texture_rect_gui_input(event):
 	if event.is_action_pressed("left_click"):
-		menu_clicked.emit()
+		SignalBus.menu_clicked.emit()
+

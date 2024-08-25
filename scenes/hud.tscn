@@ -22,7 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_3evr2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -32,7 +32,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
@@ -40,7 +39,6 @@ theme_override_constants/margin_bottom = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-mouse_filter = 2
 
 [node name="LeftContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -133,13 +131,14 @@ label_settings = SubResource("LabelSettings_pu3f4")
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 0
-mouse_default_cursor_shape = 8
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/RightContainer"]
-custom_minimum_size = Vector2(35, 60)
+custom_minimum_size = Vector2(35, 44)
 layout_mode = 2
+mouse_filter = 0
 texture = ExtResource("3_8t62i")
 expand_mode = 1
 stretch_mode = 4
 
 [connection signal="gui_input" from="MarginContainer/HBoxContainer/RightContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/RightContainer/TextureRect" to="." method="_on_texture_rect_mouse_entered"]

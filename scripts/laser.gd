@@ -9,8 +9,10 @@ var fizzlePlayed:bool
 
 @onready var ship_particles = $ship_particles
 @onready var collision_particles = $collision_particles
+@onready var hitbox = get_parent().get_node("Hitbox")
+@onready var shield = get_parent().get_node("playerShield").get_node("shield_area")
 
-
+var shield_exception # Node to add and remove to exception list
 var collision_area # Global variable for HUD and debug
 
 @export var default_damage:int = 20
@@ -18,6 +20,10 @@ var damage_rate:int = default_damage
 @export var view_distance:int = 1200
 
 func _ready():
+	#Adds own player areas to exception list
+	add_exception(hitbox)
+	add_exception(shield)
+	
 	GameSettings.laserRange = view_distance
 	GameSettings.laserDamage = default_damage
 	$Line2D.visible = false
@@ -39,11 +45,10 @@ func _physics_process(delta):
 	if is_colliding():
 		var collider: = get_collider()
 		collision_area = collider
-		if collider.is_in_group("player"):
-			add_exception(collider)
-			return
-		if collider.name == "shield_area":
+		
+		if collider.is_in_group("enemy_shield"):
 			var target_shield = collider
+			shield_exception = collider
 			if target_shield.get_parent().shieldActive == true:
 				cast_point = to_local(get_collision_point())
 				cast_point_exact = cast_point
@@ -51,7 +56,7 @@ func _physics_process(delta):
 				laserOn()
 			elif target_shield.get_parent().shieldActive == false:
 				add_exception(target_shield)
-		elif collider.name == "Hitbox":
+		elif collider.is_in_group("enemy_hitbox"):
 			var target_hitbox = collider
 			cast_point = to_local(collider.global_position)
 			cast_point_exact = to_local(get_collision_point())
@@ -85,21 +90,7 @@ func _process(delta):
 		ship_particles.emitting = false
 		laserOff()
 
-	##State Logic Machine for laser status
-	#if laserClickState == true && enemy_collision == true:
-		#collision_particles.position = cast_point_exact
-		#collision_particles.global_rotation = get_collision_normal().angle()
-		#if laserStatus == false && GameSettings.menuStatus == false:
-			#laserOn()
-	#elif enemy_collision == false or laserClickState == false:
-		#if laserStatus == true:
-			#
-			#laserOff()
-	#elif enemy_collision == false && laserClickState == false:
-		#if laserStatus == true:
-			#laserOff()
-	
-	
+
 	#Laser fizzle sound
 	if Input.is_action_just_pressed("shoot_laser"):
 		if laserClickState == true:
@@ -124,12 +115,14 @@ func target_to_hitbox(collider, delta):
 	enemy_collision = true
 	
 	##Sets collision particle position and color
+	collision_particles.process_material.color = Color(1.0, 1.0, 0.0, 1.0) #Color to yellow
 	collision_particles.position = cast_point_exact
 	collision_particles.global_rotation = get_collision_normal().angle()
-	collision_particles.process_material.color = Color(1.0, 1.0, 0.0, 1.0) #Color to yellow
+
 	
 	#Clears exception before next phyics update in case shield regens
-	clear_exceptions()
+	if shield_exception != null:
+		remove_exception(shield_exception)
 	
 	if laserStatus == true:
 		collider.get_parent().hp_current -= damage_rate*delta

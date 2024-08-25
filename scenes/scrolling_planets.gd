@@ -53,7 +53,6 @@ func spawn_tumbling_sprite(is_initial: bool):
 
 	add_child(sprite)
 	sprite.set_script(sprite_script)
-	print(sprite.global_position)
 
 	# Set the movement speed
 

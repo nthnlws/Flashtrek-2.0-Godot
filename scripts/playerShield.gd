@@ -1,6 +1,5 @@
 extends Sprite2D
 
-signal playerShieldChanged
 
 var damageTime:bool = false
 @onready var shieldActive:bool = true
@@ -17,7 +16,7 @@ func _process(delta):
 	if shieldActive == true and sp_current <= sp_max and damageTime == false:
 		sp_current += regen_speed * delta
 		sp_current = clamp(sp_current, 0, sp_max)
-		playerShieldChanged.emit(sp_current)
+		SignalBus.playerShieldChanged.emit(sp_current)
 	if get_parent().warping_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
@@ -28,12 +27,12 @@ func _process(delta):
 			visible = false
 			shield_area.collision_layer = 0
 			shield_area.collision_mask = 0
-			playerShieldChanged.emit(0)
+			SignalBus.playerShieldChanged.emit(0)
 		elif GameSettings.playerShield == true && shieldActive == true:
 			visible = true
 			shield_area.collision_layer = 2
 			shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
-			playerShieldChanged.emit(sp_current)
+			SignalBus.playerShieldChanged.emit(sp_current)
 		
 
 func fadeout(): #Fades shield to 0 Alpha
@@ -85,7 +84,7 @@ func _on_shield_area_entered(area): #Torpedo damage
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			sp_current -= damage_taken
-			playerShieldChanged.emit(sp_current)
+			SignalBus.playerShieldChanged.emit(sp_current)
 		damageTimeout()
 	elif area.is_in_group("enemy"):
 		pass

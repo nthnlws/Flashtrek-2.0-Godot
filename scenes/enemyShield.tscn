@@ -18,9 +18,9 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_h8s3t")
 script = ExtResource("3_0y86e")
 
-[node name="shield_area" type="Area2D" parent="." groups=["shield"]]
-collision_layer = 4
-collision_mask = 9
+[node name="shield_area" type="Area2D" parent="." groups=["enemy_shield"]]
+collision_layer = 128
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
 scale = Vector2(2.97285, 5.45383)

@@ -22,7 +22,7 @@ var enemyTarget:String
 
 	
 func _ready():
-	Global.enemies.append(self)
+	SignalBus.enemies.append(self)
 	if shield_on == true:
 		var shieldScene = preload("res://scenes/enemyShield.tscn")
 		var newShield = shieldScene.instantiate()
@@ -79,16 +79,8 @@ func rotateToDirection(target_direction: Vector2):
 	rotation = lerp_angle(rotation, target_angle, 0.1)
 
 func explode():
-	Global.enemies.erase(self)
+	SignalBus.enemies.erase(self)
 	self.queue_free()
-
-func _on_agro_box_area_entered(area):
-	if area.is_in_group("player"):
-		playerAgro =  true
-
-func _on_agro_box_area_exited(area):
-	if area.is_in_group("player"):
-		playerAgro =  false # Replace with function body.
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "enemy":
@@ -96,3 +88,12 @@ func _on_hitbox_area_entered(area):
 		area.queue_free()
 		var damage_taken = area.damage
 		hp_current -= damage_taken
+
+
+func _on_agro_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		playerAgro =  true
+
+func _on_agro_box_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		playerAgro =  false

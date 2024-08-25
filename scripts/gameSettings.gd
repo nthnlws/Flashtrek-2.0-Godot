@@ -18,7 +18,7 @@ var noCollision: bool = false
 var teleportCoords: Vector2
 
 #Player
-var playerShield: bool
+var playerShield: bool = true
 var laserRangeOverride: bool = false
 var laserRange: int
 var laserDamageOverride: bool = false

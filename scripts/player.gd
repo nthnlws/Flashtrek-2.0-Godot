@@ -2,11 +2,7 @@ class_name Player extends CharacterBody2D
 
 signal torpedo_shot(torpedo)
 signal died
-signal warping
-signal impulse
 
-signal playerHealthChanged
-signal playerEnergyChanged
 
 var acceleration:int= 5
 @export var default_max_speed:int = 500
@@ -20,7 +16,7 @@ var warpm:float = 1.0
 #Health variables
 var hp_max:int = 100
 var hp_current:int = hp_max
-@export var shield_on:bool = true
+#@export var shield_on:bool = true
 
 #Energy system variables
 var energy_max:int = 100
@@ -45,13 +41,8 @@ var alive: bool = true
 
 func _ready():
 	GameSettings.maxSpeed = default_max_speed
-	Global.player = self
-	if shield_on == true:
-		GameSettings.playerShield = true
-		var shieldScene = preload("res://scenes/playerShield.tscn")
-		var newShield = shieldScene.instantiate()
-		add_child(newShield)
-	shield = get_node("playerShield")
+	SignalBus.player = self
+	shield = $playerShield
 
 func _process(delta):
 	if !alive: return
@@ -71,19 +62,19 @@ func _process(delta):
 	if $Laser.laserClickState == true:
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= laser_drain_rate * delta
-			playerEnergyChanged.emit(energy_current)
+			SignalBus.playerEnergyChanged.emit(energy_current)
 		energyTimeout()
 	if energy_current < 0:
 		energy_current = 0
-		playerEnergyChanged.emit(energy_current)
+		SignalBus.playerEnergyChanged.emit(energy_current)
 		energyTimeout()
 	if energy_current > energy_max:
 		energy_current = energy_max
-		playerEnergyChanged.emit(energy_current)
+		SignalBus.playerEnergyChanged.emit(energy_current)
 	
 	if $Laser.laserClickState == false and energy_current < energy_max and energyTime == false:
 		energy_current += energy_regen_speed * delta
-		playerEnergyChanged.emit(energy_current)
+		SignalBus.playerEnergyChanged.emit(energy_current)
 
 
 func _physics_process(delta):
@@ -125,7 +116,6 @@ func warping_state_change(): #Reverses warping state
 		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 		create_tween().tween_property(self, "warpm", 1.0, trans_length)
 		shield.fadein()
-		warping.emit()
 		warp_sound_off()
 		
 	elif warping_active == false: #Transition to warp
@@ -133,7 +123,6 @@ func warping_state_change(): #Reverses warping state
 		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
 		create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
 		shield.fadeout()
-		impulse.emit()
 		warp_sound_on()
 
 	
@@ -148,7 +137,7 @@ func shoot_torpedo():
 		emit_signal("torpedo_shot", t)
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= torpedo_drain
-			playerEnergyChanged.emit(energy_current)
+			SignalBus.playerEnergyChanged.emit(energy_current)
 
 
 func die():
@@ -160,12 +149,12 @@ func die():
 		emit_signal("died") # Connected to "_on_player_died()" in game.gd
 		
 		hp_current = 0 #Resets HP
-		playerHealthChanged.emit(hp_current)
+		SignalBus.playerHealthChanged.emit(hp_current)
 		energy_current = 0
-		playerEnergyChanged.emit(energy_current)
+		SignalBus.playerEnergyChanged.emit(energy_current)
 		shield.sp_current = 0
 		shield.damageTime = true
-		shield.playerShieldChanged.emit(shield.sp_current)
+		SignalBus.playerShieldChanged.emit(shield.sp_current)
 		
 
 func respawn(pos):
@@ -177,11 +166,11 @@ func respawn(pos):
 		
 		# Restores all HUD values to max
 		hp_current = hp_max #Resets HP
-		playerHealthChanged.emit(hp_current)
+		SignalBus.playerHealthChanged.emit(hp_current)
 		energy_current = energy_max
-		playerEnergyChanged.emit(energy_current)
+		SignalBus.playerEnergyChanged.emit(energy_current)
 		shield.sp_current = shield.sp_max
-		shield.playerShieldChanged.emit(shield.sp_current)
+		SignalBus.playerShieldChanged.emit(shield.sp_current)
 	
 		rotation = 0 #Sets rotation to north
 		
@@ -198,7 +187,7 @@ func _on_hitbox_area_entered(area):
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			hp_current -= damage_taken
-			playerHealthChanged.emit(hp_current)
+			SignalBus.playerHealthChanged.emit(hp_current)
 		if hp_current <= 0:
 			die()
 	elif area.is_in_group("enemy"):
@@ -232,7 +221,7 @@ func teleport(): # Uses coords from cheat menu to teleport player
 # Movement
 func warp_sound_on():
 	var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(%ship_idle, "volume_db", -60, 2.0)
+	tween.tween_property(%ship_idle, "volume_db", -60, 2.0) # Reduces idle sound volume
 	%warp_on.play() 
 
 func warp_sound_off():

@@ -2,7 +2,7 @@ extends Node
 
 
 func _ready():
-	Global.saveGame = self
+	SignalBus.saveGame = self
 	
 	
 #func _on_game_reset():

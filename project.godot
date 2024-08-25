@@ -21,10 +21,11 @@ config/icon="res://icon.svg"
 
 Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 GameSettings="*res://scripts/gameSettings.gd"
-Global="*res://scripts/global.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 SaveGame="*res://scripts/saveGame.gd"
 WindowSize="*res://scenes/WindowSize.gd"
+MiniMapGlobal="*res://scenes/MiniMapGlobal.gd"
+SignalBus="*res://scripts/SignalBus.gd"
 
 [display]
 
@@ -135,11 +136,13 @@ save={
 [layer_names]
 
 2d_physics/layer_1="world"
-2d_physics/layer_2="player"
-2d_physics/layer_3="enemy"
+2d_physics/layer_2="player_character"
+2d_physics/layer_3="enemy_character"
 2d_physics/layer_4="projectile"
 2d_physics/layer_5="player_spawn_area"
 2d_physics/layer_6="HUD"
+2d_physics/layer_7="player_damage_areas"
+2d_physics/layer_8="enemy_damage_areas"
 
 [rendering]
 

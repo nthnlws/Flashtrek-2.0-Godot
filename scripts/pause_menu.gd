@@ -6,9 +6,6 @@ extends Control
 
 
 signal teleport
-signal world_reset
-signal border_size_moved
-signal collisionChanged
 
 var xCoord
 var yCoord
@@ -16,16 +13,22 @@ var file
 
 
 func _ready():
-	Global.pauseMenu = self
+	SignalBus.pauseMenu = self
 	
+	SignalBus.menu_clicked.connect(toggle_menu) #Connect HUD menu button to toggle
+	
+	# Creates default save file on first load, otherwise restores settings to previous state
 	if GameSettings.loadNumber == 0: 
 		store_menu_state(0)
 		set_menu_to_savefile(0)
 	elif GameSettings.loadNumber > 0: 
 		set_menu_to_savefile(1)
-		world_reset.emit()
+		SignalBus.world_reset.emit()
 		
+	
 	%gameVolume.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
+	
+	#Sets all menu states to false/ignore
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	GameSettings.menuStatus = false
 	visible = false
@@ -34,7 +37,7 @@ func _ready():
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
 		toggle_menu()
-		
+
 
 func toggle_menu():
 	if visible == false:
@@ -72,7 +75,7 @@ func _on_shield_button_toggled(toggled_on):
 
 func _on_no_collision_toggled(toggled_on):
 	GameSettings.noCollision = toggled_on
-	collisionChanged.emit(toggled_on)
+	SignalBus.collisionChanged.emit(toggled_on)
 
 
 func _on_x_coord_input_focus_entered():
@@ -137,13 +140,13 @@ func _on_reset_pressed():
 func _on_border_toggle_toggled(toggled_on):
 	GameSettings.borderToggle = toggled_on
 	GameSettings.gameSize = %gameSize.value
-	border_size_moved.emit()
+	SignalBus.border_size_moved.emit()
 	
 	
 func _on_border_slider_value_changed(value):
 	GameSettings.gameSize = value
 	if GameSettings.borderToggle == true:
-		border_size_moved.emit()
+		SignalBus.border_size_moved.emit()
 
 func _on_vsync_select_item_selected(index):
 	if index == 0: # Enabled (default)

@@ -16,6 +16,11 @@ extends Node2D
 var asteroid_scene = preload("res://scenes/asteroid.tscn")
 var Asteroid = preload("res://scripts/asteroid.gd")
 
+
+#func _on_ready() -> void:
+	#var load_signal = func(): Global.emit_signal("level_loaded")
+	#call_deferred("load_signal")
+	
 var score:int = 0:
 	set(value):
 		score = value
@@ -30,8 +35,7 @@ func _ready():
 	game_over_screen.visible = false
 	score = 0
 	lives = 3
-
-	Global.connect_signals()
+	
 	player.connect("torpedo_shot", _on_player_torpedo_shot)
 	player.connect("died", _on_player_died)
 	pauseMenu.connect("teleport", Callable(player, "teleport"))
@@ -42,6 +46,10 @@ func _ready():
 	%ColorRect.visible
 	anim.play("fade_in")
 
+#func load_signal(): #Run deferred after _ready is finished to indicate entire tree is finished
+	#SignalBus.level_loaded.emit("Game")
+	
+	
 func _on_player_torpedo_shot(torpedo):
 	torpedos.add_child(torpedo)
 
@@ -70,11 +78,13 @@ func _on_player_died():
 	if lives <= 0:
 		await get_tree().create_timer(1.0).timeout
 		game_over_screen.visible = true
-		$MainMenuBackground.play()
+		#TODO: Add game over music here
 	else:
 		if player.warping_active == true:
 			player.warping_state_change()
 		await get_tree().create_timer(1).timeout
 		player.respawn(player_spawn_pos.global_position)
+
+
 
 

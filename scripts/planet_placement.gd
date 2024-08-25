@@ -13,7 +13,6 @@ func _ready():
 	for i in range(PLANET_COUNT):
 		var position = get_valid_position()
 		place_planet(position)
-	print(planet_positions)
 
 func get_valid_position() -> Vector2:
 	var max_attempts = 1000
