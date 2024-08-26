@@ -5,8 +5,6 @@ var hp_max
 var sp_current
 var sp_max
 
-signal menu_clicked
-
 @onready var player = SignalBus.player
 @onready var playerShield = SignalBus.player.get_node("playerShield")
 @onready var camera = SignalBus.player.get_node("Camera2D")
@@ -69,5 +67,5 @@ func set_bar_maxes():
 
 func _on_texture_rect_gui_input(event):
 	if event.is_action_pressed("left_click"):
-		SignalBus.menu_clicked.emit()
+		SignalBus.pause_menu_clicked.emit()
 

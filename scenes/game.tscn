@@ -112,6 +112,9 @@ collision_mask = 6
 [node name="BirdOfPrey" parent="Level/Hostiles" instance=ExtResource("8_o6k7y")]
 position = Vector2(1430, -891)
 
+[node name="BirdOfPrey2" parent="Level/Hostiles" instance=ExtResource("8_o6k7y")]
+position = Vector2(-3427, -2622)
+
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
 z_index = -1
 

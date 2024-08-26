@@ -32,6 +32,9 @@ var wall_rotations = [
 ]
 
 func _ready():
+	if GameSettings.borderToggle == true:
+		borderCoords = GameSettings.borderValue
+	
 	SignalBus.levelWalls.clear()
 	SignalBus.levelBorderNode = self
 
@@ -39,7 +42,7 @@ func _ready():
 	SignalBus.collisionChanged.connect(_on_collision_changed)
 	
 	if GameSettings.loadNumber == 0:
-		GameSettings.gameSize = borderCoords
+		GameSettings.borderValue = borderCoords
 	elif GameSettings.loadNumber > 0:
 		_on_border_coords_moved()
 
@@ -66,16 +69,16 @@ func _ready():
 		
 func _on_border_coords_moved():
 	wall_positions = [
-	Vector2(0, GameSettings.gameSize),
-	Vector2(0, -GameSettings.gameSize),
-	Vector2(GameSettings.gameSize, 0),
-	Vector2(-GameSettings.gameSize, 0)
+	Vector2(0, GameSettings.borderValue),
+	Vector2(0, -GameSettings.borderValue),
+	Vector2(GameSettings.borderValue, 0),
+	Vector2(-GameSettings.borderValue, 0)
 ]
 	wall_scales = [
-	Vector2(((GameSettings.gameSize+23.5)/233*2), 1),
-	Vector2(((GameSettings.gameSize+23.5)/233*2), 1),
-	Vector2(((GameSettings.gameSize-23.5)/233*2), 1),
-	Vector2(((GameSettings.gameSize-23.5)/233*2), 1),
+	Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
+	Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
+	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
+	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 ]
 	for i in range(SignalBus.levelWalls.size()):
 		var wall = SignalBus.levelWalls[i]

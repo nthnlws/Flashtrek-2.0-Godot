@@ -2,7 +2,7 @@ extends Control
 
 @export var player:NodePath
 
-var grid_scale = GameSettings.gameSize/get_viewport_rect().size.x
+var grid_scale = GameSettings.borderValue/get_viewport_rect().size.x
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

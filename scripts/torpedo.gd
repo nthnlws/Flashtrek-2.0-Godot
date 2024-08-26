@@ -8,8 +8,8 @@ var movement_vector := Vector2(0, -1)
 @export var damage:int = 15
 	
 func _process(delta):
-	if (self.global_position.x >= GameSettings.gameSize or self.global_position.x < -GameSettings.gameSize or 
-		self.global_position.y >= GameSettings.gameSize or self.global_position.y < -GameSettings.gameSize):
+	if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
+		self.global_position.y >= GameSettings.borderValue or self.global_position.y < -GameSettings.borderValue):
 			queue_free()
 			
 	if position.distance_to(firingPoint) >= 2500:

@@ -6,7 +6,12 @@ signal playerHealthChanged(hp_current)
 signal playerShieldChanged(sp_current)
 signal playerEnergyChanged(energy_current)
 
-signal menu_clicked
+#Menus
+signal pause_menu_clicked
+signal credits_clicked
+signal cheats_clicked
+signal settings_clicked
+
 signal border_size_moved
 signal world_reset
 signal collisionChanged()

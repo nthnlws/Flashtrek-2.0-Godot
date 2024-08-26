@@ -45,9 +45,6 @@ func _ready():
 	
 	%ColorRect.visible
 	anim.play("fade_in")
-
-#func load_signal(): #Run deferred after _ready is finished to indicate entire tree is finished
-	#SignalBus.level_loaded.emit("Game")
 	
 	
 func _on_player_torpedo_shot(torpedo):
