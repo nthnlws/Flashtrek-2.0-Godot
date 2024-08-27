@@ -22,7 +22,7 @@ var speedOverride: bool  = false
 var maxSpeed: int
 
 #Enemy
-var enemyShield: bool
+var enemyShield: bool = true
 var enemyMovement: bool = true
 
 #World

@@ -13,23 +13,32 @@ func _input(event):
 func _ready() -> void:
 	%MainMenuBackground.play()
 	
+func play_click_sound():
+	var random_index = "%02d" % randi_range(1, 3)
+	var sound_path = "Click%s" % random_index
+	$TitleScreen.get_node(sound_path).play()
+	
 func _on_main_menu_background_finished():
 	%MainMenuBackground.play()
 	
 func _on_sp_button_pressed():
+	play_click_sound()
 	anim.play("fade_out_long")
 	await anim.animation_finished
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
 func _on_mp_button_pressed():
+	play_click_sound()
 	pass # Replace with function body.
 
 
 func _on_settings_button_pressed():
+	play_click_sound()
 	toggle_settings()
 
 func _on_settings_closed():
+	play_click_sound()
 	toggle_settings()
 
 func toggle_settings():
@@ -44,10 +53,12 @@ func toggle_settings():
 		
 		
 func _on_cheats_menu_pressed():
+	play_click_sound()
 	pass # Replace with function body.
 
 
 func _on_credits_button_pressed():
+	play_click_sound()
 	toggle_credits()
 	
 func _on_credits_closed() -> void:
@@ -67,8 +78,12 @@ func toggle_credits():
 
 
 func _on_exit_button_pressed():
+	play_click_sound()
 	get_tree().quit()
 
 
 func _on_ready() -> void:
 	anim.play("fade_in_long")
+
+
+

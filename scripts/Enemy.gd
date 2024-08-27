@@ -3,11 +3,11 @@ class_name Enemy extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
+@export var AI_enabled:bool = true
 @export var default_speed:int = 50
 var speed:int = default_speed
-@export var shield_on:bool = true
-@onready var starbase = get_node("/root/Game/Level/Starbase")
-@onready var player = get_node("/root/Game/Level/Player")
+var shield_on:bool
+
 
 #Enemy health variables
 @export var hp_max:int = 50
@@ -20,10 +20,18 @@ var endPoint:Vector2
 var randomMove:bool = false
 var enemyTarget:String
 
+var starbase #Path to starbase, only set if AI_enabled is true
+var player
+
 	
 func _ready():
-	SignalBus.enemies.append(self)
-	if shield_on == true:
+	if AI_enabled:
+		starbase = get_node("/root/Game/Level/Starbase")
+		player = get_node("/root/Game/Level/Player")
+		SignalBus.enemies.append(self)
+	elif AI_enabled == false:
+		$AgroBox.queue_free()
+	if GameSettings.enemyShield == true:
 		var shieldScene = preload("res://scenes/enemyShield.tscn")
 		var newShield = shieldScene.instantiate()
 		add_child(newShield)
@@ -33,9 +41,8 @@ func _process(delta):
 		explode()
 
 func _physics_process(delta):
-	if self.visible == false: return
-	if GameSettings.enemyMovement == false: return
-	
+	if not AI_enabled or not visible or not GameSettings.enemyMovement:
+		return
 	
 	# Movement state setter
 	if playerAgro == true:
@@ -57,14 +64,16 @@ func _physics_process(delta):
 
 
 func starbaseMovement():
-	var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
-	velocity = direction.normalized()*speed
-	rotateToDirection(direction)
+	if starbase:
+		var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
+		velocity = direction.normalized()*speed
+		rotateToDirection(direction)
 	
 func playerMovement():
-	var direction = global_position.direction_to(player.global_position) # Sets movement direction to player
-	velocity = direction.normalized()*speed
-	rotateToDirection(direction)
+	if player:
+		var direction = global_position.direction_to(player.global_position) # Sets movement direction to player
+		velocity = direction.normalized()*speed
+		rotateToDirection(direction)
 	
 func randomMovement(endPoint): 
 	var direction = global_position.direction_to(endPoint) # Sets movement direction to player
