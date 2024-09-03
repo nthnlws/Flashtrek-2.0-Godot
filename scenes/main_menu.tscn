@@ -1,21 +1,21 @@
 [gd_scene load_steps=24 format=3 uid="uid://b28vbasgqihyh"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
-[ext_resource type="FontFile" uid="uid://bfgx6i1dsuj67" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
-[ext_resource type="Script" path="res://scenes/ParallaxBackground.gd" id="3_u5b7k"]
-[ext_resource type="Texture2D" uid="uid://bdi541jjbyxjx" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]
-[ext_resource type="Script" path="res://scenes/scrolling_planets.gd" id="5_44yls"]
-[ext_resource type="Script" path="res://scenes/BackgroundShips.gd" id="5_kodeb"]
+[ext_resource type="Script" path="res://addons/signal_printer/signal_printer.gd" id="2_0gkfg"]
+[ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
+[ext_resource type="Script" path="res://scripts/ParallaxBackground.gd" id="3_u5b7k"]
+[ext_resource type="Texture2D" uid="uid://bn7pmakf7alos" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]
+[ext_resource type="Script" path="res://scripts/scrolling_planets.gd" id="5_44yls"]
+[ext_resource type="Script" path="res://scripts/BackgroundShips.gd" id="5_kodeb"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="6_j8pmv"]
-[ext_resource type="AudioStream" uid="uid://cpohkuw3v2rat" path="res://assets/audio/bridge_ambiance.mp3" id="6_qtabb"]
-[ext_resource type="FontFile" uid="uid://dvmvhmgdwh2h4" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_5rbna"]
-[ext_resource type="Script" path="res://scenes/Credits.gd" id="7_owpqb"]
-[ext_resource type="AudioStream" uid="uid://cr1hw2vuebgxj" path="res://assets/audio/computerbeep_01.mp3" id="9_8h54t"]
+[ext_resource type="AudioStream" uid="uid://44qnks50x2o1" path="res://assets/audio/bridge_ambiance.mp3" id="6_qtabb"]
+[ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_5rbna"]
+[ext_resource type="AudioStream" uid="uid://bx5aifqrw5aem" path="res://assets/audio/computerbeep_01.mp3" id="9_8h54t"]
 [ext_resource type="Script" path="res://scripts/settings_menu.gd" id="9_tvike"]
-[ext_resource type="AudioStream" uid="uid://dq88ishk60k62" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
-[ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
-[ext_resource type="AudioStream" uid="uid://bqq74x25upgjh" path="res://assets/audio/computerbeep_03.mp3" id="11_02dwk"]
-[ext_resource type="AudioStream" uid="uid://c7amwmpplssv7" path="res://assets/audio/smallexplosion3.mp3" id="11_5qd78"]
+[ext_resource type="AudioStream" uid="uid://dch70afsuxs52" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
+[ext_resource type="AudioStream" uid="uid://b5nf5djkxupdv" path="res://assets/audio/computerbeep_03.mp3" id="11_02dwk"]
+[ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="11_5qd78"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_1bju2")
@@ -118,6 +118,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_k143m")
+
+[node name="SignalPrinter" type="Node" parent="."]
+script = ExtResource("2_0gkfg")
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -395,7 +398,6 @@ theme_override_constants/margin_right = 8
 [node name="CreditsTextBox" type="VBoxContainer" parent="Credits/ColorRect/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("7_owpqb")
 
 [node name="MarginContainer" type="MarginContainer" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
 layout_mode = 2

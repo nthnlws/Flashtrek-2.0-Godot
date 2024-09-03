@@ -15,10 +15,12 @@ export_presets.cfg
 data_*/
 mono_crash.*.json
 
-*.import
-Godot_v4.3-stable_win64.exe
-assets/textures/planets/rename.py
-Exports/FlashTrek 2.0.exe
-Exports/FlashTrek 2.0.console.exe
-Exports/discord_game_sdk.dll
-Exports/discord_game_sdk_binding_debug.dll
+*.exe
+*.py
+Exports/*
+
+
+dist/
+*.vs
+*blend1
+*.DS_Store

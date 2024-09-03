@@ -19,13 +19,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 GameSettings="*res://scripts/gameSettings.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 SaveGame="*res://scripts/saveGame.gd"
-WindowSize="*res://scenes/WindowSize.gd"
-MiniMapGlobal="*res://scenes/MiniMapGlobal.gd"
 SignalBus="*res://scripts/SignalBus.gd"
+WindowSize="*res://scripts/WindowSize.gd"
+MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
 
 [display]
 
@@ -39,7 +38,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
 
 [importer_defaults]
 
