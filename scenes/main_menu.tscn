@@ -15,7 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://dch70afsuxs52" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
 [ext_resource type="AudioStream" uid="uid://b5nf5djkxupdv" path="res://assets/audio/computerbeep_03.mp3" id="11_02dwk"]
-[ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="11_5qd78"]
+[ext_resource type="AudioStream" uid="uid://ddhx5n4vlu4bx" path="res://assets/audio/music/Ether - MelodySheep.mp3" id="16_c5c3s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_1bju2")
@@ -325,20 +325,15 @@ size_flags_vertical = 10
 text = "V 0.0.02"
 vertical_alignment = 2
 
-[node name="MainMenuBackground" type="AudioStreamPlayer" parent="TitleScreen"]
-unique_name_in_owner = true
-stream = ExtResource("6_qtabb")
-volume_db = -20.0
-
-[node name="Click01" type="AudioStreamPlayer" parent="TitleScreen"]
+[node name="Click01" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("9_8h54t")
 volume_db = -10.0
 
-[node name="Click02" type="AudioStreamPlayer" parent="TitleScreen"]
+[node name="Click02" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("10_lrk7i")
 volume_db = -10.0
 
-[node name="Click03" type="AudioStreamPlayer" parent="TitleScreen"]
+[node name="Click03" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("11_02dwk")
 volume_db = -10.0
 
@@ -1141,11 +1136,6 @@ value = 40000.0
 tick_count = 11
 ticks_on_borders = true
 
-[node name="TorpedoHit" type="AudioStreamPlayer" parent="Settings/ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderValue"]
-stream = ExtResource("11_5qd78")
-volume_db = -20.0
-pitch_scale = 2.0
-
 [node name="borderTickMarks" type="HBoxContainer" parent="Settings/ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 0
@@ -1291,6 +1281,16 @@ value = 1.0
 tick_count = 6
 ticks_on_borders = true
 
+[node name="MainMenuBackground" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_qtabb")
+volume_db = -25.0
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("16_c5c3s")
+volume_db = -10.0
+
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="timeout" from="TitleScreen/BackgroundShips/Timer" to="TitleScreen/BackgroundShips" method="_on_timer_timeout"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
@@ -1300,7 +1300,6 @@ ticks_on_borders = true
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/ExitContainer/ExitButton" to="." method="_on_exit_button_pressed"]
-[connection signal="finished" from="TitleScreen/MainMenuBackground" to="." method="_on_main_menu_background_finished"]
 [connection signal="pressed" from="Credits/ColorRect/VBoxContainer/XbuttonArea/closeMenuButton" to="." method="_on_credits_closed"]
 [connection signal="pressed" from="Settings/ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_settings_closed"]
 [connection signal="toggled" from="Settings/ColorRect/CheatsVBox/energyContainer/HBoxContainer/unlimitedEnergy" to="Settings" method="_on_energy_button_toggled"]
@@ -1320,3 +1319,5 @@ ticks_on_borders = true
 [connection signal="value_changed" from="Settings/ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderValue" to="Settings" method="_on_border_slider_value_changed"]
 [connection signal="item_selected" from="Settings/ColorRect/WorldVBox/vSyncContainer/HBoxContainer/vSyncSetting" to="Settings" method="_on_vsync_select_item_selected"]
 [connection signal="value_changed" from="Settings/ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="Settings" method="_on_volume_slider_value_changed"]
+[connection signal="finished" from="MainMenuBackground" to="." method="_on_main_menu_background_finished"]
+[connection signal="finished" from="MainMenuMusic" to="." method="_on_main_menu_music_finished"]

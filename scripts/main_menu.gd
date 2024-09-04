@@ -1,5 +1,8 @@
 extends Control
 
+var sound_array:Array = [] # Contains all nodes in group "click_sound"
+var sound_array_location:int = 0
+
 @onready var anim = $AnimationPlayer
 
 func _input(event):
@@ -11,15 +14,34 @@ func _input(event):
 		
 		
 func _ready() -> void:
+	%MainMenuMusic.play()
+	
+	#Creates and shuffles array of all click audio nodes
+	sound_array = get_tree().get_nodes_in_group("click_sound")
+	sound_array.shuffle()
+	
+	await get_tree().create_timer(2.0).timeout
 	%MainMenuBackground.play()
 	
-func play_click_sound():
-	var random_index = "%02d" % randi_range(1, 3)
-	var sound_path = "Click%s" % random_index
-	$TitleScreen.get_node(sound_path).play()
+	
+func play_click_sound(): #Shuffles the array of all click sounds on 
+	var sound_array_length = sound_array.size() - 1
+	match sound_array_location:
+		sound_array_length: # When location in array = array length, shuffle array and reset location
+			sound_array[sound_array_location].play()
+			sound_array.shuffle()
+			sound_array_location = 0
+		_: # Runs for all array values besides last
+			sound_array[sound_array_location].play()
+			sound_array_location += 1
+	
 	
 func _on_main_menu_background_finished():
 	%MainMenuBackground.play()
+
+func _on_main_menu_music_finished() -> void:
+	%MainMenuMusic.play()
+
 	
 func _on_sp_button_pressed():
 	play_click_sound()
@@ -84,6 +106,4 @@ func _on_exit_button_pressed():
 
 func _on_ready() -> void:
 	anim.play("fade_in_long")
-
-
 
