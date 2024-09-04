@@ -327,15 +327,15 @@ vertical_alignment = 2
 
 [node name="Click01" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("9_8h54t")
-volume_db = -10.0
+volume_db = -25.0
 
 [node name="Click02" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("10_lrk7i")
-volume_db = -10.0
+volume_db = -25.0
 
 [node name="Click03" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("11_02dwk")
-volume_db = -10.0
+volume_db = -25.0
 
 [node name="FadeAnimation" type="ColorRect" parent="."]
 visible = false

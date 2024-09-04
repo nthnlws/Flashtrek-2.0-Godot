@@ -15,7 +15,8 @@ run/main_scene="res://scenes/main_menu.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Flashtrek"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/icons/icon_256.png"
+config/windows_native_icon="res://assets/icons/icon_256.ico"
 
 [autoload]
 
