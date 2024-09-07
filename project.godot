@@ -28,11 +28,16 @@ WindowSize="*res://scripts/WindowSize.gd"
 MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
 LevelData="*res://scripts/LevelData.gd"
 
+[debug]
+
+gdscript/warnings/unused_parameter=0
+
 [display]
 
 window/size/viewport_width=960
 window/size/viewport_height=540
 window/size/resizable=false
+window/size/always_on_top=true
 window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="canvas_items"

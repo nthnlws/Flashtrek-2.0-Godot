@@ -57,7 +57,6 @@ func _physics_process(delta):
 			elif target_shield.get_parent().shieldActive == false:
 				add_exception(target_shield)
 		elif collider.is_in_group("enemy_hitbox"):
-			var target_hitbox = collider
 			cast_point = to_local(collider.global_position)
 			cast_point_exact = to_local(get_collision_point())
 			target_to_hitbox(collider, delta)

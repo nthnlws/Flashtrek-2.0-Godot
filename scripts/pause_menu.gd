@@ -14,8 +14,8 @@ var file
 
 func _ready():
 	SignalBus.pauseMenu = self
-	
 	SignalBus.pause_menu_clicked.connect(toggle_menu) #Connect HUD menu button to toggle
+
 	
 	# Creates default save file on first load, otherwise restores settings to previous state
 	if GameSettings.loadNumber == 0: 
@@ -58,6 +58,7 @@ func _on_main_menu_button_pressed():
 	z_index = 0
 	anim.play("fade_out")
 	await anim.animation_finished
+	SignalBus.levelReset.emit()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 func _on_close_game_button_pressed():

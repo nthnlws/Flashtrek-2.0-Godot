@@ -45,7 +45,6 @@ func _on_player_energy_changed(energy_current):
 	%EnergyBar.value = energy_current
 		
 func _on_shield_ready():
-	var shield = get_node("../../Level/Player/Shield")
 	shieldActive = true
 	
 func init_lives(amount):

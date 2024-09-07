@@ -15,7 +15,7 @@ func _input(event):
 		
 func _ready() -> void:
 	%MainMenuMusic.play(0.5)
-	
+	anim.play("fade_in_long")
 	#Creates and shuffles array of all click audio nodes
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
@@ -65,7 +65,6 @@ func _on_settings_closed():
 
 func toggle_settings():
 	if %Settings.visible == false:
-		anim.play("fade_out_short")
 		%TitleScreen.visible = false
 		%Settings.visible = true
 	elif %Settings.visible == true:
@@ -76,7 +75,6 @@ func toggle_settings():
 		
 func _on_cheats_menu_pressed():
 	play_click_sound()
-	pass # Replace with function body.
 
 
 func _on_credits_button_pressed():
@@ -88,8 +86,6 @@ func _on_credits_closed() -> void:
 
 func toggle_credits():
 	if %Credits.visible == false:
-		#SignalBus.credits_clicked.emit()
-		anim.play("fade_out_short")
 		%TitleScreen.visible = false
 		%Credits.visible = true
 	elif %Credits.visible == true:
@@ -106,4 +102,3 @@ func _on_exit_button_pressed():
 
 func _on_ready() -> void:
 	anim.play("fade_in_long")
-

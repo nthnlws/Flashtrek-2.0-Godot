@@ -17,10 +17,6 @@ var asteroid_scene = preload("res://scenes/asteroid.tscn")
 var Asteroid = preload("res://scripts/asteroid.gd")
 
 
-#func _on_ready() -> void:
-	#var load_signal = func(): Global.emit_signal("level_loaded")
-	#call_deferred("load_signal")
-	
 var score:int = 0:
 	set(value):
 		score = value

@@ -153,7 +153,7 @@ func shoot_bullet(direction: float):
 	bullet.global_position = self.global_position
 	bullet.rotation = direction #direction
 	bullet.shooter = "enemy"
-	#velocity not needed as torpedo handles movement
+	# Velocity not needed as torpedo handles movement
 	call_deferred("instantiate_bullet", bullet)
 
 

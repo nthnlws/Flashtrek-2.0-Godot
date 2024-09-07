@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b28vbasgqihyh"]
+[gd_scene load_steps=25 format=3 uid="uid://b28vbasgqihyh"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
 [ext_resource type="Script" path="res://addons/signal_printer/signal_printer.gd" id="2_0gkfg"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://dch70afsuxs52" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
 [ext_resource type="AudioStream" uid="uid://b5nf5djkxupdv" path="res://assets/audio/computerbeep_03.mp3" id="11_02dwk"]
+[ext_resource type="Script" path="res://scenes/Credits.gd" id="12_fk2eb"]
 [ext_resource type="AudioStream" uid="uid://ddhx5n4vlu4bx" path="res://assets/audio/music/Ether - MelodySheep.mp3" id="16_c5c3s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
@@ -124,6 +125,7 @@ script = ExtResource("2_0gkfg")
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
+layer = 0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="TitleScreen"]
 script = ExtResource("3_u5b7k")
@@ -143,11 +145,12 @@ script = ExtResource("5_44yls")
 script = ExtResource("5_kodeb")
 ship_scene = ExtResource("7_vqk7d")
 
-[node name="Timer" type="Timer" parent="TitleScreen/BackgroundShips"]
+[node name="SpawnTimer" type="Timer" parent="TitleScreen/BackgroundShips"]
 wait_time = 10.0
 autostart = true
 
 [node name="MarginContainer" type="MarginContainer" parent="TitleScreen"]
+z_as_relative = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -322,7 +325,7 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 10
-text = "V 0.0.02"
+text = "V 0.0.03"
 vertical_alignment = 2
 
 [node name="Click01" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
@@ -341,7 +344,7 @@ volume_db = -25.0
 mix_target = 2
 
 [node name="FadeAnimation" type="ColorRect" parent="."]
-visible = false
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -360,11 +363,13 @@ libraries = {
 [node name="Credits" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 visible = false
+script = ExtResource("12_fk2eb")
 
 [node name="ColorRect" type="ColorRect" parent="Credits"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 460.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.141176, 0.141176, 0.141176, 1)
@@ -379,19 +384,6 @@ grow_horizontal = 2
 [node name="MarginContainer" type="MarginContainer" parent="Credits/ColorRect/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 8
-
-[node name="XbuttonArea" type="HBoxContainer" parent="Credits/ColorRect/VBoxContainer"]
-layout_mode = 2
-
-[node name="closeMenuButton" type="Button" parent="Credits/ColorRect/VBoxContainer/XbuttonArea"]
-custom_minimum_size = Vector2(40, 30)
-layout_mode = 2
-size_flags_horizontal = 10
-text = "X"
-
-[node name="MarginContainer2" type="MarginContainer" parent="Credits/ColorRect/VBoxContainer/XbuttonArea"]
-layout_mode = 2
-theme_override_constants/margin_right = 8
 
 [node name="CreditsTextBox" type="VBoxContainer" parent="Credits/ColorRect/VBoxContainer"]
 layout_mode = 2
@@ -410,6 +402,27 @@ text = "FlashTrek 2.0 Credits"
 [node name="MarginContainer2" type="MarginContainer" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
 layout_mode = 2
 theme_override_constants/margin_top = 20
+
+[node name="Coding_Ideas" type="Label" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("7_5rbna")
+theme_override_font_sizes/font_size = 30
+text = "Coding/Ideas:"
+
+[node name="Label10" type="Label" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("7_5rbna")
+theme_override_font_sizes/font_size = 22
+text = "n8thegreat:    Main coder"
+
+[node name="Label11" type="Label" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("7_5rbna")
+theme_override_font_sizes/font_size = 22
+text = "GamerBirds35:    Inspiration, testing, debugging and ideas"
 
 [node name="Assets" type="Label" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
 layout_mode = 2
@@ -479,6 +492,23 @@ size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("7_5rbna")
 theme_override_font_sizes/font_size = 22
 text = "Music:   MelodySheep"
+
+[node name="XbuttonArea" type="HBoxContainer" parent="Credits"]
+offset_top = 12.0
+offset_right = 960.0
+offset_bottom = 43.0
+
+[node name="closeMenuButton" type="Button" parent="Credits/XbuttonArea"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "X"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Credits/XbuttonArea"]
+layout_mode = 2
+theme_override_constants/margin_right = 8
+
+[node name="Timer" type="Timer" parent="Credits"]
 
 [node name="Settings" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -1302,7 +1332,7 @@ stream = ExtResource("16_c5c3s")
 volume_db = -10.0
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="timeout" from="TitleScreen/BackgroundShips/Timer" to="TitleScreen/BackgroundShips" method="_on_timer_timeout"]
+[connection signal="timeout" from="TitleScreen/BackgroundShips/SpawnTimer" to="TitleScreen/BackgroundShips" method="_on_timer_timeout"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
 [connection signal="toggled" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_toggled"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/MPbutton" to="." method="_on_mp_button_pressed"]
@@ -1310,7 +1340,8 @@ volume_db = -10.0
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/ExitContainer/ExitButton" to="." method="_on_exit_button_pressed"]
-[connection signal="pressed" from="Credits/ColorRect/VBoxContainer/XbuttonArea/closeMenuButton" to="." method="_on_credits_closed"]
+[connection signal="visibility_changed" from="Credits" to="Credits" method="_on_visibility_changed"]
+[connection signal="pressed" from="Credits/XbuttonArea/closeMenuButton" to="." method="_on_credits_closed"]
 [connection signal="pressed" from="Settings/ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_settings_closed"]
 [connection signal="toggled" from="Settings/ColorRect/CheatsVBox/energyContainer/HBoxContainer/unlimitedEnergy" to="Settings" method="_on_energy_button_toggled"]
 [connection signal="toggled" from="Settings/ColorRect/CheatsVBox/healthContainer/HBoxContainer/unlimitedHealth" to="Settings" method="_on_health_button_toggled"]
