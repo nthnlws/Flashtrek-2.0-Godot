@@ -1,8 +1,10 @@
 # Godot 4+ specific ignores
-.godot/
+
 
 # Godot-specific ignores
 .import/
+/*
+~/uid_cache.bin
 export.cfg
 export_presets.cfg
 

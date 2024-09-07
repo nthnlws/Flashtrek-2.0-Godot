@@ -35,7 +35,6 @@ func _process(delta):
 	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
 	
 
-
 func _on_player_health_changed(hp_current):
 	%HealthBar.value = hp_current
 	

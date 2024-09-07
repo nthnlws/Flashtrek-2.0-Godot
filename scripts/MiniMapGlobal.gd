@@ -22,7 +22,7 @@ func _ready() -> void:
 		
 		for p in planets:
 			add_poi(p, "planet")
-	print(poi_nodes)
+	#print(poi_nodes)
 		
 func _process(delta: float) -> void:
 	#print(poi_nodes)

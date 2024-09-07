@@ -7,9 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bn7pmakf7alos" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]
 [ext_resource type="Script" path="res://scripts/scrolling_planets.gd" id="5_44yls"]
 [ext_resource type="Script" path="res://scripts/BackgroundShips.gd" id="5_kodeb"]
-[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="6_j8pmv"]
 [ext_resource type="AudioStream" uid="uid://44qnks50x2o1" path="res://assets/audio/bridge_ambiance.mp3" id="6_qtabb"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_5rbna"]
+[ext_resource type="PackedScene" uid="uid://d22g3um1wyu0k" path="res://scenes/no_ai_ship.tscn" id="7_vqk7d"]
 [ext_resource type="AudioStream" uid="uid://bx5aifqrw5aem" path="res://assets/audio/computerbeep_01.mp3" id="9_8h54t"]
 [ext_resource type="Script" path="res://scripts/settings_menu.gd" id="9_tvike"]
 [ext_resource type="AudioStream" uid="uid://dch70afsuxs52" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
@@ -141,7 +141,7 @@ script = ExtResource("5_44yls")
 
 [node name="BackgroundShips" type="Node2D" parent="TitleScreen"]
 script = ExtResource("5_kodeb")
-ship_scene = ExtResource("6_j8pmv")
+ship_scene = ExtResource("7_vqk7d")
 
 [node name="Timer" type="Timer" parent="TitleScreen/BackgroundShips"]
 wait_time = 10.0
@@ -328,14 +328,17 @@ vertical_alignment = 2
 [node name="Click01" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("9_8h54t")
 volume_db = -25.0
+mix_target = 2
 
 [node name="Click02" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("10_lrk7i")
 volume_db = -25.0
+mix_target = 2
 
 [node name="Click03" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
 stream = ExtResource("11_02dwk")
 volume_db = -25.0
+mix_target = 2
 
 [node name="FadeAnimation" type="ColorRect" parent="."]
 visible = false
@@ -469,6 +472,13 @@ size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("7_5rbna")
 theme_override_font_sizes/font_size = 22
 text = "Audio effects/main menu:   trekcore.com"
+
+[node name="Label9" type="Label" parent="Credits/ColorRect/VBoxContainer/CreditsTextBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("7_5rbna")
+theme_override_font_sizes/font_size = 22
+text = "Music:   MelodySheep"
 
 [node name="Settings" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

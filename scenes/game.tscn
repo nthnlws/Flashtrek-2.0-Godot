@@ -1,21 +1,22 @@
-[gd_scene load_steps=21 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="2_85g5u"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
 [ext_resource type="Script" path="res://scripts/room_walls.gd" id="3_j38kx"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
+[ext_resource type="PackedScene" uid="uid://lp3n1ckd77bd" path="res://scenes/border_wall.tscn" id="4_60muw"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="5_y23tx"]
-[ext_resource type="Texture2D" uid="uid://coj32tn3spyqf" path="res://assets/textures/ships/meteorGrey_big4.png" id="6_fnd70"]
+[ext_resource type="Texture2D" uid="uid://dtx078r3otrec" path="res://assets/textures/ships/meteorGrey_big4.png" id="6_fnd70"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="7_f44yg"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="8_o6k7y"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
-[ext_resource type="AudioStream" uid="uid://dyakx6f2j7mhc" path="res://assets/audio/hit.wav" id="12_63k06"]
+[ext_resource type="AudioStream" uid="uid://22jq85gws3ed" path="res://assets/audio/hit.wav" id="12_63k06"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -79,6 +80,7 @@ script = ExtResource("2_85g5u")
 
 [node name="levelBorders" type="Node2D" parent="Level"]
 script = ExtResource("3_j38kx")
+WallScene = ExtResource("4_60muw")
 
 [node name="Player" parent="Level" instance=ExtResource("4_s6h4r")]
 unique_name_in_owner = true
@@ -110,10 +112,7 @@ collision_mask = 6
 [node name="Hostiles" type="Node2D" parent="Level"]
 
 [node name="BirdOfPrey" parent="Level/Hostiles" instance=ExtResource("8_o6k7y")]
-position = Vector2(1430, -891)
-
-[node name="BirdOfPrey2" parent="Level/Hostiles" instance=ExtResource("8_o6k7y")]
-position = Vector2(-3427, -2622)
+position = Vector2(2742, -1513)
 
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
 z_index = -1

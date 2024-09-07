@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
-[ext_resource type="FontFile" uid="uid://dwrv8an6hlp45" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
-[ext_resource type="Texture2D" uid="uid://vn2pe1gnlkqx" path="res://assets/textures/Engineering_Insignia.png" id="3_8t62i"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
+[ext_resource type="Texture2D" uid="uid://ccexpq2p8se1r" path="res://assets/textures/Engineering_Insignia.png" id="3_8t62i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_158n7")
@@ -141,4 +141,3 @@ expand_mode = 1
 stretch_mode = 4
 
 [connection signal="gui_input" from="MarginContainer/HBoxContainer/RightContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]
-[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/RightContainer/TextureRect" to="." method="_on_texture_rect_mouse_entered"]

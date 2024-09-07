@@ -1,6 +1,7 @@
 extends Node
 
 signal level_loaded(current_level)
+signal levelReset
 
 signal playerHealthChanged(hp_current)
 signal playerShieldChanged(sp_current)
@@ -20,7 +21,4 @@ var player: Node = null
 var HUD: Node = null
 var pauseMenu: Node = null
 var settingsButton: Node = null
-var levelBorderNode: Node = null
 var saveGame: Node = null
-var enemies = []
-var levelWalls = []

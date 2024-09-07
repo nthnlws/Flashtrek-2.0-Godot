@@ -9,10 +9,12 @@ const PLANET_COUNT = 3
 
 var planet_positions: Array = []
 
+	
 func _ready():
 	for i in range(PLANET_COUNT):
 		var position = get_valid_position()
-		place_planet(position)
+		var name = "Planet" + str(i)
+		place_planet(position, name)
 
 func get_valid_position() -> Vector2:
 	var max_attempts = 1000
@@ -21,7 +23,7 @@ func get_valid_position() -> Vector2:
 	while attempt < max_attempts:
 		attempt += 1
 		# Generate a random angle and distance within the specified range
-		var angle = randf_range(0, 2*PI) # TAU is equivalent to 2 * PI
+		var angle = randf_range(0, TAU) #TAU = 360 degrees
 		var distance = randf_range(MIN_DISTANCE_FROM_ORIGIN, MAX_DISTANCE_FROM_ORIGIN)
 		
 		# Calculate the position using polar coordinates
@@ -41,7 +43,7 @@ func get_valid_position() -> Vector2:
 	push_warning("Failed to find a valid position after max attempts")
 	return Vector2(0, 0)  # Fallback value, can be adjusted
 
-func place_planet(position: Vector2):
+func place_planet(position: Vector2, name: String):
 	var planet_instance = planet_scene.instantiate()
 	add_child(planet_instance)
 	planet_instance.position = position

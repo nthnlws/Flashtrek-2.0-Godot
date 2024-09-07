@@ -1,7 +1,8 @@
 extends Node2D
 
-var WallScene = preload("res://scenes/border_wall.tscn")
-@export var borderCoords:float = 40000
+@export var WallScene: PackedScene
+@export var defaultBorderCoords:int = 40000
+var borderCoords:int = defaultBorderCoords
 
 var wall_positions = [
 	Vector2(0, borderCoords),
@@ -25,18 +26,18 @@ var wall_names = [
 ]
 
 var wall_rotations = [
-	0,				# No rotation
-	PI,				# 180 Degrees
-	3 * PI / 2,		# 270 Degrees
-	PI / 2			# 90 degrees
+	deg_to_rad(0),		# No rotation
+	deg_to_rad(180),	# 180 Degrees
+	deg_to_rad(270),	# 270 Degrees
+	deg_to_rad(90)		# 90 degrees
 ]
 
 func _ready():
 	if GameSettings.borderToggle == true:
 		borderCoords = GameSettings.borderValue
+	else: borderCoords = defaultBorderCoords
 	
-	SignalBus.levelWalls.clear()
-	SignalBus.levelBorderNode = self
+	LevelData.levelWalls.clear()
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)
 	SignalBus.collisionChanged.connect(_on_collision_changed)
@@ -65,7 +66,7 @@ func _ready():
 		#label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
 		#label.scale = Vector2(2, 2) # Makes the label larger and easier to see
 		
-		SignalBus.levelWalls.append(wall_instance)
+		LevelData.levelWalls.append(wall_instance)
 		
 func _on_border_coords_moved():
 	wall_positions = [
@@ -80,14 +81,14 @@ func _on_border_coords_moved():
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 ]
-	for i in range(SignalBus.levelWalls.size()):
-		var wall = SignalBus.levelWalls[i]
+	for i in range(LevelData.levelWalls.size()):
+		var wall = LevelData.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
 func _on_collision_changed(toggle_status):
-	for i in range(SignalBus.levelWalls.size()):
-		var wall = SignalBus.levelWalls[i]
+	for i in range(LevelData.levelWalls.size()):
+		var wall = LevelData.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status

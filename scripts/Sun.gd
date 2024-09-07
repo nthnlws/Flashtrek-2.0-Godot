@@ -12,9 +12,10 @@ func _ready():
 	var sprite_path = "res://assets/textures/suns/sun_%s.png" % random_index
 	sprite.texture = load(sprite_path)
 	
-	var angle = randf_range(0, 2*PI)
+	var angle = randf_range(0, TAU) # 0-360 degrees
 	var sun_position = Vector2(cos(angle), sin(angle)) * radius
 	position = sun_position
+	LevelData.suns.append(self)
 
 
 	

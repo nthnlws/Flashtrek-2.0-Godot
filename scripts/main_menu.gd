@@ -14,7 +14,7 @@ func _input(event):
 		
 		
 func _ready() -> void:
-	%MainMenuMusic.play()
+	%MainMenuMusic.play(0.5)
 	
 	#Creates and shuffles array of all click audio nodes
 	sound_array = get_tree().get_nodes_in_group("click_sound")
@@ -40,7 +40,7 @@ func _on_main_menu_background_finished():
 	%MainMenuBackground.play()
 
 func _on_main_menu_music_finished() -> void:
-	%MainMenuMusic.play()
+	%MainMenuMusic.play(0.5)
 
 	
 func _on_sp_button_pressed():

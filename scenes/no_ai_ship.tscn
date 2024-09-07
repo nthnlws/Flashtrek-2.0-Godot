@@ -1,71 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://d22g3um1wyu0k"]
+[gd_scene load_steps=5 format=3 uid="uid://d22g3um1wyu0k"]
 
-[ext_resource type="Script" path="res://scenes/no_ai_ship.gd" id="1_bwdju"]
-[ext_resource type="Script" path="res://scenes/testing.gd" id="1_wn1xt"]
-[ext_resource type="Texture2D" uid="uid://cyo8q8eimqa8w" path="res://assets/textures/ships/birdofprey.png" id="2_45ls2"]
+[ext_resource type="Script" path="res://scripts/no_ai_ship.gd" id="1_bwdju"]
+[ext_resource type="Texture2D" uid="uid://sowgidw2rexp" path="res://assets/textures/ships/birdofprey.png" id="2_45ls2"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="2_u8wnj"]
-[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="3_85x5g"]
-[ext_resource type="AudioStream" uid="uid://daxpvabij1lci" path="res://assets/audio/Explosion+2.mp3" id="4_maqoj"]
-[ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="6_1w044"]
-[ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="7_doef5"]
+[ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="4_qxfks"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
-radius = 750.0
-
-[sub_resource type="GDScript" id="GDScript_yr5aa"]
-script/source = "extends CollisionShape2D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-"
-
-[node name="Node2D" type="Node2D"]
-script = ExtResource("1_wn1xt")
-
-[node name="No_AI_Ship" type="CharacterBody2D" parent="." groups=["enemy"]]
+[node name="No_AI_Ship" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_bwdju")
 torpedo = ExtResource("2_u8wnj")
 
-[node name="AgroBox" type="Area2D" parent="No_AI_Ship"]
-collision_layer = 4
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="No_AI_Ship/AgroBox"]
-shape = SubResource("CircleShape2D_ugric")
-script = SubResource("GDScript_yr5aa")
-
-[node name="Sprite2D" type="Sprite2D" parent="No_AI_Ship"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_45ls2")
 
-[node name="Hitbox" type="Area2D" parent="No_AI_Ship" groups=["enemy_hitbox"]]
-collision_layer = 128
-collision_mask = 15
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="No_AI_Ship/Hitbox"]
-shape = ExtResource("3_85x5g")
-
-[node name="TorpedoHit" type="AudioStreamPlayer" parent="No_AI_Ship"]
-stream = ExtResource("4_maqoj")
-volume_db = -20.0
-pitch_scale = 2.0
-
-[node name="WorldCollisionShape" type="CollisionShape2D" parent="No_AI_Ship"]
-shape = ExtResource("3_85x5g")
-
-[node name="Player" parent="." instance=ExtResource("6_1w044")]
-
-[node name="StarBackground" parent="." instance=ExtResource("7_doef5")]
-visible = false
-
-[connection signal="body_entered" from="No_AI_Ship/AgroBox" to="No_AI_Ship" method="_on_agro_box_body_entered"]
-[connection signal="body_exited" from="No_AI_Ship/AgroBox" to="No_AI_Ship" method="_on_agro_box_body_exited"]
-[connection signal="area_entered" from="No_AI_Ship/Hitbox" to="No_AI_Ship" method="_on_hitbox_area_entered"]
+[node name="enemyShield" parent="." instance=ExtResource("4_qxfks")]

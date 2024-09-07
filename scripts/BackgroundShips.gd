@@ -4,10 +4,6 @@ extends Node2D
 @export var ship_scene: PackedScene
 @export var speed: float = 300
 
-#var enterpriseTOS = preload("res://assets/textures/ships/player_ship.png")
-#var birdofprey = preload("res://assets/textures/ships/birdofprey.png")
-
-
 # Size of the viewport
 var viewport_size: Vector2
 
@@ -31,35 +27,12 @@ func spawn_ship() -> void:
 	
 	# Set the ship's position and rotation
 	#ship.shield_on = false
-	ship.AI_enabled = false
 	ship.position = start_position
 	var direction = (end_position - start_position).normalized()
-	ship.rotation = direction.angle() + PI / 2
+	ship.rotation = direction.angle() + deg_to_rad(90)
 	
-	# 1/2 chance for either ship sprite
-	var sprite = randi_range(0, 1)
-	match sprite:
-		0: #Shield on
-			ship.get_node("Sprite2D").texture = preload("res://assets/textures/ships/player_ship.png")
-			ship.get_node("Sprite2D").scale = Vector2(1.2, 1.2)
-			ship.scale = Vector2(0.3, 0.3)
-		1: #Shield on
-			ship.get_node("Sprite2D").texture = preload("res://assets/textures/ships/birdofprey.png")
-			ship.scale = Vector2(0.3, 0.3)
-
 	add_child(ship)
 	
-	# 2/3 chance to have shield on
-	var shield = randi_range(0, 2)
-	match shield:
-		0: #Shield on
-			pass
-		1: #Shield on
-			pass
-		2: #Shield off
-			ship.get_node("enemyShield").queue_free()
-			
-
 	# Move the ship to the target position with Tween
 	var tween = create_tween()
 	tween.tween_property(ship, "position", end_position, distance/speed)

@@ -129,11 +129,12 @@ func _on_move_button_toggled(toggled_on):
 # World Column
 func _on_reset_pressed():
 	GameSettings.loadNumber += 1
+	SignalBus.levelReset.emit()
 	store_menu_state(1)
+			
 	get_tree().reload_current_scene()
 	
-	#var level_node_path = "res://scenes/Level.tscn"  # Path to the Level scene
-	#var level_node = get_node("/root/Game/Level")  # Reference to the existing Level node
+
 
 	GameSettings.menuStatus = false
 

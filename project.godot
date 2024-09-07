@@ -26,6 +26,7 @@ SaveGame="*res://scripts/saveGame.gd"
 SignalBus="*res://scripts/SignalBus.gd"
 WindowSize="*res://scripts/WindowSize.gd"
 MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
+LevelData="*res://scripts/LevelData.gd"
 
 [display]
 
