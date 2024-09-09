@@ -1,7 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://b28vbasgqihyh"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
-[ext_resource type="Script" path="res://addons/signal_printer/signal_printer.gd" id="2_0gkfg"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
 [ext_resource type="Script" path="res://scripts/ParallaxBackground.gd" id="3_u5b7k"]
 [ext_resource type="Texture2D" uid="uid://bn7pmakf7alos" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]
@@ -15,8 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://dch70afsuxs52" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
 [ext_resource type="AudioStream" uid="uid://b5nf5djkxupdv" path="res://assets/audio/computerbeep_03.mp3" id="11_02dwk"]
-[ext_resource type="Script" path="res://scenes/Credits.gd" id="12_fk2eb"]
+[ext_resource type="Script" path="res://scripts/Credits.gd" id="12_fk2eb"]
 [ext_resource type="AudioStream" uid="uid://ddhx5n4vlu4bx" path="res://assets/audio/music/Ether - MelodySheep.mp3" id="16_c5c3s"]
+[ext_resource type="Script" path="res://scenes/multiplayer_join.gd" id="18_t8dt8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_1bju2")
@@ -120,12 +120,8 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_k143m")
 
-[node name="SignalPrinter" type="Node" parent="."]
-script = ExtResource("2_0gkfg")
-
 [node name="TitleScreen" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-layer = 0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="TitleScreen"]
 script = ExtResource("3_u5b7k")
@@ -222,11 +218,15 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MPbutton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
-custom_minimum_size = Vector2(225, 0)
+[node name="HostMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
+custom_minimum_size = Vector2(117, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Multiplayer (coming soon)"
+text = "Host MP"
+
+[node name="JoinMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
+custom_minimum_size = Vector2(117, 0)
+layout_mode = 2
+text = "Join MP"
 
 [node name="MarginContainer3" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer"]
 layout_mode = 2
@@ -342,23 +342,6 @@ mix_target = 2
 stream = ExtResource("11_02dwk")
 volume_db = -25.0
 mix_target = 2
-
-[node name="FadeAnimation" type="ColorRect" parent="."]
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../FadeAnimation")
-libraries = {
-"": SubResource("AnimationLibrary_eo4tg")
-}
 
 [node name="Credits" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -1331,11 +1314,88 @@ unique_name_in_owner = true
 stream = ExtResource("16_c5c3s")
 volume_db = -10.0
 
+[node name="Multiplayer_popup" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("18_t8dt8")
+
+[node name="ColorRect" type="ColorRect" parent="Multiplayer_popup"]
+custom_minimum_size = Vector2(200, 80)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 102.0
+offset_top = -75.0
+offset_right = 302.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.152941, 0.152941, 0.152941, 0.619608)
+
+[node name="MarginContainer" type="MarginContainer" parent="Multiplayer_popup/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Multiplayer_popup/ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Enter IP Address:"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="IPTextEdit" type="LineEdit" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "192.0.0.1:6007"
+
+[node name="IP_check_button" type="Button" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "✔"
+
+[node name="Transition_layer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="FadeAnimation" type="ColorRect" parent="Transition_layer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Transition_layer"]
+unique_name_in_owner = true
+root_node = NodePath("../FadeAnimation")
+libraries = {
+"": SubResource("AnimationLibrary_eo4tg")
+}
+
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="timeout" from="TitleScreen/BackgroundShips/SpawnTimer" to="TitleScreen/BackgroundShips" method="_on_timer_timeout"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
 [connection signal="toggled" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_toggled"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/MPbutton" to="." method="_on_mp_button_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/HostMP" to="Multiplayer_popup" method="_on_host_mp_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/JoinMP" to="Multiplayer_popup" method="_on_join_mp_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SettingsContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
@@ -1362,3 +1422,6 @@ volume_db = -10.0
 [connection signal="value_changed" from="Settings/ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="Settings" method="_on_volume_slider_value_changed"]
 [connection signal="finished" from="MainMenuBackground" to="." method="_on_main_menu_background_finished"]
 [connection signal="finished" from="MainMenuMusic" to="." method="_on_main_menu_music_finished"]
+[connection signal="focus_entered" from="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/IPTextEdit" to="Multiplayer_popup" method="_on_enter_ip_focus_entered"]
+[connection signal="text_submitted" from="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/IPTextEdit" to="Multiplayer_popup" method="_on_enter_ip_text_submitted"]
+[connection signal="pressed" from="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/IP_check_button" to="Multiplayer_popup" method="_on_ip_enter_pressed"]
