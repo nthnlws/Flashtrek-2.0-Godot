@@ -3,7 +3,7 @@ extends Control
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
-@onready var anim = $AnimationPlayer
+@onready var anim = %AnimationPlayer
 
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
@@ -11,6 +11,8 @@ func _input(event):
 			toggle_credits()
 		if %Settings.visible == true:
 			toggle_settings()
+		#if %Cheats.visible:
+			#toggle_cheats()
 		
 		
 func _ready() -> void:
@@ -92,7 +94,6 @@ func toggle_credits():
 		anim.play("fade_in_short")
 		%TitleScreen.visible = true
 		%Credits.visible = false
-
 
 
 func _on_exit_button_pressed():

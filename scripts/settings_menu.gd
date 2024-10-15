@@ -2,8 +2,6 @@ extends CanvasLayer
 
 @onready var _bus := AudioServer.get_bus_index("Master")
 
-var xCoord
-var yCoord
 var file
 
 
