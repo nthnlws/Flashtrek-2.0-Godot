@@ -28,6 +28,8 @@ WindowSize="*res://scripts/WindowSize.gd"
 MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
 LevelData="*res://scripts/LevelData.gd"
 MultiplayerManager="*res://scripts/multiplayer_manager.gd"
+ImGuiRoot="*res://addons/imgui-godot/data/ImGuiRoot.tscn"
+MPIO="*res://addons/MultiplayCore/MPIO.gd"
 
 [debug]
 
@@ -45,7 +47,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
+enabled=PackedStringArray("res://addons/MultiplayCore/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/imgui-godot/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
 
 [importer_defaults]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b28vbasgqihyh"]
+[gd_scene load_steps=24 format=3 uid="uid://b28vbasgqihyh"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
@@ -9,14 +9,13 @@
 [ext_resource type="AudioStream" uid="uid://44qnks50x2o1" path="res://assets/audio/bridge_ambiance.mp3" id="6_qtabb"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_5rbna"]
 [ext_resource type="PackedScene" uid="uid://d22g3um1wyu0k" path="res://scenes/no_ai_ship.tscn" id="7_vqk7d"]
-[ext_resource type="AudioStream" uid="uid://bx5aifqrw5aem" path="res://assets/audio/computerbeep_01.mp3" id="9_8h54t"]
+[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/computerbeep_01.ogg" id="8_86khc"]
+[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/computerbeep_02.ogg" id="9_b1qs5"]
 [ext_resource type="Script" path="res://scripts/settings_menu.gd" id="9_tvike"]
-[ext_resource type="AudioStream" uid="uid://dch70afsuxs52" path="res://assets/audio/computerbeep_02.mp3" id="10_lrk7i"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
-[ext_resource type="AudioStream" uid="uid://b5nf5djkxupdv" path="res://assets/audio/computerbeep_03.mp3" id="11_02dwk"]
+[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/computerbeep_03.ogg" id="10_uerv3"]
 [ext_resource type="Script" path="res://scripts/Credits.gd" id="12_fk2eb"]
 [ext_resource type="AudioStream" uid="uid://ddhx5n4vlu4bx" path="res://assets/audio/music/Ether - MelodySheep.mp3" id="16_c5c3s"]
-[ext_resource type="Script" path="res://scenes/multiplayer_join.gd" id="18_t8dt8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_1bju2")
@@ -329,19 +328,22 @@ text = "V 0.0.03"
 vertical_alignment = 2
 
 [node name="Click01" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
-stream = ExtResource("9_8h54t")
-volume_db = -25.0
+stream = ExtResource("8_86khc")
+volume_db = -10.0
 mix_target = 2
+max_polyphony = 2
 
 [node name="Click02" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
-stream = ExtResource("10_lrk7i")
-volume_db = -25.0
+stream = ExtResource("9_b1qs5")
+volume_db = -15.0
 mix_target = 2
+max_polyphony = 2
 
 [node name="Click03" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
-stream = ExtResource("11_02dwk")
-volume_db = -25.0
+stream = ExtResource("10_uerv3")
+volume_db = -20.0
 mix_target = 2
+max_polyphony = 2
 
 [node name="Credits" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -1317,7 +1319,6 @@ volume_db = -10.0
 [node name="Multiplayer_popup" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 visible = false
-script = ExtResource("18_t8dt8")
 
 [node name="ColorRect" type="ColorRect" parent="Multiplayer_popup"]
 custom_minimum_size = Vector2(200, 80)
@@ -1373,6 +1374,7 @@ text = "✔"
 
 [node name="Transition_layer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
+visible = false
 
 [node name="FadeAnimation" type="ColorRect" parent="Transition_layer"]
 anchors_preset = 15
@@ -1394,8 +1396,8 @@ libraries = {
 [connection signal="timeout" from="TitleScreen/BackgroundShips/SpawnTimer" to="TitleScreen/BackgroundShips" method="_on_timer_timeout"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
 [connection signal="toggled" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_toggled"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/HostMP" to="Multiplayer_popup" method="_on_host_mp_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/JoinMP" to="Multiplayer_popup" method="_on_join_mp_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/HostMP" to="." method="_on_host_mp_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/MPcontainer/JoinMP" to="." method="_on_join_mp_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/SettingsContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CheatsContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer/CreditsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
