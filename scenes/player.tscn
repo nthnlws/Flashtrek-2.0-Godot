@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://lpoym58vtn8u" path="res://assets/textures/light.png" id="4_xg1hi"]
 [ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="6_bwxj0"]
 [ext_resource type="AudioStream" uid="uid://mx337ieci1h2" path="res://assets/audio/warp_off.mp3" id="6_c035k"]
-[ext_resource type="Texture2D" uid="uid://bvmc5m314danm" path="res://assets/textures/ships/enterpriseTOS.png" id="6_g4w0o"]
+[ext_resource type="Texture2D" uid="uid://7y2wbaj1hj56" path="res://assets/textures/ships/enterpriseTOS.png" id="6_g4w0o"]
 [ext_resource type="AudioStream" uid="uid://cayy8ej04gngu" path="res://assets/audio/warp_on.mp3" id="6_ihea4"]
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_8rbfi"]
 [ext_resource type="AudioStream" uid="uid://o3jdgiu5kt0t" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="8_a4vqp"]

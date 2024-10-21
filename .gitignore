@@ -9,6 +9,8 @@ export_presets.cfg
 .godot/
 addons/
 script_templates/
+images/
+test/
 
 # Imported translations (automatically generated from CSV files)
 *.translation

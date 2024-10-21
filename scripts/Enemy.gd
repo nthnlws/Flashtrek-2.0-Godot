@@ -10,7 +10,6 @@ signal player_collision(Area: Area2D)
 var speed:int = default_speed
 var shield_on:bool
 
-
 #Enemy health variables
 @export var hp_max:int = 50
 var hp_current:float = hp_max
@@ -28,12 +27,15 @@ var starbase #Path to starbase, only set if AI_enabled is true
 var shoot_cd:float = false
 var rate_of_fire:float = 1.0
 var bullet_speed:int
+var bullet_life:float
+var predicted_position
 
 	
 func _ready() -> void:
 	#Sets bullet speed for use in targeting calculation
 	var torpedo_scene = torpedo.instantiate()
 	bullet_speed = torpedo_scene.speed
+	bullet_life = torpedo_scene.lifetime
 	
 	#Sets targets for movement if AI is enabled
 	if AI_enabled:
@@ -59,13 +61,13 @@ func _physics_process(delta):
 	
 	# Movement state setter
 	if player: # Movement toward player
-		fire_at_predicted_position()
+		playerMovement(delta)
 		moveTarget = "Player"
 	elif !player and returnToStarbaseBool == false: # Movement toward picked planet
-		planetMovement()
+		planetMovement(delta)
 		moveTarget = "Planet"
 	elif !player and returnToStarbaseBool == true:
-		starbaseMovement()
+		starbaseMovement(delta)
 		moveTarget = "Starbase"
 	elif global_position - starbase.global_position < 1500:
 		returnToStarbaseBool = false
@@ -79,31 +81,35 @@ func selectRandomPlanet():
 	endPoint = LevelData.planets.pick_random().global_position
 
 	
-func starbaseMovement():
+func starbaseMovement(delta):
 	if starbase:
 		var starbaseLocation = starbase.global_position
 		var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
-		moveToTarget(direction, "Starbase", starbaseLocation)
+		moveToTarget("Starbase", starbaseLocation, delta)
 
-func planetMovement(): 
-	var direction = global_position.angle_to_point(endPoint) + deg_to_rad(90)
-	moveToTarget(direction, "Planet", endPoint)
+func planetMovement(delta): 
+	moveToTarget("Planet", endPoint, delta)
 	
 	
 	if self.global_position.distance_to(endPoint) < 5:
 		returnToStarbaseBool = true
 	
-func moveToTarget(direction, targetName, targetPosition):
-	rotation = lerp_angle(rotation, direction, 0.1)
+func moveToTarget(targetName, targetPos, delta):
+	var angle = (targetPos - self.global_position).angle() + deg_to_rad(90)
+	var rotation_speed: float = 2.5 * delta
+	var angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
+	
+	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 	
 	if targetName == "Player":
-		velocity = (targetPosition - self.global_position).normalized()*speed
+		velocity = (targetPos - self.global_position).normalized()*speed
 	elif targetName == "Starbase":
-		velocity = (targetPosition - self.global_position).normalized()*speed
+		velocity = (targetPos - self.global_position).normalized()*speed
 	elif targetName == "Planet":
-		velocity = (targetPosition - self.global_position).normalized()*speed
+		velocity = (targetPos - self.global_position).normalized()*speed
 		
 	move_and_slide()
+	return angle_diff
 
 func explode():
 	LevelData.enemies.erase(self)
@@ -117,44 +123,73 @@ func _on_hitbox_area_entered(area):
 		hp_current -= damage_taken
 
 
-func predict_player_position(player_pos: Vector2, player_velocity: Vector2, enemy_pos: Vector2) -> Vector2:
-	# Calculate the vector from the enemy to the player
-	var to_player = player_pos - enemy_pos
+func predict_player_position():
+	var player_velocity = player.velocity
+	var target_pos = player.position
 
-	# Calculate the time it will take for the bullet to reach the player
-	var time_to_impact = to_player.length() / bullet_speed
-
-	# Predict the future position of the player
-	var predicted_player_pos = player_pos + player_velocity * time_to_impact
+	var a = bullet_speed*bullet_speed - player_velocity.dot(player_velocity)
+	var b = -2*((target_pos-self.position).dot(player_velocity))
+	var c= -(target_pos-self.position).dot(target_pos-self.position)
 	
-	return predicted_player_pos
-
-func fire_at_predicted_position():
+	var delta = (b*b)-(4*a*c)
+	var solution
 	
-	# Assume these values are provided or calculated elsewhere in your script
-	var player_pos = player.global_position
+	if abs(a) < 0.0001:
+		return -1  # Cannot solve the equation, invalid
+		print("rounding error")
+		
+	if delta == 0:	
+		solution = -b/(2*a)
+	elif delta > 0:
+		var solution1 = (-b + sqrt(delta)) / (2 * a)
+		var solution2 = (-b - sqrt(delta)) / (2 * a)
+		solution = max(solution1,solution2)
+	else:
+		return -1
+		
+	if solution > 0 and solution <= bullet_life:
+		predicted_position = target_pos + player_velocity * solution
+		return predicted_position
+	else: #No firing solution possible
+		predicted_position = player.global_position
+		return player.global_position
 
-	var player_velocity = player.velocity  # This should be the player's velocity vector
-	var enemy_pos = global_position
+func playerMovement(delta):
+	predict_player_position()
+	if typeof(predicted_position) != TYPE_VECTOR2:
+		moveToTarget("Player", player.global_position, delta)
+		#print("player pos: " + str(moveToTarget("Player", player.global_position, delta)))
+	else:
+		moveToTarget("Player", predicted_position, delta)
+		#print("Predicted: " + str(moveToTarget("Player", predicted_position, delta)))
+	
+	#var angle_diff = moveToTarget("Player", predicted_position, delta)
+	shoot_bullet()
 
-	# Predict where the player will be
-	var target_position = predict_player_position(player_pos, player_velocity, enemy_pos)
 
-	# Calculate the direction to shoot at
-	var direction = enemy_pos.angle_to_point(target_position) + deg_to_rad(90)
+func calculate_shooting_angle():
+	if typeof(predicted_position) != TYPE_VECTOR2:
+		return null # No valid firing solution
+	
+	else:
+		var delta_x = predicted_position.x - self.global_position.x
+		var delta_y = predicted_position.y - self.global_position.y
 
-	# Shoot the bullet in that direction
-	shoot_bullet(direction)
-	moveToTarget(direction, "Player", target_position)
+		# Calculate the angle using atan2
+		var shooting_angle = atan2(delta_y, delta_x)
 
-func shoot_bullet(direction: float):
-	# Instantiate and configure your bullet here
-	var bullet = torpedo.instantiate()
-	bullet.global_position = self.global_position
-	bullet.rotation = direction #direction
-	bullet.shooter = "enemy"
-	# Velocity not needed as torpedo handles movement
-	call_deferred("instantiate_bullet", bullet)
+		return shooting_angle
+	
+	
+func shoot_bullet():# Instantiate and configure bullet
+	var angle = calculate_shooting_angle()
+	if angle != null:
+		var bullet = torpedo.instantiate()
+		bullet.global_position = self.global_position
+		bullet.rotation = angle + deg_to_rad(90)  # Direction
+		bullet.shooter = "enemy"
+		# Velocity not needed as torpedo handles movement
+		call_deferred("instantiate_bullet", bullet)
 
 
 func instantiate_bullet(bullet):
