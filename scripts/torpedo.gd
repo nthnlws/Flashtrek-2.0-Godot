@@ -1,6 +1,6 @@
 class_name Projectile extends Area2D
 
-@export var speed:int = 500
+@export var speed:int = 1000
 var firingPoint: Vector2
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
 var movement_vector := Vector2(0, -1)

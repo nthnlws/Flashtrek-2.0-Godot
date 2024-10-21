@@ -21,9 +21,9 @@ func _input(event):
 
 func _process(delta):
 	if player.warping_active == true:
-		zoom_min = Vector2(0.2,0.2)
+		zoom_min = Vector2(0.1,0.1)
 	elif player.warping_active == false:
-		zoom_min = Vector2(0.2,0.2)
+		zoom_min = Vector2(0.1,0.1)
 	
 	if zoom < zoom_min:
 		zoom = zoom_min

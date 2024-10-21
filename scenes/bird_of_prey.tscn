@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=9 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_vh84p"]
 [ext_resource type="Texture2D" uid="uid://sowgidw2rexp" path="res://assets/textures/ships/birdofprey.png" id="2_8kfpk"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="2_snes0"]
 [ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="3_7xllj"]
 [ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="3_bqw1s"]
+[ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="3_sf3xf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
 radius = 1250.0
@@ -27,6 +28,7 @@ func _process(delta):
 collision_layer = 4
 script = ExtResource("1_vh84p")
 torpedo = ExtResource("2_snes0")
+shieldScene = ExtResource("3_sf3xf")
 
 [node name="AgroBox" type="Area2D" parent="."]
 collision_layer = 4

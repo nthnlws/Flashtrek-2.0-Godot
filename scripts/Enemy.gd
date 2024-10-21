@@ -6,6 +6,7 @@ signal player_collision(Area: Area2D)
 @export var AI_enabled:bool = true
 @export var default_speed:int = 50
 @export var torpedo: PackedScene
+@export var shieldScene: PackedScene
 
 var speed:int = default_speed
 var shield_on:bool
@@ -29,7 +30,7 @@ var rate_of_fire:float = 1.0
 var bullet_speed:int
 var bullet_life:float
 var predicted_position
-
+var angle_diff # Angle between current rotation and target angle
 	
 func _ready() -> void:
 	#Sets bullet speed for use in targeting calculation
@@ -45,7 +46,6 @@ func _ready() -> void:
 		$AgroBox.queue_free()
 		
 	if GameSettings.enemyShield == true:
-		var shieldScene = preload("res://scenes/enemyShield.tscn")
 		var newShield = shieldScene.instantiate()
 		add_child(newShield)
 		
@@ -96,8 +96,8 @@ func planetMovement(delta):
 	
 func moveToTarget(targetName, targetPos, delta):
 	var angle = (targetPos - self.global_position).angle() + deg_to_rad(90)
-	var rotation_speed: float = 2.5 * delta
-	var angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
+	var rotation_speed: float = 3.0 * delta
+	angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
 	
 	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 	
@@ -164,7 +164,9 @@ func playerMovement(delta):
 		#print("Predicted: " + str(moveToTarget("Player", predicted_position, delta)))
 	
 	#var angle_diff = moveToTarget("Player", predicted_position, delta)
-	shoot_bullet()
+	print(angle_diff)
+	if abs(angle_diff) < TAU/12:
+		shoot_bullet()
 
 
 func calculate_shooting_angle():
@@ -209,3 +211,4 @@ func _on_agro_box_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		playerAgro =  false
 		player = null
+		angle_diff = TAU
