@@ -158,13 +158,9 @@ func playerMovement(delta):
 	predict_player_position()
 	if typeof(predicted_position) != TYPE_VECTOR2:
 		moveToTarget("Player", player.global_position, delta)
-		#print("player pos: " + str(moveToTarget("Player", player.global_position, delta)))
 	else:
 		moveToTarget("Player", predicted_position, delta)
-		#print("Predicted: " + str(moveToTarget("Player", predicted_position, delta)))
 	
-	#var angle_diff = moveToTarget("Player", predicted_position, delta)
-	print(angle_diff)
 	if abs(angle_diff) < TAU/12:
 		shoot_bullet()
 

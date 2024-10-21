@@ -1,13 +1,14 @@
 [gd_scene load_steps=9 format=3 uid="uid://d3jaoy0wr34qy"]
 
-[ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="1_p8dy3"]
+[ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="1_p8dy3"]
 [ext_resource type="Script" path="res://scenes/room_walls.gd" id="2_ek417"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="3_oyg8m"]
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="4_4t2pi"]
-[ext_resource type="Texture2D" uid="uid://coj32tn3spyqf" path="res://assets/textures/ships/meteorGrey_big4.png" id="5_0itx6"]
+[ext_resource type="Texture2D" uid="uid://dtx078r3otrec" path="res://assets/textures/ships/meteorGrey_big4.png" id="5_0itx6"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_y0ht4"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="7_cv3po"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="8_evrud"]
+
 
 [node name="Level" type="Node"]
 script = ExtResource("1_p8dy3")

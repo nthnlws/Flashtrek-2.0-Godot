@@ -29,6 +29,9 @@ func _input(event):
 		play_click_sound(HIGH)
 	
 func _ready() -> void:
+	if OS.get_name() != "Windows":
+			DiscordManager.main_menu() # Sets Discord status to main menu
+	
 	%MainMenuMusic.play(0.5)
 	anim.play("fade_in_long")
 	#Creates and shuffles array of all click audio nodes

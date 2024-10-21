@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
-[ext_resource type="Script" path="res://scripts/DiscordRPC.gd" id="2_85g5u"]
+[ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="2_85g5u"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
 [ext_resource type="Script" path="res://scripts/room_walls.gd" id="3_j38kx"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]

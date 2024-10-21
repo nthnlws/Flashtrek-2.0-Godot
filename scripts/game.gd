@@ -28,6 +28,9 @@ var lives: int:
 		hud.init_lives(lives)
 
 func _ready():
+	if OS.get_name() != "Windows":
+		DiscordManager.single_player_game() # Sets status to primary solar system
+	
 	game_over_screen.visible = false
 	score = 0
 	lives = 3
