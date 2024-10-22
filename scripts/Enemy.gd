@@ -31,6 +31,7 @@ var bullet_speed:int
 var bullet_life:float
 var predicted_position
 var angle_diff # Angle between current rotation and target angle
+var randShootRange:int = 125
 	
 func _ready() -> void:
 	#Sets bullet speed for use in targeting calculation
@@ -153,21 +154,30 @@ func predict_player_position():
 	else: #No firing solution possible
 		predicted_position = player.global_position
 		return player.global_position
+	
+func randomize_position() -> Vector2:
+	var random_x = randi_range(-randShootRange, randShootRange)
+	var random_y = randi_range(-randShootRange, randShootRange)
+
+	predicted_position.x += random_x
+	predicted_position.y += random_y
+
+	return predicted_position
 
 func playerMovement(delta):
 	predict_player_position()
 	if typeof(predicted_position) != TYPE_VECTOR2:
 		moveToTarget("Player", player.global_position, delta)
 	else:
-		moveToTarget("Player", predicted_position, delta)
+		moveToTarget("Player", randomize_position(), delta)
 	
 	if abs(angle_diff) < TAU/12:
 		shoot_bullet()
 
 
-func calculate_shooting_angle():
+func calculate_shooting_angle() -> float:
 	if typeof(predicted_position) != TYPE_VECTOR2:
-		return null # No valid firing solution
+		return -1.0 # No valid firing solution
 	
 	else:
 		var delta_x = predicted_position.x - self.global_position.x
@@ -181,7 +191,7 @@ func calculate_shooting_angle():
 	
 func shoot_bullet():# Instantiate and configure bullet
 	var angle = calculate_shooting_angle()
-	if angle != null:
+	if angle != -1.0:
 		var bullet = torpedo.instantiate()
 		bullet.global_position = self.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
