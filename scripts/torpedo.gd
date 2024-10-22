@@ -5,7 +5,7 @@ var firingPoint: Vector2
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
 var movement_vector := Vector2(0, -1)
 
-var lifetime:float = 10.0
+var lifetime:float = 7.5
 var age: float = 0.0
 
 @export var damage:int = 15

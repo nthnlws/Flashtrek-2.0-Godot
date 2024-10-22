@@ -21,6 +21,8 @@ var playerAgro:bool = false
 var endPoint:Vector2
 var returnToStarbaseBool:bool = false
 var moveTarget:String
+var predicted_position
+var randomized_position
 
 var player = null
 var starbase #Path to starbase, only set if AI_enabled is true
@@ -29,9 +31,9 @@ var shoot_cd:float = false
 var rate_of_fire:float = 1.0
 var bullet_speed:int
 var bullet_life:float
-var predicted_position
 var angle_diff # Angle between current rotation and target angle
-var randShootRange:int = 125
+
+const RANDOMNESS_ANGLE_DEGREES = 10.0
 	
 func _ready() -> void:
 	#Sets bullet speed for use in targeting calculation
@@ -150,38 +152,56 @@ func predict_player_position():
 		
 	if solution > 0 and solution <= bullet_life:
 		predicted_position = target_pos + player_velocity * solution
+		randomized_position = randomize_position(predicted_position)
 		return predicted_position
 	else: #No firing solution possible
 		predicted_position = player.global_position
 		return player.global_position
 	
-func randomize_position() -> Vector2:
-	var random_x = randi_range(-randShootRange, randShootRange)
-	var random_y = randi_range(-randShootRange, randShootRange)
-
-	predicted_position.x += random_x
-	predicted_position.y += random_y
-
-	return predicted_position
+func randomize_position(predicted_position) -> Vector2:
+# Calculate the distance to the target
+	var random_predicted_position
+	var distance_to_target = self.global_position.distance_to(predicted_position)
+	
+	# Calculate the randomness radius (the size of the randomness circle)
+	var randomness_radius = distance_to_target * tan(deg_to_rad(RANDOMNESS_ANGLE_DEGREES))
+	
+	# Generate a random point within the circle
+	# Random angle between 0 and TAU (full circle)
+	var random_angle = randf_range(0, TAU)
+	
+	# Random radius (scaled to fit inside the circle, not just at the edge)
+	var random_radius = randomness_radius * sqrt(randf())  # sqrt ensures uniform distribution in circle
+	
+	# Convert polar coordinates (radius, angle) to Cartesian coordinates
+	var random_offset_x = random_radius * cos(random_angle)
+	var random_offset_y = random_radius * sin(random_angle)
+	
+	# Add the random offset to the predicted position
+	random_predicted_position = predicted_position
+	random_predicted_position.x += random_offset_x
+	random_predicted_position.y += random_offset_y
+	
+	return random_predicted_position
 
 func playerMovement(delta):
 	predict_player_position()
-	if typeof(predicted_position) != TYPE_VECTOR2:
+	if typeof(predict_player_position()) == TYPE_INT:
 		moveToTarget("Player", player.global_position, delta)
 	else:
-		moveToTarget("Player", randomize_position(), delta)
+		moveToTarget("Player", predicted_position, delta)
 	
 	if abs(angle_diff) < TAU/12:
 		shoot_bullet()
 
 
 func calculate_shooting_angle() -> float:
-	if typeof(predicted_position) != TYPE_VECTOR2:
+	if typeof(predicted_position) == TYPE_INT:
 		return -1.0 # No valid firing solution
 	
 	else:
-		var delta_x = predicted_position.x - self.global_position.x
-		var delta_y = predicted_position.y - self.global_position.y
+		var delta_x = randomized_position.x - self.global_position.x
+		var delta_y = randomized_position.y - self.global_position.y
 
 		# Calculate the angle using atan2
 		var shooting_angle = atan2(delta_y, delta_x)
