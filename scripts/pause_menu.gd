@@ -172,9 +172,26 @@ func _on_vsync_select_item_selected(index):
 		GameSettings.vSyncSetting = 2
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
+
 func _on_volume_slider_value_changed(value):
 	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
 	GameSettings.gameVolume = value
+	
+
+func _on_scale_setting_item_selected(index):
+	match index:
+		0: # 100% HUD Scale
+			SignalBus.HUDchanged.emit(100)
+		1: # 90% HUD Scale
+			SignalBus.HUDchanged.emit(90)
+		2: # 80% HUD Scale
+			SignalBus.HUDchanged.emit(80)
+		3: # 70% HUD Scale
+			SignalBus.HUDchanged.emit(70)
+		4: # 60% HUD Scale
+			SignalBus.HUDchanged.emit(60)
+		5: # 50% HUD Scale
+			SignalBus.HUDchanged.emit(50)
 
 # Called functions
 func updateVector():
@@ -218,3 +235,6 @@ func set_menu_to_savefile(resets):
 		child.value = value
 	
 	file.close()
+
+
+

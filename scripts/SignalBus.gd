@@ -13,6 +13,7 @@ signal beam_button
 signal hail_button
 signal dock_button
 signal ship_upgrades_button
+signal HUDchanged(scale)
 
 #Menus
 signal pause_menu_clicked

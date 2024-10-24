@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://3st5s0ue3nj4"]
+[gd_scene load_steps=5 format=3 uid="uid://3st5s0ue3nj4"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_trih8"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
 [ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="3_pbw0g"]
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7be28"]
 
 [node name="PauseMenu" type="Control" groups=["menu"]]
 layout_mode = 3
@@ -901,6 +903,52 @@ value = 1.0
 tick_count = 6
 ticks_on_borders = true
 
+[node name="HUDScaleContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/HUDScaleContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="HUDscale" type="Label" parent="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "HUD Scale:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="ScaleSetting" type="OptionButton" parent="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+item_count = 6
+selected = 0
+popup/item_0/text = "100%"
+popup/item_0/id = 0
+popup/item_1/text = "90%"
+popup/item_1/id = 1
+popup/item_2/text = "80%"
+popup/item_2/icon = SubResource("PortableCompressedTexture2D_7be28")
+popup/item_2/id = 2
+popup/item_3/text = "70%"
+popup/item_3/id = 3
+popup/item_4/text = "60%"
+popup/item_4/id = 4
+popup/item_5/text = "50%"
+popup/item_5/id = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
@@ -928,3 +976,4 @@ ticks_on_borders = true
 [connection signal="value_changed" from="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderValue" to="." method="_on_border_slider_value_changed"]
 [connection signal="item_selected" from="ColorRect/WorldVBox/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_select_item_selected"]
 [connection signal="value_changed" from="ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="." method="_on_volume_slider_value_changed"]
+[connection signal="item_selected" from="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
