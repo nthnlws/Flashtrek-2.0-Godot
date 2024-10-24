@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="2_85g5u"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
 [ext_resource type="AudioStream" uid="uid://22jq85gws3ed" path="res://assets/audio/hit.wav" id="12_63k06"]
+[ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -142,6 +143,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
+visible = false
+position = Vector2(89, 469)
 
 [node name="Menus" type="CanvasLayer" parent="."]
 

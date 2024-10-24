@@ -7,6 +7,13 @@ signal playerHealthChanged(hp_current)
 signal playerShieldChanged(sp_current)
 signal playerEnergyChanged(energy_current)
 
+#HUD
+signal warp_button
+signal beam_button
+signal hail_button
+signal dock_button
+signal ship_upgrades_button
+
 #Menus
 signal pause_menu_clicked
 signal credits_clicked

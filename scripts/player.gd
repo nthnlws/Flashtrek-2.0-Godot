@@ -40,6 +40,9 @@ var rate_of_fire:float = 0.2
 var alive: bool = true
 
 func _ready():
+	#HUD button connection
+	SignalBus.warp_button.connect(warping_state_change)
+		
 	GameSettings.maxSpeed = default_max_speed
 	SignalBus.player = self
 	shield = $playerShield
@@ -77,20 +80,19 @@ func _process(delta):
 		SignalBus.playerEnergyChanged.emit(energy_current)
 
 
-func _physics_process(delta):
-	if !alive: return
-	if GameSettings.menuStatus == true: return
-	
+func _unhandled_input(event):
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
-	if Input.is_action_pressed("left_click"):
-		if warping_active == false:
-			if !shoot_cd:
-				shoot_cd = true
-				shoot_torpedo()
-				await get_tree().create_timer(rate_of_fire).timeout
-				shoot_cd = false
+	if event.is_action_pressed("left_click") and !shoot_cd and !warping_active:
+		shoot_cd = true
+		shoot_torpedo()
+		await get_tree().create_timer(rate_of_fire).timeout
+		shoot_cd = false
+				
+				
+func _physics_process(delta):
+	if !alive or GameSettings.menuStatus == true: return
 	
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
@@ -104,6 +106,15 @@ func _physics_process(delta):
 	
 	if input_vector.y == 0:
 		velocity = velocity.move_toward(Vector2.ZERO, 3)
+		
+		
+	#if OS.get_name() == "Android":
+		#var direction = GameSettings.playerDirection
+#
+		#if direction:
+			#velocity = direction * acceleration / warpm
+		#else:
+			#velocity = Vector2(0,0)
 	
 	move_and_slide()
 

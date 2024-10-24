@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyg1avbtmwoj7"]
+[gd_scene load_steps=8 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
-[ext_resource type="Texture2D" uid="uid://ccexpq2p8se1r" path="res://assets/textures/Engineering_Insignia.png" id="3_8t62i"]
+[ext_resource type="Texture2D" uid="uid://d2uj6nbv5t3fb" path="res://assets/textures/Engineering_Insignia.png" id="3_8t62i"]
+[ext_resource type="PackedScene" uid="uid://bucq7ncy883xp" path="res://scenes/hud_button.tscn" id="4_00c07"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_158n7")
@@ -129,15 +130,28 @@ label_settings = SubResource("LabelSettings_pu3f4")
 
 [node name="RightContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 0
+size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/RightContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/RightContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/RightContainer/VBoxContainer"]
 custom_minimum_size = Vector2(35, 44)
 layout_mode = 2
+size_flags_horizontal = 8
 mouse_filter = 0
 texture = ExtResource("3_8t62i")
 expand_mode = 1
 stretch_mode = 4
 
-[connection signal="gui_input" from="MarginContainer/HBoxContainer/RightContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/RightContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HUDButton" parent="MarginContainer/HBoxContainer/RightContainer/VBoxContainer" instance=ExtResource("4_00c07")]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/RightContainer/VBoxContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]

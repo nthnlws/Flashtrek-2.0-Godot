@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxj8ep08wbnm6"
-path="res://.godot/imported/GraphEdit.svg-90dae61e8e0b157ab8eff95fe4b91e53.ctex"
+uid="uid://d25jiefockl1b"
+path="res://.godot/imported/joyknobpng.png-936e721539f55802c7f04f04b6f02451.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/SignalVisualizer/GraphEdit.svg"
-dest_files=["res://.godot/imported/GraphEdit.svg-90dae61e8e0b157ab8eff95fe4b91e53.ctex"]
+source_file="res://assets/textures/joyknobpng.png"
+dest_files=["res://.godot/imported/joyknobpng.png-936e721539f55802c7f04f04b6f02451.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

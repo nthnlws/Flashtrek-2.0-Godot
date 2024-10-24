@@ -4,13 +4,24 @@ extends Control
 @onready var anim: AnimationPlayer = $"../../transition_overlays/AnimationPlayer"
 @onready var color_rect: ColorRect = $"../../transition_overlays/ColorRect"
 
+# Backing variables
+var _xcoord: int = 0
+var _ycoord: int = 0
 
 signal teleport
 
-var xCoord
-var yCoord
-var file
+var xCoord: int = 0:
+	get:
+		return xCoord
+	set(value):
+		xCoord = clamp(value, -1000000, 1000000)
 
+var yCoord: int = 0:
+	get:
+		return yCoord
+	set(value):
+		yCoord = clamp(value, -1000000, 1000000)
+var file
 
 func _ready():
 	SignalBus.pauseMenu = self
