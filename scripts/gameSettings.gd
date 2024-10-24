@@ -31,9 +31,3 @@ var borderToggle: bool = false
 var borderValue: int
 var gameVolume: float = 100.0
 var vSyncSetting: bool = true
-var HUDscale:int = 100:
-	set(value):
-		HUDscale = value
-		SignalBus.HUDchanged.emit()
-	get:
-		return HUDscale

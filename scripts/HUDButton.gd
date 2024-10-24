@@ -84,6 +84,6 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 func scale_HUD_button(scale):
 	for button in scale_nodes:
-		button.scale = Vector2(scale/100, scale/100)
+		button.scale = Vector2(scale, scale)
 		#button.scale.y = 0.5
-	$Sprite2D.scale = Vector2(0.4, 0.4) * Vector2(scale/100, scale/100)
+	$Sprite2D.scale = Vector2(0.4, 0.4) * Vector2(scale, scale)

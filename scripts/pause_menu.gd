@@ -108,7 +108,6 @@ func _on_y_coord_input_text_submitted(new_text):
 func _on_y_coord_input_focus_entered():
 	%yCoordInput.select_all()
 	
-	
 
 
 # Player Column
@@ -181,17 +180,17 @@ func _on_volume_slider_value_changed(value):
 func _on_scale_setting_item_selected(index):
 	match index:
 		0: # 100% HUD Scale
-			SignalBus.HUDchanged.emit(100)
+			SignalBus.HUDchanged.emit(1.0)
 		1: # 90% HUD Scale
-			SignalBus.HUDchanged.emit(90)
+			SignalBus.HUDchanged.emit(0.9)
 		2: # 80% HUD Scale
-			SignalBus.HUDchanged.emit(80)
+			SignalBus.HUDchanged.emit(0.8)
 		3: # 70% HUD Scale
-			SignalBus.HUDchanged.emit(70)
+			SignalBus.HUDchanged.emit(0.7)
 		4: # 60% HUD Scale
-			SignalBus.HUDchanged.emit(60)
+			SignalBus.HUDchanged.emit(0.6)
 		5: # 50% HUD Scale
-			SignalBus.HUDchanged.emit(50)
+			SignalBus.HUDchanged.emit(0.5)
 
 # Called functions
 func updateVector():

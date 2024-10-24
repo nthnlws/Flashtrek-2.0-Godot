@@ -49,6 +49,10 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg")
 
+[import]
+
+exclude_extensions=["svg"]
+
 [importer_defaults]
 
 animation_library={

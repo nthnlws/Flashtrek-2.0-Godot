@@ -81,19 +81,21 @@ func _process(delta):
 
 
 func _unhandled_input(event):
-	if Input.is_action_just_pressed("warp"):
-		warping_state_change()
-
-	if event.is_action_pressed("left_click") and !shoot_cd and !warping_active:
-		shoot_cd = true
-		shoot_torpedo()
-		await get_tree().create_timer(rate_of_fire).timeout
-		shoot_cd = false
-				
-				
+	pass
+	
 func _physics_process(delta):
 	if !alive or GameSettings.menuStatus == true: return
 	
+	if Input.is_action_just_pressed("warp"):
+		warping_state_change()
+
+	if Input.is_action_pressed("left_click"):
+		if !shoot_cd:
+			if !warping_active:
+				shoot_cd = true
+				shoot_torpedo()
+				await get_tree().create_timer(rate_of_fire).timeout
+				shoot_cd = false
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
 	velocity += input_vector.rotated(rotation) * acceleration / warpm
