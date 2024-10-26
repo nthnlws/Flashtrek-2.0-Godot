@@ -2,7 +2,6 @@ extends Node2D
 
 @onready var torpedos = $Level/Torpedos
 @onready var player = $Level/Player
-@onready var asteroids = $Level/Asteroids
 
 @onready var hud = $HUD_layer/HUD
 @onready var pauseMenu = $Menus/PauseMenu
@@ -13,8 +12,8 @@ extends Node2D
 @onready var player_spawn_pos = $Level/PlayerSpawnPos
 @onready var player_spawn_area = $Level/PlayerSpawnPos/PlayerSpawnArea
 
-var asteroid_scene = preload("res://scenes/asteroid.tscn")
-var Asteroid = preload("res://scripts/asteroid.gd")
+#var asteroid_scene = preload("res://scenes/asteroid.tscn")
+#var Asteroid = preload("res://scripts/asteroid.gd")
 
 
 var score:int = 0:
@@ -39,8 +38,9 @@ func _ready():
 	player.connect("died", _on_player_died)
 	pauseMenu.connect("teleport", Callable(player, "teleport"))
 	
-	for asteroid in asteroids.get_children():
-		asteroid.connect("exploded", _on_asteroid_exploded)
+
+	#for asteroid in asteroids.get_children():
+		#asteroid.connect("exploded", _on_asteroid_exploded)
 	
 	%ColorRect.visible
 	anim.play("fade_in")
@@ -49,24 +49,24 @@ func _ready():
 func _on_player_torpedo_shot(torpedo):
 	torpedos.add_child(torpedo)
 
-func _on_asteroid_exploded(pos, size, points):
-	$AsteroidHitSound.play()
-	score += points
-	for i in range(2):
-		match size:
-			Asteroid.AsteroidSize.LARGE:
-				spawn_asteroid(pos, Asteroid.AsteroidSize.MEDIUM)
-			Asteroid.AsteroidSize.MEDIUM:
-				spawn_asteroid(pos, Asteroid.AsteroidSize.SMALL)
-			Asteroid.AsteroidSize.SMALL:
-				pass
+#func _on_asteroid_exploded(pos, size, points):
+	#$AsteroidHitSound.play()
+	#score += points
+	#for i in range(2):
+		#match size:
+			#Asteroid.AsteroidSize.LARGE:
+				#spawn_asteroid(pos, Asteroid.AsteroidSize.MEDIUM)
+			#Asteroid.AsteroidSize.MEDIUM:
+				#spawn_asteroid(pos, Asteroid.AsteroidSize.SMALL)
+			#Asteroid.AsteroidSize.SMALL:
+				#pass
 
-func spawn_asteroid(pos, size):
-	var a = asteroid_scene.instantiate()
-	a.global_position = pos
-	a.size = size
-	a.connect("exploded", _on_asteroid_exploded)
-	asteroids.call_deferred("add_child", a)
+#func spawn_asteroid(pos, size):
+	#var a = asteroid_scene.instantiate()
+	#a.global_position = pos
+	#a.size = size
+	#a.connect("exploded", _on_asteroid_exploded)
+	#asteroids.call_deferred("add_child", a)
 
 func _on_player_died():
 	lives -= 1
