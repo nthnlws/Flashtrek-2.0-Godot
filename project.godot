@@ -26,10 +26,10 @@ SignalBus="*res://scripts/SignalBus.gd"
 WindowSize="*res://scripts/WindowSize.gd"
 MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
 LevelData="*res://scripts/LevelData.gd"
-MultiplayerManager="*res://scripts/multiplayer_manager.gd"
-MPIO="*res://addons/MultiplayCore/MPIO.gd"
+MultiplayerManager="res://scripts/multiplayer_manager.gd"
 DiscordManager="*res://scripts/DiscordManager.gd"
 ImGuiRoot="*res://addons/imgui-godot/data/ImGuiRoot.tscn"
+LevelManager="*res://scripts/levelManager.gd"
 
 [debug]
 
@@ -44,6 +44,10 @@ window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports/movie_recording.avi"
 
 [editor_plugins]
 

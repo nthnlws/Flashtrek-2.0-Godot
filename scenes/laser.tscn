@@ -1,11 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://p5elivo633p4"]
+[gd_scene load_steps=15 format=3 uid="uid://p5elivo633p4"]
 
 [ext_resource type="Script" path="res://scripts/laser.gd" id="1_aec54"]
-[ext_resource type="Texture2D" uid="uid://bjuixacy8gpmr" path="res://assets/textures/glowing_circle25.png" id="2_el4j4"]
-[ext_resource type="Texture2D" uid="uid://dupy54fkqg121" path="res://assets/textures/glowing_circle20.png" id="3_r8vy2"]
-[ext_resource type="Texture2D" uid="uid://dd6s81vxyfssb" path="res://assets/textures/circle25.png" id="3_yh6sv"]
-[ext_resource type="AudioStream" uid="uid://bum52yrev77td" path="res://assets/audio/tos_ship_phaser.mp3" id="4_jeuqt"]
-[ext_resource type="AudioStream" uid="uid://cqab8d5vgib64" path="res://assets/audio/laser_fizzle.mp3" id="5_85x6m"]
+[ext_resource type="Texture2D" uid="uid://bxwfdylr3rd3y" path="res://assets/textures/glowing_circle25.png" id="2_el4j4"]
+[ext_resource type="Texture2D" uid="uid://b7lndu3ejpnbu" path="res://assets/textures/glowing_circle20.png" id="3_r8vy2"]
+[ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="3_yh6sv"]
+[ext_resource type="AudioStream" uid="uid://cf4in5holxkkb" path="res://assets/audio/tos_ship_phaser.mp3" id="4_jeuqt"]
+[ext_resource type="AudioStream" uid="uid://c6tgaqxxonfew" path="res://assets/audio/laser_fizzle.mp3" id="5_85x6m"]
+[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/laser_bass.ogg" id="7_y5fda"]
 
 [sub_resource type="Gradient" id="Gradient_k33yi"]
 offsets = PackedFloat32Array(0, 0.493151, 1)
@@ -90,9 +91,19 @@ lifetime = 0.7
 
 [node name="laserSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_jeuqt")
-volume_db = -6.0
+volume_db = -10.0
 
 [node name="laserFizzle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_85x6m")
 volume_db = -25.0
 pitch_scale = 1.6
+
+[node name="laserBass" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_y5fda")
+volume_db = -30.0
+pitch_scale = 0.7
+
+[node name="laserBass2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_y5fda")
+volume_db = -30.0
+pitch_scale = 0.6

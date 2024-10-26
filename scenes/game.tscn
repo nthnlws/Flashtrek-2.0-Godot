@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=24 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="2_85g5u"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
 [ext_resource type="AudioStream" uid="uid://22jq85gws3ed" path="res://assets/audio/hit.wav" id="12_63k06"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
+[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/planets.tscn" id="19_tq2fc"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -176,6 +177,9 @@ root_node = NodePath("../../HUD_layer")
 libraries = {
 "": SubResource("AnimationLibrary_2ionv")
 }
+
+[node name="Planet" parent="." instance=ExtResource("19_tq2fc")]
+position = Vector2(2352, 473)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

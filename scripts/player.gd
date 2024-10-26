@@ -3,6 +3,7 @@ class_name Player extends CharacterBody2D
 signal torpedo_shot(torpedo)
 signal died
 
+var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
 var acceleration:int= 5
 @export var default_max_speed:int = 500
@@ -29,7 +30,7 @@ var warping_active:bool = false
 var shield_active:bool = false
 var energyTime:bool = false
 var warpTime:bool = false
-@export var energy_regen_speed:int = 10
+var energy_regen_speed:int = 10
 
 var shield
 var torpedo_scene = preload("res://scenes/torpedo.tscn")
@@ -41,7 +42,7 @@ var alive: bool = true
 
 func _ready():
 	#HUD button connection
-	SignalBus.warp_button.connect(warping_state_change)
+	SignalBus.Q1hudButton_clicked.connect(warping_state_change)
 		
 	GameSettings.maxSpeed = default_max_speed
 	SignalBus.player = self
@@ -81,21 +82,25 @@ func _process(delta):
 
 
 func _unhandled_input(event):
-	pass
-	
+	if Input.is_action_just_pressed("left_click"):
+		shooting_button_held = true
+	if Input.is_action_just_released("left_click"):
+		shooting_button_held = false
+		
 func _physics_process(delta):
 	if !alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("warp"):
 		warping_state_change()
 
-	if Input.is_action_pressed("left_click"):
+	if shooting_button_held:
 		if !shoot_cd:
 			if !warping_active:
 				shoot_cd = true
 				shoot_torpedo()
 				await get_tree().create_timer(rate_of_fire).timeout
 				shoot_cd = false
+				
 	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
 	
 	velocity += input_vector.rotated(rotation) * acceleration / warpm
@@ -146,7 +151,7 @@ func shoot_torpedo():
 		t.global_position = muzzle.global_position
 		t.rotation = self.rotation
 		t.shooter = "player"
-		%TorpedoSound.play()
+		%HeavyTorpedo.play()
 		emit_signal("torpedo_shot", t)
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= torpedo_drain
@@ -196,7 +201,7 @@ func respawn(pos):
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "player":
 		area.queue_free()
-		$TorpedoHit.play()
+		%TorpedoHit.play()
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			hp_current -= damage_taken

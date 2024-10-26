@@ -120,7 +120,7 @@ func explode():
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "enemy":
-		$TorpedoHit.play()
+		%TorpedoHit.play()
 		area.queue_free()
 		var damage_taken = area.damage
 		hp_current -= damage_taken
@@ -224,6 +224,7 @@ func instantiate_bullet(bullet):
 	if !shoot_cd:
 		shoot_cd = true
 		get_parent().add_child(bullet)
+		%TorpedoSound.play()
 		await get_tree().create_timer(0.5).timeout
 		
 		shoot_cd = false

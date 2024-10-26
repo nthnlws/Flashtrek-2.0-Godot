@@ -3,6 +3,7 @@ extends Node2D
 @onready var sprite = $PlanetTexture
 
 func _ready():
+	$AnimatedSprite2D.play()
 	rotation = round(deg_to_rad(randi_range(0, 360)))
 	rotation_degrees = 40
 

@@ -139,6 +139,8 @@ func laserOn():
 		tween.tween_property($Line2D, "width", 5, 0.1)
 
 		$laserSound.play()
+		$laserBass.play()
+		$laserBass2.play()
 
 		laserStatus = true
 	
@@ -154,6 +156,8 @@ func laserOff():
 		collision_particles.emitting = false
 		
 		$laserSound.stop()
+		$laserBass.stop()
+		$laserBass2.stop()
 		
 		laserStatus = false
 	

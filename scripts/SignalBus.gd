@@ -7,12 +7,15 @@ signal playerHealthChanged(hp_current)
 signal playerShieldChanged(sp_current)
 signal playerEnergyChanged(energy_current)
 
+#World navigation
+signal galaxy_map_clicked(system_clicked)
+
 #HUD
-signal warp_button
-signal beam_button
-signal hail_button
-signal dock_button
-signal ship_upgrades_button
+signal Q1hudButton_clicked
+signal Q2hudButton_clicked
+signal Q3hudButton_clicked
+signal Q4hudButton_clicked
+signal CenterHUDbutton_clicked
 signal HUDchanged(scale)
 
 #Menus

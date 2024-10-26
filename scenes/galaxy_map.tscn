@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://cx1bafifkl17x"]
+
+[ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
+[ext_resource type="Script" path="res://scenes/galaxy_map.gd" id="1_n1dvt"]
+[ext_resource type="Texture2D" uid="uid://cip0hatmj7xsj" path="res://assets/textures/WorldMap.png" id="2_etsr6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
+radius = 6.0
+
+[node name="GalaxyMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_n1dvt")
+
+[node name="mapBackground" type="Sprite2D" parent="."]
+position = Vector2(512, 512)
+texture = ExtResource("1_f67k2")
+
+[node name="nodeMap" type="Sprite2D" parent="."]
+position = Vector2(480, 290)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_etsr6")
+
+[node name="Systems" type="Node2D" parent="."]
+
+[node name="Solarus" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(186, 409)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Solarus"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Kronos" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(622, 86)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Kronos"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Romulus" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(755, 424)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Romulus"]
+shape = SubResource("CircleShape2D_ays83")
