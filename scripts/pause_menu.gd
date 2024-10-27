@@ -3,6 +3,7 @@ extends Control
 @onready var _bus := AudioServer.get_bus_index("Master")
 @onready var anim: AnimationPlayer = $"../../transition_overlays/AnimationPlayer"
 @onready var color_rect: ColorRect = $"../../transition_overlays/ColorRect"
+@onready var Menus = $".."
 
 # Backing variables
 var _xcoord: int = 0
@@ -25,7 +26,6 @@ var file
 
 func _ready():
 	SignalBus.pauseMenu = self
-	SignalBus.pause_menu_clicked.connect(toggle_menu) #Connect HUD menu button to toggle
 
 	
 	# Creates default save file on first load, otherwise restores settings to previous state
@@ -43,26 +43,11 @@ func _ready():
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	GameSettings.menuStatus = false
 	visible = false
-	
-	
-func _input(event):
-	if Input.is_action_just_pressed("escape"):
-		toggle_menu()
 
-
-func toggle_menu():
-	if visible == false:
-		mouse_filter = Control.MOUSE_FILTER_STOP
-		GameSettings.menuStatus = true
-		visible = true
-	elif visible == true:
-		mouse_filter = Control.MOUSE_FILTER_PASS
-		GameSettings.menuStatus = false
-		visible = false
 
 #Header buttons
 func _on_close_menu_button_pressed():
-	toggle_menu()
+	Menus.toggle_menu(self, 0)
 	
 func _on_main_menu_button_pressed():
 	color_rect.z_index = 2
@@ -97,17 +82,16 @@ func _on_x_coord_input_text_changed(new_text):
 func _on_x_coord_input_text_submitted(new_text):
 	xCoord = new_text.strip_edges().to_float()
 	teleportPlayer()
-	toggle_menu()
+	Menus.toggle_menu(self, 0)
 
 func _on_y_coord_input_text_changed(new_text):
 	yCoord = new_text.strip_edges().to_float()
 func _on_y_coord_input_text_submitted(new_text):
 	yCoord = new_text.strip_edges().to_float()
 	teleportPlayer()
-	toggle_menu()
+	Menus.toggle_menu(self, 0)
 func _on_y_coord_input_focus_entered():
 	%yCoordInput.select_all()
-	
 
 
 # Player Column

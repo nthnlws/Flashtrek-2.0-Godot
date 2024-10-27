@@ -1,9 +1,11 @@
 extends Control
 
-@onready var scale_nodes
+@onready var scale_nodes = [$Quadrant1, $Quadrant2, $Quadrant3, $Quadrant4, $CenterButton]
 
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
+
+var default_pos:Vector2 = position
 
 const HIGH:float = 2.0
 const LOW:float = 0.5
@@ -11,8 +13,11 @@ const LOW:float = 0.5
 
 var button_array = []
 
+#func _process(delta):
+	#print(self.scale)
 func _ready():
-	SignalBus.HUDchanged.connect(scale_HUD_button)
+	default_pos = position
+	SignalBus.HUDchanged.connect(manual_scale)
 	
 	#Connect Input signals from HUD buttons
 	button_array = get_tree().get_nodes_in_group("HUD_button")
@@ -64,15 +69,18 @@ func is_point_in_collision_polygon(point: Vector2, collision_polygon: CollisionP
 	# Get the polygon points from the CollisionPolygon2D
 	var polygon = collision_polygon.polygon
 
-	# Get the global transformation of the CollisionPolygon2D node, which includes scale, rotation, and position
+	# Get the global transformation of the CollisionPolygon2D
 	var global_transform = collision_polygon.get_global_transform()
 
-	# Transform the local polygon points to global coordinates
+	# Calculate the scale factor for proper scaling adjustment
+	var global_scale = global_transform.get_scale()
+	
+	#print(global_transform.origin + (polygon * global_scale))
+	# Transform the local polygon points to global coordinates considering the scale
 	var global_polygon = []
 	for p in polygon:
-		global_polygon.append(global_transform * p)
-
-	# Check if the point is inside the polygon
+		global_polygon.append((global_transform.origin + (p * global_scale)))
+	# Check if the point is inside the transformed polygon
 	return Geometry2D.is_point_in_polygon(point, global_polygon)
 
 
@@ -85,7 +93,11 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 	# Get the global transformation of the CollisionShape2D
 	var global_transform = collision_shape.get_global_transform()
 
-	# Get the global center of the circle by using the origin of the global transform
+	# Adjust for the pivot offset
+	var pivot_offset = collision_shape.position
+	global_transform.origin -= pivot_offset * global_transform.get_scale()
+
+	# Get the global center of the circle (from the origin of the transformed shape)
 	var global_center = global_transform.origin
 
 	# Apply the scale from the global transform to the radius
@@ -95,8 +107,14 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 	return point.distance_to(global_center) <= scaled_radius
 
 
-
-func scale_HUD_button(new_scale):
+func manual_scale(new_scale): #TODO: Fix scaling direction
+	var use = Vector2(new_scale, new_scale)
+	$Sprite2D.scale = use * Vector2(0.32, 0.32)
+	
+	for node in scale_nodes:
+		node.scale = use
+	
+func scale_HUD_button(new_scale): # Scales entire Control node, not used
 	scale = Vector2(new_scale, new_scale)
 	
 	

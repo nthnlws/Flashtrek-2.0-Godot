@@ -8,6 +8,7 @@ const LOW:float = 0.5
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
+
 func _ready():
 	area_array = get_tree().get_nodes_in_group("map_node")
 	
@@ -27,8 +28,7 @@ func _gui_input(event):
 				SignalBus.galaxy_map_clicked.emit(area.name)
 				play_click_sound(LOW)
 				return
-			
-		
+				
 
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
 	# Get the CircleShape2D from the CollisionShape2D

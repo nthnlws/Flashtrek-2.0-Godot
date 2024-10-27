@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="2_85g5u"]
@@ -14,7 +14,9 @@
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
+[ext_resource type="Script" path="res://scenes/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
+[ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -125,12 +127,16 @@ visible = false
 position = Vector2(89, 469)
 
 [node name="Menus" type="CanvasLayer" parent="."]
+script = ExtResource("14_nkpvs")
 
 [node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
 visible = false
 z_index = 1
 
 [node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
+visible = false
+
+[node name="GalaxyMap" parent="Menus" instance=ExtResource("16_wq6qh")]
 visible = false
 
 [node name="transition_overlays" type="CanvasLayer" parent="."]
