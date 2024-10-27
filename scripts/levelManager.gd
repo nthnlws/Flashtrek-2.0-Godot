@@ -13,7 +13,8 @@ func _process(delta):
 	pass
 
 func system_changer(clicked_system):
-	current_root = get_tree().current_scene
-	future_system = clicked_system
-	print(current_root)
-	print(future_system)
+	print(clicked_system)
+	#current_root = get_tree().current_scene
+	#future_system = clicked_system
+	#print(current_root)
+	#print(future_system)

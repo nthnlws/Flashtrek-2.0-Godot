@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://cx1bafifkl17x"]
+[gd_scene load_steps=8 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
 [ext_resource type="Script" path="res://scenes/galaxy_map.gd" id="1_n1dvt"]
-[ext_resource type="Texture2D" uid="uid://cip0hatmj7xsj" path="res://assets/textures/WorldMap.png" id="2_etsr6"]
+[ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/WorldMap.png" id="2_etsr6"]
+[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/computerbeep_01.ogg" id="4_2pwq2"]
+[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/computerbeep_02.ogg" id="5_lv8kj"]
+[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/computerbeep_03.ogg" id="6_wvwih"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
 radius = 6.0
@@ -46,4 +49,208 @@ position = Vector2(755, 424)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Romulus"]
 shape = SubResource("CircleShape2D_ays83")
 
-[connection signal="input_event" from="Systems/Solarus" to="." method="_on_solarus_input_event"]
+[node name="1" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(83, 65)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/1"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="2" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(165, 91)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/2"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="3" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(59, 135)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/3"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="4" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(184, 193)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/4"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="5" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(71, 222)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/5"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="6" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(210, 292)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/6"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="7" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(97, 418)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/7"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="8" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(103, 487)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/8"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="9" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(168, 528)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/9"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="10" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(323, 491)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/10"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="11" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(373, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/11"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="12" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(304, 112)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/12"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="13" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(411, 81)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/13"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="14" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(520, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/14"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="15" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(497, 162)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/15"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="16" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(446, 187)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/16"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="17" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(434, 256)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/17"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="18" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(435, 303)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/18"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="19" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(563, 244)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/19"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="20" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(620, 212)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/20"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="21" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(559, 352)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/21"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="22" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(538, 433)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/22"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="23" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(614, 445)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/23"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="24" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(672, 332)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/24"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="25" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(843, 522)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/25"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="26" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(832, 423)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/26"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="27" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(840, 285)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/27"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="28" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(785, 210)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/28"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="29" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(724, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/29"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="30" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(795, 51)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/30"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="31" type="Area2D" parent="Systems" groups=["map_node"]]
+position = Vector2(853, 135)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/31"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Click01" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
+stream = ExtResource("4_2pwq2")
+volume_db = -18.0
+mix_target = 2
+max_polyphony = 2
+
+[node name="Click02" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
+stream = ExtResource("5_lv8kj")
+volume_db = -23.0
+mix_target = 2
+max_polyphony = 2
+
+[node name="Click03" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
+stream = ExtResource("6_wvwih")
+volume_db = -27.0
+mix_target = 2
+max_polyphony = 2
