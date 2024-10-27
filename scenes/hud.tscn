@@ -60,10 +60,6 @@ mouse_filter = 1
 text = "Coords:"
 label_settings = SubResource("LabelSettings_amtcr")
 
-[node name="Lives" type="HBoxContainer" parent="MarginContainer/HBoxContainer/LeftContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/LeftContainer"]
 visible = false
 layout_mode = 2

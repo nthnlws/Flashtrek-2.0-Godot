@@ -12,7 +12,6 @@ var _zoom:Vector2 = Vector2(0.5, 0.5):
 		_zoom = clamp(value, ZOOM_MIN, ZOOM_MAX)
 
 
-
 func _input(event):
 	if Input.is_action_pressed("zoom_out"):
 		if _zoom > ZOOM_MIN:

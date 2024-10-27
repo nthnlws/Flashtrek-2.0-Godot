@@ -96,14 +96,14 @@ func _on_x_coord_input_text_changed(new_text):
 	xCoord = new_text.strip_edges().to_float()
 func _on_x_coord_input_text_submitted(new_text):
 	xCoord = new_text.strip_edges().to_float()
-	updateVector()
+	teleportPlayer()
 	toggle_menu()
 
 func _on_y_coord_input_text_changed(new_text):
 	yCoord = new_text.strip_edges().to_float()
 func _on_y_coord_input_text_submitted(new_text):
 	yCoord = new_text.strip_edges().to_float()
-	updateVector()
+	teleportPlayer()
 	toggle_menu()
 func _on_y_coord_input_focus_entered():
 	%yCoordInput.select_all()
@@ -193,9 +193,9 @@ func _on_scale_setting_item_selected(index):
 			SignalBus.HUDchanged.emit(0.5)
 
 # Called functions
-func updateVector():
-	GameSettings.teleportCoords = Vector2(xCoord, yCoord)
-	teleport.emit()
+func teleportPlayer():
+	#GameSettings.teleportCoords = Vector2(xCoord, yCoord)
+	SignalBus.teleport_player.emit(xCoord, yCoord)
 
 func store_menu_state(resets):
 	if resets == 0:
@@ -234,6 +234,3 @@ func set_menu_to_savefile(resets):
 		child.value = value
 	
 	file.close()
-
-
-

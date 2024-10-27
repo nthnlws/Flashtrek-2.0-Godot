@@ -15,6 +15,7 @@ var warp_multiplier:float = 0.4
 var warpm:float = 1.0
 
 #Health variables
+#TODO: Add signal set/gets to health and energy variables
 var hp_max:int = 100
 var hp_current:int = hp_max
 #@export var shield_on:bool = true
@@ -41,8 +42,12 @@ var rate_of_fire:float = 0.2
 var alive: bool = true
 
 func _ready():
-	#HUD button connection
-	SignalBus.Q1hudButton_clicked.connect(warping_state_change)
+	# Signals
+	SignalBus.Quadrant1_clicked.connect(warping_state_change.bind("SMOOTH"))
+	SignalBus.teleport_player.connect(teleport)
+	
+	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
+	self.global_position = spawn_options[0].global_position
 		
 	GameSettings.maxSpeed = default_max_speed
 	SignalBus.player = self
@@ -82,16 +87,16 @@ func _process(delta):
 
 
 func _unhandled_input(event):
-	if Input.is_action_just_pressed("left_click"):
+	if event.is_action_pressed("left_click"):
 		shooting_button_held = true
-	if Input.is_action_just_released("left_click"):
+	if event.is_action_released("left_click"):
 		shooting_button_held = false
 		
 func _physics_process(delta):
 	if !alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("warp"):
-		warping_state_change()
+		warping_state_change("SMOOTH")
 
 	if shooting_button_held:
 		if !shoot_cd:
@@ -126,22 +131,56 @@ func _physics_process(delta):
 	move_and_slide()
 
 	
-func warping_state_change(): #Reverses warping state
-	var warpm:float = 1.0
-	if warping_active == true: #Transition to impulse
+#func warping_state_change(speed): #Reverses warping state
+	#if warping_active == true: #Transition to impulse
+		#warpTimeout()
+		#warping_active = false
+		#if speed == "instant":
+			#scale = Vector2(1, 1)
+			#warpm = 1.0
+		#elif speed == "smooth":
+				#create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
+				#create_tween().tween_property(self, "warpm", 1.0, trans_length)
+				#shield.fadein()
+				#warp_sound_off()
+	#elif warping_active == false: #Transition to warp
+		#warping_active = true
+		#warp_sound_on()
+		#if speed == "instant":
+			#scale = Vector2(1, 1.70)
+			#warpm = warp_multiplier
+		#elif speed == "smooth":
+			#create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
+			#create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
+			#shield.fadeout()
+			
+func warping_state_change(speed): # Reverses warping state
+	if warping_active: # Transition to impulse
 		warpTimeout()
 		warping_active = false
-		create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
-		create_tween().tween_property(self, "warpm", 1.0, trans_length)
-		shield.fadein()
-		warp_sound_off()
-		
-	elif warping_active == false: #Transition to warp
+		match speed:
+			"INSTANT":
+				print("instant off")
+				scale = Vector2(1, 1)
+				warpm = 1.0
+				shield.fadein("INSTANT")
+			"SMOOTH":
+				create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
+				create_tween().tween_property(self, "warpm", 1.0, trans_length)
+				shield.fadein("SMOOTH")
+				warp_sound_off()
+	else: # Transition to warp
 		warping_active = true
-		create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
-		create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
-		shield.fadeout()
 		warp_sound_on()
+		match speed:
+			"INSTANT":
+				scale = Vector2(1, 1.70)
+				warpm = warp_multiplier
+				shield.fadeout("INSTANT")
+			"SMOOTH":
+				create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
+				create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
+				shield.fadeout("SMOOTH")
 
 	
 func shoot_torpedo():
@@ -152,19 +191,26 @@ func shoot_torpedo():
 		t.rotation = self.rotation
 		t.shooter = "player"
 		%HeavyTorpedo.play()
-		emit_signal("torpedo_shot", t)
+		$Projectiles.add_child(t)
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= torpedo_drain
 			SignalBus.playerEnergyChanged.emit(energy_current)
 
 
-func die():
+func kill_player():
 	if alive == true:
 		%PlayerDieSound.play()
 		alive = false
 		self.visible = false
 		shield.shieldActive = false
-		emit_signal("died") # Connected to "_on_player_died()" in game.gd
+		
+		var spawn_options = get_tree().get_nodes_in_group("player_spawn_area") #TODO Update spawn options array in LevelManager
+		global_position = spawn_options[0].global_position
+		
+		if warping_active == true:
+			warping_state_change("INSTANT")
+			await get_tree().create_timer(1.0).timeout
+			respawn(spawn_options[0].global_position)
 		
 		hp_current = 0 #Resets HP
 		SignalBus.playerHealthChanged.emit(hp_current)
@@ -207,7 +253,7 @@ func _on_hitbox_area_entered(area):
 			hp_current -= damage_taken
 			SignalBus.playerHealthChanged.emit(hp_current)
 		if hp_current <= 0:
-			die()
+			kill_player()
 	elif area.is_in_group("enemy"):
 		pass
 
@@ -228,11 +274,11 @@ func warpTimeout(): #Turns off torpedo shooting for half of trans_length after l
 	await get_tree().create_timer(trans_length/2).timeout
 	warpTime = false
 	
-func teleport(): # Uses coords from cheat menu to teleport player
-	global_position = GameSettings.teleportCoords
+func teleport(xCoord, yCoord): # Uses coords from cheat menu to teleport player
+	global_position = Vector2(xCoord, yCoord)
 	velocity = Vector2(0, 0)
 	if warping_active == true:
-		warping_state_change()
+		warping_state_change("INSTANT")
 	
 
 #Audio functions
@@ -260,4 +306,4 @@ func idle_sound(active):
 				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
-
+#TODO: Weapon sounds here

@@ -11,11 +11,11 @@ signal playerEnergyChanged(energy_current)
 signal galaxy_map_clicked(system_clicked)
 
 #HUD
-signal Q1hudButton_clicked
-signal Q2hudButton_clicked
-signal Q3hudButton_clicked
-signal Q4hudButton_clicked
-signal CenterHUDbutton_clicked
+signal Quadrant1_clicked
+signal Quadrant2_clicked
+signal Quadrant3_clicked
+signal Quadrant4_clicked
+signal CenterButton_clicked
 signal HUDchanged(scale)
 
 #Menus
@@ -26,7 +26,8 @@ signal settings_clicked
 
 signal border_size_moved
 signal world_reset
-signal collisionChanged()
+signal collisionChanged
+signal teleport_player(xCoord, yCoord)
 
 var player: Node = null
 var HUD: Node = null

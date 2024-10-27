@@ -8,56 +8,57 @@ var sound_array_location:int = 0
 const HIGH:float = 2.0
 const LOW:float = 0.5
 
+
+var button_array = []
+
 func _ready():
 	SignalBus.HUDchanged.connect(scale_HUD_button)
 	
+	#Connect Input signals from HUD buttons
+	button_array = get_tree().get_nodes_in_group("HUD_button")
+	#for node in button_array:
+		#node.input_event.connect(node_click_handle.bind(node))
+
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
+
+
+#func node_click_handle(_viewport, event, _shape_idx, emitting_node):
+	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		#get_viewport().set_input_as_handled()
+		#self.accept_event()
+		#var signal_name = emitting_node.name + "_clicked"
+		#if SignalBus.has_signal(signal_name):
+			#SignalBus.emit_signal(signal_name)
+			#print(signal_name)
+		#else:
+			#print("no signal found")
 	
-	scale_nodes = [
-	get_node("Quadrant1"),
-	get_node("Quadrant2"),
-	get_node("Quadrant3"),
-	get_node("Quadrant4"),
-	get_node("CenterButton")
-	]
-
 func _gui_input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.is_pressed():
-			# Get the global position of the mouse click
-			var clicked_position = get_screen_position() + event.position
+	if event.is_action_pressed("left_click"):
+		# Get the global position of the mouse click
+		var clicked_position = get_screen_position() + event.position
 
-			# Handle mouse clicks based on click coordinates
-			if is_point_in_collision_polygon(clicked_position, $Quadrant1.get_child(0)):
-				get_viewport().set_input_as_handled()
-				SignalBus.Q1hudButton_clicked.emit()
-				play_click_sound(LOW)
-				#print("quandrant1 clicked")
-				
-			elif is_point_in_collision_polygon(clicked_position, $Quadrant2.get_child(0)):
-				get_viewport().set_input_as_handled()
-				SignalBus.Q2hudButton_clicked.emit()
-				play_click_sound(LOW)
-				#print("quandrant2 clicked")
-				
-			elif is_point_in_collision_polygon(clicked_position, $Quadrant3.get_child(0)):
-				get_viewport().set_input_as_handled()
-				SignalBus.Q3hudButton_clicked.emit()
-				play_click_sound(LOW)
-				#print("quandrant3 clicked")
-				
-			elif is_point_in_collision_polygon(clicked_position, $Quadrant4.get_child(0)):
-				get_viewport().set_input_as_handled()
-				SignalBus.Q4hudButton_clicked.emit()
-				play_click_sound(LOW)
-				#print("quandrant4 clicked")
-				
-			elif is_point_in_collision_shape(clicked_position, $CenterButton.get_child(0)):
-				get_viewport().set_input_as_handled()
-				SignalBus.CenterHUDbutton_clicked.emit()
-				play_click_sound(LOW)
-				#print("Center button clicked")
+		# Handle mouse clicks based on click coordinates
+		for button in button_array:
+			var button_child = button.get_child(0)
+			var signal_name = button.name + "_clicked"
+			if button_child is CollisionPolygon2D:
+				if is_point_in_collision_polygon(clicked_position, button_child):
+					get_viewport().set_input_as_handled()
+					if SignalBus.has_signal(signal_name):
+						SignalBus.emit_signal(signal_name)
+						print(str(signal_name) + " emitted")
+					play_click_sound(LOW)
+					
+			elif button_child is CollisionShape2D:
+				if is_point_in_collision_shape(clicked_position, button_child):
+					get_viewport().set_input_as_handled()
+					if SignalBus.has_signal(signal_name):
+						SignalBus.emit_signal(signal_name)
+						print(str(signal_name) + " emitted")
+					play_click_sound(LOW)
+					
 
 func is_point_in_collision_polygon(point: Vector2, collision_polygon: CollisionPolygon2D) -> bool:
 	# Get the polygon points from the CollisionPolygon2D
@@ -95,17 +96,14 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 
 
-func scale_HUD_button(scale):
-	for button in scale_nodes:
-		button.scale = Vector2(scale, scale)
-		#button.scale.y = 0.5
-	$Sprite2D.scale = Vector2(0.4, 0.4) * Vector2(scale, scale)
+func scale_HUD_button(new_scale):
+	scale = Vector2(new_scale, new_scale)
+	
 	
 func play_click_sound(volume): 
 	var sound_array_length = sound_array.size() - 1
 	var default_db = sound_array[sound_array_location].volume_db
 	var effective_volume = default_db / volume
-	print(effective_volume)
 	
 	match sound_array_location:
 		sound_array_length: # When location in array = array size, shuffle array and reset location

@@ -4,19 +4,25 @@ var area_array = []
 
 func _ready():
 	area_array = get_tree().get_nodes_in_group("map_node")
-	for node in area_array:
-		node.input_event.connect(node_click_handle.bind(node))
-		
-	print(area_array)
 
-func node_click_handle(_viewport, event, _shape_idx, emitting_node):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		get_viewport().set_input_as_handled()
-		SignalBus.galaxy_map_clicked.emit(emitting_node)
+func _gui_input(event):
+	if event.is_action_pressed("left_click"):
+		# Get the global position of the mouse click
+		var clicked_position = get_screen_position() + event.position
+
+		# Handle mouse clicks based on click coordinates
+		for area in area_array:
+			var area_child = area.get_child(0)
+			var signal_name = area.name + "_clicked"
+			if is_point_in_collision_shape(clicked_position, area_child):
+				get_viewport().set_input_as_handled()
+				#if SignalBus.has_signal(signal_name):
+					#SignalBus.emit_signal(signal_name)
+				print(str(signal_name) + " emitted")
+				#play_click_sound(LOW)
 		
 
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
-	print("called")
 	# Get the CircleShape2D from the CollisionShape2D
 	var shape = collision_shape.shape as CircleShape2D
 	var radius = shape.radius

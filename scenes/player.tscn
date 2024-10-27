@@ -110,6 +110,8 @@ stream = ExtResource("13_klvb2")
 volume_db = -20.0
 pitch_scale = 2.0
 
+[node name="Projectiles" type="Node" parent="."]
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 
 [editable path="Laser"]

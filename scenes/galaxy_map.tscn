@@ -45,3 +45,5 @@ position = Vector2(755, 424)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Romulus"]
 shape = SubResource("CircleShape2D_ays83")
+
+[connection signal="input_event" from="Systems/Solarus" to="." method="_on_solarus_input_event"]

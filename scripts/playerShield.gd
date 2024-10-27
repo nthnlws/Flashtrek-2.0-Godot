@@ -35,21 +35,36 @@ func _process(delta):
 			SignalBus.playerShieldChanged.emit(sp_current)
 		
 
-func fadeout(): #Fades shield to 0 Alpha
-	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 0, trans_length)
-	await tween.finished
-	shield_area.set_monitoring.call_deferred(false)
-	shield_area.set_monitorable.call_deferred(false)
-	shieldActive = false
+func fadeout(speed): # Fades shield to 0 Alpha
+	match speed:
+		"INSTANT":
+			modulate.a = 0  # Instantly set alpha to 0
+			shield_area.set_monitoring(false)
+			shield_area.set_monitorable(false)
+			shieldActive = false
+		"SMOOTH":
+			var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+			tween.tween_property(self, "modulate:a", 0, trans_length)
+			await tween.finished
+			shield_area.set_monitoring.call_deferred(false)
+			shield_area.set_monitorable.call_deferred(false)
+			shieldActive = false
 
-func fadein(): #Fades shield in to 255 Alpha
-	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 1, trans_length)
-	await tween.finished
-	shield_area.set_monitoring.call_deferred(true)
-	shield_area.set_monitorable.call_deferred(true)
-	shieldActive = true
+func fadein(speed): # Fades shield in to 255 Alpha
+	match speed:
+		"INSTANT":
+			modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
+			shield_area.set_monitoring(true)
+			shield_area.set_monitorable(true)
+			shieldActive = true
+		"SMOOTH":
+			var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+			tween.tween_property(self, "modulate:a", 1, trans_length)
+			await tween.finished
+			shield_area.set_monitoring.call_deferred(true)
+			shield_area.set_monitorable.call_deferred(true)
+			shieldActive = true
+
 	
 func shieldDie(): #Instantly turns off shield when health goes to 0
 	shield_area.set_monitoring.call_deferred(false)

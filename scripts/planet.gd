@@ -13,6 +13,6 @@ func _ready():
 	sprite.texture = load(sprite_path)
 	
 	LevelData.planets.append(self)
-
+	
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)

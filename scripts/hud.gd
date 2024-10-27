@@ -15,8 +15,6 @@ var shieldActive:bool = false
 	set(value):
 		score.text = "SCORE: " + str(value)
 
-var uilife_scene = preload("res://scenes/ui_life.tscn")
-
 	
 func _ready():
 	SignalBus.HUD = self
@@ -46,14 +44,8 @@ func _on_player_energy_changed(energy_current):
 		
 func _on_shield_ready():
 	shieldActive = true
-	
-func init_lives(amount):
-	for ul in %Lives.get_children():
-		ul.queue_free()
-	for i in amount:
-		var ul = uilife_scene.instantiate()
-		%Lives.add_child(ul)
-		
+
+
 func set_bar_maxes():
 	%HealthBar.max_value = player.hp_max
 	%ShieldBar.max_value = playerShield.sp_max
