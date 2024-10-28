@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7cet6ujhc5te"
-path="res://.godot/imported/button1.png-3ac5190e3c1cc171fc06ad75e46f71da.ctex"
+uid="uid://prkoslnq705f"
+path="res://.godot/imported/WorldMap.png-71ad3e89f968a2b4dd339bafe9e30350.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/button1.png"
-dest_files=["res://.godot/imported/button1.png-3ac5190e3c1cc171fc06ad75e46f71da.ctex"]
+source_file="res://assets/textures/UI/WorldMap.png"
+dest_files=["res://.godot/imported/WorldMap.png-71ad3e89f968a2b4dd339bafe9e30350.ctex"]
 
 [params]
 

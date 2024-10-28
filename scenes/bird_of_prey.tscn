@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bmw7a0sfnh82u"]
 
-[ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_vh84p"]
+[ext_resource type="Script" path="res://scripts/bird_of_prey.gd" id="1_vh84p"]
 [ext_resource type="Texture2D" uid="uid://sowgidw2rexp" path="res://assets/textures/ships/birdofprey.png" id="2_8kfpk"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="2_snes0"]
 [ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="3_7xllj"]

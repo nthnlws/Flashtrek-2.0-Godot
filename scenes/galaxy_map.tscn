@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
-[ext_resource type="Script" path="res://scenes/galaxy_map.gd" id="1_n1dvt"]
-[ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/WorldMap.png" id="2_etsr6"]
-[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/computerbeep_01.ogg" id="4_2pwq2"]
-[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/computerbeep_02.ogg" id="5_lv8kj"]
-[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/computerbeep_03.ogg" id="6_wvwih"]
+[ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
+[ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/UI/WorldMap.png" id="2_etsr6"]
+[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="4_2pwq2"]
+[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="5_lv8kj"]
+[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="6_wvwih"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
 radius = 6.0

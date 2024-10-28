@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://djap2ooh35ys0"
-path="res://.godot/imported/message_noti_menu.wav-4864ef1ae4e62a192db26deb253b31fa.sample"
+path="res://.godot/imported/message_noti_menu.wav-d09d6896f11fbc22dcc0f86157087231.sample"
 
 [deps]
 
-source_file="res://assets/audio/message_noti_menu.wav"
-dest_files=["res://.godot/imported/message_noti_menu.wav-4864ef1ae4e62a192db26deb253b31fa.sample"]
+source_file="res://assets/audio/UI/message_noti_menu.wav"
+dest_files=["res://.godot/imported/message_noti_menu.wav-d09d6896f11fbc22dcc0f86157087231.sample"]
 
 [params]
 

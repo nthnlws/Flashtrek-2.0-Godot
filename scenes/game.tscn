@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
-[ext_resource type="Script" path="res://scenes/menu_state_manager.gd" id="14_nkpvs"]
+[ext_resource type="Script" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 

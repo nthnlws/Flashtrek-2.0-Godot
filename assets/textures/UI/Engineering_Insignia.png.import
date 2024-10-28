@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d2uj6nbv5t3fb"
-path="res://.godot/imported/Engineering_Insignia.png-2c406f232d74dba4005d875a9889214b.ctex"
+path="res://.godot/imported/Engineering_Insignia.png-c6ee39c9661d4ff6ce26f72f32a0fca1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Engineering_Insignia.png"
-dest_files=["res://.godot/imported/Engineering_Insignia.png-2c406f232d74dba4005d875a9889214b.ctex"]
+source_file="res://assets/textures/UI/Engineering_Insignia.png"
+dest_files=["res://.godot/imported/Engineering_Insignia.png-c6ee39c9661d4ff6ce26f72f32a0fca1.ctex"]
 
 [params]
 

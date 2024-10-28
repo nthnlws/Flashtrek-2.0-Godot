@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://bucq7ncy883xp"]
 
 [ext_resource type="Script" path="res://scripts/HUDButton.gd" id="1_7cu43"]
-[ext_resource type="Texture2D" uid="uid://bnoey0jajceax" path="res://assets/textures/button2.png" id="2_aw2iv"]
-[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/computerbeep_01.ogg" id="3_ut8qf"]
-[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/computerbeep_02.ogg" id="4_opd8o"]
-[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/computerbeep_03.ogg" id="5_sdybp"]
+[ext_resource type="Texture2D" uid="uid://bnoey0jajceax" path="res://assets/textures/UI/button2.png" id="2_aw2iv"]
+[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="3_l5bkq"]
+[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="4_btsfc"]
+[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="5_b3siy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ua1t6"]
 radius = 36.0
@@ -64,21 +64,21 @@ shape = SubResource("CircleShape2D_ua1t6")
 
 [node name="Click01" type="AudioStreamPlayer" parent="Sounds" groups=["click_sound"]]
 unique_name_in_owner = true
-stream = ExtResource("3_ut8qf")
+stream = ExtResource("3_l5bkq")
 volume_db = -18.0
 mix_target = 2
 max_polyphony = 2
 
 [node name="Click02" type="AudioStreamPlayer" parent="Sounds" groups=["click_sound"]]
 unique_name_in_owner = true
-stream = ExtResource("4_opd8o")
+stream = ExtResource("4_btsfc")
 volume_db = -23.0
 mix_target = 2
 max_polyphony = 2
 
 [node name="Click03" type="AudioStreamPlayer" parent="Sounds" groups=["click_sound"]]
 unique_name_in_owner = true
-stream = ExtResource("5_sdybp")
+stream = ExtResource("5_b3siy")
 volume_db = -27.0
 mix_target = 2
 max_polyphony = 2

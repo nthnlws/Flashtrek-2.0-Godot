@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://prkoslnq705f"
-path="res://.godot/imported/WorldMap.png-3b416121eac9b12a75024ba088bd63ca.ctex"
+uid="uid://d25jiefockl1b"
+path="res://.godot/imported/joyknobpng.png-62043666179b08a20f098e2e94550307.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/WorldMap.png"
-dest_files=["res://.godot/imported/WorldMap.png-3b416121eac9b12a75024ba088bd63ca.ctex"]
+source_file="res://assets/textures/UI/joyknobpng.png"
+dest_files=["res://.godot/imported/joyknobpng.png-62043666179b08a20f098e2e94550307.ctex"]
 
 [params]
 

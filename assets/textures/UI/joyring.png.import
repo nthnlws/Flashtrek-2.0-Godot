@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnoey0jajceax"
-path="res://.godot/imported/button2.png-1561919c882bf822d7d7d443f274fe59.ctex"
+uid="uid://c0cc6qqfuqjmt"
+path="res://.godot/imported/joyring.png-62999501802c62fd31b9ca4a80ec1e08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/button2.png"
-dest_files=["res://.godot/imported/button2.png-1561919c882bf822d7d7d443f274fe59.ctex"]
+source_file="res://assets/textures/UI/joyring.png"
+dest_files=["res://.godot/imported/joyring.png-62999501802c62fd31b9ca4a80ec1e08.ctex"]
 
 [params]
 
