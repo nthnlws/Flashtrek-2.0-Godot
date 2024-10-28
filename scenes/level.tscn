@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="4_4t2pi"]
 [ext_resource type="Texture2D" uid="uid://dtx078r3otrec" path="res://assets/textures/ships/meteorGrey_big4.png" id="5_0itx6"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_y0ht4"]
-[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="7_cv3po"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="7_cv3po"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="8_evrud"]
 
 

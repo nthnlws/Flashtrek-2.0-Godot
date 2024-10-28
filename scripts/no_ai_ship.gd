@@ -1,7 +1,11 @@
-extends CharacterBody2D
+extends Node2D
+
+enum EnemyType {BIRD_OF_PREY, ENTERPRISETOS}
 
 @export var default_speed:int = 50
 @export var torpedo: PackedScene
+
+@onready var shield = $enemyShield
 
 var speed:int = default_speed
 var shield_on:bool
@@ -18,21 +22,26 @@ func _ready() -> void:
 
 func choose_sprite():
 	# 1/2 chance for either ship sprite
-	var sprite = randi_range(0, 1)
-	match sprite:
-		0: #Shield on
-			$Sprite2D.texture = preload("res://assets/textures/ships/enterpriseTOS.png")
-			$Sprite2D.scale = Vector2(1.2, 1.2)
-			self.scale = Vector2(0.3, 0.3)
-		1: #Shield on
+	var ship_type = randi_range(0, 1)
+	shield.processing_active = false
+	match ship_type:
+		0:
 			$Sprite2D.texture = preload("res://assets/textures/ships/birdofprey.png")
+			$Sprite2D.scale = Vector2(0.6, 0.6)
 			self.scale = Vector2(0.3, 0.3)
+			shield.current_enemy_type = ship_type
+			shield.scale_shield()
+		1:
+			$Sprite2D.texture = preload("res://assets/textures/ships/enterpriseTOS.png")
+			self.scale = Vector2(0.33, 0.33)
+			shield.current_enemy_type = ship_type
+			shield.scale_shield()
 
 func choose_shield():
 	# 2/3 chance to have shield on
-	var shield = randi_range(0, 2)
-	match shield:
+	var shield_chance = randi_range(0, 2)
+	match shield_chance:
 		0: #Shield off
-			$enemyShield.queue_free()
+			shield.queue_free()
 		_:
 			pass

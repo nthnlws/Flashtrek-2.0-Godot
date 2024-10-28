@@ -1,17 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://d22g3um1wyu0k"]
+[gd_scene load_steps=4 format=3 uid="uid://d22g3um1wyu0k"]
 
 [ext_resource type="Script" path="res://scripts/no_ai_ship.gd" id="1_bwdju"]
-[ext_resource type="Texture2D" uid="uid://sowgidw2rexp" path="res://assets/textures/ships/birdofprey.png" id="2_45ls2"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="2_u8wnj"]
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="4_qxfks"]
 
-[node name="No_AI_Ship" type="CharacterBody2D"]
-collision_layer = 4
+[node name="No_AI_Ship" type="Node2D"]
 script = ExtResource("1_bwdju")
 torpedo = ExtResource("2_u8wnj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_45ls2")
 
 [node name="enemyShield" parent="." instance=ExtResource("4_qxfks")]

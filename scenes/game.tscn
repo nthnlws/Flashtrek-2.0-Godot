@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="7_f44yg"]
-[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/bird_of_prey.tscn" id="8_o6k7y"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="7_gqd0a"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
@@ -93,8 +93,8 @@ collision_mask = 6
 
 [node name="Hostiles" type="Node2D" parent="Level"]
 
-[node name="BirdOfPrey" parent="Level/Hostiles" instance=ExtResource("8_o6k7y")]
-position = Vector2(2742, -1513)
+[node name="EnemyCharacter" parent="Level/Hostiles" instance=ExtResource("7_gqd0a")]
+position = Vector2(3131, -1418)
 
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
 z_index = -1

@@ -29,6 +29,8 @@ signal world_reset
 signal collisionChanged
 signal teleport_player(xCoord, yCoord)
 
+signal enemy_shield_cheat_state(shield_state)
+
 var player: Node = null
 var HUD: Node = null
 var pauseMenu: Node = null

@@ -1,6 +1,5 @@
 extends Sprite2D
 
-
 var damageTime:bool = false
 @onready var shieldActive:bool = true
 @export var regen_speed:float = 2.5
@@ -9,14 +8,16 @@ var damageTime:bool = false
 @onready var shield_area:Area2D = $shield_area
 
 # Player shield health variables
-@onready var sp_current:float = sp_max
-@export var sp_max:int = 50
+const SP_MAX:int = 50
+var sp_current:float = SP_MAX:
+	set(value):
+		sp_current = clamp(value, 0, SP_MAX)
+		SignalBus.playerShieldChanged.emit(sp_current)
+
 
 func _process(delta):
-	if shieldActive == true and sp_current <= sp_max and damageTime == false:
+	if shieldActive == true and sp_current <= SP_MAX and damageTime == false:
 		sp_current += regen_speed * delta
-		sp_current = clamp(sp_current, 0, sp_max)
-		SignalBus.playerShieldChanged.emit(sp_current)
 	if get_parent().warping_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
@@ -27,12 +28,10 @@ func _process(delta):
 			visible = false
 			shield_area.collision_layer = 0
 			shield_area.collision_mask = 0
-			SignalBus.playerShieldChanged.emit(0)
 		elif GameSettings.playerShield == true && shieldActive == true:
 			visible = true
 			shield_area.collision_layer = 2
 			shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
-			SignalBus.playerShieldChanged.emit(sp_current)
 		
 
 func fadeout(speed): # Fades shield to 0 Alpha
@@ -99,8 +98,6 @@ func _on_shield_area_entered(area): #Torpedo damage
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			sp_current -= damage_taken
-			SignalBus.playerShieldChanged.emit(sp_current)
 		damageTimeout()
 	elif area.is_in_group("enemy"):
 		pass
-		#get_parent().die()

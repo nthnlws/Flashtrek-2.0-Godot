@@ -12,7 +12,7 @@ var score:int = 0:
 		hud.score = score
 
 func _ready():
-	if OS.get_name() != "Windows":
+	if OS.get_name() == "Windows":
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
 	
 	game_over_screen.visible = false

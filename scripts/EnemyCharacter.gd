@@ -6,7 +6,7 @@ signal player_collision(Area: Area2D)
 @export var AI_enabled:bool = true
 @export var default_speed:int = 50
 @export var torpedo: PackedScene
-@export var shieldScene: PackedScene
+@onready var shield: Node = $enemyShield
 
 var speed:int = default_speed
 var shield_on:bool
@@ -33,7 +33,7 @@ var bullet_speed:int
 var bullet_life:float
 var angle_diff # Angle between current rotation and target angle
 
-const RANDOMNESS_ANGLE_DEGREES = 10.0
+const RANDOMNESS_ANGLE_DEGREES = 8.0
 	
 func _ready() -> void:
 	#Sets bullet speed for use in targeting calculation
@@ -48,9 +48,8 @@ func _ready() -> void:
 	elif AI_enabled == false:
 		$AgroBox.queue_free()
 		
-	if GameSettings.enemyShield == true:
-		var newShield = shieldScene.instantiate()
-		add_child(newShield)
+	shield.current_enemy_type = 0 #Sets shield to bird_of_prey
+	shield.scale_shield()
 		
 	call_deferred("selectRandomPlanet")
 	

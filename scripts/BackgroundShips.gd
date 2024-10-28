@@ -3,11 +3,15 @@ extends Node2D
 # Ship scene to instantiate
 @export var ship_scene: PackedScene
 @export var speed: float = 300
+@export var sec_per_spawn: int = 10
 
 # Size of the viewport
 var viewport_size: Vector2
 
 func _ready() -> void:
+	$SpawnTimer.wait_time = sec_per_spawn
+	$SpawnTimer.autostart = true
+	$SpawnTimer.start()
 	viewport_size = get_viewport().get_visible_rect().size
 	spawn_ship()
 	

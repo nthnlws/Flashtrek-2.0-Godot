@@ -5,18 +5,14 @@ extends Control
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
-var default_pos:Vector2 = position
-
 const HIGH:float = 2.0
 const LOW:float = 0.5
 
 
 var button_array = []
 
-#func _process(delta):
-	#print(self.scale)
+
 func _ready():
-	default_pos = position
 	SignalBus.HUDchanged.connect(manual_scale)
 	
 	#Connect Input signals from HUD buttons
@@ -28,17 +24,6 @@ func _ready():
 	sound_array.shuffle()
 
 
-#func node_click_handle(_viewport, event, _shape_idx, emitting_node):
-	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		#get_viewport().set_input_as_handled()
-		#self.accept_event()
-		#var signal_name = emitting_node.name + "_clicked"
-		#if SignalBus.has_signal(signal_name):
-			#SignalBus.emit_signal(signal_name)
-			#print(signal_name)
-		#else:
-			#print("no signal found")
-	
 func _gui_input(event):
 	if event.is_action_pressed("left_click"):
 		# Get the global position of the mouse click
@@ -75,7 +60,6 @@ func is_point_in_collision_polygon(point: Vector2, collision_polygon: CollisionP
 	# Calculate the scale factor for proper scaling adjustment
 	var global_scale = global_transform.get_scale()
 	
-	#print(global_transform.origin + (polygon * global_scale))
 	# Transform the local polygon points to global coordinates considering the scale
 	var global_polygon = []
 	for p in polygon:
@@ -107,12 +91,21 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 	return point.distance_to(global_center) <= scaled_radius
 
 
-func manual_scale(new_scale): #TODO: Fix scaling direction
+func manual_scale(new_scale):
+	var default_pos = Vector2(745, 325)
 	var use = Vector2(new_scale, new_scale)
 	$Sprite2D.scale = use * Vector2(0.32, 0.32)
 	
 	for node in scale_nodes:
 		node.scale = use
+		
+	match new_scale:
+		1.0: global_position = default_pos
+		0.9: global_position = default_pos + Vector2(20, 20)
+		0.8: global_position = default_pos + Vector2(25, 25)
+		0.7: global_position = default_pos + Vector2(30, 30)
+		0.6: global_position = default_pos + Vector2(35, 35)
+		0.5: global_position = default_pos + Vector2(40, 40)
 	
 func scale_HUD_button(new_scale): # Scales entire Control node, not used
 	scale = Vector2(new_scale, new_scale)

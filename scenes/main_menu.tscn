@@ -141,8 +141,6 @@ script = ExtResource("5_kodeb")
 ship_scene = ExtResource("7_vqk7d")
 
 [node name="SpawnTimer" type="Timer" parent="TitleScreen/BackgroundShips"]
-wait_time = 10.0
-autostart = true
 
 [node name="MarginContainer" type="MarginContainer" parent="TitleScreen"]
 z_as_relative = false

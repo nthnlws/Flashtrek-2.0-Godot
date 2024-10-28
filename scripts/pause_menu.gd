@@ -116,7 +116,7 @@ func _on_speed_slider_value_changed(value):
 
 # Enemy Column
 func _on_enemy_shield_button_toggled(toggled_on):
-	GameSettings.enemyShield = toggled_on
+	SignalBus.enemy_shield_cheat_state.emit(toggled_on)
 
 func _on_move_button_toggled(toggled_on):
 	GameSettings.enemyMovement = toggled_on

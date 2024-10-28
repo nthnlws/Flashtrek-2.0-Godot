@@ -15,18 +15,24 @@ var warp_multiplier:float = 0.4
 var warpm:float = 1.0
 
 #Health variables
-#TODO: Add signal set/gets to health and energy variables
-var hp_max:int = 100
-var hp_current:int = hp_max
+const HP_MAX:int = 100
+var hp_current:float = HP_MAX:
+	set(value):
+		hp_current = clamp(value, 0, HP_MAX)
+		SignalBus.playerHealthChanged.emit(hp_current)
+
 #@export var shield_on:bool = true
 
 #Energy system variables
-var energy_max:int = 100
-var energy_current:float = energy_max
+const ENERGY_MAX:int = 100
+var energy_current:float = ENERGY_MAX:
+	set(value):
+		energy_current = clamp(value, 0, ENERGY_MAX)
+		SignalBus.playerEnergyChanged.emit(energy_current)
+	
 @export var laser_drain_rate:float = 7.5
 @export var torpedo_drain:int = 10
 
-@onready var muzzle = $Muzzle
 var warping_active:bool = false
 var shield_active:bool = false
 var energyTime:bool = false
@@ -71,19 +77,10 @@ func _process(delta):
 	if $Laser.laserClickState == true:
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= laser_drain_rate * delta
-			SignalBus.playerEnergyChanged.emit(energy_current)
 		energyTimeout()
-	if energy_current < 0:
-		energy_current = 0
-		SignalBus.playerEnergyChanged.emit(energy_current)
-		energyTimeout()
-	if energy_current > energy_max:
-		energy_current = energy_max
-		SignalBus.playerEnergyChanged.emit(energy_current)
 	
-	if $Laser.laserClickState == false and energy_current < energy_max and energyTime == false:
+	if $Laser.laserClickState == false and energy_current < ENERGY_MAX and energyTime == false:
 		energy_current += energy_regen_speed * delta
-		SignalBus.playerEnergyChanged.emit(energy_current)
 
 
 func _unhandled_input(event):
@@ -130,40 +127,16 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-	
-#func warping_state_change(speed): #Reverses warping state
-	#if warping_active == true: #Transition to impulse
-		#warpTimeout()
-		#warping_active = false
-		#if speed == "instant":
-			#scale = Vector2(1, 1)
-			#warpm = 1.0
-		#elif speed == "smooth":
-				#create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
-				#create_tween().tween_property(self, "warpm", 1.0, trans_length)
-				#shield.fadein()
-				#warp_sound_off()
-	#elif warping_active == false: #Transition to warp
-		#warping_active = true
-		#warp_sound_on()
-		#if speed == "instant":
-			#scale = Vector2(1, 1.70)
-			#warpm = warp_multiplier
-		#elif speed == "smooth":
-			#create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
-			#create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
-			#shield.fadeout()
-			
+
 func warping_state_change(speed): # Reverses warping state
 	if warping_active: # Transition to impulse
 		warpTimeout()
 		warping_active = false
 		match speed:
 			"INSTANT":
-				print("instant off")
 				scale = Vector2(1, 1)
 				warpm = 1.0
-				shield.fadein("INSTANT")
+				shield.call_deferred("fadein", "INSTANT")
 			"SMOOTH":
 				create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
 				create_tween().tween_property(self, "warpm", 1.0, trans_length)
@@ -187,18 +160,17 @@ func shoot_torpedo():
 	if energy_current > torpedo_drain && warpTime == false:
 		
 		var t = torpedo_scene.instantiate()
-		t.global_position = muzzle.global_position
+		t.position = self.position + Vector2(0, -35).rotated(self.rotation)
 		t.rotation = self.rotation
 		t.shooter = "player"
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(t)
 		if GameSettings.unlimitedEnergy == false:
 			energy_current -= torpedo_drain
-			SignalBus.playerEnergyChanged.emit(energy_current)
 
 
 func kill_player():
-	if alive == true:
+	if alive:
 		%PlayerDieSound.play()
 		alive = false
 		self.visible = false
@@ -209,32 +181,26 @@ func kill_player():
 		
 		if warping_active == true:
 			warping_state_change("INSTANT")
-			await get_tree().create_timer(1.0).timeout
-			respawn(spawn_options[0].global_position)
+		await get_tree().create_timer(1.0).timeout
 		
-		hp_current = 0 #Resets HP
-		SignalBus.playerHealthChanged.emit(hp_current)
+		#Kill player stats
+		hp_current = 0
 		energy_current = 0
-		SignalBus.playerEnergyChanged.emit(energy_current)
 		shield.sp_current = 0
 		shield.damageTime = true
-		SignalBus.playerShieldChanged.emit(shield.sp_current)
-		
+		respawn(spawn_options[0].global_position)
 
 func respawn(pos):
-	if alive==false:
+	if alive == false:
 		alive = true
 		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true
 		
 		# Restores all HUD values to max
-		hp_current = hp_max #Resets HP
-		SignalBus.playerHealthChanged.emit(hp_current)
-		energy_current = energy_max
-		SignalBus.playerEnergyChanged.emit(energy_current)
-		shield.sp_current = shield.sp_max
-		SignalBus.playerShieldChanged.emit(shield.sp_current)
+		hp_current = HP_MAX #Resets HP
+		energy_current = ENERGY_MAX #Resets energy
+		shield.sp_current = shield.SP_MAX #Resets Shield
 	
 		rotation = 0 #Sets rotation to north
 		
@@ -251,8 +217,7 @@ func _on_hitbox_area_entered(area):
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage
 			hp_current -= damage_taken
-			SignalBus.playerHealthChanged.emit(hp_current)
-		if hp_current <= 0:
+		if hp_current <= 0 and alive:
 			kill_player()
 	elif area.is_in_group("enemy"):
 		pass
