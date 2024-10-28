@@ -46,7 +46,6 @@ func handle_m_press():
 
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState):
-	print("toggled")
 	if menu.visible == false:
 		# Show the menu
 		menu.visible = true

@@ -949,6 +949,44 @@ layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
 
+[node name="EnemyTypeContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="EnemyType" type="Label" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "Enem Type:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="TypeSetting" type="OptionButton" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+item_count = 2
+selected = 0
+fit_to_longest_item = false
+popup/item_0/text = "BOP"
+popup/item_0/id = 0
+popup/item_1/text = "EntTOS"
+popup/item_1/id = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
@@ -977,3 +1015,4 @@ theme_override_constants/margin_right = 15
 [connection signal="item_selected" from="ColorRect/WorldVBox/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_select_item_selected"]
 [connection signal="value_changed" from="ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="." method="_on_volume_slider_value_changed"]
 [connection signal="item_selected" from="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
+[connection signal="item_selected" from="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer/TypeSetting" to="." method="_on_type_setting_item_selected"]

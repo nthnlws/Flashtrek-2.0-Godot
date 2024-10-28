@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("2_vapwh")
-enemy_type = "enterpriseTOS"
+enemy_type = "Enums.ENEMY_TYPE.ENTERPRISETOS"
 current_enemy_type = 1
 sprite_scale = 1.0
 default_speed = 80

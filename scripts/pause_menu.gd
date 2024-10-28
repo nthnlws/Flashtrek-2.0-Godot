@@ -176,6 +176,14 @@ func _on_scale_setting_item_selected(index):
 		5: # 50% HUD Scale
 			SignalBus.HUDchanged.emit(0.5)
 
+func _on_type_setting_item_selected(index):
+	match index:
+		Enums.ENEMY_TYPE.BIRDOFPREY:
+			SignalBus.enemy_type_changed.emit(Enums.ENEMY_TYPE.BIRDOFPREY)
+		Enums.ENEMY_TYPE.ENTERPRISETOS:
+			SignalBus.enemy_type_changed.emit(Enums.ENEMY_TYPE.ENTERPRISETOS)
+	
+	
 # Called functions
 func teleportPlayer():
 	#GameSettings.teleportCoords = Vector2(xCoord, yCoord)

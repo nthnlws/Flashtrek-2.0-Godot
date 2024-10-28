@@ -3,6 +3,9 @@ extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
+const BIRD_OF_PREY_ENEMY = preload("res://resources/BirdOfPrey_enemy.tres")
+const ENTERPRISE_TOS_ENEMY = preload("res://resources/enterpriseTOS_enemy.tres")
+
 @export var enemy_data: Enemy  # Reference to the Enemy resource
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
@@ -44,49 +47,22 @@ var shoot_cd: float = false
 var RANDOMNESS_ANGLE_DEGREES
 
 func _ready() -> void:
+	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	# Check if the resource is assigned
 	if enemy_data:
-		# Assign values from the resource
-		shield.sp_max = enemy_data.max_shield_health
-		move_speed = enemy_data.default_speed
-		rotation_rate = enemy_data.rotation_rate
-		$AgroBox/CollisionShape2D.shape.radius = enemy_data.detection_radius  # Assign detection radius if it's related to hp
-		hp_current = enemy_data.max_hp
-		shield_on = enemy_data.shield_on
-		rate_of_fire = enemy_data.rate_of_fire
-		RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
+		sync_to_resource()
+			
+	# Initialize AI-related data
+	if AI_enabled:
+		starbase = get_node("/root/Game/Level/Starbase")
+		LevelData.enemies.append(self)
+	else:
+		$AgroBox.queue_free()
 
-		# Set the sprite texture and scale if available
-		if enemy_data.sprite_texture:
-			sprite.texture = enemy_data.sprite_texture
-			sprite.scale = Vector2(enemy_data.sprite_scale, enemy_data.sprite_scale)
 
-		# Load the collision shape from the resource
-		if enemy_data.collision_shape and collision_shape_node:
-			$Hitbox/CollisionShape2D.shape = enemy_data.collision_shape
-			$WorldCollisionShape.shape = enemy_data.collision_shape
 
-		# Set bullet speed and lifetime from the torpedo resource
-		if enemy_data.torpedo:
-			torpedo = enemy_data.torpedo
-		if torpedo:
-			var torpedo_scene = torpedo.instantiate()
-			bullet_speed = torpedo_scene.speed
-			bullet_life = torpedo_scene.lifetime
-
-		# Initialize AI-related data
-		if AI_enabled:
-			starbase = get_node("/root/Game/Level/Starbase")
-			LevelData.enemies.append(self)
-		else:
-			$AgroBox.queue_free()
-
-		# Initialize shield settings
-		shield.current_enemy_type = enemy_data.current_enemy_type
-		shield.scale_shield()
-
-		# Deferred call to set random target after initialization
-		call_deferred("selectRandomPlanet")
+	# Deferred call to set random target after initialization
+	call_deferred("selectRandomPlanet")
 
 	
 func _process(delta):
@@ -114,7 +90,49 @@ func _physics_process(delta):
 	else: print("No matching movement status")
 	move_and_slide()
 
+func sync_to_resource():
+	# Assign values from the resource
+	shield.sp_max = enemy_data.max_shield_health
+	move_speed = enemy_data.default_speed
+	rotation_rate = enemy_data.rotation_rate
+	$AgroBox/CollisionShape2D.shape.radius = enemy_data.detection_radius  # Assign detection radius if it's related to hp
+	hp_current = enemy_data.max_hp
+	shield_on = enemy_data.shield_on
+	rate_of_fire = enemy_data.rate_of_fire
+	RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
 
+	# Set the sprite texture and scale if available
+	if enemy_data.sprite_texture:
+		sprite.texture = enemy_data.sprite_texture
+		sprite.scale = Vector2(enemy_data.sprite_scale, enemy_data.sprite_scale)
+
+	# Load the collision shape from the resource
+	if enemy_data.collision_shape and collision_shape_node:
+		$Hitbox/CollisionShape2D.shape = enemy_data.collision_shape
+		$WorldCollisionShape.shape = enemy_data.collision_shape
+
+	# Set bullet speed and lifetime from the torpedo resource
+	if enemy_data.torpedo:
+		torpedo = enemy_data.torpedo
+	if torpedo:
+		var torpedo_scene = torpedo.instantiate()
+		bullet_speed = torpedo_scene.speed
+		bullet_life = torpedo_scene.lifetime
+
+		# Initialize shield settings
+		shield.current_enemy_type = enemy_data.current_enemy_type
+		shield.scale_shield()
+		
+		
+func change_enemy_resource(ENEMY_TYPE):
+	match ENEMY_TYPE:
+		Enums.ENEMY_TYPE.BIRDOFPREY:
+			enemy_data = BIRD_OF_PREY_ENEMY
+			sync_to_resource()
+		Enums.ENEMY_TYPE.ENTERPRISETOS:
+			enemy_data = ENTERPRISE_TOS_ENEMY
+			sync_to_resource()
+	
 func selectRandomPlanet():
 	endPoint = LevelData.planets.pick_random().global_position
 

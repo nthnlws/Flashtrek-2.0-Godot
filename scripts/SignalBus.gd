@@ -30,6 +30,7 @@ signal collisionChanged
 signal teleport_player(xCoord, yCoord)
 
 signal enemy_shield_cheat_state(shield_state)
+signal enemy_type_changed(ENEMY_TYPE)
 
 var player: Node = null
 var HUD: Node = null

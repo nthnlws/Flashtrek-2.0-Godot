@@ -21,15 +21,12 @@ config/windows_native_icon="res://assets/icons/icon_256.ico"
 [autoload]
 
 GameSettings="*res://scripts/gameSettings.gd"
-SaveGame="*res://scripts/saveGame.gd"
 SignalBus="*res://scripts/SignalBus.gd"
-WindowSize="*res://scripts/WindowSize.gd"
 MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
 LevelData="*res://scripts/LevelData.gd"
-MultiplayerManager="res://scripts/multiplayer_manager.gd"
 DiscordManager="*res://scripts/DiscordManager.gd"
-ImGuiRoot="*res://addons/imgui-godot/data/ImGuiRoot.tscn"
 LevelManager="*res://scripts/levelManager.gd"
+Enums="*res://enums.gd"
 
 [debug]
 

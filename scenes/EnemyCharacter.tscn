@@ -53,6 +53,7 @@ pitch_scale = 2.0
 unique_name_in_owner = true
 stream = ExtResource("7_5l27p")
 volume_db = -25.0
+stream_paused = true
 
 [node name="TorpedoSound" type="AudioStreamPlayer" parent="Sounds"]
 unique_name_in_owner = true

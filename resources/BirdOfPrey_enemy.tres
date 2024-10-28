@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("2_01fob")
-enemy_type = "bird_of_prey"
+enemy_type = "Enums.BirdOfPrey"
 current_enemy_type = 0
 sprite_scale = 0.6
 default_speed = 60

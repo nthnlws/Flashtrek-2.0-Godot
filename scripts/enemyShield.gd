@@ -1,7 +1,6 @@
 #class_name Shield
 extends Sprite2D
 
-enum EnemyType {BIRD_OF_PREY, ENTERPRISETOS}
 enum ShieldDeathLength {TEMP, PERM}
 
 var current_enemy_type: int
@@ -25,10 +24,10 @@ func _ready():
 func scale_shield():
 	#Sets scale and position for enemy type
 	match current_enemy_type:
-		EnemyType.BIRD_OF_PREY:
+		Enums.ENEMY_TYPE.BIRDOFPREY:
 			self.position.y = -2
 			self.scale = Vector2(3.611, 2.833)
-		EnemyType.ENTERPRISETOS:
+		Enums.ENEMY_TYPE.ENTERPRISETOS:
 			self.position.y = 3
 			self.scale = Vector2(2.5, 2.5)
 	

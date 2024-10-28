@@ -11,6 +11,14 @@ var sound_array_location:int = 0
 @onready var anim = %AnimationPlayer
 
 func _input(event):
+	#Fullscreen management
+	if Input.is_action_just_pressed("f11"):
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			
+			
 	if Input.is_action_just_pressed("escape"):
 		if %Credits.visible == true:
 			toggle_element(%Credits)
@@ -41,7 +49,7 @@ func _ready() -> void:
 	await get_tree().create_timer(2.0).timeout
 	%MainMenuBackground.play()
 	
-
+	
 func toggle_element(element_name, force_state: Variant = null):
 	if force_state == State.HIDE:
 		element_name.visible = false
