@@ -34,7 +34,7 @@ texture = ExtResource("2_aw2iv")
 position = Vector2(100, 100)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Quadrant1"]
-polygon = PackedVector2Array(-3, -80, -11, -80, -25, -77, -37, -72, -50, -64, -60, -54, -67, -46, -75, -31, -79, -16, -80, -3, -40, -3, -39, -10, -37, -17, -32, -25, -24, -33, -15, -38, -6, -40, -3, -40)
+polygon = PackedVector2Array(-3, -80, -11, -80, -25, -77, -37, -72, -50, -64, -60, -54, -67, -46, -75, -31, -79, -16, -80, -3, -40, -3, -39, -10, -37, -17, -32, -25, -24, -32, -15, -38, -6, -40, -3, -40)
 
 [node name="Quadrant2" type="Area2D" parent="." groups=["HUD_button"]]
 position = Vector2(100, 100)
@@ -46,13 +46,13 @@ polygon = PackedVector2Array(2, -80, 11, -80, 21, -78, 30, -75, 39, -71, 47, -66
 position = Vector2(100, 100)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Quadrant3"]
-polygon = PackedVector2Array(-80, 2, -40, 2, -39, 10, -35, 19, -29, 28, -20, 35, -11, 39, -3, 41, -3, 80, -8, 80, -20, 78, -36, 73, -45, 68, -57, 58, -68, 45, -74, 32, -77, 24, -80, 10)
+polygon = PackedVector2Array(-80, 2, -40, 2, -39, 10, -35, 19, -29, 28, -20, 35, -11, 39, -3, 41, -3, 80, -8, 80, -20, 78, -36, 73, -45, 68, -57, 58, -67, 46, -74, 32, -77, 24, -80, 10)
 
 [node name="Quadrant4" type="Area2D" parent="." groups=["HUD_button"]]
 position = Vector2(100, 100)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Quadrant4"]
-polygon = PackedVector2Array(40, 2, 80, 2, 80, 8, 78, 20, 74, 33, 67, 46, 60, 54, 52, 62, 39, 71, 24, 77, 12, 80, 2, 80, 2, 40, 7, 40, 16, 37, 22, 33, 30, 26, 36, 18, 39, 10)
+polygon = PackedVector2Array(40, 2, 80, 2, 80, 8, 78, 20, 74, 33, 67, 46, 60, 54, 52, 62, 39, 71, 24, 77, 14, 79, 2, 80, 2, 40, 7, 40, 16, 37, 22, 33, 30, 26, 36, 18, 39, 10)
 
 [node name="CenterButton" type="Area2D" parent="." groups=["HUD_button"]]
 position = Vector2(100, 100)

@@ -8,9 +8,9 @@ var current_state: MenuState = MenuState.NONE
 
 
 func ready():
-	SignalBus.pause_menu_clicked.connect(toggle_menu.bind(MenuState.PAUSE_MENU)) #Connect HUD menu button to toggle
-	
-	
+	SignalBus.pause_menu_clicked.connect(toggle_menu.bind($PauseMenu, MenuState.PAUSE_MENU)) #Connect HUD menu button to toggle
+
+
 # Input handling
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
