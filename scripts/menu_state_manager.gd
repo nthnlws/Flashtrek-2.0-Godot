@@ -7,8 +7,8 @@ enum MenuState { NONE, PAUSE_MENU, GAME_OVER, GALAXY_MAP }
 var current_state: MenuState = MenuState.NONE
 
 
-func ready():
-	SignalBus.pause_menu_clicked.connect(toggle_menu.bind($PauseMenu, MenuState.PAUSE_MENU)) #Connect HUD menu button to toggle
+func _ready() -> void:
+	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
 
 
 # Input handling
@@ -43,8 +43,10 @@ func handle_m_press():
 			# Galaxy map is open, close it
 			toggle_menu($GalaxyMap, MenuState.NONE)
 
+
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState):
+	print("toggled")
 	if menu.visible == false:
 		# Show the menu
 		menu.visible = true

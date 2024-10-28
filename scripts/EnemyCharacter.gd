@@ -3,55 +3,91 @@ extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-@export var AI_enabled:bool = true
-@export var default_speed:int = 50
-@export var torpedo: PackedScene
+@export var enemy_data: Enemy  # Reference to the Enemy resource
+
+@onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
+@onready var collision_shape_node: CollisionShape2D = $Hitbox/CollisionShape2D  # Reference to the CollisionShape2D node
 @onready var shield: Node = $enemyShield
 
-var speed:int = default_speed
-var shield_on:bool
+# Variables for handling dynamic behavior
+var move_speed: int
+var rotation_rate: float
+var shield_on: bool
+var rate_of_fire: float
+var bullet_speed: int
+var bullet_life: float
+var hp_max: int
+
+var torpedo: PackedScene
 
 #Enemy health variables
-@export var hp_max:int = 50
-var hp_current:float = hp_max
+var hp_current: float = 100.0
 
-var trans_length:float= 0.8
+var trans_length: float = 0.8
 
-var playerAgro:bool = false
-var endPoint:Vector2
-var returnToStarbaseBool:bool = false
-var moveTarget:String
+var playerAgro: bool = false
+var endPoint: Vector2
+var returnToStarbaseBool: bool = false
+var moveTarget: String
+
+#Shooting calculation variables
+var angle_diff: float
 var predicted_position
 var randomized_position
 
+var AI_enabled:bool = true
 var player = null
-var starbase #Path to starbase, only set if AI_enabled is true
+var starbase  # Path to starbase, only set if AI_enabled is true
 
-var shoot_cd:float = false
-var rate_of_fire:float = 1.0
-var bullet_speed:int
-var bullet_life:float
-var angle_diff # Angle between current rotation and target angle
+var shoot_cd: float = false
 
-const RANDOMNESS_ANGLE_DEGREES = 8.0
-	
+var RANDOMNESS_ANGLE_DEGREES
+
 func _ready() -> void:
-	#Sets bullet speed for use in targeting calculation
-	var torpedo_scene = torpedo.instantiate()
-	bullet_speed = torpedo_scene.speed
-	bullet_life = torpedo_scene.lifetime
-	
-	#Sets targets for movement if AI is enabled
-	if AI_enabled:
-		starbase = get_node("/root/Game/Level/Starbase")
-		LevelData.enemies.append(self)
-	elif AI_enabled == false:
-		$AgroBox.queue_free()
-		
-	shield.current_enemy_type = 0 #Sets shield to bird_of_prey
-	shield.scale_shield()
-		
-	call_deferred("selectRandomPlanet")
+	# Check if the resource is assigned
+	if enemy_data:
+		# Assign values from the resource
+		shield.sp_max = enemy_data.max_shield_health
+		move_speed = enemy_data.default_speed
+		rotation_rate = enemy_data.rotation_rate
+		$AgroBox/CollisionShape2D.shape.radius = enemy_data.detection_radius  # Assign detection radius if it's related to hp
+		hp_current = enemy_data.max_hp
+		shield_on = enemy_data.shield_on
+		rate_of_fire = enemy_data.rate_of_fire
+		RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
+
+		# Set the sprite texture and scale if available
+		if enemy_data.sprite_texture:
+			sprite.texture = enemy_data.sprite_texture
+			sprite.scale = Vector2(enemy_data.sprite_scale, enemy_data.sprite_scale)
+
+		# Load the collision shape from the resource
+		if enemy_data.collision_shape and collision_shape_node:
+			$Hitbox/CollisionShape2D.shape = enemy_data.collision_shape
+			$WorldCollisionShape.shape = enemy_data.collision_shape
+
+		# Set bullet speed and lifetime from the torpedo resource
+		if enemy_data.torpedo:
+			torpedo = enemy_data.torpedo
+		if torpedo:
+			var torpedo_scene = torpedo.instantiate()
+			bullet_speed = torpedo_scene.speed
+			bullet_life = torpedo_scene.lifetime
+
+		# Initialize AI-related data
+		if AI_enabled:
+			starbase = get_node("/root/Game/Level/Starbase")
+			LevelData.enemies.append(self)
+		else:
+			$AgroBox.queue_free()
+
+		# Initialize shield settings
+		shield.current_enemy_type = enemy_data.current_enemy_type
+		shield.scale_shield()
+
+		# Deferred call to set random target after initialization
+		call_deferred("selectRandomPlanet")
+
 	
 func _process(delta):
 	if hp_current <= 0:
@@ -98,17 +134,17 @@ func planetMovement(delta):
 	
 func moveToTarget(targetName, targetPos, delta):
 	var angle = (targetPos - self.global_position).angle() + deg_to_rad(90)
-	var rotation_speed: float = 3.0 * delta
+	var rotation_speed: float = rotation_rate * delta
 	angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
 	
 	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 	
 	if targetName == "Player":
-		velocity = (targetPos - self.global_position).normalized()*speed
+		velocity = (targetPos - self.global_position).normalized()*move_speed
 	elif targetName == "Starbase":
-		velocity = (targetPos - self.global_position).normalized()*speed
+		velocity = (targetPos - self.global_position).normalized()*move_speed
 	elif targetName == "Planet":
-		velocity = (targetPos - self.global_position).normalized()*speed
+		velocity = (targetPos - self.global_position).normalized()*move_speed
 		
 	move_and_slide()
 	return angle_diff
@@ -195,9 +231,10 @@ func playerMovement(delta):
 
 
 func calculate_shooting_angle() -> float:
-	if typeof(predicted_position) == TYPE_INT:
+	if typeof(predicted_position) == TYPE_INT or typeof(predicted_position) == TYPE_NIL:
 		return -1.0 # No valid firing solution
-	
+	if typeof(randomized_position) == TYPE_NIL:
+		return -1.0 # No valid firing solution
 	else:
 		var delta_x = randomized_position.x - self.global_position.x
 		var delta_y = randomized_position.y - self.global_position.y
@@ -224,8 +261,7 @@ func instantiate_bullet(bullet):
 		shoot_cd = true
 		get_parent().add_child(bullet)
 		%TorpedoSound.play()
-		await get_tree().create_timer(0.5).timeout
-		
+		await get_tree().create_timer(rate_of_fire).timeout
 		shoot_cd = false
 	
 func _on_agro_box_body_entered(body: Node2D) -> void:
