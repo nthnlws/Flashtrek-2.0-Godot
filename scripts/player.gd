@@ -49,7 +49,7 @@ var alive: bool = true
 
 func _ready():
 	# Signals
-	SignalBus.Quadrant1_clicked.connect(warping_state_change.bind("SMOOTH"))
+	SignalBus.Quad1_clicked.connect(warping_state_change.bind("SMOOTH"))
 	SignalBus.teleport_player.connect(teleport)
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")

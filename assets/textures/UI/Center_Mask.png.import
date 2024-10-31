@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://cwycuapm6igh7"
+path="res://.godot/imported/Center_Mask.png-d1e9ce752622435e5a1ff9c1b082f815.res"
+
+[deps]
+
+source_file="res://assets/textures/UI/Center_Mask.png"
+dest_files=["res://.godot/imported/Center_Mask.png-d1e9ce752622435e5a1ff9c1b082f815.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

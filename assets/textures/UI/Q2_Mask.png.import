@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://clcxnolyonb6e"
+path="res://.godot/imported/Q2_Mask.png-bd1894cda62f3b68b532eb2171712c89.res"
+
+[deps]
+
+source_file="res://assets/textures/UI/Q2_Mask.png"
+dest_files=["res://.godot/imported/Q2_Mask.png-bd1894cda62f3b68b532eb2171712c89.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

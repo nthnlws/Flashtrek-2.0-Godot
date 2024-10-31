@@ -157,7 +157,8 @@ func _on_vsync_select_item_selected(index):
 
 
 func _on_volume_slider_value_changed(value):
-	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
+	var MAIN_BUS_ID = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(value))
 	GameSettings.gameVolume = value
 	
 

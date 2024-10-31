@@ -114,6 +114,7 @@ script = ExtResource("11_r83m0")
 [node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
 
 [node name="MiniMap" type="Control" parent="HUD_layer"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

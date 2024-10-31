@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://4t13xykefb8"
+path="res://.godot/imported/Q4_Mask.png-8d59d62a2493daab9fa4c919722560a8.res"
+
+[deps]
+
+source_file="res://assets/textures/UI/Q4_Mask.png"
+dest_files=["res://.godot/imported/Q4_Mask.png-8d59d62a2493daab9fa4c919722560a8.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

@@ -11,11 +11,11 @@ signal playerEnergyChanged(energy_current)
 signal galaxy_map_clicked(system_clicked)
 
 #HUD
-signal Quadrant1_clicked
-signal Quadrant2_clicked
-signal Quadrant3_clicked
-signal Quadrant4_clicked
-signal CenterButton_clicked
+signal Quad1_clicked
+signal Quad2_clicked
+signal Quad3_clicked
+signal Quad4_clicked
+signal Center_clicked
 signal HUDchanged(scale)
 
 #Menus

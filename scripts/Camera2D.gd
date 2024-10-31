@@ -2,7 +2,7 @@ extends Camera2D
 
 @onready var player = $".."
 
-var ZOOM_MIN:Vector2 = Vector2(0.2, 0.2)
+var ZOOM_MIN:Vector2 = Vector2(0.15, 0.15)
 const ZOOM_MAX:Vector2 = Vector2(0.75, 0.75)
 const ZOOM_STEP = Vector2(0.05, 0.05)
 var _zoom:Vector2 = Vector2(0.5, 0.5):

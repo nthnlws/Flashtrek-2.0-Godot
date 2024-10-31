@@ -278,7 +278,7 @@ func instantiate_bullet(bullet):
 	if !shoot_cd:
 		shoot_cd = true
 		get_parent().add_child(bullet)
-		%TorpedoSound.play()
+		%LightTorpedo.play()
 		await get_tree().create_timer(rate_of_fire).timeout
 		shoot_cd = false
 	

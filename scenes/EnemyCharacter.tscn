@@ -7,8 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="3_bqw1s"]
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="3_sf3xf"]
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_5l27p"]
-[ext_resource type="AudioStream" uid="uid://o3jdgiu5kt0t" path="res://assets/audio/tng_torpedo2_clean (mp3cut.net).mp3" id="8_visfs"]
-[ext_resource type="AudioStream" uid="uid://dw6pebvoumw8b" path="res://assets/audio/heavy_torpedo_shot.ogg" id="9_pvd4h"]
+[ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/torpedo_light.mp3" id="8_3ajvl"]
+[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/torpedo_heavy.ogg" id="9_sscoc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
 radius = 1250.0
@@ -41,29 +41,40 @@ shape = ExtResource("3_7xllj")
 
 [node name="enemyShield" parent="." instance=ExtResource("3_sf3xf")]
 
-[node name="Sounds" type="Node" parent="."]
+[node name="Sounds" type="Node2D" parent="."]
 
-[node name="TorpedoHit" type="AudioStreamPlayer" parent="Sounds"]
+[node name="TorpedoHit" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
 stream = ExtResource("3_bqw1s")
 volume_db = -20.0
 pitch_scale = 2.0
+max_distance = 3000.0
+attenuation = 0.615573
+bus = &"Characters"
 
-[node name="ship_idle" type="AudioStreamPlayer" parent="Sounds"]
+[node name="ship_idle" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
 stream = ExtResource("7_5l27p")
 volume_db = -25.0
-stream_paused = true
+max_distance = 3000.0
+attenuation = 0.615573
+bus = &"Characters"
 
-[node name="TorpedoSound" type="AudioStreamPlayer" parent="Sounds"]
+[node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
-stream = ExtResource("8_visfs")
+stream = ExtResource("8_3ajvl")
 volume_db = -20.0
+max_distance = 3000.0
+attenuation = 0.615573
+bus = &"Characters"
 
-[node name="HeavyTorpedo" type="AudioStreamPlayer" parent="Sounds"]
+[node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
-stream = ExtResource("9_pvd4h")
+stream = ExtResource("9_sscoc")
 volume_db = -10.0
+max_distance = 3000.0
+attenuation = 0.615573
+bus = &"Characters"
 
 [connection signal="area_entered" from="AgroBox" to="." method="_on_agro_box_area_entered"]
 [connection signal="area_exited" from="AgroBox" to="." method="_on_agro_box_area_exited"]
