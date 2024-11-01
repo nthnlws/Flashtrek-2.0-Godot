@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var sprite = $SunTexture
 
-@export var radius = 4500
+@export var spawnDistance = 4500
 
 
 func _ready():
@@ -13,9 +13,9 @@ func _ready():
 	sprite.texture = load(sprite_path)
 	
 	var angle = randf_range(0, TAU) # 0-360 degrees
-	var sun_position = Vector2(cos(angle), sin(angle)) * radius
+	var sun_position = Vector2(cos(angle), sin(angle)) * spawnDistance
 	position = sun_position
-	LevelData.suns.append(self)
+	Utility.mainScene.suns.append(self)
 
 
 	

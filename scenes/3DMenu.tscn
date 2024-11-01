@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://cpo166bkfk443"]
+
+[ext_resource type="Texture2D" uid="uid://b5ym1d2uysiu0" path="res://assets/textures/earthlike_planet_close.hdr" id="1_8f3pa"]
+[ext_resource type="PackedScene" uid="uid://clgsyftwivlyl" path="res://assets/Blender/Enterprise3D.glb" id="1_hiiiv"]
+[ext_resource type="Script" path="res://scenes/CharacterBody3D.gd" id="4_j8kxo"]
+[ext_resource type="Script" path="res://Enterprise3D.gd" id="4_qpw1b"]
+[ext_resource type="PackedScene" uid="uid://cbiryuilur5fg" path="res://scenes/3d_menu.tscn" id="5_7nucm"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpd4v"]
+panorama = ExtResource("1_8f3pa")
+
+[sub_resource type="Sky" id="Sky_e0hhf"]
+sky_material = SubResource("PanoramaSkyMaterial_jpd4v")
+
+[sub_resource type="Environment" id="Environment_un3uy"]
+background_mode = 2
+sky = SubResource("Sky_e0hhf")
+ambient_light_source = 2
+ambient_light_color = Color(0.47788, 0.47788, 0.47788, 1)
+ambient_light_energy = 0.0
+
+[sub_resource type="Curve3D" id="Curve3D_t25wy"]
+bake_interval = 0.1
+_data = {
+"points": PackedVector3Array(-111.28, 0, 11.835, 111.28, 0, -11.835, 1.716, 0, -2.617, -1343.48, 0, 80.5413, 1343.48, 0, -80.5413, 2974.72, 0, 4.985, -117.429, 0, 1093, 117.429, 0, -1093, 5757.85, 0, -1787.75, 605.213, 0, 551.015, -605.213, 0, -551.015, 4953.91, 0, -4253.77, 700.407, 0, -1275.76, -700.407, 0, 1275.76, 1656.21, 0, -3932.04, 614.096, 0, -57.8284, -614.096, 0, 57.8284, -1508.92, 0, -1902.44, 556.981, 0, 43.8784, -556.981, 0, -43.8784, -3847.4, 0, -2245.98, 116.568, 0, -1820.26, -116.568, 0, 1820.26, -6842.3, 0, -318.118, -1085.75, 0, 40.1301, 1085.75, 0, -40.1301, -4335.46, 0, 1865.97, -553.683, 0, 338.127, 553.683, 0, -338.127, -1592.24, 0, 387.586, -309.004, 0, 6.617, 309.004, -0.407898, -6.61698, 1.71564, 0, -2.61702),
+"tilts": PackedFloat32Array(0.1, 0.4, 0.3, 0.4, -0.15, -0.55, 0, 0.4, 0.3, 0.1, 0.1)
+}
+point_count = 11
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_un3uy")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-6.43225e-09, -0.573576, 0.819152, 7.16125e-08, 0.819152, 0.573576, -1, 6.2351e-08, 3.58063e-08, 582.849, 4.89233, 354.265)
+light_color = Color(0.85, 0.89, 1, 1)
+light_energy = 0.6
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 8000.0
+sky_mode = 1
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.999997, -2.98023e-07, 4.91738e-07, -2.98023e-07, 0.999999, 4.84288e-08, 4.76837e-07, 4.65661e-08, 1, -453.999, -19.9999, -1717.23)
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+script = ExtResource("4_j8kxo")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(-0.879651, -0.0348335, -0.474349, 0, 0.997315, -0.0732385, 0.475626, -0.0644241, -0.877286, -3.05176e-05, 53.9978, 0)
+far = 20000.0
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_t25wy")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.105228, -0.010558, -0.994384, 0.0998332, 0.995, -5.58789e-09, 0.989422, -0.0992731, 0.105756, 1.716, 0, -2.617)
+
+[node name="Enterprise3D" parent="Path3D/PathFollow3D" instance=ExtResource("1_hiiiv")]
+unique_name_in_owner = true
+transform = Transform3D(-0.00377303, -0.0144263, 0.999887, -0.102783, 0.994607, 0.0139621, -0.994702, -0.102719, -0.0052354, 4.61299, -0.462843, -12.1905)
+script = ExtResource("4_qpw1b")
+movementType = "Path"
+
+[node name="3D_Menu" parent="." instance=ExtResource("5_7nucm")]

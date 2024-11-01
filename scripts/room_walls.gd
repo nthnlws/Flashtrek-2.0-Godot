@@ -37,7 +37,7 @@ func _ready():
 		borderCoords = GameSettings.borderValue
 	else: borderCoords = defaultBorderCoords
 	
-	LevelData.levelWalls.clear()
+	Utility.mainScene.levelWalls.clear()
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)
 	SignalBus.collisionChanged.connect(_on_collision_changed)
@@ -66,7 +66,7 @@ func _ready():
 		#label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
 		#label.scale = Vector2(2, 2) # Makes the label larger and easier to see
 		
-		LevelData.levelWalls.append(wall_instance)
+		Utility.mainScene.levelWalls.append(wall_instance)
 		
 func _on_border_coords_moved():
 	wall_positions = [
@@ -81,14 +81,14 @@ func _on_border_coords_moved():
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 ]
-	for i in range(LevelData.levelWalls.size()):
-		var wall = LevelData.levelWalls[i]
+	for i in range(Utility.mainScene.levelWalls.size()):
+		var wall = Utility.mainScene.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
 func _on_collision_changed(toggle_status):
-	for i in range(LevelData.levelWalls.size()):
-		var wall = LevelData.levelWalls[i]
+	for i in range(Utility.mainScene.levelWalls.size()):
+		var wall = Utility.mainScene.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status

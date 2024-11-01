@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="2_85g5u"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
+[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/planets.tscn" id="18_tye7a"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -94,7 +95,7 @@ collision_mask = 6
 [node name="Hostiles" type="Node2D" parent="Level"]
 
 [node name="EnemyCharacter" parent="Level/Hostiles" instance=ExtResource("7_gqd0a")]
-position = Vector2(3131, -1418)
+position = Vector2(3095, -1346)
 
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
 z_index = -1
@@ -159,6 +160,9 @@ root_node = NodePath("../../HUD_layer")
 libraries = {
 "": SubResource("AnimationLibrary_2ionv")
 }
+
+[node name="Planet" parent="." instance=ExtResource("18_tye7a")]
+position = Vector2(2436, 844)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

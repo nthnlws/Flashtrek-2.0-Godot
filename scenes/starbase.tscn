@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://oexei8cmm0yk"]
 
 [ext_resource type="Script" path="res://scripts/starbase.gd" id="1_1b8td"]
-[ext_resource type="Texture2D" uid="uid://2mfhp1ovea3p" path="res://assets/textures/ships/starbase.png" id="2_opdfu"]
+[ext_resource type="Texture2D" uid="uid://dwegjlw112b31" path="res://assets/textures/ships/starbase.png" id="2_opdfu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kshu"]
-radius = 1445.08
+radius = 1500.0
 
 [node name="Starbase" type="Node2D"]
 script = ExtResource("1_1b8td")

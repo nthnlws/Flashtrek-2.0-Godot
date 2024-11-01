@@ -5,7 +5,7 @@ extends Node2D
 const MIN_DISTANCE_FROM_ORIGIN = 10000
 const MAX_DISTANCE_FROM_ORIGIN = 30000
 const MIN_DISTANCE_BETWEEN_PLANETS = 5000
-const PLANET_COUNT = 3
+@export var PLANET_COUNT = 3
 
 var planet_positions: Array = []
 

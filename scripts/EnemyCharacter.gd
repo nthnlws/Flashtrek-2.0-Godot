@@ -54,11 +54,10 @@ func _ready() -> void:
 			
 	# Initialize AI-related data
 	if AI_enabled:
-		starbase = get_node("/root/Game/Level/Starbase")
-		LevelData.enemies.append(self)
+		starbase = Utility.mainScene.starbase[0]
+		Utility.mainScene.enemies.append(self)
 	else:
 		$AgroBox.queue_free()
-
 
 
 	# Deferred call to set random target after initialization
@@ -74,20 +73,8 @@ func _physics_process(delta):
 		return
 	
 	# Movement state setter
-	if player: # Movement toward player
-		playerMovement(delta)
-		moveTarget = "Player"
-	elif !player and returnToStarbaseBool == false: # Movement toward picked planet
-		planetMovement(delta)
-		moveTarget = "Planet"
-	elif !player and returnToStarbaseBool == true:
-		starbaseMovement(delta)
-		moveTarget = "Starbase"
-	elif global_position - starbase.global_position < 1500:
-		returnToStarbaseBool = false
-		selectRandomPlanet()
-
-	else: print("No matching movement status")
+	setMovementState(delta)
+	
 	move_and_slide()
 
 func sync_to_resource():
@@ -126,15 +113,34 @@ func sync_to_resource():
 		
 func change_enemy_resource(ENEMY_TYPE):
 	match ENEMY_TYPE:
-		Enums.ENEMY_TYPE.BIRDOFPREY:
+		Utility.ENEMY_TYPE.BIRDOFPREY:
 			enemy_data = BIRD_OF_PREY_ENEMY
 			sync_to_resource()
-		Enums.ENEMY_TYPE.ENTERPRISETOS:
+		Utility.ENEMY_TYPE.ENTERPRISETOS:
 			enemy_data = ENTERPRISE_TOS_ENEMY
 			sync_to_resource()
+
+
+func setMovementState(delta):
+	if player: # Movement toward player
+		playerMovement(delta)
+		moveTarget = "Player"
+	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase":
+		returnToStarbaseBool = false
+		selectRandomPlanet()
+		moveTarget = "Planet"
+	elif !player and returnToStarbaseBool == false: # Movement toward picked planet
+		planetMovement(delta)
+		moveTarget = "Planet"
+	elif !player and returnToStarbaseBool == true: # Move toward starbase
+		starbaseMovement(delta)
+		moveTarget = "Starbase"
+	else: print("No matching movement status")
+	
 	
 func selectRandomPlanet():
-	endPoint = LevelData.planets.pick_random().global_position
+	endPoint = Utility.mainScene.planets.pick_random().global_position
+	
 
 	
 func starbaseMovement(delta):
@@ -168,7 +174,7 @@ func moveToTarget(targetName, targetPos, delta):
 	return angle_diff
 
 func explode():
-	LevelData.enemies.erase(self)
+	Utility.mainScene.enemies.erase(self)
 	self.queue_free()
 
 func _on_hitbox_area_entered(area):

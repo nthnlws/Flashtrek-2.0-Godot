@@ -78,20 +78,20 @@ func _process(delta):
 		damage_rate = default_damage
 	
 	#Turns on laser if player is right clicking and not warping
-	if Input.is_action_just_pressed("shoot_laser"):
+	if Input.is_action_just_pressed("right_click"):
 		if get_parent().warping_active == false && GameSettings.menuStatus == false:
 			laserClickState = true
 			ship_particles.emitting = true
 			
 	#Turns off laser if right click is released or player is warping
-	if Input.is_action_just_released("shoot_laser") or get_parent().warping_active == true or get_parent().energy_current <= 0 or GameSettings.menuStatus == true:
+	if Input.is_action_just_released("right_click") or get_parent().warping_active == true or get_parent().energy_current <= 0 or GameSettings.menuStatus == true:
 		laserClickState = false
 		ship_particles.emitting = false
 		laserOff()
 
 
 	#Laser fizzle sound
-	if Input.is_action_just_pressed("shoot_laser"):
+	if Input.is_action_just_pressed("right_click"):
 		if laserClickState == true:
 			await get_tree().process_frame
 			await get_tree().process_frame

@@ -1,4 +1,0 @@
-extends Node
-
-
-enum ENEMY_TYPE { BIRDOFPREY, ENTERPRISETOS }

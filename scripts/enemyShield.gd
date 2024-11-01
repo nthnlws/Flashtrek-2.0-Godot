@@ -24,10 +24,10 @@ func _ready():
 func scale_shield():
 	#Sets scale and position for enemy type
 	match current_enemy_type:
-		Enums.ENEMY_TYPE.BIRDOFPREY:
+		Utility.ENEMY_TYPE.BIRDOFPREY:
 			self.position.y = -2
 			self.scale = Vector2(3.611, 2.833)
-		Enums.ENEMY_TYPE.ENTERPRISETOS:
+		Utility.ENEMY_TYPE.ENTERPRISETOS:
 			self.position.y = 3
 			self.scale = Vector2(2.5, 2.5)
 	

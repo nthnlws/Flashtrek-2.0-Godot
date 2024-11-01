@@ -52,6 +52,8 @@ func _ready():
 	SignalBus.Quad1_clicked.connect(warping_state_change.bind("SMOOTH"))
 	SignalBus.teleport_player.connect(teleport)
 	
+	Utility.mainScene.player.append(self)
+	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
 		

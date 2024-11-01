@@ -55,7 +55,7 @@ func _on_main_menu_button_pressed():
 	anim.play("fade_out")
 	await anim.animation_finished
 	SignalBus.levelReset.emit()
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/3DMenu.tscn")
 	
 func _on_close_game_button_pressed():
 	get_tree().quit()
@@ -179,10 +179,10 @@ func _on_scale_setting_item_selected(index):
 
 func _on_type_setting_item_selected(index):
 	match index:
-		Enums.ENEMY_TYPE.BIRDOFPREY:
-			SignalBus.enemy_type_changed.emit(Enums.ENEMY_TYPE.BIRDOFPREY)
-		Enums.ENEMY_TYPE.ENTERPRISETOS:
-			SignalBus.enemy_type_changed.emit(Enums.ENEMY_TYPE.ENTERPRISETOS)
+		Utility.ENEMY_TYPE.BIRDOFPREY:
+			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.BIRDOFPREY)
+		Utility.ENEMY_TYPE.ENTERPRISETOS:
+			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.ENTERPRISETOS)
 	
 	
 # Called functions

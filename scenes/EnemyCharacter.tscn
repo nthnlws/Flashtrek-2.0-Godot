@@ -66,6 +66,7 @@ stream = ExtResource("8_3ajvl")
 volume_db = -20.0
 max_distance = 3000.0
 attenuation = 0.615573
+panning_strength = 2.0
 bus = &"Characters"
 
 [node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
