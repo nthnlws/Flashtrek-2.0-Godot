@@ -6,7 +6,7 @@ var camera_rotation = Vector2.ZERO
 var boost_multiplier : float = 4.0
 
 @onready var camera = $Camera3D  # Replace with the correct path to your Camera node
-@onready var ship = %Enterprise3D
+@onready var ship = %Ent_Kelvin
 
 #func _ready():
 	# Capture mouse for camera movement
@@ -14,7 +14,7 @@ var boost_multiplier : float = 4.0
 
 
 func _process(delta):
-	var target_position = ship.global_transform.origin + Vector3(400, 0, 0)
+	var target_position = ship.global_transform.origin + Vector3(50, 25, 0)
 	camera.look_at(target_position, Vector3.UP)
 	
 	var distance = self.global_transform.origin.distance_to(ship.global_transform.origin)

@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://cpo166bkfk443"]
+[gd_scene load_steps=12 format=3 uid="uid://cpo166bkfk443"]
 
 [ext_resource type="Texture2D" uid="uid://b5ym1d2uysiu0" path="res://assets/textures/earthlike_planet_close.hdr" id="1_8f3pa"]
 [ext_resource type="PackedScene" uid="uid://clgsyftwivlyl" path="res://assets/Blender/Enterprise3D.glb" id="1_hiiiv"]
 [ext_resource type="Script" path="res://scenes/CharacterBody3D.gd" id="4_j8kxo"]
-[ext_resource type="Script" path="res://Enterprise3D.gd" id="4_qpw1b"]
+[ext_resource type="Script" path="res://3DMenuShip.gd" id="4_qpw1b"]
 [ext_resource type="PackedScene" uid="uid://cbiryuilur5fg" path="res://scenes/3d_menu.tscn" id="5_7nucm"]
+[ext_resource type="AudioStream" uid="uid://dnnus827aha60" path="res://assets/audio/engine_ambience_loud.ogg" id="6_4mx7d"]
+[ext_resource type="PackedScene" uid="uid://dbane5cl5ootu" path="res://assets/Blender/compressed_1730764373173_scaled_ent_D.glb" id="6_q6l5s"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpd4v"]
 panorama = ExtResource("1_8f3pa")
@@ -22,8 +24,8 @@ ambient_light_energy = 0.0
 [sub_resource type="Curve3D" id="Curve3D_t25wy"]
 bake_interval = 0.1
 _data = {
-"points": PackedVector3Array(-111.28, 0, 11.835, 111.28, 0, -11.835, 1.716, 0, -2.617, -1343.48, 0, 80.5413, 1343.48, 0, -80.5413, 2974.72, 0, 4.985, -117.429, 0, 1093, 117.429, 0, -1093, 5757.85, 0, -1787.75, 605.213, 0, 551.015, -605.213, 0, -551.015, 4953.91, 0, -4253.77, 700.407, 0, -1275.76, -700.407, 0, 1275.76, 1656.21, 0, -3932.04, 614.096, 0, -57.8284, -614.096, 0, 57.8284, -1508.92, 0, -1902.44, 556.981, 0, 43.8784, -556.981, 0, -43.8784, -3847.4, 0, -2245.98, 116.568, 0, -1820.26, -116.568, 0, 1820.26, -6842.3, 0, -318.118, -1085.75, 0, 40.1301, 1085.75, 0, -40.1301, -4335.46, 0, 1865.97, -553.683, 0, 338.127, 553.683, 0, -338.127, -1592.24, 0, 387.586, -309.004, 0, 6.617, 309.004, -0.407898, -6.61698, 1.71564, 0, -2.61702),
-"tilts": PackedFloat32Array(0.1, 0.4, 0.3, 0.4, -0.15, -0.55, 0, 0.4, 0.3, 0.1, 0.1)
+"points": PackedVector3Array(-111.28, 0, 11.835, 111.28, 0, -11.835, 1.716, 0, -2.617, -1343.48, 0, 80.5413, 1343.48, 0, -80.5413, 2974.72, 0, 4.985, -117.429, 0, 1093, 117.429, 0, -1093, 5757.85, 0, -1787.75, 739.192, 0, 602.54, -739.192, 0, -602.54, 4953.91, 0, -4253.77, 1025.32, 0, -1075.09, -1025.32, 0, 1075.09, 1248.27, 0, -4119.67, 614.096, 0, -57.8284, -614.096, 0, 57.8284, -1508.92, 0, -1902.44, 720.694, 0, 50.7126, -720.694, 0, -50.7126, -4136.64, 0, -2362.53, 225.629, 0, -2043.05, -225.629, 0, 2043.05, -6842.3, 0, -318.118, -1085.75, 0, 40.1301, 1085.75, 0, -40.1301, -4335.46, 0, 1865.97, -553.683, 0, 338.127, 553.683, 0, -338.127, -1592.24, 0, 387.586, -309.004, 0, 6.617, 309.004, -0.407898, -6.61698, 1.71564, 0, -2.61702),
+"tilts": PackedFloat32Array(0.1, 0.4, 0.3, 0.4, 0, -0.55, 0, 0.4, 0.3, 0.1, 0.1)
 }
 point_count = 11
 
@@ -42,26 +44,39 @@ sky_mode = 1
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.999997, -2.98023e-07, 4.91738e-07, -2.98023e-07, 0.999999, 4.84288e-08, 4.76837e-07, 4.65661e-08, 1, -453.999, -19.9999, -1717.23)
+transform = Transform3D(0.999997, -2.98023e-07, 4.91738e-07, -2.98023e-07, 0.999999, 4.84288e-08, 4.76837e-07, 4.65661e-08, 1, -91, -4, -343)
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("4_j8kxo")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
-transform = Transform3D(-0.879651, -0.0348335, -0.474349, 0, 0.997315, -0.0732385, 0.475626, -0.0644241, -0.877286, -3.05176e-05, 53.9978, 0)
+transform = Transform3D(-0.880268, 0.0112511, -0.474347, 0.0521955, 0.995949, -0.0732382, 0.471602, -0.0892279, -0.877286, 7.62939e-06, 50, -18.8379)
+fov = 70.0
 far = 20000.0
 
 [node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 curve = SubResource("Curve3D_t25wy")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
 transform = Transform3D(0.105228, -0.010558, -0.994384, 0.0998332, 0.995, -5.58789e-09, 0.989422, -0.0992731, 0.105756, 1.716, 0, -2.617)
-
-[node name="Enterprise3D" parent="Path3D/PathFollow3D" instance=ExtResource("1_hiiiv")]
-unique_name_in_owner = true
-transform = Transform3D(-0.00377303, -0.0144263, 0.999887, -0.102783, 0.994607, 0.0139621, -0.994702, -0.102719, -0.0052354, 4.61299, -0.462843, -12.1905)
 script = ExtResource("4_qpw1b")
-movementType = "Path"
+path = 1
+
+[node name="Ent_Kelvin" parent="Path3D/PathFollow3D" instance=ExtResource("1_hiiiv")]
+unique_name_in_owner = true
+transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622, -0.999992, 7.31051e-05, -0.00523541, 4.61299, -0.462843, -12.1905)
+
+[node name="Ent_Voyager" parent="Path3D/PathFollow3D" instance=ExtResource("6_q6l5s")]
+unique_name_in_owner = true
+transform = Transform3D(-11, 0, -9.61651e-07, 0, 11, 0, 9.61651e-07, 0, -11, 0, 130, 0)
+visible = false
+
+[node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D"]
+unique_name_in_owner = true
+stream = ExtResource("6_4mx7d")
+pitch_scale = 0.9
+autoplay = true
 
 [node name="3D_Menu" parent="." instance=ExtResource("5_7nucm")]
