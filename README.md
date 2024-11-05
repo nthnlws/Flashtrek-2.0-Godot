@@ -1,7 +1,7 @@
 
 # FlashTrek inspired recreation in Godot
 
-An attempt at creating a mostly faithful recreation of the original FlashTrek game by Vex Xiang
+Inspired by the original FlashTrek game by Vex Xiang. Made in Godot 4 game engine.
 
 ## Credits
 
