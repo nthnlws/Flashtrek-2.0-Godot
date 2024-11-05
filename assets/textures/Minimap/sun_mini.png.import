@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crn20wba425xj"
-path="res://.godot/imported/starbase_mini.png-58530ab28224f37620a742dfea289fb7.ctex"
+uid="uid://b6avlaih0eecu"
+path="res://.godot/imported/sun_mini.png-f0876ae1cec454fad8282577d0616bd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Minimap/starbase_mini.png"
-dest_files=["res://.godot/imported/starbase_mini.png-58530ab28224f37620a742dfea289fb7.ctex"]
+source_file="res://assets/textures/Minimap/sun_mini.png"
+dest_files=["res://.godot/imported/sun_mini.png-f0876ae1cec454fad8282577d0616bd0.ctex"]
 
 [params]
 

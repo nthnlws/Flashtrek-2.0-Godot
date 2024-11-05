@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ch8tn3h7ci2ke" path="res://assets/textures/planets/planet_211.png" id="2_molcj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kshu"]
-radius = 1072.1
+radius = 1250.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ssxp3"]
 atlas = ExtResource("2_82i4i")

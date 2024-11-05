@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var WallScene: PackedScene
-@export var defaultBorderCoords:int = 40000
+@export var defaultBorderCoords:int = 20000
 var borderCoords:int = defaultBorderCoords
 
 var wall_positions = [

@@ -14,10 +14,10 @@
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
+[ext_resource type="Script" path="res://scripts/MiniMap.gd" id="13_1plxe"]
 [ext_resource type="Script" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
-[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/planets.tscn" id="18_tye7a"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -94,8 +94,8 @@ collision_mask = 6
 
 [node name="Hostiles" type="Node2D" parent="Level"]
 
-[node name="EnemyCharacter" parent="Level/Hostiles" instance=ExtResource("7_gqd0a")]
-position = Vector2(3095, -1346)
+[node name="EnemyCharacter2" parent="Level/Hostiles" instance=ExtResource("7_gqd0a")]
+position = Vector2(4188, 342)
 
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
 z_index = -1
@@ -115,7 +115,6 @@ script = ExtResource("11_r83m0")
 [node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
 
 [node name="MiniMap" type="Control" parent="HUD_layer"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,9 +122,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("13_1plxe")
 
 [node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
-visible = false
 position = Vector2(89, 469)
 
 [node name="Menus" type="CanvasLayer" parent="."]
@@ -160,9 +159,6 @@ root_node = NodePath("../../HUD_layer")
 libraries = {
 "": SubResource("AnimationLibrary_2ionv")
 }
-
-[node name="Planet" parent="." instance=ExtResource("18_tye7a")]
-position = Vector2(2436, 844)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

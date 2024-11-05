@@ -3,13 +3,14 @@ extends Node2D
 @export var planet_scene = preload("res://scenes/planets.tscn")
 
 const MIN_DISTANCE_FROM_ORIGIN = 10000
-const MAX_DISTANCE_FROM_ORIGIN = 30000
-const MIN_DISTANCE_BETWEEN_PLANETS = 5000
+const MAX_DISTANCE_FROM_ORIGIN = 15000
+const MIN_DISTANCE_BETWEEN_PLANETS = 10000
 @export var PLANET_COUNT = 3
 
 var planet_positions: Array = []
 
-	
+
+
 func _ready():
 	for i in range(PLANET_COUNT):
 		var position = get_valid_position()
