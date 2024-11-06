@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cbiryuilur5fg"]
+[gd_scene load_steps=19 format=3 uid="uid://5xdx8abl1xi1"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k8b36"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_pksmb"]

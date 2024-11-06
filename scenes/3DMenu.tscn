@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://clgsyftwivlyl" path="res://assets/Blender/Enterprise3D.glb" id="1_hiiiv"]
 [ext_resource type="Script" path="res://scenes/CharacterBody3D.gd" id="4_j8kxo"]
 [ext_resource type="Script" path="res://3DMenuShip.gd" id="4_qpw1b"]
-[ext_resource type="PackedScene" uid="uid://cbiryuilur5fg" path="res://scenes/3d_menu.tscn" id="5_7nucm"]
+[ext_resource type="PackedScene" uid="uid://5xdx8abl1xi1" path="res://scenes/3d_menu.tscn" id="5_7nucm"]
 [ext_resource type="AudioStream" uid="uid://dnnus827aha60" path="res://assets/audio/engine_ambience_loud.ogg" id="6_4mx7d"]
 [ext_resource type="PackedScene" uid="uid://dbane5cl5ootu" path="res://assets/Blender/compressed_1730764373173_scaled_ent_D.glb" id="6_q6l5s"]
 
@@ -71,7 +71,6 @@ transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622
 [node name="Ent_Voyager" parent="Path3D/PathFollow3D" instance=ExtResource("6_q6l5s")]
 unique_name_in_owner = true
 transform = Transform3D(-11, 0, -9.61651e-07, 0, 11, 0, 9.61651e-07, 0, -11, 0, 130, 0)
-visible = false
 
 [node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D"]
 unique_name_in_owner = true

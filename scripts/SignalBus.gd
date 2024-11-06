@@ -1,5 +1,7 @@
 extends Node
 
+signal enemyDied(enemy)
+
 signal level_loaded(current_level)
 signal levelReset
 

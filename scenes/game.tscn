@@ -125,6 +125,7 @@ mouse_filter = 2
 script = ExtResource("13_1plxe")
 
 [node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
+visible = false
 position = Vector2(89, 469)
 
 [node name="Menus" type="CanvasLayer" parent="."]

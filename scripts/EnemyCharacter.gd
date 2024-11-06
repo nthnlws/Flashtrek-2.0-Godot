@@ -176,6 +176,7 @@ func moveToTarget(targetName, targetPos, delta):
 func explode():
 	Utility.mainScene.enemies.erase(self)
 	self.queue_free()
+	SignalBus.enemyDied.emit(self)
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "enemy":
