@@ -26,7 +26,6 @@ var file
 
 func _ready():
 	SignalBus.pauseMenu = self
-
 	
 	# Creates default save file on first load, otherwise restores settings to previous state
 	if GameSettings.loadNumber == 0: 
@@ -35,7 +34,6 @@ func _ready():
 	elif GameSettings.loadNumber > 0: 
 		set_menu_to_savefile(1)
 		SignalBus.world_reset.emit()
-		
 	
 	%gameVolume.value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
 	
@@ -128,9 +126,6 @@ func _on_reset_pressed():
 	store_menu_state(1)
 			
 	get_tree().reload_current_scene()
-	
-
-
 	GameSettings.menuStatus = false
 
 func _on_border_toggle_toggled(toggled_on):
@@ -178,17 +173,12 @@ func _on_scale_setting_item_selected(index):
 			SignalBus.HUDchanged.emit(0.5)
 
 func _on_type_setting_item_selected(index):
-	match index:
-		Utility.ENEMY_TYPE.BIRDOFPREY:
-			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.BIRDOFPREY)
-		Utility.ENEMY_TYPE.ENTERPRISETOS:
-			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.ENTERPRISETOS)
-		Utility.ENEMY_TYPE.JEM_HADAR:
-			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.JEM_HADAR)
-		Utility.ENEMY_TYPE.ENTERPRISETNG:
-			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.ENTERPRISETNG)
-		Utility.ENEMY_TYPE.MONAVEEN:
-			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.MONAVEEN)
+	var enemy_types = Utility.ENEMY_TYPE.values()
+	if index >= 0 and index < enemy_types.size():
+		print(enemy_types[index])
+		SignalBus.enemy_type_changed.emit(enemy_types[index])
+	else:
+		print("Error: Invalid enemy type index selected:", index)
 	
 	
 # Called functions

@@ -8,6 +8,7 @@ signal player_collision(Area: Area2D)
 @export var JEM_HADAR_ENEMY: Resource
 @export var ENTERPRISE_TNG_ENEMY: Resource
 @export var MONAVEEN_ENEMY: Resource
+@export var CALIFORNIA_ENEMY: Resource
 
 @export var SHIP_SPRITES = preload("res://assets/textures/ships/ship_sprites.png")
 
@@ -93,6 +94,8 @@ func change_enemy_resource(ENEMY_TYPE):
 			enemy_data = ENTERPRISE_TNG_ENEMY
 		Utility.ENEMY_TYPE.MONAVEEN:
 			enemy_data = MONAVEEN_ENEMY
+		Utility.ENEMY_TYPE.CALIFORNIA:
+			enemy_data = CALIFORNIA_ENEMY
 	sync_to_resource()
 
 
@@ -111,7 +114,7 @@ func sync_to_resource():
 	if enemy_data.sprite_texture:
 		sprite.texture = enemy_data.sprite_texture
 		sprite.frame_coords = enemy_data.frame_coords
-		sprite.scale = Vector2(enemy_data.sprite_scale, enemy_data.sprite_scale)
+		sprite.scale = enemy_data.sprite_scale
 		
 
 	# Load the collision shape from the resource
@@ -133,7 +136,7 @@ func sync_to_resource():
 
 		# Initialize shield settings
 		shield.enemy_type = enemy_data.enemy_type
-		shield.scale = enemy_data.shield_scale
+		shield.scale = enemy_data.ship_shield_scale
 		
 
 func setMovementState(delta):

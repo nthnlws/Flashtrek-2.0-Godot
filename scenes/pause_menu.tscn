@@ -974,7 +974,7 @@ mouse_filter = 0
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-item_count = 5
+item_count = 6
 selected = 0
 fit_to_longest_item = false
 popup/item_0/text = "BOP"
@@ -987,6 +987,8 @@ popup/item_3/text = "EntTNG"
 popup/item_3/id = 3
 popup/item_4/text = "Monaveen"
 popup/item_4/id = 4
+popup/item_5/text = "California"
+popup/item_5/id = 5
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer"]
 layout_mode = 2

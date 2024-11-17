@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Texture2D" uid="uid://lpoym58vtn8u" path="res://assets/textures/light.png" id="4_xg1hi"]
-[ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="6_bwxj0"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://mx337ieci1h2" path="res://assets/audio/warp_off.mp3" id="6_c035k"]
-[ext_resource type="Texture2D" uid="uid://7y2wbaj1hj56" path="res://assets/textures/ships/enterpriseTOS.png" id="6_g4w0o"]
 [ext_resource type="AudioStream" uid="uid://cayy8ej04gngu" path="res://assets/audio/warp_on.mp3" id="6_ihea4"]
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_8rbfi"]
+[ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Kaplan_F17_collision.tres" id="7_b5xnp"]
 [ext_resource type="AudioStream" uid="uid://bd6yao5lo0ch1" path="res://assets/audio/Explosion+2.mp3" id="9_ejl8a"]
 [ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/torpedo_light.mp3" id="12_jg136"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/torpedo_heavy.ogg" id="13_b1cfx"]
@@ -55,17 +55,21 @@ texture_scale = 1.4
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
-texture = ExtResource("6_g4w0o")
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("6_54us1")
+hframes = 8
+vframes = 7
+frame = 48
 
 [node name="Hitbox" type="Area2D" parent="." groups=["player"]]
 collision_layer = 64
 collision_mask = 15
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" groups=["player"]]
-shape = ExtResource("6_bwxj0")
+shape = ExtResource("7_b5xnp")
 
 [node name="WorldCollisionShape" type="CollisionShape2D" parent="." groups=["player"]]
-shape = ExtResource("6_bwxj0")
+shape = ExtResource("7_b5xnp")
 
 [node name="Timer" type="Timer" parent="."]
 

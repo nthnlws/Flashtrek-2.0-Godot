@@ -2,15 +2,15 @@
 
 [ext_resource type="Shape2D" uid="uid://f4073aa135ee" path="res://resources/enterpriseTNGcollision.tres" id="1_cjuie"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="2_01fob"]
-[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_3ln3m"]
-[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_s04ph"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ank3m"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_0ljhn"]
 
 [resource]
 script = ExtResource("2_01fob")
 enemy_type = 3
-sprite_scale = 1.0
-shield_scale = Vector2(1, 1)
-collision_scale = 1.0
+class_size = 2
+class_faction = 0
+ship_shield_scale = Vector2(1, 1)
 default_speed = 60
 rotation_rate = 3.0
 shield_on = true
@@ -19,7 +19,7 @@ RANDOMNESS_ANGLE_DEGREES = 3.0
 detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
-sprite_texture = ExtResource("3_3ln3m")
+sprite_texture = ExtResource("3_ank3m")
 frame_coords = Vector2(6, 0)
-torpedo = ExtResource("4_s04ph")
+torpedo = ExtResource("4_0ljhn")
 collision_shape = ExtResource("1_cjuie")

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://breh2tjl0qrqy"]
+
+[ext_resource type="Shape2D" path="res://resources/Californiacollision.tres" id="1_k15bf"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_7g5da"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_swviw"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_lwxsx"]
+
+[resource]
+script = ExtResource("2_7g5da")
+enemy_type = 5
+class_size = 1
+class_faction = 0
+ship_shield_scale = Vector2(1, 1)
+default_speed = 60
+rotation_rate = 3.0
+shield_on = true
+rate_of_fire = 1.0
+RANDOMNESS_ANGLE_DEGREES = 3.0
+detection_radius = 1250
+max_hp = 100
+max_shield_health = 50
+sprite_texture = ExtResource("3_swviw")
+frame_coords = Vector2(2, 4)
+torpedo = ExtResource("4_lwxsx")
+collision_shape = ExtResource("1_k15bf")

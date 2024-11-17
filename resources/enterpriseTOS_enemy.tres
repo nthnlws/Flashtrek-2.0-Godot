@@ -3,14 +3,14 @@
 [ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="1_2dugx"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="2_2ilik"]
 [ext_resource type="Texture2D" uid="uid://7y2wbaj1hj56" path="res://assets/textures/ships/enterpriseTOS.png" id="3_rkyxm"]
-[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_x0ylb"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_hy8fw"]
 
 [resource]
 script = ExtResource("2_2ilik")
 enemy_type = 1
-sprite_scale = 1.0
-shield_scale = Vector2(1, 1)
-collision_scale = 1.0
+class_size = null
+class_faction = 0
+ship_shield_scale = Vector2(1, 1)
 default_speed = 60
 rotation_rate = 3.0
 shield_on = true
@@ -20,6 +20,6 @@ detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
 sprite_texture = ExtResource("3_rkyxm")
-frame_coords = Vector2(0, 0)
-torpedo = ExtResource("4_x0ylb")
+frame_coords = null
+torpedo = ExtResource("4_hy8fw")
 collision_shape = ExtResource("1_2dugx")

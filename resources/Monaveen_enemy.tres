@@ -8,9 +8,9 @@
 [resource]
 script = ExtResource("2_01fob")
 enemy_type = 4
-sprite_scale = 1.0
-shield_scale = Vector2(1, 1)
-collision_scale = 1.0
+class_size = 2
+class_faction = 3
+ship_shield_scale = Vector2(1, 1)
 default_speed = 60
 rotation_rate = 3.0
 shield_on = true
