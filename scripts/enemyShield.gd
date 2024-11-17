@@ -3,7 +3,7 @@ extends Sprite2D
 
 enum ShieldDeathLength {TEMP, PERM}
 
-var current_enemy_type: int
+var enemy_type: int
 
 var processing_active:bool = true
 var damageTime:bool = false # Timeout
@@ -19,17 +19,7 @@ var sp_current:float = sp_max:
 
 func _ready():
 	SignalBus.enemy_shield_cheat_state.connect(shieldDie)
-	
-	
-func scale_shield():
-	#Sets scale and position for enemy type
-	match current_enemy_type:
-		Utility.ENEMY_TYPE.BIRDOFPREY:
-			self.position.y = -2
-			self.scale = Vector2(3.611, 2.833)
-		Utility.ENEMY_TYPE.ENTERPRISETOS:
-			self.position.y = 3
-			self.scale = Vector2(2.5, 2.5)
+
 	
 func _process(delta):
 	if processing_active:

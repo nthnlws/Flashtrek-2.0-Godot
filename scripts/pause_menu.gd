@@ -116,7 +116,7 @@ func _on_speed_slider_value_changed(value):
 
 # Enemy Column
 func _on_enemy_shield_button_toggled(toggled_on):
-	SignalBus.enemy_shield_cheat_state.emit(toggled_on)
+	SignalBus.enemy_shield_cheat_state.emit(1)
 
 func _on_move_button_toggled(toggled_on):
 	GameSettings.enemyMovement = toggled_on
@@ -183,6 +183,12 @@ func _on_type_setting_item_selected(index):
 			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.BIRDOFPREY)
 		Utility.ENEMY_TYPE.ENTERPRISETOS:
 			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.ENTERPRISETOS)
+		Utility.ENEMY_TYPE.JEM_HADAR:
+			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.JEM_HADAR)
+		Utility.ENEMY_TYPE.ENTERPRISETNG:
+			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.ENTERPRISETNG)
+		Utility.ENEMY_TYPE.MONAVEEN:
+			SignalBus.enemy_type_changed.emit(Utility.ENEMY_TYPE.MONAVEEN)
 	
 	
 # Called functions

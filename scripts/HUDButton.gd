@@ -30,7 +30,7 @@ func handle_button_click(event, button):
 		var signal_name = button.name + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
-			print(str(signal_name) + " emitted")
+			#print(str(signal_name) + " emitted")
 			play_click_sound(LOW)
 
 

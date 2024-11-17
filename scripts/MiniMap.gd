@@ -1,9 +1,9 @@
 extends Control
 
-var enemy_texture = preload("res://assets/textures/Minimap/enemy_mini.png")
-var starbase_texture = preload("res://assets/textures/Minimap/starbase_mini.png")
-var planet_texture = preload("res://assets/textures/Minimap/planet_mini.png")
-var sun_texture = preload("res://assets/textures/Minimap/sun_mini.png")
+@export var enemy_texture = preload("res://assets/textures/Minimap/enemy_mini.png")
+@export var starbase_texture = preload("res://assets/textures/Minimap/starbase_mini.png")
+@export var planet_texture = preload("res://assets/textures/Minimap/planet_mini.png")
+@export var sun_texture = preload("res://assets/textures/Minimap/sun_mini.png")
 
 
 var count:int = 0
@@ -125,6 +125,7 @@ func update_minimap():
 		for character in Utility.mainScene.enemies:
 			var globalDistance:Vector2 = character.global_position - player.global_position
 			enemyObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
+			enemyObjects[count].rotation = character.rotation
 			count += 1
 			if count == Utility.mainScene.enemies.size():
 				count = 0

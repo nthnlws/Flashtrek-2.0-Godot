@@ -71,10 +71,12 @@ transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622
 [node name="Ent_Voyager" parent="Path3D/PathFollow3D" instance=ExtResource("6_q6l5s")]
 unique_name_in_owner = true
 transform = Transform3D(-11, 0, -9.61651e-07, 0, 11, 0, 9.61651e-07, 0, -11, 0, 130, 0)
+visible = false
 
 [node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D"]
 unique_name_in_owner = true
 stream = ExtResource("6_4mx7d")
+volume_db = -18.0
 pitch_scale = 0.9
 autoplay = true
 

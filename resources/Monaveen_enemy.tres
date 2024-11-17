@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://35mhd3dwxeqw"]
+[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://cxss5g0oh32uc"]
 
-[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="1_kjn5q"]
+[ext_resource type="Shape2D" uid="uid://386480b4b2b4" path="res://resources/Monaveencollision.tres" id="1_83n64"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="2_01fob"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_3ln3m"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_s04ph"]
 
 [resource]
 script = ExtResource("2_01fob")
-enemy_type = 0
+enemy_type = 4
 sprite_scale = 1.0
 shield_scale = Vector2(1, 1)
 collision_scale = 1.0
@@ -20,6 +20,6 @@ detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
 sprite_texture = ExtResource("3_3ln3m")
-frame_coords = Vector2(1, 5)
+frame_coords = Vector2(4, 2)
 torpedo = ExtResource("4_s04ph")
-collision_shape = ExtResource("1_kjn5q")
+collision_shape = ExtResource("1_83n64")

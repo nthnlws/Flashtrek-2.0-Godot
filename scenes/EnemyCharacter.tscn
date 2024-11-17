@@ -1,14 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=15 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/BirdOfPrey_enemy.tres" id="1_07t6s"]
 [ext_resource type="Script" path="res://scripts/EnemyCharacter.gd" id="1_vetd3"]
-[ext_resource type="Texture2D" uid="uid://sowgidw2rexp" path="res://assets/textures/ships/birdofprey.png" id="2_8kfpk"]
-[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="3_7xllj"]
 [ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="3_bqw1s"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_hv13s"]
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="3_sf3xf"]
+[ext_resource type="Resource" uid="uid://bjroyy58wptys" path="res://resources/enterpriseTOS_enemy.tres" id="3_vktf0"]
+[ext_resource type="Resource" uid="uid://d24cbe3l6hkfj" path="res://resources/Jem_Hadar_enemy.tres" id="4_8hw7d"]
+[ext_resource type="Resource" uid="uid://dbyrwmhbfunib" path="res://resources/enterpriseTNG_enemy.tres" id="5_x4vmo"]
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_5l27p"]
 [ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/torpedo_light.mp3" id="8_3ajvl"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/torpedo_heavy.ogg" id="9_sscoc"]
+[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="10_t8jw6"]
+[ext_resource type="Resource" uid="uid://cxss5g0oh32uc" path="res://resources/Monaveen_enemy.tres" id="10_wxid4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
 radius = 1250.0
@@ -16,6 +20,11 @@ radius = 1250.0
 [node name="EnemyCharacter" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 script = ExtResource("1_vetd3")
+BIRD_OF_PREY_ENEMY = ExtResource("1_07t6s")
+ENTERPRISE_TOS_ENEMY = ExtResource("3_vktf0")
+JEM_HADAR_ENEMY = ExtResource("4_8hw7d")
+ENTERPRISE_TNG_ENEMY = ExtResource("5_x4vmo")
+MONAVEEN_ENEMY = ExtResource("10_wxid4")
 enemy_data = ExtResource("1_07t6s")
 
 [node name="AgroBox" type="Area2D" parent="."]
@@ -26,20 +35,23 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_ugric")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_8kfpk")
+texture = ExtResource("3_hv13s")
+hframes = 8
+vframes = 7
+frame = 41
+region_rect = Rect2(144, 144, 144, 144)
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy_hitbox"]]
 collision_layer = 128
 collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = ExtResource("3_7xllj")
+shape = ExtResource("10_t8jw6")
 
 [node name="WorldCollisionShape" type="CollisionShape2D" parent="."]
-shape = ExtResource("3_7xllj")
 
 [node name="enemyShield" parent="." instance=ExtResource("3_sf3xf")]
+position = Vector2(0, -1)
 
 [node name="Sounds" type="Node2D" parent="."]
 
@@ -77,8 +89,6 @@ max_distance = 3000.0
 attenuation = 0.615573
 bus = &"Characters"
 
-[connection signal="area_entered" from="AgroBox" to="." method="_on_agro_box_area_entered"]
-[connection signal="area_exited" from="AgroBox" to="." method="_on_agro_box_area_exited"]
 [connection signal="body_entered" from="AgroBox" to="." method="_on_agro_box_body_entered"]
 [connection signal="body_exited" from="AgroBox" to="." method="_on_agro_box_body_exited"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

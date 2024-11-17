@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sowgidw2rexp"
-path="res://.godot/imported/birdofprey.png-4d1c997f4924a31eb6ce28ef0e8ae515.ctex"
+uid="uid://biixbk5sucnfs"
+path="res://.godot/imported/ship_sprites.png-e8d5d1a333aaef75ef326a704b9161fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/ships/birdofprey.png"
-dest_files=["res://.godot/imported/birdofprey.png-4d1c997f4924a31eb6ce28ef0e8ae515.ctex"]
+source_file="res://assets/textures/ships/ship_sprites.png"
+dest_files=["res://.godot/imported/ship_sprites.png-e8d5d1a333aaef75ef326a704b9161fe.ctex"]
 
 [params]
 

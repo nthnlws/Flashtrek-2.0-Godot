@@ -1,7 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
-[ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="2_85g5u"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
 [ext_resource type="Script" path="res://scripts/room_walls.gd" id="3_j38kx"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
@@ -14,7 +13,7 @@
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
 [ext_resource type="Script" path="res://scripts/Sun.gd" id="11_r83m0"]
-[ext_resource type="Script" path="res://scripts/MiniMap.gd" id="13_1plxe"]
+[ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="Script" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
@@ -77,7 +76,6 @@ _data = {
 script = ExtResource("1_ci0lx")
 
 [node name="Level" type="Node" parent="."]
-script = ExtResource("2_85g5u")
 
 [node name="levelBorders" type="Node2D" parent="Level"]
 script = ExtResource("3_j38kx")
@@ -94,9 +92,6 @@ collision_mask = 6
 
 [node name="Hostiles" type="Node2D" parent="Level"]
 
-[node name="EnemyCharacter2" parent="Level/Hostiles" instance=ExtResource("7_gqd0a")]
-position = Vector2(4188, 342)
-
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
 z_index = -1
 
@@ -112,17 +107,9 @@ script = ExtResource("11_r83m0")
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]
 
-[node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
+[node name="MiniMap" parent="HUD_layer" instance=ExtResource("13_pwbrs")]
 
-[node name="MiniMap" type="Control" parent="HUD_layer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("13_1plxe")
+[node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
 
 [node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
 visible = false
@@ -160,6 +147,9 @@ root_node = NodePath("../../HUD_layer")
 libraries = {
 "": SubResource("AnimationLibrary_2ionv")
 }
+
+[node name="EnemyCharacter" parent="." instance=ExtResource("7_gqd0a")]
+position = Vector2(2568, -216)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

@@ -3,8 +3,13 @@ extends CharacterBody2D
 signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
-const BIRD_OF_PREY_ENEMY = preload("res://resources/BirdOfPrey_enemy.tres")
-const ENTERPRISE_TOS_ENEMY = preload("res://resources/enterpriseTOS_enemy.tres")
+@export var BIRD_OF_PREY_ENEMY: Resource
+@export var ENTERPRISE_TOS_ENEMY: Resource
+@export var JEM_HADAR_ENEMY: Resource
+@export var ENTERPRISE_TNG_ENEMY: Resource
+@export var MONAVEEN_ENEMY: Resource
+
+@export var SHIP_SPRITES = preload("res://assets/textures/ships/ship_sprites.png")
 
 @export var enemy_data: Enemy  # Reference to the Enemy resource
 
@@ -59,7 +64,6 @@ func _ready() -> void:
 	else:
 		$AgroBox.queue_free()
 
-
 	# Deferred call to set random target after initialization
 	call_deferred("selectRandomPlanet")
 
@@ -77,6 +81,21 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+func change_enemy_resource(ENEMY_TYPE):
+	match ENEMY_TYPE:
+		Utility.ENEMY_TYPE.BIRDOFPREY:
+			enemy_data = BIRD_OF_PREY_ENEMY
+		Utility.ENEMY_TYPE.ENTERPRISETOS:
+			enemy_data = ENTERPRISE_TOS_ENEMY
+		Utility.ENEMY_TYPE.JEM_HADAR:
+			enemy_data = JEM_HADAR_ENEMY
+		Utility.ENEMY_TYPE.ENTERPRISETNG:
+			enemy_data = ENTERPRISE_TNG_ENEMY
+		Utility.ENEMY_TYPE.MONAVEEN:
+			enemy_data = MONAVEEN_ENEMY
+	sync_to_resource()
+
+
 func sync_to_resource():
 	# Assign values from the resource
 	shield.sp_max = enemy_data.max_shield_health
@@ -91,12 +110,18 @@ func sync_to_resource():
 	# Set the sprite texture and scale if available
 	if enemy_data.sprite_texture:
 		sprite.texture = enemy_data.sprite_texture
+		sprite.frame_coords = enemy_data.frame_coords
 		sprite.scale = Vector2(enemy_data.sprite_scale, enemy_data.sprite_scale)
+		
 
 	# Load the collision shape from the resource
-	if enemy_data.collision_shape and collision_shape_node:
+	if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
 		$Hitbox/CollisionShape2D.shape = enemy_data.collision_shape
 		$WorldCollisionShape.shape = enemy_data.collision_shape
+		$Hitbox/CollisionShape2D.scale = Vector2(enemy_data.collision_scale, enemy_data.collision_scale)
+		$WorldCollisionShape.scale = Vector2(enemy_data.collision_scale, enemy_data.collision_scale)
+	else:
+		print("Warning: No collision shape found for ", enemy_data.enemy_type)
 
 	# Set bullet speed and lifetime from the torpedo resource
 	if enemy_data.torpedo:
@@ -107,19 +132,9 @@ func sync_to_resource():
 		bullet_life = torpedo_scene.lifetime
 
 		# Initialize shield settings
-		shield.current_enemy_type = enemy_data.current_enemy_type
-		shield.scale_shield()
+		shield.enemy_type = enemy_data.enemy_type
+		shield.scale = enemy_data.shield_scale
 		
-		
-func change_enemy_resource(ENEMY_TYPE):
-	match ENEMY_TYPE:
-		Utility.ENEMY_TYPE.BIRDOFPREY:
-			enemy_data = BIRD_OF_PREY_ENEMY
-			sync_to_resource()
-		Utility.ENEMY_TYPE.ENTERPRISETOS:
-			enemy_data = ENTERPRISE_TOS_ENEMY
-			sync_to_resource()
-
 
 func setMovementState(delta):
 	if player: # Movement toward player

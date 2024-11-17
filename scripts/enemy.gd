@@ -1,9 +1,13 @@
 extends Resource
 class_name Enemy
 
-@export var enemy_type: String
-@export var current_enemy_type: int
+
+@export var enemy_type: Utility.ENEMY_TYPE
+
 @export var sprite_scale:float
+@export var shield_scale:Vector2
+@export var collision_scale:float
+
 @export var default_speed: int
 @export var rotation_rate: float
 @export var shield_on: bool
@@ -14,6 +18,8 @@ class_name Enemy
 @export var max_hp:int
 @export var max_shield_health:int
 
-@export var sprite_texture: Texture
+@export var sprite_texture: Texture = preload("res://assets/textures/ships/ship_sprites.png")
+@export var frame_coords: Vector2
+
 @export var torpedo: PackedScene
-@export var collision_shape: Shape2D
+@export var collision_shape: ConvexPolygonShape2D

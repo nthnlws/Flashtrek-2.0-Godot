@@ -1,23 +1,25 @@
-[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://chchlopjck4q3"]
+[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://bjroyy58wptys"]
 
-[ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="1_uv38v"]
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_vapwh"]
-[ext_resource type="Texture2D" uid="uid://7y2wbaj1hj56" path="res://assets/textures/ships/enterpriseTOS.png" id="3_117me"]
-[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_m4ps7"]
+[ext_resource type="Shape2D" uid="uid://driue7m2mrdj5" path="res://resources/enterpriseTOScollision.tres" id="1_2dugx"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_2ilik"]
+[ext_resource type="Texture2D" uid="uid://7y2wbaj1hj56" path="res://assets/textures/ships/enterpriseTOS.png" id="3_rkyxm"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_x0ylb"]
 
 [resource]
-script = ExtResource("2_vapwh")
-enemy_type = "Enums.ENEMY_TYPE.ENTERPRISETOS"
-current_enemy_type = 1
+script = ExtResource("2_2ilik")
+enemy_type = 1
 sprite_scale = 1.0
-default_speed = 80
-rotation_rate = 4.0
+shield_scale = Vector2(1, 1)
+collision_scale = 1.0
+default_speed = 60
+rotation_rate = 3.0
 shield_on = true
-rate_of_fire = 0.5
-RANDOMNESS_ANGLE_DEGREES = 10.0
+rate_of_fire = 1.0
+RANDOMNESS_ANGLE_DEGREES = 3.0
 detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
-sprite_texture = ExtResource("3_117me")
-torpedo = ExtResource("4_m4ps7")
-collision_shape = ExtResource("1_uv38v")
+sprite_texture = ExtResource("3_rkyxm")
+frame_coords = Vector2(0, 0)
+torpedo = ExtResource("4_x0ylb")
+collision_shape = ExtResource("1_2dugx")
