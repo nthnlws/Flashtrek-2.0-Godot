@@ -13,7 +13,6 @@ radius = 14.7
 
 [node name="enemyShield" type="Sprite2D"]
 material = SubResource("ShaderMaterial_ksrv6")
-position = Vector2(0, 3)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_h8s3t")
 script = ExtResource("3_0y86e")

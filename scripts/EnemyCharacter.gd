@@ -121,8 +121,8 @@ func sync_to_resource():
 	if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
 		$Hitbox/CollisionShape2D.shape = enemy_data.collision_shape
 		$WorldCollisionShape.shape = enemy_data.collision_shape
-		$Hitbox/CollisionShape2D.scale = Vector2(enemy_data.collision_scale, enemy_data.collision_scale)
-		$WorldCollisionShape.scale = Vector2(enemy_data.collision_scale, enemy_data.collision_scale)
+		$Hitbox/CollisionShape2D.scale = enemy_data.sprite_scale
+		$WorldCollisionShape.scale = enemy_data.sprite_scale
 	else:
 		print("Warning: No collision shape found for ", enemy_data.enemy_type)
 
