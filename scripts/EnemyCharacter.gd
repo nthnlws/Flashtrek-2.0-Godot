@@ -52,6 +52,10 @@ var shoot_cd: float = false
 
 var RANDOMNESS_ANGLE_DEGREES
 
+func _init():
+	if AI_enabled:
+		Utility.mainScene.enemies.append(self)
+	
 func _ready() -> void:
 	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	# Check if the resource is assigned
@@ -61,7 +65,6 @@ func _ready() -> void:
 	# Initialize AI-related data
 	if AI_enabled:
 		starbase = Utility.mainScene.starbase[0]
-		Utility.mainScene.enemies.append(self)
 	else:
 		$AgroBox.queue_free()
 
