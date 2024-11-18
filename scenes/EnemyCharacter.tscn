@@ -29,6 +29,9 @@ MONAVEEN_ENEMY = ExtResource("10_wxid4")
 CALIFORNIA_ENEMY = ExtResource("7_bvpr3")
 enemy_data = ExtResource("1_07t6s")
 
+[node name="Muzzle" type="Node2D" parent="."]
+position = Vector2(0, -150)
+
 [node name="AgroBox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 2
@@ -40,7 +43,7 @@ shape = SubResource("CircleShape2D_ugric")
 texture = ExtResource("3_hv13s")
 hframes = 8
 vframes = 7
-frame = 34
+frame = 6
 region_rect = Rect2(144, 144, 144, 144)
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy_hitbox"]]

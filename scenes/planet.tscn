@@ -433,10 +433,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_st7tq"]
-radius = 1250.0
+radius = 1000.0
 
 [node name="Planet" type="Node2D"]
-scale = Vector2(2, 2)
+scale = Vector2(3, 3)
 script = ExtResource("1_u3uqc")
 
 [node name="PlanetTexture" type="Sprite2D" parent="."]

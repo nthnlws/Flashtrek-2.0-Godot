@@ -17,6 +17,7 @@ signal player_collision(Area: Area2D)
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
 @onready var collision_shape_node: CollisionShape2D = $Hitbox/CollisionShape2D  # Reference to the CollisionShape2D node
 @onready var shield: Node = $enemyShield
+@onready var muzzle = $Muzzle
 
 # Variables for handling dynamic behavior
 var move_speed: int
@@ -111,6 +112,7 @@ func sync_to_resource():
 	hp_current = enemy_data.max_hp
 	shield_on = enemy_data.shield_on
 	rate_of_fire = enemy_data.rate_of_fire
+	muzzle.global_position = enemy_data.muzzle_pos
 	RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
 
 	# Set the sprite texture and scale if available
@@ -295,7 +297,7 @@ func shoot_bullet():# Instantiate and configure bullet
 	var angle = calculate_shooting_angle()
 	if angle != -1.0:
 		var bullet = torpedo.instantiate()
-		bullet.global_position = self.global_position
+		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
 		bullet.shooter = "enemy"
 		# Velocity not needed as torpedo handles movement

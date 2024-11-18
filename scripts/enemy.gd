@@ -41,6 +41,7 @@ var collision_scale:float
 @export var rotation_rate: float = 3
 @export var shield_on: bool
 @export var rate_of_fire: float
+@export var muzzle_pos: Vector2 = Vector2(0, -150)
 @export var RANDOMNESS_ANGLE_DEGREES: float
 @export var detection_radius: int = 1200
 

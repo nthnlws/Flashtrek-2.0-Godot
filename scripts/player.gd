@@ -162,7 +162,7 @@ func shoot_torpedo():
 	if energy_current > torpedo_drain && warpTime == false:
 		
 		var t = torpedo_scene.instantiate()
-		t.position = self.position + Vector2(0, -25).rotated(self.rotation)
+		t.position = $Muzzle.global_position
 		t.rotation = self.rotation
 		t.shooter = "player"
 		%HeavyTorpedo.play()
