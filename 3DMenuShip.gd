@@ -10,20 +10,21 @@ var distance_multiplier:float
 var volume_factor:float = 1.0
 
 
-@onready var MovingShips = [%Ent_Kelvin, %Ent_Voyager]
+@onready var MovingShips = [%Ent_Kelvin]
 @onready var camera = %CharacterBody3D
 @onready var engine = %engineSound
 
+func _ready():
+	engine.play()
 
 func _process(delta):
-	#Speed multiplier for when the ship is further away
 	distanceToCamera = MovingShips[0].global_transform.origin.distance_to(camera.global_transform.origin)
 	if distanceToCamera > 600:
 		distance_multiplier = ((distanceToCamera - 600) / 600 * 0.20) + 1
 	else: distance_multiplier = 1.00
 	
 	
-	volume_factor = clamp(-0.0128 * distanceToCamera + 11.92, -6, 10)
+	volume_factor = clamp(-0.007826 * distanceToCamera - 1.8, -12, -3)
 	engine.volume_db = volume_factor
 	
 func _physics_process(delta):
@@ -34,7 +35,6 @@ func _physics_process(delta):
 	if OS.get_name() == "Android":
 		if Input.is_action_pressed("left_click"):
 			current_speed *= boost_multiplier
-	
 		
 	if path == PathType.STRAIGHT:
 		translate(Vector3(0, 0, -current_speed * delta))
