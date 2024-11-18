@@ -112,7 +112,6 @@ func sync_to_resource():
 	hp_current = enemy_data.max_hp
 	shield_on = enemy_data.shield_on
 	rate_of_fire = enemy_data.rate_of_fire
-	muzzle.global_position = enemy_data.muzzle_pos
 	RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
 
 	# Set the sprite texture and scale if available

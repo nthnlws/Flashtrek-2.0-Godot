@@ -32,6 +32,7 @@ func handle_button_click(event, button):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")
 			play_click_sound(LOW)
+		else: print("No button signal found")
 
 
 func manual_scale(new_scale):

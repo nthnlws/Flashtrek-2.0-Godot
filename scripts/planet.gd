@@ -11,8 +11,6 @@ var player
 	
 	
 func _ready():
-	SignalBus.Quad3_clicked.connect(open_hailing_frequency)
-	
 	#$AnimatedSprite2D.play()
 	rotation = round(deg_to_rad(randi_range(0, 360)))
 	rotation_degrees = 40
@@ -26,9 +24,6 @@ func _ready():
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)
 
-func open_hailing_frequency():
-	if !player: return
-	print("comms: ", self.name)
 
 func _on_comm_area_body_entered(body):
 	if body.is_in_group("player"):

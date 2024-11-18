@@ -5,7 +5,6 @@ var enemy_collision:bool = false # Bool to check if Raycast is hitting one of de
 var laserStatus:bool = false # Final variable created after switching laser on or off
 var cast_point:Vector2 # Coords of where Line2D will cast to, result of Raycast logic
 var cast_point_exact:Vector2 # Coords of exact collision for use in particles
-var fizzlePlayed:bool
 
 @onready var ship_particles = $ship_particles
 @onready var collision_particles = $collision_particles

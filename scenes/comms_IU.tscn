@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://nr3ksi6mj4h8"]
+
+[ext_resource type="Texture2D" uid="uid://cqwi03ajd3nyq" path="res://assets/textures/UI/Comms_menu.png" id="1_m5mxc"]
+[ext_resource type="Script" path="res://scenes/comms_IU.gd" id="1_u5bv0"]
+[ext_resource type="BitMap" uid="uid://t15pa0p5mc67" path="res://assets/textures/UI/Comms_Menu_mask.png" id="2_8d244"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="4_xq8fu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onfm1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7si5h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_atvbn"]
+
+[node name="Comms_UI" type="Control"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -190.0
+offset_right = 620.0
+grow_vertical = 0
+mouse_filter = 1
+script = ExtResource("1_u5bv0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_m5mxc")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_click_mask = ExtResource("2_8d244")
+
+[node name="Comms_message" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 19.0
+offset_right = 611.0
+offset_bottom = 140.0
+theme_override_colors/font_readonly_color = Color(0.72549, 0.764706, 0.341176, 1)
+theme_override_colors/font_placeholder_color = Color(0.72549, 0.772549, 0.341176, 1)
+theme_override_colors/search_result_border_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_xq8fu")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxEmpty_onfm1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7si5h")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_atvbn")
+placeholder_text = "\"Welcome to {system}, USS {ship_name}, {planet} in the {system_name} needs a shipment of {item_name}. {random_confirm_query}?\""
+editable = false
+wrap_mode = 1
+autowrap_mode = 2
