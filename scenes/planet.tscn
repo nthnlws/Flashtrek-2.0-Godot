@@ -1,7 +1,7 @@
 [gd_scene load_steps=66 format=3 uid="uid://cjwf6ulibdpvr"]
 
 [ext_resource type="Script" path="res://scripts/planet.gd" id="1_u3uqc"]
-[ext_resource type="Texture2D" uid="uid://ch8tn3h7ci2ke" path="res://assets/textures/planets/planet_211.png" id="2_lvvng"]
+[ext_resource type="Texture2D" uid="uid://csqm03cav5a3l" path="res://assets/textures/planets/planet_sprite_sheet.png" id="2_ayfns"]
 [ext_resource type="Texture2D" uid="uid://dmldeqgmwlfr6" path="res://assets/textures/planets/earth_planet.png" id="3_68wgp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ssxp3"]
@@ -436,10 +436,14 @@ animations = [{
 radius = 1250.0
 
 [node name="Planet" type="Node2D"]
+scale = Vector2(2, 2)
 script = ExtResource("1_u3uqc")
 
 [node name="PlanetTexture" type="Sprite2D" parent="."]
-texture = ExtResource("2_lvvng")
+texture = ExtResource("2_ayfns")
+hframes = 15
+vframes = 15
+frame = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false

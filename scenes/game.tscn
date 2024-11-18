@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="7_f44yg"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="7_gqd0a"]
+[ext_resource type="Texture2D" uid="uid://byinr2jneiqgf" path="res://assets/textures/suns/sun_01-sheet.png" id="9_mmffl"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="Script" path="res://scripts/planet_placement.gd" id="10_ftny1"]
 [ext_resource type="PackedScene" uid="uid://bv6xjhovoan8e" path="res://scenes/star_background.tscn" id="10_mj5ek"]
@@ -102,6 +103,9 @@ script = ExtResource("10_ftny1")
 script = ExtResource("11_r83m0")
 
 [node name="SunTexture" type="Sprite2D" parent="Level/Sun"]
+texture = ExtResource("9_mmffl")
+hframes = 2
+vframes = 3
 
 [node name="StarBackground" parent="." instance=ExtResource("10_mj5ek")]
 

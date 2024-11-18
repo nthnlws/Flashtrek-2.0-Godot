@@ -8,9 +8,8 @@ extends Node2D
 func _ready():
 	rotation_degrees = 20
 	
-	var random_index = "%02d" % randi_range(1, 6)
-	var sprite_path = "res://assets/textures/suns/sun_%s.png" % random_index
-	sprite.texture = load(sprite_path)
+	var random_index = randi_range(0, 5)
+	sprite.frame = random_index
 	
 	var angle = randf_range(0, TAU) # 0-360 degrees
 	var sun_position = Vector2(cos(angle), sin(angle)) * spawnDistance
