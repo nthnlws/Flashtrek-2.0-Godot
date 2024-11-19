@@ -50,12 +50,19 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Score" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+[node name="Mission" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 1
-text = "SCORE: XYZ"
-label_settings = SubResource("LabelSettings_amtcr")
+theme_override_fonts/normal_font = ExtResource("2_158n7")
+bbcode_enabled = true
+text = "Mission: None"
+scroll_active = false
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="Coords" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
@@ -112,15 +119,19 @@ layout_mode = 2
 [node name="Variable" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 0
 mouse_filter = 1
 text = "Zoom: (0.x, 0.x)"
 label_settings = SubResource("LabelSettings_qqd3h")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
+[node name="Score" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 1
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_qqd3h")
 
 [node name="FPS" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -165,6 +176,7 @@ grow_vertical = 0
 scale = Vector2(0.4, 0.4)
 
 [node name="Comms_UI" parent="." instance=ExtResource("5_hp4w2")]
+visible = false
 layout_mode = 1
 
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]

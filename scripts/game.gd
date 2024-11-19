@@ -9,6 +9,7 @@ var planets = []
 var suns = []
 var player = []
 var starbase = []
+var systems = ["Solarus", "Romulus", "Kronos"]
 
 func printArrays():
 	print(enemies)

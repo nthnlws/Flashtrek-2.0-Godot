@@ -4,6 +4,7 @@ signal enemyDied(enemy)
 
 signal level_loaded(current_level)
 signal levelReset
+signal missionAccepted(current_mission)
 
 signal playerHealthChanged(hp_current)
 signal playerShieldChanged(sp_current)
