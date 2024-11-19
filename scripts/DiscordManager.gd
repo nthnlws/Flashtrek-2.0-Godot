@@ -6,7 +6,7 @@ func  _process(delta) -> void:
 	
 	
 func main_menu():
-	print("Discord Main menu")
+	#print("Discord Main menu")
 	DiscordRPC.app_id = 1273082300866891807 # Application ID
 	DiscordRPC.details = "In Main menu"
 	DiscordRPC.large_image = "icon"
@@ -22,7 +22,7 @@ func main_menu():
 	
 	
 func single_player_game():
-	print("Discord SP")
+	#print("Discord SP")
 	DiscordRPC.details = "Where no man has gone before"
 	DiscordRPC.state = "In Solarus"
 	DiscordRPC.large_image = "icon"

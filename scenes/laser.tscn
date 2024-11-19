@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://bxwfdylr3rd3y" path="res://assets/textures/glowing_circle25.png" id="2_el4j4"]
 [ext_resource type="Texture2D" uid="uid://b7lndu3ejpnbu" path="res://assets/textures/glowing_circle20.png" id="3_r8vy2"]
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="3_yh6sv"]
-[ext_resource type="AudioStream" uid="uid://cf4in5holxkkb" path="res://assets/audio/tos_ship_phaser.mp3" id="4_jeuqt"]
-[ext_resource type="AudioStream" uid="uid://c6tgaqxxonfew" path="res://assets/audio/laser_fizzle.mp3" id="5_85x6m"]
-[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/laser_bass.ogg" id="7_y5fda"]
+[ext_resource type="AudioStream" uid="uid://cf4in5holxkkb" path="res://assets/audio/weapons/tos_ship_phaser.mp3" id="4_jeuqt"]
+[ext_resource type="AudioStream" uid="uid://c6tgaqxxonfew" path="res://assets/audio/weapons/laser_fizzle.mp3" id="5_85x6m"]
+[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/weapons/laser_bass.ogg" id="7_y5fda"]
 
 [sub_resource type="Gradient" id="Gradient_k33yi"]
 offsets = PackedFloat32Array(0, 0.493151, 1)

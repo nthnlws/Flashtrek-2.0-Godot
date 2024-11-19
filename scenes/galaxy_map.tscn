@@ -256,6 +256,7 @@ size_flags_vertical = 0
 text = "X"
 
 [node name="mission_message" type="RichTextLabel" parent="."]
+layout_mode = 0
 offset_left = 393.0
 offset_top = 510.0
 offset_right = 813.0

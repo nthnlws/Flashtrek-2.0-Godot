@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=24 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://lp3n1ckd77bd" path="res://scenes/border_wall.tscn" id="4_60muw"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="6_t7mfc"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="7_f44yg"]
 [ext_resource type="Texture2D" uid="uid://byinr2jneiqgf" path="res://assets/textures/suns/sun_01-sheet.png" id="9_mmffl"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
@@ -82,10 +83,14 @@ script = ExtResource("1_ci0lx")
 script = ExtResource("3_j38kx")
 WallScene = ExtResource("4_60muw")
 
-[node name="Player" parent="Level" instance=ExtResource("4_s6h4r")]
-unique_name_in_owner = true
-z_index = 1
-position = Vector2(640, 360)
+[node name="Planets" type="Node2D" parent="Level"]
+script = ExtResource("10_ftny1")
+
+[node name="Earth_Test" parent="Level/Planets" instance=ExtResource("18_afc7y")]
+position = Vector2(4356, -1528)
+
+[node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
+z_index = -1
 
 [node name="PlayerSpawnArea" parent="Level" groups=["player_spawn_area"] instance=ExtResource("7_f44yg")]
 position = Vector2(640, 360)
@@ -93,22 +98,22 @@ collision_mask = 6
 
 [node name="Hostiles" type="Node2D" parent="Level"]
 
-[node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
-z_index = -1
-
-[node name="Planets" type="Node2D" parent="Level"]
-script = ExtResource("10_ftny1")
-
-[node name="Earth_Test" parent="Level/Planets" instance=ExtResource("18_afc7y")]
-position = Vector2(3815, -1083)
+[node name="EnemyCharacter" parent="Level/Hostiles" instance=ExtResource("6_t7mfc")]
+position = Vector2(1205, -3213)
 
 [node name="Sun" type="Node2D" parent="Level"]
+position = Vector2(4250, 0)
 script = ExtResource("11_r83m0")
 
 [node name="SunTexture" type="Sprite2D" parent="Level/Sun"]
 texture = ExtResource("9_mmffl")
 hframes = 2
 vframes = 3
+
+[node name="Player" parent="Level" instance=ExtResource("4_s6h4r")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(640, 360)
 
 [node name="StarBackground" parent="." instance=ExtResource("10_mj5ek")]
 

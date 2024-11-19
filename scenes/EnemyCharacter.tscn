@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=27 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/BirdOfPrey_enemy.tres" id="1_07t6s"]
 [ext_resource type="Script" path="res://scripts/EnemyCharacter.gd" id="1_vetd3"]
@@ -10,13 +10,85 @@
 [ext_resource type="Resource" uid="uid://dbyrwmhbfunib" path="res://resources/enterpriseTNG_enemy.tres" id="5_x4vmo"]
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_5l27p"]
 [ext_resource type="Resource" uid="uid://breh2tjl0qrqy" path="res://resources/California_class_enemy.tres" id="7_bvpr3"]
-[ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/torpedo_light.mp3" id="8_3ajvl"]
-[ext_resource type="Shape2D" uid="uid://f4073aa135ee" path="res://resources/enterpriseTNGcollision.tres" id="9_egwi2"]
-[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/torpedo_heavy.ogg" id="9_sscoc"]
+[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="8_8v3kn"]
 [ext_resource type="Resource" uid="uid://cxss5g0oh32uc" path="res://resources/Monaveen_enemy.tres" id="10_wxid4"]
+[ext_resource type="Texture2D" uid="uid://duvs6uixemkbt" path="res://assets/textures/ships/hull_explosion.png" id="11_h7mpe"]
+[ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/weapons/torpedo_light.mp3" id="14_06kab"]
+[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="15_hw27f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
 radius = 1250.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6mg26"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kuf0l"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vtdy"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvyc4"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0xjd"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wsqo"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ockmo"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ni8fx"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8g7t"]
+atlas = ExtResource("11_h7mpe")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mwxxd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6mg26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kuf0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6vtdy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvyc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0xjd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wsqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ockmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ni8fx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8g7t")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 15.0
+}]
 
 [node name="EnemyCharacter" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
@@ -43,7 +115,7 @@ shape = SubResource("CircleShape2D_ugric")
 texture = ExtResource("3_hv13s")
 hframes = 8
 vframes = 7
-frame = 6
+frame = 41
 region_rect = Rect2(144, 144, 144, 144)
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy_hitbox"]]
@@ -51,19 +123,25 @@ collision_layer = 128
 collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = ExtResource("9_egwi2")
+shape = ExtResource("8_8v3kn")
 
 [node name="WorldCollisionShape" type="CollisionShape2D" parent="."]
-shape = ExtResource("9_egwi2")
+shape = ExtResource("8_8v3kn")
 
 [node name="enemyShield" parent="." instance=ExtResource("3_sf3xf")]
+
+[node name="hull_explosion" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_mwxxd")
+animation = &"explode"
 
 [node name="Sounds" type="Node2D" parent="."]
 
 [node name="TorpedoHit" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
 stream = ExtResource("3_bqw1s")
-volume_db = -20.0
+volume_db = -18.0
 pitch_scale = 2.0
 max_distance = 3000.0
 attenuation = 0.615573
@@ -77,9 +155,17 @@ max_distance = 3000.0
 attenuation = 0.615573
 bus = &"Characters"
 
+[node name="ship_explosion" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = ExtResource("3_bqw1s")
+volume_db = -4.0
+max_distance = 3000.0
+attenuation = 0.615573
+bus = &"Characters"
+
 [node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
-stream = ExtResource("8_3ajvl")
+stream = ExtResource("14_06kab")
 volume_db = -20.0
 max_distance = 3000.0
 attenuation = 0.615573
@@ -88,7 +174,7 @@ bus = &"Characters"
 
 [node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
-stream = ExtResource("9_sscoc")
+stream = ExtResource("15_hw27f")
 volume_db = -10.0
 max_distance = 3000.0
 attenuation = 0.615573

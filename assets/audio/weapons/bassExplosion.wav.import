@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bkexanupu8ak2"
-path="res://.godot/imported/bassExplosion.wav-5b54dcc7d33feabf9b5f4136ac279f76.sample"
+path="res://.godot/imported/bassExplosion.wav-43815a599a018e8bc1226e3b20a00360.sample"
 
 [deps]
 
-source_file="res://assets/audio/bassExplosion.wav"
-dest_files=["res://.godot/imported/bassExplosion.wav-5b54dcc7d33feabf9b5f4136ac279f76.sample"]
+source_file="res://assets/audio/weapons/bassExplosion.wav"
+dest_files=["res://.godot/imported/bassExplosion.wav-43815a599a018e8bc1226e3b20a00360.sample"]
 
 [params]
 

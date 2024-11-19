@@ -125,7 +125,7 @@ func update_minimap():
 		for character in Utility.mainScene.enemies:
 			var globalDistance:Vector2 = character.global_position - player.global_position
 			enemyObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
-			enemyObjects[count].rotation = character.rotation
+			#enemyObjects[count].rotation = character.rotation
 			count += 1
 			if count == Utility.mainScene.enemies.size():
 				count = 0

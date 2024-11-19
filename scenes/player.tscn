@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=14 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
@@ -10,9 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://cayy8ej04gngu" path="res://assets/audio/warp_on.mp3" id="6_ihea4"]
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_8rbfi"]
 [ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Kaplan_F17_collision.tres" id="7_b5xnp"]
-[ext_resource type="AudioStream" uid="uid://bd6yao5lo0ch1" path="res://assets/audio/Explosion+2.mp3" id="9_ejl8a"]
-[ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/torpedo_light.mp3" id="12_jg136"]
-[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/torpedo_heavy.ogg" id="13_b1cfx"]
+[ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/weapons/torpedo_light.mp3" id="12_4w7or"]
+[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
 [ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="13_klvb2"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -99,19 +98,19 @@ bus = &"Characters"
 
 [node name="PlayerDieSound" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
-stream = ExtResource("9_ejl8a")
+stream = ExtResource("13_klvb2")
 bus = &"Characters"
 
 [node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
-stream = ExtResource("12_jg136")
+stream = ExtResource("12_4w7or")
 volume_db = -10.0
 bus = &"Characters"
 
 [node name="HeavyTorpedo" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
-stream = ExtResource("13_b1cfx")
-volume_db = -10.0
+stream = ExtResource("13_b4xtu")
+volume_db = -16.0
 bus = &"Characters"
 
 [node name="TorpedoHit" type="AudioStreamPlayer" parent="Audio"]

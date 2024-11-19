@@ -44,25 +44,12 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="LeftContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-
-[node name="Mission" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("2_158n7")
-bbcode_enabled = true
-text = "Mission: None"
-scroll_active = false
-shortcut_keys_enabled = false
-deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false
 
 [node name="Coords" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
@@ -107,6 +94,20 @@ size_flags_vertical = 4
 mouse_filter = 1
 step = 1.0
 show_percentage = false
+
+[node name="Mission" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("2_158n7")
+bbcode_enabled = true
+text = "Mission: None"
+scroll_active = false
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="MiddleContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

@@ -1,6 +1,11 @@
 class_name Projectile extends Area2D
 
+@onready var animation: AnimatedSprite2D = $explosion_animation
+@onready var collision: CollisionShape2D = $CollisionShape2D
+
+
 @export var speed:int = 1000
+var moving: bool = true
 var firingPoint: Vector2
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
 var movement_vector := Vector2(0, -1)
@@ -23,4 +28,13 @@ func _ready():
 	firingPoint = self.global_position
 	
 func _physics_process(delta):
-	global_position += movement_vector.rotated(rotation) * speed * delta
+	if moving:
+		global_position += movement_vector.rotated(rotation) * speed * delta
+
+func kill_projectile():
+	animation.play("explode")
+	$Sprite2D.visible = false
+	moving = false
+	await animation.animation_finished
+	queue_free()
+	

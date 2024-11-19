@@ -18,6 +18,7 @@ signal player_collision(Area: Area2D)
 @onready var collision_shape_node: CollisionShape2D = $Hitbox/CollisionShape2D  # Reference to the CollisionShape2D node
 @onready var shield: Node = $enemyShield
 @onready var muzzle = $Muzzle
+@onready var animation = $hull_explosion
 
 # Variables for handling dynamic behavior
 var move_speed: int
@@ -34,7 +35,9 @@ var torpedo: PackedScene
 var hp_current: float = 100.0
 
 var trans_length: float = 0.8
+var animation_scale: Vector2
 
+var alive: bool = true
 var playerAgro: bool = false
 var endPoint: Vector2
 var returnToStarbaseBool: bool = false
@@ -58,6 +61,7 @@ func _init():
 		Utility.mainScene.enemies.append(self)
 	
 func _ready() -> void:
+	animation_scale = animation.scale
 	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	# Check if the resource is assigned
 	if enemy_data:
@@ -72,13 +76,13 @@ func _ready() -> void:
 	# Deferred call to set random target after initialization
 	call_deferred("selectRandomPlanet")
 
-	
+
 func _process(delta):
-	if hp_current <= 0:
+	if hp_current <= 0 and alive:
 		explode()
 
 func _physics_process(delta):
-	if not AI_enabled or not visible or not GameSettings.enemyMovement:
+	if not AI_enabled or not visible or not GameSettings.enemyMovement or alive == false:
 		return
 	
 	# Movement state setter
@@ -119,6 +123,8 @@ func sync_to_resource():
 		sprite.texture = enemy_data.sprite_texture
 		sprite.frame_coords = enemy_data.frame_coords
 		sprite.scale = enemy_data.sprite_scale
+		animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
+		print(animation.scale)
 		
 
 	# Load the collision shape from the resource
@@ -197,13 +203,22 @@ func moveToTarget(targetName, targetPos, delta):
 
 func explode():
 	Utility.mainScene.enemies.erase(self)
-	self.queue_free()
 	SignalBus.enemyDied.emit(self)
+	$Hitbox.monitoring = false
+	$AgroBox.monitoring = false
+	%ship_explosion.play()
+	alive = false
+	shield.visible = false
+	sprite.visible = false
+	animation.visible = true
+	animation.play("explode")
+	await animation.animation_finished
+	queue_free()
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "enemy":
 		%TorpedoHit.play()
-		area.queue_free()
+		area.kill_projectile()
 		var damage_taken = area.damage
 		hp_current -= damage_taken
 

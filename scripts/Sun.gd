@@ -2,10 +2,12 @@ extends Node2D
 
 @onready var sprite = $SunTexture
 
-@export var spawnDistance = 4500
+@export var spawnDistance = 4250
+@export var spawnVariability = 300
 
 
 func _ready():
+	spawnDistance = randi() % (2 * spawnVariability + 1) - spawnVariability + spawnDistance
 	rotation_degrees = 20
 	
 	var random_index = randi_range(0, 5)

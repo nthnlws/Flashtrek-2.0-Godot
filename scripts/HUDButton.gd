@@ -13,7 +13,7 @@ var button_array = []
 
 
 func _ready():
-	manual_scale(0.8)
+	manual_scale(0.7)
 	SignalBus.HUDchanged.connect(manual_scale)
 	
 	#Connect Input signals from HUD buttons
