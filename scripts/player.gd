@@ -14,7 +14,7 @@ var trans_length:float = 0.8
 var warp_multiplier:float = 0.4
 var warpm:float = 1.0
 
-var player_name = "Enterprise"
+var player_name = "USS Enterprise"
 
 #Health variables
 const HP_MAX:int = 100

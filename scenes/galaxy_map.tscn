@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cx1bafifkl17x"]
+[gd_scene load_steps=9 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
 [ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
 [ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/UI/WorldMap.png" id="2_etsr6"]
 [ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="4_2pwq2"]
+[ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
 [ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="5_lv8kj"]
 [ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="6_wvwih"]
 
@@ -28,6 +29,21 @@ texture = ExtResource("1_f67k2")
 position = Vector2(480, 290)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_etsr6")
+
+[node name="mission_message" type="RichTextLabel" parent="."]
+offset_left = 393.0
+offset_top = 510.0
+offset_right = 813.0
+offset_bottom = 532.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Current mission: [color=#FFCC66]None[/color]"
+scroll_active = false
+autowrap_mode = 2
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="Systems" type="Node2D" parent="."]
 

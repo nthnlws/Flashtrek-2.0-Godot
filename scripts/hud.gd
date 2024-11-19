@@ -36,7 +36,7 @@ func _process(delta):
 	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
 	
 
-func _update_mission(current_mission):
+func _update_mission(current_mission: Dictionary):
 	if current_mission.is_empty():
 		mission_label.text = "Mission: None"
 		mission_label.custom_minimum_size.y = 20

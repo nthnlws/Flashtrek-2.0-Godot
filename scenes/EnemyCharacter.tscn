@@ -11,7 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_5l27p"]
 [ext_resource type="Resource" uid="uid://breh2tjl0qrqy" path="res://resources/California_class_enemy.tres" id="7_bvpr3"]
 [ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/torpedo_light.mp3" id="8_3ajvl"]
-[ext_resource type="Shape2D" path="res://resources/Californiacollision.tres" id="8_8iuk8"]
+[ext_resource type="Shape2D" uid="uid://f4073aa135ee" path="res://resources/enterpriseTNGcollision.tres" id="9_egwi2"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/torpedo_heavy.ogg" id="9_sscoc"]
 [ext_resource type="Resource" uid="uid://cxss5g0oh32uc" path="res://resources/Monaveen_enemy.tres" id="10_wxid4"]
 
@@ -51,10 +51,10 @@ collision_layer = 128
 collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = ExtResource("8_8iuk8")
+shape = ExtResource("9_egwi2")
 
 [node name="WorldCollisionShape" type="CollisionShape2D" parent="."]
-shape = ExtResource("8_8iuk8")
+shape = ExtResource("9_egwi2")
 
 [node name="enemyShield" parent="." instance=ExtResource("3_sf3xf")]
 

@@ -1,5 +1,7 @@
 extends Control
 
+@onready var mission_message = $mission_message
+
 var area_array = []
 
 const HIGH:float = 2.0
@@ -10,6 +12,8 @@ var sound_array_location:int = 0
 
 
 func _ready():
+	SignalBus.missionAccepted.connect(_update_mission)
+	
 	area_array = get_tree().get_nodes_in_group("map_node")
 	
 	sound_array = get_tree().get_nodes_in_group("click_sound")
@@ -30,6 +34,13 @@ func _gui_input(event):
 				return
 				
 
+func _update_mission(current_mission: Dictionary):
+	if current_mission.is_empty():
+		mission_message.bbcode_text = "Current Mission: None"
+	else:
+		var mission_text = "Current Mission: [color=#FFCC66]" + current_mission.get("target_system", "Unknown") + "[/color]"
+		mission_message.bbcode_text = mission_text
+	
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
 	# Get the CircleShape2D from the CollisionShape2D
 	var shape = collision_shape.shape as CircleShape2D
@@ -46,7 +57,8 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 	# Check if the distance between the point and the center is less than or equal to the scaled radius
 	return point.distance_to(global_center) <= scaled_radius
-
+	
+	
 func play_click_sound(volume): 
 	var sound_array_length = sound_array.size() - 1
 	var default_db = sound_array[sound_array_location].volume_db

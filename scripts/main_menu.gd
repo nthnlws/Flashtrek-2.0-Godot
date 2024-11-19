@@ -22,11 +22,6 @@ func _input(event):
 		#if %Cheats.visible:
 			#toggle_element(%Cheats)
 			#toggle_element(%TitleScreen)
-		
-	if Input.is_action_just_pressed("rotate_left"):
-		play_click_sound(LOW)
-	if Input.is_action_just_pressed("rotate_right"):
-		play_click_sound(HIGH)
 	
 func _ready() -> void:
 	if OS.get_name() == "Windows":
@@ -57,7 +52,6 @@ func play_click_sound(volume):
 	var sound_array_length = sound_array.size() - 1
 	var default_db = sound_array[sound_array_location].volume_db
 	var effective_volume = default_db / volume
-	print(effective_volume)
 	
 	match sound_array_location:
 		sound_array_length: # When location in array = array size, shuffle array and reset location
