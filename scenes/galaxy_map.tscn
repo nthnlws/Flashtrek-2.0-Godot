@@ -30,21 +30,6 @@ position = Vector2(480, 290)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_etsr6")
 
-[node name="mission_message" type="RichTextLabel" parent="."]
-offset_left = 393.0
-offset_top = 510.0
-offset_right = 813.0
-offset_bottom = 532.0
-mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("4_v4uvs")
-theme_override_font_sizes/normal_font_size = 16
-bbcode_enabled = true
-text = "Current mission: [color=#FFCC66]None[/color]"
-scroll_active = false
-autowrap_mode = 2
-shortcut_keys_enabled = false
-drag_and_drop_selection_enabled = false
-
 [node name="Systems" type="Node2D" parent="."]
 
 [node name="Solarus" type="Area2D" parent="Systems" groups=["map_node"]]
@@ -251,6 +236,40 @@ position = Vector2(853, 135)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/31"]
 shape = SubResource("CircleShape2D_ays83")
 
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="closeMenuButton" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X"
+
+[node name="mission_message" type="RichTextLabel" parent="."]
+offset_left = 393.0
+offset_top = 510.0
+offset_right = 813.0
+offset_bottom = 532.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Current mission: [color=#FFCC66]None[/color]"
+scroll_active = false
+autowrap_mode = 2
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+
 [node name="Node" type="Node" parent="."]
 
 [node name="Click01" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
@@ -270,3 +289,5 @@ stream = ExtResource("6_wvwih")
 volume_db = -27.0
 mix_target = 2
 max_polyphony = 2
+
+[connection signal="pressed" from="MarginContainer/closeMenuButton" to="." method="_on_close_menu_button_pressed"]

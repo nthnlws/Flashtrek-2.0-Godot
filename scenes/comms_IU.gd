@@ -183,13 +183,23 @@ func randomize_mission():
 
 func accept_mission():
 	if visible and current_mission.is_empty():
+		# Update text to "accepted"
+		var data = {
+			"target_planet": "[color=#FFCC66]" + target_planet + "[/color]",
+			"target_system": "[color=#FFCC66]" + target_system + "[/color]",
+			}
+			
+		var template_text = "Mission accepted! Head to {target_planet} in the {target_system} system."
+		var formatted_text = template_text.format(data)
+	
+		comms_message.bbcode_text = formatted_text
 		current_mission["mission_type"] = "Cargo Delivery"
 		current_mission["cargo"] = item_name
 		current_mission["target_system"] = target_system
 		current_mission["target_planet"] = target_planet
-		visible = false
 		SignalBus.missionAccepted.emit(current_mission)
-		#TODO Fade in "accepted mission" banner
+		#await get_tree().create_timer(2.0).timeout
+		#visible = false
 
 func play_click_sound(): 
 	var sound_array_length = sound_array.size() - 1

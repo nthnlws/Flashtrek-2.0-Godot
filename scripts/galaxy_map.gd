@@ -1,6 +1,7 @@
 extends Control
 
 @onready var mission_message = $mission_message
+@onready var Menus = $".."
 
 var area_array = []
 
@@ -76,3 +77,7 @@ func play_click_sound(volume):
 			sound_array[sound_array_location].play()
 			#sound_array[sound_array_location].volume_db = default_db
 			sound_array_location += 1
+
+
+func _on_close_menu_button_pressed():
+	Menus.toggle_menu(self, 0)

@@ -57,7 +57,6 @@ theme_override_constants/margin_right = 250
 [node name="closeMenuButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea"]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
-size_flags_horizontal = 4
 text = "X"
 
 [node name="HeaderNames" type="HBoxContainer" parent="ColorRect/HeaderArea"]
