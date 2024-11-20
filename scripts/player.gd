@@ -216,7 +216,7 @@ func respawn(pos):
 # Take torpedo damage
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "player":
-		area.kill_projectile()
+		area.kill_projectile("hull")
 		%TorpedoHit.play()
 		if GameSettings.unlimitedHealth == false:
 			var damage_taken = area.damage

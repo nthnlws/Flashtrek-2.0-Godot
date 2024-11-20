@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var sprite = $SunTexture
 
-@export var spawnDistance = 4250
-@export var spawnVariability = 300
+@export var spawnDistance = 8000
+@export var spawnVariability = 500
 
 
 func _ready():

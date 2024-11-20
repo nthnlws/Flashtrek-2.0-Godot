@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_trih8"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
-[ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="3_pbw0g"]
+[ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="3_pbw0g"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7be28"]
 

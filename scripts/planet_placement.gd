@@ -2,15 +2,16 @@ extends Node2D
 
 @export var planet_scene = preload("res://scenes/planet.tscn")
 
-@export var PLANET_COUNT = 3
+@export var PLANET_COUNT = 10
 var MIN_DISTANCE_FROM_ORIGIN = 7500
 var MAX_DISTANCE_FROM_ORIGIN = 15000
-var MIN_DISTANCE_BETWEEN_PLANETS = 20000 / PLANET_COUNT
+var MIN_DISTANCE_BETWEEN_PLANETS: int
 
 var planet_positions: Array = []
 
 
 func _ready():
+	MIN_DISTANCE_BETWEEN_PLANETS = clamp(20000 / PLANET_COUNT, 6000, 200006)
 	# Increases spawning distance for higher spawn counts
 	MAX_DISTANCE_FROM_ORIGIN = 15000 + ((PLANET_COUNT - 3) * 750)
 	MIN_DISTANCE_FROM_ORIGIN = clamp(MIN_DISTANCE_FROM_ORIGIN + ((PLANET_COUNT - 3) * 750), 7500, 10000)

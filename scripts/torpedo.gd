@@ -31,8 +31,11 @@ func _physics_process(delta):
 	if moving:
 		global_position += movement_vector.rotated(rotation) * speed * delta
 
-func kill_projectile():
-	animation.play("explode")
+func kill_projectile(target):
+	if target == "shield":
+		animation.play("explode_shield")
+	elif target == "hull":
+		animation.play("explode_hull")
 	$Sprite2D.visible = false
 	moving = false
 	await animation.animation_finished

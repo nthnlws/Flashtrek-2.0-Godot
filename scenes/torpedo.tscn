@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dkwrosj64i8ur"]
+[gd_scene load_steps=22 format=3 uid="uid://dkwrosj64i8ur"]
 
 [ext_resource type="Script" path="res://scripts/torpedo.gd" id="1_uf70w"]
 [ext_resource type="Texture2D" uid="uid://ejr6p7q5rwbx" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
@@ -40,6 +40,38 @@ region = Rect2(384, 0, 64, 64)
 atlas = ExtResource("3_ncjgy")
 region = Rect2(448, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_k44db"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chm21"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsq26"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wphns"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8akrm"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(256, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36e5r"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(320, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6py5"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(384, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drtlu"]
+atlas = ExtResource("3_ncjgy")
+region = Rect2(448, 128, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_sq830"]
 animations = [{
 "frames": [{
@@ -71,7 +103,36 @@ animations = [{
 "texture": null
 }],
 "loop": false,
-"name": &"explode",
+"name": &"explode_hull",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k44db")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chm21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsq26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wphns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8akrm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36e5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6py5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drtlu")
+}],
+"loop": false,
+"name": &"explode_shield",
 "speed": 20.0
 }]
 
@@ -94,6 +155,4 @@ shape = SubResource("CapsuleShape2D_hsjqf")
 position = Vector2(0, -30)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_sq830")
-animation = &"explode"
-frame = 8
-frame_progress = 1.0
+animation = &"explode_hull"

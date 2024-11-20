@@ -8,7 +8,6 @@ var sp_max
 @onready var player: Player = SignalBus.player
 @onready var playerShield: Sprite2D = SignalBus.player.get_node("playerShield")
 @onready var camera: Camera2D = SignalBus.player.get_node("Camera2D")
-@onready var mission_label: RichTextLabel = %Mission
 
 var shieldActive:bool = false
 
@@ -24,8 +23,6 @@ func _ready():
 	SignalBus.playerHealthChanged.connect(_on_player_health_changed)
 	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
 	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
-	SignalBus.missionAccepted.connect(_update_mission)
-	
 
 	set_bar_maxes() # Initializes bar values
 
@@ -34,21 +31,8 @@ func _process(delta):
 	%Coords.text = str(round(player.global_position))
 	
 	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
-	
 
-func _update_mission(current_mission: Dictionary):
-	if current_mission.is_empty():
-		mission_label.text = "Mission: None"
-		mission_label.custom_minimum_size.y = 20
-	else:
-		var mission_text = "Mission: " + str(current_mission.get("mission_type", "Unknown")) + "\n"
-		mission_text += "Target System: " + str(current_mission.get("target_system", "Unknown")) + "\n"
-		mission_text += "Target Planet: " + str(current_mission.get("target_planet", "Unknown")) + "\n"
-		mission_text += "Cargo: " + str(current_mission.get("cargo", "Unknown"))
-		mission_label.text = mission_text
-		mission_label.custom_minimum_size.y = mission_label.get_line_count() * 20
-	
-	
+
 func _on_player_health_changed(hp_current):
 	%HealthBar.value = hp_current
 	

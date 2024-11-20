@@ -9,8 +9,8 @@
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_d5k3n"]
 [ext_resource type="Script" path="res://scripts/settings_menu.gd" id="8_bff6q"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="9_ua14u"]
-[ext_resource type="AudioStream" uid="uid://44qnks50x2o1" path="res://assets/audio/bridge_ambiance.mp3" id="10_hux8j"]
-[ext_resource type="AudioStream" uid="uid://ddhx5n4vlu4bx" path="res://assets/audio/music/Ether - MelodySheep.mp3" id="11_7dc00"]
+[ext_resource type="AudioStream" uid="uid://ir7wno6dp7vh" path="res://assets/audio/bridge_ambiance.ogg" id="10_hux8j"]
+[ext_resource type="AudioStream" uid="uid://dkdjj8m1o6wov" path="res://assets/audio/music/Ether - MelodySheep.ogg" id="11_7dc00"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_pksmb")

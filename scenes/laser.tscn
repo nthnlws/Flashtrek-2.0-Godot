@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bxwfdylr3rd3y" path="res://assets/textures/glowing_circle25.png" id="2_el4j4"]
 [ext_resource type="Texture2D" uid="uid://b7lndu3ejpnbu" path="res://assets/textures/glowing_circle20.png" id="3_r8vy2"]
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="3_yh6sv"]
-[ext_resource type="AudioStream" uid="uid://cf4in5holxkkb" path="res://assets/audio/weapons/tos_ship_phaser.mp3" id="4_jeuqt"]
-[ext_resource type="AudioStream" uid="uid://c6tgaqxxonfew" path="res://assets/audio/weapons/laser_fizzle.mp3" id="5_85x6m"]
+[ext_resource type="AudioStream" uid="uid://bdxta7lwtdrew" path="res://assets/audio/weapons/tos_ship_phaser.ogg" id="5_4gfmv"]
+[ext_resource type="AudioStream" uid="uid://cbpachnemcxrh" path="res://assets/audio/weapons/laser_fizzle.ogg" id="6_yf2fb"]
 [ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/weapons/laser_bass.ogg" id="7_y5fda"]
 
 [sub_resource type="Gradient" id="Gradient_k33yi"]
@@ -90,11 +90,11 @@ texture = ExtResource("3_yh6sv")
 lifetime = 0.7
 
 [node name="laserSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_jeuqt")
+stream = ExtResource("5_4gfmv")
 volume_db = -10.0
 
 [node name="laserFizzle" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_85x6m")
+stream = ExtResource("6_yf2fb")
 volume_db = -25.0
 pitch_scale = 1.6
 

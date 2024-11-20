@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dkdjj8m1o6wov"
+path="res://.godot/imported/Ether - MelodySheep.ogg-cf97c98a79992bd4ec0b04982ea1824a.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/music/Ether - MelodySheep.ogg"
+dest_files=["res://.godot/imported/Ether - MelodySheep.ogg-cf97c98a79992bd4ec0b04982ea1824a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

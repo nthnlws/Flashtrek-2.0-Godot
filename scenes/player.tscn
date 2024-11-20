@@ -6,13 +6,13 @@
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Texture2D" uid="uid://lpoym58vtn8u" path="res://assets/textures/light.png" id="4_xg1hi"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
-[ext_resource type="AudioStream" uid="uid://mx337ieci1h2" path="res://assets/audio/warp_off.mp3" id="6_c035k"]
-[ext_resource type="AudioStream" uid="uid://cayy8ej04gngu" path="res://assets/audio/warp_on.mp3" id="6_ihea4"]
-[ext_resource type="AudioStream" uid="uid://h3r4leshlkvg" path="res://assets/audio/ship_idle.mp3" id="7_8rbfi"]
+[ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
+[ext_resource type="AudioStream" uid="uid://n4xp0acsyiaj" path="res://assets/audio/warp_on.ogg" id="6_ihea4"]
+[ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
 [ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Kaplan_F17_collision.tres" id="7_b5xnp"]
-[ext_resource type="AudioStream" uid="uid://7nx4uro3xi5g" path="res://assets/audio/weapons/torpedo_light.mp3" id="12_4w7or"]
+[ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
-[ext_resource type="AudioStream" uid="uid://dc62llqhpjqpb" path="res://assets/audio/smallexplosion3.mp3" id="13_klvb2"]
+[ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="13_klvb2"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2

@@ -218,7 +218,7 @@ func explode():
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "enemy":
 		%TorpedoHit.play()
-		area.kill_projectile()
+		area.kill_projectile("hull")
 		var damage_taken = area.damage
 		hp_current -= damage_taken
 
