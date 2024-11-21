@@ -7,7 +7,6 @@ var button_array = []
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
-var player_position:Vector2
 var comm_distance:float
 
 var systems: Array = []
@@ -158,7 +157,7 @@ func toggle_comms():
 		self.visible = true
 
 func check_distance_to_planets() -> bool:
-	player_position = Utility.mainScene.player[0].global_position
+	var player_position = Utility.mainScene.player[0].global_position
 	# Iterate through the planets array
 	for planet in Utility.mainScene.planets:
 		if not planet:  # Ensure the planet node is valid

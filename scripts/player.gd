@@ -26,7 +26,7 @@ var hp_current:float = HP_MAX:
 #@export var shield_on:bool = true
 
 #Energy system variables
-const ENERGY_MAX:int = 100
+const ENERGY_MAX:int = 150
 var energy_current:float = ENERGY_MAX:
 	set(value):
 		energy_current = clamp(value, 0, ENERGY_MAX)

@@ -22,9 +22,6 @@ func _input(event):
 			elif showing == true:
 				anim_player.play("slide_in")
 				showing = false
-	
-	
-	
 
 
 func _update_mission(current_mission: Dictionary):

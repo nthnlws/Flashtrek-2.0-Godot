@@ -124,7 +124,6 @@ func sync_to_resource():
 		sprite.frame_coords = enemy_data.frame_coords
 		sprite.scale = enemy_data.sprite_scale
 		animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
-		print(animation.scale)
 		
 
 	# Load the collision shape from the resource
@@ -236,7 +235,6 @@ func predict_player_position():
 	
 	if abs(a) < 0.0001:
 		return -1  # Cannot solve the equation, invalid
-		print("rounding error")
 		
 	if delta == 0:	
 		solution = -b/(2*a)

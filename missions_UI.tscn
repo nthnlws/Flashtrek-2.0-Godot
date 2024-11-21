@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://do3osaer0ntc8"]
 
-[ext_resource type="Script" path="res://scenes/Missions.gd" id="1_iv8j7"]
+[ext_resource type="Script" path="res://scripts/Missions.gd" id="1_iv8j7"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="2_0vrf8"]
 
 [sub_resource type="Animation" id="Animation_in6rx"]
