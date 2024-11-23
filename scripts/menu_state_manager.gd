@@ -1,15 +1,17 @@
 extends CanvasLayer
 
 # Enum for menu states
-enum MenuState { NONE, PAUSE_MENU, GAME_OVER, GALAXY_MAP }
+enum MenuState { NONE, PAUSE_MENU, GAME_OVER, GALAXY_MAP, SHIP_SELECTION }
 
 # Variable to keep track of the current menu state
 var current_state: MenuState = MenuState.NONE
 
+@onready var Menus = $".."
+
 
 func _ready() -> void:
 	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
-
+	SignalBus.Quad4_clicked.connect(toggle_menu.bindv([$ShipSelectionMenu, MenuState.SHIP_SELECTION]))
 
 # Input handling
 func _input(event):
@@ -32,6 +34,9 @@ func handle_escape_press():
 			toggle_menu($GalaxyMap, MenuState.NONE)
 		MenuState.GAME_OVER:
 			toggle_menu($GameOverScreen, MenuState.NONE)
+		MenuState.SHIP_SELECTION:
+			# Starbse comms are open, close it
+			toggle_menu($ShipSelectionMenu, MenuState.NONE)
 
 # Handle M key press (for the Galaxy Map)
 func handle_m_press():
@@ -42,10 +47,18 @@ func handle_m_press():
 		MenuState.GALAXY_MAP:
 			# Galaxy map is open, close it
 			toggle_menu($GalaxyMap, MenuState.NONE)
+		_:
+			return # Do nothing for all other menu states
 
 
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState):
+	if menu == $ShipSelectionMenu:
+		var starbase = Utility.mainScene.starbase[0]
+		if !starbase.check_distance_to_planets():
+			menu.visible = true
+			menu.mouse_filter = Control.MOUSE_FILTER_STOP
+			current_state = new_state
 	if menu.visible == false:
 		# Show the menu
 		menu.visible = true

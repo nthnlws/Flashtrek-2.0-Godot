@@ -26,6 +26,8 @@ func check_distance_to_planets() -> bool:
 
 	var starbase_position = self.global_position
 	var distance = player_position.distance_to(starbase_position)
+	print(distance)
+	print("Comm distance: " + str(comm_distance))
 	
 	# Check if the distance is within the threshold
 	if distance <= comm_distance:

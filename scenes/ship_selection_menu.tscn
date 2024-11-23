@@ -1,10 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene load_steps=13 format=3 uid="uid://b3ruu3xegfccq"]
 
 [ext_resource type="Script" path="res://scripts/ship_selection_menu.gd" id="1_cpdl5"]
-[ext_resource type="Texture2D" uid="uid://rrf3pe2c2ey7" path="res://assets/textures/UI/Federation_frame.png" id="1_usqg0"]
-[ext_resource type="Texture2D" uid="uid://dy6fjs8soq55y" path="res://assets/textures/UI/Romulan_frame.png" id="2_vkcek"]
-[ext_resource type="Texture2D" uid="uid://b71d8n3ou78es" path="res://assets/textures/UI/Klingon_frame.png" id="3_4r3g3"]
-[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/Neutral_frame.png" id="4_8tueh"]
+[ext_resource type="Texture2D" uid="uid://rrf3pe2c2ey7" path="res://assets/textures/UI/Federation_frame.png" id="2_uw5yw"]
+[ext_resource type="Texture2D" uid="uid://b71d8n3ou78es" path="res://assets/textures/UI/Klingon_frame.png" id="3_6ldbl"]
+[ext_resource type="Texture2D" uid="uid://dy6fjs8soq55y" path="res://assets/textures/UI/Romulan_frame.png" id="4_2rp6b"]
+[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/Neutral_frame.png" id="5_t6atb"]
+[ext_resource type="Texture2D" uid="uid://wbg8efg148y6" path="res://assets/textures/UI/Federation_frame_pressed.png" id="6_4l46l"]
+[ext_resource type="Texture2D" uid="uid://digj0ww7e6iir" path="res://assets/textures/UI/starbase_background.png" id="6_pmy4k"]
+[ext_resource type="Texture2D" uid="uid://dbdwg26aneknc" path="res://assets/textures/UI/Klingon_frame_pressed.png" id="7_0yoys"]
+[ext_resource type="Texture2D" uid="uid://cn6hk6q2vqimy" path="res://assets/textures/UI/gray_background.png" id="7_6y24t"]
+[ext_resource type="Texture2D" uid="uid://dp4hhvgp5vey7" path="res://assets/textures/UI/Romulan_frame_pressed.png" id="8_afpcq"]
+[ext_resource type="Texture2D" uid="uid://sykblrvv152y" path="res://assets/textures/UI/Neutral_frame_pressed.png" id="9_bb8g1"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="12_lf3ul"]
 
 [node name="ShipSelectionMenu" type="Control"]
 layout_mode = 3
@@ -13,45 +20,131 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_cpdl5")
-federation_frame = ExtResource("1_usqg0")
-klingon_frame = ExtResource("3_4r3g3")
-romulan_frame = ExtResource("2_vkcek")
-neutral_frame = ExtResource("4_8tueh")
-num_fed = 5
-num_klin = 5
-num_rom = 5
-num_neut = 5
+federation_frame = ExtResource("2_uw5yw")
+klingon_frame = ExtResource("3_6ldbl")
+romulan_frame = ExtResource("4_2rp6b")
+neutral_frame = ExtResource("5_t6atb")
+federation_frame_pressed = ExtResource("6_4l46l")
+klingon_frame_pressed = ExtResource("7_0yoys")
+romulan_frame_pressed = ExtResource("8_afpcq")
+neutral_frame_pressed = ExtResource("9_bb8g1")
+num_fed = 6
+num_klin = 6
+num_rom = 6
+num_neut = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Starbase" type="TextureRect" parent="."]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_pmy4k")
+
+[node name="horizon_gray" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.470588)
+z_index = -1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 67.0
+offset_right = 961.0
+offset_bottom = 472.0
+pivot_offset = Vector2(480, 270)
+texture = ExtResource("7_6y24t")
+expand_mode = 1
+
+[node name="ship_info" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -325.0
+offset_top = 1.0
+offset_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(325, 0)
+
+[node name="vert_gray" type="TextureRect" parent="ship_info"]
+modulate = Color(1, 1, 1, 0.470588)
+custom_minimum_size = Vector2(0, 540)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("7_6y24t")
+expand_mode = 1
+
+[node name="closeMenuButton" type="Button" parent="ship_info/vert_gray"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+offset_left = 275.0
+offset_top = 10.0
+offset_right = 315.0
+offset_bottom = 41.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X"
+
+[node name="MarginContainer" type="MarginContainer" parent="ship_info/vert_gray"]
+layout_mode = 2
+offset_right = 325.0
+offset_bottom = 65.0
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="stats_banner" type="Label" parent="ship_info/vert_gray"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.12
+anchor_right = 1.0
+anchor_bottom = 0.12
+offset_top = 0.199997
+offset_bottom = 23.2
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("12_lf3ul")
+theme_override_font_sizes/font_size = 25
+text = "ship Stats:"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Grid" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = -150.0
-offset_bottom = 150.0
+offset_left = -180.0
+offset_top = -200.0
+offset_right = -180.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 100
 
-[node name="FederationGrid" type="HBoxContainer" parent="VBoxContainer"]
+[node name="FederationGrid" type="HBoxContainer" parent="Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="KlingonGrid" type="HBoxContainer" parent="VBoxContainer"]
+[node name="KlingonGrid" type="HBoxContainer" parent="Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="RomulanGrid" type="HBoxContainer" parent="VBoxContainer"]
+[node name="RomulanGrid" type="HBoxContainer" parent="Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="NeutralGrid" type="HBoxContainer" parent="VBoxContainer"]
+[node name="NeutralGrid" type="HBoxContainer" parent="Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 100
+
+[connection signal="pressed" from="ship_info/vert_gray/closeMenuButton" to="." method="_on_close_menu_button_pressed"]

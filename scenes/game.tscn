@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=26 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/planet.tscn" id="18_afc7y"]
+[ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
 
 [sub_resource type="Animation" id="Animation_llleq"]
 length = 0.001
@@ -142,6 +143,9 @@ z_index = 1
 visible = false
 
 [node name="GalaxyMap" parent="Menus" instance=ExtResource("16_wq6qh")]
+visible = false
+
+[node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
 visible = false
 
 [node name="transition_overlays" type="CanvasLayer" parent="."]
