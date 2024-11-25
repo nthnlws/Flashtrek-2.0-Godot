@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene load_steps=14 format=3 uid="uid://b3ruu3xegfccq"]
 
 [ext_resource type="Script" path="res://scripts/ship_selection_menu.gd" id="1_cpdl5"]
 [ext_resource type="Texture2D" uid="uid://rrf3pe2c2ey7" path="res://assets/textures/UI/Federation_frame.png" id="2_uw5yw"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dp4hhvgp5vey7" path="res://assets/textures/UI/Romulan_frame_pressed.png" id="8_afpcq"]
 [ext_resource type="Texture2D" uid="uid://sykblrvv152y" path="res://assets/textures/UI/Neutral_frame_pressed.png" id="9_bb8g1"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="12_lf3ul"]
+[ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="13_cq87e"]
 
 [node name="ShipSelectionMenu" type="Control"]
 layout_mode = 3
@@ -35,7 +36,7 @@ num_klin = 6
 num_rom = 6
 num_neut = 6
 
-[node name="Starbase" type="TextureRect" parent="."]
+[node name="starbase_back" type="TextureRect" parent="."]
 z_index = -2
 layout_mode = 1
 anchors_preset = 15
@@ -44,6 +45,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_pmy4k")
+
+[node name="stats_banner" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("12_lf3ul")
+theme_override_font_sizes/font_size = 25
+text = "ship Stats:"
+horizontal_alignment = 1
 
 [node name="horizon_gray" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.470588)
@@ -57,60 +71,69 @@ pivot_offset = Vector2(480, 270)
 texture = ExtResource("7_6y24t")
 expand_mode = 1
 
-[node name="ship_info" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -325.0
-offset_top = 1.0
-offset_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
-pivot_offset = Vector2(325, 0)
-
-[node name="vert_gray" type="TextureRect" parent="ship_info"]
+[node name="vert_gray" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0.470588)
+z_index = -1
 custom_minimum_size = Vector2(0, 540)
 layout_mode = 2
+offset_left = 635.0
+offset_right = 960.0
+offset_bottom = 540.0
 size_flags_horizontal = 3
-texture = ExtResource("7_6y24t")
-expand_mode = 1
+color = Color(0.415686, 0.415686, 0.415686, 1)
 
-[node name="closeMenuButton" type="Button" parent="ship_info/vert_gray"]
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 635.0
+offset_right = 960.0
+offset_bottom = 540.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ship_info" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="closeMenuButton" type="Button" parent="Control/MarginContainer/ship_info"]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
-offset_left = 275.0
-offset_top = 10.0
-offset_right = 315.0
-offset_bottom = 41.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "X"
 
-[node name="MarginContainer" type="MarginContainer" parent="ship_info/vert_gray"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/ship_info"]
 layout_mode = 2
-offset_right = 325.0
-offset_bottom = 65.0
-size_flags_vertical = 0
 mouse_filter = 2
+theme_override_constants/margin_top = 20
 
-[node name="stats_banner" type="Label" parent="ship_info/vert_gray"]
+[node name="stats_banner" type="Label" parent="Control/MarginContainer/ship_info"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.12
-anchor_right = 1.0
-anchor_bottom = 0.12
-offset_top = 0.199997
-offset_bottom = 23.2
-grow_horizontal = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("12_lf3ul")
 theme_override_font_sizes/font_size = 25
 text = "ship Stats:"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/MarginContainer/ship_info"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="Control/MarginContainer/ship_info"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_cq87e")
+theme_override_font_sizes/font_size = 20
+text = "Ship Name: "
 
 [node name="Grid" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -147,4 +170,4 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[connection signal="pressed" from="ship_info/vert_gray/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/ship_info/closeMenuButton" to="." method="_on_close_menu_button_pressed"]

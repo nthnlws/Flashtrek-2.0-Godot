@@ -1,12 +1,14 @@
-[gd_scene load_steps=27 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=32 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/BirdOfPrey_enemy.tres" id="1_07t6s"]
 [ext_resource type="Script" path="res://scripts/EnemyCharacter.gd" id="1_vetd3"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="3_bqw1s"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_hv13s"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="3_mmtcm"]
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="3_sf3xf"]
-[ext_resource type="Resource" uid="uid://bjroyy58wptys" path="res://resources/enterpriseTOS_enemy.tres" id="3_vktf0"]
+[ext_resource type="Texture2D" uid="uid://7y2wbaj1hj56" path="res://assets/textures/ships/enterpriseTOS.png" id="4_6blmh"]
 [ext_resource type="Resource" uid="uid://d24cbe3l6hkfj" path="res://resources/Jem_Hadar_enemy.tres" id="4_8hw7d"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="5_gcgnf"]
 [ext_resource type="Resource" uid="uid://dbyrwmhbfunib" path="res://resources/enterpriseTNG_enemy.tres" id="5_x4vmo"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_5l27p"]
 [ext_resource type="Resource" uid="uid://breh2tjl0qrqy" path="res://resources/California_class_enemy.tres" id="7_bvpr3"]
@@ -16,8 +18,34 @@
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="14_06kab"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="15_hw27f"]
 
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_5bqvl"]
+points = PackedVector2Array(-4, -35, 4, -35, 10, -33, 13.5922, -29.4078, 17, -26, 19, -21, 19, -13, 13, -4, 6, 0, 6, 8, 12, 8, 12, 2, 18, 2, 19, 36, 13, 36, 13, 15, 7, 16, 7, 34, -6, 34, -6, 16, -12, 16, -12, 36, -19, 36, -19, 1, -12, 1, -12, 7, -7, 7, -7, 0, -15, -6, -19, -13, -19, -22, -15, -28, -9, -34)
+
+[sub_resource type="Resource" id="Resource_t8qy3"]
+script = ExtResource("3_mmtcm")
+enemy_name = 0
+class_size = 0
+class_faction = 0
+ship_shield_scale = Vector2(1, 1)
+default_speed = 60
+rotation_rate = 3.0
+shield_on = true
+rate_of_fire = 1.0
+muzzle_pos = Vector2(0, -150)
+RANDOMNESS_ANGLE_DEGREES = 3.0
+detection_radius = 1250
+max_hp = 100
+max_shield_health = 50
+sprite_texture = ExtResource("4_6blmh")
+torpedo = ExtResource("5_gcgnf")
+collision_shape = SubResource("ConvexPolygonShape2D_5bqvl")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugric"]
 radius = 1250.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
+atlas = ExtResource("3_hv13s")
+region = Rect2(192, 288, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6mg26"]
 atlas = ExtResource("11_h7mpe")
@@ -94,7 +122,7 @@ animations = [{
 collision_layer = 4
 script = ExtResource("1_vetd3")
 BIRD_OF_PREY_ENEMY = ExtResource("1_07t6s")
-ENTERPRISE_TOS_ENEMY = ExtResource("3_vktf0")
+ENTERPRISE_TOS_ENEMY = SubResource("Resource_t8qy3")
 JEM_HADAR_ENEMY = ExtResource("4_8hw7d")
 ENTERPRISE_TNG_ENEMY = ExtResource("5_x4vmo")
 MONAVEEN_ENEMY = ExtResource("10_wxid4")
@@ -112,10 +140,7 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_ugric")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_hv13s")
-hframes = 8
-vframes = 7
-frame = 41
+texture = SubResource("AtlasTexture_lot0p")
 region_rect = Rect2(144, 144, 144, 144)
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy_hitbox"]]

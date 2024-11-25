@@ -118,13 +118,11 @@ func sync_to_resource():
 	rate_of_fire = enemy_data.rate_of_fire
 	RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
 
-	# Set the sprite texture and scale if available
-	if enemy_data.sprite_texture:
-		sprite.texture = enemy_data.sprite_texture
-		sprite.frame_coords = enemy_data.frame_coords
-		sprite.scale = enemy_data.sprite_scale
-		animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
-		
+
+	sprite.texture.region = Utility.ship_sprites.values()[enemy_data.enemy_name]
+	sprite.scale = enemy_data.sprite_scale
+	animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
+	
 
 	# Load the collision shape from the resource
 	if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
@@ -133,7 +131,7 @@ func sync_to_resource():
 		$Hitbox/CollisionShape2D.scale = enemy_data.sprite_scale
 		$WorldCollisionShape.scale = enemy_data.sprite_scale
 	else:
-		print("Warning: No collision shape found for ", enemy_data.enemy_type)
+		print("Warning: No collision shape found for ", enemy_data.enemy_name)
 
 	# Set bullet speed and lifetime from the torpedo resource
 	if enemy_data.torpedo:
@@ -144,7 +142,7 @@ func sync_to_resource():
 		bullet_life = torpedo_scene.lifetime
 
 		# Initialize shield settings
-		shield.enemy_type = enemy_data.enemy_type
+		#shield.enemy_name = enemy_data.enemy_name
 		shield.scale = enemy_data.ship_shield_scale
 		
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=15 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
@@ -14,6 +14,10 @@
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="13_klvb2"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wg5l6"]
+atlas = ExtResource("6_54us1")
+region = Rect2(0, 288, 48, 48)
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 11
@@ -22,7 +26,7 @@ platform_wall_layers = 1
 script = ExtResource("1_w51pe")
 
 [node name="Muzzle" type="Node2D" parent="."]
-position = Vector2(0, -20)
+position = Vector2(0, -12)
 
 [node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
 
@@ -30,11 +34,16 @@ position = Vector2(0, -20)
 z_index = -1
 position = Vector2(0, -17)
 
+[node name="Line2D" parent="Laser" index="0"]
+position = Vector2(0, 5)
+points = PackedVector2Array(0, 0, 0, -3.53582, 0, -300)
+
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
 script = ExtResource("3_fns5h")
 
 [node name="PointLight2D_right" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(15.3867, 3.81054)
 scale = Vector2(0.0100817, 0.0153323)
 skew = -0.221657
@@ -45,6 +54,7 @@ texture_scale = 1.4
 height = 1.0
 
 [node name="PointLight2D_left" type="PointLight2D" parent="."]
+visible = false
 light_mask = 128
 visibility_layer = 128
 position = Vector2(-14.9856, 3.6067)
@@ -56,14 +66,12 @@ texture = ExtResource("4_xg1hi")
 texture_scale = 1.4
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 show_behind_parent = true
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("6_54us1")
-hframes = 8
-vframes = 7
-frame = 48
+texture = SubResource("AtlasTexture_wg5l6")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["player"]]
+visible = false
 collision_layer = 64
 collision_mask = 15
 

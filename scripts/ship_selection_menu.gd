@@ -17,37 +17,37 @@ var menu_state_machine: Node
 @export var num_rom:int
 @export var num_neut:int
 
+var ship_list: Dictionary = Utility.ship_sprites
+
 @export var ship_rss = {
-	"USS_Cerritos": preload("res://resources/California_class_enemy.tres"),
-	"EntTNG": preload("res://resources/enterpriseTNG_enemy.tres"),
+	"California-Class": preload("res://resources/California_class_enemy.tres"),
+	"Galaxy-Class": preload("res://resources/enterpriseTNG_enemy.tres"),
 	
-	"brel": preload("res://resources/BirdOfPrey_enemy.tres"),
+	"B'rel-Class": preload("res://resources/BirdOfPrey_enemy.tres"),
 	
 	"Monaveen": preload("res://resources/Monaveen_enemy.tres")
-	#"dvor": 
 }
 
 
 var fed_ships = {
-	"USS_Cerritos": Rect2(601, 1210, 301, 301),
-	"EntTNG": Rect2(1806, 0, 301, 301),
-	"Discovery": Rect2(1800, 1510, 301, 301)
+	"Galaxy-Class": ship_list["Galaxy-Class"],
+	"California-Class": ship_list["California-Class"],
+	"Cardenas-Class": ship_list["Cardenas-Class"]
 	}
 	
 var klin_ships = {
-	"brel": Rect2(303, 1508, 301, 301)
+	"B'rel-Class": ship_list["B'rel-Class"]
 	}
 	
 var rom_ships = {
-	"USS_Cerritos": Rect2(601, 1210, 301, 301),
+	"California-Class": ship_list["California-Class"]
 	}
 	
 var neut_ships = {
-	"Monaveen": Rect2(1204, 602, 301, 301),
-	"dvor": Rect2(301, 903, 301, 301)
+	"Monaveen": ship_list["Monaveen"],
+	"D'Kora Marauder": ship_list["D'Kora Marauder"]
 	}
 
-var ship_types = [fed_ships, klin_ships, rom_ships, neut_ships]
 var frame_textures = [federation_frame, klingon_frame, romulan_frame, neutral_frame]
 
 # Called when the node enters the scene tree for the first time.
@@ -81,9 +81,9 @@ func create_selection_frames(faction, i):
 	var ship_image = TextureRect.new()
 	var atlas_texture = AtlasTexture.new()
 	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
-	atlas_texture.region = Rect2(1204, 0, 301, 301) #Placeholder image
+	atlas_texture.region = ship_list["D5-Class"]
 	ship_image.texture = atlas_texture
-	ship_image.scale = Vector2(0.25, 0.25)
+	ship_image.scale = Vector2(1.55, 1.55)
 	ship_image.position = Vector2(11, 11)
 
 	# Ensure the ship image is behind the frame
@@ -97,34 +97,34 @@ func create_selection_frames(faction, i):
 			frame.texture_normal = federation_frame
 			frame.texture_hover = federation_frame_pressed
 			container.name = "Fed_Container_" + str(i + 1)
-			if i < ship_types[Utility.FACTION.FEDERATION].size():
-				atlas_texture.region = ship_types[Utility.FACTION.FEDERATION].values()[i]
-				frame.name = ship_types[Utility.FACTION.FEDERATION].keys()[i]
+			if i < fed_ships.size():
+				atlas_texture.region = fed_ships.values()[i]
+				frame.name = fed_ships.keys()[i]
 		Utility.FACTION.KLINGON:
 			%KlingonGrid.add_child(container)
 			frame.texture_normal = klingon_frame
 			frame.texture_hover = klingon_frame_pressed
 			container.name = "Klin_Container_" + str(i + 1)
-			if i < ship_types[Utility.FACTION.KLINGON].size():
-				atlas_texture.region = ship_types[Utility.FACTION.KLINGON].values()[i]
-				frame.name = ship_types[Utility.FACTION.KLINGON].keys()[i]
+			if i < klin_ships.size():
+				atlas_texture.region = klin_ships.values()[i]
+				frame.name = klin_ships.keys()[i]
 		Utility.FACTION.ROMULAN:
 			%RomulanGrid.add_child(container)
 			frame.texture_normal = romulan_frame
 			frame.texture_hover = romulan_frame_pressed
 			container.name = "Rom_Container_" + str(i + 1)
-			if i < ship_types[Utility.FACTION.ROMULAN].size():
-				atlas_texture.region = ship_types[Utility.FACTION.ROMULAN].values()[i]
-				frame.name = ship_types[Utility.FACTION.ROMULAN].keys()[i]
+			if i < rom_ships.size():
+				atlas_texture.region = rom_ships.values()[i]
+				frame.name = rom_ships.keys()[i]
 				
 		Utility.FACTION.NEUTRAL:
 			%NeutralGrid.add_child(container)
 			frame.texture_normal = neutral_frame
 			frame.texture_hover = neutral_frame_pressed
 			container.name = "Neut_Container_" + str(i + 1)
-			if i < ship_types[Utility.FACTION.NEUTRAL].size():
-				atlas_texture.region = ship_types[Utility.FACTION.NEUTRAL].values()[i]
-				frame.name = ship_types[Utility.FACTION.NEUTRAL].keys()[i]
+			if i < neut_ships.size():
+				atlas_texture.region = neut_ships.values()[i]
+				frame.name = neut_ships.keys()[i]
 		
 	container.add_child(ship_image)
 	container.add_child(frame)

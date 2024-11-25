@@ -62,6 +62,7 @@ func _ready():
 	GameSettings.maxSpeed = default_max_speed
 	SignalBus.player = self
 	shield = $playerShield
+	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
 
 func _process(delta):
 	if !alive: return

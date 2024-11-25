@@ -1,26 +1,25 @@
 [gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://35mhd3dwxeqw"]
 
-[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="1_kjn5q"]
+[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="1_bm8io"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="2_01fob"]
-[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_3ln3m"]
-[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_s04ph"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="2_6qgd3"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="3_54vjk"]
 
 [resource]
 script = ExtResource("2_01fob")
-enemy_type = 0
+enemy_name = 82
 class_size = 0
-class_faction = 1
+class_faction = 0
 ship_shield_scale = Vector2(1, 1)
 default_speed = 60
 rotation_rate = 3.0
 shield_on = true
 rate_of_fire = 1.0
-muzzle_pos = Vector2(0, -125)
+muzzle_pos = Vector2(0, -12)
 RANDOMNESS_ANGLE_DEGREES = 3.0
 detection_radius = 1200
 max_hp = 100
 max_shield_health = 50
-sprite_texture = ExtResource("3_3ln3m")
-frame_coords = Vector2(1, 5)
-torpedo = ExtResource("4_s04ph")
-collision_shape = ExtResource("1_kjn5q")
+sprite_texture = ExtResource("2_6qgd3")
+torpedo = ExtResource("3_54vjk")
+collision_shape = ExtResource("1_bm8io")
