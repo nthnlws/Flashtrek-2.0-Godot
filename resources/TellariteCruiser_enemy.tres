@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://bhw3m7rgpx1bj"]
+
+[ext_resource type="Shape2D" uid="uid://rttmltitkqt0" path="res://resources/Tallarite_cruisercollision.tres" id="1_sqcgo"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_isad7"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ldooq"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_2bydw"]
+
+[resource]
+script = ExtResource("2_isad7")
+enemy_type = 67
+class_size = 0
+class_faction = 3
+ship_shield_scale = Vector2(1, 1)
+default_speed = 60
+rotation_rate = 3.0
+shield_on = true
+rate_of_fire = 1.0
+muzzle_pos = Vector2(0, -12)
+RANDOMNESS_ANGLE_DEGREES = 3.0
+detection_radius = 1200
+max_hp = 100
+max_shield_health = 50
+sprite_texture = ExtResource("3_ldooq")
+torpedo = ExtResource("4_2bydw")
+collision_shape = ExtResource("1_sqcgo")

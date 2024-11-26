@@ -30,22 +30,22 @@ var ship_list: Dictionary = Utility.ship_sprites
 
 
 var fed_ships = {
-	"Galaxy-Class": ship_list["Galaxy-Class"],
-	"California-Class": ship_list["California-Class"],
-	"Cardenas-Class": ship_list["Cardenas-Class"]
+	Utility.SHIP_NAMES.Galaxy_Class: ship_list[Utility.SHIP_NAMES.Galaxy_Class],
+	Utility.SHIP_NAMES.California_Class: ship_list[Utility.SHIP_NAMES.California_Class],
+	Utility.SHIP_NAMES.Cardenas_Class: ship_list[Utility.SHIP_NAMES.Cardenas_Class]
 	}
 	
 var klin_ships = {
-	"B'rel-Class": ship_list["B'rel-Class"]
+	Utility.SHIP_NAMES.Brel_Class: ship_list[Utility.SHIP_NAMES.Brel_Class]
 	}
 	
 var rom_ships = {
-	"California-Class": ship_list["California-Class"]
+	Utility.SHIP_NAMES.California_Class: ship_list[Utility.SHIP_NAMES.California_Class]
 	}
 	
 var neut_ships = {
-	"Monaveen": ship_list["Monaveen"],
-	"D'Kora Marauder": ship_list["D'Kora Marauder"]
+	Utility.SHIP_NAMES.Monaveen: ship_list[Utility.SHIP_NAMES.Monaveen],
+	Utility.SHIP_NAMES.DKora_Marauder: ship_list[Utility.SHIP_NAMES.DKora_Marauder]
 	}
 
 var frame_textures = [federation_frame, klingon_frame, romulan_frame, neutral_frame]
@@ -81,7 +81,7 @@ func create_selection_frames(faction, i):
 	var ship_image = TextureRect.new()
 	var atlas_texture = AtlasTexture.new()
 	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
-	atlas_texture.region = ship_list["D5-Class"]
+	atlas_texture.region = ship_list[Utility.SHIP_NAMES.D5_Class]
 	ship_image.texture = atlas_texture
 	ship_image.scale = Vector2(1.55, 1.55)
 	ship_image.position = Vector2(11, 11)
@@ -99,7 +99,9 @@ func create_selection_frames(faction, i):
 			container.name = "Fed_Container_" + str(i + 1)
 			if i < fed_ships.size():
 				atlas_texture.region = fed_ships.values()[i]
-				frame.name = fed_ships.keys()[i]
+				var enum_key = fed_ships.keys()[i]
+				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
+				
 		Utility.FACTION.KLINGON:
 			%KlingonGrid.add_child(container)
 			frame.texture_normal = klingon_frame
@@ -107,7 +109,9 @@ func create_selection_frames(faction, i):
 			container.name = "Klin_Container_" + str(i + 1)
 			if i < klin_ships.size():
 				atlas_texture.region = klin_ships.values()[i]
-				frame.name = klin_ships.keys()[i]
+				var enum_key = klin_ships.keys()[i]
+				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
+				
 		Utility.FACTION.ROMULAN:
 			%RomulanGrid.add_child(container)
 			frame.texture_normal = romulan_frame
@@ -115,7 +119,8 @@ func create_selection_frames(faction, i):
 			container.name = "Rom_Container_" + str(i + 1)
 			if i < rom_ships.size():
 				atlas_texture.region = rom_ships.values()[i]
-				frame.name = rom_ships.keys()[i]
+				var enum_key = rom_ships.keys()[i]
+				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
 				
 		Utility.FACTION.NEUTRAL:
 			%NeutralGrid.add_child(container)
@@ -124,7 +129,8 @@ func create_selection_frames(faction, i):
 			container.name = "Neut_Container_" + str(i + 1)
 			if i < neut_ships.size():
 				atlas_texture.region = neut_ships.values()[i]
-				frame.name = neut_ships.keys()[i]
+				var enum_key = neut_ships.keys()[i]
+				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
 		
 	container.add_child(ship_image)
 	container.add_child(frame)

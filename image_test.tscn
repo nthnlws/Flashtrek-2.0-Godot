@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cwb40"]
 atlas = ExtResource("1_obega")
-region = Rect2(528, 192, 48, 48)
+region = Rect2(96, 240, 48, 48)
 
 [node name="ships" type="Sprite2D"]
 position = Vector2(356, 203)
@@ -16,7 +16,7 @@ script = ExtResource("1_dbt36")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(-10.25, -19.75, -7.75, -23.75, -7.5, -1.25, -4.25, -2.5, -3, -11.75, -0.5, -14.25, 2, -11.75, 3.5, -2.5, 6.5, -1.25, 6.75, -24.25, 9.5, -19.5, 9.25, -3.25, 14.5, -3.25, 14.25, 14, 10.75, 14.25, 10.25, 23.25, 8, 23.25, 3, 20.75, 2.75, 16.75, -3.5, 17, -3.5, 21, -9.25, 23.5, -11.5, 20.5, -11.25, 14.25, -15.5, 14, -15.25, -3.25, -10.5, -3.25)
+polygon = PackedVector2Array(-2.25, -23, 0.75, -23, 7.25, -18, 10.25, -12.5, 10.25, -7.5, 3.5, 10.5, 5.25, 14.25, 5.25, 20, 1, 22.75, -2, 22.75, -6.25, 20.25, -6.5, 14.25, -4.25, 11, -11, -7, -11, -12, -8.5, -17.75)
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(0, -21.75)

@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("2_01fob")
-enemy_name = 80
+enemy_type = 80
 class_size = 2
 class_faction = 3
 ship_shield_scale = Vector2(1, 1)

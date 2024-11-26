@@ -8,12 +8,10 @@ var counter:int = 0:
 		counter = clamp(value, 0, 91)
 
 
-
-
 func _ready():
 	var coords = mod_to_region(51)
 	counter = 51
-	print(coords)
+	#print(coords)
 	self.texture.region = coords
 	current_ship = ships.values()[0]
 	

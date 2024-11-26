@@ -7,8 +7,8 @@
 
 [resource]
 script = ExtResource("2_nxqf1")
-enemy_name = 3
-class_size = 0
+enemy_type = 3
+class_size = 1
 class_faction = 3
 ship_shield_scale = Vector2(1, 1)
 default_speed = 60

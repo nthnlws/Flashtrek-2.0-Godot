@@ -42,7 +42,16 @@ func _ready():
 	GameSettings.menuStatus = false
 	visible = false
 
+	populate_type_button()
 
+
+func populate_type_button():
+	var type_list = %TypeSetting
+	type_list.clear()
+	for name in Utility.SHIP_NAMES.keys():
+		type_list.add_item(name)
+	
+	
 #Header buttons
 func _on_close_menu_button_pressed():
 	Menus.toggle_menu(self, 0)
@@ -173,9 +182,8 @@ func _on_scale_setting_item_selected(index):
 			SignalBus.HUDchanged.emit(0.5)
 
 func _on_type_setting_item_selected(index):
-	var enemy_types = Utility.ENEMY_TYPE.values()
+	var enemy_types = game_data.SHIP_NAMES.values()
 	if index >= 0 and index < enemy_types.size():
-		print(enemy_types[index])
 		SignalBus.enemy_type_changed.emit(enemy_types[index])
 	else:
 		print("Error: Invalid enemy type index selected:", index)

@@ -23,7 +23,7 @@ points = PackedVector2Array(-4, -35, 4, -35, 10, -33, 13.5922, -29.4078, 17, -26
 
 [sub_resource type="Resource" id="Resource_t8qy3"]
 script = ExtResource("3_mmtcm")
-enemy_name = 0
+enemy_type = 0
 class_size = 0
 class_faction = 0
 ship_shield_scale = Vector2(1, 1)

@@ -91,19 +91,21 @@ func _physics_process(delta):
 	move_and_slide()
 
 func change_enemy_resource(ENEMY_TYPE):
+	#TODO Link to RSS File
 	match ENEMY_TYPE:
-		Utility.ENEMY_TYPE.BIRDOFPREY:
+		Utility.SHIP_NAMES.Brel_Class:
 			enemy_data = BIRD_OF_PREY_ENEMY
-		Utility.ENEMY_TYPE.ENTERPRISETOS:
-			enemy_data = ENTERPRISE_TOS_ENEMY
-		Utility.ENEMY_TYPE.JEM_HADAR:
+		Utility.SHIP_NAMES.JemHadar:
 			enemy_data = JEM_HADAR_ENEMY
-		Utility.ENEMY_TYPE.ENTERPRISETNG:
+		Utility.SHIP_NAMES.Galaxy_Class:
 			enemy_data = ENTERPRISE_TNG_ENEMY
-		Utility.ENEMY_TYPE.MONAVEEN:
+		Utility.SHIP_NAMES.Monaveen:
 			enemy_data = MONAVEEN_ENEMY
-		Utility.ENEMY_TYPE.CALIFORNIA:
+		Utility.SHIP_NAMES.California_Class:
 			enemy_data = CALIFORNIA_ENEMY
+		_:
+			enemy_data = BIRD_OF_PREY_ENEMY
+			print("Default RSS file used")
 	sync_to_resource()
 
 
@@ -116,10 +118,11 @@ func sync_to_resource():
 	hp_current = enemy_data.max_hp
 	shield_on = enemy_data.shield_on
 	rate_of_fire = enemy_data.rate_of_fire
+	muzzle.position = enemy_data.muzzle_pos
 	RANDOMNESS_ANGLE_DEGREES = enemy_data.RANDOMNESS_ANGLE_DEGREES
 
 
-	sprite.texture.region = Utility.ship_sprites.values()[enemy_data.enemy_name]
+	sprite.texture.region = Utility.ship_sprites.values()[enemy_data.enemy_type]
 	sprite.scale = enemy_data.sprite_scale
 	animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
 	
