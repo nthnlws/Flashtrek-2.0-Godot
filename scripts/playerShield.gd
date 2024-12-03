@@ -5,23 +5,30 @@ var damageTime:bool = false
 @export var regen_speed:float = 2.5
 
 @onready var trans_length:float = get_parent().trans_length
+@onready var parent:Player = get_parent()
 @onready var shield_area:Area2D = $shield_area
 
 # Player shield health variables
-const SP_MAX:int = 50
-var sp_current:float = SP_MAX:
+@export var base_max_SP:int = 150
+var max_SP:int = 150:
+	get:
+		return PlayerUpgrades.ShieldAdd + (base_max_SP * PlayerUpgrades.ShieldMult)
+		
+var sp_current:float = max_SP:
 	set(value):
-		sp_current = clamp(value, 0, SP_MAX)
+		sp_current = clamp(value, 0, max_SP)
 		SignalBus.playerShieldChanged.emit(sp_current)
 
 
 func _process(delta):
-	if shieldActive == true and sp_current <= SP_MAX and damageTime == false:
+	if sp_current <= 0: shieldDie()
+	
+	if shieldActive == true and sp_current <= max_SP and damageTime == false:
 		sp_current += regen_speed * delta
 	if get_parent().warping_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
-	if sp_current <= 0: shieldDie()
+	
 	
 	if GameSettings.playerShield != null:
 		if GameSettings.playerShield == false:
@@ -34,7 +41,8 @@ func _process(delta):
 			shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
 		
 
-func fadeout(speed): # Fades shield to 0 Alpha
+# Fades shield to 0 Alpha
+func fadeout(speed): # Speed = INSTANT or SMOOTH
 	match speed:
 		"INSTANT":
 			modulate.a = 0  # Instantly set alpha to 0
@@ -49,7 +57,9 @@ func fadeout(speed): # Fades shield to 0 Alpha
 			shield_area.set_monitorable.call_deferred(false)
 			shieldActive = false
 
-func fadein(speed): # Fades shield in to 255 Alpha
+
+# Fades shield in to 255 Alpha
+func fadein(speed): # Speed = INSTANT or SMOOTH
 	match speed:
 		"INSTANT":
 			modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
@@ -64,8 +74,8 @@ func fadein(speed): # Fades shield in to 255 Alpha
 			shield_area.set_monitorable.call_deferred(true)
 			shieldActive = true
 
-	
-func shieldDie(): #Instantly turns off shield when health goes to 0
+
+func shieldDie(): #Instantly turns off shield
 	shield_area.set_monitoring.call_deferred(false)
 	shield_area.set_monitorable.call_deferred(false)
 	self.visible = false
@@ -93,11 +103,17 @@ func damageTimeout(): #Turns off shield regen for 1 second after damage taken
 		damageTime = false
 	
 func _on_shield_area_entered(area): #Torpedo damage
-	if area.is_in_group("projectile") and area.shooter != "player":
+	if area.is_in_group("projectile") and area.shooter != "player" and shieldActive:
 		area.kill_projectile("shield")
+		
+		#Create damage indicator
+		var damage_taken = area.damage
+		
+		
 		if GameSettings.unlimitedHealth == false:
-			var damage_taken = area.damage
 			sp_current -= damage_taken
+			parent.create_damage_indicator(damage_taken, area.global_position)
+		else: parent.create_damage_indicator(0, area.global_position)
 		damageTimeout()
 	elif area.is_in_group("enemy"):
 		pass

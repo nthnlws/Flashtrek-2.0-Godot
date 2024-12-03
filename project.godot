@@ -22,10 +22,10 @@ config/windows_native_icon="res://assets/icons/icon_256.ico"
 
 GameSettings="*res://scripts/gameSettings.gd"
 SignalBus="*res://scripts/SignalBus.gd"
-MiniMapGlobal="*res://scripts/MiniMapGlobal.gd"
 DiscordManager="*res://scripts/DiscordManager.gd"
 LevelManager="*res://scripts/levelManager.gd"
 Utility="*res://utility.gd"
+PlayerUpgrades="*res://scripts/player_upgrades.gd"
 
 [debug]
 

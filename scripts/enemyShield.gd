@@ -3,7 +3,7 @@ extends Sprite2D
 
 enum ShieldDeathLength {TEMP, PERM}
 
-var enemy_type: int
+@onready var parent: Node = get_parent()
 
 var processing_active:bool = true
 var damageTime:bool = false # Timeout
@@ -37,8 +37,9 @@ func _process(delta):
 				visible = true
 				shield_area.collision_layer = 3
 				shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
-	
-func shieldDie(death_length): #Turns shield off when health goes to 0
+
+#Turns shield off when health goes to 0
+func shieldDie(death_length):  # ShieldDeathLength {TEMP, PERM}
 	shield_area.set_monitoring.call_deferred(false)
 	shield_area.set_monitorable.call_deferred(false)
 	self.visible = false
@@ -70,7 +71,11 @@ func _on_shield_area_entered(area): #Torpedo damage
 	if area.is_in_group("projectile") and area.shooter != "enemy":
 		area.kill_projectile("shield")
 		var damage_taken = area.damage
+		var hit_pos = area.global_position
 		sp_current -= damage_taken
 		damageTimeout()
+		if parent.has_method("create_damage_indicator"):
+			parent.create_damage_indicator(damage_taken, hit_pos)
+			
 	elif area.is_in_group("enemy"):
 		pass

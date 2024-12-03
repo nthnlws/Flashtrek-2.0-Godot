@@ -51,5 +51,5 @@ var collision_scale:float
 
 @export var sprite_texture: Texture = preload("res://assets/textures/ships/ship_sprites.png")
 
-@export var torpedo: PackedScene = preload("res://scenes/torpedo.tscn")
+@export var weapon: PackedScene = preload("res://scenes/torpedo.tscn")
 @export var collision_shape: ConvexPolygonShape2D

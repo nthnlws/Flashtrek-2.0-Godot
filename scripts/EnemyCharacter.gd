@@ -29,7 +29,8 @@ var bullet_speed: int
 var bullet_life: float
 var hp_max: int
 
-var torpedo: PackedScene
+@export var torpedo: PackedScene
+@export var damage_indicator: PackedScene
 
 #Enemy health variables
 var hp_current: float = 100.0
@@ -137,8 +138,8 @@ func sync_to_resource():
 		print("Warning: No collision shape found for ", enemy_data.enemy_name)
 
 	# Set bullet speed and lifetime from the torpedo resource
-	if enemy_data.torpedo:
-		torpedo = enemy_data.torpedo
+	if enemy_data.weapon:
+		torpedo = enemy_data.weapon
 	if torpedo:
 		var torpedo_scene = torpedo.instantiate()
 		bullet_speed = torpedo_scene.speed
@@ -146,7 +147,7 @@ func sync_to_resource():
 
 		# Initialize shield settings
 		#shield.enemy_name = enemy_data.enemy_name
-		shield.scale = enemy_data.ship_shield_scale
+		shield.scale = enemy_data.ship_shield_scale * enemy_data.sprite_scale
 		
 
 func setMovementState(delta):
@@ -204,12 +205,11 @@ func moveToTarget(targetName, targetPos, delta):
 func explode():
 	Utility.mainScene.enemies.erase(self)
 	SignalBus.enemyDied.emit(self)
+	shield.shieldDie(shield.ShieldDeathLength.PERM)
 	$Hitbox.monitoring = false
 	$AgroBox.monitoring = false
 	%ship_explosion.play()
 	alive = false
-	shield.visible = false
-	sprite.visible = false
 	animation.visible = true
 	animation.play("explode")
 	await animation.animation_finished
@@ -218,9 +218,21 @@ func explode():
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "enemy":
 		%TorpedoHit.play()
-		area.kill_projectile("hull")
+		area.kill_projectile("hull") # Kills projectile and sets explosion sprite type
+		
+		#Take Damage
 		var damage_taken = area.damage
 		hp_current -= damage_taken
+		
+		#Create hit marker
+		var hit_pos = area.global_position
+		create_damage_indicator(damage_taken, hit_pos)
+
+func create_damage_indicator(damage_taken, hit_pos):
+	var damage = damage_indicator.instantiate()
+	damage.find_child("Label").text = str(damage_taken)
+	damage.global_position = hit_pos
+	get_parent().add_child(damage)
 
 
 func predict_player_position():

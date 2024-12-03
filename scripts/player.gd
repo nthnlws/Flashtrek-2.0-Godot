@@ -6,9 +6,25 @@ signal died
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
 var acceleration:int= 5
-@export var default_max_speed:int = 500
-var max_speed:int = default_max_speed
-var rotation_speed:int = 150
+
+@export var damage_indicator: PackedScene
+
+@export var base_max_speed: int = 500
+var max_speed:int:
+	get:
+		return PlayerUpgrades.SpeedAdd + (base_max_speed * PlayerUpgrades.SpeedMult)
+
+@export var base_rotation_speed: int = 150
+var rotation_speed:int:
+	get:
+		return PlayerUpgrades.RotateAdd + (base_rotation_speed * PlayerUpgrades.RotateMult)
+
+@export var base_max_HP: int = 150
+var max_HP:int:
+	get:
+		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
+
+
 var trans_length:float = 0.8
 
 var warp_multiplier:float = 0.4
@@ -17,20 +33,23 @@ var warpm:float = 1.0
 var player_name = "USS Enterprise"
 
 #Health variables
-const HP_MAX:int = 100
-var hp_current:float = HP_MAX:
+var hp_current:float = max_HP:
 	set(value):
-		hp_current = clamp(value, 0, HP_MAX)
+		hp_current = clamp(value, 0, max_HP)
 		SignalBus.playerHealthChanged.emit(hp_current)
 
 #@export var shield_on:bool = true
 
 #Energy system variables
-const ENERGY_MAX:int = 150
-var energy_current:float = ENERGY_MAX:
+@export var base_max_energy: int = 150
+var max_energy:int:
+	get:
+		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
+		
+var energy_current:float = max_energy:
 	set(value):
-		energy_current = clamp(value, 0, ENERGY_MAX)
-		SignalBus.playerEnergyChanged.emit(energy_current)
+		var current = clamp(value, 0, max_energy)
+		SignalBus.playerEnergyChanged.emit(current)
 	
 @export var laser_drain_rate:float = 7.5
 @export var torpedo_drain:int = 10
@@ -58,8 +77,13 @@ func _ready():
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
-		
-	GameSettings.maxSpeed = default_max_speed
+
+
+	#Upgrade applications
+	rotation_speed = rotation_speed + PlayerUpgrades.RotateAdd + (rotation_speed * PlayerUpgrades.RotateMult)
+	max_speed = max_speed + PlayerUpgrades.SpeedAdd + (max_speed * PlayerUpgrades.SpeedMult)
+	
+	
 	SignalBus.player = self
 	shield = $playerShield
 	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
@@ -70,7 +94,7 @@ func _process(delta):
 	if GameSettings.speedOverride == true:
 		max_speed = GameSettings.maxSpeed
 	else:
-		max_speed = default_max_speed
+		max_speed = max_speed
 
 	# Movement check for idle audio
 	if abs(velocity.x)+abs(velocity.y)>100:
@@ -84,7 +108,7 @@ func _process(delta):
 			energy_current -= laser_drain_rate * delta
 		energyTimeout()
 	
-	if $Laser.laserClickState == false and energy_current < ENERGY_MAX and energyTime == false:
+	if $Laser.laserClickState == false and energy_current < max_energy and energyTime == false:
 		energy_current += energy_regen_speed * delta
 
 
@@ -203,13 +227,12 @@ func respawn(pos):
 		self.visible = true
 		
 		# Restores all HUD values to max
-		hp_current = HP_MAX #Resets HP
-		energy_current = ENERGY_MAX #Resets energy
+		hp_current = max_HP #Resets HP to max
+		energy_current = max_energy #Resets energy
 		shield.sp_current = shield.SP_MAX #Resets Shield
 	
 		rotation = 0 #Sets rotation to north
 		
-		shield.shieldActive = true
 		shield.shieldAlive()
 
 		shield.damageTime = false
@@ -219,9 +242,16 @@ func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and area.shooter != "player":
 		area.kill_projectile("hull")
 		%TorpedoHit.play()
+		
+		# Create damage indicator
+		var damage_taken = area.damage
+		
+		
 		if GameSettings.unlimitedHealth == false:
-			var damage_taken = area.damage
+			create_damage_indicator(damage_taken, area.global_position)
 			hp_current -= damage_taken
+		else: create_damage_indicator(0, area.global_position)
+		
 		if hp_current <= 0 and alive:
 			kill_player()
 	elif area.is_in_group("enemy"):
@@ -277,3 +307,9 @@ func idle_sound(active):
 
 #Weapons
 #TODO: Weapon sounds here
+
+func create_damage_indicator(damage_taken, hit_pos):
+	var damage = damage_indicator.instantiate()
+	damage.find_child("Label").text = str(damage_taken)
+	damage.global_position = hit_pos
+	get_parent().add_child(damage)

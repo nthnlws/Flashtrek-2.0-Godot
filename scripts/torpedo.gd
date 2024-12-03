@@ -13,8 +13,9 @@ var movement_vector := Vector2(0, -1)
 var lifetime:float = 7.5
 var age: float = 0.0
 
-@export var damage:int = 15
-	
+@export var base_damage:int = 15
+var damage:float = 0
+
 func _process(delta):
 	age += delta
 	if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
@@ -25,6 +26,12 @@ func _process(delta):
 		queue_free()
 
 func _ready():
+	# Calculates damage for weapon
+	if shooter == "player":
+		damage = PlayerUpgrades.DamageAdd + (base_damage * PlayerUpgrades.DamageMult)
+	elif shooter == "enemy":
+		damage = base_damage
+		
 	firingPoint = self.global_position
 	
 func _physics_process(delta):

@@ -47,9 +47,9 @@ func _on_shield_ready():
 
 
 func set_bar_maxes():
-	%HealthBar.max_value = player.HP_MAX
-	%ShieldBar.max_value = playerShield.SP_MAX
-	%EnergyBar.max_value = player.ENERGY_MAX
+	%HealthBar.max_value = player.max_HP
+	%ShieldBar.max_value = playerShield.max_SP
+	%EnergyBar.max_value = player.max_energy
 	%HealthBar.value = player.hp_current
 	%ShieldBar.value = playerShield.sp_current
 	%EnergyBar.value = player.energy_current
