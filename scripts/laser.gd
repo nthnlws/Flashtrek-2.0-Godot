@@ -1,11 +1,13 @@
 extends RayCast2D
 
+
 var laserClickState:bool= false # Bool to check input hold status
 var enemy_collision:bool = false # Bool to check if Raycast is hitting one of desired target areas
 var laserStatus:bool = false # Final variable created after switching laser on or off
 var cast_point:Vector2 # Coords of where Line2D will cast to, result of Raycast logic
 var cast_point_exact:Vector2 # Coords of exact collision for use in particles
 
+@onready var timer:Timer = $Timer
 @onready var ship_particles = $ship_particles
 @onready var collision_particles = $collision_particles
 @onready var hitbox = get_parent().get_node("Hitbox")
@@ -14,9 +16,21 @@ var cast_point_exact:Vector2 # Coords of exact collision for use in particles
 var shield_exception # Node to add and remove to exception list
 var collision_area # Global variable for HUD and debug
 
-@export var default_damage:int = 20
-var damage_rate:int = default_damage
+
+var accumulated_damage: float = 0
+@export var base_damage:int = 20
+var damage:float = 20:
+	get:
+		return PlayerUpgrades.DamageAdd + (base_damage * PlayerUpgrades.DamageMult)
+		
+
 @export var view_distance:int = 1200
+
+@export var base_energy_drain:float = 7.5
+var energy_drain: float = 7.5:
+	get:
+		return PlayerUpgrades.EnergyDrainAdd + (base_energy_drain * PlayerUpgrades.EnergyDrainMult)
+
 
 func _ready():
 	#Adds own player areas to exception list
@@ -24,7 +38,7 @@ func _ready():
 	add_exception(shield)
 	
 	GameSettings.laserRange = view_distance
-	GameSettings.laserDamage = default_damage
+	GameSettings.laserDamage = damage
 	$Line2D.visible = false
 	$Line2D.width = 0
 	$Line2D.points[1] = Vector2.ZERO
@@ -72,9 +86,9 @@ func _physics_process(delta):
 func _process(delta):
 	# Damage setting from Cheat Menu
 	if GameSettings.laserDamageOverride == true:
-		damage_rate = GameSettings.laserDamage
+		damage = GameSettings.laserDamage
 	else:
-		damage_rate = default_damage
+		damage = damage
 	
 	#Turns on laser if player is right clicking and not warping
 	if Input.is_action_just_pressed("right_click"):
@@ -107,7 +121,7 @@ func target_to_shield(collider, delta):
 	collision_particles.global_rotation = get_collision_normal().angle()
 	
 	if laserStatus == true:
-		collider.get_parent().sp_current -= damage_rate*delta
+		collider.get_parent().sp_current -= damage*delta
 	
 func target_to_hitbox(collider, delta):
 	enemy_collision = true
@@ -123,7 +137,8 @@ func target_to_hitbox(collider, delta):
 		remove_exception(shield_exception)
 	
 	if laserStatus == true:
-		collider.get_parent().hp_current -= damage_rate*delta
+		var frame_damage = damage*delta
+		collider.get_parent().hp_current -= frame_damage
 	
 	
 func laserOn():

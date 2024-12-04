@@ -8,6 +8,8 @@ var shooting_button_held:bool = false # Variable to check if fire button is curr
 var acceleration:int= 5
 
 @export var damage_indicator: PackedScene
+@export var torpedo_scene: PackedScene
+
 
 @export var base_max_speed: int = 500
 var max_speed:int:
@@ -44,15 +46,15 @@ var hp_current:float = max_HP:
 @export var base_max_energy: int = 150
 var max_energy:int:
 	get:
-		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
+		return PlayerUpgrades.MaxEnergyAdd + (base_max_energy * PlayerUpgrades.MaxEnergyMult)
 		
 var energy_current:float = max_energy:
 	set(value):
-		var current = clamp(value, 0, max_energy)
-		SignalBus.playerEnergyChanged.emit(current)
+		energy_current = clamp(value, 0, max_energy)
+		SignalBus.playerEnergyChanged.emit(energy_current)
 	
-@export var laser_drain_rate:float = 7.5
-@export var torpedo_drain:int = 10
+
+@onready var weapon_drain:int = torpedo_scene.instantiate().energy_drain
 
 var warping_active:bool = false
 var shield_active:bool = false
@@ -60,8 +62,7 @@ var energyTime:bool = false
 var warpTime:bool = false
 var energy_regen_speed:int = 10
 
-var shield
-var torpedo_scene = preload("res://scenes/torpedo.tscn")
+@onready var shield = $playerShield
 
 var shoot_cd:bool = false
 var rate_of_fire:float = 0.2
@@ -85,7 +86,6 @@ func _ready():
 	
 	
 	SignalBus.player = self
-	shield = $playerShield
 	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
 
 func _process(delta):
@@ -105,7 +105,7 @@ func _process(delta):
 	#Laser energy drain system
 	if $Laser.laserClickState == true:
 		if GameSettings.unlimitedEnergy == false:
-			energy_current -= laser_drain_rate * delta
+			energy_current -= %Laser.energy_drain * delta
 		energyTimeout()
 	
 	if $Laser.laserClickState == false and energy_current < max_energy and energyTime == false:
@@ -186,7 +186,7 @@ func warping_state_change(speed): # Reverses warping state
 
 	
 func shoot_torpedo():
-	if energy_current > torpedo_drain && warpTime == false:
+	if energy_current > weapon_drain && warpTime == false:
 		
 		var t = torpedo_scene.instantiate()
 		t.position = $Muzzle.global_position
@@ -195,7 +195,7 @@ func shoot_torpedo():
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(t)
 		if GameSettings.unlimitedEnergy == false:
-			energy_current -= torpedo_drain
+			energy_current -= weapon_drain
 
 
 func kill_player():
@@ -229,7 +229,7 @@ func respawn(pos):
 		# Restores all HUD values to max
 		hp_current = max_HP #Resets HP to max
 		energy_current = max_energy #Resets energy
-		shield.sp_current = shield.SP_MAX #Resets Shield
+		shield.sp_current = shield.max_SP #Resets Shield
 	
 		rotation = 0 #Sets rotation to north
 		

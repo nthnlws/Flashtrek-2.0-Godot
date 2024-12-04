@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=17 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/damage_marker.tscn" id="2_7odc1"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
 [ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="3_newiu"]
 [ext_resource type="Texture2D" uid="uid://lpoym58vtn8u" path="res://assets/textures/light.png" id="4_xg1hi"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
@@ -26,6 +27,7 @@ platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
 damage_indicator = ExtResource("2_7odc1")
+torpedo_scene = ExtResource("3_newiu")
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -12)
@@ -33,6 +35,7 @@ position = Vector2(0, -12)
 [node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
 
 [node name="Laser" parent="." groups=["player"] instance=ExtResource("2_vj0n8")]
+unique_name_in_owner = true
 z_index = -1
 position = Vector2(0, -17)
 

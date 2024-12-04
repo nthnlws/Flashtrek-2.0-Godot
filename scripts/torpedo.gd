@@ -5,6 +5,8 @@ class_name Projectile extends Area2D
 
 
 @export var speed:int = 1000
+@export var energy_drain:int = 10
+
 var moving: bool = true
 var firingPoint: Vector2
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
@@ -14,7 +16,9 @@ var lifetime:float = 7.5
 var age: float = 0.0
 
 @export var base_damage:int = 15
-var damage:float = 0
+var damage:float = 15:
+	get:
+		return PlayerUpgrades.DamageAdd + (base_damage * PlayerUpgrades.DamageMult)
 
 func _process(delta):
 	age += delta
