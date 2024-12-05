@@ -75,7 +75,7 @@ func _on_shield_area_entered(area): #Torpedo damage
 		sp_current -= damage_taken
 		damageTimeout()
 		if parent.has_method("create_damage_indicator"):
-			parent.create_damage_indicator(damage_taken, hit_pos)
+			parent.create_damage_indicator(damage_taken, hit_pos, Utility.damage_green)
 			
 	elif area.is_in_group("enemy"):
 		pass

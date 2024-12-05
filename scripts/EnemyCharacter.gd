@@ -206,6 +206,7 @@ func explode():
 	Utility.mainScene.enemies.erase(self)
 	SignalBus.enemyDied.emit(self)
 	shield.shieldDie(shield.ShieldDeathLength.PERM)
+	$Sprite2D.visible = false
 	$Hitbox.monitoring = false
 	$AgroBox.monitoring = false
 	%ship_explosion.play()
@@ -226,11 +227,11 @@ func _on_hitbox_area_entered(area):
 		
 		#Create hit marker
 		var hit_pos = area.global_position
-		create_damage_indicator(damage_taken, hit_pos)
+		create_damage_indicator(damage_taken, hit_pos, Utility.damage_green)
 
-func create_damage_indicator(damage_taken, hit_pos):
+func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	var damage = damage_indicator.instantiate()
-	damage.find_child("Label").text = str(damage_taken)
+	damage.find_child("Label").text = color + str(damage_taken)
 	damage.global_position = hit_pos
 	get_parent().add_child(damage)
 

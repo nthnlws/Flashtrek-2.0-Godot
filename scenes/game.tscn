@@ -101,7 +101,7 @@ collision_mask = 6
 [node name="Hostiles" type="Node2D" parent="Level"]
 
 [node name="EnemyCharacter" parent="Level/Hostiles" instance=ExtResource("6_t7mfc")]
-position = Vector2(1205, -3213)
+position = Vector2(847, -1985)
 
 [node name="Sun" type="Node2D" parent="Level"]
 position = Vector2(0, 7500)

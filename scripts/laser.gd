@@ -9,7 +9,6 @@ var laserStatus:bool = false # Final variable created after switching laser on o
 var cast_point_exact:Vector2 # Coords of exact collision for use in particles
 
 @onready var parent = get_parent()
-@onready var timer:Timer = $Timer
 @onready var ship_particles = $ship_particles
 @onready var collision_particles = $collision_particles
 
@@ -104,7 +103,7 @@ func _process(delta):
 		accumulated_damage += damage * delta
 		accumulated_time += delta
 		if accumulated_time > 0.5:
-			parent.create_damage_indicator(snappedf(accumulated_damage, 0.5), to_global(cast_point_exact))
+			parent.create_damage_indicator(snappedf(accumulated_damage, 0.5), to_global(cast_point_exact), Utility.damage_blue)
 			accumulated_damage = 0
 			accumulated_time = 0
 
@@ -121,7 +120,7 @@ func target_to_shield(collider, delta):
 	enemy_collision = true
 	
 	#Sets collision particle position and color
-	collision_particles.process_material.color = Color(0.5, 3.0, 6.0, 1.0) #Color to blue
+	collision_particles.process_material.color = Color(0.5, 1.0, 1.0, 1.0) #Color to blue
 	collision_particles.position = cast_point_exact
 	collision_particles.global_rotation = get_collision_normal().angle()
 	

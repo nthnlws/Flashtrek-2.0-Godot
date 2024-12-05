@@ -2,6 +2,8 @@ extends Control
 
 var menu_state_machine: Node
 
+@onready var ambience:AudioStreamPlayer = $ambience
+
 @export var federation_frame: CompressedTexture2D
 @export var klingon_frame: CompressedTexture2D
 @export var romulan_frame: CompressedTexture2D
@@ -20,10 +22,10 @@ var menu_state_machine: Node
 var ship_list: Dictionary = Utility.ship_sprites
 
 @export var ship_rss = {
-	"California-Class": preload("res://resources/California_class_enemy.tres"),
-	"Galaxy-Class": preload("res://resources/enterpriseTNG_enemy.tres"),
+	"California_Class": preload("res://resources/California_class_enemy.tres"),
+	"Galaxy_Class": preload("res://resources/enterpriseTNG_enemy.tres"),
 	
-	"B'rel-Class": preload("res://resources/BirdOfPrey_enemy.tres"),
+	"Brel_Class": preload("res://resources/BirdOfPrey_enemy.tres"),
 	
 	"Monaveen": preload("res://resources/Monaveen_enemy.tres")
 }
@@ -67,7 +69,32 @@ func _ready():
 		create_selection_frames(Utility.FACTION.ROMULAN, i)
 	for i in range(num_neut):
 		create_selection_frames(Utility.FACTION.NEUTRAL, i)
+		
 
+func _process(delta):
+	if visible == true:
+		if ambience.playing == false:
+			start_ambience()
+	else:
+		if ambience.playing: ambience.stop()
+		if %ship_name.text != "": clear_stats()
+		
+
+func clear_stats():
+		%ship_name.text = "Ship Name: "
+		%health_stat.text = "Health: "
+		%shield_stat.text = "Shield: "
+		%speed_stat.text = "Max Speed: "
+		%maneuver_stat.text = "Maneuverability: "
+		%faction.text = "Faction: "
+		
+func start_ambience():
+	ambience.volume_db = -25
+	ambience.play()
+	var tween = create_tween()
+	tween.tween_property(ambience, "volume_db", -20, 4.0)
+	
+	
 func create_selection_frames(faction, i):
 	# Create a container to group the frame and ship image
 	var container = Control.new()
@@ -134,17 +161,35 @@ func create_selection_frames(faction, i):
 		
 	container.add_child(ship_image)
 	container.add_child(frame)
-	
-	frame.mouse_entered.connect(update_ship_stats.bind(frame.name))
 
+	frame.mouse_entered.connect(update_ship_stats.bind(frame.name))
 
 func update_ship_stats(ship_name):
 	if ship_rss.has(ship_name):
-		var match_rss = ship_rss[ship_name]
+		var enemy_rss = ship_rss[ship_name]
+		%ship_name.text = "Ship Name: " + Utility.UI_ship_lime + ship_name.replace("_", " ")
+		%health_stat.text = "Health: " + str(enemy_rss.max_hp)
+		%shield_stat.text = "Shield: " + str(enemy_rss.max_shield_health)
+		%speed_stat.text = "Max Speed: " + str(enemy_rss.default_speed)
+		%maneuver_stat.text = "Maneuverability: " + str(enemy_rss.rotation_rate)
+		match enemy_rss.class_faction:
+			0: # Federation
+				%faction.text = "Faction: " + Utility.fed_blue + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
+			1: # Klingon
+				%faction.text = "Faction: " + Utility.klin_red + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
+			2: # Romulan
+				%faction.text = "Faction: " + Utility.rom_green + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
+			3: # Neutral
+				%faction.text = "Faction: " + Utility.neut_cyan + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
+		
 		
 	elif ship_name != "Placeholder":
-		print("No RSS file found")
-
+		%ship_name.text = "Ship Name: Placeholder"
+		%health_stat.text = "Health: Placeholder"
+		%shield_stat.text = "Shield: Placeholder"
+		%speed_stat.text = "Max Speed: Placeholder"
+		%maneuver_stat.text = "Maneuverability: Placeholder"
+		%faction.text = "Faction: Placeholder"
 
 func _on_close_menu_button_pressed():
 	self.visible = false

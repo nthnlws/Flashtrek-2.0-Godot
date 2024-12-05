@@ -112,8 +112,8 @@ func _on_shield_area_entered(area): #Torpedo damage
 		
 		if GameSettings.unlimitedHealth == false:
 			sp_current -= damage_taken
-			parent.create_damage_indicator(damage_taken, area.global_position)
-		else: parent.create_damage_indicator(0, area.global_position)
+			parent.create_damage_indicator(damage_taken, area.global_position, Utility.damage_red)
+		else: parent.create_damage_indicator(0, area.global_position, Utility.damage_red)
 		damageTimeout()
 	elif area.is_in_group("enemy"):
 		pass

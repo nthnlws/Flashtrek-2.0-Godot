@@ -192,6 +192,7 @@ func shoot_torpedo():
 		t.position = $Muzzle.global_position
 		t.rotation = self.rotation
 		t.shooter = "player"
+		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(t)
 		if GameSettings.unlimitedEnergy == false:
@@ -248,9 +249,9 @@ func _on_hitbox_area_entered(area):
 		
 		
 		if GameSettings.unlimitedHealth == false:
-			create_damage_indicator(damage_taken, area.global_position)
+			create_damage_indicator(damage_taken, area.global_position, Utility.damage_red)
 			hp_current -= damage_taken
-		else: create_damage_indicator(0, area.global_position)
+		else: create_damage_indicator(0, area.global_position, Utility.damage_red)
 		
 		if hp_current <= 0 and alive:
 			kill_player()
@@ -308,8 +309,8 @@ func idle_sound(active):
 #Weapons
 #TODO: Weapon sounds here
 
-func create_damage_indicator(damage_taken, hit_pos):
+func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	var damage = damage_indicator.instantiate()
-	damage.find_child("Label").text = str(damage_taken)
+	damage.find_child("Label").text = color + str(damage_taken)
 	damage.global_position = hit_pos
 	get_parent().add_child(damage)

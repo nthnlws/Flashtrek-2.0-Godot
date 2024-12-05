@@ -32,6 +32,8 @@ torpedo_scene = ExtResource("3_newiu")
 position = Vector2(0, -12)
 
 [node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
+regen_speed = null
+base_max_SP = null
 
 [node name="Laser" parent="." groups=["player"] instance=ExtResource("2_vj0n8")]
 unique_name_in_owner = true
@@ -96,6 +98,7 @@ bus = &"Characters"
 unique_name_in_owner = true
 stream = ExtResource("13_b4xtu")
 volume_db = -16.0
+pitch_scale = 1.09
 bus = &"Characters"
 
 [node name="TorpedoHit" type="AudioStreamPlayer" parent="Audio"]
