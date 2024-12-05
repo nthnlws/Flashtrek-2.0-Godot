@@ -1,23 +1,23 @@
 extends RayCast2D
 
+var accumulated_damage:float = 0
+var accumulated_time:float = 0
 
 var laserClickState:bool= false # Bool to check input hold status
 var enemy_collision:bool = false # Bool to check if Raycast is hitting one of desired target areas
 var laserStatus:bool = false # Final variable created after switching laser on or off
-var cast_point:Vector2 # Coords of where Line2D will cast to, result of Raycast logic
 var cast_point_exact:Vector2 # Coords of exact collision for use in particles
 
+@onready var parent = get_parent()
 @onready var timer:Timer = $Timer
 @onready var ship_particles = $ship_particles
 @onready var collision_particles = $collision_particles
-@onready var hitbox = get_parent().get_node("Hitbox")
-@onready var shield = get_parent().get_node("playerShield").get_node("shield_area")
 
 var shield_exception # Node to add and remove to exception list
 var collision_area # Global variable for HUD and debug
 
 
-var accumulated_damage: float = 0
+#var accumulated_damage: float = 0
 @export var base_damage:int = 20
 var damage:float = 20:
 	get:
@@ -34,11 +34,9 @@ var energy_drain: float = 7.5:
 
 func _ready():
 	#Adds own player areas to exception list
-	add_exception(hitbox)
-	add_exception(shield)
+	add_exception(get_parent().get_node("Hitbox"))
+	add_exception(get_parent().get_node("playerShield/shield_area"))
 	
-	GameSettings.laserRange = view_distance
-	GameSettings.laserDamage = damage
 	$Line2D.visible = false
 	$Line2D.width = 0
 	$Line2D.points[1] = Vector2.ZERO
@@ -63,25 +61,25 @@ func _physics_process(delta):
 			var target_shield = collider
 			shield_exception = collider
 			if target_shield.get_parent().shieldActive == true:
-				cast_point = to_local(get_collision_point())
-				cast_point_exact = cast_point
+				cast_point_exact = to_local(get_collision_point())
+				$Line2D.points[1] = cast_point_exact
 				target_to_shield(collider, delta)
 				laserOn()
 			elif target_shield.get_parent().shieldActive == false:
 				add_exception(target_shield)
 		elif collider.is_in_group("enemy_hitbox"):
-			cast_point = to_local(get_collision_point())
 			cast_point_exact = to_local(get_collision_point())
+			$Line2D.points[1] = cast_point_exact
 			target_to_hitbox(collider, delta)
 			laserOn()
 	else:
 		enemy_collision = false
 		laserOff()
-	$Line2D.points[1] = cast_point
+		
 	
 	#Particles for laser beam path
-	$laser_particles.position = cast_point * 0.5
-	$laser_particles.process_material.emission_box_extents.y = cast_point.length() * 0.5
+	$laser_particles.position = cast_point_exact * 0.5
+	$laser_particles.process_material.emission_box_extents.y = cast_point_exact.length() * 0.5
 	
 func _process(delta):
 	# Damage setting from Cheat Menu
@@ -92,7 +90,7 @@ func _process(delta):
 	
 	#Turns on laser if player is right clicking and not warping
 	if Input.is_action_just_pressed("right_click"):
-		if get_parent().warping_active == false && GameSettings.menuStatus == false:
+		if get_parent().warping_active == false and GameSettings.menuStatus == false:
 			laserClickState = true
 			ship_particles.emitting = true
 			
@@ -102,6 +100,13 @@ func _process(delta):
 		ship_particles.emitting = false
 		laserOff()
 
+	if laserStatus == true:
+		accumulated_damage += damage * delta
+		accumulated_time += delta
+		if accumulated_time > 0.5:
+			parent.create_damage_indicator(snappedf(accumulated_damage, 0.5), to_global(cast_point_exact))
+			accumulated_damage = 0
+			accumulated_time = 0
 
 	#Laser fizzle sound
 	if Input.is_action_just_pressed("right_click"):
@@ -142,7 +147,7 @@ func target_to_hitbox(collider, delta):
 	
 	
 func laserOn():
-	if laserClickState == true && enemy_collision == true && laserStatus == false:
+	if laserClickState == true and enemy_collision == true and laserStatus == false:
 		#Turns on collision particles on target contact point
 		collision_particles.emitting = true
 		

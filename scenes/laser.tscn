@@ -107,6 +107,3 @@ pitch_scale = 0.7
 stream = ExtResource("7_y5fda")
 volume_db = -30.0
 pitch_scale = 0.6
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
