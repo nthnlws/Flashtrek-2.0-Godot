@@ -168,10 +168,6 @@ letter_e={
 ]
 }
 
-[input_devices]
-
-pointing/android/enable_long_press_as_right_click=true
-
 [layer_names]
 
 2d_physics/layer_1="world"

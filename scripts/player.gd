@@ -28,7 +28,7 @@ var max_HP:int:
 
 
 var trans_length:float = 0.8
-
+var direction:Vector2 = Vector2(0, 0)
 var warp_multiplier:float = 0.4
 var warpm:float = 1.0
 
@@ -54,7 +54,10 @@ var energy_current:float = max_energy:
 		SignalBus.playerEnergyChanged.emit(energy_current)
 	
 
-@onready var weapon_drain:int = torpedo_scene.instantiate().energy_drain
+@onready var base_weapon_drain:float = torpedo_scene.instantiate().energy_drain
+var weapon_drain:float:
+	get:
+		return PlayerUpgrades.EnergyDrainAdd + (base_weapon_drain * PlayerUpgrades.EnergyDrainMult)
 
 var warping_active:bool = false
 var shield_active:bool = false
@@ -69,8 +72,12 @@ var rate_of_fire:float = 0.2
 
 var alive: bool = true
 
+func set_player_direction(joystick_direction):
+	direction = joystick_direction
+	
 func _ready():
 	# Signals
+	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.Quad1_clicked.connect(warping_state_change.bind("SMOOTH"))
 	SignalBus.teleport_player.connect(teleport)
 	
@@ -132,31 +139,38 @@ func _physics_process(delta):
 				await get_tree().create_timer(rate_of_fire).timeout
 				shoot_cd = false
 				
-	var input_vector := Vector2(0, Input.get_axis("move_forward", "move_backward"))
-	
-	velocity += input_vector.rotated(rotation) * acceleration / warpm
-	velocity = velocity.limit_length(max_speed/warpm)
-	
-	if Input.is_action_pressed("rotate_right"):
-		rotate(deg_to_rad(rotation_speed*delta*warpm))
-	if Input.is_action_pressed("rotate_left"):
-		rotate(deg_to_rad(-rotation_speed*delta*warpm))
-	
-	if input_vector.y == 0:
-		velocity = velocity.move_toward(Vector2.ZERO, 3)
-		
-		
-	#if OS.get_name() == "Android":
-		#var direction = GameSettings.playerDirection
-#
-		#if direction:
-			#velocity = direction * acceleration / warpm
-		#else:
-			#velocity = Vector2(0,0)
-	
+	handle_movement(delta)
+
 	move_and_slide()
 
+func handle_movement(delta):
+	# Check for keyboard input (Windows) and add to direction
+	if OS.get_name() == "Windows":
+		direction.y = Input.get_axis("move_forward", "move_backward")  # Forward/backward movement
 
+	# Add joystick direction for Android or hybrid control
+	#direction += direction
+	#print(direction)
+	# Apply forward/backward thrust logic
+	if direction.y != 0:
+		velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm
+		velocity = velocity.limit_length(max_speed/warpm)
+	else:
+		# Gradually slow down when no input
+		velocity = velocity.move_toward(Vector2.ZERO, 3)
+	
+	if direction.x !=0:
+		rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm))
+	
+	# Handle rotation for keyboard input
+	if OS.get_name() == "Windows":
+		if Input.is_action_pressed("rotate_right"):
+			rotate(deg_to_rad(rotation_speed * delta * warpm))
+		if Input.is_action_pressed("rotate_left"):
+			rotate(deg_to_rad(-rotation_speed * delta * warpm))
+
+	
+	
 func warping_state_change(speed): # Reverses warping state
 	if warping_active: # Transition to impulse
 		warpTimeout()

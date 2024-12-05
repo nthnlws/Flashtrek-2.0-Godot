@@ -14,8 +14,8 @@ var RotateMult: float = 1
 
 # Addition based stats
 var DamageAdd: float = 0
-var MaxEnergyAdd: float = 1
-var EnergyDrainAdd: float = 1
+var MaxEnergyAdd: float = 0
+var EnergyDrainAdd: float = 0
 
 var ShieldAdd: float = 0
 var HullAdd: float = 0

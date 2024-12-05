@@ -21,5 +21,5 @@ detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
 sprite_texture = ExtResource("3_swviw")
-torpedo = ExtResource("4_lwxsx")
+weapon = ExtResource("4_lwxsx")
 collision_shape = ExtResource("1_k15bf")

@@ -1,5 +1,6 @@
 class_name Projectile extends Area2D
 
+
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
@@ -42,13 +43,13 @@ func _physics_process(delta):
 	if moving:
 		global_position += movement_vector.rotated(rotation) * speed * delta
 
-func kill_projectile(target):
+func kill_projectile(target): # Creates explosion animation and kills self
+	$Sprite2D.visible = false
+	moving = false
 	if target == "shield":
 		animation.play("explode_shield")
 	elif target == "hull":
 		animation.play("explode_hull")
-	$Sprite2D.visible = false
-	moving = false
 	await animation.animation_finished
 	queue_free()
 	

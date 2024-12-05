@@ -128,7 +128,10 @@ position = Vector2(1110, 585)
 
 [node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
 visible = false
-position = Vector2(89, 469)
+offset_left = 89.0
+offset_top = 469.0
+offset_right = 89.0
+offset_bottom = 469.0
 
 [node name="Missions" parent="HUD_layer" instance=ExtResource("16_b2vtt")]
 

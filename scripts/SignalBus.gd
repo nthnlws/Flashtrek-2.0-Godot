@@ -21,6 +21,8 @@ signal Quad4_clicked
 signal Center_clicked
 signal HUDchanged(scale)
 
+signal joystickMoved(playerDirection)
+
 #Menus
 signal pause_menu_clicked
 signal credits_clicked

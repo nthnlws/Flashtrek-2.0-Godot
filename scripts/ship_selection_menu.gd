@@ -172,6 +172,7 @@ func update_ship_stats(ship_name):
 		%shield_stat.text = "Shield: " + str(enemy_rss.max_shield_health)
 		%speed_stat.text = "Max Speed: " + str(enemy_rss.default_speed)
 		%maneuver_stat.text = "Maneuverability: " + str(enemy_rss.rotation_rate)
+		%weapon.text = "Default Weapon: " + str(enemy_rss.weapon.resource_path.get_file().get_basename()).to_pascal_case()
 		match enemy_rss.class_faction:
 			0: # Federation
 				%faction.text = "Faction: " + Utility.fed_blue + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
@@ -190,6 +191,7 @@ func update_ship_stats(ship_name):
 		%speed_stat.text = "Max Speed: Placeholder"
 		%maneuver_stat.text = "Maneuverability: Placeholder"
 		%faction.text = "Faction: Placeholder"
+		%weapon.text = "Default Weapon: Placeholder"
 
 func _on_close_menu_button_pressed():
 	self.visible = false
