@@ -66,6 +66,7 @@ var warpTime:bool = false
 var energy_regen_speed:int = 10
 
 @onready var shield = $playerShield
+@onready var particles:GPUParticles2D = $WarpParticles
 
 var shoot_cd:bool = false
 var rate_of_fire:float = 0.2
@@ -78,7 +79,7 @@ func set_player_direction(joystick_direction):
 func _ready():
 	# Signals
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.Quad1_clicked.connect(warping_state_change.bind("SMOOTH"))
+	SignalBus.Quad1_clicked.connect(galaxy_travel)
 	SignalBus.teleport_player.connect(teleport)
 	
 	Utility.mainScene.player.append(self)
@@ -328,3 +329,11 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	damage.find_child("Label").text = color + str(damage_taken)
 	damage.global_position = hit_pos
 	get_parent().add_child(damage)
+
+func galaxy_travel():
+	particles.emitting = true
+	create_tween().tween_property(particles.process_material, "scale_min", 1.0, 2.0)
+	create_tween().tween_property(particles.process_material, "scale_max", 2.0, 2.0)
+	create_tween().tween_property(particles.process_material, "flatness", 0.0, 2.0)
+	create_tween().tween_property(particles, "amount_ratio", 1000, 2.0)
+	
