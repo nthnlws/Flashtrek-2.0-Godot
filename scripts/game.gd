@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var hud = $HUD_layer/HUD
 @onready var anim = %AnimationPlayer
+@onready var canvas_modulate = %CanvasModulate
 
 var enemies = []
 var levelWalls = []
@@ -27,6 +28,7 @@ func _init():
 	
 	
 func _ready():
+	SignalBus.Quad1_clicked.connect(fade_hud)
 	SignalBus.levelReset.connect(reset_arrays)
 	
 	if OS.get_name() == "Windows":
@@ -37,6 +39,10 @@ func _ready():
 	%ColorRect.visible
 	anim.play("fade_in")
 
+func fade_hud():
+	create_tween().tween_property(canvas_modulate, "color", Color(1, 1, 1, 0), 2)
+	
+	
 func load_menu_status():
 	if not FileAccess.file_exists("user://menuoptions.json"):
 		print("No save file found")

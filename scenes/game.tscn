@@ -118,6 +118,9 @@ offset_bottom = 469.0
 
 [node name="Missions" parent="HUD_layer" instance=ExtResource("16_b2vtt")]
 
+[node name="CanvasModulate" type="CanvasModulate" parent="HUD_layer"]
+unique_name_in_owner = true
+
 [node name="Menus" type="CanvasLayer" parent="."]
 script = ExtResource("14_nkpvs")
 

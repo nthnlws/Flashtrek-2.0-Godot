@@ -6,6 +6,7 @@ signal died
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
 var acceleration:int= 5
+var lock_controls:bool = false
 
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
@@ -67,6 +68,7 @@ var energy_regen_speed:int = 10
 
 @onready var shield = $playerShield
 @onready var particles:GPUParticles2D = $WarpParticles
+@onready var galaxy_warp_sound = %Galaxy_warp
 
 var shoot_cd:bool = false
 var rate_of_fire:float = 0.2
@@ -130,7 +132,8 @@ func _physics_process(delta):
 	if !alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("warp"):
-		warping_state_change("SMOOTH")
+		if lock_controls == false:
+			warping_state_change("SMOOTH")
 
 	if shooting_button_held:
 		if !shoot_cd:
@@ -145,30 +148,31 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_movement(delta):
+	if lock_controls == false:
 	# Check for keyboard input (Windows) and add to direction
-	if OS.get_name() == "Windows":
-		direction.y = Input.get_axis("move_forward", "move_backward")  # Forward/backward movement
+		if OS.get_name() == "Windows":
+			direction.y = Input.get_axis("move_forward", "move_backward")  # Forward/backward movement
 
-	# Add joystick direction for Android or hybrid control
-	#direction += direction
-	#print(direction)
-	# Apply forward/backward thrust logic
-	if direction.y != 0:
-		velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm
-		velocity = velocity.limit_length(max_speed/warpm)
-	else:
-		# Gradually slow down when no input
-		velocity = velocity.move_toward(Vector2.ZERO, 3)
-	
-	if direction.x !=0:
-		rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm))
-	
-	# Handle rotation for keyboard input
-	if OS.get_name() == "Windows":
-		if Input.is_action_pressed("rotate_right"):
-			rotate(deg_to_rad(rotation_speed * delta * warpm))
-		if Input.is_action_pressed("rotate_left"):
-			rotate(deg_to_rad(-rotation_speed * delta * warpm))
+		# Add joystick direction for Android or hybrid control
+		#direction += direction
+		#print(direction)
+		# Apply forward/backward thrust logic
+		if direction.y != 0:
+			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm
+			velocity = velocity.limit_length(max_speed/warpm)
+		else:
+			# Gradually slow down when no input
+			velocity = velocity.move_toward(Vector2.ZERO, 3)
+		
+		if direction.x !=0:
+			rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm))
+		
+		# Handle rotation for keyboard input
+		if OS.get_name() == "Windows":
+			if Input.is_action_pressed("rotate_right"):
+				rotate(deg_to_rad(rotation_speed * delta * warpm))
+			if Input.is_action_pressed("rotate_left"):
+				rotate(deg_to_rad(-rotation_speed * delta * warpm))
 
 	
 	
@@ -201,7 +205,7 @@ func warping_state_change(speed): # Reverses warping state
 
 	
 func shoot_torpedo():
-	if energy_current > weapon_drain && warpTime == false:
+	if energy_current > weapon_drain and warpTime == false and lock_controls == false:
 		
 		var t = torpedo_scene.instantiate()
 		t.position = $Muzzle.global_position
@@ -331,9 +335,31 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	get_parent().add_child(damage)
 
 func galaxy_travel():
-	particles.emitting = true
-	create_tween().tween_property(particles.process_material, "scale_min", 1.0, 2.0)
-	create_tween().tween_property(particles.process_material, "scale_max", 2.0, 2.0)
-	create_tween().tween_property(particles.process_material, "flatness", 0.0, 2.0)
-	create_tween().tween_property(particles, "amount_ratio", 1000, 2.0)
-	
+	if lock_controls == false:
+		lock_controls = true
+		galaxy_warp_sound.play()
+		await get_tree().create_timer(1.5).timeout
+		shield.fadeout("SMOOTH")
+		
+		await get_tree().create_timer(0.5).timeout # 2 sec
+		var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(self, "velocity", Vector2(0, -2500).rotated(rotation), 8.0)
+		
+		await get_tree().create_timer(0.5).timeout #2.5 sec
+		create_tween().tween_property(particles, "amount_ratio", 1.0, 8.0)
+		particles.emitting = true
+		
+		await get_tree().create_timer(3.0).timeout #5.5 sec
+		print("flat, scale")
+		create_tween().tween_property(particles.process_material, "flatness", 0.0, 5.0)
+		create_tween().tween_property(particles.process_material, "scale_min", 1.0, 3.5)
+		create_tween().tween_property(particles.process_material, "scale_max", 2.0, 3.5)
+		
+		await get_tree().create_timer(2.5).timeout #8 sec
+		var tween2 = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 5.0)
+		print("full warp")
+		await get_tree().create_timer(2.5).timeout #10 sec, velocity tween ends
+
+
+	#create_tween().tween_property(particles, "amount_ratio", 1.0, 2.0)
