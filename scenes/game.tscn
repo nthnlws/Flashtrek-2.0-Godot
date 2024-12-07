@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -20,58 +20,52 @@
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
 
-[sub_resource type="Animation" id="Animation_llleq"]
+[sub_resource type="Animation" id="Animation_ojdm1"]
+resource_name = "galaxy_warp_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ygbr8"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../transition_overlays/ColorRect:color")
+tracks/0/path = NodePath("ColorRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 1)]
+"values": [Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_w4od5"]
-resource_name = "fade_in"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../transition_overlays/ColorRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_7i6fp"]
-resource_name = "fade_out"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../transition_overlays/ColorRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2ionv"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2mtrh"]
 _data = {
-"RESET": SubResource("Animation_llleq"),
-"fade_in": SubResource("Animation_w4od5"),
-"fade_out": SubResource("Animation_7i6fp")
+"RESET": SubResource("Animation_ygbr8"),
+"galaxy_warp_fade": SubResource("Animation_ojdm1")
 }
 
 [node name="Game" type="Node2D"]
@@ -86,15 +80,16 @@ WallScene = ExtResource("4_60muw")
 [node name="Planets" parent="Level" instance=ExtResource("4_rjtw3")]
 
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
-z_index = -1
+z_index = 5
+position = Vector2(76, 17)
 
 [node name="PlayerSpawnArea" parent="Level" groups=["player_spawn_area"] instance=ExtResource("7_f44yg")]
 position = Vector2(1110, 585)
 collision_mask = 6
 
-[node name="Hostiles" parent="Level" instance=ExtResource("7_44k7l")]
-
 [node name="Sun" parent="Level" instance=ExtResource("9_2srcp")]
+
+[node name="Hostiles" parent="Level" instance=ExtResource("7_44k7l")]
 
 [node name="Player" parent="Level" instance=ExtResource("4_s6h4r")]
 unique_name_in_owner = true
@@ -137,10 +132,9 @@ visible = false
 [node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
 visible = false
 
-[node name="transition_overlays" type="CanvasLayer" parent="."]
+[node name="transition_overlay" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="transition_overlays"]
-unique_name_in_owner = true
+[node name="ColorRect" type="ColorRect" parent="transition_overlay"]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -150,11 +144,10 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="transition_overlays"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="transition_overlay"]
 unique_name_in_owner = true
-root_node = NodePath("../../HUD_layer")
 libraries = {
-"": SubResource("AnimationLibrary_2ionv")
+"": SubResource("AnimationLibrary_2mtrh")
 }
 
 [connection signal="ready" from="." to="." method="_on_ready"]

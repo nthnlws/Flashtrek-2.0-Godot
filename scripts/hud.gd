@@ -56,6 +56,6 @@ func set_bar_maxes():
 
 
 func _on_texture_rect_gui_input(event):
-	if event.is_action_pressed("left_click"):
+	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
 		SignalBus.pause_menu_clicked.emit()
 

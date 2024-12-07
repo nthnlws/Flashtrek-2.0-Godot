@@ -33,6 +33,9 @@ var wall_rotations = [
 ]
 
 func _ready():
+	SignalBus.Quad1_clicked.connect(fade_world_borders)
+	
+	
 	if GameSettings.borderToggle == true:
 		borderCoords = GameSettings.borderValue
 	else: borderCoords = defaultBorderCoords
@@ -50,6 +53,7 @@ func _ready():
 	for i in range(len(wall_positions)):
 		var wall_instance = WallScene.instantiate()
 		wall_instance.position = wall_positions[i]
+		wall_instance.add_to_group("borders")
 		wall_instance.rotation = wall_rotations[i]
 		wall_instance.name = wall_names[i]
 		wall_instance.scale = wall_scales[i]
@@ -92,3 +96,11 @@ func _on_collision_changed(toggle_status):
 		var wall = Utility.mainScene.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status
+
+
+func fade_world_borders():
+	for bord in get_tree().get_nodes_in_group("borders"):
+		bord.get_node("WorldBoundary").disabled = true
+		await get_tree().create_timer(0.3).timeout
+		if Utility.mainScene.in_galaxy_warp == true:
+			create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), 0.8)

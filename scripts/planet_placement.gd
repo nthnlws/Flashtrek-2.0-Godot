@@ -50,5 +50,5 @@ func get_valid_position() -> Vector2:
 
 func place_planet(position: Vector2, name: String):
 	var planet_instance = planet_scene.instantiate()
-	add_child(planet_instance)
 	planet_instance.position = position
+	add_child(planet_instance)

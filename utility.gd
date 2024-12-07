@@ -290,6 +290,7 @@ var ship_rss = {
 	"Nebula-Class": null
 }
 
+
 var mainScene:Node = null # Set by main scene on _init()
 
 # Colors

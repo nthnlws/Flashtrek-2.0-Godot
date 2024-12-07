@@ -6,7 +6,7 @@ signal died
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
 var acceleration:int= 5
-var lock_controls:bool = false
+
 
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
@@ -66,7 +66,10 @@ var energyTime:bool = false
 var warpTime:bool = false
 var energy_regen_speed:int = 10
 
-@onready var shield = $playerShield
+const WHITE_FLASH = preload("res://resources/white_flash.gdshader")
+@onready var timer:Timer = $regen_timer
+@onready var sprite:Sprite2D = $PlayerSprite
+@onready var shield:Sprite2D = $playerShield
 @onready var particles:GPUParticles2D = $WarpParticles
 @onready var galaxy_warp_sound = %Galaxy_warp
 
@@ -79,6 +82,7 @@ func set_player_direction(joystick_direction):
 	direction = joystick_direction
 	
 func _ready():
+	sprite.material.set("shader_parameter/flash_value", 0.0)
 	# Signals
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.Quad1_clicked.connect(galaxy_travel)
@@ -107,7 +111,7 @@ func _process(delta):
 		max_speed = max_speed
 
 	# Movement check for idle audio
-	if abs(velocity.x)+abs(velocity.y)>100:
+	if abs(velocity.x)+abs(velocity.y)>100 and Utility.mainScene.in_galaxy_warp:
 		idle_sound(true)
 	else:
 		idle_sound(false)
@@ -132,7 +136,7 @@ func _physics_process(delta):
 	if !alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("warp"):
-		if lock_controls == false:
+		if Utility.mainScene.in_galaxy_warp == false:
 			warping_state_change("SMOOTH")
 
 	if shooting_button_held:
@@ -148,7 +152,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_movement(delta):
-	if lock_controls == false:
+	if Utility.mainScene.in_galaxy_warp == false:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
 			direction.y = Input.get_axis("move_forward", "move_backward")  # Forward/backward movement
@@ -205,7 +209,7 @@ func warping_state_change(speed): # Reverses warping state
 
 	
 func shoot_torpedo():
-	if energy_current > weapon_drain and warpTime == false and lock_controls == false:
+	if energy_current > weapon_drain and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
 		
 		var t = torpedo_scene.instantiate()
 		t.position = $Muzzle.global_position
@@ -279,14 +283,14 @@ func _on_hitbox_area_entered(area):
 
 func energyTimeout(): #Turns off energy regen for 1 second after firing laser
 	energyTime = true
-	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
-		$Timer.stop()
-		$Timer.start()
-		await $Timer.timeout
+	if timer.is_stopped() == false: # If timer is already running, restarts timer fresh
+		timer.stop()
+		timer.start()
+		await timer.timeout
 		energyTime = false
-	if $Timer.is_stopped() == true: # Starts timer if it is not already
-		$Timer.start()
-		await $Timer.timeout
+	if timer.is_stopped() == true: # Starts timer if it is not already
+		timer.start()
+		await timer.timeout
 		energyTime = false
 	
 func warpTimeout(): #Turns off torpedo shooting for half of trans_length after leaving warp
@@ -335,8 +339,7 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	get_parent().add_child(damage)
 
 func galaxy_travel():
-	if lock_controls == false:
-		lock_controls = true
+	if Utility.mainScene.galaxy_warp_check():
 		galaxy_warp_sound.play()
 		await get_tree().create_timer(1.5).timeout
 		shield.fadeout("SMOOTH")
@@ -357,9 +360,24 @@ func galaxy_travel():
 		
 		await get_tree().create_timer(2.5).timeout #8 sec
 		var tween2 = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 5.0)
+		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 		print("full warp")
-		await get_tree().create_timer(2.5).timeout #10 sec, velocity tween ends
+		
+		await get_tree().create_timer(3.5).timeout #10 sec, velocity tween ends
+		create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
+		
+		await get_tree().create_timer(0.30).timeout
+		%warp_boom.play()
+		
+		await get_tree().create_timer(0.20).timeout
+		galaxy_warp_sound.stop()
+		sprite.material.set("shader_parameter/flash_value", 1.0)
+		$warp_anim.visible = true
+		$warp_anim.play("warp_collapse")
+		create_tween().tween_property(particles, "amount_ratio", 0.0, 2.0)
+		
+		await get_tree().create_timer(0.50).timeout
+		SignalBus.galaxy_warp_finished.emit()
 
 
 	#create_tween().tween_property(particles, "amount_ratio", 1.0, 2.0)
