@@ -1,18 +1,52 @@
 class_name Player extends CharacterBody2D
 
-signal torpedo_shot(torpedo)
+
 signal died
 
+var shoot_cd:bool = false
+var rate_of_fire:float = 0.2
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
-var acceleration:int= 5
+var alive: bool = true
 
+var warping_active:bool = false
+var shield_active:bool = false
+var energyTime:bool = false
+var warpTime:bool = false
+var energy_regen_speed:int = 10
 
+var trans_length:float = 0.8
+var direction:Vector2 = Vector2(0, 0)
+var warp_multiplier:float = 0.45
+var warpm:float = 1.0
+
+var player_name = "USS Enterprise"
+var animation_scale:Vector2 = Vector2(1, 1)
+
+const WHITE_FLASH = preload("res://resources/white_flash.gdshader")
+@onready var muzzle = $Muzzle
+@onready var timer:Timer = $regen_timer
+@onready var sprite:Sprite2D = $PlayerSprite
+@onready var shield:Sprite2D = $playerShield
+@onready var particles:GPUParticles2D = $WarpParticles
+@onready var galaxy_warp_sound = %Galaxy_warp
+@onready var animation = $AnimationPlayer
+
+#TEMPORARY RESOURCE LINKS
+@export var BIRD_OF_PREY_ENEMY: Resource
+@export var JEM_HADAR_ENEMY: Resource
+@export var ENTERPRISE_TNG_ENEMY: Resource
+@export var MONAVEEN_ENEMY: Resource
+@export var CALIFORNIA_ENEMY: Resource
+@export var KAPLAN_PLAYER: Resource
+
+@export var SHIP_SPRITES = preload("res://assets/textures/ships/ship_sprites.png")
+@export var enemy_data: Enemy # Default resource file for stats and sprite
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
 
-
-@export var base_max_speed: int = 500
+# Maneuverability variables
+@export var base_max_speed: int = 750
 var max_speed:int:
 	get:
 		return PlayerUpgrades.SpeedAdd + (base_max_speed * PlayerUpgrades.SpeedMult)
@@ -22,28 +56,26 @@ var rotation_speed:int:
 	get:
 		return PlayerUpgrades.RotateAdd + (base_rotation_speed * PlayerUpgrades.RotateMult)
 
+var base_acceleration:int= 5
+var acceleration:int:
+	get:
+		return PlayerUpgrades.AccelAdd + (base_acceleration * PlayerUpgrades.AccelMult)
+
+
+# Health variables
 @export var base_max_HP: int = 150
 var max_HP:int:
 	get:
 		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
-
-
-var trans_length:float = 0.8
-var direction:Vector2 = Vector2(0, 0)
-var warp_multiplier:float = 0.4
-var warpm:float = 1.0
-
-var player_name = "USS Enterprise"
-
-#Health variables
+		
 var hp_current:float = max_HP:
 	set(value):
 		hp_current = clamp(value, 0, max_HP)
 		SignalBus.playerHealthChanged.emit(hp_current)
 
-#@export var shield_on:bool = true
+@export var shield_on:bool = true
 
-#Energy system variables
+# Energy system variables
 @export var base_max_energy: int = 150
 var max_energy:int:
 	get:
@@ -60,48 +92,36 @@ var weapon_drain:float:
 	get:
 		return PlayerUpgrades.EnergyDrainAdd + (base_weapon_drain * PlayerUpgrades.EnergyDrainMult)
 
-var warping_active:bool = false
-var shield_active:bool = false
-var energyTime:bool = false
-var warpTime:bool = false
-var energy_regen_speed:int = 10
+# Cargo upgrade variables
+@export var base_cargo_size: int = 1:
+	get:
+		return enemy_data.max_cargo_size + PlayerUpgrades.CargoAdd
+var cargo_size:int = 0
 
-const WHITE_FLASH = preload("res://resources/white_flash.gdshader")
-@onready var timer:Timer = $regen_timer
-@onready var sprite:Sprite2D = $PlayerSprite
-@onready var shield:Sprite2D = $playerShield
-@onready var particles:GPUParticles2D = $WarpParticles
-@onready var galaxy_warp_sound = %Galaxy_warp
-
-var shoot_cd:bool = false
-var rate_of_fire:float = 0.2
-
-var alive: bool = true
 
 func set_player_direction(joystick_direction):
 	direction = joystick_direction
 	
 func _ready():
-	sprite.material.set("shader_parameter/flash_value", 0.0)
-	# Signals
+	# Signal setup
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.Quad1_clicked.connect(galaxy_travel)
 	SignalBus.teleport_player.connect(teleport)
 	
+	#Player external references
 	Utility.mainScene.player.append(self)
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
-
-
-	#Upgrade applications
-	rotation_speed = rotation_speed + PlayerUpgrades.RotateAdd + (rotation_speed * PlayerUpgrades.RotateMult)
-	max_speed = max_speed + PlayerUpgrades.SpeedAdd + (max_speed * PlayerUpgrades.SpeedMult)
+	
+	#animation_scale = animation.scale
+	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
 	
-	SignalBus.player = self
 	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
-
+	sync_to_resource()
+	
+	
 func _process(delta):
 	if !alive: return
 	
@@ -162,8 +182,10 @@ func handle_movement(delta):
 		#print(direction)
 		# Apply forward/backward thrust logic
 		if direction.y != 0:
+			print(acceleration / warpm)
 			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm
 			velocity = velocity.limit_length(max_speed/warpm)
+			print(velocity.limit_length(max_speed/warpm))
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
@@ -178,8 +200,57 @@ func handle_movement(delta):
 			if Input.is_action_pressed("rotate_left"):
 				rotate(deg_to_rad(-rotation_speed * delta * warpm))
 
+func change_enemy_resource(ENEMY_TYPE):
+	#TODO Link to RSS File
+	match ENEMY_TYPE:
+		Utility.SHIP_NAMES.Brel_Class:
+			enemy_data = BIRD_OF_PREY_ENEMY
+		Utility.SHIP_NAMES.JemHadar:
+			enemy_data = JEM_HADAR_ENEMY
+		Utility.SHIP_NAMES.Galaxy_Class:
+			enemy_data = ENTERPRISE_TNG_ENEMY
+		Utility.SHIP_NAMES.Monaveen:
+			enemy_data = MONAVEEN_ENEMY
+		Utility.SHIP_NAMES.California_Class:
+			enemy_data = CALIFORNIA_ENEMY
+		_:
+			enemy_data = BIRD_OF_PREY_ENEMY
+			print("Default RSS file used")
+	sync_to_resource()
 	
 	
+func sync_to_resource():
+	# Assign values from the resource
+	base_max_speed = enemy_data.default_speed #Speed
+	base_rotation_speed = enemy_data.rotation_rate
+	shield_on = enemy_data.shield_on
+	
+	shield.base_max_SP = enemy_data.max_shield_health # Health
+	base_max_HP = enemy_data.max_hp
+	hp_current = enemy_data.max_hp
+	
+	rate_of_fire = enemy_data.rate_of_fire # Weapons
+	muzzle.position = enemy_data.muzzle_pos
+
+	sprite.texture.region = Utility.ship_sprites.values()[enemy_data.enemy_type]
+	sprite.scale = enemy_data.sprite_scale
+	#animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
+
+
+	# Load the collision shape from the resource
+	if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
+		$Hitbox/CollisionShape2D2.shape = enemy_data.collision_shape
+		$WorldCollisionShape.shape = enemy_data.collision_shape
+		$Hitbox/CollisionShape2D2.scale = enemy_data.sprite_scale
+		$WorldCollisionShape.scale = enemy_data.sprite_scale
+	else:
+		print("Warning: No collision shape found for ", enemy_data.enemy_name)
+
+	# Initialize shield settings
+	#shield.enemy_name = enemy_data.enemy_name
+	shield.scale = enemy_data.ship_shield_scale * enemy_data.sprite_scale
+		
+		
 func warping_state_change(speed): # Reverses warping state
 	if warping_active: # Transition to impulse
 		warpTimeout()
@@ -212,7 +283,7 @@ func shoot_torpedo():
 	if energy_current > weapon_drain and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
 		
 		var t = torpedo_scene.instantiate()
-		t.position = $Muzzle.global_position
+		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.shooter = "player"
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)

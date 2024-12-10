@@ -1,15 +1,21 @@
-[gd_scene load_steps=45 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=51 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
+[ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/BirdOfPrey_enemy.tres" id="2_4ix78"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/damage_marker.tscn" id="2_7odc1"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
 [ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
+[ext_resource type="Resource" uid="uid://d24cbe3l6hkfj" path="res://resources/Jem_Hadar_enemy.tres" id="3_i75xj"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="3_newiu"]
+[ext_resource type="Resource" uid="uid://dbyrwmhbfunib" path="res://resources/enterpriseTNG_enemy.tres" id="4_bgcog"]
 [ext_resource type="Texture2D" uid="uid://cukwfy1ikknpy" path="res://assets/textures/ships/warpparticle.png" id="4_mse3f"]
+[ext_resource type="Resource" uid="uid://cxss5g0oh32uc" path="res://resources/Monaveen_enemy.tres" id="5_62fuk"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
+[ext_resource type="Resource" uid="uid://breh2tjl0qrqy" path="res://resources/California_class_enemy.tres" id="6_eu8n3"]
 [ext_resource type="AudioStream" uid="uid://n4xp0acsyiaj" path="res://assets/audio/warp_on.ogg" id="6_ihea4"]
+[ext_resource type="Resource" uid="uid://bw30k7ywbsi2k" path="res://resources/Kaplan_F17_enemy.tres" id="7_0rxlr"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
 [ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Kaplan_F17_collision.tres" id="7_b5xnp"]
 [ext_resource type="Shader" path="res://resources/white_flash.gdshader" id="8_e66fo"]
@@ -162,21 +168,6 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="Animation" id="Animation_27up3"]
-resource_name = "flash_anim"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../PlayerSprite:material:shader_parameter/flash_value")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(-0.1, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 0.0]
-}
-
 [sub_resource type="Animation" id="Animation_crmot"]
 length = 0.001
 tracks/0/type = "value"
@@ -192,6 +183,21 @@ tracks/0/keys = {
 "values": [1.0]
 }
 
+[sub_resource type="Animation" id="Animation_27up3"]
+resource_name = "flash_anim"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PlayerSprite:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gd61k"]
 _data = {
 "RESET": SubResource("Animation_crmot"),
@@ -204,6 +210,13 @@ collision_mask = 11
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
+BIRD_OF_PREY_ENEMY = ExtResource("2_4ix78")
+JEM_HADAR_ENEMY = ExtResource("3_i75xj")
+ENTERPRISE_TNG_ENEMY = ExtResource("4_bgcog")
+MONAVEEN_ENEMY = ExtResource("5_62fuk")
+CALIFORNIA_ENEMY = ExtResource("6_eu8n3")
+KAPLAN_PLAYER = ExtResource("7_0rxlr")
+enemy_data = ExtResource("7_0rxlr")
 damage_indicator = ExtResource("2_7odc1")
 torpedo_scene = ExtResource("3_newiu")
 

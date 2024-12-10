@@ -20,6 +20,21 @@
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
 
+[sub_resource type="Animation" id="Animation_ygbr8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_ojdm1"]
 resource_name = "galaxy_warp_fade"
 tracks/0/type = "value"
@@ -47,21 +62,6 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_ygbr8"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2mtrh"]
 _data = {
 "RESET": SubResource("Animation_ygbr8"),
@@ -80,7 +80,6 @@ WallScene = ExtResource("4_60muw")
 [node name="Planets" parent="Level" instance=ExtResource("4_rjtw3")]
 
 [node name="Starbase" parent="Level" instance=ExtResource("9_y1jbs")]
-z_index = 5
 position = Vector2(76, 17)
 
 [node name="PlayerSpawnArea" parent="Level" groups=["player_spawn_area"] instance=ExtResource("7_f44yg")]
@@ -93,7 +92,7 @@ collision_mask = 6
 
 [node name="Player" parent="Level" instance=ExtResource("4_s6h4r")]
 unique_name_in_owner = true
-z_index = 1
+z_index = 2
 position = Vector2(1110, 585)
 
 [node name="StarBackground" parent="." instance=ExtResource("10_mj5ek")]

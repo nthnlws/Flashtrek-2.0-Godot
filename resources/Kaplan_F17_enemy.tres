@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://bw30k7ywbsi2k"]
+
+[ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Kaplan_F17_collision.tres" id="1_muscy"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_tkorf"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ob1pp"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_rs2gc"]
+
+[resource]
+script = ExtResource("2_tkorf")
+enemy_type = 79
+class_size = 0
+class_faction = 3
+ship_shield_scale = Vector2(2.5, 2.5)
+default_speed = 700
+rotation_rate = 125.0
+shield_on = true
+rate_of_fire = 0.2
+muzzle_pos = Vector2(0, -20)
+RANDOMNESS_ANGLE_DEGREES = 0.0
+detection_radius = 0
+max_hp = 100
+max_shield_health = 50
+max_cargo_size = 1
+sprite_texture = ExtResource("3_ob1pp")
+weapon = ExtResource("4_rs2gc")
+collision_shape = ExtResource("1_muscy")

@@ -2,6 +2,7 @@ extends Control
 
 var current_mission: Dictionary = {}
 @onready var comms_message = $Comms_message
+@onready var player = Utility.mainScene.player[0]
 
 var button_array = []
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
@@ -102,13 +103,14 @@ func _ready():
 	# Mission text setup
 	var planet_node = Utility.mainScene.planets[0]
 	var detection_radius = planet_node.get_node("CommArea").get_node("CollisionShape2D")
-	ship_name = Utility.mainScene.player[0].player_name
+	ship_name = player.player_name
 	systems = Utility.mainScene.systems
 	comm_distance = detection_radius.shape.radius*planet_node.scale.x
 
 	# Initialize sound array
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
+
 
 func handle_button_click(event, button):
 	if event.is_action_pressed("left_click"):
@@ -123,7 +125,9 @@ func handle_button_click(event, button):
 	
 
 func set_dynamic_text():
-	if current_mission.is_empty():
+	print("Current cargo: " + str(player.cargo_size))
+	print("Max cargo: " + str(player.base_cargo_size))
+	if player.cargo_size + 1 <= player.base_cargo_size:
 		var data = {
 			"planet": "[color=#6699CC]" + current_planet + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
@@ -151,13 +155,13 @@ func toggle_comms():
 	if visible == true: visible = false
 	
 	# Only toggles on if within required distance
-	elif check_distance_to_planets(): # and Utility.mainScene.player[0].warping_active == false:
+	elif check_distance_to_planets() and player.warping_active == false:
 		randomize_mission()
 		set_dynamic_text()
 		self.visible = true
 
 func check_distance_to_planets() -> bool:
-	var player_position = Utility.mainScene.player[0].global_position
+	var player_position = player.global_position
 	# Iterate through the planets array
 	for planet in Utility.mainScene.planets:
 		if not planet:  # Ensure the planet node is valid
@@ -181,7 +185,7 @@ func randomize_mission():
 	random_confirm_query = confirmation_messages.pick_random()
 
 func accept_mission():
-	if visible and current_mission.is_empty():
+	if visible and player.cargo_size + 1 <= player.base_cargo_size:
 		# Update text to "accepted"
 		var data = {
 			"target_planet": "[color=#FFCC66]" + target_planet + "[/color]",
@@ -199,6 +203,8 @@ func accept_mission():
 		SignalBus.missionAccepted.emit(current_mission)
 		#await get_tree().create_timer(2.0).timeout
 		#visible = false
+		
+		player.cargo_size += 1
 
 func play_click_sound(): 
 	var sound_array_length = sound_array.size() - 1

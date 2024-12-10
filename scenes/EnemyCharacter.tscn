@@ -37,6 +37,7 @@ RANDOMNESS_ANGLE_DEGREES = 3.0
 detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
+max_cargo_size = 1
 sprite_texture = ExtResource("4_6blmh")
 weapon = ExtResource("5_gcgnf")
 collision_shape = SubResource("ConvexPolygonShape2D_5bqvl")

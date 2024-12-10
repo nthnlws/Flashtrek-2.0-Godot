@@ -9,7 +9,7 @@ var ShieldMult: float = 1
 var HullMult: float = 1
 var SpeedMult: float = 1
 var RotateMult: float = 1
-
+var AccelMult: float = 1
 
 
 # Addition based stats
@@ -21,3 +21,6 @@ var ShieldAdd: float = 0
 var HullAdd: float = 0
 var SpeedAdd: float = 0
 var RotateAdd: float = 0
+var AccelAdd: float = 0
+
+var CargoAdd: int = 0
