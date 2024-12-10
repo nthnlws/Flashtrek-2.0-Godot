@@ -220,6 +220,7 @@ func change_enemy_resource(ENEMY_TYPE):
 	
 	
 func sync_to_resource():
+	#TODO Have player variables automatically "Get:" from RSS file
 	# Assign values from the resource
 	base_max_speed = enemy_data.default_speed #Speed
 	base_rotation_speed = enemy_data.rotation_rate
@@ -430,6 +431,7 @@ func galaxy_travel():
 		create_tween().tween_property(particles.process_material, "scale_max", 2.0, 3.5)
 		
 		await get_tree().create_timer(2.5).timeout #8 sec
+		#TODO Check player speed, velocity is not 100% at time of warp or in impulse
 		var tween2 = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 		print("full warp")

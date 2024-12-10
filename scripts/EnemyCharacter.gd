@@ -83,6 +83,7 @@ func _process(delta):
 		explode()
 
 func _physics_process(delta):
+	#TODO Sync Player and Enemy speed stats to be compatible
 	if not AI_enabled or not visible or not GameSettings.enemyMovement or alive == false:
 		return
 	

@@ -59,10 +59,11 @@ func _on_close_menu_button_pressed():
 func _on_main_menu_button_pressed():
 	color_rect.z_index = 2
 	z_index = 0
-	anim.play("fade_out")
-	await anim.animation_finished
+	#anim.play("fade_out")
+	#await anim.animation_finished
+	#BUG No Fade Animation
 	SignalBus.levelReset.emit()
-	get_tree().change_scene_to_file("res://scenes/3DMenu.tscn")
+	get_tree().change_scene_to_file("res://scenes/3D_menu_scene.tscn")
 	
 func _on_close_game_button_pressed():
 	get_tree().quit()
