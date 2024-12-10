@@ -215,10 +215,11 @@ JEM_HADAR_ENEMY = ExtResource("3_i75xj")
 ENTERPRISE_TNG_ENEMY = ExtResource("4_bgcog")
 MONAVEEN_ENEMY = ExtResource("5_62fuk")
 CALIFORNIA_ENEMY = ExtResource("6_eu8n3")
-KAPLAN_PLAYER = ExtResource("7_0rxlr")
+KAPLAN_ENEMY = ExtResource("7_0rxlr")
 enemy_data = ExtResource("7_0rxlr")
 damage_indicator = ExtResource("2_7odc1")
 torpedo_scene = ExtResource("3_newiu")
+base_max_speed = 600
 
 [node name="WarpParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, -12)

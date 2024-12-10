@@ -4,6 +4,7 @@ extends Node
 var DamageMult: float = 1
 var MaxEnergyMult: float = 1
 var EnergyDrainMult: float = 1
+var FireRateMult: float = 1
 
 var ShieldMult: float = 1
 var HullMult: float = 1
@@ -16,6 +17,7 @@ var AccelMult: float = 1
 var DamageAdd: float = 0
 var MaxEnergyAdd: float = 0
 var EnergyDrainAdd: float = 0
+var FireRateAdd: float = 0
 
 var ShieldAdd: float = 0
 var HullAdd: float = 0

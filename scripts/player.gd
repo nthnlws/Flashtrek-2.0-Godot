@@ -4,7 +4,6 @@ class_name Player extends CharacterBody2D
 signal died
 
 var shoot_cd:bool = false
-var rate_of_fire:float = 0.2
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
 var alive: bool = true
@@ -38,7 +37,7 @@ const WHITE_FLASH = preload("res://resources/white_flash.gdshader")
 @export var ENTERPRISE_TNG_ENEMY: Resource
 @export var MONAVEEN_ENEMY: Resource
 @export var CALIFORNIA_ENEMY: Resource
-@export var KAPLAN_PLAYER: Resource
+@export var KAPLAN_ENEMY: Resource
 
 @export var SHIP_SPRITES = preload("res://assets/textures/ships/ship_sprites.png")
 @export var enemy_data: Enemy # Default resource file for stats and sprite
@@ -92,6 +91,11 @@ var weapon_drain:float:
 	get:
 		return PlayerUpgrades.EnergyDrainAdd + (base_weapon_drain * PlayerUpgrades.EnergyDrainMult)
 
+var base_rate_of_fire:float = 0.2
+var rate_of_fire:float:
+	get:
+		return PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult)
+		
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
 	get:
@@ -104,6 +108,7 @@ func set_player_direction(joystick_direction):
 	
 func _ready():
 	# Signal setup
+	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.Quad1_clicked.connect(galaxy_travel)
 	SignalBus.teleport_player.connect(teleport)
@@ -182,10 +187,8 @@ func handle_movement(delta):
 		#print(direction)
 		# Apply forward/backward thrust logic
 		if direction.y != 0:
-			print(acceleration / warpm)
 			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm
 			velocity = velocity.limit_length(max_speed/warpm)
-			print(velocity.limit_length(max_speed/warpm))
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
@@ -213,6 +216,8 @@ func change_enemy_resource(ENEMY_TYPE):
 			enemy_data = MONAVEEN_ENEMY
 		Utility.SHIP_NAMES.California_Class:
 			enemy_data = CALIFORNIA_ENEMY
+		Utility.SHIP_NAMES.La_Sirena:
+			enemy_data = KAPLAN_ENEMY
 		_:
 			enemy_data = BIRD_OF_PREY_ENEMY
 			print("Default RSS file used")
@@ -222,19 +227,20 @@ func change_enemy_resource(ENEMY_TYPE):
 func sync_to_resource():
 	#TODO Have player variables automatically "Get:" from RSS file
 	# Assign values from the resource
-	base_max_speed = enemy_data.default_speed #Speed
-	base_rotation_speed = enemy_data.rotation_rate
+	base_max_speed = enemy_data.default_speed * 10 #Speed
+	base_rotation_speed = enemy_data.rotation_rate * 50
 	shield_on = enemy_data.shield_on
 	
 	shield.base_max_SP = enemy_data.max_shield_health # Health
 	base_max_HP = enemy_data.max_hp
 	hp_current = enemy_data.max_hp
 	
-	rate_of_fire = enemy_data.rate_of_fire # Weapons
+	base_rate_of_fire = enemy_data.rate_of_fire / 5 # Weapons
 	muzzle.position = enemy_data.muzzle_pos
 
 	sprite.texture.region = Utility.ship_sprites.values()[enemy_data.enemy_type]
-	sprite.scale = enemy_data.sprite_scale
+	#sprite.scale = enemy_data.sprite_scale
+	#shield.scale = enemy_data.ship_shield_scale * enemy_data.sprite_scale
 	#animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
 
 
@@ -249,7 +255,6 @@ func sync_to_resource():
 
 	# Initialize shield settings
 	#shield.enemy_name = enemy_data.enemy_name
-	shield.scale = enemy_data.ship_shield_scale * enemy_data.sprite_scale
 		
 		
 func warping_state_change(speed): # Reverses warping state

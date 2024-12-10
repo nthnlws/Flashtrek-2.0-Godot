@@ -4,11 +4,11 @@ signal exploded(pos, size, points)
 signal player_collision(Area: Area2D)
 
 @export var BIRD_OF_PREY_ENEMY: Resource
-@export var ENTERPRISE_TOS_ENEMY: Resource
 @export var JEM_HADAR_ENEMY: Resource
 @export var ENTERPRISE_TNG_ENEMY: Resource
 @export var MONAVEEN_ENEMY: Resource
 @export var CALIFORNIA_ENEMY: Resource
+@export var KAPLAN_ENEMY: Resource
 
 @export var SHIP_SPRITES = preload("res://assets/textures/ships/ship_sprites.png")
 
@@ -63,7 +63,7 @@ func _init():
 	
 func _ready() -> void:
 	animation_scale = animation.scale
-	SignalBus.enemy_type_changed.connect(change_enemy_resource)
+	#SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	# Check if the resource is assigned
 	if enemy_data:
 		sync_to_resource()
@@ -105,6 +105,8 @@ func change_enemy_resource(ENEMY_TYPE):
 			enemy_data = MONAVEEN_ENEMY
 		Utility.SHIP_NAMES.California_Class:
 			enemy_data = CALIFORNIA_ENEMY
+		Utility.SHIP_NAMES.La_Sirena:
+			enemy_data = KAPLAN_ENEMY
 		_:
 			enemy_data = BIRD_OF_PREY_ENEMY
 			print("Default RSS file used")
