@@ -25,7 +25,8 @@ func handle_escape_press():
 	match current_state:
 		MenuState.NONE:
 			# No menus are open, open the pause menu
-			toggle_menu($PauseMenu, MenuState.PAUSE_MENU)
+			if Utility.mainScene.in_galaxy_warp == false:
+				toggle_menu($PauseMenu, MenuState.PAUSE_MENU)
 		MenuState.PAUSE_MENU:
 			# Pause menu is open, close it
 			toggle_menu($PauseMenu, MenuState.NONE)

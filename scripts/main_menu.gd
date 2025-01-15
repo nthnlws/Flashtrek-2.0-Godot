@@ -13,12 +13,9 @@ var sound_array_location:int = 0
 func _input(event):
 	if Input.is_action_just_pressed("escape"):
 		if %Credits.visible == true:
-			toggle_element(%Credits)
-			toggle_element(%TitleScreen)
+			_on_credits_closed()
 		if %Settings.visible == true:
-			anim.play("fade_in_short")
-			toggle_element(%Settings)
-			toggle_element(%TitleScreen)
+			_on_settings_closed()
 		#if %Cheats.visible:
 			#toggle_element(%Cheats)
 			#toggle_element(%TitleScreen)
@@ -97,6 +94,7 @@ func _on_settings_button_pressed():
 
 func _on_settings_closed():
 	play_click_sound(LOW)
+	anim.play("fade_in_short")
 	toggle_element(%TitleScreen)
 	toggle_element(%Settings)
 

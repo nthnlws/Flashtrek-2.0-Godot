@@ -222,7 +222,7 @@ torpedo_scene = ExtResource("3_newiu")
 base_max_speed = 600
 
 [node name="WarpParticles" type="GPUParticles2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(0, 19)
 emitting = false
 amount = 500
 amount_ratio = 0.01

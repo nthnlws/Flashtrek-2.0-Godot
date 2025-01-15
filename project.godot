@@ -26,6 +26,7 @@ DiscordManager="*res://scripts/DiscordManager.gd"
 LevelManager="*res://scripts/levelManager.gd"
 Utility="*res://utility.gd"
 PlayerUpgrades="*res://scripts/player_upgrades.gd"
+Console="*res://addons/console/console.gd"
 
 [debug]
 
@@ -47,7 +48,7 @@ movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/sprite_painter/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/sprite_painter/plugin.cfg")
 
 [import]
 

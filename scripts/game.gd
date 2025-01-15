@@ -2,8 +2,11 @@ extends Node2D
 
 @onready var hud = $HUD_layer/HUD
 @onready var anim = %AnimationPlayer
+@onready var VidModulate = %VidModulate
 @onready var canvas_modulate = %CanvasModulate
 @onready var player_node = %Player
+@onready var warp_video = %warp_video
+
 
 var in_galaxy_warp:bool = false
 
@@ -26,23 +29,25 @@ var score:int = 0:
 		score = value
 		hud.score = score
 
+func _process(delta):
+	print(VidModulate.color)
+	
 func _init():
 	Utility.mainScene = self
 	
 	
 func _ready():
+	# Signal Connections
 	SignalBus.galaxy_warp_finished.connect(fade_screen_out)
 	SignalBus.Quad1_clicked.connect(fade_hud)
 	SignalBus.levelReset.connect(reset_arrays)
 	
 	if OS.get_name() == "Windows":
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
-
-	score = 0
 	
-	#%ColorRect.visible
-	#anim.play("fade_in")
-#
+	anim.play("fade_in_long")
+	
+	score = 0
 
 func galaxy_warp_check() -> bool:
 	if (in_galaxy_warp == false and player_node.velocity.x > -25 and player_node.velocity.x < 25
@@ -52,7 +57,12 @@ func galaxy_warp_check() -> bool:
 
 
 func fade_screen_out():
-	anim.play("galaxy_warp_fade") 
+	anim.play("galaxy_travel_fade_out")
+	warp_video.play()
+	
+	await get_tree().create_timer(1.5).timeout
+	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 1), 4.0)
 	
 	
 func fade_hud():

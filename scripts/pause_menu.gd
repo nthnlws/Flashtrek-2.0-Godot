@@ -2,7 +2,7 @@ extends Control
 
 @onready var _bus := AudioServer.get_bus_index("Master")
 @onready var anim: AnimationPlayer = $"../../transition_overlay/AnimationPlayer"
-@onready var color_rect: ColorRect = $"../../transition_overlay/ColorRect"
+@onready var color_rect: ColorRect = $"../../transition_overlay/FadeAnimation"
 @onready var Menus = $".."
 
 # Backing variables

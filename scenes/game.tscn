@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=29 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -20,27 +20,12 @@
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
 
-[sub_resource type="Animation" id="Animation_ygbr8"]
+[sub_resource type="Animation" id="Animation_2b4ug"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_ojdm1"]
-resource_name = "galaxy_warp_fade"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:visible")
+tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -52,21 +37,171 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ColorRect:modulate")
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0pgod"]
+resource_name = "fade_in_long"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2mtrh"]
-_data = {
-"RESET": SubResource("Animation_ygbr8"),
-"galaxy_warp_fade": SubResource("Animation_ojdm1")
+[sub_resource type="Animation" id="Animation_arcv3"]
+resource_name = "fade_in_short"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_d1ssx"]
+resource_name = "fade_in_video"
+length = 2.0
+
+[sub_resource type="Animation" id="Animation_7aag7"]
+resource_name = "fade_out_long"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_oc86j"]
+resource_name = "fade_out_short"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lmvo2"]
+resource_name = "galaxy_travel_fade_out"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2hu8d"]
+_data = {
+"RESET": SubResource("Animation_2b4ug"),
+"fade_in_long": SubResource("Animation_0pgod"),
+"fade_in_short": SubResource("Animation_arcv3"),
+"fade_in_video": SubResource("Animation_d1ssx"),
+"fade_out_long": SubResource("Animation_7aag7"),
+"fade_out_short": SubResource("Animation_oc86j"),
+"galaxy_travel_fade_out": SubResource("Animation_lmvo2")
+}
+
+[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_1xcu0"]
+file = "res://assets/video/warp_video long.ogv"
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ci0lx")
@@ -133,21 +268,35 @@ visible = false
 
 [node name="transition_overlay" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="transition_overlay"]
-visible = false
+[node name="FadeAnimation" type="ColorRect" parent="transition_overlay"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="transition_overlay"]
 unique_name_in_owner = true
+root_node = NodePath("../FadeAnimation")
 libraries = {
-"": SubResource("AnimationLibrary_2mtrh")
+"": SubResource("AnimationLibrary_2hu8d")
 }
+
+[node name="Video_layer" type="CanvasLayer" parent="."]
+
+[node name="warp_video" type="VideoStreamPlayer" parent="Video_layer"]
+unique_name_in_owner = true
+offset_right = 960.0
+offset_bottom = 544.0
+mouse_filter = 2
+stream = SubResource("VideoStreamTheora_1xcu0")
+loop = true
+
+[node name="VidModulate" type="CanvasModulate" parent="Video_layer"]
+unique_name_in_owner = true
+color = Color(1, 1, 1, 0)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

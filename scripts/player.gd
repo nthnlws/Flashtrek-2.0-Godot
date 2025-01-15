@@ -443,6 +443,7 @@ func galaxy_travel():
 		
 		await get_tree().create_timer(3.5).timeout #10 sec, velocity tween ends
 		create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
+		create_tween().tween_property(particles, "amount_ratio", 0.0, 2.5)
 		
 		await get_tree().create_timer(0.30).timeout
 		%warp_boom.play()
@@ -452,10 +453,6 @@ func galaxy_travel():
 		sprite.material.set("shader_parameter/flash_value", 1.0)
 		$warp_anim.visible = true
 		$warp_anim.play("warp_collapse")
-		create_tween().tween_property(particles, "amount_ratio", 0.0, 2.0)
 		
-		await get_tree().create_timer(0.50).timeout
+		
 		SignalBus.galaxy_warp_finished.emit()
-
-
-	#create_tween().tween_property(particles, "amount_ratio", 1.0, 2.0)
