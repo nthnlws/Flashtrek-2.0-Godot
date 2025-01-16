@@ -82,11 +82,14 @@ func _process(delta):
 
 func clear_stats():
 		%ship_name.text = "Ship Name: "
+		%faction.text = "Faction: "
 		%health_stat.text = "Health: "
 		%shield_stat.text = "Shield: "
+		%weapon.text = "Default Weapon: "
 		%speed_stat.text = "Max Speed: "
 		%maneuver_stat.text = "Maneuverability: "
-		%faction.text = "Faction: "
+		%antimatter_stat.text = "Antimatter: "
+		
 		
 func start_ambience():
 	ambience.volume_db = -25
@@ -170,9 +173,9 @@ func update_ship_stats(ship_name):
 		%ship_name.text = "Ship Name: " + Utility.UI_ship_lime + ship_name.replace("_", " ")
 		%health_stat.text = "Health: " + str(enemy_rss.max_hp)
 		%shield_stat.text = "Shield: " + str(enemy_rss.max_shield_health)
+		%weapon.text = "Default Weapon: " + str(enemy_rss.weapon.resource_path.get_file().get_basename()).to_pascal_case()
 		%speed_stat.text = "Max Speed: " + str(enemy_rss.default_speed)
 		%maneuver_stat.text = "Maneuverability: " + str(enemy_rss.rotation_rate)
-		%weapon.text = "Default Weapon: " + str(enemy_rss.weapon.resource_path.get_file().get_basename()).to_pascal_case()
 		match enemy_rss.class_faction:
 			0: # Federation
 				%faction.text = "Faction: " + Utility.fed_blue + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
@@ -182,16 +185,17 @@ func update_ship_stats(ship_name):
 				%faction.text = "Faction: " + Utility.rom_green + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
 			3: # Neutral
 				%faction.text = "Faction: " + Utility.neut_cyan + str(Utility.FACTION.keys()[enemy_rss.class_faction]).to_pascal_case()
-		
+		%antimatter_stat.text = "Antimatter: " + str(enemy_rss.max_antimatter)
 		
 	elif ship_name != "Placeholder":
 		%ship_name.text = "Ship Name: Placeholder"
+		%faction.text = "Faction: Placeholder"
 		%health_stat.text = "Health: Placeholder"
 		%shield_stat.text = "Shield: Placeholder"
+		%weapon.text = "Default Weapon: Placeholder"
 		%speed_stat.text = "Max Speed: Placeholder"
 		%maneuver_stat.text = "Maneuverability: Placeholder"
-		%faction.text = "Faction: Placeholder"
-		%weapon.text = "Default Weapon: Placeholder"
+		%antimatter_stat.text = "Antimatter: Placeholder"
 
 func _on_close_menu_button_pressed():
 	self.visible = false

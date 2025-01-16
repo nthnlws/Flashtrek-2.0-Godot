@@ -100,7 +100,12 @@ var rate_of_fire:float:
 @export var base_cargo_size: int = 1:
 	get:
 		return enemy_data.max_cargo_size + PlayerUpgrades.CargoAdd
-var cargo_size:int = 0
+var current_cargo:int = 0
+
+@export var ship_antimatter: int = 100:
+	get:
+		return PlayerUpgrades.AntimatterAdd + (enemy_data.max_antimatter * PlayerUpgrades.AntimatterMult)
+var current_antimatter:int = 0
 
 
 func set_player_direction(joystick_direction):
@@ -122,6 +127,7 @@ func _ready():
 	#animation_scale = animation.scale
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
+	current_antimatter = ship_antimatter
 	
 	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
 	sync_to_resource()

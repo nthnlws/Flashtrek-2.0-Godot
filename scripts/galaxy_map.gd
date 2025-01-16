@@ -13,6 +13,9 @@ var sound_array_location:int = 0
 
 
 func _ready():
+	if get_tree().current_scene.name == "GalaxyMap":
+		$MarginContainer/closeMenuButton.visible = false
+		
 	SignalBus.missionAccepted.connect(_update_mission)
 	
 	area_array = get_tree().get_nodes_in_group("map_node")

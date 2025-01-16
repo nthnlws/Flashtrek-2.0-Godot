@@ -12,6 +12,8 @@ var SpeedMult: float = 1
 var RotateMult: float = 1
 var AccelMult: float = 1
 
+var AntimatterMult: int = 1
+
 
 # Addition based stats
 var DamageAdd: float = 0
@@ -26,3 +28,4 @@ var RotateAdd: float = 0
 var AccelAdd: float = 0
 
 var CargoAdd: int = 0
+var AntimatterAdd: int = 0

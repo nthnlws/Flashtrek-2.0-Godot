@@ -204,4 +204,4 @@ func accept_mission():
 		#await get_tree().create_timer(2.0).timeout
 		#visible = false
 		
-		player.cargo_size += 1
+		player.current_cargo += 1
