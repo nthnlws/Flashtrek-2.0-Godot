@@ -303,7 +303,7 @@ const damage_green: String = "[center][color=#46e065]"
 const damage_blue: String = "[color=#80b9ff]"
 const fed_blue: String = "[color=#3984BE]"
 const rom_green: String = "[color=#009301]"
-const klin_red: String = "[color=#F0552C]"
+const klin_red: String = "[color=#FF2A2A]"
 const neut_cyan: String = "[color=#78D9C2]"
 
 

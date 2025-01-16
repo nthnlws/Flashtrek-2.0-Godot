@@ -30,6 +30,7 @@ const WHITE_FLASH = preload("res://resources/white_flash.gdshader")
 @onready var particles:GPUParticles2D = $WarpParticles
 @onready var galaxy_warp_sound = %Galaxy_warp
 @onready var animation = $AnimationPlayer
+@onready var camera = $Camera2D
 
 #TEMPORARY RESOURCE LINKS
 @export var BIRD_OF_PREY_ENEMY: Resource
@@ -431,9 +432,13 @@ func galaxy_travel():
 		var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 		tween.tween_property(self, "velocity", Vector2(0, -2500).rotated(rotation), 8.0)
 		
-		await get_tree().create_timer(0.5).timeout #2.5 sec
+		
+		await get_tree().create_timer(1.0).timeout #2.5 sec
 		create_tween().tween_property(particles, "amount_ratio", 1.0, 8.0)
 		particles.emitting = true
+		
+		#Camera Zoom out
+		create_tween().tween_property(camera, "zoom", Vector2(0.3, 0.3), trans_length/warp_multiplier*3)
 		
 		await get_tree().create_timer(3.0).timeout #5.5 sec
 		print("flat, scale")

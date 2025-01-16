@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cx1bafifkl17x"]
+[gd_scene load_steps=7 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
 [ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
 [ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/UI/WorldMap.png" id="2_etsr6"]
+[ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/destination_indicator.tscn" id="2_rvfec"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
@@ -17,6 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_n1dvt")
+red_circle = ExtResource("2_rvfec")
 
 [node name="mapBackground" type="Sprite2D" parent="."]
 position = Vector2(512, 512)
@@ -263,6 +265,22 @@ theme_override_fonts/normal_font = ExtResource("4_v4uvs")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "Current mission: [color=#FFCC66]None[/color]"
+scroll_active = false
+autowrap_mode = 2
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="destination_message" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 12.0
+offset_right = 446.0
+offset_bottom = 34.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Current destination: [color=#FFCC66]None[/color]"
 scroll_active = false
 autowrap_mode = 2
 shortcut_keys_enabled = false

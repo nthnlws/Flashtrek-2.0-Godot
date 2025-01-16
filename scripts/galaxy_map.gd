@@ -1,7 +1,10 @@
 extends Control
 
 @onready var mission_message = $mission_message
+@onready var destination_message = $destination_message
 @onready var Menus = $".."
+
+@export var red_circle: PackedScene
 
 var area_array = []
 
@@ -34,16 +37,58 @@ func _gui_input(event):
 			if is_point_in_collision_shape(clicked_position, area_child):
 				get_viewport().set_input_as_handled()
 				SignalBus.galaxy_map_clicked.emit(area.name)
+				update_map_destination(area, area.name)
 				Utility.mainScene.play_click_sound(0)
 				return
 				
 
+func update_map_destination(system:Area2D, system_name:String):
+	for red in get_tree().get_nodes_in_group("indicator_mark"):
+		red.queue_free()
+	var indicator = red_circle.instantiate()
+	indicator.add_to_group("indicator_mark")
+	system.add_child(indicator)
+	
+	var tween = create_tween()
+	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
+	tween.tween_property(indicator, "scale", Vector2(1.0, 1.0), 1.0)
+	tween.set_loops()
+	
+	match system_name:
+		"Kronos":
+			var destination_text = "Current destination: " + Utility.klin_red + system.name + "[/color]"
+			destination_message.bbcode_text = destination_text
+		"Solarus":
+			var destination_text = "Current destination: " + Utility.fed_blue + system.name + "[/color]"
+			destination_message.bbcode_text = destination_text
+		"Romulus":
+			var destination_text = "Current destination: " + Utility.rom_green + system.name + "[/color]"
+			destination_message.bbcode_text = destination_text
+		_:
+			var destination_text = "Current destination: [color=#FFCC66]" + system.name + "[/color]"
+			destination_message.bbcode_text = destination_text
+	
 func _update_mission(current_mission: Dictionary):
+	var system_name:String = current_mission.get("target_system", "Unknown")
+	print(system_name)
 	if current_mission.is_empty():
 		mission_message.bbcode_text = "Current Mission: None"
 	else:
-		var mission_text = "Current Mission: [color=#FFCC66]" + current_mission.get("target_system", "Unknown") + "[/color]"
-		mission_message.bbcode_text = mission_text
+		match system_name:
+			"Kronos":
+				var destination_text = "Current destination: " + Utility.klin_red + system_name + "[/color]"
+				print("system_name: " + system_name)
+				print("destination_text: " + destination_text)
+				mission_message.bbcode_text = destination_text
+			"Solarus":
+				var destination_text = "Current destination: " + Utility.fed_blue + system_name + "[/color]"
+				mission_message.bbcode_text = destination_text
+			"Romulus":
+				var destination_text = "Current destination: " + Utility.rom_green + system_name + "[/color]"
+				mission_message.bbcode_text = destination_text
+			_:
+				var destination_text = "Current destination: [color=#FFCC66]" + system_name + "[/color]"
+				mission_message.bbcode_text = destination_text
 	
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
 	# Get the CircleShape2D from the CollisionShape2D
@@ -66,3 +111,5 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 func _on_close_menu_button_pressed():
 	Menus.toggle_menu(self, 0)
+	for red in get_tree().get_nodes_in_group("indicator_mark"):
+		red.queue_free()

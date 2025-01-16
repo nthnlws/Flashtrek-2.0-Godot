@@ -34,7 +34,7 @@ point_count = 2
 curve = SubResource("Curve_p5fwl")
 
 [sub_resource type="Gradient" id="Gradient_sdlsd"]
-offsets = PackedFloat32Array(0.400966, 1)
+offsets = PackedFloat32Array(0.338164, 1)
 colors = PackedColorArray(0.610075, 0.766952, 0.999999, 1, 0.776723, 0.797925, 0.488551, 0.584314)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_iucyo"]
