@@ -1,13 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://nr3ksi6mj4h8"]
+[gd_scene load_steps=6 format=3 uid="uid://nr3ksi6mj4h8"]
 
 [ext_resource type="Texture2D" uid="uid://c8u8gecdegfsb" path="res://assets/textures/UI/Comms_menu.png" id="1_m5mxc"]
 [ext_resource type="Script" path="res://scripts/comms_IU.gd" id="1_u5bv0"]
 [ext_resource type="BitMap" uid="uid://r1q582krg3ol" path="res://assets/textures/UI/Comms_close_mask.png" id="3_mrlvj"]
 [ext_resource type="BitMap" uid="uid://53udfmxj0v4f" path="res://assets/textures/UI/comms_reroll_mask.png" id="4_ehn2o"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="5_1daiq"]
-[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="6_0hsgc"]
-[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="7_7hdk2"]
-[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="8_necf8"]
 
 [node name="Comms_UI" type="Control"]
 layout_mode = 3
@@ -67,23 +64,3 @@ scroll_active = false
 autowrap_mode = 2
 shortcut_keys_enabled = false
 drag_and_drop_selection_enabled = false
-
-[node name="Node" type="Node" parent="."]
-
-[node name="Click01" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
-stream = ExtResource("6_0hsgc")
-volume_db = -18.0
-mix_target = 2
-max_polyphony = 2
-
-[node name="Click02" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
-stream = ExtResource("7_7hdk2")
-volume_db = -23.0
-mix_target = 2
-max_polyphony = 2
-
-[node name="Click03" type="AudioStreamPlayer" parent="Node" groups=["click_sound"]]
-stream = ExtResource("8_necf8")
-volume_db = -27.0
-mix_target = 2
-max_polyphony = 2

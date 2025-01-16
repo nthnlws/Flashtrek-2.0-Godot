@@ -115,12 +115,12 @@ func _ready():
 func handle_button_click(event, button):
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
-			play_click_sound()
+			Utility.mainScene.play_click_sound(0)
 			if current_mission.is_empty():
 				randomize_mission()
 				set_dynamic_text()
 		elif button.name == "close_button":
-			play_click_sound()
+			Utility.mainScene.play_click_sound(0)
 			toggle_comms()
 	
 
@@ -205,16 +205,3 @@ func accept_mission():
 		#visible = false
 		
 		player.cargo_size += 1
-
-func play_click_sound(): 
-	var sound_array_length = sound_array.size() - 1
-	var default_db = sound_array[sound_array_location].volume_db
-	
-	match sound_array_location:
-		sound_array_length: # When location in array = array size, shuffle array and reset location
-			sound_array[sound_array_location].play()
-			sound_array.shuffle()
-			sound_array_location = 0
-		_: # Runs for all array values besides last
-			sound_array[sound_array_location].play()
-			sound_array_location += 1

@@ -54,9 +54,11 @@ func populate_type_button():
 	
 #Header buttons
 func _on_close_menu_button_pressed():
+	Utility.mainScene.play_click_sound(4)
 	Menus.toggle_menu(self, 0)
 	
 func _on_main_menu_button_pressed():
+	Utility.mainScene.play_click_sound(4)
 	color_rect.z_index = 2
 	z_index = 0
 	#anim.play("fade_out")
@@ -66,6 +68,7 @@ func _on_main_menu_button_pressed():
 	get_tree().change_scene_to_file("res://scenes/3D_menu_scene.tscn")
 	
 func _on_close_game_button_pressed():
+	Utility.mainScene.play_click_sound(4)
 	get_tree().quit()
 
 # Cheats Column

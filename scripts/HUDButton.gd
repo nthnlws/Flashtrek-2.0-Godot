@@ -31,7 +31,7 @@ func handle_button_click(event, button):
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")
-			play_click_sound(LOW)
+			Utility.mainScene.play_click_sound(0)
 		else: print("No button signal found")
 
 func manual_scale(new_scale):
@@ -42,22 +42,3 @@ func manual_scale(new_scale):
 func scale_HUD_button(new_scale): # Scales entire Control node, not used
 	scale = Vector2(new_scale, new_scale)
 	
-	
-func play_click_sound(volume): 
-	if Utility.mainScene.galaxy_warp_check() == false:
-		var sound_array_length = sound_array.size() - 1
-		var default_db = sound_array[sound_array_location].volume_db
-		var effective_volume = default_db / volume
-		
-		match sound_array_location:
-			sound_array_length: # When location in array = array size, shuffle array and reset location
-				#sound_array[sound_array_location].volume_db = effective_volume
-				sound_array[sound_array_location].play()
-				#sound_array[sound_array_location].volume_db = default_db
-				sound_array.shuffle()
-				sound_array_location = 0
-			_: # Runs for all array values besides last
-				#sound_array[sound_array_location].volume_db = effective_volume
-				sound_array[sound_array_location].play()
-				#sound_array[sound_array_location].volume_db = default_db
-				sound_array_location += 1

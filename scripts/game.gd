@@ -7,6 +7,11 @@ extends Node2D
 @onready var player_node = %Player
 @onready var warp_video = %warp_video
 
+# Click button sound variables
+var sound_array:Array = [] # Contains all nodes in group "click_sound"
+var sound_array_location:int = 0
+const HIGH:float = 2.0
+const LOW:float = 0.5
 
 var in_galaxy_warp:bool = false
 
@@ -29,9 +34,7 @@ var score:int = 0:
 		score = value
 		hud.score = score
 
-func _process(delta):
-	print(VidModulate.color)
-	
+
 func _init():
 	Utility.mainScene = self
 	
@@ -46,6 +49,9 @@ func _ready():
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
 	
 	anim.play("fade_in_long")
+	
+	sound_array = get_tree().get_nodes_in_group("click_sound")
+	sound_array.shuffle()
 	
 	score = 0
 
@@ -63,6 +69,9 @@ func fade_screen_out():
 	await get_tree().create_timer(1.5).timeout
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 1), 4.0)
+	
+	await get_tree().create_timer(4.0).timeout
+	get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
 	
 	
 func fade_hud():
@@ -93,3 +102,25 @@ func reset_arrays():
 	levelWalls.clear()
 	planets.clear()
 	suns.clear()
+
+func play_click_sound(volume): 
+	var sound_array_length = sound_array.size() - 1
+
+	match sound_array_location:
+		sound_array_length: # When location in array = array size, shuffle array and reset location
+			var default_db = sound_array[sound_array_location].volume_db
+			var effective_volume = default_db + volume
+			sound_array[sound_array_location].set_volume_db(effective_volume)
+			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
+			sound_array[sound_array_location].play()
+			sound_array[sound_array_location].set_volume_db(default_db)
+			sound_array.shuffle()
+			sound_array_location = 0
+		_: # Runs for all array values besides last
+			var default_db = sound_array[sound_array_location].volume_db
+			var effective_volume = default_db + volume
+			sound_array[sound_array_location].set_volume_db(effective_volume)
+			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
+			sound_array[sound_array_location].play()
+			sound_array[sound_array_location].set_volume_db(default_db)
+			sound_array_location += 1

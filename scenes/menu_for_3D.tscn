@@ -312,27 +312,6 @@ size_flags_vertical = 10
 text = "V 0.0.05"
 vertical_alignment = 2
 
-[node name="Click01" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
-stream = ExtResource("3_l56bv")
-volume_db = -10.0
-mix_target = 2
-max_polyphony = 2
-bus = &"UI"
-
-[node name="Click02" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
-stream = ExtResource("4_4t5ou")
-volume_db = -15.0
-mix_target = 2
-max_polyphony = 2
-bus = &"UI"
-
-[node name="Click03" type="AudioStreamPlayer" parent="TitleScreen" groups=["click_sound"]]
-stream = ExtResource("5_amflk")
-volume_db = -20.0
-mix_target = 2
-max_polyphony = 2
-bus = &"UI"
-
 [node name="Credits" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -1381,6 +1360,26 @@ root_node = NodePath("../FadeAnimation")
 libraries = {
 "": SubResource("AnimationLibrary_eo4tg")
 }
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Click01" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+stream = ExtResource("3_l56bv")
+volume_db = -5.0
+mix_target = 2
+max_polyphony = 2
+
+[node name="Click02" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+stream = ExtResource("4_4t5ou")
+volume_db = -13.5
+mix_target = 2
+max_polyphony = 2
+
+[node name="Click03" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+stream = ExtResource("5_amflk")
+volume_db = -20.0
+mix_target = 2
+max_polyphony = 2
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
