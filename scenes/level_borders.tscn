@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk5rb0wdhnfkm"]
+
+[ext_resource type="Script" path="res://scripts/room_walls.gd" id="1_vhoqo"]
+[ext_resource type="PackedScene" uid="uid://lp3n1ckd77bd" path="res://scenes/border_wall.tscn" id="2_4p01l"]
+
+[node name="levelBorders" type="Node2D"]
+script = ExtResource("1_vhoqo")
+WallScene = ExtResource("2_4p01l")

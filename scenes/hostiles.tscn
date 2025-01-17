@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://ckljagn7r5mq7"]
 
-[ext_resource type="Script" path="res://scenes/hostile_spawner.gd" id="1_tx10j"]
+[ext_resource type="Script" path="res://scripts/hostile_spawner.gd" id="1_pc7fr"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="2_j472e"]
 
 [node name="Hostiles" type="Node2D"]
-script = ExtResource("1_tx10j")
+script = ExtResource("1_pc7fr")
 enemy_scene = ExtResource("2_j472e")

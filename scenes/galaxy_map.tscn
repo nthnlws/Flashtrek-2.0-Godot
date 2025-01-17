@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cx1bafifkl17x"]
+[gd_scene load_steps=9 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
 [ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
 [ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/UI/WorldMap.png" id="2_etsr6"]
 [ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/destination_indicator.tscn" id="2_rvfec"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
+[ext_resource type="Texture2D" uid="uid://b8v3fih8sqfnw" path="res://assets/textures/UI/full_button.png" id="6_1r5fl"]
+[ext_resource type="BitMap" uid="uid://b1a4bmxr7t24t" path="res://assets/textures/UI/warp_button_mask.png" id="7_xtw53"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
 radius = 6.0
@@ -32,157 +34,157 @@ texture = ExtResource("2_etsr6")
 [node name="Systems" type="Node2D" parent="."]
 
 [node name="Solarus" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(186, 409)
+position = Vector2(185.845, 408.445)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Solarus"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="Kronos" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(622, 86)
+position = Vector2(621.86, 86.21)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Kronos"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="Romulus" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(755, 424)
+position = Vector2(755.2, 424.055)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Romulus"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="1" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(83, 65)
+position = Vector2(83.19, 64.665)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/1"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="2" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(165, 91)
+position = Vector2(165.08, 90.63)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/2"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="3" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(59, 135)
+position = Vector2(59.485, 135.115)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/3"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="4" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(184, 193)
+position = Vector2(183.335, 193.405)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/4"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="5" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(71, 222)
+position = Vector2(70.815, 222)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/5"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="6" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(210, 292)
+position = Vector2(210.28, 291.455)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/6"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="7" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(97, 418)
+position = Vector2(96.74, 417.815)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/7"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="8" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(103, 487)
+position = Vector2(102.85, 487.13)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/8"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="9" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(168, 528)
+position = Vector2(167.955, 528.48)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/9"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="10" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(323, 491)
+position = Vector2(323.24, 491.435)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/10"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="11" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(373, 320)
+position = Vector2(372.715, 320.375)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/11"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="12" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(304, 112)
+position = Vector2(303.39, 112.07)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/12"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="13" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(411, 81)
+position = Vector2(411.415, 81.4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/13"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="14" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(520, 16)
+position = Vector2(519.56, 16.225)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/14"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="15" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(497, 162)
+position = Vector2(496.785, 161.575)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/15"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="16" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(446, 187)
+position = Vector2(446.055, 186.575)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/16"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="17" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(434, 256)
+position = Vector2(433.68, 256.07)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/17"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="18" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(435, 303)
+position = Vector2(434.76, 302.665)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/18"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="19" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(563, 244)
+position = Vector2(562.885, 243.655)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/19"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="20" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(620, 212)
+position = Vector2(619.76, 211.505)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/20"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="21" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(559, 352)
+position = Vector2(558.765, 352.365)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/21"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="22" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(538, 433)
+position = Vector2(538.2, 432.53)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/22"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="23" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(614, 445)
+position = Vector2(613.48, 444.685)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/23"]
 shape = SubResource("CircleShape2D_ays83")
@@ -194,25 +196,25 @@ position = Vector2(672, 332)
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="25" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(843, 522)
+position = Vector2(843.02, 521.45)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/25"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="26" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(832, 423)
+position = Vector2(831.725, 422.82)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/26"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="27" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(840, 285)
+position = Vector2(840, 285.3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/27"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="28" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(785, 210)
+position = Vector2(785.25, 209.75)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/28"]
 shape = SubResource("CircleShape2D_ays83")
@@ -224,13 +226,13 @@ position = Vector2(724, 131)
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="30" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(795, 51)
+position = Vector2(795.5, 51)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/30"]
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="31" type="Area2D" parent="Systems" groups=["map_node"]]
-position = Vector2(853, 135)
+position = Vector2(853.415, 135)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/31"]
 shape = SubResource("CircleShape2D_ays83")
@@ -256,10 +258,10 @@ text = "X"
 
 [node name="mission_message" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 393.0
-offset_top = 510.0
-offset_right = 813.0
-offset_bottom = 532.0
+offset_left = 236.0
+offset_top = 516.0
+offset_right = 656.0
+offset_bottom = 538.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("4_v4uvs")
 theme_override_font_sizes/normal_font_size = 16
@@ -286,4 +288,48 @@ autowrap_mode = 2
 shortcut_keys_enabled = false
 drag_and_drop_selection_enabled = false
 
+[node name="warp_button" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 377.0
+offset_top = 447.0
+offset_right = 567.0
+offset_bottom = 509.0
+
+[node name="TextureRect" type="TextureRect" parent="warp_button"]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 0.0400085
+offset_right = 482.0
+offset_bottom = 480.04
+scale = Vector2(0.394, 0.13)
+mouse_filter = 2
+texture = ExtResource("6_1r5fl")
+
+[node name="click_area" type="TextureButton" parent="warp_button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.52588e-05
+offset_right = 292.0
+offset_bottom = 418.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.394, 0.13)
+texture_click_mask = ExtResource("7_xtw53")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="warp_button"]
+layout_mode = 1
+offset_left = 21.0
+offset_top = 13.0
+offset_right = 325.0
+offset_bottom = 95.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 60
+bbcode_enabled = true
+text = "[color=#000000] WARP"
+
 [connection signal="pressed" from="MarginContainer/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="warp_button/click_area" to="." method="_on_warp_button_pressed"]

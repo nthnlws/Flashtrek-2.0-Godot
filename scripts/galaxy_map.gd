@@ -18,6 +18,7 @@ var sound_array_location:int = 0
 func _ready():
 	if get_tree().current_scene.name == "GalaxyMap":
 		$MarginContainer/closeMenuButton.visible = false
+		Utility.mainScene = self
 		
 	SignalBus.missionAccepted.connect(_update_mission)
 	
@@ -51,7 +52,7 @@ func update_map_destination(system:Area2D, system_name:String):
 	
 	var tween = create_tween()
 	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
-	tween.tween_property(indicator, "scale", Vector2(1.0, 1.0), 1.0)
+	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
 	
 	match system_name:
@@ -70,15 +71,12 @@ func update_map_destination(system:Area2D, system_name:String):
 	
 func _update_mission(current_mission: Dictionary):
 	var system_name:String = current_mission.get("target_system", "Unknown")
-	print(system_name)
 	if current_mission.is_empty():
 		mission_message.bbcode_text = "Current Mission: None"
 	else:
 		match system_name:
 			"Kronos":
 				var destination_text = "Current destination: " + Utility.klin_red + system_name + "[/color]"
-				print("system_name: " + system_name)
-				print("destination_text: " + destination_text)
 				mission_message.bbcode_text = destination_text
 			"Solarus":
 				var destination_text = "Current destination: " + Utility.fed_blue + system_name + "[/color]"
@@ -113,3 +111,7 @@ func _on_close_menu_button_pressed():
 	Menus.toggle_menu(self, 0)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
+
+
+func _on_warp_button_pressed():
+	print("warp pressed")

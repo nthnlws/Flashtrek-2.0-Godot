@@ -15,10 +15,11 @@ func _ready() -> void:
 
 # Input handling
 func _input(event):
-	if Input.is_action_just_pressed("escape"):
-		handle_escape_press()
-	elif Input.is_action_just_pressed("letter_m"):
-		handle_m_press()
+	if Utility.mainScene.in_galaxy_warp == false:
+		if Input.is_action_just_pressed("escape"):
+			handle_escape_press()
+		elif Input.is_action_just_pressed("letter_m"):
+			handle_m_press()
 
 # Handle Escape key press
 func handle_escape_press():
