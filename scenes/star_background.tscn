@@ -16,6 +16,7 @@ sources/0 = SubResource("TileSetAtlasSource_4vb1t")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = -1
+scroll_base_scale = Vector2(2, 2)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 scale = Vector2(4, 4)

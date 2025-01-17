@@ -24,7 +24,7 @@ GameSettings="*res://scripts/gameSettings.gd"
 SignalBus="*res://scripts/SignalBus.gd"
 DiscordManager="*res://scripts/DiscordManager.gd"
 LevelManager="*res://scripts/levelManager.gd"
-Utility="*res://scripts/utility.gd"
+Utility="*res://scenes/utility_autoload.tscn"
 PlayerUpgrades="*res://scripts/player_upgrades.gd"
 Console="*res://addons/console/console.gd"
 

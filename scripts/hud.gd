@@ -59,4 +59,3 @@ func _on_texture_rect_gui_input(event):
 	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
 		Utility.mainScene.play_click_sound(4)
 		SignalBus.pause_menu_clicked.emit()
-
