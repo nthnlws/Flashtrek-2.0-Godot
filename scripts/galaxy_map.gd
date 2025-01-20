@@ -39,7 +39,7 @@ func _gui_input(event):
 				get_viewport().set_input_as_handled()
 				SignalBus.galaxy_map_clicked.emit(area.name)
 				update_map_destination(area, area.name)
-				Utility.mainScene.play_click_sound(0)
+				Utility.play_click_sound(0)
 				return
 				
 

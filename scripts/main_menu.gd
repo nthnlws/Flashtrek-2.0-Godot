@@ -2,11 +2,6 @@ extends Control
 
 enum State {SHOW, HIDE}
 
-const HIGH:float = 20
-const LOW:float = 0
-
-var sound_array:Array = [] # Contains all nodes in group "click_sound"
-var sound_array_location:int = 0
 
 @onready var anim = %AnimationPlayer
 
@@ -20,9 +15,9 @@ func _input(event):
 			#toggle_element(%Cheats)
 			#toggle_element(%TitleScreen)
 	if Input.is_action_just_pressed("rotate_left"):
-		Utility.mainScene.play_click_sound(0)
+		Utility.play_click_sound(0)
 	if Input.is_action_just_pressed("rotate_right"):
-		Utility.mainScene.play_click_sound(4)
+		Utility.play_click_sound(4)
 	
 func _ready() -> void:
 	if OS.get_name() == "Windows":
@@ -30,9 +25,6 @@ func _ready() -> void:
 	
 	%MainMenuMusic.play(0.5)
 	anim.play("fade_in_long")
-	#Creates and shuffles array of all click audio nodes
-	sound_array = get_tree().get_nodes_in_group("click_sound")
-	sound_array.shuffle()
 	
 	await get_tree().create_timer(2.0).timeout
 	%MainMenuBackground.play()
@@ -56,76 +48,54 @@ func _on_main_menu_music_finished() -> void:
 
 	
 func _on_sp_button_pressed():
-	play_click_sound(4)
+	Utility.play_click_sound(4)
 	anim.play("fade_out_long")
 	await anim.animation_finished
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
 func _on_join_mp_pressed():
-	play_click_sound(4)
+	Utility.play_click_sound(4)
 	toggle_element(%Multiplayer_popup)
 
 func _on_host_mp_pressed():
-	play_click_sound(4)
+	Utility.play_click_sound(4)
 	
 
 func _on_settings_button_pressed():
-	play_click_sound(4)
+	Utility.play_click_sound(4)
 	toggle_element(%TitleScreen)
 	toggle_element(%Settings)
 	toggle_element(%Multiplayer_popup, State.HIDE)
 
 func _on_settings_closed():
-	play_click_sound(0)
+	Utility.play_click_sound(0)
 	anim.play("fade_in_short")
 	toggle_element(%TitleScreen)
 	toggle_element(%Settings)
 
 func _on_cheats_menu_pressed():
-	play_click_sound(4)
+	Utility.play_click_sound(4)
 	toggle_element(%Multiplayer_popup, State.HIDE)
 
 
 func _on_credits_button_pressed():
-	Utility.mainScene.play_click_sound(4)
+	Utility.play_click_sound(4)
 	toggle_element(%Credits)
 	toggle_element(%TitleScreen)
 	toggle_element(%Multiplayer_popup, State.HIDE)
 	
 func _on_credits_closed() -> void:
-	play_click_sound(0)
+	Utility.play_click_sound(0)
 	anim.play("fade_in_short")
 	toggle_element(%Credits)
 	toggle_element(%TitleScreen)
 
 
 func _on_exit_button_pressed():
-	play_click_sound(4)
+	Utility.play_click_sound(4)
 	get_tree().quit()
 
 
 func _on_ready() -> void:
 	anim.play("fade_in_long")
-
-func play_click_sound(volume): 
-	var sound_array_length = sound_array.size() - 1
-
-	match sound_array_location:
-		sound_array_length: # When location in array = array size, shuffle array and reset location
-			var default_db = sound_array[sound_array_location].volume_db
-			var effective_volume = default_db + volume
-			sound_array[sound_array_location].set_volume_db(effective_volume)
-			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
-			sound_array[sound_array_location].play()
-			sound_array[sound_array_location].set_volume_db(default_db)
-			sound_array.shuffle()
-			sound_array_location = 0
-		_: # Runs for all array values besides last
-			var default_db = sound_array[sound_array_location].volume_db
-			var effective_volume = default_db + volume
-			sound_array[sound_array_location].set_volume_db(effective_volume)
-			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
-			sound_array[sound_array_location].play()
-			sound_array[sound_array_location].set_volume_db(default_db)
-			sound_array_location += 1

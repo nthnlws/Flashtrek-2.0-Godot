@@ -7,7 +7,7 @@ enum CLASS_SIZE { SMALL, MEDIUM, LARGE }
 @export var enemy_type: game_data.SHIP_NAMES
 
 @export var class_size: CLASS_SIZE
-@export var class_faction: Utility.FACTION
+@export var class_faction: Utility.FACTION = 0
 
 
 var sprite_scale: Vector2:

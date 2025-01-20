@@ -115,12 +115,12 @@ func _ready():
 func handle_button_click(event, button):
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
-			Utility.mainScene.play_click_sound(0)
+			Utility.play_click_sound(0)
 			if current_mission.is_empty():
 				randomize_mission()
 				set_dynamic_text()
 		elif button.name == "close_button":
-			Utility.mainScene.play_click_sound(0)
+			Utility.play_click_sound(0)
 			toggle_comms()
 	
 

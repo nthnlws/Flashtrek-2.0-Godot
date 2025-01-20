@@ -31,7 +31,7 @@ func handle_button_click(event, button):
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")
-			Utility.mainScene.play_click_sound(0)
+			Utility.play_click_sound(0)
 		else: print("No button signal found")
 
 func manual_scale(new_scale):

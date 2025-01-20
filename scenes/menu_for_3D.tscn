@@ -1,10 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://5xdx8abl1xi1"]
+[gd_scene load_steps=16 format=3 uid="uid://5xdx8abl1xi1"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k8b36"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_pksmb"]
-[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="3_l56bv"]
-[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="4_4t5ou"]
-[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="5_amflk"]
 [ext_resource type="Script" path="res://scripts/Credits.gd" id="6_8arfi"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_d5k3n"]
 [ext_resource type="Script" path="res://scripts/settings_menu.gd" id="8_bff6q"]
@@ -1227,10 +1224,9 @@ mouse_filter = 0
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-item_count = 3
 selected = 0
+item_count = 3
 popup/item_0/text = "Enabled"
-popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
 popup/item_1/id = 1
 popup/item_2/text = "Disabled"
@@ -1360,26 +1356,6 @@ root_node = NodePath("../FadeAnimation")
 libraries = {
 "": SubResource("AnimationLibrary_eo4tg")
 }
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="Click01" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
-stream = ExtResource("3_l56bv")
-volume_db = -5.0
-mix_target = 2
-max_polyphony = 2
-
-[node name="Click02" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
-stream = ExtResource("4_4t5ou")
-volume_db = -13.5
-mix_target = 2
-max_polyphony = 2
-
-[node name="Click03" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
-stream = ExtResource("5_amflk")
-volume_db = -20.0
-mix_target = 2
-max_polyphony = 2
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]

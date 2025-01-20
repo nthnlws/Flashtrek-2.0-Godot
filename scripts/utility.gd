@@ -306,7 +306,11 @@ const rom_green: String = "[color=#009301]"
 const klin_red: String = "[color=#FF2A2A]"
 const neut_cyan: String = "[color=#78D9C2]"
 
-
+func _ready() -> void:
+	sound_array = get_tree().get_nodes_in_group("click_sound")
+	sound_array.shuffle()
+	
+	
 func _input(event):
 	#Fullscreen management
 	if Input.is_action_just_pressed("f11"):
@@ -314,3 +318,31 @@ func _input(event):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+
+# Click button sound variables
+var sound_array:Array = [] # Contains all nodes in group "click_sound"
+var sound_array_location:int = 0
+const HIGH:float = 2.0
+const LOW:float = 0.5
+func play_click_sound(volume): 
+	var sound_array_length = sound_array.size() - 1
+
+	match sound_array_location:
+		sound_array_length: # When location in array = array size, shuffle array and reset location
+			var default_db = sound_array[sound_array_location].volume_db
+			var effective_volume = default_db + volume
+			sound_array[sound_array_location].set_volume_db(effective_volume)
+			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
+			sound_array[sound_array_location].play()
+			sound_array[sound_array_location].set_volume_db(default_db)
+			sound_array.shuffle()
+			sound_array_location = 0
+		_: # Runs for all array values besides last
+			var default_db = sound_array[sound_array_location].volume_db
+			var effective_volume = default_db + volume
+			sound_array[sound_array_location].set_volume_db(effective_volume)
+			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
+			sound_array[sound_array_location].play()
+			sound_array[sound_array_location].set_volume_db(default_db)
+			sound_array_location += 1
