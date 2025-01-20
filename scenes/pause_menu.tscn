@@ -856,10 +856,9 @@ mouse_filter = 0
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-item_count = 3
 selected = 0
+item_count = 3
 popup/item_0/text = "Enabled"
-popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
 popup/item_1/id = 1
 popup/item_2/text = "Disabled"
@@ -927,10 +926,9 @@ mouse_filter = 0
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-item_count = 6
 selected = 3
+item_count = 6
 popup/item_0/text = "100%"
-popup/item_0/id = 0
 popup/item_1/text = "90%"
 popup/item_1/id = 1
 popup/item_2/text = "80%"
@@ -980,6 +978,18 @@ layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
 
+[node name="SaveGameContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+
+[node name="SaveGame" type="Button" parent="ColorRect/WorldVBox/SaveGameContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Save System"
+
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
@@ -1009,3 +1019,4 @@ theme_override_constants/margin_right = 15
 [connection signal="value_changed" from="ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="." method="_on_volume_slider_value_changed"]
 [connection signal="item_selected" from="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
 [connection signal="item_selected" from="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer/TypeSetting" to="." method="_on_type_setting_item_selected"]
+[connection signal="pressed" from="ColorRect/WorldVBox/SaveGameContainer/SaveGame" to="." method="_on_save_game_pressed"]

@@ -124,6 +124,7 @@ func _ready():
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
+	#self.global_rotation = deg_to_rad(randi_range(-20, 20))
 	
 	#animation_scale = animation.scale
 	sprite.material.set("shader_parameter/flash_value", 0.0)
@@ -464,6 +465,10 @@ func galaxy_travel():
 		sprite.material.set("shader_parameter/flash_value", 1.0)
 		$warp_anim.visible = true
 		$warp_anim.play("warp_collapse")
+		
+		# Camera zoom in
+		var tween3 = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+		tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)
 		
 		
 		SignalBus.galaxy_warp_finished.emit()

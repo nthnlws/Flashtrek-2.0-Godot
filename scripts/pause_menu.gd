@@ -235,3 +235,7 @@ func set_menu_to_savefile(resets):
 		child.value = value
 	
 	file.close()
+
+
+func _on_save_game_pressed() -> void:
+	Utility.store_level_data(Utility.mainScene.current_system)

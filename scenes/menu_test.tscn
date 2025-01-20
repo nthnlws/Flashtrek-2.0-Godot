@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjt7rwey1oevm"]
+[gd_scene load_steps=3 format=3 uid="uid://gdufrpnpqu5c"]
 
 [ext_resource type="Texture2D" uid="uid://7cet6ujhc5te" path="res://assets/textures/UI/button1.png" id="1_kt2uk"]
 [ext_resource type="BitMap" uid="uid://qwt7r54kvtyf" path="res://assets/textures/UI/button2 mask.png" id="2_jjxcl"]

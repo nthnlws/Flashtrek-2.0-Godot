@@ -346,3 +346,56 @@ func play_click_sound(volume):
 			sound_array[sound_array_location].play()
 			sound_array[sound_array_location].set_volume_db(default_db)
 			sound_array_location += 1
+
+
+func store_level_data(system_name):
+	var file_path = "user://level_data.json"
+	
+	# Initialize the save_data dictionary
+	var save_data = {}
+	
+	
+# Check if the file exists and load existing data if it does
+	if FileAccess.file_exists(file_path):
+		var file = FileAccess.open(file_path, FileAccess.READ)
+		save_data = JSON.parse_string(file.get_as_text())
+		file.close()
+	
+	# Prepare system-specific data
+	var system_data = {
+		"system_faction": "Federation",
+		"system_size": 20000,
+		"player": [],
+		"enemies": [],
+		"planet_positions": [],
+		"planet_sprite": []
+	}
+	
+	# Populate data
+	system_data["system_faction"] = mainScene.current_system_type
+	system_data["system_size"] = mainScene.levelWalls[0].get_parent().borderCoords
+	
+	for planet in mainScene.planets:
+		system_data["planet_positions"].append(planet.global_position)
+		system_data["planet_sprite"].append(planet.get_node("PlanetTexture").frame)
+		
+	system_data["player"].append({
+			"position": mainScene.player[0].global_position,
+			"rotation": mainScene.player[0].global_rotation
+			
+		})
+		
+	for enemy in mainScene.enemies:
+		system_data["enemies"].append({
+			"position": enemy.global_position,
+			"rotation": enemy.global_rotation
+			#"type": enemy.type,
+		})
+	
+	# Save system data under the given system name
+	save_data[system_name] = system_data
+	
+	# Save to file
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(save_data, "\t"))
+	file.close()

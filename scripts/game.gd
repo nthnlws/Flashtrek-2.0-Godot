@@ -7,6 +7,8 @@ extends Node2D
 @onready var player_node = %Player
 @onready var warp_video = %warp_video
 
+@export var current_system_type: Utility.FACTION = 0
+var current_system: String
 var in_galaxy_warp:bool = false
 
 var enemies = []
@@ -43,6 +45,8 @@ func _ready():
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
 	
 	anim.play("fade_in_long")
+	
+	current_system = "Solarus"
 	
 	score = 0
 

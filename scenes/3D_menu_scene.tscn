@@ -59,7 +59,7 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 curve = SubResource("Curve3D_t25wy")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.105228, -0.010558, -0.994384, 0.0998332, 0.995, -5.58789e-09, 0.989422, -0.0992731, 0.105756, 1.716, 0, -2.617)
+transform = Transform3D(0.105228, 0.010558, -0.994384, -0.0998332, 0.995, 5.58789e-09, 0.989422, 0.0992731, 0.105756, 1.716, 0, -2.617)
 script = ExtResource("4_qpw1b")
 path = 1
 
