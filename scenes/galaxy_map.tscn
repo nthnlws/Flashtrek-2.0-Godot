@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://prkoslnq705f" path="res://assets/textures/UI/WorldMap.png" id="2_etsr6"]
 [ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/destination_indicator.tscn" id="2_rvfec"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
-[ext_resource type="Texture2D" uid="uid://b8v3fih8sqfnw" path="res://assets/textures/UI/full_button.png" id="6_1r5fl"]
+[ext_resource type="Texture2D" uid="uid://dr0bowl6i2leo" path="res://assets/textures/UI/warp_button.png" id="6_mpbwe"]
 [ext_resource type="BitMap" uid="uid://b1a4bmxr7t24t" path="res://assets/textures/UI/warp_button_mask.png" id="7_xtw53"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
@@ -303,7 +303,7 @@ offset_right = 482.0
 offset_bottom = 480.04
 scale = Vector2(0.394, 0.13)
 mouse_filter = 2
-texture = ExtResource("6_1r5fl")
+texture = ExtResource("6_mpbwe")
 
 [node name="click_area" type="TextureButton" parent="warp_button"]
 layout_mode = 1
