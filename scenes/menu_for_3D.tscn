@@ -306,7 +306,7 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 10
-text = "V 0.0.05"
+text = "V 0.0.06"
 vertical_alignment = 2
 
 [node name="Credits" type="CanvasLayer" parent="."]
