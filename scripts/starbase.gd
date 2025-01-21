@@ -16,13 +16,13 @@ func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)
 
 func toggle_comms():# Only toggles on if within required distance
-	if check_distance_to_planets(): # and Utility.mainScene.player[0].warping_active == false:
+	if check_distance_to_planets(): # and Utility.mainScene.player.warping_active == false:
 		# Open starbase menu here
 		#starbase_menu.visible = true
 		pass
 
 func check_distance_to_planets() -> bool:
-	var player_position = Utility.mainScene.player[0].global_position
+	var player_position = Utility.mainScene.player.global_position
 
 	var starbase_position = self.global_position
 	var distance = player_position.distance_to(starbase_position)

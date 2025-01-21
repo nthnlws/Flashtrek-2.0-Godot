@@ -2,7 +2,7 @@ extends Control
 
 var current_mission: Dictionary = {}
 @onready var comms_message = $Comms_message
-@onready var player = Utility.mainScene.player[0]
+@onready var player = Utility.mainScene.player
 
 var button_array = []
 var sound_array:Array = [] # Contains all nodes in group "click_sound"

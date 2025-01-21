@@ -238,7 +238,6 @@ base_max_SP = null
 
 [node name="Laser" parent="." groups=["player"] instance=ExtResource("2_vj0n8")]
 unique_name_in_owner = true
-z_index = -1
 position = Vector2(0, -12)
 
 [node name="Camera2D" type="Camera2D" parent="."]

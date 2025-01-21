@@ -291,6 +291,9 @@ var ship_rss = {
 }
 
 
+var is_initial_load: bool = true
+var current_system: String = "Solarus"
+var current_system_type: FACTION = 0
 var mainScene:Node = null # Set by main scene on _init()
 
 # Colors
@@ -380,8 +383,8 @@ func store_level_data(system_name):
 		system_data["planet_sprite"].append(planet.get_node("PlanetTexture").frame)
 		
 	system_data["player"].append({
-			"position": mainScene.player[0].global_position,
-			"rotation": mainScene.player[0].global_rotation
+			"position": mainScene.player.global_position,
+			"rotation": mainScene.player.global_rotation
 			
 		})
 		

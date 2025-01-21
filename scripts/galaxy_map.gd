@@ -5,6 +5,7 @@ extends Control
 @onready var Menus = $".."
 
 @export var red_circle: PackedScene
+var selected_system: String
 
 var area_array = []
 
@@ -44,6 +45,7 @@ func _gui_input(event):
 				
 
 func update_map_destination(system:Area2D, system_name:String):
+	selected_system = system_name
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 	var indicator = red_circle.instantiate()
@@ -114,4 +116,6 @@ func _on_close_menu_button_pressed():
 
 
 func _on_warp_button_pressed():
-	print("warp pressed")
+	Utility.current_system = selected_system
+	Utility.is_initial_load = false
+	get_tree().change_scene_to_file("res://scenes/game.tscn")

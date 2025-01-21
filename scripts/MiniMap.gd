@@ -28,7 +28,7 @@ func _ready():
 	SignalBus.enemyDied.connect(remove_minimap_object)
 	grid_scale = get_viewport().get_visible_rect().size/2 # Var to center minimap objects
 	
-	player = Utility.mainScene.player[0]
+	player = Utility.mainScene.player
 	
 	create_minimap_objects()
 	

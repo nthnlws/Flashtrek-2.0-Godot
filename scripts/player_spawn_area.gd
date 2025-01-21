@@ -5,6 +5,7 @@ extends Area2D
 @export var MAX_DISTANCE_FROM_ORIGIN = 1500
 
 func _ready():
+	self.add_to_group("player_spawn_area")
 	global_position = get_random_position()
 
 func get_random_position() -> Vector2:

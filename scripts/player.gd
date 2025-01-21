@@ -120,7 +120,7 @@ func _ready():
 	SignalBus.teleport_player.connect(teleport)
 	
 	#Player external references
-	Utility.mainScene.player.append(self)
+	Utility.mainScene.player = self
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position

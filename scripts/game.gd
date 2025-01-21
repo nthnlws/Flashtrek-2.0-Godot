@@ -4,18 +4,16 @@ extends Node2D
 @onready var anim = %AnimationPlayer
 @onready var VidModulate = %VidModulate
 @onready var canvas_modulate = %CanvasModulate
-@onready var player_node = %Player
 @onready var warp_video = %warp_video
 
-@export var current_system_type: Utility.FACTION = 0
-var current_system: String
+
 var in_galaxy_warp:bool = false
 
 var enemies = []
 var levelWalls = []
 var planets = []
 var suns = []
-var player = []
+var player: Player
 var starbase = []
 var systems = ["Solarus", "Romulus", "Kronos"]
 
@@ -46,13 +44,13 @@ func _ready():
 	
 	anim.play("fade_in_long")
 	
-	current_system = "Solarus"
+	Utility.current_system = "Solarus"
 	
 	score = 0
 
 func galaxy_warp_check() -> bool:
-	if (in_galaxy_warp == false and player_node.velocity.x > -25 and player_node.velocity.x < 25
-		and player_node.velocity.y > -25 and player_node.velocity.y < 25 and player_node.warping_active == false):
+	if (in_galaxy_warp == false and player.velocity.x > -25 and player.velocity.x < 25
+		and player.velocity.y > -25 and player.velocity.y < 25 and player.warping_active == false):
 			return true
 	else: return false
 
