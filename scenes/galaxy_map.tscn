@@ -10,7 +10,6 @@
 [ext_resource type="BitMap" uid="uid://b1a4bmxr7t24t" path="res://assets/textures/UI/warp_button_mask.png" id="7_xtw53"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
-radius = 6.0
 
 [node name="GalaxyMap" type="Control"]
 layout_mode = 3
@@ -37,16 +36,6 @@ expand_mode = 3
 stretch_mode = 4
 
 [node name="Systems" type="Node2D" parent="."]
-
-[node name="1" type="Area2D" parent="Systems" groups=["map_node"]]
-modulate = Color(0.431373, 1, 1, 1)
-position = Vector2(69, 79)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/1"]
-shape = SubResource("CircleShape2D_ays83")
-
-[node name="Sprite2D" type="Sprite2D" parent="Systems/1"]
-texture = ExtResource("5_oddma")
 
 [node name="Solarus" type="Area2D" parent="Systems" groups=["map_node"]]
 modulate = Color(1, 1, 0.494118, 1)
@@ -76,6 +65,16 @@ position = Vector2(602, 95)
 shape = SubResource("CircleShape2D_ays83")
 
 [node name="Sprite2D" type="Sprite2D" parent="Systems/Kronos"]
+texture = ExtResource("5_oddma")
+
+[node name="1" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(69, 79)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/1"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/1"]
 texture = ExtResource("5_oddma")
 
 [node name="2" type="Area2D" parent="Systems" groups=["map_node"]]

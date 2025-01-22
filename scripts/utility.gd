@@ -292,7 +292,7 @@ var ship_rss = {
 
 
 var is_initial_load: bool = true
-var current_system: String = "Solarus"
+var current_system: String = "20"
 var current_system_type: FACTION = 0
 var mainScene:Node = null # Set by main scene on _init()
 
@@ -350,7 +350,6 @@ func play_click_sound(volume):
 			sound_array[sound_array_location].set_volume_db(default_db)
 			sound_array_location += 1
 
-
 func store_level_data(system_name):
 	var file_path = "user://level_data.json"
 	
@@ -370,25 +369,30 @@ func store_level_data(system_name):
 		"system_size": 20000,
 		"player": [],
 		"enemies": [],
-		"planet_positions": [],
+		"planet_count": 4,
+		"planet_data": [],
 		"planet_sprite": []
 	}
 	
 	# Populate data
-	system_data["system_faction"] = mainScene.current_system_type
+	system_data["system_faction"] = current_system_type
 	system_data["system_size"] = mainScene.levelWalls[0].get_parent().borderCoords
 	
+	system_data["planet_count"] = mainScene.planets.size()
 	for planet in mainScene.planets:
-		system_data["planet_positions"].append(planet.global_position)
+		system_data["planet_data"].append({
+			"x": planet.global_position.x,
+			"y": planet.global_position.y,
+			"frame": planet.get_node("PlanetTexture").frame
+		})
 		system_data["planet_sprite"].append(planet.get_node("PlanetTexture").frame)
 		
 	system_data["player"].append({
 			"position": mainScene.player.global_position,
 			"rotation": mainScene.player.global_rotation
-			
 		})
 		
-	for enemy in mainScene.enemies:
+	for enemy in Utility.mainScene.enemies:
 		system_data["enemies"].append({
 			"position": enemy.global_position,
 			"rotation": enemy.global_rotation

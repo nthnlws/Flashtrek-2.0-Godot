@@ -44,7 +44,7 @@ func _ready():
 	
 	anim.play("fade_in_long")
 	
-	Utility.current_system = "Solarus"
+	Utility.current_system = "20"
 	
 	score = 0
 

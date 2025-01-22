@@ -238,4 +238,4 @@ func set_menu_to_savefile(resets):
 
 
 func _on_save_game_pressed() -> void:
-	Utility.store_level_data(Utility.mainScene.current_system)
+	Utility.store_level_data(Utility.current_system)

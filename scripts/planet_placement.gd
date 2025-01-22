@@ -2,7 +2,7 @@ extends Node2D
 
 @export var planet_scene = preload("res://scenes/planet.tscn")
 
-@export var PLANET_COUNT = 10
+@export var PLANET_COUNT = 2
 var MIN_DISTANCE_FROM_ORIGIN = 7500
 var MAX_DISTANCE_FROM_ORIGIN = 15000
 var MIN_DISTANCE_BETWEEN_PLANETS: int
