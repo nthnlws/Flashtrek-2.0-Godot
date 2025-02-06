@@ -43,6 +43,7 @@ func _ready():
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
 	
 	anim.play("fade_in_long")
+
 	
 	Utility.current_system = "20"
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=34 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -22,6 +22,8 @@
 [ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="21_32ft0"]
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="21_exi4y"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
+[ext_resource type="AudioStream" uid="uid://cyosefa6hu3fa" path="res://assets/audio/music/Mesa.ogg" id="23_vrbdd"]
+[ext_resource type="Script" path="res://scenes/background_music.gd" id="23_xpi24"]
 
 [sub_resource type="Animation" id="Animation_2b4ug"]
 length = 0.001
@@ -297,23 +299,33 @@ texture = ExtResource("21_exi4y")
 
 [node name="Audio" type="Node" parent="."]
 
-[node name="Click01" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+[node name="UI" type="Node" parent="Audio"]
+
+[node name="Click01" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
 stream = ExtResource("19_1dh75")
 volume_db = -5.0
 mix_target = 2
 max_polyphony = 2
 
-[node name="Click02" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+[node name="Click02" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
 stream = ExtResource("20_p5rub")
 volume_db = -13.5
 mix_target = 2
 max_polyphony = 2
 
-[node name="Click03" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+[node name="Click03" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
 stream = ExtResource("21_32ft0")
 volume_db = -20.0
 mix_target = 2
 max_polyphony = 2
+
+[node name="Music" type="Node" parent="Audio"]
+script = ExtResource("23_xpi24")
+
+[node name="Mesa" type="AudioStreamPlayer" parent="Audio/Music"]
+unique_name_in_owner = true
+stream = ExtResource("23_vrbdd")
+volume_db = -8.0
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

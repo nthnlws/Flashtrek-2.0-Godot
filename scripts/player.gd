@@ -17,7 +17,8 @@ var energy_regen_speed:int = 10
 var trans_length:float = 0.8
 var direction:Vector2 = Vector2(0, 0)
 var warp_multiplier:float = 0.45
-var warpm:float = 1.0
+var warpm_r:float = 1.0
+var warpm_v:float = 1.0
 
 var player_name = "USS Enterprise"
 var animation_scale:Vector2 = Vector2(1, 1)
@@ -195,21 +196,21 @@ func handle_movement(delta):
 		#print(direction)
 		# Apply forward/backward thrust logic
 		if direction.y != 0:
-			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm
-			velocity = velocity.limit_length(max_speed/warpm)
+			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm_v
+			velocity = velocity.limit_length(max_speed/warpm_v)
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
 		
 		if direction.x !=0:
-			rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm))
+			rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm_v))
 		
 		# Handle rotation for keyboard input
 		if OS.get_name() == "Windows":
 			if Input.is_action_pressed("rotate_right"):
-				rotate(deg_to_rad(rotation_speed * delta * warpm))
+				rotate(deg_to_rad(rotation_speed * delta * warpm_r))
 			if Input.is_action_pressed("rotate_left"):
-				rotate(deg_to_rad(-rotation_speed * delta * warpm))
+				rotate(deg_to_rad(-rotation_speed * delta * warpm_r))
 
 func change_enemy_resource(ENEMY_TYPE):
 	#TODO Link to RSS File
@@ -272,11 +273,13 @@ func warping_state_change(speed): # Reverses warping state
 		match speed:
 			"INSTANT":
 				scale = Vector2(1, 1)
-				warpm = 1.0
+				warpm_v = 1.0
+				warpm_r = 1.0
 				shield.call_deferred("fadein", "INSTANT")
 			"SMOOTH":
 				create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
-				create_tween().tween_property(self, "warpm", 1.0, trans_length)
+				create_tween().tween_property(self, "warpm_v", 1.0, trans_length*5)
+				create_tween().tween_property(self, "warpm_r", 1.0, trans_length)
 				shield.fadein("SMOOTH")
 				warp_sound_off()
 	else: # Transition to warp
@@ -285,11 +288,13 @@ func warping_state_change(speed): # Reverses warping state
 		match speed:
 			"INSTANT":
 				scale = Vector2(1, 1.70)
-				warpm = warp_multiplier
+				warpm_v = warp_multiplier
+				warpm_r = warp_multiplier
 				shield.fadeout("INSTANT")
 			"SMOOTH":
 				create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
-				create_tween().tween_property(self, "warpm", warp_multiplier, trans_length)
+				create_tween().tween_property(self, "warpm_v", warp_multiplier, trans_length)
+				create_tween().tween_property(self, "warpm_r", warp_multiplier, trans_length)
 				shield.fadeout("SMOOTH")
 
 	
@@ -425,6 +430,7 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 
 func galaxy_travel():
 	if Utility.mainScene.galaxy_warp_check():
+		SignalBus.entering_galaxy_warp.emit()
 		galaxy_warp_sound.play()
 		await get_tree().create_timer(1.5).timeout
 		shield.fadeout("SMOOTH")
