@@ -18,7 +18,7 @@ var system_vars
 func _ready() -> void:
 	#if Utility.is_initial_load:
 		#new_game_gen()
-	new_system_gen("20")
+	new_system_gen("Solarus")
 	
 	
 	
@@ -53,6 +53,9 @@ func new_game_gen():
 
 func new_system_gen(system_num):
 	var system_vars = generate_system_variables(system_num)
+	
+	Utility.current_system_faction = system_vars["faction"]
+	print("Faction: " + str(Utility.current_system_faction))
 	
 	# Delete old level nodes
 	for node in get_tree().get_nodes_in_group("level_nodes"):
@@ -111,23 +114,42 @@ var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
 const MAX_LEVEL = 31  # Highest system level
 
 func generate_system_variables(system_number) -> Dictionary:
-	var system_numberINT = int(system_number)
-	var faction_name = get_faction_for_system(system_numberINT)
-	if faction_name == "":
-		return {}  # Invalid system number
+	var faction_name
+	if system_number.length() > 2:
+		match system_number:
+			"Solarus":
+				system_number = 10
+				faction_name = Utility.FACTION.FEDERATION
+			"Kronos":
+				system_number = 20
+				faction_name = Utility.FACTION.KLINGON
+			"Romulus":
+				system_number = 28
+				faction_name = Utility.FACTION.ROMULAN
+			"Neutral":
+				faction_name = Utility.FACTION.NEUTRAL
+				system_number = 15
+	else:
+		faction_name = get_faction_for_system(system_number)
+		system_number = int(system_number)
+		
+		
+	#if faction_name == "":
+		#print("Invalid System Name")
+		#return {}  # Invalid system number
 	
 	# Health Scaling
 	var enemy_health_mult = 1
 	var health_scaling_rate = 1/30
-	if system_numberINT <= 30:
-		enemy_health_mult = 1 + (system_numberINT * health_scaling_rate)
+	if system_number <= 30:
+		enemy_health_mult = 1 + (system_number * health_scaling_rate)
 	else: enemy_health_mult = 2.0
 	
 	# Damage Scaling
 	var enemy_damage_mult = 1
 	var damage_scaling_rate = 1/30
-	if system_numberINT <= 30:
-		enemy_damage_mult = 1 + (system_numberINT * damage_scaling_rate)
+	if system_number <= 30:
+		enemy_damage_mult = 1 + (system_number * damage_scaling_rate)
 	else: enemy_damage_mult = 2.0
 	
 	# Randomly generate enemy types
@@ -135,30 +157,23 @@ func generate_system_variables(system_number) -> Dictionary:
 	
 	return {
 		"faction": faction_name,
-		"system_number": system_numberINT,
+		"system_number": system_number,
 		"enemy_health_mult": enemy_health_mult,
 		"enemy_damage_mult": enemy_damage_mult
 		#"enemy_types": enemy_types,
 	}
 
-func get_faction_for_system(system_number: int) -> String:
-	match system_number:
-		"Solarus":
-			return "Federation"
-		"Kronos":
-			return "Klingon"
-		"Romulus":
-			return "Romulan"
-		_:
-			if system_number <= fed_max:
-				return "Federation"
-			elif system_number >= kling_min and system_number <= kling_max:
-				return "Klingon"
-			elif system_number >= rom_min:
-				return "Romulan"
-			else:
-				print("System out of range, error")
-				return ""
+func get_faction_for_system(system_number) -> String:
+	system_number = int(system_number)
+	if system_number <= fed_max:
+		return "Federation"
+	elif system_number >= kling_min and system_number <= kling_max:
+		return "Klingon"
+	elif system_number >= rom_min:
+		return "Romulan"
+	else:
+		print("System out of range, error")
+		return ""
 			
 
 #func generate_enemy_types(position_in_range: int) -> Array:

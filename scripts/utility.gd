@@ -293,7 +293,7 @@ var ship_rss = {
 
 var is_initial_load: bool = true
 var current_system: String = "20"
-var current_system_type: FACTION = 0
+var current_system_faction: FACTION = 0
 var mainScene:Node = null # Set by main scene on _init()
 
 # Colors
@@ -375,7 +375,7 @@ func store_level_data(system_name):
 	}
 	
 	# Populate data
-	system_data["system_faction"] = current_system_type
+	system_data["system_faction"] = current_system_faction
 	system_data["system_size"] = mainScene.levelWalls[0].get_parent().borderCoords
 	
 	system_data["planet_count"] = mainScene.planets.size()

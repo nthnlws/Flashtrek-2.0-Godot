@@ -13,14 +13,14 @@ func _ready() -> void:
 	
 
 func start_music():
-	match Utility.mainScene.get_node("Level").get_faction_for_system(20):
-		"Federation":
+	match Utility.current_system_faction:
+		Utility.FACTION.FEDERATION:
 			print("Fed Music")
 			music.play()
-		"Klingon":
+		Utility.FACTION.KLINGON:
 			print("Klingon Music")
 			music.play()
-		"Romulan":
+		Utility.FACTION.ROMULAN:
 			print("Romulan Music")
 			music.play()
 		_:
