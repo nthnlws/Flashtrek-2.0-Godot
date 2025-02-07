@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=35 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
 [ext_resource type="AudioStream" uid="uid://cyosefa6hu3fa" path="res://assets/audio/music/Mesa.ogg" id="23_vrbdd"]
 [ext_resource type="Script" path="res://scenes/background_music.gd" id="23_xpi24"]
+[ext_resource type="Script" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
 
 [sub_resource type="Animation" id="Animation_2b4ug"]
 length = 0.001
@@ -209,9 +210,11 @@ _data = {
 file = "res://assets/video/warp_video long.ogv"
 
 [node name="Game" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_ci0lx")
 
 [node name="Level" type="Node" parent="."]
+process_mode = 1
 script = ExtResource("2_nfpiu")
 levelBorders = ExtResource("2_ufmu8")
 Planets = ExtResource("4_p3jf4")
@@ -222,6 +225,7 @@ Hostiles = ExtResource("7_44k7l")
 Player = ExtResource("4_s6h4r")
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]
+process_mode = 1
 
 [node name="MiniMap" parent="HUD_layer" instance=ExtResource("13_pwbrs")]
 
@@ -240,6 +244,7 @@ offset_bottom = 469.0
 unique_name_in_owner = true
 
 [node name="Menus" type="CanvasLayer" parent="."]
+process_mode = 1
 script = ExtResource("14_nkpvs")
 
 [node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
@@ -256,6 +261,7 @@ visible = false
 visible = false
 
 [node name="transition_overlay" type="CanvasLayer" parent="."]
+process_mode = 1
 
 [node name="FadeAnimation" type="ColorRect" parent="transition_overlay"]
 anchors_preset = 15
@@ -274,6 +280,7 @@ libraries = {
 }
 
 [node name="Video_layer" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="warp_video" type="VideoStreamPlayer" parent="Video_layer"]
 unique_name_in_owner = true
@@ -288,6 +295,7 @@ unique_name_in_owner = true
 color = Color(1, 1, 1, 0)
 
 [node name="ScrollingBackground" type="Parallax2D" parent="."]
+process_mode = 1
 scroll_scale = Vector2(0.8, 0.8)
 repeat_size = Vector2(4096, 4096)
 repeat_times = 3
@@ -298,6 +306,7 @@ scale = Vector2(4, 4)
 texture = ExtResource("21_exi4y")
 
 [node name="Audio" type="Node" parent="."]
+process_mode = 1
 
 [node name="UI" type="Node" parent="Audio"]
 
@@ -326,6 +335,9 @@ script = ExtResource("23_xpi24")
 unique_name_in_owner = true
 stream = ExtResource("23_vrbdd")
 volume_db = -8.0
+
+[node name="SignalPrinter" type="Node" parent="."]
+script = ExtResource("25_dx7lr")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="ready" from="Level" to="." method="_on_level_ready"]

@@ -35,7 +35,8 @@ func _ready():
 func _process(delta):
 	if !player: return
 	
-	update_minimap()
+	if Utility.mainScene.in_galaxy_warp == false:
+		update_minimap()
 	
 func _input(event):
 	if event.is_action_pressed("letter_e"):

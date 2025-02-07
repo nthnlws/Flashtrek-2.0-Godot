@@ -6,6 +6,9 @@ extends Node2D
 @onready var canvas_modulate = %CanvasModulate
 @onready var warp_video = %warp_video
 
+# Vars for galaxy map navigation
+var current_system: String = ""
+var targetSystem: String = ""
 
 var in_galaxy_warp:bool = false
 
@@ -35,8 +38,8 @@ func _init():
 	
 func _ready():
 	# Signal Connections
-	SignalBus.galaxy_warp_finished.connect(fade_screen_out)
-	SignalBus.Quad1_clicked.connect(fade_hud)
+	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
+	SignalBus.entering_galaxy_warp.connect(fade_hud)
 	SignalBus.levelReset.connect(reset_arrays)
 	
 	if OS.get_name() == "Windows":
@@ -56,7 +59,7 @@ func galaxy_warp_check() -> bool:
 	else: return false
 
 
-func fade_screen_out():
+func galaxy_fade_out():
 	anim.play("galaxy_travel_fade_out")
 	warp_video.play()
 	
@@ -64,9 +67,12 @@ func fade_screen_out():
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 1), 4.0)
 	
-	await get_tree().create_timer(4.0).timeout
-	get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
+	await get_tree().create_timer(2.0).timeout
+	#get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
 	
+	
+	get_tree().paused = true
+	SignalBus.galaxy_warp_finished.emit()
 	
 func fade_hud():
 	if galaxy_warp_check():

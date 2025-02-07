@@ -5,7 +5,7 @@ extends Control
 @onready var Menus = $".."
 
 @export var red_circle: PackedScene
-var selected_system: int
+var selected_system: String
 
 var area_array = []
 
@@ -20,7 +20,8 @@ func _ready():
 	if get_tree().current_scene.name == "GalaxyMap":
 		$MarginContainer/closeMenuButton.visible = false
 		Utility.mainScene = self
-		
+	
+	SignalBus.Quad1_clicked.connect(trigger_warp)
 	SignalBus.missionAccepted.connect(_update_mission)
 	
 	area_array = get_tree().get_nodes_in_group("map_node")
@@ -45,8 +46,14 @@ func _gui_input(event):
 				
 
 func update_map_destination(system:Area2D, system_name:String):
+	# Delete old selection indicator
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
+	
+	selected_system = system_name
+	Utility.mainScene.targetSystem = system_name
+	
+	# Create new indicator
 	var indicator = red_circle.instantiate()
 	indicator.add_to_group("indicator_mark")
 	system.add_child(indicator)
@@ -56,6 +63,7 @@ func update_map_destination(system:Area2D, system_name:String):
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
 	
+	# Set text color
 	match system_name:
 		"Kronos":
 			var destination_text = "Current destination: " + Utility.klin_red + system.name + "[/color]"
@@ -109,12 +117,20 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 
 func _on_close_menu_button_pressed():
+	Utility.play_click_sound(HIGH)
 	Menus.toggle_menu(self, 0)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 
 
 func _on_warp_button_pressed():
-	Utility.current_system = str(selected_system)
-	Utility.is_initial_load = false
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	Utility.play_click_sound(HIGH)
+	trigger_warp()
+	
+	
+func trigger_warp():
+	if selected_system:
+		print("Warping to system " + str(Utility.mainScene.targetSystem))
+		SignalBus.triggerGalaxyWarp.emit()
+		self.visible = false
+	#else: TODO: Trigger error message for no selected system

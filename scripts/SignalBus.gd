@@ -12,7 +12,9 @@ signal playerEnergyChanged(energy_current)
 
 #World navigation
 signal galaxy_map_clicked(system_clicked)
+signal triggerGalaxyWarp
 signal entering_galaxy_warp
+signal galaxy_warp_screen_fade
 signal galaxy_warp_finished
 
 #HUD

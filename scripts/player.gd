@@ -117,8 +117,9 @@ func _ready():
 	# Signal setup
 	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.Quad1_clicked.connect(galaxy_travel)
+	#SignalBus.Quad1_clicked.connect(galaxy_travel)
 	SignalBus.teleport_player.connect(teleport)
+	SignalBus.triggerGalaxyWarp.connect(galaxy_travel)
 	
 	#Player external references
 	Utility.mainScene.player = self
@@ -477,4 +478,4 @@ func galaxy_travel():
 		tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)
 		
 		
-		SignalBus.galaxy_warp_finished.emit()
+		SignalBus.galaxy_warp_screen_fade.emit()
