@@ -34,7 +34,7 @@ func _ready() -> void:
 	
 	SignalBus.galaxy_warp_finished.connect(new_system_gen)
 	new_system_gen("Solarus")
-	game.currentSystem = "Solarus"
+	Navigation.currentSystem = "Solarus"
 	
 	
 
@@ -72,8 +72,8 @@ func new_system_gen(system_num):
 	print("Creating new system: " + str(system_num))
 	var system_vars = generate_system_variables(system_num)
 	
-	Utility.current_system_faction = system_vars["faction"]
-	print("Faction: " + str(Utility.current_system_faction))
+	Navigation.current_system_faction = system_vars["faction"]
+	print("Faction: " + str(Navigation.current_system_faction))
 	
 	# Delete old level nodes
 	clear_old_system()
@@ -95,23 +95,23 @@ func new_system_gen(system_num):
 
 
 func generate_system_variables(system_number) -> Dictionary:
-	var faction_name
+	var faction
 	if system_number.length() > 2:
 		match system_number:
 			"Solarus":
 				system_number = 10
-				faction_name = Utility.FACTION.FEDERATION
+				faction = Utility.FACTION.FEDERATION
 			"Kronos":
 				system_number = 20
-				faction_name = Utility.FACTION.KLINGON
+				faction = Utility.FACTION.KLINGON
 			"Romulus":
 				system_number = 28
-				faction_name = Utility.FACTION.ROMULAN
+				faction = Utility.FACTION.ROMULAN
 			"Neutral":
-				faction_name = Utility.FACTION.NEUTRAL
+				faction = Utility.FACTION.NEUTRAL
 				system_number = 15
 	else:
-		faction_name = get_faction_for_system(system_number)
+		faction = get_faction_for_system(system_number)
 		system_number = int(system_number)
 		
 		
@@ -137,24 +137,24 @@ func generate_system_variables(system_number) -> Dictionary:
 	#var enemy_types = generate_enemy_types(position_in_range)  # Generate enemy types
 	
 	return {
-		"faction": faction_name,
+		"faction": faction,
 		"system_number": system_number,
 		"enemy_health_mult": enemy_health_mult,
 		"enemy_damage_mult": enemy_damage_mult
 		#"enemy_types": enemy_types,
 	}
 
-func get_faction_for_system(system_number) -> String:
+func get_faction_for_system(system_number) -> int:
 	system_number = int(system_number)
 	if system_number <= fed_max:
-		return "Federation"
+		return Utility.FACTION.FEDERATION
 	elif system_number >= kling_min and system_number <= kling_max:
-		return "Klingon"
+		return Utility.FACTION.KLINGON
 	elif system_number >= rom_min:
-		return "Romulan"
+		return Utility.FACTION.ROMULAN
 	else:
-		print("System out of range, error")
-		return ""
+		print("Error: System out of range, using default faction: Federation")
+		return 0
 			
 
 #func generate_enemy_types(position_in_range: int) -> Array:

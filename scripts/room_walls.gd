@@ -33,7 +33,7 @@ var wall_rotations = [
 ]
 
 func _ready():
-	SignalBus.Quad1_clicked.connect(fade_world_borders)
+	SignalBus.entering_galaxy_warp.connect(fade_world_borders)
 	
 	
 	if GameSettings.borderToggle == true:

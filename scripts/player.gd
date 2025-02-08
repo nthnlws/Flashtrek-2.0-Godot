@@ -122,6 +122,7 @@ func _ready():
 	SignalBus.triggerGalaxyWarp.connect(galaxy_travel)
 	
 	#Player external references
+	Navigation.player = self
 	Utility.mainScene.player = self
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
@@ -449,7 +450,7 @@ func galaxy_travel():
 		create_tween().tween_property(camera, "zoom", Vector2(0.3, 0.3), trans_length/warp_multiplier*3)
 		
 		await get_tree().create_timer(3.0).timeout #5.5 sec
-		print("flat, scale")
+		#print("flat, scale")
 		create_tween().tween_property(particles.process_material, "flatness", 0.0, 5.0)
 		create_tween().tween_property(particles.process_material, "scale_min", 1.0, 3.5)
 		create_tween().tween_property(particles.process_material, "scale_max", 2.0, 3.5)

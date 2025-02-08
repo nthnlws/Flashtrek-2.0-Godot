@@ -6,12 +6,6 @@ extends Node2D
 @onready var canvas_modulate = %CanvasModulate
 @onready var warp_video = %warp_video
 
-# Vars for galaxy map navigation
-var leave_info: Dictionary # Info for player pos when warping into system
-var leaveDataStored: bool = false # Check to see if player pos has already been check
-var current_system: String = "" # Current player system
-var targetSystem: String = "" # Currently selected system on galaxy map
-
 var in_galaxy_warp:bool = false
 
 var enemies = []
@@ -50,21 +44,11 @@ func _ready():
 	anim.play("fade_in_long")
 
 	
-	Utility.current_system = "20"
+	Navigation.currentSystem = "Solarus"
 	
 	score = 0
 
-func _process(delta: float) -> void:
-	if in_galaxy_warp and leaveDataStored == false and player_outside_system_check(player.global_position):
-		print("Left system at: " + str(player.global_position))
-		store_player_system_exit_info()
-		
 
-func player_outside_system_check(coords: Vector2):
-	if coords.x > 20000 or coords.x < -20000 or coords.y > 20000 or coords.y < -20000:
-		leaveDataStored = true
-		return true
-	else: return false
 	
 func galaxy_warp_check() -> bool:
 	if (in_galaxy_warp == false and player.velocity.x > -25 and player.velocity.x < 25
@@ -72,35 +56,6 @@ func galaxy_warp_check() -> bool:
 			return true
 	else: return false
 
-func store_player_system_exit_info():
-	var leave_coords: Vector2 = player.global_position
-	var leave_rotation: float = player.global_rotation
-	
-	leave_info = {
-		"exit_pos": leave_coords,
-		"leave_rotation": leave_rotation
-	}
-
-func set_player_system_entry_position():
-	var exit_coords = leave_info.exit_pos
-	var entry_coords = leave_info.exit_pos
-	var exit_rotation = leave_info.leave_rotation
-	
-	# Flip the exit side to place the player on the opposite side
-	if abs(exit_coords.x) >= 20000:
-		# Player exited East/West, so flip the x-coordinate
-		entry_coords.x *= -1
-		# Cap the y-coordinate to 10,000
-		entry_coords.y = clamp(exit_coords.y, -10000, 10000)
-	elif abs(exit_coords.y) >= 20000:
-		# Player exited North/South, so flip the y-coordinate
-		entry_coords.y *= -1
-		# Cap the x-coordinate to 10,000
-		entry_coords.x = clamp(exit_coords.x, -10000, 10000)
-
-	# Set the player's position and rotation upon entry
-	player.global_position = entry_coords
-	player.global_rotation = exit_rotation
 
 func galaxy_fade_out():
 	anim.play("galaxy_travel_fade_out")
@@ -115,8 +70,8 @@ func galaxy_fade_out():
 	
 	
 	get_tree().paused = true
-	#print("Warp finished with target system " + str(Utility.mainScene.targetSystem))
-	SignalBus.galaxy_warp_finished.emit(Utility.mainScene.targetSystem)
+	#print("Warp finished with target system " + str(Navigation.targetSystem))
+	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
 	
 	
 func fade_hud():

@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 
 func start_music():
-	match Utility.current_system_faction:
+	match Navigation.current_system_faction:
 		Utility.FACTION.FEDERATION:
 			print("Fed Music")
 			music.play()

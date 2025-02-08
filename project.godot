@@ -27,6 +27,7 @@ Utility="*res://scenes/utility_autoload.tscn"
 PlayerUpgrades="*res://scripts/player_upgrades.gd"
 Console="*res://addons/console/console.gd"
 SignalBus="*res://scripts/SignalBus.gd"
+Navigation="*res://scripts/navigation.gd"
 
 [debug]
 

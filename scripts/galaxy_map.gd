@@ -52,7 +52,7 @@ func update_map_destination(system:Area2D, system_name:String):
 		red.queue_free()
 	
 	selected_system = system_name
-	Utility.mainScene.targetSystem = system_name
+	Navigation.targetSystem = system_name
 	
 	# Create new indicator
 	var indicator = red_circle.instantiate()
@@ -131,7 +131,7 @@ func _on_warp_button_pressed():
 	
 func trigger_warp():
 	if selected_system:
-		print("Warping to system " + str(Utility.mainScene.targetSystem))
+		print("Warping to system " + str(Navigation.targetSystem))
 		SignalBus.triggerGalaxyWarp.emit()
 		self.visible = false
 	#else: TODO: Trigger error message for no selected system
