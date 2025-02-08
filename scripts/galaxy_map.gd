@@ -17,6 +17,7 @@ var sound_array_location:int = 0
 
 
 func _ready():
+	# Adds close menu button if galaxy map is not root scene
 	if get_tree().current_scene.name == "GalaxyMap":
 		$MarginContainer/closeMenuButton.visible = false
 		Utility.mainScene = self

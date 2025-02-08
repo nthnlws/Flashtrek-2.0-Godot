@@ -32,8 +32,9 @@ func _ready() -> void:
 	#if Utility.is_initial_load:
 		#new_game_gen()
 	
-	SignalBus.galaxy_warp_finished.connect(new_system_gen.bind(Utility.mainScene.targetSystem))
+	SignalBus.galaxy_warp_finished.connect(new_system_gen)
 	new_system_gen("Solarus")
+	game.currentSystem = "Solarus"
 	
 	
 
@@ -67,6 +68,7 @@ func new_game_gen():
 	init_player.add_to_group("level_nodes")
 
 func new_system_gen(system_num):
+	game.reset_arrays()
 	print("Creating new system: " + str(system_num))
 	var system_vars = generate_system_variables(system_num)
 	
