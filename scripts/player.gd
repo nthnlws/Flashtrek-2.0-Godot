@@ -203,7 +203,7 @@ func handle_movement(delta):
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
-		
+			
 		if direction.x !=0:
 			rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm_v))
 		
@@ -267,8 +267,16 @@ func sync_to_resource():
 	# Initialize shield settings
 	#shield.enemy_name = enemy_data.enemy_name
 		
-		
+
+var current_tweens = []
 func warping_state_change(speed): # Reverses warping state
+		# Stop any ongoing tweens
+	for tween in current_tweens:
+		if tween.is_running():
+			tween.stop()
+
+	current_tweens.clear()  # Clear the list of running tweens
+	
 	if warping_active: # Transition to impulse
 		warpTimeout()
 		warping_active = false
@@ -279,9 +287,18 @@ func warping_state_change(speed): # Reverses warping state
 				warpm_r = 1.0
 				shield.call_deferred("fadein", "INSTANT")
 			"SMOOTH":
-				create_tween().tween_property(self, "scale", Vector2(1, 1), trans_length)
-				create_tween().tween_property(self, "warpm_v", 1.0, trans_length*5)
-				create_tween().tween_property(self, "warpm_r", 1.0, trans_length)
+				var tween_scale = create_tween() # Ship sprite scale
+				tween_scale.tween_property(self, "scale", Vector2(1, 1), trans_length)
+				current_tweens.append(tween_scale)
+				
+				var tween_v = create_tween() # Max Velocity
+				tween_v.tween_property(self, "warpm_v", 1.0, trans_length*5)
+				current_tweens.append(tween_v)
+				
+				var tween_r = create_tween() # Rotation speed
+				tween_r.tween_property(self, "warpm_r", 1.0, trans_length)
+				current_tweens.append(tween_r)
+				
 				shield.fadein("SMOOTH")
 				warp_sound_off()
 	else: # Transition to warp
@@ -294,9 +311,18 @@ func warping_state_change(speed): # Reverses warping state
 				warpm_r = warp_multiplier
 				shield.fadeout("INSTANT")
 			"SMOOTH":
-				create_tween().tween_property(self, "scale", Vector2(1, 1.70), trans_length)
-				create_tween().tween_property(self, "warpm_v", warp_multiplier, trans_length)
-				create_tween().tween_property(self, "warpm_r", warp_multiplier, trans_length)
+				var tween_scale = create_tween() # Ship sprite scale
+				tween_scale.tween_property(self, "scale", Vector2(1, 1.70), trans_length)
+				current_tweens.append(tween_scale)
+				
+				var tween_v = create_tween() # Max Velocity
+				tween_v.tween_property(self, "warpm_v", warp_multiplier, trans_length)
+				current_tweens.append(tween_v)
+				
+				var tween_r = create_tween() # Rotation speed
+				tween_r.tween_property(self, "warpm_r", warp_multiplier, trans_length)
+				current_tweens.append(tween_r)
+				
 				shield.fadeout("SMOOTH")
 
 	

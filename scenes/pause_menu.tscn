@@ -972,6 +972,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+fit_to_longest_item = false
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer"]
 layout_mode = 2

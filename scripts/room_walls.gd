@@ -1,6 +1,5 @@
 extends Node2D
 
-@export var WallScene: PackedScene
 @export var defaultBorderCoords:int = 20000
 var borderCoords:int = defaultBorderCoords
 
@@ -16,13 +15,6 @@ var wall_scales = [
 	Vector2(((borderCoords+23.5)/233*2), 1),
 	Vector2(((borderCoords-23.5)/233*2), 1),
 	Vector2(((borderCoords-23.5)/233*2), 1),
-]
-
-var wall_names = [
-	"North_wall",
-	"South_wall",
-	"East_wall",
-	"West_wall",
 ]
 
 var wall_rotations = [
@@ -49,28 +41,28 @@ func _ready():
 		GameSettings.borderValue = borderCoords
 	elif GameSettings.loadNumber > 0:
 		_on_border_coords_moved()
-
-	for i in range(len(wall_positions)):
-		var wall_instance = WallScene.instantiate()
-		wall_instance.position = wall_positions[i]
-		wall_instance.add_to_group("borders")
-		wall_instance.rotation = wall_rotations[i]
-		wall_instance.name = wall_names[i]
-		wall_instance.scale = wall_scales[i]
+	
+	var i: int = 0
+	var borders = get_tree().get_nodes_in_group("borders")
+	for wall in borders:
+		wall.position = wall_positions[i]
+		wall.add_to_group("borders")
+		wall.rotation = wall_rotations[i]
+		wall.scale = wall_scales[i]
 		if GameSettings.noCollision == true:
-				wall_instance.get_node("WorldBoundary").disabled = true
-		add_child(wall_instance)
+				wall.get_node("WorldBoundary").disabled = true
 		
-		## Create a label for the wall
-		#var label = Label.new()
-		#label.text = wall_names[i]
-		#add_child(label)
-#
-		## Position the label near the wall
-		#label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
-		#label.scale = Vector2(2, 2) # Makes the label larger and easier to see
+		# Create a label for the wall
+		var label = Label.new()
+		label.text = borders[i].name
+		add_child(label)
+
+		# Position the label near the wall
+		label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
+		label.scale = Vector2(2, 2) # Makes the label larger and easier to see
 		
-		Utility.mainScene.levelWalls.append(wall_instance)
+		Utility.mainScene.levelWalls.append(wall)
+		i += 1
 		
 func _on_border_coords_moved():
 	wall_positions = [
