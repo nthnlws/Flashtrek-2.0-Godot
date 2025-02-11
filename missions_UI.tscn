@@ -1,59 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://do3osaer0ntc8"]
+[gd_scene load_steps=3 format=3 uid="uid://do3osaer0ntc8"]
 
 [ext_resource type="Script" path="res://scripts/Missions.gd" id="1_iv8j7"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="2_0vrf8"]
-
-[sub_resource type="Animation" id="Animation_in6rx"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-275, 229)]
-}
-
-[sub_resource type="Animation" id="Animation_y7ygg"]
-resource_name = "slide_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 170), Vector2(-275, 170)]
-}
-
-[sub_resource type="Animation" id="Animation_odi63"]
-resource_name = "slide_out"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-275, 170), Vector2(0, 170)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_oos1x"]
-_data = {
-"RESET": SubResource("Animation_in6rx"),
-"slide_in": SubResource("Animation_y7ygg"),
-"slide_out": SubResource("Animation_odi63")
-}
 
 [node name="Missions" type="Control"]
 layout_mode = 3
@@ -65,15 +13,14 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_iv8j7")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="mission_container" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -275.0
-offset_top = 229.0
-offset_right = 4975.0
-offset_bottom = 2709.0
+offset_top = 170.0
+offset_right = 5250.0
+offset_bottom = 2650.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -82,7 +29,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Mission_text" type="RichTextLabel" parent="MarginContainer"]
+[node name="Mission_text" type="RichTextLabel" parent="mission_container"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
@@ -91,18 +38,12 @@ mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_0vrf8")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
-text = "Mission: None
-Target System:
-Target Planet:
-Cargo: Romulan Ale"
+text = "Mission: [color=#FFCC66] None [/color]
+Target System: [color=#6699CC] None [/color]
+Target Planet: [color=#6699CC] None [/color]
+Cargo: [color=#1DCC4B] None [/color]"
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer"]
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_oos1x")
-}

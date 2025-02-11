@@ -22,6 +22,12 @@ func printArrays():
 	print(suns)
 	print(levelWalls)
 	
+func clearArrays():
+	enemies.clear()
+	planets.clear()
+	suns.clear()
+	levelWalls.clear
+	
 var score:int = 0:
 	set(value):
 		score = value
@@ -30,6 +36,7 @@ var score:int = 0:
 
 func _init():
 	Utility.mainScene = self
+	clearArrays()
 	
 	
 func _ready():
