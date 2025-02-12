@@ -199,7 +199,7 @@ var ship_rss = {
 	"Merchantman": null,
 	"Keldon-Class": null,
 	"batlh-Class": null,
-	"Jem'Hadar Attack Ship": preload("res://resources/ships/Jem_Hadar_enemy.tres"),
+	"Jem'Hadar Attack Ship": preload("res://resources/Ships/Jem_Hadar_enemy.tres"),
 	"sech-Class": null,
 	"Pathfinder-Class": null,
 	"Steamrunner-Class": null,
@@ -248,7 +248,7 @@ var ship_rss = {
 	"Challenger-Class": null,
 	"Constitution-II-Class": null,
 	"Constitution-III-Class": null,
-	"Galaxy-Class": preload("res://resources/ships/enterpriseTNG_enemy.tres"),
+	"Galaxy-Class": preload("res://resources/Ships/enterpriseTNG_enemy.tres"),
 	"Maquis Raider": null,
 	"chargh-Class": null,
 	"Wallenberg-Class": null,
@@ -258,7 +258,7 @@ var ship_rss = {
 	"Class III Neutronic Fuel Carrier (Kobayashi Maru)": null,
 	"Shepard-Class": null,
 	"Norway-Class": null,
-	"California-Class": preload("res://resources/ships/California_class_enemy.tres"),
+	"California-Class": preload("res://resources/Ships/California_class_enemy.tres"),
 	"Galaxy-Class (Venture variant)": null,
 	"Springfield-Class": null,
 	"Theta-Class": null,
@@ -276,9 +276,9 @@ var ship_rss = {
 	"Sutherland-Class": null,
 	"Nebula-Class (Phoenix variant)": null,
 	"La Sirena": null,
-	"Monaveen": preload("res://resources/ships/Monaveen_enemy.tres"),
+	"Monaveen": preload("res://resources/Ships/Monaveen_enemy.tres"),
 	"Risian Luxury Cruiser": null,
-	"B'rel-Class": preload("res://resources/ships/BirdOfPrey_enemy.tres"),
+	"B'rel-Class": preload("res://resources/Ships/BirdOfPrey_enemy.tres"),
 	"D'deridex-Class": null,
 	"Engle-Class": null,
 	"Reliant-Class": null,
@@ -383,7 +383,6 @@ func store_level_data(system_name):
 			"y": planet.global_position.y,
 			"frame": planet.get_node("PlanetTexture").frame
 		})
-		system_data["planet_sprite"].append(planet.get_node("PlanetTexture").frame)
 		
 	system_data["player"].append({
 			"position": mainScene.player.global_position,

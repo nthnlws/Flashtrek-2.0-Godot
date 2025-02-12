@@ -68,7 +68,7 @@ func new_game_gen():
 	init_player.add_to_group("level_nodes")
 
 func new_system_gen(system_num):
-	game.reset_arrays()
+	game.clearArrays()
 	print("Creating new system: " + str(system_num))
 	var system_vars = generate_system_variables(system_num)
 	

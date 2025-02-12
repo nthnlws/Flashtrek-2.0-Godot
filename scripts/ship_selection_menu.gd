@@ -22,12 +22,12 @@ var menu_state_machine: Node
 var ship_list: Dictionary = Utility.ship_sprites
 
 @export var ship_rss = {
-	"California_Class": preload("res://resources/ships/California_class_enemy.tres"),
-	"Galaxy_Class": preload("res://resources/ships/enterpriseTNG_enemy.tres"),
+	"California_Class": preload("res://resources/Ships/California_class_enemy.tres"),
+	"Galaxy_Class": preload("res://resources/Ships/enterpriseTNG_enemy.tres"),
 	
-	"Brel_Class": preload("res://resources/ships/BirdOfPrey_enemy.tres"),
+	"Brel_Class": preload("res://resources/Ships/BirdOfPrey_enemy.tres"),
 	
-	"Monaveen": preload("res://resources/ships/Monaveen_enemy.tres")
+	"Monaveen": preload("res://resources/Ships/Monaveen_enemy.tres")
 }
 
 

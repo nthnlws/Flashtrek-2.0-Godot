@@ -26,7 +26,7 @@ func clearArrays():
 	enemies.clear()
 	planets.clear()
 	suns.clear()
-	levelWalls.clear
+	levelWalls.clear()
 	
 var score:int = 0:
 	set(value):
@@ -43,7 +43,7 @@ func _ready():
 	# Signal Connections
 	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
 	SignalBus.entering_galaxy_warp.connect(fade_hud)
-	SignalBus.levelReset.connect(reset_arrays)
+	SignalBus.levelReset.connect(clearArrays)
 	
 	if OS.get_name() == "Windows":
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
@@ -102,10 +102,3 @@ func load_menu_status():
 		GameSettings.set(key, save_data[key])
 		
 	file.close()
-
-
-func reset_arrays():
-	enemies.clear()
-	levelWalls.clear()
-	planets.clear()
-	suns.clear()
