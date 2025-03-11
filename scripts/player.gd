@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody2D
 
+@onready var intersection_line: Line2D = $intersection_line
 
 signal died
 
@@ -183,11 +184,11 @@ func _physics_process(delta):
 				await get_tree().create_timer(rate_of_fire).timeout
 				shoot_cd = false
 				
-	handle_movement(delta)
+	_handle_movement(delta)
 
 	move_and_slide()
 
-func handle_movement(delta):
+func _handle_movement(delta):
 	if Utility.mainScene.in_galaxy_warp == false:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
@@ -456,8 +457,11 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	damage.global_position = hit_pos
 	get_parent().add_child(damage)
 
+
 func galaxy_travel():
 	if Utility.mainScene.galaxy_warp_check():
+		var entry_coords = Navigation.get_square_line_intersection(global_position, global_rotation)
+		
 		SignalBus.entering_galaxy_warp.emit()
 		galaxy_warp_sound.play()
 		await get_tree().create_timer(1.5).timeout
@@ -487,6 +491,10 @@ func galaxy_travel():
 		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 		print("full warp")
 		
+		print(entry_coords)
+		self.global_position = entry_coords
+		print("Warped border")
+		
 		await get_tree().create_timer(3.5).timeout #10 sec, velocity tween ends
 		create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
 		create_tween().tween_property(particles, "amount_ratio", 0.0, 2.5)
@@ -506,3 +514,6 @@ func galaxy_travel():
 		
 		
 		SignalBus.galaxy_warp_screen_fade.emit()
+		
+		#self.global_position = entry_coords["entry_pos"]
+		#self.global_rotation = entry_coords["entry_rotation"]

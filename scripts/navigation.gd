@@ -9,53 +9,49 @@ var leaveDataStored: bool = false # Check to see if player pos has already been 
 var targetSystem: String = "" # Currently selected system on galaxy map
 var playerEntryInfo: Dictionary
 
-func _process(delta: float) -> void:
-	if get_tree().current_scene.name == "Game":
-		if Utility.mainScene.in_galaxy_warp:
-			if leaveDataStored == false:
-				if player_outside_system_check(player.global_position):
-					print("Left system at: " + str(player.global_position))
-					playerEntryInfo = store_player_system_exit_info()
-					print(playerEntryInfo)
-		
 
-func player_outside_system_check(coords: Vector2):
-	if coords.x > 20000 or coords.x < -20000 or coords.y > 20000 or coords.y < -20000:
-		leaveDataStored = true
-		return true
-	else: return false
-	
-	
-func store_player_system_exit_info():
-	var leave_coords: Vector2 = player.global_position
-	var leave_rotation: float = player.global_rotation
-	
-	var leave_info = {
-		"exit_pos": leave_coords,
-		"leave_rotation": leave_rotation
-	}
-	var exit = set_player_system_entry_position(leave_info)
-	return exit
+func get_square_line_intersection(coords: Vector2, angle_rad: float) -> Vector2:
+	angle_rad = angle_rad - PI/2 # Player rotation offset
+	var border_coords = 20000
+	var square_min = Vector2.ZERO - Vector2(border_coords, border_coords)
+	var square_max = Vector2.ZERO + Vector2(border_coords, border_coords)
 
-func set_player_system_entry_position(leave_info):
-	var exit_coords = leave_info["exit_pos"]
-	var entry_coords = leave_info["exit_pos"]
-	var exit_rotation = leave_info["leave_rotation"]
-	
-	# Flip the exit side to place the player on the opposite side
-	if abs(exit_coords.x) >= 20000:
-		# Player exited East/West, so flip the x-coordinate
-		entry_coords.x *= -1
-		# Cap the y-coordinate to 10,000
-		entry_coords.y = clamp(exit_coords.y, -10000, 10000)
-	elif abs(exit_coords.y) >= 20000:
-		# Player exited North/South, so flip the y-coordinate
-		entry_coords.y *= -1
-		# Cap the x-coordinate to 10,000
-		entry_coords.x = clamp(exit_coords.x, -10000, 10000)
-	
-	var entry_info = {
-		"entry_pos": entry_coords,
-		"entry_rotation": exit_rotation
-	}
-	return entry_info
+	var best_intersection = Vector2.INF
+	var best_t = INF
+
+	var cos_angle = cos(angle_rad)
+	var sin_angle = sin(angle_rad)
+
+	# Check right side
+	var t = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	if t > 0:
+		var y = coords.y + t * sin_angle
+		if y >= square_min.y and y <= square_max.y and t < best_t:
+			best_t = t
+			best_intersection = Vector2(square_max.x, y)
+
+	# Check left side
+	t = (square_min.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	if t > 0:
+		var y = coords.y + t * sin_angle
+		if y >= square_min.y and y <= square_max.y and t < best_t:
+			best_t = t
+			best_intersection = Vector2(square_min.x, y)
+
+	# Check top side
+	t = (square_max.y - coords.y) / sin_angle if sin_angle != 0 else INF
+	if t > 0:
+		var x = coords.x + t * cos_angle
+		if x >= square_min.x and x <= square_max.x and t < best_t:
+			best_t = t
+			best_intersection = Vector2(x, square_max.y)
+
+	# Check bottom side
+	t = (square_min.y - coords.y) / sin_angle if sin_angle != 0 else INF
+	if t > 0:
+		var x = coords.x + t * cos_angle
+		if x >= square_min.x and x <= square_max.x and t < best_t:
+			best_t = t
+			best_intersection = Vector2(x, square_min.y)
+
+	return best_intersection

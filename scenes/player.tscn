@@ -335,4 +335,7 @@ bus = &"Characters"
 
 [node name="Projectiles" type="Node" parent="."]
 
+[node name="intersection_line" type="Line2D" parent="."]
+width = 15.0
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
