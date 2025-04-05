@@ -134,4 +134,6 @@ func trigger_warp():
 		print("Warping to system " + str(Navigation.targetSystem))
 		SignalBus.triggerGalaxyWarp.emit()
 		self.visible = false
-	#else: TODO: Trigger error message for no selected system
+	else:
+		var error_message: String = "Select destination warp system"
+		SignalBus.changePopMessage.emit(error_message)

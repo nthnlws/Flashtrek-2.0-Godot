@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=36 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/sun.tscn" id="9_2srcp"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/mini_map.tscn" id="13_pwbrs"]
+[ext_resource type="PackedScene" uid="uid://mwmd8nnqveb0" path="res://scenes/pop_message.tscn" id="14_bhx41"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://do3osaer0ntc8" path="res://missions_UI.tscn" id="16_b2vtt"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
@@ -240,6 +241,8 @@ offset_bottom = 469.0
 
 [node name="Missions" parent="HUD_layer" instance=ExtResource("16_b2vtt")]
 
+[node name="message_UI" parent="HUD_layer" instance=ExtResource("14_bhx41")]
+
 [node name="CanvasModulate" type="CanvasModulate" parent="HUD_layer"]
 unique_name_in_owner = true
 
@@ -276,7 +279,7 @@ color = Color(0, 0, 0, 0)
 unique_name_in_owner = true
 root_node = NodePath("../FadeAnimation")
 libraries = {
-"": SubResource("AnimationLibrary_2hu8d")
+&"": SubResource("AnimationLibrary_2hu8d")
 }
 
 [node name="Video_layer" type="CanvasLayer" parent="."]

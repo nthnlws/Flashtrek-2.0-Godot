@@ -459,6 +459,10 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 
 
 func galaxy_travel():
+	if !Utility.mainScene.galaxy_warp_check():
+		var error_message: String = "Must be stationary and in impulse to warp"
+		SignalBus.changePopMessage.emit(error_message)
+		
 	if Utility.mainScene.galaxy_warp_check():
 		var entry_coords = Navigation.get_square_line_intersection(global_position, global_rotation)
 		
