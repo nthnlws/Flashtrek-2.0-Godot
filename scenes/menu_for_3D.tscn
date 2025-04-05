@@ -1,10 +1,10 @@
 [gd_scene load_steps=16 format=3 uid="uid://5xdx8abl1xi1"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k8b36"]
+[ext_resource type="Script" uid="uid://dpalqg2cengf" path="res://scripts/main_menu.gd" id="1_k8b36"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_pksmb"]
-[ext_resource type="Script" path="res://scripts/Credits.gd" id="6_8arfi"]
+[ext_resource type="Script" uid="uid://c2q23nltytkg1" path="res://scripts/Credits.gd" id="6_8arfi"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_d5k3n"]
-[ext_resource type="Script" path="res://scripts/settings_menu.gd" id="8_bff6q"]
+[ext_resource type="Script" uid="uid://bcmgkke5kh5pw" path="res://scripts/settings_menu.gd" id="8_bff6q"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="9_ua14u"]
 [ext_resource type="AudioStream" uid="uid://ir7wno6dp7vh" path="res://assets/audio/bridge_ambiance.ogg" id="10_hux8j"]
 [ext_resource type="AudioStream" uid="uid://dkdjj8m1o6wov" path="res://assets/audio/music/Ether - MelodySheep.ogg" id="11_7dc00"]
@@ -140,11 +140,11 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4tg"]
 _data = {
-"RESET": SubResource("Animation_8j3nr"),
-"fade_in_long": SubResource("Animation_1d4sy"),
-"fade_in_short": SubResource("Animation_5bg51"),
-"fade_out_long": SubResource("Animation_vunk4"),
-"fade_out_short": SubResource("Animation_02fua")
+&"RESET": SubResource("Animation_8j3nr"),
+&"fade_in_long": SubResource("Animation_1d4sy"),
+&"fade_in_short": SubResource("Animation_5bg51"),
+&"fade_out_long": SubResource("Animation_vunk4"),
+&"fade_out_short": SubResource("Animation_02fua")
 }
 
 [node name="3D_Menu" type="Control"]
@@ -1227,6 +1227,7 @@ size_flags_vertical = 4
 selected = 0
 item_count = 3
 popup/item_0/text = "Enabled"
+popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
 popup/item_1/id = 1
 popup/item_2/text = "Disabled"
@@ -1354,7 +1355,7 @@ color = Color(0, 0, 0, 0)
 unique_name_in_owner = true
 root_node = NodePath("../FadeAnimation")
 libraries = {
-"": SubResource("AnimationLibrary_eo4tg")
+&"": SubResource("AnimationLibrary_eo4tg")
 }
 
 [connection signal="ready" from="." to="." method="_on_ready"]

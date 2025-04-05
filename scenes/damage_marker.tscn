@@ -94,8 +94,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kx4dx"]
 _data = {
-"RESET": SubResource("Animation_1ytle"),
-"pop": SubResource("Animation_nk3jg")
+&"RESET": SubResource("Animation_1ytle"),
+&"pop": SubResource("Animation_nk3jg")
 }
 
 [node name="FloatingText" type="Marker2D"]

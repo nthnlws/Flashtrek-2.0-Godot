@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://nr3ksi6mj4h8"]
 
 [ext_resource type="Texture2D" uid="uid://c8u8gecdegfsb" path="res://assets/textures/UI/Comms_menu.png" id="1_m5mxc"]
-[ext_resource type="Script" path="res://scripts/comms_IU.gd" id="1_u5bv0"]
+[ext_resource type="Script" uid="uid://cm2dhgcj48fob" path="res://scripts/comms_IU.gd" id="1_u5bv0"]
 [ext_resource type="BitMap" uid="uid://r1q582krg3ol" path="res://assets/textures/UI/Comms_close_mask.png" id="3_mrlvj"]
 [ext_resource type="BitMap" uid="uid://53udfmxj0v4f" path="res://assets/textures/UI/comms_reroll_mask.png" id="4_ehn2o"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="5_1daiq"]

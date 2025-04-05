@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ckyf2grb8ts10"]
 
-[ext_resource type="Texture2D" uid="uid://cuot0jw4kemu1" path="res://assets/textures/energyWall.jpg" id="1_f3t3a"]
-[ext_resource type="PackedScene" uid="uid://lp3n1ckd77bd" path="res://scenes/border_wall.tscn" id="2_mkogm"]
+[ext_resource type="Texture2D" uid="uid://c4llr5b0rkkxg" path="res://assets/textures/energyWall.jpg" id="1_f3t3a"]
+[ext_resource type="PackedScene" uid="uid://cg3i76rkna7vb" path="res://scenes/border_wall.tscn" id="2_mkogm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qxnmy"]
 bounce = 0.5

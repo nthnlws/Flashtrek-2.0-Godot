@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://b3ruu3xegfccq"]
 
-[ext_resource type="Script" path="res://scripts/ship_selection_menu.gd" id="1_cpdl5"]
+[ext_resource type="Script" uid="uid://kgsd2ge22qph" path="res://scripts/ship_selection_menu.gd" id="1_cpdl5"]
 [ext_resource type="Texture2D" uid="uid://rrf3pe2c2ey7" path="res://assets/textures/UI/Federation_frame.png" id="2_uw5yw"]
 [ext_resource type="Texture2D" uid="uid://b71d8n3ou78es" path="res://assets/textures/UI/Klingon_frame.png" id="3_6ldbl"]
 [ext_resource type="Texture2D" uid="uid://dy6fjs8soq55y" path="res://assets/textures/UI/Romulan_frame.png" id="4_2rp6b"]

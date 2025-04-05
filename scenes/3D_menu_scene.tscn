@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://b5ym1d2uysiu0" path="res://assets/textures/earthlike_planet_close.hdr" id="1_8f3pa"]
 [ext_resource type="PackedScene" uid="uid://clgsyftwivlyl" path="res://assets/Blender/Enterprise3D.glb" id="1_hiiiv"]
-[ext_resource type="Script" path="res://scripts/CharacterBody3D.gd" id="4_j8kxo"]
-[ext_resource type="Script" path="res://3DMenuShip.gd" id="4_qpw1b"]
+[ext_resource type="Script" uid="uid://dgb84lbkion2g" path="res://scripts/CharacterBody3D.gd" id="4_j8kxo"]
+[ext_resource type="Script" uid="uid://cdh20w1m0r32q" path="res://3DMenuShip.gd" id="4_qpw1b"]
 [ext_resource type="PackedScene" uid="uid://5xdx8abl1xi1" path="res://scenes/menu_for_3D.tscn" id="5_7nucm"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="6_4mx7d"]
 

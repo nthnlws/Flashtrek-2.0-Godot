@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://bw30k7ywbsi2k"]
 
-[ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Kaplan_F17_collision.tres" id="1_muscy"]
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_tkorf"]
+[ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Ships/Kaplan_F17_collision.tres" id="1_muscy"]
+[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/enemy.gd" id="2_tkorf"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ob1pp"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_rs2gc"]
 
@@ -21,6 +21,7 @@ detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
 max_cargo_size = 1
+max_antimatter = 10
 sprite_texture = ExtResource("3_ob1pp")
 weapon = ExtResource("4_rs2gc")
 collision_shape = ExtResource("1_muscy")

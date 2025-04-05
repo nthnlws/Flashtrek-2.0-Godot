@@ -1,25 +1,29 @@
 [gd_scene load_steps=24 format=3 uid="uid://b28vbasgqihyh"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_k143m"]
+[ext_resource type="Script" uid="uid://dpalqg2cengf" path="res://scripts/main_menu.gd" id="1_k143m"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
-[ext_resource type="Script" path="res://scripts/ParallaxBackground.gd" id="3_u5b7k"]
+[ext_resource type="Script" uid="uid://c1worij74iy2k" path="res://scripts/ParallaxBackground.gd" id="3_u5b7k"]
 [ext_resource type="Texture2D" uid="uid://bn7pmakf7alos" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]
-[ext_resource type="Script" path="res://scripts/scrolling_planets.gd" id="5_44yls"]
-[ext_resource type="Script" path="res://scripts/BackgroundShips.gd" id="5_kodeb"]
-[ext_resource type="AudioStream" uid="uid://44qnks50x2o1" path="res://assets/audio/bridge_ambiance.mp3" id="6_qtabb"]
+[ext_resource type="Script" uid="uid://ba1hhqhbkjk5x" path="res://scripts/scrolling_planets.gd" id="5_44yls"]
+[ext_resource type="Script" uid="uid://kfkvw3nlbqbn" path="res://scripts/BackgroundShips.gd" id="5_kodeb"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_5rbna"]
 [ext_resource type="PackedScene" uid="uid://d22g3um1wyu0k" path="res://scenes/no_ai_ship.tscn" id="7_vqk7d"]
 [ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="8_86khc"]
 [ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="9_b1qs5"]
-[ext_resource type="Script" path="res://scripts/settings_menu.gd" id="9_tvike"]
+[ext_resource type="Script" uid="uid://bcmgkke5kh5pw" path="res://scripts/settings_menu.gd" id="9_tvike"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="10_ommt4"]
 [ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="10_uerv3"]
-[ext_resource type="Script" path="res://scripts/Credits.gd" id="12_fk2eb"]
-[ext_resource type="AudioStream" uid="uid://ddhx5n4vlu4bx" path="res://assets/audio/music/Ether - MelodySheep.mp3" id="16_c5c3s"]
+[ext_resource type="Script" uid="uid://c2q23nltytkg1" path="res://scripts/Credits.gd" id="12_fk2eb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_1bju2")
 font_size = 75
+
+[sub_resource type="Resource" id="Resource_67qgm"]
+metadata/__load_path__ = "res://assets/audio/bridge_ambiance.mp3"
+
+[sub_resource type="Resource" id="Resource_0kw3e"]
+metadata/__load_path__ = "res://assets/audio/music/Ether - MelodySheep.mp3"
 
 [sub_resource type="Animation" id="Animation_8j3nr"]
 length = 0.001
@@ -102,11 +106,11 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4tg"]
 _data = {
-"RESET": SubResource("Animation_8j3nr"),
-"fade_in_long": SubResource("Animation_1d4sy"),
-"fade_in_short": SubResource("Animation_5bg51"),
-"fade_out_long": SubResource("Animation_vunk4"),
-"fade_out_short": SubResource("Animation_02fua")
+&"RESET": SubResource("Animation_8j3nr"),
+&"fade_in_long": SubResource("Animation_1d4sy"),
+&"fade_in_short": SubResource("Animation_5bg51"),
+&"fade_out_long": SubResource("Animation_vunk4"),
+&"fade_out_short": SubResource("Animation_02fua")
 }
 
 [node name="MainMenu" type="Control"]
@@ -1309,13 +1313,13 @@ ticks_on_borders = true
 
 [node name="MainMenuBackground" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("6_qtabb")
+stream = SubResource("Resource_67qgm")
 volume_db = -25.0
 bus = &"Music"
 
 [node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("16_c5c3s")
+stream = SubResource("Resource_0kw3e")
 volume_db = -10.0
 bus = &"Music"
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bjyudwfkjlxe5"]
 
-[ext_resource type="Script" path="res://scripts/MiniMap.gd" id="1_66fet"]
+[ext_resource type="Script" uid="uid://d2ec82t4i223h" path="res://scripts/MiniMap.gd" id="1_66fet"]
 
 [node name="MiniMap" type="Control"]
 layout_mode = 3

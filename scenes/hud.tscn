@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://cyg1avbtmwoj7"]
 
-[ext_resource type="Script" path="res://scripts/hud.gd" id="1_3evr2"]
+[ext_resource type="Script" uid="uid://y365qbp8cpj" path="res://scripts/hud.gd" id="1_3evr2"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
 [ext_resource type="Texture2D" uid="uid://d2uj6nbv5t3fb" path="res://assets/textures/UI/Engineering_Insignia.png" id="3_8t62i"]
-[ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/HUD_button.tscn" id="4_6ifva"]
+[ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/hud_button.tscn" id="4_6ifva"]
 [ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/comms_IU.tscn" id="5_hp4w2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]

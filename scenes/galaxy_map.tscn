@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
-[ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
+[ext_resource type="Script" uid="uid://ciiwlhnmwo72u" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
 [ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/destination_indicator.tscn" id="2_rvfec"]
 [ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/UI/WorldMapShaded.png" id="4_7hrdk"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]

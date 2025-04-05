@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://bmw7a0sfnh82u"]
 
-[ext_resource type="Script" path="res://scripts/EnemyCharacter.gd" id="1_vetd3"]
+[ext_resource type="Script" uid="uid://c5qx80nhgkt0p" path="res://scripts/EnemyCharacter.gd" id="1_vetd3"]
 [ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/Ships/BirdOfPrey_enemy.tres" id="2_n6s0y"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="3_bqw1s"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_hv13s"]

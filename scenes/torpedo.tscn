@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://dkwrosj64i8ur"]
 
-[ext_resource type="Script" path="res://scripts/torpedo.gd" id="1_uf70w"]
+[ext_resource type="Script" uid="uid://bf1gm1tl0pg8v" path="res://scripts/torpedo.gd" id="1_uf70w"]
 [ext_resource type="Texture2D" uid="uid://ejr6p7q5rwbx" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
 [ext_resource type="Texture2D" uid="uid://ej5uxca8hxd3" path="res://assets/textures/ships/bullet_explosion.png" id="3_ncjgy"]
 

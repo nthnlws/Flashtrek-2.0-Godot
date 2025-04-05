@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://dbyrwmhbfunib"]
 
-[ext_resource type="Shape2D" uid="uid://f4073aa135ee" path="res://resources/enterpriseTNGcollision.tres" id="1_cjuie"]
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_01fob"]
+[ext_resource type="Shape2D" uid="uid://f4073aa135ee" path="res://resources/Ships/enterpriseTNGcollision.tres" id="1_cjuie"]
+[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/enemy.gd" id="2_01fob"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ank3m"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_0ljhn"]
 
@@ -20,6 +20,8 @@ RANDOMNESS_ANGLE_DEGREES = 3.0
 detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
+max_cargo_size = 1
+max_antimatter = 10
 sprite_texture = ExtResource("3_ank3m")
-torpedo = ExtResource("4_0ljhn")
+weapon = ExtResource("4_0ljhn")
 collision_shape = ExtResource("1_cjuie")

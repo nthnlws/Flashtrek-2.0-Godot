@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgiiidoqugc4o"]
 
-[ext_resource type="Script" path="res://test_images.gd" id="1_dbt36"]
+[ext_resource type="Script" uid="uid://c56x3y43knww8" path="res://test_images.gd" id="1_dbt36"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="1_obega"]
-[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/birdofpreycollision.tres" id="3_vs31h"]
+[ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/Ships/birdofpreycollision.tres" id="3_vs31h"]
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="4_ntqhx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cwb40"]

@@ -1,20 +1,25 @@
 [gd_scene load_steps=9 format=3 uid="uid://d3jaoy0wr34qy"]
 
-[ext_resource type="Script" path="res://scripts/DiscordManager.gd" id="1_p8dy3"]
-[ext_resource type="Script" path="res://scenes/room_walls.gd" id="2_ek417"]
+[ext_resource type="Script" uid="uid://dyhr3yi07pjyv" path="res://scripts/DiscordManager.gd" id="1_p8dy3"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="3_oyg8m"]
-[ext_resource type="Script" path="res://scripts/asteroid.gd" id="4_4t2pi"]
-[ext_resource type="Texture2D" uid="uid://dtx078r3otrec" path="res://assets/textures/ships/meteorGrey_big4.png" id="5_0itx6"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_y0ht4"]
 [ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="7_cv3po"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="8_evrud"]
 
+[sub_resource type="Resource" id="Resource_ppgk2"]
+metadata/__load_path__ = "res://scenes/room_walls.gd"
+
+[sub_resource type="Resource" id="Resource_2r41h"]
+metadata/__load_path__ = "res://scripts/asteroid.gd"
+
+[sub_resource type="Resource" id="Resource_klq6b"]
+metadata/__load_path__ = "res://assets/textures/ships/meteorGrey_big4.png"
 
 [node name="Level" type="Node"]
 script = ExtResource("1_p8dy3")
 
 [node name="RoomBorders" type="Node2D" parent="."]
-script = ExtResource("2_ek417")
+script = SubResource("Resource_ppgk2")
 
 [node name="Player" parent="." instance=ExtResource("3_oyg8m")]
 z_index = 1
@@ -28,10 +33,10 @@ position = Vector2(640, 361)
 position = Vector2(600, 100)
 collision_layer = 4
 collision_mask = 11
-script = ExtResource("4_4t2pi")
+script = SubResource("Resource_2r41h")
 
 [node name="Sprite2D" type="Sprite2D" parent="Asteroids/Asteroid"]
-texture = ExtResource("5_0itx6")
+texture = SubResource("Resource_klq6b")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid"]
 polygon = PackedVector2Array(17, -48, 50, -12, 31, 43, -19, 48, -50, 10, -35, -34)

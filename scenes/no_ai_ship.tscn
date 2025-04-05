@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d22g3um1wyu0k"]
 
-[ext_resource type="Script" path="res://scripts/no_ai_ship.gd" id="1_bwdju"]
+[ext_resource type="Script" uid="uid://7y2f4u1h64qg" path="res://scripts/no_ai_ship.gd" id="1_bwdju"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="2_u8wnj"]
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="4_qxfks"]
 

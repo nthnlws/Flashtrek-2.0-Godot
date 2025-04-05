@@ -1,8 +1,8 @@
 [gd_scene load_steps=35 format=3 uid="uid://b250bg1ysk5dk"]
 
-[ext_resource type="Script" path="res://scripts/game.gd" id="1_ci0lx"]
+[ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
-[ext_resource type="Script" path="res://scripts/level_generation.gd" id="2_nfpiu"]
+[ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_generation.gd" id="2_nfpiu"]
 [ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_borders.tscn" id="2_ufmu8"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/sun.tscn" id="9_2srcp"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/mini_map.tscn" id="13_pwbrs"]
-[ext_resource type="Script" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
+[ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://do3osaer0ntc8" path="res://missions_UI.tscn" id="16_b2vtt"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
@@ -23,8 +23,8 @@
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="21_exi4y"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
 [ext_resource type="AudioStream" uid="uid://cyosefa6hu3fa" path="res://assets/audio/music/Mesa.ogg" id="23_vrbdd"]
-[ext_resource type="Script" path="res://scenes/background_music.gd" id="23_xpi24"]
-[ext_resource type="Script" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
+[ext_resource type="Script" uid="uid://bf380s1hlsb0f" path="res://scenes/background_music.gd" id="23_xpi24"]
+[ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
 
 [sub_resource type="Animation" id="Animation_2b4ug"]
 length = 0.001
@@ -197,13 +197,13 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2hu8d"]
 _data = {
-"RESET": SubResource("Animation_2b4ug"),
-"fade_in_long": SubResource("Animation_0pgod"),
-"fade_in_short": SubResource("Animation_arcv3"),
-"fade_in_video": SubResource("Animation_d1ssx"),
-"fade_out_long": SubResource("Animation_7aag7"),
-"fade_out_short": SubResource("Animation_oc86j"),
-"galaxy_travel_fade_out": SubResource("Animation_lmvo2")
+&"RESET": SubResource("Animation_2b4ug"),
+&"fade_in_long": SubResource("Animation_0pgod"),
+&"fade_in_short": SubResource("Animation_arcv3"),
+&"fade_in_video": SubResource("Animation_d1ssx"),
+&"fade_out_long": SubResource("Animation_7aag7"),
+&"fade_out_short": SubResource("Animation_oc86j"),
+&"galaxy_travel_fade_out": SubResource("Animation_lmvo2")
 }
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_1xcu0"]

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://breh2tjl0qrqy"]
 
-[ext_resource type="Shape2D" uid="uid://3cy0mjndg1s7" path="res://resources/Californiacollision.tres" id="1_k15bf"]
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="2_7g5da"]
+[ext_resource type="Shape2D" uid="uid://3cy0mjndg1s7" path="res://resources/Ships/Californiacollision.tres" id="1_k15bf"]
+[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/enemy.gd" id="2_7g5da"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_swviw"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_lwxsx"]
 
@@ -20,6 +20,8 @@ RANDOMNESS_ANGLE_DEGREES = 3.0
 detection_radius = 1250
 max_hp = 100
 max_shield_health = 50
+max_cargo_size = 1
+max_antimatter = 10
 sprite_texture = ExtResource("3_swviw")
 weapon = ExtResource("4_lwxsx")
 collision_shape = ExtResource("1_k15bf")

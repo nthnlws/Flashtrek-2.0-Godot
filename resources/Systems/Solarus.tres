@@ -1,7 +1,9 @@
 [gd_resource type="Resource" script_class="System" load_steps=2 format=3 uid="uid://cfd5bo2a1rhnh"]
 
-[ext_resource type="Script" path="res://scripts/system_rss.gd" id="1_mf4hl"]
+[ext_resource type="Script" uid="uid://dl1335mqup6o7" path="res://scripts/system_rss.gd" id="1_mf4hl"]
 
 [resource]
 script = ExtResource("1_mf4hl")
 faction = 0
+planet_num = 3
+sun_num = 1

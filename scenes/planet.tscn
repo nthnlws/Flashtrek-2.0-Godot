@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjwf6ulibdpvr"]
 
-[ext_resource type="Script" path="res://scripts/planet.gd" id="1_u3uqc"]
+[ext_resource type="Script" uid="uid://owc1q1nlv3cr" path="res://scripts/planet.gd" id="1_u3uqc"]
 [ext_resource type="Texture2D" uid="uid://csqm03cav5a3l" path="res://assets/textures/planets/planet_sprite_sheet.png" id="2_ayfns"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_st7tq"]

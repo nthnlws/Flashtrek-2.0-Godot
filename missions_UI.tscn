@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://do3osaer0ntc8"]
 
-[ext_resource type="Script" path="res://scripts/Missions.gd" id="1_iv8j7"]
+[ext_resource type="Script" uid="uid://cjjnvn2fjhwa5" path="res://scripts/Missions.gd" id="1_iv8j7"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="2_0vrf8"]
 
 [node name="Missions" type="Control"]

@@ -1,11 +1,11 @@
 [gd_scene load_steps=51 format=3 uid="uid://1wnfmblulhx0"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_w51pe"]
+[ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/player.gd" id="1_w51pe"]
 [ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/Ships/BirdOfPrey_enemy.tres" id="2_4ix78"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/damage_marker.tscn" id="2_7odc1"]
 [ext_resource type="PackedScene" uid="uid://p5elivo633p4" path="res://scenes/laser.tscn" id="2_vj0n8"]
 [ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/playerShield.tscn" id="2_y8s0b"]
-[ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_fns5h"]
+[ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/Camera2D.gd" id="3_fns5h"]
 [ext_resource type="Resource" uid="uid://d24cbe3l6hkfj" path="res://resources/Ships/Jem_Hadar_enemy.tres" id="3_i75xj"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="3_newiu"]
 [ext_resource type="Resource" uid="uid://dbyrwmhbfunib" path="res://resources/Ships/enterpriseTNG_enemy.tres" id="4_bgcog"]
@@ -18,7 +18,7 @@
 [ext_resource type="Resource" uid="uid://bw30k7ywbsi2k" path="res://resources/Ships/Kaplan_F17_enemy.tres" id="7_0rxlr"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
 [ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Ships/Kaplan_F17_collision.tres" id="7_b5xnp"]
-[ext_resource type="Shader" path="res://resources/white_flash.gdshader" id="8_e66fo"]
+[ext_resource type="Shader" uid="uid://dabd5ayh2jstj" path="res://resources/white_flash.gdshader" id="8_e66fo"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
@@ -41,8 +41,7 @@ colors = PackedColorArray(0.610075, 0.766952, 0.999999, 1, 0.776723, 0.797925, 0
 gradient = SubResource("Gradient_sdlsd")
 
 [sub_resource type="Curve" id="Curve_hvu0f"]
-min_value = -200.0
-max_value = 200.0
+_limits = [-200.0, 200.0, 0.0, 1.0]
 _data = [Vector2(0, -200), 0.0, 0.0, 0, 0, Vector2(1, 200), 560.0, 0.0, 0, 0]
 point_count = 2
 
@@ -200,8 +199,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gd61k"]
 _data = {
-"RESET": SubResource("Animation_crmot"),
-"flash_anim": SubResource("Animation_27up3")
+&"RESET": SubResource("Animation_crmot"),
+&"flash_anim": SubResource("Animation_27up3")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -226,8 +225,8 @@ position = Vector2(0, 19)
 emitting = false
 amount = 500
 amount_ratio = 0.01
-process_material = SubResource("ParticleProcessMaterial_ai1hp")
 texture = ExtResource("4_mse3f")
+process_material = SubResource("ParticleProcessMaterial_ai1hp")
 
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -12)
@@ -273,7 +272,7 @@ animation = &"warp_collapse"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Audio")
 libraries = {
-"": SubResource("AnimationLibrary_gd61k")
+&"": SubResource("AnimationLibrary_gd61k")
 }
 
 [node name="Audio" type="Node2D" parent="."]

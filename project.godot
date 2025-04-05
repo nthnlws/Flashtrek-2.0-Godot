@@ -14,7 +14,7 @@ config/name="FlashTrek-2.0"
 run/main_scene="res://scenes/3D_menu_scene.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Flashtrek"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icons/icon_256.png"
 config/windows_native_icon="res://assets/icons/icon_256.ico"
 

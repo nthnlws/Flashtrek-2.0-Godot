@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bk5rb0wdhnfkm"]
 
-[ext_resource type="Script" path="res://scripts/room_walls.gd" id="1_vhoqo"]
+[ext_resource type="Script" uid="uid://tde8emnlm7jt" path="res://scripts/room_walls.gd" id="1_vhoqo"]
 [ext_resource type="Texture2D" uid="uid://c4llr5b0rkkxg" path="res://assets/textures/energyWall.jpg" id="2_rxq7q"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mqm5d"]
