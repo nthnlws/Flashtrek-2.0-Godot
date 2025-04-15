@@ -13,7 +13,6 @@ radius = 14.7
 
 [node name="enemyShield" type="Sprite2D"]
 material = SubResource("ShaderMaterial_ksrv6")
-scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_h8s3t")
 script = ExtResource("3_0y86e")
 
@@ -26,5 +25,7 @@ scale = Vector2(1, 1.835)
 shape = SubResource("CircleShape2D_5nxll")
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="Hitmarkers" type="Node" parent="."]
 
 [connection signal="area_entered" from="shield_area" to="." method="_on_shield_area_entered"]

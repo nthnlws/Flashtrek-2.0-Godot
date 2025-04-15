@@ -13,10 +13,11 @@ radius = 14.69
 
 [node name="playerShield" type="Sprite2D"]
 material = SubResource("ShaderMaterial_ksrv6")
-position = Vector2(0, 3)
-scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_yve2b")
 script = ExtResource("3_83jbl")
+base_max_SP = null
+regen_speed = null
+sp_max = null
 
 [node name="shield_area" type="Area2D" parent="." groups=["shield"]]
 collision_layer = 64
@@ -27,5 +28,7 @@ scale = Vector2(1, 1.835)
 shape = SubResource("CircleShape2D_5nxll")
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="Hitmarkers" type="Node" parent="."]
 
 [connection signal="area_entered" from="shield_area" to="." method="_on_shield_area_entered"]

@@ -146,7 +146,7 @@ func sync_to_resource():
 	if torpedo:
 		var torpedo_scene = torpedo.instantiate()
 		bullet_speed = torpedo_scene.speed
-		bullet_life = torpedo_scene.lifetime
+		bullet_life = torpedo_scene.lifetime_seconds
 
 		# Initialize shield settings
 		#shield.enemy_name = enemy_data.enemy_name
@@ -208,7 +208,7 @@ func moveToTarget(targetName, targetPos, delta):
 func explode():
 	Utility.mainScene.enemies.erase(self)
 	SignalBus.enemyDied.emit(self)
-	shield.shieldDie(shield.ShieldDeathLength.PERM)
+	shield.shieldDie()
 	$Sprite2D.visible = false
 	$Hitbox.monitoring = false
 	$AgroBox.monitoring = false

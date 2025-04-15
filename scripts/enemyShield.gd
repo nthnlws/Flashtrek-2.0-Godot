@@ -1,81 +1,21 @@
-#class_name Shield
-extends Sprite2D
+extends Shield
 
-enum ShieldDeathLength {TEMP, PERM}
 
-@onready var parent: Node = get_parent()
-
-var processing_active:bool = true
-var damageTime:bool = false # Timeout
-var shieldActive:bool = true
-@export var regen_speed:float = 2.5
-
-@onready var shield_area:Area2D = $shield_area
-
-# Enemy shield health variables
-@export var sp_max:int = 50
-var sp_current:float = sp_max:
-	get: return clamp(sp_current, 0, sp_max)
-
-func _ready():
-	SignalBus.enemy_shield_cheat_state.connect(shieldDie)
-
-	
 func _process(delta):
-	if processing_active:
-		if shieldActive and sp_current <= sp_max and damageTime == false:
-			sp_current += regen_speed * delta
-		if sp_current <= 0.05 and shieldActive:
-			shieldDie(ShieldDeathLength.TEMP)
-		
-		if GameSettings.enemyShield != null:
-			if GameSettings.enemyShield == false:
-				visible = false
-				shield_area.collision_layer = 0
-				shield_area.collision_mask = 0
-			elif GameSettings.enemyShield == true && shieldActive == true:
-				visible = true
-				shield_area.collision_layer = 3
-				shield_area.collision_mask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3)
+	if shieldActive and sp_current <= sp_max and damageTime == false:
+		regen_shield(delta)
 
-#Turns shield off when health goes to 0
-func shieldDie(death_length):  # ShieldDeathLength {TEMP, PERM}
-	shield_area.set_monitoring.call_deferred(false)
-	shield_area.set_monitorable.call_deferred(false)
-	self.visible = false
-	shieldActive = false
-	if death_length == ShieldDeathLength.TEMP:
-		await get_tree().create_timer(3).timeout
-		shieldAlive()
-	
-func shieldAlive(): #Instant on shield
-	shield_area.set_monitoring.call_deferred(true)
-	shield_area.set_monitorable.call_deferred(true)
-	self.visible = true
-	shieldActive = true
-	sp_current = 0.1
 
-func damageTimeout(): #Turns off shield regen for 1 second after damage taken
-	damageTime = true
-	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
-		$Timer.stop()
-		$Timer.start()
-		await $Timer.timeout
-		damageTime = false
-	if $Timer.is_stopped() == true: # Starts timer if it is not already
-		$Timer.start()
-		await $Timer.timeout
-		damageTime = false
-	
-func _on_shield_area_entered(area): #Torpedo damage
-	if area.is_in_group("projectile") and area.shooter != "enemy":
-		area.kill_projectile("shield")
-		var damage_taken = area.damage
-		var hit_pos = area.global_position
-		sp_current -= damage_taken
+func take_damage(damage, shooter, projectile):
+	if shooter != "enemy":
 		damageTimeout()
-		if parent.has_method("create_damage_indicator"):
-			parent.create_damage_indicator(damage_taken, hit_pos, Utility.damage_green)
-			
-	elif area.is_in_group("enemy"):
-		pass
+		
+		sp_current -= damage
+		
+		var spawn = projectile.create_damage_indicator(damage, self.global_position, $shield_area.name)
+		projectile.kill_projectile($shield_area.name)
+		$Hitmarkers.add_child(spawn)
+		
+		
+		if sp_current <= 0:
+			shieldDie()

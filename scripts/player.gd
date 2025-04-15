@@ -257,13 +257,13 @@ func sync_to_resource():
 
 
 	# Load the collision shape from the resource
-	if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
-		$Hitbox/CollisionShape2D2.shape = enemy_data.collision_shape
-		$WorldCollisionShape.shape = enemy_data.collision_shape
-		$Hitbox/CollisionShape2D2.scale = enemy_data.sprite_scale
-		$WorldCollisionShape.scale = enemy_data.sprite_scale
-	else:
-		print("Warning: No collision shape found for ", enemy_data.enemy_name)
+	#if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
+		#$Hitbox/CollisionShape2D2.shape = enemy_data.collision_shape
+		#$WorldCollisionShape.shape = enemy_data.collision_shape
+		#$Hitbox/CollisionShape2D2.scale = enemy_data.sprite_scale
+		#$WorldCollisionShape.scale = enemy_data.sprite_scale
+	#else:
+		#print("Warning: No collision shape found for ", enemy_data.enemy_name)
 
 	# Initialize shield settings
 	#shield.enemy_name = enemy_data.enemy_name
@@ -286,7 +286,7 @@ func warping_state_change(speed): # Reverses warping state
 				scale = Vector2(1, 1)
 				warpm_v = 1.0
 				warpm_r = 1.0
-				shield.call_deferred("fadein", "INSTANT")
+				shield.call_deferred("fadein_SMOOTH")
 			"SMOOTH":
 				var tween_scale = create_tween() # Ship sprite scale
 				tween_scale.tween_property(self, "scale", Vector2(1, 1), trans_length)
@@ -300,7 +300,7 @@ func warping_state_change(speed): # Reverses warping state
 				tween_r.tween_property(self, "warpm_r", 1.0, trans_length)
 				current_tweens.append(tween_r)
 				
-				shield.fadein("SMOOTH")
+				shield.fadein_SMOOTH()
 				warp_sound_off()
 	else: # Transition to warp
 		warping_active = true
@@ -310,7 +310,7 @@ func warping_state_change(speed): # Reverses warping state
 				scale = Vector2(1, 1.70)
 				warpm_v = warp_multiplier
 				warpm_r = warp_multiplier
-				shield.fadeout("INSTANT")
+				shield.fadeout_INSTANT()
 			"SMOOTH":
 				var tween_scale = create_tween() # Ship sprite scale
 				tween_scale.tween_property(self, "scale", Vector2(1, 1.70), trans_length)
@@ -324,7 +324,7 @@ func warping_state_change(speed): # Reverses warping state
 				tween_r.tween_property(self, "warpm_r", warp_multiplier, trans_length)
 				current_tweens.append(tween_r)
 				
-				shield.fadeout("SMOOTH")
+				shield.fadeout_SMOOTH()
 
 	
 func shoot_torpedo():
@@ -469,7 +469,7 @@ func galaxy_travel():
 		SignalBus.entering_galaxy_warp.emit()
 		galaxy_warp_sound.play()
 		await get_tree().create_timer(1.5).timeout
-		shield.fadeout("SMOOTH")
+		shield.fadeout_SMOOTH()
 		
 		await get_tree().create_timer(0.5).timeout # 2 sec
 		var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)

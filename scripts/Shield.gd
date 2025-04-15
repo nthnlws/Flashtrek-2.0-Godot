@@ -1,27 +1,28 @@
 class_name Shield extends Sprite2D
 
-var damageTime:bool = false
-@export var regen_speed:float = 2.5
-@export var sp_max:int = 50
+@onready var parent: Node = get_parent()
 
-@onready var trans_length:int = 1
+var damageTime:bool = false # Timeout
+var shieldActive:bool = true
+
+var trans_length:float = 0.8
+@export var regen_speed:float = 2.5
+
 @onready var shield_area:Area2D = $shield_area
 
-@onready var sp_current:float = sp_max
-@onready var shieldActive:bool = true
+# Enemy shield health variables
+@export var sp_max:int = 50
+var sp_current:float = sp_max:
+	get: return clamp(sp_current, 0, sp_max)
+	
 
-func _ready():
-	pass
 
-func _process(delta):
-	if shieldActive == true and sp_current <= sp_max and damageTime == false:
-		sp_current += regen_speed * delta
-	if get_parent().warping_active == true and shieldActive == true:
-		#Forces shieldActive to false when player is warping
-		shieldActive = false
-		
-
-func fadeout(): #Fades shield to 0 Alpha
+func regen_shield(delta):
+	sp_current += regen_speed * delta
+	
+	
+# Fades shield to 0 Alpha
+func fadeout_INSTANT():
 	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
@@ -29,19 +30,37 @@ func fadeout(): #Fades shield to 0 Alpha
 	shield_area.set_monitorable.call_deferred(false)
 	shieldActive = false
 
-func fadein(): #Fades shield in to 255 Alpha
+func fadeout_SMOOTH():
+	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+	tween.tween_property(self, "modulate:a", 0, trans_length)
+	await tween.finished
+	shield_area.set_monitoring.call_deferred(false)
+	shield_area.set_monitorable.call_deferred(false)
+	shieldActive = false
+
+# Fades shield in to 255 Alpha
+func fadein_INSTANT():
+	modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
+	shield_area.set_monitoring(true)
+	shield_area.set_monitorable(true)
+	shieldActive = true
+
+func fadein_SMOOTH():
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 1, trans_length)
 	await tween.finished
 	shield_area.set_monitoring.call_deferred(true)
 	shield_area.set_monitorable.call_deferred(true)
 	shieldActive = true
-	
-func shieldDie(): #Instantly turns off shield when health goes to 0
+
+func shieldDie(): #Instantly turns off shield
 	shield_area.set_monitoring.call_deferred(false)
 	shield_area.set_monitorable.call_deferred(false)
 	self.visible = false
 	shieldActive = false
+	sp_current = 0.0001
+	await get_tree().create_timer(3).timeout
+	shieldAlive()
 	
 func shieldAlive(): #Instant on shield
 	shield_area.set_monitoring.call_deferred(true)
@@ -50,23 +69,13 @@ func shieldAlive(): #Instant on shield
 	shieldActive = true
 
 func damageTimeout(): #Turns off shield regen for 1 second after damage taken
-	if damageTime == false:
-		damageTime = true
-		await get_tree().create_timer(1).timeout
+	damageTime = true
+	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
+		$Timer.stop()
+		$Timer.start()
+		await $Timer.timeout
 		damageTime = false
-	
-func _on_shield_area_entered(area): #Torpedo damage
-	if area.is_in_group("torpedo") and area.shooter != "player":
-		area.queue_free()
-		var damage_taken = area.damage
-		sp_current -= damage_taken
-		damageTimeout()
-		if sp_current <= 0:
-			#get_parent().hp_current += sp_current #Passes extra damage to player hull health
-			shieldDie()
-			sp_current = 0
-			await get_tree().create_timer(3).timeout
-			shieldAlive()
-	elif area.is_in_group("enemy"):
-		pass
-		#get_parent().die()
+	if $Timer.is_stopped() == true: # Starts timer if it is not already
+		$Timer.start()
+		await $Timer.timeout
+		damageTime = false

@@ -123,6 +123,6 @@ shortcut_keys_enabled = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_kx4dx")
+&"": SubResource("AnimationLibrary_kx4dx")
 }
 autoplay = "pop"
