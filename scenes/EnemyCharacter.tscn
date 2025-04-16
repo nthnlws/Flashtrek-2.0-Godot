@@ -123,11 +123,11 @@ shape = SubResource("CircleShape2D_ugric")
 texture = SubResource("AtlasTexture_lot0p")
 region_rect = Rect2(144, 144, 144, 144)
 
-[node name="Hitbox" type="Area2D" parent="." groups=["enemy_hitbox"]]
+[node name="hitbox_area" type="Area2D" parent="." groups=["enemy_hitbox"]]
 collision_layer = 128
 collision_mask = 15
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_area"]
 shape = ExtResource("8_8v3kn")
 
 [node name="WorldCollisionShape" type="CollisionShape2D" parent="."]
@@ -141,7 +141,7 @@ scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_mwxxd")
 animation = &"explode"
 
-[node name="Sounds" type="Node2D" parent="."]
+[node name="Sounds" type="Node" parent="."]
 
 [node name="TorpedoHit" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
@@ -185,6 +185,8 @@ max_distance = 3000.0
 attenuation = 0.615573
 bus = &"Characters"
 
+[node name="Hitmarkers" type="Node" parent="."]
+
 [connection signal="body_entered" from="AgroBox" to="." method="_on_agro_box_body_entered"]
 [connection signal="body_exited" from="AgroBox" to="." method="_on_agro_box_body_exited"]
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="hitbox_area" to="." method="_on_hitbox_area_entered"]

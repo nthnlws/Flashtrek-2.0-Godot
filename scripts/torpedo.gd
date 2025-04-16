@@ -41,7 +41,7 @@ func kill_projectile(target): # Creates explosion animation and kills self
 	moving = false
 	if target == "shield_area":
 		animation.play("explode_shield")
-	elif target == "hull":
+	elif target == "hitbox_area":
 		animation.play("explode_hull")
 	await animation.animation_finished
 	queue_free()
@@ -50,7 +50,7 @@ func kill_projectile(target): # Creates explosion animation and kills self
 
 func _on_torpedo_collision(area: Area2D) -> void:
 	var parent = area.get_parent()
-	if parent.has_method("take_damage"):
+	if parent.has_method("take_damage") and area.name != "AgroBox":
 		var target = parent.take_damage(damage, shooter, self)
 
 
@@ -59,7 +59,7 @@ func create_damage_indicator(damage_taken:float, target:String):
 	if target == "shield_area":
 		var color = Utility.damage_blue
 		damage.find_child("Label").text = color + str(damage_taken)
-	if target == "hull":
+	if target == "hitbox_area":
 		var color = Utility.damage_red
 		damage.find_child("Label").text = color + str(damage_taken)
 	damage.global_position = self.global_position

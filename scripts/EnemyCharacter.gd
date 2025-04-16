@@ -15,7 +15,7 @@ signal player_collision(Area: Area2D)
 @export var enemy_data: Enemy  # Reference to the Enemy resource
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
-@onready var collision_shape_node: CollisionShape2D = $Hitbox/CollisionShape2D  # Reference to the CollisionShape2D node
+@onready var collision_shape_node: CollisionShape2D = $hitbox_area/CollisionShape2D  # Reference to the CollisionShape2D node
 @onready var shield: Node = $enemyShield
 @onready var muzzle = $Muzzle
 @onready var animation = $hull_explosion
@@ -133,9 +133,9 @@ func sync_to_resource():
 
 	# Load the collision shape from the resource
 	if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
-		$Hitbox/CollisionShape2D.shape = enemy_data.collision_shape
+		$hitbox_area/CollisionShape2D.shape = enemy_data.collision_shape
 		$WorldCollisionShape.shape = enemy_data.collision_shape
-		$Hitbox/CollisionShape2D.scale = enemy_data.sprite_scale
+		$hitbox_area/CollisionShape2D.scale = enemy_data.sprite_scale
 		$WorldCollisionShape.scale = enemy_data.sprite_scale
 	else:
 		print("Warning: No collision shape found for ", enemy_data.enemy_name)
@@ -210,7 +210,7 @@ func explode():
 	SignalBus.enemyDied.emit(self)
 	shield.shieldDie()
 	$Sprite2D.visible = false
-	$Hitbox.monitoring = false
+	$hitbox_area.monitoring = false
 	$AgroBox.monitoring = false
 	%ship_explosion.play()
 	alive = false
@@ -218,25 +218,6 @@ func explode():
 	animation.play("explode")
 	await animation.animation_finished
 	queue_free()
-
-func _on_hitbox_area_entered(area):
-	if area.is_in_group("projectile") and area.shooter != "enemy":
-		%TorpedoHit.play()
-		area.kill_projectile("hull") # Kills projectile and sets explosion sprite type
-		
-		#Take Damage
-		var damage_taken = area.damage
-		hp_current -= damage_taken
-		
-		#Create hit marker
-		var hit_pos = area.global_position
-		create_damage_indicator(damage_taken, hit_pos, Utility.damage_green)
-
-func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
-	var damage = damage_indicator.instantiate()
-	damage.find_child("Label").text = color + str(damage_taken)
-	damage.global_position = hit_pos
-	get_parent().add_child(damage)
 
 
 func predict_player_position():
@@ -325,11 +306,11 @@ func calculate_shooting_angle() -> float:
 func shoot_bullet():# Instantiate and configure bullet
 	var angle = calculate_shooting_angle()
 	if angle != -1.0:
+		# Prep torpedo to shoot
 		var bullet = torpedo.instantiate()
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
 		bullet.shooter = "enemy"
-		# Velocity not needed as torpedo handles movement
 		call_deferred("instantiate_bullet", bullet)
 
 
@@ -351,3 +332,14 @@ func _on_agro_box_body_exited(body: Node2D) -> void:
 		playerAgro =  false
 		player = null
 		angle_diff = TAU
+
+func take_damage(damage, shooter, projectile):
+	if shooter != "enemy":
+		hp_current -= damage
+		
+		var spawn = projectile.create_damage_indicator(damage, $hitbox_area.name)
+		projectile.kill_projectile($hitbox_area.name)
+		$Hitmarkers.add_child(spawn)
+		
+		if hp_current <= 0:
+			explode()

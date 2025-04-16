@@ -12,7 +12,7 @@ func take_damage(damage, shooter, projectile):
 		
 		sp_current -= damage
 		
-		var spawn = projectile.create_damage_indicator(damage, self.global_position, $shield_area.name)
+		var spawn = projectile.create_damage_indicator(damage, $shield_area.name)
 		projectile.kill_projectile($shield_area.name)
 		$Hitmarkers.add_child(spawn)
 		
