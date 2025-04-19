@@ -68,10 +68,10 @@ func instantiate_new_system_nodes():
 	init_spawn.add_to_group("player_spawn_area")
 	
 
-	for i in range(6):
+	for i in range(6): # Spawn 6 planets for use in level gen
 		var init_planet: Node2D = Planets.instantiate()
 		add_child(init_planet)
-		init_planet.global_position = Vector2(40000, 40000)
+		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
 		
 	#var init_hostiles = Hostiles.instantiate()
 	#add_child(init_hostiles)
