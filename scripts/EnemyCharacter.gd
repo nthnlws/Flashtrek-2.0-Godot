@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 signal exploded(pos, size, points)
-signal player_collision(Area: Area2D)
 
 @export var BIRD_OF_PREY_ENEMY: Resource
 @export var JEM_HADAR_ENEMY: Resource

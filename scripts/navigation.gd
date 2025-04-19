@@ -1,6 +1,5 @@
 extends Node
 
-var player
 var currentSystem: String = "Solarus"
 var current_system_faction: Utility.FACTION = 0
 

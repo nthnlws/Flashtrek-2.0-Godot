@@ -16,10 +16,12 @@ func _ready():
 	rotation_degrees = 40
 
 	
-	var random_index = randi_range(0, 220)
+	var random_index = randi_range(0, 206)
 	sprite.frame = random_index
 	
+
 	Utility.mainScene.planets.append(self)
+
 	
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)

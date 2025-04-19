@@ -22,7 +22,7 @@ func _ready():
 		place_planet(position, name)
 
 func get_valid_position() -> Vector2:
-	const max_attempts = 100
+	const max_attempts = 500
 	var attempt = 0
 	
 	while attempt < max_attempts:

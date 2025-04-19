@@ -18,11 +18,11 @@
 [ext_resource type="Resource" uid="uid://bw30k7ywbsi2k" path="res://resources/Ships/Kaplan_F17_enemy.tres" id="7_0rxlr"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
 [ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Ships/Kaplan_F17_collision.tres" id="7_b5xnp"]
-[ext_resource type="Shader" uid="uid://dabd5ayh2jstj" path="res://resources/white_flash.gdshader" id="8_e66fo"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="13_klvb2"]
+[ext_resource type="Shader" uid="uid://xoe0le12ln0y" path="res://resources/Materials_Shaders/teleport.gdshader" id="14_ke2ow"]
 [ext_resource type="AudioStream" uid="uid://dq11kuumua3bu" path="res://assets/audio/galaxy_warp_UP.ogg" id="16_hjmq1"]
 [ext_resource type="AudioStream" uid="uid://w1mbhrv11vbo" path="res://assets/audio/warp_boom.ogg" id="17_e8fxd"]
 
@@ -64,9 +64,11 @@ color_ramp = SubResource("GradientTexture1D_iucyo")
 alpha_curve = SubResource("CurveTexture_dad8g")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6yxh3"]
-shader = ExtResource("8_e66fo")
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_value = 1.0
+shader = ExtResource("14_ke2ow")
+shader_parameter/progress = 0.0
+shader_parameter/noise_desnity = 60.0
+shader_parameter/beam_size = 0.15
+shader_parameter/color = Color(0, 1.02, 1.2, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wg5l6"]
 atlas = ExtResource("6_54us1")

@@ -101,6 +101,7 @@ func _ready():
 		button.gui_input.connect(handle_button_click.bind(button))
 	
 	# Mission text setup
+	#print(Utility.mainScene.planets)
 	var planet_node = Utility.mainScene.planets[0]
 	var detection_radius = planet_node.get_node("CommArea").get_node("CollisionShape2D")
 	ship_name = player.player_name
@@ -125,8 +126,6 @@ func handle_button_click(event, button):
 	
 
 func set_dynamic_text():
-	print("Current cargo: " + str(player.current_cargo))
-	print("Max cargo: " + str(player.base_cargo_size))
 	if player.current_cargo + 1 <= player.base_cargo_size:
 		var data = {
 			"planet": "[color=#6699CC]" + current_planet + "[/color]",

@@ -5,6 +5,8 @@ extends Node2D
 @onready var VidModulate = %VidModulate
 @onready var canvas_modulate = %CanvasModulate
 @onready var warp_video = %warp_video
+@onready var full_color_rect: ColorRect = %FadeAnimation
+@onready var loading_screen: Control = %LoadingScreen
 
 var in_galaxy_warp:bool = false
 
@@ -16,7 +18,7 @@ var player: Player
 var starbase = []
 var systems = ["Solarus", "Romulus", "Kronos"]
 
-func printArrays():
+func _printArrays():
 	print(enemies)
 	print(planets)
 	print(suns)
@@ -77,8 +79,11 @@ func galaxy_fade_out():
 	
 	
 	get_tree().paused = true
-	#print("Warp finished with target system " + str(Navigation.targetSystem))
+	print("Warp finished with target system " + str(Navigation.targetSystem))
 	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
+	
+	loading_screen.visile = true
+	full_color_rect.color = Color(1, 1, 1, 0)
 	
 	
 func fade_hud():

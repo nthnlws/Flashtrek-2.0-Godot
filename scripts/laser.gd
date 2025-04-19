@@ -135,7 +135,7 @@ func target_to_hitbox(collider, delta):
 	collision_particles.position = cast_point_exact
 	collision_particles.global_rotation = get_collision_normal().angle()
 
-	
+
 	#Clears exception before next phyics update in case shield regens
 	if shield_exception != null:
 		remove_exception(shield_exception)

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://clekyrypxv55x"]
+
+[ext_resource type="Shader" uid="uid://xoe0le12ln0y" path="res://resources/Materials_Shaders/teleport.gdshader" id="1_q7iue"]
+
+[resource]
+shader = ExtResource("1_q7iue")
+shader_parameter/progress = 0.0
+shader_parameter/noise_desnity = 60.0
+shader_parameter/beam_size = 0.1
+shader_parameter/color = Color(0, 1.02, 1.2, 1)

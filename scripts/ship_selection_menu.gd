@@ -57,8 +57,8 @@ func _ready():
 	if get_node("..").name == "Menus":
 		menu_state_machine = get_node("..")
 	
-	var width = max(num_fed, num_klin, num_rom, num_neut)*100
-	var middle_pos = (960/2) - (50)
+	var width: int = max(num_fed, num_klin, num_rom, num_neut)*100
+	var middle_pos: float = (960/2) - (50)
 	$Grid.position.x = middle_pos - 170
 	
 	for i in range(num_fed):

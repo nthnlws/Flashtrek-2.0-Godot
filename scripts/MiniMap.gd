@@ -161,6 +161,5 @@ func remove_minimap_object(enemy):
 		texture_rect.queue_free()  # Free the TextureRect
 		enemyObjects.erase(texture_rect)  # Remove from enemyObjects array
 		enemy_to_texture.erase(enemy)  # Remove from the dictionary
-		#print("Removed minimap object for enemy: ", enemy)
 	else:
 		print("Enemy not found in minimap objects")

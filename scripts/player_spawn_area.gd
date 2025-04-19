@@ -5,7 +5,7 @@ extends Area2D
 @export var MAX_DISTANCE_FROM_ORIGIN = 1500
 
 func _ready():
-	self.add_to_group("player_spawn_area")
+	print("spawn ready")
 	global_position = get_random_position()
 
 func get_random_position() -> Vector2:
@@ -15,9 +15,3 @@ func get_random_position() -> Vector2:
 	
 	# Calculate the position using polar coordinates
 	return Vector2(cos(angle), sin(angle)) * distance
-
-
-	
-var is_empty: bool:
-	get:
-		return (!has_overlapping_areas() && !has_overlapping_bodies())

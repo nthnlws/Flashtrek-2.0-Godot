@@ -28,10 +28,6 @@ func _ready():
 	SignalBus.entering_galaxy_warp.connect(fade_world_borders)
 	
 	
-	if GameSettings.borderToggle == true:
-		borderCoords = GameSettings.borderValue
-	else: borderCoords = defaultBorderCoords
-	
 	Utility.mainScene.levelWalls.clear()
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)
@@ -46,7 +42,6 @@ func _ready():
 	var borders = get_tree().get_nodes_in_group("borders")
 	for wall in borders:
 		wall.position = wall_positions[i]
-		wall.add_to_group("borders")
 		wall.rotation = wall_rotations[i]
 		wall.scale = wall_scales[i]
 		if GameSettings.noCollision == true:

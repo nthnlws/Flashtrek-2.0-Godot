@@ -24,7 +24,9 @@ var warpm_v:float = 1.0
 var player_name = "USS Enterprise"
 var animation_scale:Vector2 = Vector2(1, 1)
 
-const WHITE_FLASH = preload("res://resources/white_flash.gdshader")
+const WHITE_FLASH_MATERIAL = preload("res://resources/Materials_Shaders/white_flash.tres")
+const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/teleport_material.tres")
+
 @onready var muzzle = $Muzzle
 @onready var timer:Timer = $regen_timer
 @onready var sprite:Sprite2D = $PlayerSprite
@@ -114,7 +116,9 @@ var current_antimatter:int = 0
 func set_player_direction(joystick_direction):
 	direction = joystick_direction
 	
+	
 func _ready():
+	Utility.mainScene.player = self
 	# Signal setup
 	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
@@ -122,9 +126,6 @@ func _ready():
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_travel)
 	
-	#Player external references
-	Navigation.player = self
-	Utility.mainScene.player = self
 	
 	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
@@ -457,7 +458,12 @@ func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
 	damage.global_position = hit_pos
 	get_parent().add_child(damage)
 
-
+func _teleport_shader_toggle():
+	sprite.material = TELEPORT_FADE_MATERIAL
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(sprite.material, "shader_parameter/progress", 1.0, 3.0)
+	
+	
 func galaxy_travel():
 	if !Utility.mainScene.galaxy_warp_check():
 		var error_message: String = "Must be stationary and in impulse to warp"
@@ -481,7 +487,7 @@ func galaxy_travel():
 		particles.emitting = true
 		
 		#Camera Zoom out
-		create_tween().tween_property(camera, "zoom", Vector2(0.3, 0.3), trans_length/warp_multiplier*3)
+		create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/warp_multiplier*3)
 		
 		await get_tree().create_timer(3.0).timeout #5.5 sec
 		#print("flat, scale")
@@ -495,20 +501,20 @@ func galaxy_travel():
 		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 		print("full warp")
 		
-		print(entry_coords)
-		self.global_position = entry_coords
-		print("Warped border")
 		
 		await get_tree().create_timer(3.5).timeout #10 sec, velocity tween ends
 		create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
 		create_tween().tween_property(particles, "amount_ratio", 0.0, 2.5)
+		
+		_teleport_shader_toggle()
 		
 		await get_tree().create_timer(0.30).timeout
 		%warp_boom.play()
 		
 		await get_tree().create_timer(0.20).timeout
 		galaxy_warp_sound.stop()
-		sprite.material.set("shader_parameter/flash_value", 1.0)
+		
+		#sprite.material.set("shader_parameter/flash_value", 1.0)
 		$warp_anim.visible = true
 		$warp_anim.play("warp_collapse")
 		

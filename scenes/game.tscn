@@ -1,15 +1,14 @@
-[gd_scene load_steps=36 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=37 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
-[ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_generation.gd" id="2_nfpiu"]
+[ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scenes/level_generation.gd" id="2_nfpiu"]
 [ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_borders.tscn" id="2_ufmu8"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://baewtdko3xodj" path="res://scenes/planet_population.tscn" id="4_p3jf4"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://ckljagn7r5mq7" path="res://scenes/hostiles.tscn" id="7_44k7l"]
-[ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="7_f44yg"]
 [ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/sun.tscn" id="9_2srcp"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/mini_map.tscn" id="13_pwbrs"]
@@ -20,9 +19,11 @@
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="19_1dh75"]
 [ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="20_p5rub"]
+[ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/loading_screen.tscn" id="20_qnb83"]
 [ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="21_32ft0"]
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="21_exi4y"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/ship_selection_menu.tscn" id="21_hxbij"]
+[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/planet.tscn" id="23_bt5mj"]
 [ext_resource type="AudioStream" uid="uid://cyosefa6hu3fa" path="res://assets/audio/music/Mesa.ogg" id="23_vrbdd"]
 [ext_resource type="Script" uid="uid://bf380s1hlsb0f" path="res://scenes/background_music.gd" id="23_xpi24"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
@@ -220,10 +221,13 @@ script = ExtResource("2_nfpiu")
 levelBorders = ExtResource("2_ufmu8")
 Planets = ExtResource("4_p3jf4")
 Starbase = ExtResource("9_y1jbs")
-PlayerSpawnArea = ExtResource("7_f44yg")
+PlayerSpawnArea = ExtResource("9_y1jbs")
 Sun = ExtResource("9_2srcp")
 Hostiles = ExtResource("7_44k7l")
-Player = ExtResource("4_s6h4r")
+player = ExtResource("4_s6h4r")
+
+[node name="Planet" parent="Level" instance=ExtResource("23_bt5mj")]
+position = Vector2(6154, 2632)
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]
 process_mode = 1
@@ -263,10 +267,15 @@ visible = false
 [node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
 visible = false
 
+[node name="LoadingScreen" parent="Menus" instance=ExtResource("20_qnb83")]
+unique_name_in_owner = true
+visible = false
+
 [node name="transition_overlay" type="CanvasLayer" parent="."]
 process_mode = 1
 
 [node name="FadeAnimation" type="ColorRect" parent="transition_overlay"]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -345,4 +354,3 @@ enabled = false
 print_time = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="ready" from="Level" to="." method="_on_level_ready"]
