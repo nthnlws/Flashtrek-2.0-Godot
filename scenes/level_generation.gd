@@ -10,6 +10,9 @@ extends Node
 
 @onready var game: Node2D = $".."
 
+var all_systems_data: Dictionary = {} 
+
+
 const SYSTEM_RANGES = {
 	"Federation": {"range": {"min": 1, "max": 16}},
 	"Klingon": {"range": {"min": 17, "max": 24}},
@@ -24,12 +27,24 @@ var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
 
 const MAX_LEVEL = 31  # Highest system level
 
-var system_vars: Dictionary
 
 
 func _ready() -> void:
-	instantiate_new_system_nodes()
-	print(generate_NEW_systems())
+	instantiate_new_system_nodes() # Init spawn for all level nodes
+	generate_system_info() # Generates system JSON
+	_init_planets() # Spawn planets and move to JSON data locaiton
+	
+
+
+func _init_planets():
+	var planets: Array = Utility.mainScene.planets
+	var planet_data = all_systems_data.get("Solarus").planet_data
+	for p in planet_data.size(): # Sets planets to JSON data
+		planets[p].global_position.x = planet_data[p].x
+		planets[p].global_position.y = planet_data[p].y
+		planets[p].sprite.frame = planet_data[p].frame
+	for r in planets.size() - planet_data.size(): # Removes extra planets from active set
+		planets.resize(planets.size() - 1)
 	
 	
 func instantiate_new_system_nodes():
@@ -52,7 +67,12 @@ func instantiate_new_system_nodes():
 	init_spawn.add_to_group("level_nodes")
 	init_spawn.add_to_group("player_spawn_area")
 	
-	
+
+	for i in range(6):
+		var init_planet: Node2D = Planets.instantiate()
+		add_child(init_planet)
+		init_planet.global_position = Vector2(40000, 40000)
+		
 	#var init_hostiles = Hostiles.instantiate()
 	#add_child(init_hostiles)
 	#init_hostiles.add_to_group("level_nodes")
@@ -62,8 +82,7 @@ func instantiate_new_system_nodes():
 	add_child(init_player)
 	init_player.add_to_group("level_nodes")
 	
-func generate_NEW_systems():
-	var all_systems_data: Dictionary = {} 
+func generate_system_info():
 	var system_num = 1
 	
 	while system_num <= MAX_LEVEL:
@@ -80,8 +99,7 @@ func generate_NEW_systems():
 	var romulus_data: Dictionary = generate_system_variables("Romulus")
 	all_systems_data["Romulus"] = romulus_data
 	
-	
-	
+	#print(all_systems_data)
 
 func generate_system_variables(system_number) -> Dictionary:
 	var faction
@@ -102,19 +120,20 @@ func generate_system_variables(system_number) -> Dictionary:
 	else:
 		faction = get_faction_for_system(system_number)
 		system_number = int(system_number)
+	
 
 
 	
 	# Health Scaling
-	var enemy_health_mult = 1
-	var health_scaling_rate = 1/30
+	var enemy_health_mult: float = 1
+	var health_scaling_rate: float = 1.0/30.0
 	
 	# Damage Scaling
-	var enemy_damage_mult = 1
-	var damage_scaling_rate = 1/30
+	var enemy_damage_mult: float = 1
+	var damage_scaling_rate: float = 1.0/30.0
 	if system_number <= 30:
-		enemy_health_mult = 1 + (system_number * health_scaling_rate)
-		enemy_damage_mult = 1 + (system_number * damage_scaling_rate)
+		enemy_health_mult = snapped(1 + (system_number * health_scaling_rate), 0.01)
+		enemy_damage_mult = snapped(1 + (system_number * damage_scaling_rate), 0.01)
 	else: 
 		enemy_health_mult = 2.0 # Default double scaling above system 30
 		enemy_damage_mult = 2.0
@@ -122,7 +141,6 @@ func generate_system_variables(system_number) -> Dictionary:
 	# Random planet count
 	var planet_count = randi_range(3, 6)
 	var planet_data = generate_planet_data(planet_count)
-	print(planet_data)
 	
 	return {
 		"faction": faction,

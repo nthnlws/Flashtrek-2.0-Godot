@@ -4,19 +4,17 @@ extends Node2D
 var planetFaction:int = Utility.FACTION.FEDERATION
 
 var CanCommunicate:bool = false
-var player
+var player: Player
 
 #func _process(delta):
 	#print(player)
 	
 	
 func _ready():
-	#$AnimatedSprite2D.play()
 	rotation = round(deg_to_rad(randi_range(0, 360)))
 	rotation_degrees = 40
 
-	
-	var random_index = randi_range(0, 206)
+	var random_index = randi_range(0, 220)
 	sprite.frame = random_index
 	
 

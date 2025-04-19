@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=36 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/hud.tscn" id="2_g7hwg"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_borders.tscn" id="2_ufmu8"]
 [ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/game_over_screen.tscn" id="3_km7re"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
-[ext_resource type="PackedScene" uid="uid://baewtdko3xodj" path="res://scenes/planet_population.tscn" id="4_p3jf4"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://ckljagn7r5mq7" path="res://scenes/hostiles.tscn" id="7_44k7l"]
 [ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/sun.tscn" id="9_2srcp"]
@@ -219,7 +218,7 @@ script = ExtResource("1_ci0lx")
 process_mode = 1
 script = ExtResource("2_nfpiu")
 levelBorders = ExtResource("2_ufmu8")
-Planets = ExtResource("4_p3jf4")
+Planets = ExtResource("23_bt5mj")
 Starbase = ExtResource("9_y1jbs")
 PlayerSpawnArea = ExtResource("9_y1jbs")
 Sun = ExtResource("9_2srcp")
