@@ -10,13 +10,14 @@ extends Node2D
 
 var in_galaxy_warp:bool = false
 
-var enemies = []
-var levelWalls = []
-var planets = []
-var suns = []
+var enemies: Array = []
+var levelWalls: Array = []
+var planets: Array = []
+var unused_planets: Array = []
+var suns: Array = []
 var player: Player
-var starbase = []
-var systems = ["Solarus", "Romulus", "Kronos"]
+var starbase: Array = []
+var systems: Array = ["Solarus", "Romulus", "Kronos"]
 
 func _printArrays():
 	print(enemies)
@@ -82,8 +83,9 @@ func galaxy_fade_out():
 	print("Warp finished with target system " + str(Navigation.targetSystem))
 	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
 	
-	loading_screen.visile = true
-	full_color_rect.color = Color(1, 1, 1, 0)
+	%LoadingScreen.visible = true
+	$transition_overlay.visible = false
+	$Video_layer.visible = false
 	
 	
 func fade_hud():

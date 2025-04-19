@@ -30,21 +30,36 @@ const MAX_LEVEL = 31  # Highest system level
 
 
 func _ready() -> void:
+	SignalBus.galaxy_warp_finished.connect(_change_system)
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generates system JSON
-	_init_planets() # Spawn planets and move to JSON data locaiton
+	_change_system("Solarus") # Spawn planets and move to JSON data locaiton
+	
+
+#func change_system(new_system):
+	#var new_system_data = all_systems_data.get(str(new_system)).planet_data
+	#var num_plants: int = new_system_data.size()
+	#var new_planets: Array = []
+	#new_planets.append_array(Utility.mainScene.planets)
+	#new_planets.append_array(Utility.mainScene.unused_planets)
+	
 	
 
 
-func _init_planets():
-	var planets: Array = Utility.mainScene.planets
-	var planet_data = all_systems_data.get("Solarus").planet_data
+func _change_system(system):
+	print("changed system to " + str(system))
+	var new_planets: Array = []
+	new_planets.append_array(Utility.mainScene.planets)
+	new_planets.append_array(Utility.mainScene.unused_planets)
+	
+	var planet_data = all_systems_data.get(system).planet_data
 	for p in planet_data.size(): # Sets planets to JSON data
-		planets[p].global_position.x = planet_data[p].x
-		planets[p].global_position.y = planet_data[p].y
-		planets[p].sprite.frame = planet_data[p].frame
-	for r in planets.size() - planet_data.size(): # Removes extra planets from active set
-		planets.resize(planets.size() - 1)
+		Utility.mainScene.planets[p].global_position.x = planet_data[p].x
+		Utility.mainScene.planets[p].global_position.y = planet_data[p].y
+		Utility.mainScene.planets[p].sprite.frame = planet_data[p].frame
+	for r in Utility.mainScene.planets.size() - planet_data.size(): # Removes extra planets from active set
+		Utility.mainScene.unused_planets.append(Utility.mainScene.planets.back())
+		Utility.mainScene.planets.resize(Utility.mainScene.planets.size() - 1)
 	
 	
 func instantiate_new_system_nodes():
