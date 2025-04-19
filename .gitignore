@@ -23,7 +23,6 @@ mono_crash.*.json
 
 *.exe
 !rcedit-x64.exe
-*.py
 Exports/*
 
 
