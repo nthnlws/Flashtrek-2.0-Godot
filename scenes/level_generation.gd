@@ -52,14 +52,21 @@ func _change_system(system):
 	new_planets.append_array(Utility.mainScene.planets)
 	new_planets.append_array(Utility.mainScene.unused_planets)
 	
-	var planet_data = all_systems_data.get(system).planet_data
+	var planet_data: Array = all_systems_data.get(system).planet_data
 	for p in planet_data.size(): # Sets planets to JSON data
 		Utility.mainScene.planets[p].global_position.x = planet_data[p].x
 		Utility.mainScene.planets[p].global_position.y = planet_data[p].y
 		Utility.mainScene.planets[p].sprite.frame = planet_data[p].frame
-	for r in Utility.mainScene.planets.size() - planet_data.size(): # Removes extra planets from active set
-		Utility.mainScene.unused_planets.append(Utility.mainScene.planets.back())
-		Utility.mainScene.planets.resize(Utility.mainScene.planets.size() - 1)
+	if Utility.mainScene.planets.size() - planet_data.size() > 0: # Checks if planets need to be removed
+		for r in Utility.mainScene.planets.size() - planet_data.size(): # Removes extra planets from active set
+			Utility.mainScene.unused_planets.append(Utility.mainScene.planets.back())
+			Utility.mainScene.planets.resize(Utility.mainScene.planets.size() - 1)
+	
+	var sun_data: Dictionary = all_systems_data.get(system).sun_data
+	var sun: Node2D = Utility.mainScene.suns[0]
+	sun.global_position.x = sun_data.x
+	sun.global_position.y = sun_data.y
+	sun.sprite.frame = sun_data.frame
 	
 	
 func instantiate_new_system_nodes():
@@ -136,9 +143,6 @@ func generate_system_variables(system_number) -> Dictionary:
 		faction = get_faction_for_system(system_number)
 		system_number = int(system_number)
 	
-
-
-	
 	# Health Scaling
 	var enemy_health_mult: float = 1
 	var health_scaling_rate: float = 1.0/30.0
@@ -156,10 +160,12 @@ func generate_system_variables(system_number) -> Dictionary:
 	# Random planet count
 	var planet_count = randi_range(3, 6)
 	var planet_data = generate_planet_data(planet_count)
+	var sun_data = generate_sun_data()
 	
 	return {
 		"faction": faction,
 		"planet_data": planet_data,
+		"sun_data": sun_data,
 		"enemy_health_mult": enemy_health_mult,
 		"enemy_damage_mult": enemy_damage_mult,
 		"system_size": 20000,
@@ -181,14 +187,34 @@ func get_faction_for_system(system_number) -> int:
 			
 
 
-
+func generate_sun_data():
+	var spawnDistance = 8000
+	var spawnVariability = 500
+	
+	spawnDistance = randi() % (2 * spawnVariability + 1) - spawnVariability + spawnDistance
+	
+	var random_index = randi_range(0, 5)
+	
+	var angle = randf_range(0, TAU) # 0-360 degrees
+	var sun_position = Vector2(cos(angle), sin(angle)) * spawnDistance
+	
+	var sun_data: Dictionary = {
+		"frame": random_index,
+		"x": sun_position.x,
+		"y": sun_position.y,
+	}
+	
+	return sun_data
+	
+	
+	
+	
 func generate_planet_data(PLANET_COUNT: int) -> Array:
-	# Ensure calculations use floats where needed
 	var min_dist_between = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
 	var max_dist_origin = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
 	var min_dist_origin = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0)
 
-	var all_planets_data: Array = []       # Initialize the ARRAY to hold all planet dictionaries
+	var all_planets_data: Array = []
 	var placed_positions: Array[Vector2] = [] # Store positions placed *in this run*
 
 	for i in range(PLANET_COUNT):
@@ -198,16 +224,12 @@ func generate_planet_data(PLANET_COUNT: int) -> Array:
 		# Check if get_valid_position failed
 		if position == Vector2.ZERO:
 			push_warning("Failed to place planet %d. Stopping generation for this system." % (i + 1))
-			# Depending on requirements, you might return the partially generated list
-			# or an empty list to indicate complete failure.
 			return all_planets_data # Return what we have so far
 
 		# If successful, add the new position to the tracking list for the next iteration
 		placed_positions.append(position)
 
-		# Generate other planet data (e.g., texture frame)
-		# Adjust range based on your sprite sheet
-		var random_frame: int = randi() % 207 # Example: assumes 0-255 frames
+		var random_frame: int = randi() % 220
 
 		# Create the DICTIONARY for the current planet
 		var current_planet_dict: Dictionary = {
@@ -224,24 +246,18 @@ func generate_planet_data(PLANET_COUNT: int) -> Array:
 	return all_planets_data
 
 
-# --- Position Validation Function ---
-
-# Tries to find a valid position, checking against previously placed positions in this batch
 func get_valid_position(
 		min_distance_from_origin: float,
 		max_distance_from_origin: float,
 		min_distance_between_planets: float,
-		existing_positions: Array[Vector2] # Accept the list of already placed positions
+		existing_positions: Array[Vector2]
 	) -> Vector2:
 
-	const max_attempts = 500 # Increased attempts slightly
+	const max_attempts = 500
 	var attempt = 0
-	# Removed internal planet_positions - uses the passed 'existing_positions' now
 
 	while attempt < max_attempts:
 		attempt += 1
-		# Generate a random angle and distance within the specified range
-		# Corrected distance generation for uniform area distribution
 		var min_dist_sq = min_distance_from_origin * min_distance_from_origin
 		var max_dist_sq = max_distance_from_origin * max_distance_from_origin
 		var distance_sq = randf_range(min_dist_sq, max_dist_sq)
@@ -252,9 +268,9 @@ func get_valid_position(
 		# Calculate the potential position
 		var potential_position = Vector2(cos(angle), sin(angle)) * distance
 
-		# Check if the position is far enough from other planets *in this batch*
+		# Check if the position is far enough from other planets
 		var is_valid = true
-		# Use distance_squared_to for minor performance improvement
+		
 		var min_dist_sq_check = min_distance_between_planets * min_distance_between_planets
 		for existing_pos in existing_positions: # Check against the passed list
 			if potential_position.distance_squared_to(existing_pos) < min_dist_sq_check:

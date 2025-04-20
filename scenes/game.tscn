@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="PackedScene" uid="uid://mwmd8nnqveb0" path="res://scenes/pop_message.tscn" id="14_bhx41"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menu_state_manager.gd" id="14_nkpvs"]
-[ext_resource type="PackedScene" uid="uid://do3osaer0ntc8" path="res://missions_UI.tscn" id="16_b2vtt"]
+[ext_resource type="PackedScene" uid="uid://do3osaer0ntc8" path="res://scenes/missions_UI.tscn" id="16_b2vtt"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="19_1dh75"]
