@@ -3,7 +3,7 @@ extends Control
 enum State {SHOW, HIDE}
 
 
-@onready var anim = %AnimationPlayer
+@onready var anim: AnimationPlayer = %AnimationPlayer
 
 func _input(event):
 	if Input.is_action_just_pressed("escape"):

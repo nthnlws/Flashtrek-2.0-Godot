@@ -1,10 +1,5 @@
 extends Control
 
-var hp_current
-var hp_max
-var sp_current
-var sp_max
-
 @onready var player: Player = Utility.mainScene.player
 @onready var playerShield: Sprite2D = player.get_node("playerShield")
 @onready var camera: Camera2D = player.get_node("Camera2D")

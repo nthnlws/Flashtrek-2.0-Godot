@@ -23,7 +23,7 @@ func regen_shield(delta):
 	
 # Fades shield to 0 Alpha
 func fadeout_INSTANT():
-	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
 	shield_area.set_monitoring.call_deferred(false)
@@ -31,7 +31,7 @@ func fadeout_INSTANT():
 	shieldActive = false
 
 func fadeout_SMOOTH():
-	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
 	shield_area.set_monitoring.call_deferred(false)
@@ -46,7 +46,7 @@ func fadein_INSTANT():
 	shieldActive = true
 
 func fadein_SMOOTH():
-	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 1, trans_length)
 	await tween.finished
 	shield_area.set_monitoring.call_deferred(true)

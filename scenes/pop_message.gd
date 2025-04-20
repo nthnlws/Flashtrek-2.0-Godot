@@ -36,13 +36,13 @@ func close_pop_menu(): # Expand or collapse mission menu
 		if tween.is_running():
 			tween.stop()
 			
-	var tween_pos = create_tween()
+	var tween_pos: Object = create_tween()
 	tween_pos.tween_property(self, "position", Vector2(0, -130), 1.0)
 	current_tweens.append(tween_pos)
 	showing = false
 
 func open_pop_menu():
-	var tween_pos = create_tween()
+	var tween_pos: Object = create_tween()
 	tween_pos.tween_property(self, "position", Vector2(0, 0), 1.0)
 	current_tweens.append(tween_pos)
 	showing = true

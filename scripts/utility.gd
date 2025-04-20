@@ -100,7 +100,7 @@ enum SHIP_NAMES {
 	Nebula_Class,
 }
 
-var ship_sprites = {
+var ship_sprites: Dictionary = {
 	SHIP_NAMES.Merchantman: Rect2(0, 0, 48, 48),
 	SHIP_NAMES.Keldon_Class: Rect2(48, 0, 48, 48),
 	SHIP_NAMES.batlh_Class: Rect2(96, 0, 48, 48),
@@ -195,7 +195,7 @@ var ship_sprites = {
 	SHIP_NAMES.Nebula_Class: Rect2(624, 288, 48, 48),
 }
 
-var ship_rss = {
+var ship_rss: Dictionary = {
 	"Merchantman": null,
 	"Keldon-Class": null,
 	"batlh-Class": null,
@@ -349,10 +349,10 @@ func play_click_sound(volume):
 			sound_array_location += 1
 
 func store_level_data(system_name):
-	var file_path = "user://level_data.json"
+	var file_path: String = "user://level_data.json"
 	
 	# Initialize the save_data dictionary
-	var save_data = {}
+	var save_data: Dictionary = {}
 	
 	
 # Check if the file exists and load existing data if it does
@@ -362,7 +362,7 @@ func store_level_data(system_name):
 		file.close()
 	
 	# Prepare system-specific data
-	var system_data = {
+	var system_data: Dictionary = {
 		"system_faction": "Federation",
 		"system_size": 20000,
 		"player": [],

@@ -21,7 +21,7 @@ var warp_multiplier:float = 0.45
 var warpm_r:float = 1.0
 var warpm_v:float = 1.0
 
-var player_name = "USS Enterprise"
+var player_name: String = "USS Enterprise"
 var animation_scale:Vector2 = Vector2(1, 1)
 
 const WHITE_FLASH_MATERIAL = preload("res://resources/Materials_Shaders/white_flash.tres")
@@ -127,7 +127,7 @@ func _ready():
 	SignalBus.triggerGalaxyWarp.connect(galaxy_travel)
 	
 	
-	var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
+	var spawn_options: Array = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
 	#self.global_rotation = deg_to_rad(randi_range(-20, 20))
 	
@@ -331,7 +331,7 @@ func warping_state_change(speed): # Reverses warping state
 func shoot_torpedo():
 	if energy_current > weapon_drain and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
 		
-		var t = torpedo_scene.instantiate()
+		var t: Area2D = torpedo_scene.instantiate()
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.shooter = "player"

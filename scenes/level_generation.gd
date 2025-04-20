@@ -36,15 +36,6 @@ func _ready() -> void:
 	_change_system("Solarus") # Spawn planets and move to JSON data locaiton
 	
 
-#func change_system(new_system):
-	#var new_system_data = all_systems_data.get(str(new_system)).planet_data
-	#var num_plants: int = new_system_data.size()
-	#var new_planets: Array = []
-	#new_planets.append_array(Utility.mainScene.planets)
-	#new_planets.append_array(Utility.mainScene.unused_planets)
-	
-	
-
 
 func _change_system(system):
 	print("changed system to " + str(system))
@@ -70,21 +61,21 @@ func _change_system(system):
 	
 	
 func instantiate_new_system_nodes():
-	var init_border = levelBorders.instantiate()
+	var init_border: Node2D = levelBorders.instantiate()
 	add_child(init_border)
 	init_border.add_to_group("level_nodes")
 
-	var init_sun = Sun.instantiate()
+	var init_sun: Node2D = Sun.instantiate()
 	add_child(init_sun)
 	init_sun.add_to_group("level_nodes")
 	
 
-	var init_starbase = Starbase.instantiate()
+	var init_starbase: Node2D = Starbase.instantiate()
 	add_child(init_starbase)
 	init_starbase.add_to_group("level_nodes")
 	
 
-	var init_spawn = PlayerSpawnArea.instantiate()
+	var init_spawn: Area2D = PlayerSpawnArea.instantiate()
 	add_child(init_spawn)
 	init_spawn.add_to_group("level_nodes")
 	init_spawn.add_to_group("player_spawn_area")
@@ -100,15 +91,15 @@ func instantiate_new_system_nodes():
 	#init_hostiles.add_to_group("level_nodes")
 
 
-	var init_player = player.instantiate()
+	var init_player: Player = player.instantiate()
 	add_child(init_player)
 	init_player.add_to_group("level_nodes")
 	
 func generate_system_info():
-	var system_num = 1
+	var system_num: int = 1
 	
 	while system_num <= MAX_LEVEL:
-		var system_data = generate_system_variables(system_num)
+		var system_data: Dictionary = generate_system_variables(system_num)
 		all_systems_data[str(system_num)] = system_data
 		system_num += 1
 	
@@ -158,9 +149,9 @@ func generate_system_variables(system_number) -> Dictionary:
 		enemy_damage_mult = 2.0
 	
 	# Random planet count
-	var planet_count = randi_range(3, 6)
-	var planet_data = generate_planet_data(planet_count)
-	var sun_data = generate_sun_data()
+	var planet_count: int = randi_range(3, 6)
+	var planet_data: Array = generate_planet_data(planet_count)
+	var sun_data: Dictionary = generate_sun_data()
 	
 	return {
 		"faction": faction,
@@ -188,20 +179,20 @@ func get_faction_for_system(system_number) -> int:
 
 
 func generate_sun_data():
-	var spawnDistance = 8000
-	var spawnVariability = 500
+	var spawnDistance: int = 8000
+	var spawnVariability: int = 500
 	
 	spawnDistance = randi() % (2 * spawnVariability + 1) - spawnVariability + spawnDistance
 	
-	var random_index = randi_range(0, 5)
+	var random_index: int = randi_range(0, 5)
 	
-	var angle = randf_range(0, TAU) # 0-360 degrees
-	var sun_position = Vector2(cos(angle), sin(angle)) * spawnDistance
+	var angle: float = randf_range(0, TAU) # 0-360 degrees
+	var sun_position: Vector2 = Vector2(cos(angle), sin(angle)) * spawnDistance
 	
 	var sun_data: Dictionary = {
 		"frame": random_index,
-		"x": sun_position.x,
-		"y": sun_position.y,
+		"x": int(sun_position.x),
+		"y": int(sun_position.y),
 	}
 	
 	return sun_data
@@ -210,16 +201,16 @@ func generate_sun_data():
 	
 	
 func generate_planet_data(PLANET_COUNT: int) -> Array:
-	var min_dist_between = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
-	var max_dist_origin = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
-	var min_dist_origin = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0)
+	var min_dist_between: float = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
+	var max_dist_origin: float = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
+	var min_dist_origin: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0)
 
 	var all_planets_data: Array = []
 	var placed_positions: Array[Vector2] = [] # Store positions placed *in this run*
 
 	for i in range(PLANET_COUNT):
 		# Pass the list of already placed positions to the validation function
-		var position = get_valid_position(min_dist_origin, max_dist_origin, min_dist_between, placed_positions)
+		var position: Vector2 = get_valid_position(min_dist_origin, max_dist_origin, min_dist_between, placed_positions)
 
 		# Check if get_valid_position failed
 		if position == Vector2.ZERO:
@@ -253,8 +244,8 @@ func get_valid_position(
 		existing_positions: Array[Vector2]
 	) -> Vector2:
 
-	const max_attempts = 500
-	var attempt = 0
+	const max_attempts: int = 500
+	var attempt: int = 0
 
 	while attempt < max_attempts:
 		attempt += 1
@@ -263,13 +254,13 @@ func get_valid_position(
 		var distance_sq = randf_range(min_dist_sq, max_dist_sq)
 		var distance = sqrt(distance_sq)
 
-		var angle = randf_range(0, TAU) # TAU = 2 * PI
+		var angle: float = randf_range(0, TAU) # TAU = 2 * PI
 
 		# Calculate the potential position
-		var potential_position = Vector2(cos(angle), sin(angle)) * distance
+		var potential_position: Vector2 = Vector2(cos(angle), sin(angle)) * distance
 
 		# Check if the position is far enough from other planets
-		var is_valid = true
+		var is_valid: bool = true
 		
 		var min_dist_sq_check = min_distance_between_planets * min_distance_between_planets
 		for existing_pos in existing_positions: # Check against the passed list

@@ -45,12 +45,12 @@ var moveTarget: String
 
 #Shooting calculation variables
 var angle_diff: float
-var predicted_position
+var predicted_position: Vector2
 var randomized_position
 
 var AI_enabled:bool = true
-var player = null
-var starbase  # Path to starbase, only set if AI_enabled is true
+var player: Player = null
+var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 
 var shoot_cd: float = false
 
@@ -143,7 +143,7 @@ func sync_to_resource():
 	if enemy_data.weapon:
 		torpedo = enemy_data.weapon
 	if torpedo:
-		var torpedo_scene = torpedo.instantiate()
+		var torpedo_scene: Area2D = torpedo.instantiate()
 		bullet_speed = torpedo_scene.speed
 		bullet_life = torpedo_scene.lifetime_seconds
 
@@ -176,7 +176,7 @@ func selectRandomPlanet():
 	
 func starbaseMovement(delta):
 	if starbase:
-		var starbaseLocation = starbase.global_position
+		var starbaseLocation: Vector2 = starbase.global_position
 		var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
 		moveToTarget("Starbase", starbaseLocation, delta)
 
@@ -220,8 +220,8 @@ func explode():
 
 
 func predict_player_position():
-	var player_velocity = player.velocity
-	var target_pos = player.position
+	var player_velocity: Vector2 = player.velocity
+	var target_pos: Vector2 = player.position
 
 	var a = bullet_speed*bullet_speed - player_velocity.dot(player_velocity)
 	var b = -2*((target_pos-self.position).dot(player_velocity))
@@ -252,11 +252,10 @@ func predict_player_position():
 	
 func randomize_position(predicted_position) -> Vector2:
 # Calculate the distance to the target
-	var random_predicted_position
-	var distance_to_target = self.global_position.distance_to(predicted_position)
+	var distance_to_target: float = self.global_position.distance_to(predicted_position)
 	
 	# Calculate the randomness radius (the size of the randomness circle)
-	var randomness_radius = distance_to_target * tan(deg_to_rad(RANDOMNESS_ANGLE_DEGREES))
+	var randomness_radius: float = distance_to_target * tan(deg_to_rad(RANDOMNESS_ANGLE_DEGREES))
 	
 	# Generate a random point within the circle
 	# Random angle between 0 and TAU (full circle)
@@ -270,7 +269,7 @@ func randomize_position(predicted_position) -> Vector2:
 	var random_offset_y = random_radius * sin(random_angle)
 	
 	# Add the random offset to the predicted position
-	random_predicted_position = predicted_position
+	var random_predicted_position = predicted_position
 	random_predicted_position.x += random_offset_x
 	random_predicted_position.y += random_offset_y
 	
@@ -293,20 +292,20 @@ func calculate_shooting_angle() -> float:
 	if typeof(randomized_position) == TYPE_NIL:
 		return -1.0 # No valid firing solution
 	else:
-		var delta_x = randomized_position.x - self.global_position.x
-		var delta_y = randomized_position.y - self.global_position.y
+		var delta_x: float = randomized_position.x - self.global_position.x
+		var delta_y: float = randomized_position.y - self.global_position.y
 
 		# Calculate the angle using atan2
-		var shooting_angle = atan2(delta_y, delta_x)
+		var shooting_angle: float = atan2(delta_y, delta_x)
 
 		return shooting_angle
 	
 	
 func shoot_bullet():# Instantiate and configure bullet
-	var angle = calculate_shooting_angle()
+	var angle: float = calculate_shooting_angle()
 	if angle != -1.0:
 		# Prep torpedo to shoot
-		var bullet = torpedo.instantiate()
+		var bullet: Area2D = torpedo.instantiate()
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
 		bullet.shooter = "enemy"
@@ -332,11 +331,11 @@ func _on_agro_box_body_exited(body: Node2D) -> void:
 		player = null
 		angle_diff = TAU
 
-func take_damage(damage, shooter, projectile):
+func take_damage(damage:float, shooter:String, projectile:Area2D):
 	if shooter != "enemy":
 		hp_current -= damage
 		
-		var spawn = projectile.create_damage_indicator(damage, $hitbox_area.name)
+		var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
 		projectile.kill_projectile($hitbox_area.name)
 		$Hitmarkers.add_child(spawn)
 		

@@ -64,7 +64,7 @@ func handle_m_press():
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState):
 	if menu == $ShipSelectionMenu:
-		var starbase = Utility.mainScene.starbase[0]
+		var starbase: Node2D = Utility.mainScene.starbase[0]
 		if !starbase.check_distance_to_planets():
 			menu.visible = true
 			menu.mouse_filter = Control.MOUSE_FILTER_STOP

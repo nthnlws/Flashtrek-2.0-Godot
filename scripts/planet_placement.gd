@@ -2,7 +2,7 @@ extends Node2D
 
 @export var planet_scene = preload("res://scenes/planet.tscn")
 
-@export var PLANET_COUNT = 2
+@export var PLANET_COUNT: int = 2
 var MIN_DISTANCE_FROM_ORIGIN = 7500
 var MAX_DISTANCE_FROM_ORIGIN = 15000
 var MIN_DISTANCE_BETWEEN_PLANETS: int
@@ -18,7 +18,7 @@ func _ready():
 	
 	for i in range(PLANET_COUNT):
 		var position = get_valid_position()
-		var name = "Planet" + str(i)
+		var name: String = "Planet" + str(i)
 		place_planet(position, name)
 
 func get_valid_position() -> Vector2:

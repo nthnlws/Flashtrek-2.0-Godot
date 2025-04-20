@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var sprite = $SunTexture
+@onready var sprite: Sprite2D = $SunTexture
 
 
 func _ready():

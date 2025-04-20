@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var sprite = $Sprite2D
-@onready var comm_distance = $Area2D/CollisionShape2D.shape.radius
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var comm_distance: float = $Area2D/CollisionShape2D.shape.radius
 
 
 func _init():
@@ -22,10 +22,10 @@ func toggle_comms():# Only toggles on if within required distance
 		pass
 
 func check_distance_to_planets() -> bool:
-	var player_position = Utility.mainScene.player.global_position
+	var player_position: Vector2 = Utility.mainScene.player.global_position
 
-	var starbase_position = self.global_position
-	var distance = player_position.distance_to(starbase_position)
+	var starbase_position: Vector2 = self.global_position
+	var distance: float = player_position.distance_to(starbase_position)
 	
 	# Check if the distance is within the threshold
 	if distance <= comm_distance:

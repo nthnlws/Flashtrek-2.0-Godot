@@ -1,4 +1,4 @@
-class_name Projectile extends Area2D
+extends Area2D
 
 
 @onready var animation: AnimatedSprite2D = $explosion_animation
@@ -55,14 +55,12 @@ func _on_torpedo_collision(area: Area2D) -> void:
 
 
 func create_damage_indicator(damage_taken:float, target:String):
-	var damage = damage_indicator.instantiate()
+	var damage: Marker2D = damage_indicator.instantiate()
 	if target == "shield_area":
-		var color = Utility.damage_blue
+		var color: String = Utility.damage_blue
 		damage.find_child("Label").text = color + str(damage_taken)
 	if target == "hitbox_area":
-		var color = Utility.damage_red
+		var color: String = Utility.damage_red
 		damage.find_child("Label").text = color + str(damage_taken)
 	damage.global_position = self.global_position
 	return damage
-	#damage.global_position = hit_pos
-	

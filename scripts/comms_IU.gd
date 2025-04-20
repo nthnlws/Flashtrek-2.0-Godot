@@ -76,7 +76,7 @@ var cargo_full_messages: Array = [
 	"[color=#f06c82]No additional cargo can be loaded.[/color] Finish your delivery first.",
 	"[color=#f06c82]One task at a time![/color] Complete your current mission before returning."]
 
-var confirmation_messages = [
+var confirmation_messages: Array = [
 	"Will you take on this task?",
 	"Do you agree to these terms?",
 	"Are you ready to proceed?",
@@ -85,12 +85,12 @@ var confirmation_messages = [
 	"Can we count on your assistance?",
 	"Do you confirm your participation?"]
 
-var current_planet
-var target_system
+var current_planet: String
+var target_system: String
 var ship_name: String
-var target_planet
-var item_name
-var random_confirm_query
+var target_planet: String
+var item_name: String
+var random_confirm_query: String
 
 func _ready():
 	#Signal Connections
@@ -101,9 +101,9 @@ func _ready():
 		button.gui_input.connect(handle_button_click.bind(button))
 	
 	# Mission text setup
-	#print(Utility.mainScene.planets)
-	var planet_node = Utility.mainScene.planets[0]
-	var detection_radius = planet_node.get_node("CommArea").get_node("CollisionShape2D")
+	var planet_node: Node2D = Utility.mainScene.planets[0]
+	var detection_radius: CollisionShape2D = planet_node.get_node("CommArea").get_node("CollisionShape2D")
+	
 	ship_name = player.player_name
 	systems = Utility.mainScene.systems
 	comm_distance = detection_radius.shape.radius*planet_node.scale.x
@@ -127,7 +127,7 @@ func handle_button_click(event, button):
 
 func set_dynamic_text():
 	if player.current_cargo + 1 <= player.base_cargo_size:
-		var data = {
+		var data: Dictionary = {
 			"planet": "[color=#6699CC]" + current_planet + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
 			"target_planet": "[color=#FFCC66]" + target_planet + "[/color]",
@@ -135,19 +135,19 @@ func set_dynamic_text():
 			"item_name": "[color=#1DCC4B]" + item_name + "[/color]",
 			"random_confirm_query": random_confirm_query
 			}
-		var template_text = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
-		var formatted_text = template_text.format(data)
+		var template_text: String = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
+		var formatted_text: String = template_text.format(data)
 		comms_message.bbcode_text = formatted_text
 	
 	else:
-		var data = {
+		var data: Dictionary = {
 			"planet": "[color=#6699CC]" + current_planet + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
 			"random_deny": cargo_full_messages.pick_random()
 			}
 			
-		var template_text = "Welcome to {planet}, {ship_name}, {random_deny}"
-		var formatted_text = template_text.format(data)
+		var template_text: String = "Welcome to {planet}, {ship_name}, {random_deny}"
+		var formatted_text: String = template_text.format(data)
 		comms_message.bbcode_text = formatted_text
 
 func toggle_comms():
@@ -160,14 +160,14 @@ func toggle_comms():
 		self.visible = true
 
 func check_distance_to_planets() -> bool:
-	var player_position = player.global_position
+	var player_position: Vector2 = player.global_position
 	# Iterate through the planets array
 	for planet in Utility.mainScene.planets:
 		if not planet:  # Ensure the planet node is valid
 			continue
 
-		var planet_position = planet.global_position
-		var distance = player_position.distance_to(planet_position)
+		var planet_position: Vector2 = planet.global_position
+		var distance: float = player_position.distance_to(planet_position)
 		
 		# Check if the distance is within the threshold
 		if distance <= comm_distance:
@@ -186,13 +186,13 @@ func randomize_mission():
 func accept_mission():
 	if visible and player.current_cargo + 1 <= player.base_cargo_size:
 		# Update text to "accepted"
-		var data = {
+		var data: Dictionary = {
 			"target_planet": "[color=#FFCC66]" + target_planet + "[/color]",
 			"target_system": "[color=#FFCC66]" + target_system + "[/color]",
 			}
 			
-		var template_text = "Mission accepted! Head to {target_planet} in the {target_system} system."
-		var formatted_text = template_text.format(data)
+		var template_text: String = "Mission accepted! Head to {target_planet} in the {target_system} system."
+		var formatted_text: String = template_text.format(data)
 	
 		comms_message.bbcode_text = formatted_text
 		current_mission["mission_type"] = "Cargo Delivery"

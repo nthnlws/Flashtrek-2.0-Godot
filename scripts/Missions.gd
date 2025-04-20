@@ -28,7 +28,7 @@ func _update_mission(current_mission: Dictionary):
 		mission_label.text = "Mission: None"
 		mission_label.custom_minimum_size.y = 20
 	else:
-		var mission_text = "Mission: " + Utility.UI_yellow +current_mission.get("mission_type", "Unknown") + "[/color]\n"
+		var mission_text: String = "Mission: " + Utility.UI_yellow +current_mission.get("mission_type", "Unknown") + "[/color]\n"
 		mission_text += "Target System: " + Utility.UI_blue + current_mission.get("target_system", "Unknown") + "[/color]\n"
 		mission_text += "Target Planet: " + Utility.UI_blue + current_mission.get("target_planet", "Unknown") + "[/color]\n"
 		mission_text += "Cargo: " + Utility.UI_cargo_green + current_mission.get("cargo", "Unknown") + "[/color]"
@@ -42,13 +42,13 @@ func close_menu(): # Expand or collapse mission menu
 		if tween.is_running():
 			tween.stop()
 			
-	var tween_pos = create_tween()
+	var tween_pos: Object = create_tween()
 	tween_pos.tween_property(mission_container, "position", Vector2(-275, 170), 1.0)
 	current_tweens.append(tween_pos)
 	showing = false
 
 func open_menu():
-	var tween_pos = create_tween()
+	var tween_pos: Object = create_tween()
 	tween_pos.tween_property(mission_container, "position", Vector2(0, 170), 1.0)
 	current_tweens.append(tween_pos)
 	showing = true

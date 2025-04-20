@@ -7,7 +7,7 @@ extends Control
 @export var red_circle: PackedScene
 var selected_system: String
 
-var area_array = []
+var area_array: Array = []
 
 const HIGH:float = 4
 const LOW:float = 0
@@ -33,7 +33,7 @@ func _ready():
 func _gui_input(event):
 	if event.is_action_pressed("left_click"):
 		# Get the global position of the mouse click
-		var clicked_position = get_screen_position() + event.position
+		var clicked_position: Vector2 = get_screen_position() + event.position
 
 		# Handle mouse clicks based on click coordinates
 		for area in area_array:
@@ -55,11 +55,11 @@ func update_map_destination(system:Area2D, system_name:String):
 	Navigation.targetSystem = system_name
 	
 	# Create new indicator
-	var indicator = red_circle.instantiate()
+	var indicator: Node2D = red_circle.instantiate()
 	indicator.add_to_group("indicator_mark")
 	system.add_child(indicator)
 	
-	var tween = create_tween()
+	var tween: Object = create_tween()
 	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
@@ -86,31 +86,31 @@ func _update_mission(current_mission: Dictionary):
 	else:
 		match system_name:
 			"Kronos":
-				var destination_text = "Current destination: " + Utility.klin_red + system_name + "[/color]"
+				var destination_text: String = "Current destination: " + Utility.klin_red + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 			"Solarus":
-				var destination_text = "Current destination: " + Utility.fed_blue + system_name + "[/color]"
+				var destination_text: String = "Current destination: " + Utility.fed_blue + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 			"Romulus":
-				var destination_text = "Current destination: " + Utility.rom_green + system_name + "[/color]"
+				var destination_text: String = "Current destination: " + Utility.rom_green + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 			_:
-				var destination_text = "Current destination: [color=#FFCC66]" + system_name + "[/color]"
+				var destination_text: String = "Current destination: [color=#FFCC66]" + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 	
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
 	# Get the CircleShape2D from the CollisionShape2D
 	var shape = collision_shape.shape as CircleShape2D
-	var radius = shape.radius
+	var radius: float = shape.radius
 
 	# Get the global transformation of the CollisionShape2D
 	var global_transform = collision_shape.get_global_transform()
 
 	# Get the global center of the circle by using the origin of the global transform
-	var global_center = global_transform.origin
+	var global_center: Vector2 = global_transform.origin
 
 	# Apply the scale from the global transform to the radius
-	var scaled_radius = radius * global_transform.get_scale().x
+	var scaled_radius: float = radius * global_transform.get_scale().x
 
 	# Check if the distance between the point and the center is less than or equal to the scaled radius
 	return point.distance_to(global_center) <= scaled_radius

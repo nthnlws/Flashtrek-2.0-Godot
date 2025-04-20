@@ -16,12 +16,12 @@ func _process(delta):
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
 
-func take_damage(damage:float, shooter:String, projectile:Projectile):
+func take_damage(damage:float, shooter:String, projectile:Area2D):
 	if shooter != "player":
 		damageTimeout() # Turn off shield regen for period
 		sp_current -= damage # Take damage
 		SignalBus.playerShieldChanged.emit(sp_current) # Update HUD
-		var spawn = projectile.create_damage_indicator(damage, $shield_area.name)
+		var spawn: Marker2D = projectile.create_damage_indicator(damage, $shield_area.name)
 		projectile.kill_projectile($shield_area.name)
 		$Hitmarkers.add_child(spawn)
 		

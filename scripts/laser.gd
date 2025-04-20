@@ -53,11 +53,11 @@ func _physics_process(delta):
 
 	# Collision logic
 	if is_colliding():
-		var collider: = get_collider()
+		var collider: Object = get_collider()
 		collision_area = collider
 		
 		if collider.is_in_group("enemy_shield"):
-			var target_shield = collider
+			var target_shield: Object = collider
 			shield_exception = collider
 			if target_shield.get_parent().shieldActive == true:
 				cast_point_exact = to_local(get_collision_point())
@@ -141,7 +141,7 @@ func target_to_hitbox(collider, delta):
 		remove_exception(shield_exception)
 	
 	if laserStatus == true:
-		var frame_damage = damage*delta
+		var frame_damage: float = damage*delta
 		collider.get_parent().hp_current -= frame_damage
 	
 	
@@ -165,7 +165,7 @@ func laserOn():
 func laserOff(): 
 	if laserStatus == true:
 		#Turns off laser beam
-		var tween = create_tween()
+		var tween: Object = create_tween()
 		tween.tween_property($Line2D, "width", 0, 0.1)
 		await tween.finished
 		$Line2D.visible = false

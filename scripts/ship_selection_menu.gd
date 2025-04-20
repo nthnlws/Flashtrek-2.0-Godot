@@ -21,7 +21,7 @@ var menu_state_machine: Node
 
 var ship_list: Dictionary = Utility.ship_sprites
 
-@export var ship_rss = {
+@export var ship_rss: Dictionary = {
 	"California_Class": preload("res://resources/Ships/California_class_enemy.tres"),
 	"Galaxy_Class": preload("res://resources/Ships/enterpriseTNG_enemy.tres"),
 	
@@ -31,26 +31,26 @@ var ship_list: Dictionary = Utility.ship_sprites
 }
 
 
-var fed_ships = {
+var fed_ships: Dictionary = {
 	Utility.SHIP_NAMES.Galaxy_Class: ship_list[Utility.SHIP_NAMES.Galaxy_Class],
 	Utility.SHIP_NAMES.California_Class: ship_list[Utility.SHIP_NAMES.California_Class],
 	Utility.SHIP_NAMES.Cardenas_Class: ship_list[Utility.SHIP_NAMES.Cardenas_Class]
 	}
 	
-var klin_ships = {
+var klin_ships: Dictionary = {
 	Utility.SHIP_NAMES.Brel_Class: ship_list[Utility.SHIP_NAMES.Brel_Class]
 	}
 	
-var rom_ships = {
+var rom_ships: Dictionary = {
 	Utility.SHIP_NAMES.California_Class: ship_list[Utility.SHIP_NAMES.California_Class]
 	}
 	
-var neut_ships = {
+var neut_ships: Dictionary = {
 	Utility.SHIP_NAMES.Monaveen: ship_list[Utility.SHIP_NAMES.Monaveen],
 	Utility.SHIP_NAMES.DKora_Marauder: ship_list[Utility.SHIP_NAMES.DKora_Marauder]
 	}
 
-var frame_textures = [federation_frame, klingon_frame, romulan_frame, neutral_frame]
+var frame_textures: Array = [federation_frame, klingon_frame, romulan_frame, neutral_frame]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -94,22 +94,22 @@ func clear_stats():
 func start_ambience():
 	ambience.volume_db = -25
 	ambience.play()
-	var tween = create_tween()
+	var tween: Object = create_tween()
 	tween.tween_property(ambience, "volume_db", -20, 4.0)
 	
 	
 func create_selection_frames(faction, i):
 	# Create a container to group the frame and ship image
-	var container = Control.new()
+	var container: Control = Control.new()
 
 	# Create the frame
-	var frame = TextureButton.new()
+	var frame: TextureButton = TextureButton.new()
 	frame.scale = Vector2(1.5, 1.5)
 	frame.name = "Placeholder"
 
 	# Create the ship image
-	var ship_image = TextureRect.new()
-	var atlas_texture = AtlasTexture.new()
+	var ship_image: TextureRect = TextureRect.new()
+	var atlas_texture: AtlasTexture = AtlasTexture.new()
 	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
 	atlas_texture.region = ship_list[Utility.SHIP_NAMES.D5_Class]
 	ship_image.texture = atlas_texture

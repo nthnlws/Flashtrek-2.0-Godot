@@ -8,21 +8,20 @@ extends Control
 
 var count:int = 0
 
-var enemyObjects = []
-var starbaseObjects = []
-var neutralObjects = []
-var sunObjects = []
-var enemy_to_texture = {}  # Dictionary to map enemies to TextureRects
-var player
+var enemyObjects: Array = []
+var starbaseObjects: Array = []
+var neutralObjects: Array = []
+var sunObjects: Array = []
+var enemy_to_texture: Dictionary = {}  # Dictionary to map enemies to TextureRects
+var player: Player
 
 # Minimap scale values
-var scale_values = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
-var current_index = 3  # Index of the current value in scale_values
+var scale_values: Array = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
+var current_index: int = 3  # Index of the current value in scale_values
 var minimapScale = scale_values[current_index]  # Start at 1.0
-	
 
 
-var grid_scale
+var grid_scale: Vector2
 
 func _ready():
 	SignalBus.enemyDied.connect(remove_minimap_object)
@@ -57,7 +56,7 @@ func _input(event):
 		
 		
 func scale_minimap(direction):
-	var minimap_nodes = get_tree().get_nodes_in_group("minimap_obj")
+	var minimap_nodes: Array = get_tree().get_nodes_in_group("minimap_obj")
 	for node in minimap_nodes:
 		if direction == "OUT":
 			node.scale = clamp(Vector2(node.scale.x * 0.9, node.scale.y * 0.9), Vector2(0.5, 0.5), Vector2(1.0, 1.0))
@@ -68,7 +67,7 @@ func scale_minimap(direction):
 func create_minimap_objects():
 	for enemy in Utility.mainScene.enemies:
 		if enemy:
-			var texture_rect = TextureRect.new()
+			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = enemy_texture
 			texture_rect.size = Vector2(5, 5)
 			texture_rect.layout_mode = 1 # Sets to Anchors
@@ -82,7 +81,7 @@ func create_minimap_objects():
 			
 	for starbase in Utility.mainScene.starbase:
 		if starbase:
-			var texture_rect = TextureRect.new()
+			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = starbase_texture
 			texture_rect.size = Vector2(7, 7)
 			texture_rect.layout_mode = 1 # Sets to Anchors
@@ -95,7 +94,7 @@ func create_minimap_objects():
 
 	for planet in Utility.mainScene.planets:
 		if planet:
-			var texture_rect = TextureRect.new()
+			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = planet_texture
 			texture_rect.size = Vector2(7, 7)
 			texture_rect.layout_mode = 1 # Sets to Anchors
@@ -108,7 +107,7 @@ func create_minimap_objects():
 			
 	for sun in Utility.mainScene.suns:
 		if sun:
-			var texture_rect = TextureRect.new()
+			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = sun_texture
 			texture_rect.size = Vector2(5, 5)
 			texture_rect.scale = Vector2(0.75, 0.75)

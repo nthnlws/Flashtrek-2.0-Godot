@@ -150,7 +150,6 @@ volume_db = -18.0
 pitch_scale = 2.0
 max_distance = 3000.0
 attenuation = 0.615573
-bus = &"Characters"
 
 [node name="ship_idle" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
@@ -158,7 +157,6 @@ stream = ExtResource("7_5l27p")
 volume_db = -25.0
 max_distance = 3000.0
 attenuation = 0.615573
-bus = &"Characters"
 
 [node name="ship_explosion" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
@@ -166,7 +164,6 @@ stream = ExtResource("3_bqw1s")
 volume_db = -4.0
 max_distance = 3000.0
 attenuation = 0.615573
-bus = &"Characters"
 
 [node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
@@ -175,7 +172,6 @@ volume_db = -20.0
 max_distance = 3000.0
 attenuation = 0.615573
 panning_strength = 2.0
-bus = &"Characters"
 
 [node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
 unique_name_in_owner = true
@@ -183,7 +179,6 @@ stream = ExtResource("15_hw27f")
 volume_db = -10.0
 max_distance = 3000.0
 attenuation = 0.615573
-bus = &"Characters"
 
 [node name="Hitmarkers" type="Node" parent="."]
 

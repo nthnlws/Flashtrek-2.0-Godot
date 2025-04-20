@@ -2,10 +2,10 @@ extends ParallaxLayer
 
 # Variables for controlling spawn rate and range
 @export var spawn_interval:float = 6.0  # Time between spawns
-@export var initial_planet_count = 10
+@export var initial_planet_count: int = 10
 
 # Timer for spawning new sprites
-var spawn_timer = spawn_interval - 0.1
+var spawn_timer: float = spawn_interval - 0.1
 
 func _ready():
 	for i in range(initial_planet_count):
@@ -26,7 +26,7 @@ func _process(delta):
 
 func spawn_tumbling_sprite(is_initial: bool):
 	# Create a new sprite
-	var sprite = Sprite2D.new()
+	var sprite: Sprite2D = Sprite2D.new()
 	var sprite_script = preload("res://scripts/rotating_planets.gd")
 	
 	
@@ -39,7 +39,7 @@ func spawn_tumbling_sprite(is_initial: bool):
 	sprite.rotation = deg_to_rad(randi_range(0, 360))
 
 	# Randomly set the scale
-	var scale_modifier = randf_range(0.15, 0.3)
+	var scale_modifier: float = randf_range(0.15, 0.3)
 	sprite.scale = Vector2(scale_modifier, scale_modifier)
 
 	if is_initial:

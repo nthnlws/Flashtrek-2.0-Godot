@@ -1274,13 +1274,11 @@ ticks_on_borders = true
 unique_name_in_owner = true
 stream = ExtResource("10_hux8j")
 volume_db = -25.0
-bus = &"Music"
 
 [node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("11_7dc00")
 volume_db = -10.0
-bus = &"Music"
 
 [node name="Multiplayer_popup" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

@@ -46,7 +46,7 @@ func _ready():
 
 
 func populate_type_button():
-	var type_list = %TypeSetting
+	var type_list: OptionButton = %TypeSetting
 	type_list.clear()
 	for name in Utility.SHIP_NAMES.keys():
 		type_list.add_item(name)
@@ -165,7 +165,7 @@ func _on_vsync_select_item_selected(index):
 
 
 func _on_volume_slider_value_changed(value):
-	var MAIN_BUS_ID = AudioServer.get_bus_index("Master")
+	var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(value))
 	GameSettings.gameVolume = value
 	
@@ -204,11 +204,11 @@ func store_menu_state(resets):
 	elif resets > 0:
 		file = FileAccess.open("user://menuoptions.json", FileAccess.WRITE)
 	
-	var save_data = {}
+	var save_data: Dictionary = {}
 	
 	# Get the property list of GlobalSettings
 	for variables in GameSettings.get_script().get_script_property_list():
-		var name = variables.name
+		var name: String = variables.name
 		# Add each property to save_data if it's not a built-in property
 		if variables.type != 0:
 			save_data[name] = GameSettings.get(name)

@@ -3,21 +3,21 @@ extends Node2D
 @export var defaultBorderCoords:int = 20000
 var borderCoords:int = defaultBorderCoords
 
-var wall_positions = [
+var wall_positions: Array = [
 	Vector2(0, borderCoords),
 	Vector2(0, -borderCoords),
 	Vector2(borderCoords, 0),
 	Vector2(-borderCoords, 0)
 ]
 
-var wall_scales = [
+var wall_scales: Array = [
 	Vector2(((borderCoords+23.5)/233*2), 1),
 	Vector2(((borderCoords+23.5)/233*2), 1),
 	Vector2(((borderCoords-23.5)/233*2), 1),
 	Vector2(((borderCoords-23.5)/233*2), 1),
 ]
 
-var wall_rotations = [
+var wall_rotations: Array = [
 	deg_to_rad(0),		# No rotation
 	deg_to_rad(180),	# 180 Degrees
 	deg_to_rad(270),	# 270 Degrees
@@ -39,7 +39,7 @@ func _ready():
 		_on_border_coords_moved()
 	
 	var i: int = 0
-	var borders = get_tree().get_nodes_in_group("borders")
+	var borders: Array = get_tree().get_nodes_in_group("borders")
 	for wall in borders:
 		wall.position = wall_positions[i]
 		wall.rotation = wall_rotations[i]
@@ -73,14 +73,14 @@ func _on_border_coords_moved():
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 ]
 	for i in range(Utility.mainScene.levelWalls.size()):
-		var wall = Utility.mainScene.levelWalls[i]
+		var wall: StaticBody2D  = Utility.mainScene.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
 func _on_collision_changed(toggle_status):
 	for i in range(Utility.mainScene.levelWalls.size()):
-		var wall = Utility.mainScene.levelWalls[i]
+		var wall: StaticBody2D = Utility.mainScene.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status
 
