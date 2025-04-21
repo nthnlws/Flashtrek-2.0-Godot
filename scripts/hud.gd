@@ -22,7 +22,7 @@ func _ready():
 	set_bar_maxes() # Initializes bar values
 
 func _process(delta):
-	%Variable.text = "Zoom: " + str(camera.zoom)
+	%Variable.text = "Zoom: " + str(snapped(camera.zoom,Vector2(0.01, 0.01)))
 	%Coords.text = str(round(player.global_position))
 	
 	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))

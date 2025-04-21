@@ -3,23 +3,24 @@ extends Node
 var currentSystem: String = "Solarus"
 var current_system_faction: Utility.FACTION = 0
 
+var entry_coords: Vector2
+
 # Vars for galaxy map navigation
-var leaveDataStored: bool = false # Check to see if player pos has already been check
 var targetSystem: String = "" # Currently selected system on galaxy map
-var playerEntryInfo: Dictionary
 
 
-func get_square_line_intersection(coords: Vector2, angle_rad: float) -> Vector2:
-	angle_rad = angle_rad - PI/2 # Player rotation offset
-	var border_coords = 20000
-	var square_min = Vector2.ZERO - Vector2(border_coords, border_coords)
-	var square_max = Vector2.ZERO + Vector2(border_coords, border_coords)
+func get_entry_point(angle_rad: float) -> Vector2:
+	var coords: Vector2 = Vector2.ZERO
+	angle_rad = (angle_rad - PI/2) - PI # Flips angle 180 degrees (and accounts for player offset)
+	var border_coords: int = 20000
+	var square_min: Vector2 = Vector2.ZERO - Vector2(border_coords, border_coords)
+	var square_max: Vector2 = Vector2.ZERO + Vector2(border_coords, border_coords)
 
-	var best_intersection = Vector2.INF
-	var best_t = INF
+	var best_intersection: Vector2 = Vector2.INF
+	var best_t: float = INF
 
-	var cos_angle = cos(angle_rad)
-	var sin_angle = sin(angle_rad)
+	var cos_angle: float = cos(angle_rad)
+	var sin_angle: float = sin(angle_rad)
 
 	# Check right side
 	var t = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
@@ -52,5 +53,5 @@ func get_square_line_intersection(coords: Vector2, angle_rad: float) -> Vector2:
 		if x >= square_min.x and x <= square_max.x and t < best_t:
 			best_t = t
 			best_intersection = Vector2(x, square_min.y)
-
-	return best_intersection
+	
+	return best_intersection.move_toward(Vector2.ZERO, 2500)

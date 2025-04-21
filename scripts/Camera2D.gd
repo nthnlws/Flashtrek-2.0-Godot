@@ -10,8 +10,7 @@ var _zoom:Vector2 = Vector2(0.5, 0.5):
 	get:
 		return _zoom
 	set(value):
-		if Utility.mainScene.in_galaxy_warp == false:
-			_zoom = clamp(value, ZOOM_MIN, ZOOM_MAX)
+		_zoom = clamp(value, ZOOM_MIN, ZOOM_MAX)
 
 
 func _input(event):

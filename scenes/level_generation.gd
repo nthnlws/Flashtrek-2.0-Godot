@@ -36,22 +36,26 @@ func _ready() -> void:
 	_change_system("Solarus") # Spawn planets and move to JSON data locaiton
 	
 
-
 func _change_system(system):
-	print("changed system to " + str(system))
+	#print("changed system to " + str(system))
 	var new_planets: Array = []
 	new_planets.append_array(Utility.mainScene.planets)
 	new_planets.append_array(Utility.mainScene.unused_planets)
+	Utility.mainScene.planets.clear()
+	Utility.mainScene.unused_planets.clear()
+	
 	
 	var planet_data: Array = all_systems_data.get(system).planet_data
 	for p in planet_data.size(): # Sets planets to JSON data
-		Utility.mainScene.planets[p].global_position.x = planet_data[p].x
-		Utility.mainScene.planets[p].global_position.y = planet_data[p].y
-		Utility.mainScene.planets[p].sprite.frame = planet_data[p].frame
-	if Utility.mainScene.planets.size() - planet_data.size() > 0: # Checks if planets need to be removed
-		for r in Utility.mainScene.planets.size() - planet_data.size(): # Removes extra planets from active set
-			Utility.mainScene.unused_planets.append(Utility.mainScene.planets.back())
-			Utility.mainScene.planets.resize(Utility.mainScene.planets.size() - 1)
+		new_planets[p].global_position.x = planet_data[p].x
+		new_planets[p].global_position.y = planet_data[p].y
+		new_planets[p].sprite.frame = planet_data[p].frame
+		Utility.mainScene.planets.append(new_planets[p])
+	if planet_data.size() < 6:
+		for extra in 6 - planet_data.size():
+			Utility.mainScene.unused_planets.append(new_planets.back())
+	
+	
 	
 	var sun_data: Dictionary = all_systems_data.get(system).sun_data
 	var sun: Node2D = Utility.mainScene.suns[0]
@@ -72,6 +76,7 @@ func instantiate_new_system_nodes():
 
 	var init_starbase: Node2D = Starbase.instantiate()
 	add_child(init_starbase)
+	init_starbase.global_position = Vector2.ZERO
 	init_starbase.add_to_group("level_nodes")
 	
 

@@ -13,7 +13,6 @@ var current_state: MenuState = MenuState.NONE
 func _ready() -> void:
 	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
 	SignalBus.Quad4_clicked.connect(toggle_menu.bindv([$ShipSelectionMenu, MenuState.SHIP_SELECTION]))
-	SignalBus.galaxy_warp_finished.connect(toggle_loading_screen)
 
 # Input handling
 func _input(event):
@@ -22,12 +21,8 @@ func _input(event):
 			handle_escape_press()
 		elif Input.is_action_just_pressed("letter_m"):
 			handle_m_press()
-
-func toggle_loading_screen(system):
-	if loading_screen.visible:
-		loading_screen.visible == false
-	else:
-		loading_screen.visible
+	
+	
 	
 # Handle Escape key press
 func handle_escape_press():

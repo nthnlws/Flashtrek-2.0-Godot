@@ -230,6 +230,7 @@ player = ExtResource("4_s6h4r")
 process_mode = 1
 
 [node name="MiniMap" parent="HUD_layer" instance=ExtResource("13_pwbrs")]
+unique_name_in_owner = true
 
 [node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
 

@@ -34,8 +34,8 @@ point_count = 2
 curve = SubResource("Curve_p5fwl")
 
 [sub_resource type="Gradient" id="Gradient_sdlsd"]
-offsets = PackedFloat32Array(0.338164, 1)
-colors = PackedColorArray(0.610075, 0.766952, 0.999999, 1, 0.776723, 0.797925, 0.488551, 0.584314)
+offsets = PackedFloat32Array(0.230769, 0.538462, 1)
+colors = PackedColorArray(0.610075, 0.766952, 0.999999, 1, 0.658824, 0.776471, 0.603922, 1, 0.776723, 0.797925, 0.488551, 0.584314)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_iucyo"]
 gradient = SubResource("Gradient_sdlsd")
@@ -283,55 +283,46 @@ unique_name_in_owner = true
 stream = ExtResource("6_ihea4")
 volume_db = -12.0
 pitch_scale = 0.7
-bus = &"Characters"
 
 [node name="warp_off" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("6_c035k")
 volume_db = -15.0
-bus = &"Characters"
 
 [node name="ship_idle" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("7_8rbfi")
 volume_db = -25.0
-bus = &"Characters"
 
 [node name="PlayerDieSound" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("13_klvb2")
-bus = &"Characters"
 
 [node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("12_4w7or")
 volume_db = -10.0
-bus = &"Characters"
 
 [node name="HeavyTorpedo" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("13_b4xtu")
 volume_db = -16.0
 pitch_scale = 1.09
-bus = &"Characters"
 
 [node name="TorpedoHit" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("13_klvb2")
 volume_db = -20.0
 pitch_scale = 2.0
-bus = &"Characters"
 
 [node name="Galaxy_warp" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("16_hjmq1")
-bus = &"Characters"
 
 [node name="warp_boom" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("17_e8fxd")
 volume_db = 3.0
-bus = &"Characters"
 
 [node name="Projectiles" type="Node" parent="."]
 

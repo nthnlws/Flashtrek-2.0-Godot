@@ -65,6 +65,7 @@ func scale_minimap(direction):
 
 
 func create_minimap_objects():
+	clear_objects()
 	for enemy in Utility.mainScene.enemies:
 		if enemy:
 			var texture_rect: TextureRect = TextureRect.new()
@@ -162,3 +163,15 @@ func remove_minimap_object(enemy):
 		enemy_to_texture.erase(enemy)  # Remove from the dictionary
 	else:
 		print("Enemy not found in minimap objects")
+
+func clear_objects():
+	var old_objects: Array = enemyObjects + starbaseObjects + neutralObjects + sunObjects
+	
+	for obj in old_objects:
+		obj.queue_free()
+	
+	enemyObjects.clear()
+	starbaseObjects.clear()
+	neutralObjects.clear()
+	sunObjects.clear()
+	

@@ -25,7 +25,8 @@ var wall_rotations: Array = [
 ]
 
 func _ready():
-	SignalBus.entering_galaxy_warp.connect(fade_world_borders)
+	SignalBus.entering_galaxy_warp.connect(toggle_world_borders)
+	SignalBus.entering_new_system.connect(toggle_world_borders)
 	
 	
 	Utility.mainScene.levelWalls.clear()
@@ -50,6 +51,7 @@ func _ready():
 		# Create a label for the wall
 		var label = Label.new()
 		label.text = borders[i].name
+		label.add_to_group("Labels")
 		add_child(label)
 
 		# Position the label near the wall
@@ -85,10 +87,19 @@ func _on_collision_changed(toggle_status):
 			wall.get_node("WorldBoundary").disabled = toggle_status
 
 
-func fade_world_borders():
+func toggle_world_borders():
 	for bord in get_tree().get_nodes_in_group("borders"):
-		bord.get_node("WorldBoundary").disabled = true
-		await get_tree().create_timer(0.3).timeout
-		if Utility.mainScene.in_galaxy_warp == true:
-			create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), 0.8)
-		await get_tree().create_timer(0.8).timeout
+		if bord.get_node("WorldBoundary").disabled == false:
+			bord.get_node("WorldBoundary").disabled = true
+			await get_tree().create_timer(0.3).timeout
+			if Utility.mainScene.in_galaxy_warp == true:
+				create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), 0.8)
+			await get_tree().create_timer(0.8).timeout
+		else: 
+			bord.get_node("WorldBoundary").disabled = false
+			bord.modulate = Color(1, 1, 1, 1)
+	for label in get_tree().get_nodes_in_group("Labels"):
+		if label.visible:
+			label.visible = false
+		else:
+			label.visible

@@ -153,7 +153,7 @@ func laserOn():
 		#Turn on laser beam
 		$Line2D.visible = true
 		$laser_particles.emitting = true
-		var tween = create_tween()
+		var tween: Object = create_tween()
 		tween.tween_property($Line2D, "width", 5, 0.1)
 
 		$laserSound.play()

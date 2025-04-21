@@ -55,12 +55,12 @@ func _on_torpedo_collision(area: Area2D) -> void:
 
 
 func create_damage_indicator(damage_taken:float, target:String):
-	var damage: Marker2D = damage_indicator.instantiate()
+	var indicator: Marker2D = damage_indicator.instantiate()
 	if target == "shield_area":
 		var color: String = Utility.damage_blue
-		damage.find_child("Label").text = color + str(damage_taken)
+		indicator.find_child("Label").text = color + str(damage_taken)
 	if target == "hitbox_area":
 		var color: String = Utility.damage_red
-		damage.find_child("Label").text = color + str(damage_taken)
-	damage.global_position = self.global_position
-	return damage
+		indicator.find_child("Label").text = color + str(damage_taken)
+	indicator.global_position = self.global_position
+	return indicator

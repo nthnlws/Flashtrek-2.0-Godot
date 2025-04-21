@@ -44,21 +44,49 @@ func _init():
 	
 func _ready():
 	# Signal Connections
+	SignalBus.galaxy_warp_finished.connect(_warp_into_new_system)
 	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
-	SignalBus.entering_galaxy_warp.connect(fade_hud)
-	SignalBus.levelReset.connect(clearArrays)
+	SignalBus.entering_galaxy_warp.connect(fade_hud.bind("off"))
 	
 	if OS.get_name() == "Windows":
 		DiscordManager.single_player_game() # Sets Discord status to Solarus
 	
 	anim.play("fade_in_long")
-
 	
 	Navigation.currentSystem = "Solarus"
 	
 	score = 0
 
 
+func _warp_into_new_system(system):
+	%MiniMap.create_minimap_objects() # Update minimap objects to new system
+	player.camera._zoom = Vector2(0.4, 0.4)
+	
+	await get_tree().create_timer(1.5).timeout
+	SignalBus.entering_new_system.emit()
+	
+	anim.play("fade_in_long")
+	%LoadingScreen.visible = false
+	$transition_overlay.visible = true
+	anim.play("fade_in_long")
+	
+	player.global_position = Navigation.entry_coords
+	
+	player._teleport_shader_toggle("uncloak")
+	player.warping_state_change("INSTANT")
+	
+	
+	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
+	create_tween().tween_property(player.camera, "zoom", Vector2(0.5, 0.5), 3.0)
+	await tween.finished
+	player.camera._zoom = Vector2(0.5, 0.5)
+	
+	fade_hud("on")
+	player.warping_state_change("SMOOTH")
+	in_galaxy_warp = false
+	
+	
 	
 func galaxy_warp_check() -> bool:
 	if (in_galaxy_warp == false and player.velocity.x > -25 and player.velocity.x < 25
@@ -72,14 +100,13 @@ func galaxy_fade_out():
 	warp_video.play()
 	
 	await get_tree().create_timer(1.5).timeout
-	var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 1), 4.0)
 	
 	await get_tree().create_timer(2.0).timeout
 	#get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
 	
 	
-	get_tree().paused = true
 	print("Warp finished with target system " + str(Navigation.targetSystem))
 	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
 	
@@ -88,11 +115,13 @@ func galaxy_fade_out():
 	$Video_layer.visible = false
 	
 	
-func fade_hud():
-	if galaxy_warp_check():
+	
+func fade_hud(state):
+	if state == "off":
 		create_tween().tween_property(canvas_modulate, "color", Color(1, 1, 1, 0), 2)
-		await get_tree().process_frame
-		in_galaxy_warp = true
+	else:
+		var tween: Object = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tween.tween_property(canvas_modulate, "color", Color(1, 1, 1, 1), 3)
 	
 	
 func load_menu_status():
