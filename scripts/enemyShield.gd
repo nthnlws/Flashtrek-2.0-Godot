@@ -4,6 +4,9 @@ extends Shield
 func _process(delta):
 	if shieldActive and sp_current <= sp_max and damageTime == false:
 		regen_shield(delta)
+	
+	if sp_current < 0.1:
+		shieldDie()
 
 
 func take_damage(damage:float, shooter:String, projectile:Area2D):

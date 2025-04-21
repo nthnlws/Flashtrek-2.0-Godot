@@ -10,10 +10,10 @@ func _init():
 func _ready():
 	SignalBus.Quad3_clicked.connect(toggle_comms)
 	
-	rotation_degrees = 40
 	
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)
+
 
 func toggle_comms():# Only toggles on if within required distance
 	if check_distance_to_planets(): # and Utility.mainScene.player.warping_active == false:

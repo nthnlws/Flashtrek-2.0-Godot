@@ -1,8 +1,5 @@
 extends RayCast2D
 
-var accumulated_damage:float = 0
-var accumulated_time:float = 0
-
 var laserClickState:bool= false # Bool to check input hold status
 var enemy_collision:bool = false # Bool to check if Raycast is hitting one of desired target areas
 var laserStatus:bool = false # Final variable created after switching laser on or off
@@ -15,8 +12,9 @@ var cast_point_exact:Vector2 # Coords of exact collision for use in particles
 var shield_exception # Node to add and remove to exception list
 var collision_area # Global variable for HUD and debug
 
-
-#var accumulated_damage: float = 0
+# Damage variables
+var accumulated_damage:float = 0
+var accumulated_time:float = 0
 @export var base_damage:int = 20
 var damage:float = 20:
 	get:
@@ -84,8 +82,6 @@ func _process(delta):
 	# Damage setting from Cheat Menu
 	if GameSettings.laserDamageOverride == true:
 		damage = GameSettings.laserDamage
-	else:
-		damage = damage
 	
 	#Turns on laser if player is right clicking and not warping
 	if Input.is_action_just_pressed("right_click"):

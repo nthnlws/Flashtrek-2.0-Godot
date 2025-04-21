@@ -36,11 +36,22 @@ func _ready() -> void:
 	_change_system("Solarus") # Spawn planets and move to JSON data locaiton
 	
 
+
+func _instaniate_enemies():
+	Utility.mainScene.enemies.clear()
+	var planets = Utility.mainScene.planets
+	for e in range(planets.size()):
+		var randi: int = randi_range(-1000, 1000) # Spawn distance from planet
+		var init_hostiles: CharacterBody2D = Hostiles.instantiate()
+		
+		init_hostiles.global_position = planets[e].global_position + Vector2(randi, randi)
+		add_child(init_hostiles)
+		init_hostiles.add_to_group("level_nodes")
+	
+	
 func _change_system(system):
-	#print("changed system to " + str(system))
-	var new_planets: Array = []
-	new_planets.append_array(Utility.mainScene.planets)
-	new_planets.append_array(Utility.mainScene.unused_planets)
+	# Combining all planets into single array for new system spawning
+	var new_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
 	Utility.mainScene.planets.clear()
 	Utility.mainScene.unused_planets.clear()
 	
@@ -62,6 +73,11 @@ func _change_system(system):
 	sun.global_position.x = sun_data.x
 	sun.global_position.y = sun_data.y
 	sun.sprite.frame = sun_data.frame
+	
+	for enemy: CharacterBody2D in Utility.mainScene.enemies:
+		enemy.queue_free()
+		
+	_instaniate_enemies()
 	
 	
 func instantiate_new_system_nodes():
@@ -91,9 +107,6 @@ func instantiate_new_system_nodes():
 		add_child(init_planet)
 		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
 		
-	#var init_hostiles = Hostiles.instantiate()
-	#add_child(init_hostiles)
-	#init_hostiles.add_to_group("level_nodes")
 
 
 	var init_player: Player = player.instantiate()

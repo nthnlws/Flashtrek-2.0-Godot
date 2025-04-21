@@ -58,7 +58,7 @@ func shieldDie(): #Instantly turns off shield
 	shield_area.set_monitorable.call_deferred(false)
 	self.visible = false
 	shieldActive = false
-	sp_current = 0.0001
+	sp_current = 0.1
 	await get_tree().create_timer(3).timeout
 	shieldAlive()
 	

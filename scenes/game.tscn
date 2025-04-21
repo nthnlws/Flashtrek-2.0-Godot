@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/player_spawn_area.tscn" id="6_qnb83"]
-[ext_resource type="PackedScene" uid="uid://ckljagn7r5mq7" path="res://scenes/hostiles.tscn" id="7_44k7l"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/EnemyCharacter.tscn" id="8_qnb83"]
 [ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/sun.tscn" id="9_2srcp"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/mini_map.tscn" id="13_pwbrs"]
@@ -223,7 +223,7 @@ Planets = ExtResource("23_bt5mj")
 Starbase = ExtResource("9_y1jbs")
 PlayerSpawnArea = ExtResource("6_qnb83")
 Sun = ExtResource("9_2srcp")
-Hostiles = ExtResource("7_44k7l")
+Hostiles = ExtResource("8_qnb83")
 player = ExtResource("4_s6h4r")
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]

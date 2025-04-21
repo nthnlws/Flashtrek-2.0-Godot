@@ -10,7 +10,7 @@ the modified result on godotshaders.com.
 shader_type canvas_item;
 
 uniform float progress : hint_range(0.0, 1.0);
-uniform float noise_desnity = 60;
+uniform float noise_density = 60;
 uniform float beam_size : hint_range(0.01, 0.15);
 uniform vec4 color : source_color = vec4(0.0, 1.02, 1.2, 1.0);
 
@@ -38,7 +38,7 @@ void fragment()
 {
 	vec4 tex = texture(TEXTURE, UV);
 
-	float noise = noise(UV * noise_desnity) * UV.y;
+	float noise = noise(UV * noise_density);
 
 	float d1 = step(progress, noise);
 	float d2 = step(progress - beam_size, noise);

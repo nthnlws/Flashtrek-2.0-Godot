@@ -25,7 +25,7 @@ var player_name: String = "USS Enterprise"
 var animation_scale:Vector2 = Vector2(1, 1)
 
 const WHITE_FLASH_MATERIAL = preload("res://resources/Materials_Shaders/white_flash.tres")
-const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/teleport_material.tres")
+const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/teleport_material_VERTICAL.tres")
 
 @onready var muzzle = $Muzzle
 @onready var timer:Timer = $regen_timer

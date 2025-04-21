@@ -22,7 +22,7 @@
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="13_klvb2"]
-[ext_resource type="Shader" uid="uid://xoe0le12ln0y" path="res://resources/Materials_Shaders/teleport.gdshader" id="14_ke2ow"]
+[ext_resource type="Shader" uid="uid://xoe0le12ln0y" path="res://resources/Materials_Shaders/teleport_VERTICAL.gdshader" id="14_ke2ow"]
 [ext_resource type="AudioStream" uid="uid://dq11kuumua3bu" path="res://assets/audio/galaxy_warp_UP.ogg" id="16_hjmq1"]
 [ext_resource type="AudioStream" uid="uid://w1mbhrv11vbo" path="res://assets/audio/warp_boom.ogg" id="17_e8fxd"]
 
@@ -66,7 +66,7 @@ alpha_curve = SubResource("CurveTexture_dad8g")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6yxh3"]
 shader = ExtResource("14_ke2ow")
 shader_parameter/progress = 0.0
-shader_parameter/noise_desnity = 60.0
+shader_parameter/noise_density = 60.0
 shader_parameter/beam_size = 0.15
 shader_parameter/color = Color(0, 1.02, 1.2, 1)
 
