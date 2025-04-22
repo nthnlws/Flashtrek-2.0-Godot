@@ -4,6 +4,10 @@ extends Area2D
 @export var MIN_DISTANCE_FROM_ORIGIN = 1000
 @export var MAX_DISTANCE_FROM_ORIGIN = 1500
 
+func _init() -> void:
+	Utility.mainScene.spawn_options.append(self)
+	
+	
 func _ready():
 	global_position = get_random_position()
 

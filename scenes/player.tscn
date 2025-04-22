@@ -322,7 +322,7 @@ stream = ExtResource("16_hjmq1")
 [node name="warp_boom" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("17_e8fxd")
-volume_db = 3.0
+volume_db = -7.0
 
 [node name="Projectiles" type="Node" parent="."]
 

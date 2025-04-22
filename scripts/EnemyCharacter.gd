@@ -172,7 +172,7 @@ func setMovementState(delta):
 func selectRandomPlanet():
 	endPoint = Utility.mainScene.planets.pick_random().global_position
 	
-
+	
 	
 func starbaseMovement(delta):
 	if starbase:
@@ -194,12 +194,13 @@ func moveToTarget(targetName, targetPos, delta):
 	
 	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 	
-	if targetName == "Player":
-		velocity = (targetPos - self.global_position).normalized()*move_speed
-	elif targetName == "Starbase":
-		velocity = (targetPos - self.global_position).normalized()*move_speed
-	elif targetName == "Planet":
-		velocity = (targetPos - self.global_position).normalized()*move_speed
+	#if targetName == "Player":
+		#velocity = (targetPos - self.global_position).normalized()*move_speed
+	#elif targetName == "Starbase":
+		#velocity = (targetPos - self.global_position).normalized()*move_speed
+	#elif targetName == "Planet":
+		#velocity = (targetPos - self.global_position).normalized()*move_speed
+	velocity = (targetPos - self.global_position).normalized()*move_speed
 		
 	move_and_slide()
 	return angle_diff

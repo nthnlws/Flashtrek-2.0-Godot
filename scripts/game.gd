@@ -10,6 +10,7 @@ extends Node2D
 
 var in_galaxy_warp:bool = false
 
+var spawn_options: Array = []
 var enemies: Array = []
 var levelWalls: Array = []
 var planets: Array = []
@@ -78,7 +79,7 @@ func _warp_into_new_system(system):
 	
 	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
-	create_tween().tween_property(player.camera, "zoom", Vector2(0.5, 0.5), 3.0)
+	create_tween().tween_property(player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
 	await tween.finished
 	player.camera._zoom = Vector2(0.5, 0.5)
 	
@@ -90,7 +91,7 @@ func _warp_into_new_system(system):
 	
 func galaxy_warp_check() -> bool:
 	if (in_galaxy_warp == false and player.velocity.x > -25 and player.velocity.x < 25
-		and player.velocity.y > -25 and player.velocity.y < 25 and player.warping_active == false):
+		and player.velocity.y > -200 and player.velocity.y < 25 and player.warping_active == false):
 			return true
 	else: return false
 

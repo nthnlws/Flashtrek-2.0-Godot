@@ -30,6 +30,7 @@ const MAX_LEVEL = 31  # Highest system level
 
 
 func _ready() -> void:
+	SignalBus.playerDied.connect(handlePlayerDied)
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generates system JSON
@@ -48,8 +49,21 @@ func _instaniate_enemies():
 		add_child(init_hostiles)
 		init_hostiles.add_to_group("level_nodes")
 	
+
+func handlePlayerDied():
+	%LoadingScreen.visible = true
+	if Navigation.currentSystem != "Solarus":
+		_change_system("Solarus")
+	%MiniMap.create_minimap_objects() # Refresh minimap objects
+	game.player.camera._zoom = Vector2(0.4, 0.4)
+	await get_tree().create_timer(1.5).timeout
+	game.player.respawn(game.spawn_options.pick_random().global_position)
+	%LoadingScreen.visible = false
+	
 	
 func _change_system(system):
+	Navigation.currentSystem = system
+	
 	# Combining all planets into single array for new system spawning
 	var new_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
 	Utility.mainScene.planets.clear()

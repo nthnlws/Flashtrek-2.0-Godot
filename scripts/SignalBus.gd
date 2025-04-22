@@ -8,6 +8,7 @@ signal changePopMessage(text)
 signal playerHealthChanged(hp_current)
 signal playerShieldChanged(sp_current)
 signal playerEnergyChanged(energy_current)
+signal playerDied
 
 #World navigation
 signal galaxy_map_clicked(system_clicked)

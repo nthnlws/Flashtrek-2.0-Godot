@@ -352,18 +352,18 @@ func kill_player():
 		shield.shieldActive = false
 		
 		var spawn_options = get_tree().get_nodes_in_group("player_spawn_area") #TODO Update spawn options array in LevelManager
-		global_position = spawn_options[0].global_position
 		
 		if warping_active == true:
 			warping_state_change("INSTANT")
-		await get_tree().create_timer(1.0).timeout
 		
 		#Kill player stats
 		hp_current = 0
 		energy_current = 0
 		shield.sp_current = 0
 		shield.damageTime = true
-		respawn(spawn_options[0].global_position)
+		
+		await get_tree().create_timer(1.5).timeout
+		SignalBus.playerDied.emit()
 
 func respawn(pos):
 	if alive == false:
@@ -481,6 +481,8 @@ func galaxy_warp_out():
 		SignalBus.entering_galaxy_warp.emit()
 		Utility.mainScene.in_galaxy_warp = true
 		
+		self.velocity = Vector2.ZERO
+		
 		Navigation.entry_coords = Navigation.get_entry_point(self.global_rotation)
 		
 		galaxy_warp_sound.play()
@@ -528,8 +530,8 @@ func galaxy_warp_out():
 		galaxy_warp_sound.stop()
 		
 		#sprite.material.set("shader_parameter/flash_value", 1.0)
-		$warp_anim.visible = true
-		$warp_anim.play("warp_collapse")
+		#$warp_anim.visible = true
+		#$warp_anim.play("warp_collapse")
 		
 		# Camera zoom in
 		var tween3: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
