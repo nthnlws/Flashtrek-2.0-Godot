@@ -95,7 +95,8 @@ var random_confirm_query: String
 func _ready():
 	#Signal Connections
 	SignalBus.Quad2_clicked.connect(accept_mission)
-	SignalBus.Quad3_clicked.connect(toggle_comms)
+	SignalBus.Quad3_clicked.connect(open_comms)
+	SignalBus.entering_galaxy_warp.connect(close_comms)
 	button_array = get_tree().get_nodes_in_group("comms_button")
 	for button in button_array:
 		button.gui_input.connect(handle_button_click.bind(button))
@@ -122,7 +123,7 @@ func handle_button_click(event, button):
 				set_dynamic_text()
 		elif button.name == "close_button":
 			Utility.play_click_sound(0)
-			toggle_comms()
+			close_comms()
 	
 
 func set_dynamic_text():
@@ -150,15 +151,18 @@ func set_dynamic_text():
 		var formatted_text: String = template_text.format(data)
 		comms_message.bbcode_text = formatted_text
 
-func toggle_comms():
-	if visible == true: visible = false
-	
+func open_comms():
 	# Only toggles on if within required distance
-	elif check_distance_to_planets() and player.warping_active == false:
+	if check_distance_to_planets() and player.warping_active == false:
 		randomize_mission()
 		set_dynamic_text()
 		self.visible = true
 
+func close_comms():
+	if visible == true:
+		visible = false
+		
+		
 func check_distance_to_planets() -> bool:
 	var player_position: Vector2 = player.global_position
 	# Iterate through the planets array

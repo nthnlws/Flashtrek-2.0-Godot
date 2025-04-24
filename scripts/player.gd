@@ -529,10 +529,6 @@ func galaxy_warp_out():
 		await get_tree().create_timer(0.20).timeout
 		galaxy_warp_sound.stop()
 		
-		#sprite.material.set("shader_parameter/flash_value", 1.0)
-		#$warp_anim.visible = true
-		#$warp_anim.play("warp_collapse")
-		
 		# Camera zoom in
 		var tween3: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 		tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)

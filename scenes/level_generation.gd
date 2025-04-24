@@ -54,7 +54,6 @@ func handlePlayerDied():
 	%LoadingScreen.visible = true
 	if Navigation.currentSystem != "Solarus":
 		_change_system("Solarus")
-	%MiniMap.create_minimap_objects() # Refresh minimap objects
 	game.player.camera._zoom = Vector2(0.4, 0.4)
 	await get_tree().create_timer(1.5).timeout
 	game.player.respawn(game.spawn_options.pick_random().global_position)
@@ -92,6 +91,8 @@ func _change_system(system):
 		enemy.queue_free()
 		
 	_instaniate_enemies()
+	
+	%MiniMap.create_minimap_objects() # Refresh minimap objects
 	
 	
 func instantiate_new_system_nodes():

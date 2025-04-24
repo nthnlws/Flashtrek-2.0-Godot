@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cyg1avbtmwoj7"]
+[gd_scene load_steps=11 format=3 uid="uid://cyg1avbtmwoj7"]
 
 [ext_resource type="Script" uid="uid://y365qbp8cpj" path="res://scripts/hud.gd" id="1_3evr2"]
+[ext_resource type="PackedScene" uid="uid://mwmd8nnqveb0" path="res://scenes/pop_message.tscn" id="2_047uy"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
 [ext_resource type="Texture2D" uid="uid://d2uj6nbv5t3fb" path="res://assets/textures/UI/Engineering_Insignia.png" id="3_8t62i"]
 [ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/hud_button.tscn" id="4_6ifva"]
 [ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/comms_IU.tscn" id="5_hp4w2"]
+[ext_resource type="PackedScene" uid="uid://do3osaer0ntc8" path="res://scenes/missions_UI.tscn" id="7_5pdws"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
 font = ExtResource("2_158n7")
@@ -27,7 +29,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_3evr2")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="TopRow" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,31 +41,31 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopRow"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopRow/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LeftContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LeftContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Coords" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+[node name="Coords" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 text = "Coords:"
 label_settings = SubResource("LabelSettings_amtcr")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_bottom = 20
 
-[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+[node name="HealthBar" type="ProgressBar" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
 modulate = Color(0.192157, 0.392157, 0.101961, 1)
 custom_minimum_size = Vector2(180, 12)
@@ -74,7 +76,7 @@ mouse_filter = 1
 step = 1.0
 show_percentage = false
 
-[node name="ShieldBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+[node name="ShieldBar" type="ProgressBar" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
 modulate = Color(0.141176, 0.329412, 0.827451, 1)
 custom_minimum_size = Vector2(180, 12)
@@ -84,7 +86,7 @@ mouse_filter = 1
 step = 1.0
 show_percentage = false
 
-[node name="EnergyBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftContainer"]
+[node name="EnergyBar" type="ProgressBar" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
 unique_name_in_owner = true
 modulate = Color(0.772549, 0.584314, 0.0235294, 1)
 custom_minimum_size = Vector2(180, 12)
@@ -95,15 +97,15 @@ mouse_filter = 1
 step = 1.0
 show_percentage = false
 
-[node name="MiddleContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MiddleContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer"]
 layout_mode = 2
 
-[node name="Variable" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
+[node name="Variable" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -111,7 +113,7 @@ mouse_filter = 1
 text = "Zoom: (0.x, 0.x)"
 label_settings = SubResource("LabelSettings_qqd3h")
 
-[node name="Score" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
+[node name="Score" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -120,21 +122,21 @@ mouse_filter = 1
 text = "Score: 0"
 label_settings = SubResource("LabelSettings_qqd3h")
 
-[node name="FPS" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
+[node name="FPS" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "FPS: 123"
 label_settings = SubResource("LabelSettings_pu3f4")
 
-[node name="RightContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="RightContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer/RightContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="TopRow/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer"]
 custom_minimum_size = Vector2(35, 44)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -143,9 +145,18 @@ texture = ExtResource("3_8t62i")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopRow/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="message_UI" parent="." instance=ExtResource("2_047uy")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 945.0
+offset_bottom = 15.0
 
 [node name="HUD_button" parent="." instance=ExtResource("4_6ifva")]
 layout_mode = 1
@@ -166,4 +177,7 @@ scale = Vector2(0.4, 0.4)
 visible = false
 layout_mode = 1
 
-[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]
+[node name="Missions" parent="." instance=ExtResource("7_5pdws")]
+layout_mode = 1
+
+[connection signal="gui_input" from="TopRow/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]

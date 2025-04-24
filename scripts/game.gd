@@ -60,7 +60,6 @@ func _ready():
 
 
 func _warp_into_new_system(system):
-	%MiniMap.create_minimap_objects() # Update minimap objects to new system
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
 	await get_tree().create_timer(1.5).timeout

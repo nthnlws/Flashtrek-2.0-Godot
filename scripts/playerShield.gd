@@ -17,7 +17,7 @@ func _process(delta):
 		shieldActive = false
 
 func take_damage(damage:float, shooter:String, projectile:Area2D):
-	if shooter != "player":
+	if shooter != "player" and Utility.mainScene.in_galaxy_warp == false:
 		damageTimeout() # Turn off shield regen for period
 		sp_current -= damage # Take damage
 		SignalBus.playerShieldChanged.emit(sp_current) # Update HUD
