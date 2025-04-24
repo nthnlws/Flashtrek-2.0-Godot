@@ -3,7 +3,7 @@ extends Node
 @onready var music: AudioStreamPlayer = %Mesa
 
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	SignalBus.entering_galaxy_warp.connect(fade_music_out)
 	

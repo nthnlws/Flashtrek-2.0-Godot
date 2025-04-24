@@ -6,7 +6,7 @@ extends Control
 var showing: bool = false
 var pop_up_time: float = 3.0
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	timer.wait_time = pop_up_time
 	SignalBus.changePopMessage.connect(_update_text)

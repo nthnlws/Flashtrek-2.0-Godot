@@ -6,7 +6,6 @@
 export.cfg
 export_presets.cfg
 .godot/
-addons/
 script_templates/
 images/
 test/

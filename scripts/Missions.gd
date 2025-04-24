@@ -5,7 +5,7 @@ extends Control
 
 var showing: bool = false
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	SignalBus.missionAccepted.connect(_update_mission)
 	SignalBus.entering_galaxy_warp.connect(close_menu)
@@ -14,7 +14,6 @@ func _ready():
 	mission_container.position = Vector2(-275, 170)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _input(event):
 	if event is InputEventKey:
 		if event.is_action_pressed("Tab"):
