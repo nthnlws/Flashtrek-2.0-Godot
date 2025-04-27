@@ -238,4 +238,5 @@ func set_menu_to_savefile(resets):
 
 
 func _on_save_game_pressed() -> void:
-	Utility.store_level_data(Navigation.currentSystem)
+	print("saved")
+	Utility.store_level_data(Utility.mainScene.get_node("Level").all_systems_data)

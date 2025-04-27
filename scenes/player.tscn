@@ -222,7 +222,7 @@ damage_indicator = ExtResource("2_7odc1")
 torpedo_scene = ExtResource("3_newiu")
 base_max_speed = 600
 
-[node name="WarpParticles" type="GPUParticles2D" parent="."]
+[node name="GalaxyParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 19)
 emitting = false
 amount = 500

@@ -31,7 +31,8 @@ const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/telepo
 @onready var timer:Timer = $regen_timer
 @onready var sprite:Sprite2D = $PlayerSprite
 @onready var shield:Sprite2D = $playerShield
-@onready var particles:GPUParticles2D = $WarpParticles
+@onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
+@onready var warp_particles = $WarpParticles
 @onready var galaxy_warp_sound = %Galaxy_warp
 @onready var animation = $AnimationPlayer
 @onready var camera = $Camera2D
@@ -497,17 +498,17 @@ func galaxy_warp_out():
 		
 		
 		await get_tree().create_timer(1.0).timeout #3.0 sec
-		create_tween().tween_property(particles, "amount_ratio", 1.0, 8.0)
-		particles.emitting = true
+		create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0)
+		galaxy_particles.emitting = true
 		
 		#Camera Zoom out
 		create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/warp_multiplier*3)
 		
 		await get_tree().create_timer(3.0).timeout #6.0 sec
 		#print("flat, scale")
-		create_tween().tween_property(particles.process_material, "flatness", 0.0, 5.0)
-		create_tween().tween_property(particles.process_material, "scale_min", 1.0, 3.5)
-		create_tween().tween_property(particles.process_material, "scale_max", 2.0, 3.5)
+		create_tween().tween_property(galaxy_particles.process_material, "flatness", 0.0, 5.0)
+		create_tween().tween_property(galaxy_particles.process_material, "scale_min", 1.0, 3.5)
+		create_tween().tween_property(galaxy_particles.process_material, "scale_max", 2.0, 3.5)
 		
 		await get_tree().create_timer(2.5).timeout #7.5 sec
 		var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
@@ -519,7 +520,7 @@ func galaxy_warp_out():
 		
 		await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
 		#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
-		create_tween().tween_property(particles, "amount_ratio", 0.0, 2.5)
+		create_tween().tween_property(galaxy_particles, "amount_ratio", 0.0, 2.5)
 		
 		
 		

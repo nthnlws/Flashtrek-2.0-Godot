@@ -145,7 +145,7 @@ func generate_system_info():
 	var romulus_data: Dictionary = generate_system_variables("Romulus")
 	all_systems_data["Romulus"] = romulus_data
 	
-	#print(all_systems_data)
+	Utility.store_level_data(all_systems_data)
 
 func generate_system_variables(system_number) -> Dictionary:
 	var faction
