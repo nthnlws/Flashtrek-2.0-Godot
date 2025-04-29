@@ -194,12 +194,6 @@ func moveToTarget(targetName, targetPos, delta):
 	
 	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 	
-	#if targetName == "Player":
-		#velocity = (targetPos - self.global_position).normalized()*move_speed
-	#elif targetName == "Starbase":
-		#velocity = (targetPos - self.global_position).normalized()*move_speed
-	#elif targetName == "Planet":
-		#velocity = (targetPos - self.global_position).normalized()*move_speed
 	velocity = (targetPos - self.global_position).normalized()*move_speed
 		
 	move_and_slide()

@@ -351,16 +351,14 @@ func play_click_sound(volume):
 func store_level_data(save_data: Dictionary):
 	var file_path: String = "user://level_data.json"
 	
-	
+	# Save to file
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(save_data, "\t", false))
+	file.close()
+
+#func load_level_data()
 # Check if the file exists and load existing data if it does
 	#if FileAccess.file_exists(file_path):
 		#var file = FileAccess.open(file_path, FileAccess.READ)
 		#save_data = JSON.parse_string(file.get_as_text())
 		#file.close()
-	
-	
-	# Save to file
-	var file = FileAccess.open(file_path, FileAccess.WRITE)
-	print(file)
-	file.store_string(JSON.stringify(save_data, "\t", true))
-	file.close()

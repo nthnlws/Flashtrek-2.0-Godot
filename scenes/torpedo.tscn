@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://dkwrosj64i8ur"]
+[gd_scene load_steps=24 format=3 uid="uid://dkwrosj64i8ur"]
 
 [ext_resource type="Script" uid="uid://bf1gm1tl0pg8v" path="res://scripts/torpedo.gd" id="1_uf70w"]
 [ext_resource type="Texture2D" uid="uid://ejr6p7q5rwbx" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
 [ext_resource type="Texture2D" uid="uid://ej5uxca8hxd3" path="res://assets/textures/ships/bullet_explosion.png" id="3_ncjgy"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/damage_marker.tscn" id="4_8idko"]
+[ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="5_3x835"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hsjqf"]
 radius = 3.0
@@ -159,4 +160,11 @@ scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_sq830")
 animation = &"explode_hull"
 
+[node name="torpedo_hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_3x835")
+volume_db = -20.0
+pitch_scale = 2.0
+
 [connection signal="area_entered" from="." to="." method="_on_torpedo_collision"]
+[connection signal="animation_finished" from="explosion_animation" to="." method="_on_animation_finished"]
+[connection signal="finished" from="torpedo_hit" to="." method="_on_torpedo_hit_finished"]

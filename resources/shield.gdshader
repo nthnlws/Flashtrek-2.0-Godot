@@ -9,13 +9,13 @@ float circle(vec2 position, float radius, float feather)
 
 
 void fragment(){
-	
+
 	float outer = circle(vec2(UV.x, UV.y), 0.35, 0.035);
-	
+
 	float fade_effect = sin(TIME) * 0.01;
-	
+
 	float inner = 1.0 - circle(vec2(UV.x, UV.y), 0.275, 0.1 - fade_effect );
-	
+
 	COLOR.rgb = color.rgb;
 	COLOR.a *= color.a - (outer + inner);
 }

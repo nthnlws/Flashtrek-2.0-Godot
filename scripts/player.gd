@@ -32,7 +32,6 @@ const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/telepo
 @onready var sprite:Sprite2D = $PlayerSprite
 @onready var shield:Sprite2D = $playerShield
 @onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
-@onready var warp_particles = $WarpParticles
 @onready var galaxy_warp_sound = %Galaxy_warp
 @onready var animation = $AnimationPlayer
 @onready var camera = $Camera2D
@@ -345,14 +344,15 @@ func shoot_torpedo():
 			energy_current -= weapon_drain
 
 
-func kill_player():
+func killPlayer():
 	if alive:
+		Utility.mainScene.in_galaxy_warp = false
 		%PlayerDieSound.play()
 		alive = false
 		self.visible = false
 		shield.shieldActive = false
 		
-		var spawn_options = get_tree().get_nodes_in_group("player_spawn_area") #TODO Update spawn options array in LevelManager
+		var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 		
 		if warping_active == true:
 			warping_state_change("INSTANT")
@@ -384,25 +384,6 @@ func respawn(pos):
 
 		shield.damageTime = false
 
-# Take torpedo damage
-func _on_hitbox_area_entered(area):
-	if area.is_in_group("projectile") and area.shooter != "player":
-		area.kill_projectile("hull")
-		%TorpedoHit.play()
-		
-		# Create damage indicator
-		var damage_taken = area.damage
-		
-		
-		if GameSettings.unlimitedHealth == false:
-			create_damage_indicator(damage_taken, area.global_position, Utility.damage_red)
-			hp_current -= damage_taken
-		else: create_damage_indicator(0, area.global_position, Utility.damage_red)
-		
-		if hp_current <= 0 and alive:
-			kill_player()
-	elif area.is_in_group("enemy"):
-		pass
 
 func energyTimeout(): #Turns off energy regen for 1 second after firing laser
 	energyTime = true
@@ -453,13 +434,16 @@ func idle_sound(active):
 				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
-#TODO: Weapon sounds here
-
-func create_damage_indicator(damage_taken:float, hit_pos:Vector2, color:String):
-	var damage = damage_indicator.instantiate()
-	damage.find_child("Label").text = color + str(damage_taken)
-	damage.global_position = hit_pos
-	get_parent().add_child(damage)
+func take_damage(damage:float, shooter:String, projectile:Area2D):
+	if shooter != "player" and Utility.mainScene.in_galaxy_warp == false:
+		hp_current -= damage # Take damage
+		SignalBus.playerShieldChanged.emit(hp_current) # Update HUD
+		var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
+		projectile.kill_projectile($hitbox_area.name)
+		$Hitmarkers.add_child(spawn)
+		
+		if hp_current <= 0:
+			killPlayer()
 
 func _teleport_shader_toggle(toggle):
 	if toggle == "cloak":

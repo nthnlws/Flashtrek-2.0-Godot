@@ -31,7 +31,7 @@ var energy_drain: float = 7.5:
 
 func _ready():
 	#Adds own player areas to exception list
-	add_exception(get_parent().get_node("Hitbox"))
+	add_exception(get_parent().get_node("hitbox_area"))
 	add_exception(get_parent().get_node("playerShield/shield_area"))
 	
 	$Line2D.visible = false

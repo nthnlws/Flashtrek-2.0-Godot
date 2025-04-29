@@ -252,12 +252,12 @@ show_behind_parent = true
 material = SubResource("ShaderMaterial_6yxh3")
 texture = SubResource("AtlasTexture_wg5l6")
 
-[node name="Hitbox" type="Area2D" parent="." groups=["player"]]
+[node name="hitbox_area" type="Area2D" parent="." groups=["player"]]
 visible = false
 collision_layer = 64
 collision_mask = 15
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" groups=["player"]]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="hitbox_area" groups=["player"]]
 shape = ExtResource("7_b5xnp")
 
 [node name="WorldCollisionShape" type="CollisionShape2D" parent="." groups=["player"]]
@@ -312,12 +312,6 @@ stream = ExtResource("13_b4xtu")
 volume_db = -16.0
 pitch_scale = 1.09
 
-[node name="TorpedoHit" type="AudioStreamPlayer" parent="Audio"]
-unique_name_in_owner = true
-stream = ExtResource("13_klvb2")
-volume_db = -20.0
-pitch_scale = 2.0
-
 [node name="Galaxy_warp" type="AudioStreamPlayer" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("16_hjmq1")
@@ -332,4 +326,6 @@ volume_db = -7.0
 [node name="intersection_line" type="Line2D" parent="."]
 width = 15.0
 
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[node name="Hitmarkers" type="Node" parent="."]
+
+[connection signal="area_entered" from="hitbox_area" to="." method="_on_hitbox_area_entered"]

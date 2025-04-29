@@ -4,10 +4,14 @@ extends Area2D
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @export var damage_indicator: PackedScene
+@onready var hit_sound: AudioStreamPlayer2D = $torpedo_hit
 
 
 @export var speed:int = 1000
 @export var energy_drain:int = 10
+
+var animation_finished: bool = false
+var sound_finished: bool = false
 
 var moving: bool = true
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
@@ -20,7 +24,8 @@ var age: float = 0.0
 var damage:float = 15.0#:
 	#get:
 		#return PlayerUpgrades.DamageAdd + (base_damage * PlayerUpgrades.DamageMult)
-
+	
+	
 func _process(delta):
 	age += delta
 	if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
@@ -29,11 +34,15 @@ func _process(delta):
 			
 	if age > lifetime_seconds:
 		queue_free()
+	
+	if animation_finished and sound_finished:
+		queue_free()
 
 
 func _physics_process(delta):
 	if moving:
 		global_position += movement_vector.rotated(rotation) * speed * delta
+
 
 func kill_projectile(target): # Creates explosion animation and kills self
 	$Sprite2D.visible = false
@@ -43,8 +52,7 @@ func kill_projectile(target): # Creates explosion animation and kills self
 		animation.play("explode_shield")
 	elif target == "hitbox_area":
 		animation.play("explode_hull")
-	await animation.animation_finished
-	queue_free()
+	hit_sound.play()
 	
 
 
@@ -64,3 +72,10 @@ func create_damage_indicator(damage_taken:float, target:String):
 		indicator.find_child("Label").text = color + str(damage_taken)
 	indicator.global_position = self.global_position
 	return indicator
+
+
+func _on_animation_finished() -> void:
+	animation_finished = true
+
+func _on_torpedo_hit_finished() -> void:
+	sound_finished = true
