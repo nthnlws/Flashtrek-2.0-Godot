@@ -8,9 +8,7 @@ func _ready() -> void:
 	SignalBus.entering_galaxy_warp.connect(fade_music_out)
 	
 	call_deferred("start_music")
-	
-	
-	
+
 
 func start_music():
 	match Navigation.current_system_faction:
@@ -26,5 +24,6 @@ func start_music():
 		_:
 			print("Default system music")
 			music.play()
+
 func fade_music_out():
 	music.stop()

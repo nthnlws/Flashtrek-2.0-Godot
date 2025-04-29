@@ -30,7 +30,6 @@ const MAX_LEVEL = 31  # Highest system level
 
 
 func _ready() -> void:
-	SignalBus.galaxy_warp_finished.connect(_warp_into_new_system)
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generate info for all systems
@@ -53,21 +52,25 @@ func _instaniate_enemies():
 	
 func _change_system(system):
 	# Combining all planets into single array for new system spawning
-	var new_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
+	var all_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
 	Utility.mainScene.planets.clear()
 	Utility.mainScene.unused_planets.clear()
 	
 	#Re-map planet array with correct count
 	var planet_data: Array = all_systems_data.get(system).planet_data
 	for p in planet_data.size(): # Sets planets to JSON data
-		new_planets[p].global_position.x = planet_data[p].x
-		new_planets[p].global_position.y = planet_data[p].y
-		new_planets[p].sprite.frame = planet_data[p].frame
-		new_planets[p].name = planet_data[p].name
-		Utility.mainScene.planets.append(new_planets[p])
+		all_planets[p].global_position.x = planet_data[p].x
+		all_planets[p].global_position.y = planet_data[p].y
+		all_planets[p].sprite.frame = planet_data[p].frame
+		all_planets[p].name = planet_data[p].name
+		Utility.mainScene.planets.append(all_planets[p])
+	#print(Utility.mainScene.planets)
 	if planet_data.size() < 6:
 		for extra in 6 - planet_data.size():
-			Utility.mainScene.unused_planets.append(new_planets.back())
+			Utility.mainScene.unused_planets.append(all_planets.pop_back())
+		for i in range(Utility.mainScene.unused_planets.size()):
+			Utility.mainScene.unused_planets[i].global_position = Vector2(40000, 40000)
+	#print(Utility.mainScene.unused_planets)
 	
 	
 	var sun_data: Dictionary = all_systems_data.get(system).sun_data
@@ -258,29 +261,6 @@ func generate_planet_data(PLANET_COUNT: int) -> Array:
 
 	# Return the completed array of planet dictionaries
 	return all_planets_data
-
-func _warp_into_new_system(system):
-	player.camera._zoom = Vector2(0.4, 0.4)
-	
-	await get_tree().create_timer(1.5).timeout
-	SignalBus.entering_new_system.emit()
-	
-	%LoadingScreen.visible = false
-	$transition_overlay.visible = true
-	
-	player.global_position = Navigation.entry_coords
-	
-	player._teleport_shader_toggle("uncloak")
-	player.warping_state_change("INSTANT")
-	
-	
-	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
-	create_tween().tween_property(player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
-	await tween.finished
-	player.camera._zoom = Vector2(0.5, 0.5)
-	
-	player.warping_state_change("SMOOTH")
 	
 	
 func get_valid_position(

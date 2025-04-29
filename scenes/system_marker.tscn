@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2ffdiw7qy7v0"]
+
+[ext_resource type="Texture2D" uid="uid://d4ilsl7aajui2" path="res://assets/textures/UI/white_dot.png" id="1_br37g"]
+
+[node name="Destination_indicator" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("1_br37g")

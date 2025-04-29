@@ -1,34 +1,31 @@
 extends Control
 
 @onready var mission_message: RichTextLabel = $mission_message
-@onready var destination_message: RichTextLabel = $destination_message
+@onready var current_system_message: RichTextLabel = $current_system_message
 @onready var Menus: CanvasLayer = $".."
 
-@export var red_circle: PackedScene
-var selected_system: String
+@export var selection_marker: PackedScene
+@export var systemMarker: PackedScene
 
-var area_array: Array = []
+var selected_system: String
+var system_array = []
 
 const HIGH:float = 4
 const LOW:float = 0
 
-var sound_array:Array = [] # Contains all nodes in group "click_sound"
-var sound_array_location:int = 0
-
-
 func _ready():
+	system_array = get_tree().get_nodes_in_group("map_node")
+	
 	# Adds close menu button if galaxy map is not root scene
 	if get_tree().current_scene.name == "GalaxyMap":
 		$MarginContainer/closeMenuButton.visible = false
 		Utility.mainScene = self
 	
+	SignalBus.galaxy_warp_finished.connect(selectCurrentSystem)
 	SignalBus.Quad1_clicked.connect(trigger_warp)
 	SignalBus.missionAccepted.connect(_update_mission)
-	
-	area_array = get_tree().get_nodes_in_group("map_node")
-	
-	sound_array = get_tree().get_nodes_in_group("click_sound")
-	sound_array.shuffle()
+
+	selectCurrentSystem(Navigation.currentSystem)
 
 func _gui_input(event):
 	if event.is_action_pressed("left_click"):
@@ -36,7 +33,7 @@ func _gui_input(event):
 		var clicked_position: Vector2 = get_screen_position() + event.position
 
 		# Handle mouse clicks based on click coordinates
-		for area in area_array:
+		for area in system_array:
 			var area_child = area.get_child(0)
 			if is_point_in_collision_shape(clicked_position, area_child):
 				get_viewport().set_input_as_handled()
@@ -46,6 +43,33 @@ func _gui_input(event):
 				return
 				
 
+func selectCurrentSystem(system):
+	# Add indicator icon to map
+	var selected_system: int = -1
+	for i in range(system_array.size()):
+		var node = system_array[i]
+		if node.name == system:
+			selected_system = i
+	
+	var indicator: Node2D = systemMarker.instantiate()
+	indicator.modulate = Color(0, 255, 0, 255)
+	system_array[selected_system].add_child(indicator)
+	
+	# Set text message
+	match system:
+		"Kronos":
+			var current_system_text: String = "Current destination: " + Utility.klin_red + system + "[/color]"
+			current_system_message.bbcode_text = current_system_text
+		"Solarus":
+			var current_system_text: String = "Current destination: " + Utility.fed_blue + system + "[/color]"
+			current_system_message.bbcode_text = current_system_text
+		"Romulus":
+			var current_system_text: String = "Current destination: " + Utility.rom_green + system + "[/color]"
+			current_system_message.bbcode_text = current_system_text
+		_:
+			var current_system_text: String = "Current destination: [color=#FFCC66]" + system + "[/color]"
+			current_system_message.bbcode_text = current_system_text
+	
 func update_map_destination(system:Area2D, system_name:String):
 	# Delete old selection indicator
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
@@ -55,7 +79,7 @@ func update_map_destination(system:Area2D, system_name:String):
 	Navigation.targetSystem = system_name
 	
 	# Create new indicator
-	var indicator: Node2D = red_circle.instantiate()
+	var indicator: Node2D = selection_marker.instantiate()
 	indicator.add_to_group("indicator_mark")
 	system.add_child(indicator)
 	
@@ -64,38 +88,24 @@ func update_map_destination(system:Area2D, system_name:String):
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
 	
-	# Set text color
-	match system_name:
-		"Kronos":
-			var destination_text = "Current destination: " + Utility.klin_red + system.name + "[/color]"
-			destination_message.bbcode_text = destination_text
-		"Solarus":
-			var destination_text = "Current destination: " + Utility.fed_blue + system.name + "[/color]"
-			destination_message.bbcode_text = destination_text
-		"Romulus":
-			var destination_text = "Current destination: " + Utility.rom_green + system.name + "[/color]"
-			destination_message.bbcode_text = destination_text
-		_:
-			var destination_text = "Current destination: [color=#FFCC66]" + system.name + "[/color]"
-			destination_message.bbcode_text = destination_text
 	
 func _update_mission(current_mission: Dictionary):
-	var system_name:String = current_mission.get("target_system", "Unknown")
+	var system_name:String = current_mission.system
 	if current_mission.is_empty():
 		mission_message.bbcode_text = "Current Mission: None"
 	else:
 		match system_name:
 			"Kronos":
-				var destination_text: String = "Current destination: " + Utility.klin_red + system_name + "[/color]"
+				var destination_text: String = "Current mission: " + Utility.klin_red + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 			"Solarus":
-				var destination_text: String = "Current destination: " + Utility.fed_blue + system_name + "[/color]"
+				var destination_text: String = "Current mission: " + Utility.fed_blue + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 			"Romulus":
-				var destination_text: String = "Current destination: " + Utility.rom_green + system_name + "[/color]"
+				var destination_text: String = "Current mission: " + Utility.rom_green + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 			_:
-				var destination_text: String = "Current destination: [color=#FFCC66]" + system_name + "[/color]"
+				var destination_text: String = "Current mission: [color=#FFCC66]" + system_name + "[/color]"
 				mission_message.bbcode_text = destination_text
 	
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:

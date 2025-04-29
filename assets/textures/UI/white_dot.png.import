@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3ftmr3exr3w7"
-path="res://.godot/imported/destination_indicator.png-98ad505de649920ca46f6f2e2291f6af.ctex"
+uid="uid://d4ilsl7aajui2"
+path="res://.godot/imported/white_dot.png-2db4dbe5a25e1c9159fca99cfc81f82c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/UI/destination_indicator.png"
-dest_files=["res://.godot/imported/destination_indicator.png-98ad505de649920ca46f6f2e2291f6af.ctex"]
+source_file="res://assets/textures/UI/white_dot.png"
+dest_files=["res://.godot/imported/white_dot.png-2db4dbe5a25e1c9159fca99cfc81f82c.ctex"]
 
 [params]
 

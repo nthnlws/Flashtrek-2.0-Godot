@@ -1,6 +1,5 @@
 extends Control
 
-var current_mission: Dictionary = {}
 @onready var comms_message = $Comms_message
 @onready var player = Utility.mainScene.player
 
@@ -9,6 +8,7 @@ var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
 var comm_distance:float
+var pending_mission: Dictionary
 
 var cargo_types: Array = [
 	"Dilithium Crystals",
@@ -99,9 +99,8 @@ func handle_button_click(event: InputEvent, button: TextureButton):
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
 			Utility.play_click_sound(0)
-			if current_mission.is_empty():
-				var mission_data = generate_mission()
-				set_dynamic_text(mission_data)
+			var current_mission = generate_mission()
+			set_dynamic_text(current_mission)
 		elif button.name == "close_button":
 			Utility.play_click_sound(0)
 			close_comms()
@@ -167,6 +166,9 @@ func generate_mission():
 	var system_keys: Array = Navigation.systems
 	var random_system_key: int = int(system_keys[randi() % system_keys.size()])
 	var random_system_name = system_keys[random_system_key]
+	while random_system_name == Navigation.currentSystem:
+		random_system_key = int(system_keys[randi() % system_keys.size()])
+		random_system_name = system_keys[random_system_key]
 	
 	# Get random planet from picked system
 	var planet_list: Array = Navigation.all_systems_data[str(random_system_name)].planet_data
@@ -176,31 +178,30 @@ func generate_mission():
 	var random_confirm_query: String = confirmation_messages.pick_random()
 	
 	var misson_data: Dictionary = {
+		"mission_type": "Cargo delivery",
 		"system": random_system_name,
 		"planet": random_planet,
 		"cargo": item_name,
 		"message": random_confirm_query,
 	}
 	
+	pending_mission = misson_data
 	return misson_data
 
-func accept_mission(mission_data: Dictionary):
-	if visible and player.current_cargo + 1 <= player.base_cargo_size:
-		# Update text to "accepted"
-		var data: Dictionary = {
-			"target_planet": "[color=#FFCC66]" + mission_data.random_planet + "[/color]",
-			"target_system": "[color=#FFCC66]" + mission_data.random_system + "[/color]",
-			}
-			
-		var template_text: String = "Mission accepted! Head to {target_planet} in the {target_system} system."
-		var formatted_text: String = template_text.format(data)
-	
-		comms_message.bbcode_text = formatted_text
-		current_mission["mission_type"] = "Cargo Delivery"
-		current_mission["cargo"] = mission_data.cargo
-		current_mission["target_system"] = mission_data.random_system
-		current_mission["target_planet"] = mission_data.random_planet
-		SignalBus.missionAccepted.emit(current_mission)
-		#visible = false
+func accept_mission():
+	if pending_mission:
+		if visible and player.current_cargo + 1 <= player.base_cargo_size:
+			# Update text to "accepted"
+			var data: Dictionary = {
+				"target_planet": "[color=#FFCC66]" + pending_mission.planet + "[/color]",
+				"target_system": "[color=#FFCC66]" + pending_mission.system + "[/color]",
+				}
+				
+			var template_text: String = "Mission accepted! Head to {target_planet} in the {target_system} system."
+			var formatted_text: String = template_text.format(data)
 		
-		player.current_cargo += 1
+			comms_message.bbcode_text = formatted_text
+			SignalBus.missionAccepted.emit(pending_mission)
+			
+			
+			player.current_cargo += 1

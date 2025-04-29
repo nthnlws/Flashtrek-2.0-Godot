@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cx1bafifkl17x"]
+[gd_scene load_steps=11 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
 [ext_resource type="Script" uid="uid://ciiwlhnmwo72u" path="res://scripts/galaxy_map.gd" id="1_n1dvt"]
 [ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/destination_indicator.tscn" id="2_rvfec"]
+[ext_resource type="PackedScene" uid="uid://c2ffdiw7qy7v0" path="res://scenes/system_marker.tscn" id="3_uixyg"]
 [ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/UI/WorldMapShaded.png" id="4_7hrdk"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="5_oddma"]
@@ -20,7 +21,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_n1dvt")
-red_circle = ExtResource("2_rvfec")
+selection_marker = ExtResource("2_rvfec")
+systemMarker = ExtResource("3_uixyg")
 
 [node name="mapBackground" type="Sprite2D" parent="."]
 position = Vector2(512, 512)
@@ -412,7 +414,7 @@ autowrap_mode = 2
 shortcut_keys_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="destination_message" type="RichTextLabel" parent="."]
+[node name="current_system_message" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 12.0

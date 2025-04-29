@@ -9,7 +9,7 @@ func _ready():
 	anim.play("fade_in_long")
 	
 
-func fade_hud():
+func fade_hud(system):
 	anim.play("fade_in_long")
 
 func galaxyFade():
