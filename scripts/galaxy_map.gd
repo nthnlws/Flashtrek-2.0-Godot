@@ -1,8 +1,8 @@
 extends Control
 
-@onready var mission_message = $mission_message
-@onready var destination_message = $destination_message
-@onready var Menus = $".."
+@onready var mission_message: RichTextLabel = $mission_message
+@onready var destination_message: RichTextLabel = $destination_message
+@onready var Menus: CanvasLayer = $".."
 
 @export var red_circle: PackedScene
 var selected_system: String

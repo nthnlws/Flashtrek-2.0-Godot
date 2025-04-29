@@ -17,7 +17,7 @@ var sp_current:float = sp_max:
 	
 
 
-func regen_shield(delta):
+func regen_shield(delta: float):
 	sp_current += regen_speed * delta
 	
 	

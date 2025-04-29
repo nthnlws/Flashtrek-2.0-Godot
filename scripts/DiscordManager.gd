@@ -1,6 +1,9 @@
 extends Node
 
-
+func _ready() -> void:
+	if OS.get_name() == "Windows":
+		DiscordManager.single_player_game()
+		
 func  _process(delta) -> void:
 	DiscordRPC.run_callbacks()
 	

@@ -42,5 +42,5 @@ alpha_curve = SubResource("CurveTexture_dad8g")
 [node name="blue_lines" type="GPUParticles2D"]
 amount = 1000
 amount_ratio = 0.5
-process_material = SubResource("ParticleProcessMaterial_rtpoj")
 texture = ExtResource("1_4tv8s")
+process_material = SubResource("ParticleProcessMaterial_rtpoj")

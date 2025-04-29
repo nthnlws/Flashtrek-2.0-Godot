@@ -191,7 +191,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func _handle_movement(delta):
+func _handle_movement(delta: float):
 	if Utility.mainScene.in_galaxy_warp == false:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
@@ -218,7 +218,7 @@ func _handle_movement(delta):
 			if Input.is_action_pressed("rotate_left"):
 				rotate(deg_to_rad(-rotation_speed * delta * warpm_r))
 
-func change_enemy_resource(ENEMY_TYPE):
+func change_enemy_resource(ENEMY_TYPE: Utility.SHIP_NAMES):
 	#TODO Link to RSS File
 	match ENEMY_TYPE:
 		Utility.SHIP_NAMES.Brel_Class:
@@ -366,7 +366,7 @@ func killPlayer():
 		await get_tree().create_timer(1.5).timeout
 		SignalBus.playerDied.emit()
 
-func respawn(pos):
+func respawn(pos: Vector2):
 	if alive == false:
 		alive = true
 		global_position = pos
@@ -402,7 +402,7 @@ func warpTimeout(): #Turns off torpedo shooting for half of trans_length after l
 	await get_tree().create_timer(trans_length/2).timeout
 	warpTime = false
 	
-func teleport(xCoord, yCoord): # Uses coords from cheat menu to teleport player
+func teleport(xCoord: int, yCoord: int): # Uses coords from cheat menu to teleport player
 	global_position = Vector2(xCoord, yCoord)
 	velocity = Vector2(0, 0)
 	if warping_active == true:
@@ -419,7 +419,7 @@ func warp_sound_on():
 func warp_sound_off():
 	%warp_off.play()
 
-func idle_sound(active):
+func idle_sound(active: bool):
 	if warping_active == true:
 		#$ship_idle.stop()
 		pass
@@ -445,7 +445,7 @@ func take_damage(damage:float, shooter:String, projectile:Area2D):
 		if hp_current <= 0:
 			killPlayer()
 
-func _teleport_shader_toggle(toggle):
+func _teleport_shader_toggle(toggle: String):
 	if toggle == "cloak":
 		sprite.material = TELEPORT_FADE_MATERIAL
 		var tween: Object = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

@@ -49,7 +49,7 @@ func _ready():
 				wall.get_node("WorldBoundary").disabled = true
 		
 		# Create a label for the wall
-		var label = Label.new()
+		var label: Label = Label.new()
 		label.text = borders[i].name
 		label.add_to_group("Labels")
 		add_child(label)

@@ -54,7 +54,7 @@ var frame_textures: Array = [federation_frame, klingon_frame, romulan_frame, neu
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if get_node("..").name == "Menus":
+	if get_parent().name == "Menus":
 		menu_state_machine = get_node("..")
 	
 	var width: int = max(num_fed, num_klin, num_rom, num_neut)*100
@@ -98,7 +98,7 @@ func start_ambience():
 	tween.tween_property(ambience, "volume_db", -20, 4.0)
 	
 	
-func create_selection_frames(faction, i):
+func create_selection_frames(faction: Utility.FACTION, i: int):
 	# Create a container to group the frame and ship image
 	var container: Control = Control.new()
 
@@ -129,7 +129,7 @@ func create_selection_frames(faction, i):
 			container.name = "Fed_Container_" + str(i + 1)
 			if i < fed_ships.size():
 				atlas_texture.region = fed_ships.values()[i]
-				var enum_key = fed_ships.keys()[i]
+				var enum_key: int = fed_ships.keys()[i]
 				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
 				
 		Utility.FACTION.KLINGON:
@@ -139,7 +139,7 @@ func create_selection_frames(faction, i):
 			container.name = "Klin_Container_" + str(i + 1)
 			if i < klin_ships.size():
 				atlas_texture.region = klin_ships.values()[i]
-				var enum_key = klin_ships.keys()[i]
+				var enum_key: int = klin_ships.keys()[i]
 				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
 				
 		Utility.FACTION.ROMULAN:
@@ -149,7 +149,7 @@ func create_selection_frames(faction, i):
 			container.name = "Rom_Container_" + str(i + 1)
 			if i < rom_ships.size():
 				atlas_texture.region = rom_ships.values()[i]
-				var enum_key = rom_ships.keys()[i]
+				var enum_key: int = rom_ships.keys()[i]
 				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
 				
 		Utility.FACTION.NEUTRAL:
@@ -159,7 +159,7 @@ func create_selection_frames(faction, i):
 			container.name = "Neut_Container_" + str(i + 1)
 			if i < neut_ships.size():
 				atlas_texture.region = neut_ships.values()[i]
-				var enum_key = neut_ships.keys()[i]
+				var enum_key: int = neut_ships.keys()[i]
 				frame.name = str(Utility.SHIP_NAMES.keys()[enum_key])
 		
 	container.add_child(ship_image)
@@ -167,7 +167,7 @@ func create_selection_frames(faction, i):
 
 	frame.mouse_entered.connect(update_ship_stats.bind(frame.name))
 
-func update_ship_stats(ship_name):
+func update_ship_stats(ship_name: String):
 	if ship_rss.has(ship_name):
 		var enemy_rss = ship_rss[ship_name]
 		%ship_name.text = "Ship Name: " + Utility.UI_ship_lime + ship_name.replace("_", " ")

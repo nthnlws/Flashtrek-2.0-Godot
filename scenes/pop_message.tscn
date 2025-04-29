@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://mwmd8nnqveb0"]
 
-[ext_resource type="Script" uid="uid://cdonv71fpisru" path="res://scenes/pop_message.gd" id="1_52egy"]
+[ext_resource type="Script" uid="uid://cdonv71fpisru" path="res://scripts/pop_message.gd" id="1_52egy"]
 [ext_resource type="Texture2D" uid="uid://bnuikal1hnf8r" path="res://assets/textures/UI/pop_message.png" id="2_52egy"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="5_p5m6u"]
 

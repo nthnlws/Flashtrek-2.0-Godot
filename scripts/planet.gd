@@ -1,9 +1,9 @@
 extends Node2D
 
 @onready var sprite = $PlanetTexture
-var planetFaction:int = Utility.FACTION.FEDERATION
+var planetFaction: int = Utility.FACTION.FEDERATION
 
-var CanCommunicate:bool = false
+var CanCommunicate: bool = false
 var player: Player
 
 #func _process(delta):
@@ -12,14 +12,12 @@ var player: Player
 	
 func _ready():
 	rotation = round(deg_to_rad(randi_range(0, 360)))
-	rotation_degrees = 40
-
+	
 	var random_index = randi_range(0, 220)
 	sprite.frame = random_index
 	
-
 	Utility.mainScene.planets.append(self)
-
+	
 	
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)

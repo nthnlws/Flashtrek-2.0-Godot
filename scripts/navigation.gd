@@ -3,12 +3,30 @@ extends Node
 var currentSystem: String = "Solarus"
 var current_system_faction: Utility.FACTION = 0
 
+var all_systems_data: Dictionary = {}
+var systems: Array
+var planet_names = load_planet_names("res://assets/data/planet_names.txt")
+
 var entry_coords: Vector2
 
 # Vars for galaxy map navigation
 var targetSystem: String = "" # Currently selected system on galaxy map
 
+func load_planet_names(file_path: String) -> Array:
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		push_error("Failed to open planet names file at %s" % file_path)
+		return []
 
+	var names = []
+	while not file.eof_reached():
+		var line = file.get_line().strip_edges()
+		if line != "":
+			names.append(line)
+	file.close()
+	return names
+	
+	
 func get_entry_point(angle_rad: float) -> Vector2:
 	var coords: Vector2 = Vector2.ZERO
 	angle_rad = (angle_rad - PI/2) - PI # Flips angle 180 degrees (and accounts for player offset)

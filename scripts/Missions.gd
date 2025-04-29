@@ -27,10 +27,10 @@ func _update_mission(current_mission: Dictionary):
 		mission_label.text = "Mission: None"
 		mission_label.custom_minimum_size.y = 20
 	else:
-		var mission_text: String = "Mission: " + Utility.UI_yellow +current_mission.get("mission_type", "Unknown") + "[/color]\n"
-		mission_text += "Target System: " + Utility.UI_blue + current_mission.get("target_system", "Unknown") + "[/color]\n"
-		mission_text += "Target Planet: " + Utility.UI_blue + current_mission.get("target_planet", "Unknown") + "[/color]\n"
-		mission_text += "Cargo: " + Utility.UI_cargo_green + current_mission.get("cargo", "Unknown") + "[/color]"
+		var mission_text: String = "Mission: " + Utility.UI_yellow + current_mission.mission_type + "[/color]\n"
+		mission_text += "Target System: " + Utility.UI_blue + current_mission.target_system + "[/color]\n"
+		mission_text += "Target Planet: " + Utility.UI_blue + current_mission.target_planet + "[/color]\n"
+		mission_text += "Cargo: " + Utility.UI_cargo_green + current_mission.cargo + "[/color]"
 		mission_label.bbcode_text = mission_text
 		mission_label.custom_minimum_size.y = mission_label.get_line_count() * 30
 

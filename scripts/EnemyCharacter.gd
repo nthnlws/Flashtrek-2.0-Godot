@@ -91,7 +91,7 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-func change_enemy_resource(ENEMY_TYPE):
+func change_enemy_resource(ENEMY_TYPE: Utility.SHIP_NAMES):
 	#TODO Link to RSS File
 	match ENEMY_TYPE:
 		Utility.SHIP_NAMES.Brel_Class:
@@ -245,7 +245,7 @@ func predict_player_position():
 		predicted_position = player.global_position
 		return player.global_position
 	
-func randomize_position(predicted_position) -> Vector2:
+func randomize_position(predicted_position: Vector2) -> Vector2:
 # Calculate the distance to the target
 	var distance_to_target: float = self.global_position.distance_to(predicted_position)
 	
@@ -270,7 +270,7 @@ func randomize_position(predicted_position) -> Vector2:
 	
 	return random_predicted_position
 
-func playerMovement(delta):
+func playerMovement(delta: float):
 	predict_player_position()
 	if typeof(predict_player_position()) == TYPE_INT:
 		moveToTarget("Player", player.global_position, delta)
@@ -307,7 +307,7 @@ func shoot_bullet():# Instantiate and configure bullet
 		call_deferred("instantiate_bullet", bullet)
 
 
-func instantiate_bullet(bullet):
+func instantiate_bullet(bullet: Area2D):
 	if !shoot_cd:
 		shoot_cd = true
 		get_parent().add_child(bullet)

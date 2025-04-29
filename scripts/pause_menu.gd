@@ -147,12 +147,12 @@ func _on_border_toggle_toggled(toggled_on):
 	SignalBus.border_size_moved.emit()
 	
 	
-func _on_border_slider_value_changed(value):
+func _on_border_slider_value_changed(value: int):
 	GameSettings.borderValue = value
 	if GameSettings.borderToggle == true:
 		SignalBus.border_size_moved.emit()
 
-func _on_vsync_select_item_selected(index):
+func _on_vsync_select_item_selected(index: int):
 	if index == 0: # Enabled (default)
 		GameSettings.vSyncSetting = 0
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
@@ -164,13 +164,13 @@ func _on_vsync_select_item_selected(index):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 
-func _on_volume_slider_value_changed(value):
+func _on_volume_slider_value_changed(value: float):
 	var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(value))
 	GameSettings.gameVolume = value
 	
 
-func _on_scale_setting_item_selected(index):
+func _on_scale_setting_item_selected(index: int):
 	match index:
 		0: # 100% HUD Scale
 			SignalBus.HUDchanged.emit(1.0)
@@ -185,7 +185,7 @@ func _on_scale_setting_item_selected(index):
 		5: # 50% HUD Scale
 			SignalBus.HUDchanged.emit(0.5)
 
-func _on_type_setting_item_selected(index):
+func _on_type_setting_item_selected(index: int):
 	var enemy_types = game_data.SHIP_NAMES.values()
 	if index >= 0 and index < enemy_types.size():
 		SignalBus.enemy_type_changed.emit(enemy_types[index])
@@ -198,7 +198,7 @@ func teleportPlayer():
 	#GameSettings.teleportCoords = Vector2(xCoord, yCoord)
 	SignalBus.teleport_player.emit(xCoord, yCoord)
 
-func store_menu_state(resets):
+func store_menu_state(resets: int):
 	if resets == 0:
 		file = FileAccess.open("user://defaultmenuoptions.json", FileAccess.WRITE)
 	elif resets > 0:
@@ -217,7 +217,7 @@ func store_menu_state(resets):
 	file.store_string(json)
 	file.close()
 
-func set_menu_to_savefile(resets):
+func set_menu_to_savefile(resets: int):
 	# Chooses file to read based on number of resets
 	if resets == 0:
 		file = FileAccess.open("user://defaultmenuoptions.json", FileAccess.READ)
@@ -239,4 +239,4 @@ func set_menu_to_savefile(resets):
 
 func _on_save_game_pressed() -> void:
 	print("saved")
-	Utility.store_level_data(Utility.mainScene.get_node("Level").all_systems_data)
+	Utility.store_level_data(Navigation.all_systems_data)

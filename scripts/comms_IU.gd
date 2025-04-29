@@ -10,7 +10,6 @@ var sound_array_location:int = 0
 
 var comm_distance:float
 
-var systems: Array = []
 var cargo_types: Array = [
 	"Dilithium Crystals",
 	"Trilithium Resin",
@@ -52,20 +51,6 @@ var cargo_types: Array = [
 	"Klingon Bloodwine",
 	"Xenobiological Samples"]
 
-var planet_names: Array = [
-	"Vulcan",
-	"Qo'noS",
-	"Andoria",
-	"Betazed",
-	"Cardassia Prime",
-	"Risa",
-	"Bajor",
-	"Ferenginar",
-	"Tellar",
-	"Trill",
-	"Romulus",
-	"Delta Vega"]
-
 var cargo_full_messages: Array = [
 	"[color=#f06c82]Cargo hold is already full.[/color] Return when you've delivered the goods.",
 	"[color=#f06c82]Mission queue is full.[/color] Complete your current objectives first.",
@@ -86,10 +71,7 @@ var confirmation_messages: Array = [
 	"Do you confirm your participation?"]
 
 var current_planet: String
-var target_system: String
 var ship_name: String
-var target_planet: String
-var item_name: String
 var random_confirm_query: String
 
 func _ready():
@@ -106,7 +88,6 @@ func _ready():
 	var detection_radius: CollisionShape2D = planet_node.get_node("CommArea").get_node("CollisionShape2D")
 	
 	ship_name = player.player_name
-	systems = Utility.mainScene.systems
 	comm_distance = detection_radius.shape.radius*planet_node.scale.x
 
 	# Initialize sound array
@@ -114,27 +95,27 @@ func _ready():
 	sound_array.shuffle()
 
 
-func handle_button_click(event, button):
+func handle_button_click(event: InputEvent, button: TextureButton):
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
 			Utility.play_click_sound(0)
 			if current_mission.is_empty():
-				randomize_mission()
-				set_dynamic_text()
+				var mission_data = generate_mission()
+				set_dynamic_text(mission_data)
 		elif button.name == "close_button":
 			Utility.play_click_sound(0)
 			close_comms()
 	
 
-func set_dynamic_text():
+func set_dynamic_text(mission_data: Dictionary):
 	if player.current_cargo + 1 <= player.base_cargo_size:
 		var data: Dictionary = {
 			"planet": "[color=#6699CC]" + current_planet + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
-			"target_planet": "[color=#FFCC66]" + target_planet + "[/color]",
-			"target_system": "[color=#FFCC66]" + target_system + "[/color]",
-			"item_name": "[color=#1DCC4B]" + item_name + "[/color]",
-			"random_confirm_query": random_confirm_query
+			"target_planet": "[color=#FFCC66]" + mission_data.planet + "[/color]",
+			"target_system": "[color=#FFCC66]" + mission_data.system + "[/color]",
+			"item_name": "[color=#1DCC4B]" + mission_data.cargo + "[/color]",
+			"random_confirm_query": mission_data.message,
 			}
 		var template_text: String = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
 		var formatted_text: String = template_text.format(data)
@@ -154,8 +135,8 @@ func set_dynamic_text():
 func open_comms():
 	# Only toggles on if within required distance
 	if check_distance_to_planets() and player.warping_active == false:
-		randomize_mission()
-		set_dynamic_text()
+		var mission_data = generate_mission()
+		set_dynamic_text(mission_data)
 		self.visible = true
 
 func close_comms():
@@ -181,18 +162,34 @@ func check_distance_to_planets() -> bool:
 	# No planet is within the specified distance
 	return false
 
-func randomize_mission():
-	target_planet = planet_names.pick_random()
-	target_system = systems.pick_random()
-	item_name = cargo_types.pick_random()
-	random_confirm_query = confirmation_messages.pick_random()
+func generate_mission():
+	# Get random system
+	var system_keys: Array = Navigation.systems
+	var random_system_key: int = int(system_keys[randi() % system_keys.size()])
+	var random_system_name = system_keys[random_system_key]
+	
+	# Get random planet from picked system
+	var planet_list: Array = Navigation.all_systems_data[str(random_system_name)].planet_data
+	var random_planet: String = str(planet_list[randi() % planet_list.size()].name)
+	
+	var item_name: String = cargo_types.pick_random()
+	var random_confirm_query: String = confirmation_messages.pick_random()
+	
+	var misson_data: Dictionary = {
+		"system": random_system_name,
+		"planet": random_planet,
+		"cargo": item_name,
+		"message": random_confirm_query,
+	}
+	
+	return misson_data
 
-func accept_mission():
+func accept_mission(mission_data: Dictionary):
 	if visible and player.current_cargo + 1 <= player.base_cargo_size:
 		# Update text to "accepted"
 		var data: Dictionary = {
-			"target_planet": "[color=#FFCC66]" + target_planet + "[/color]",
-			"target_system": "[color=#FFCC66]" + target_system + "[/color]",
+			"target_planet": "[color=#FFCC66]" + mission_data.random_planet + "[/color]",
+			"target_system": "[color=#FFCC66]" + mission_data.random_system + "[/color]",
 			}
 			
 		var template_text: String = "Mission accepted! Head to {target_planet} in the {target_system} system."
@@ -200,11 +197,10 @@ func accept_mission():
 	
 		comms_message.bbcode_text = formatted_text
 		current_mission["mission_type"] = "Cargo Delivery"
-		current_mission["cargo"] = item_name
-		current_mission["target_system"] = target_system
-		current_mission["target_planet"] = target_planet
+		current_mission["cargo"] = mission_data.cargo
+		current_mission["target_system"] = mission_data.random_system
+		current_mission["target_planet"] = mission_data.random_planet
 		SignalBus.missionAccepted.emit(current_mission)
-		#await get_tree().create_timer(2.0).timeout
 		#visible = false
 		
 		player.current_cargo += 1

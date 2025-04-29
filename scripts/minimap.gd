@@ -55,7 +55,7 @@ func _input(event):
 		scale_minimap("IN")
 		
 		
-func scale_minimap(direction):
+func scale_minimap(direction: String):
 	var minimap_nodes: Array = get_tree().get_nodes_in_group("minimap_obj")
 	for node in minimap_nodes:
 		if direction == "OUT":

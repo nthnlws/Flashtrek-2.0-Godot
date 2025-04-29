@@ -28,13 +28,13 @@ func _process(delta):
 	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
 
 
-func _on_player_health_changed(hp_current):
+func _on_player_health_changed(hp_current: float):
 	%HealthBar.value = hp_current
 	
-func _on_player_shield_changed(sp_current):
+func _on_player_shield_changed(sp_current: float):
 	%ShieldBar.value = sp_current
 
-func _on_player_energy_changed(energy_current):
+func _on_player_energy_changed(energy_current: float):
 	%EnergyBar.value = energy_current
 		
 func _on_shield_ready():
@@ -50,7 +50,7 @@ func set_bar_maxes():
 	%EnergyBar.value = player.energy_current
 
 
-func _on_texture_rect_gui_input(event):
+func _on_texture_rect_gui_input(event: InputEvent):
 	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
 		Utility.play_click_sound(4)
 		SignalBus.pause_menu_clicked.emit()

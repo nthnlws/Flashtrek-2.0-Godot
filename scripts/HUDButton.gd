@@ -25,7 +25,7 @@ func _ready():
 	sound_array.shuffle()
 #
 #
-func handle_button_click(event, button):
+func handle_button_click(event: InputEvent, button: TextureButton):
 	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
 		var signal_name = button.name + "_clicked"
 		if SignalBus.has_signal(signal_name):
@@ -34,11 +34,11 @@ func handle_button_click(event, button):
 			Utility.play_click_sound(0)
 		else: print("No button signal found")
 
-func manual_scale(new_scale):
+func manual_scale(new_scale: float):
 	var use = Vector2(new_scale, new_scale)
 	scale = use * Vector2(0.4, 0.4)
 	
 	
-func scale_HUD_button(new_scale): # Scales entire Control node, not used
+func scale_HUD_button(new_scale: float): # Scales entire Control node, not used
 	scale = Vector2(new_scale, new_scale)
 	

@@ -1,7 +1,7 @@
 extends Node
 
 @export var levelBorders: PackedScene
-@export var Planets: PackedScene
+@export var Planet: PackedScene
 @export var Starbase: PackedScene
 @export var PlayerSpawnArea: PackedScene
 @export var Sun: PackedScene
@@ -10,7 +10,7 @@ extends Node
 
 @onready var game: Node2D = $".."
 
-var all_systems_data: Dictionary = {} 
+var all_systems_data: Dictionary = {}
 
 
 const SYSTEM_RANGES = {
@@ -30,14 +30,14 @@ const MAX_LEVEL = 31  # Highest system level
 
 
 func _ready() -> void:
-	SignalBus.playerDied.connect(handlePlayerDied)
+	SignalBus.galaxy_warp_finished.connect(_warp_into_new_system)
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	instantiate_new_system_nodes() # Init spawn for all level nodes
-	generate_system_info() # Generates system JSON
-	_change_system("Solarus") # Spawn planets and move to JSON data locaiton
+	generate_system_info() # Generate info for all systems
+	_change_system("Solarus") # Spawn planets and move to JSON data location
 	
-
-
+	
+	
 func _instaniate_enemies():
 	Utility.mainScene.enemies.clear()
 	var planets = Utility.mainScene.planets
@@ -49,36 +49,25 @@ func _instaniate_enemies():
 		add_child(init_hostiles)
 		init_hostiles.add_to_group("level_nodes")
 	
-
-func handlePlayerDied():
-	%LoadingScreen.visible = true
-	if Navigation.currentSystem != "Solarus":
-		_change_system("Solarus")
-	game.player.camera._zoom = Vector2(0.4, 0.4)
-	await get_tree().create_timer(1.5).timeout
-	game.player.respawn(game.spawn_options.pick_random().global_position)
-	%LoadingScreen.visible = false
 	
 	
 func _change_system(system):
-	Navigation.currentSystem = system
-	
 	# Combining all planets into single array for new system spawning
 	var new_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
 	Utility.mainScene.planets.clear()
 	Utility.mainScene.unused_planets.clear()
 	
-	
+	#Re-map planet array with correct count
 	var planet_data: Array = all_systems_data.get(system).planet_data
 	for p in planet_data.size(): # Sets planets to JSON data
 		new_planets[p].global_position.x = planet_data[p].x
 		new_planets[p].global_position.y = planet_data[p].y
 		new_planets[p].sprite.frame = planet_data[p].frame
+		new_planets[p].name = planet_data[p].name
 		Utility.mainScene.planets.append(new_planets[p])
 	if planet_data.size() < 6:
 		for extra in 6 - planet_data.size():
 			Utility.mainScene.unused_planets.append(new_planets.back())
-	
 	
 	
 	var sun_data: Dictionary = all_systems_data.get(system).sun_data
@@ -118,7 +107,7 @@ func instantiate_new_system_nodes():
 	
 
 	for i in range(6): # Spawn 6 planets for use in level gen
-		var init_planet: Node2D = Planets.instantiate()
+		var init_planet: Node2D = Planet.instantiate()
 		add_child(init_planet)
 		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
 		
@@ -146,6 +135,8 @@ func generate_system_info():
 	all_systems_data["Romulus"] = romulus_data
 	
 	Utility.store_level_data(all_systems_data)
+	Navigation.all_systems_data = all_systems_data
+	Navigation.systems = all_systems_data.keys()
 
 func generate_system_variables(system_number) -> Dictionary:
 	var faction
@@ -197,7 +188,7 @@ func generate_system_variables(system_number) -> Dictionary:
 		#"enemy_types": enemy_types,
 	}
 
-func get_faction_for_system(system_number) -> int:
+func get_faction_for_system(system_number: int) -> int:
 	system_number = int(system_number)
 	if system_number <= fed_max:
 		return Utility.FACTION.FEDERATION
@@ -231,8 +222,6 @@ func generate_sun_data():
 	return sun_data
 	
 	
-	
-	
 func generate_planet_data(PLANET_COUNT: int) -> Array:
 	var min_dist_between: float = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
 	var max_dist_origin: float = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
@@ -254,9 +243,11 @@ func generate_planet_data(PLANET_COUNT: int) -> Array:
 		placed_positions.append(position)
 
 		var random_frame: int = randi() % 220
+		var planet_name: String = Navigation.planet_names.pop_at(randi() % Navigation.planet_names.size())
 
 		# Create the DICTIONARY for the current planet
 		var current_planet_dict: Dictionary = {
+			"name": planet_name,
 			"frame": random_frame,
 			"x": int(position.x),
 			"y": int(position.y),
@@ -264,12 +255,34 @@ func generate_planet_data(PLANET_COUNT: int) -> Array:
 
 		# Add the dictionary for this planet to the main array
 		all_planets_data.append(current_planet_dict)
-		# print("Placed planet %d at %s, frame %d" % [i+1, str(position), random_frame]) # Debugging
 
 	# Return the completed array of planet dictionaries
 	return all_planets_data
 
-
+func _warp_into_new_system(system):
+	player.camera._zoom = Vector2(0.4, 0.4)
+	
+	await get_tree().create_timer(1.5).timeout
+	SignalBus.entering_new_system.emit()
+	
+	%LoadingScreen.visible = false
+	$transition_overlay.visible = true
+	
+	player.global_position = Navigation.entry_coords
+	
+	player._teleport_shader_toggle("uncloak")
+	player.warping_state_change("INSTANT")
+	
+	
+	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
+	create_tween().tween_property(player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
+	await tween.finished
+	player.camera._zoom = Vector2(0.5, 0.5)
+	
+	player.warping_state_change("SMOOTH")
+	
+	
 func get_valid_position(
 		min_distance_from_origin: float,
 		max_distance_from_origin: float,
