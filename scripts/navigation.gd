@@ -1,7 +1,7 @@
 extends Node
 
 var currentSystem: String = "Solarus"
-var current_system_faction: Utility.FACTION = 0
+var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var all_systems_data: Dictionary = {}
 var systems: Array
@@ -9,9 +9,48 @@ var planet_names = load_planet_names("res://assets/data/planet_names.txt")
 
 var entry_coords: Vector2
 
+const SYSTEM_RANGES = {
+	"Federation": {"range": {"min": 1, "max": 16}},
+	"Klingon": {"range": {"min": 17, "max": 24}},
+	"Romulan": {"range": {"min": 25, "max": 31}},
+}
+
+var fed_min = SYSTEM_RANGES["Federation"]["range"]["min"]
+var fed_max = SYSTEM_RANGES["Federation"]["range"]["max"]
+var kling_min = SYSTEM_RANGES["Klingon"]["range"]["min"]
+var kling_max = SYSTEM_RANGES["Klingon"]["range"]["max"]
+var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
+
 # Vars for galaxy map navigation
 var targetSystem: String = "" # Currently selected system on galaxy map
 
+
+func set_current_system(system):
+	print("setting system to " + system)
+	currentSystem = system
+	current_system_faction = get_faction_for_system(system)
+	
+	
+func get_faction_for_system(system) -> int:
+	match system:
+		"Solarus":
+			return Utility.FACTION.FEDERATION
+		"Kronos":
+			return Utility.FACTION.KLINGON
+		"Romulus":
+			return Utility.FACTION.ROMULAN
+		"Neutral":
+			return Utility.FACTION.NEUTRAL
+		_:
+			system = int(system)
+			if system <= fed_max:
+				return Utility.FACTION.FEDERATION
+			elif system >= kling_min and system <= kling_max:
+				return Utility.FACTION.KLINGON
+			elif system >= rom_min:
+				return Utility.FACTION.ROMULAN
+	return -1 # Error status
+		
 func load_planet_names(file_path: String) -> Array:
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if file == null:

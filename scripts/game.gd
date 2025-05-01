@@ -83,6 +83,7 @@ func handlePlayerDied():
 	%LoadingScreen.visible = false
 
 func _warp_into_new_system(system):
+	Navigation.set_current_system(system)
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
 	await get_tree().create_timer(1.5).timeout

@@ -21,6 +21,7 @@ func _ready():
 		$MarginContainer/closeMenuButton.visible = false
 		Utility.mainScene = self
 	
+	SignalBus.finishMission.connect(clear_mission)
 	SignalBus.galaxy_warp_finished.connect(selectCurrentSystem)
 	SignalBus.Quad1_clicked.connect(trigger_warp)
 	SignalBus.missionAccepted.connect(_update_mission)
@@ -44,7 +45,11 @@ func _gui_input(event):
 				
 
 func selectCurrentSystem(system):
-	# Add indicator icon to map
+	# Clear old marker
+	for ind in get_tree().get_nodes_in_group("current_indicator"):
+		ind.queue_free()
+		
+	# Add new indicator icon to map
 	var selected_system: int = -1
 	for i in range(system_array.size()):
 		var node = system_array[i]
@@ -53,21 +58,22 @@ func selectCurrentSystem(system):
 	
 	var indicator: Node2D = systemMarker.instantiate()
 	indicator.modulate = Color(0, 255, 0, 255)
+	indicator.add_to_group("current_indicator")
 	system_array[selected_system].add_child(indicator)
 	
 	# Set text message
 	match system:
 		"Kronos":
-			var current_system_text: String = "Current destination: " + Utility.klin_red + system + "[/color]"
+			var current_system_text: String = "Current system: " + Utility.klin_red + system + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 		"Solarus":
-			var current_system_text: String = "Current destination: " + Utility.fed_blue + system + "[/color]"
+			var current_system_text: String = "Current system: " + Utility.fed_blue + system + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 		"Romulus":
-			var current_system_text: String = "Current destination: " + Utility.rom_green + system + "[/color]"
+			var current_system_text: String = "Current system: " + Utility.rom_green + system + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 		_:
-			var current_system_text: String = "Current destination: [color=#FFCC66]" + system + "[/color]"
+			var current_system_text: String = "Current system: [color=#FFCC66]" + system + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 	
 func update_map_destination(system:Area2D, system_name:String):
@@ -88,25 +94,21 @@ func update_map_destination(system:Area2D, system_name:String):
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
 	
+
+func clear_mission():
+	mission_message.bbcode_text = "Current Mission: None"
+	
 	
 func _update_mission(current_mission: Dictionary):
-	var system_name:String = current_mission.system
 	if current_mission.is_empty():
-		mission_message.bbcode_text = "Current Mission: None"
+		clear_mission()
 	else:
-		match system_name:
-			"Kronos":
-				var destination_text: String = "Current mission: " + Utility.klin_red + system_name + "[/color]"
-				mission_message.bbcode_text = destination_text
-			"Solarus":
-				var destination_text: String = "Current mission: " + Utility.fed_blue + system_name + "[/color]"
-				mission_message.bbcode_text = destination_text
-			"Romulus":
-				var destination_text: String = "Current mission: " + Utility.rom_green + system_name + "[/color]"
-				mission_message.bbcode_text = destination_text
-			_:
-				var destination_text: String = "Current mission: [color=#FFCC66]" + system_name + "[/color]"
-				mission_message.bbcode_text = destination_text
+		var system_name:String = current_mission.system
+		var planet_name:String = current_mission.planet
+		var first_string: String = "Current mission: " + Utility.UI_blue + planet_name + "[/color] in "
+
+		var destination_text: String = first_string + "[color=#FFCC66]" + system_name + "[/color]"
+		mission_message.bbcode_text = destination_text
 	
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
 	# Get the CircleShape2D from the CollisionShape2D
@@ -141,7 +143,6 @@ func _on_warp_button_pressed():
 	
 func trigger_warp():
 	if selected_system:
-		print("Warping to system " + str(Navigation.targetSystem))
 		SignalBus.triggerGalaxyWarp.emit()
 		self.visible = false
 	else:

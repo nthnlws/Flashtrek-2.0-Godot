@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var sprite = $PlanetTexture
-var planetFaction: int = Utility.FACTION.FEDERATION
+var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var CanCommunicate: bool = false
 var player: Player

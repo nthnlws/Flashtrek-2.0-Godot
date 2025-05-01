@@ -12,19 +12,6 @@ extends Node
 
 var all_systems_data: Dictionary = {}
 
-
-const SYSTEM_RANGES = {
-	"Federation": {"range": {"min": 1, "max": 16}},
-	"Klingon": {"range": {"min": 17, "max": 24}},
-	"Romulan": {"range": {"min": 25, "max": 31}},
-}
-
-var fed_min = SYSTEM_RANGES["Federation"]["range"]["min"]
-var fed_max = SYSTEM_RANGES["Federation"]["range"]["max"]
-var kling_min = SYSTEM_RANGES["Klingon"]["range"]["min"]
-var kling_max = SYSTEM_RANGES["Klingon"]["range"]["max"]
-var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
-
 const MAX_LEVEL = 31  # Highest system level
 
 
@@ -64,6 +51,7 @@ func _change_system(system):
 		all_planets[p].sprite.frame = planet_data[p].frame
 		all_planets[p].name = planet_data[p].name
 		Utility.mainScene.planets.append(all_planets[p])
+		Utility.mainScene.planets[p].planetFaction = all_systems_data.get(system).faction
 	#print(Utility.mainScene.planets)
 	if planet_data.size() < 6:
 		for extra in 6 - planet_data.size():
@@ -158,7 +146,7 @@ func generate_system_variables(system_number) -> Dictionary:
 				faction = Utility.FACTION.NEUTRAL
 				system_number = 15
 	else:
-		faction = get_faction_for_system(system_number)
+		faction = Navigation.get_faction_for_system(system_number)
 		system_number = int(system_number)
 	
 	# Health Scaling
@@ -190,19 +178,6 @@ func generate_system_variables(system_number) -> Dictionary:
 		#"enemies": "BLANK",
 		#"enemy_types": enemy_types,
 	}
-
-func get_faction_for_system(system_number: int) -> int:
-	system_number = int(system_number)
-	if system_number <= fed_max:
-		return Utility.FACTION.FEDERATION
-	elif system_number >= kling_min and system_number <= kling_max:
-		return Utility.FACTION.KLINGON
-	elif system_number >= rom_min:
-		return Utility.FACTION.ROMULAN
-	else:
-		print("Error: System out of range, using default faction: Federation")
-		return 0
-			
 
 
 func generate_sun_data():

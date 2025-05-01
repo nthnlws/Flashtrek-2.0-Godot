@@ -3,6 +3,7 @@ extends Node
 signal enemyDied(enemy)
 
 signal missionAccepted(current_mission)
+signal finishMission()
 signal changePopMessage(text)
 
 signal playerHealthChanged(hp_current)

@@ -21,6 +21,8 @@ var warp_multiplier:float = 0.45
 var warpm_r:float = 1.0
 var warpm_v:float = 1.0
 
+var has_mission: bool = false
+var current_mission: Dictionary = {}
 var player_name: String = "USS Enterprise"
 var animation_scale:Vector2 = Vector2(1, 1)
 
@@ -120,6 +122,8 @@ func set_player_direction(joystick_direction):
 func _ready():
 	Utility.mainScene.player = self
 	# Signal setup
+	SignalBus.missionAccepted.connect(mission_accept)
+	SignalBus.finishMission.connect(mission_finish)
 	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
 	#SignalBus.Quad1_clicked.connect(galaxy_warp_out)
@@ -497,7 +501,6 @@ func galaxy_warp_out():
 		await get_tree().create_timer(2.5).timeout #7.5 sec
 		var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
-		print("full warp")
 		
 		await get_tree().create_timer(2.5).timeout
 		_teleport_shader_toggle("cloak")
@@ -524,3 +527,13 @@ func galaxy_warp_out():
 		tween.stop()
 		tween2.stop()
 		tween3.stop()
+
+func mission_accept(mission_data):
+	current_mission = mission_data
+	has_mission = true
+	current_cargo += 1
+
+func mission_finish():
+	current_mission.clear()
+	has_mission = false
+	current_cargo -= 1
