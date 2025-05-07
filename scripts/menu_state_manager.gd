@@ -11,6 +11,7 @@ var current_state: MenuState = MenuState.NONE
 
 
 func _ready() -> void:
+	SignalBus.playerDied.connect(_handle_player_death)
 	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
 	SignalBus.Quad4_clicked.connect(toggle_menu.bindv([$ShipSelectionMenu, MenuState.SHIP_SELECTION]))
 
@@ -55,7 +56,12 @@ func handle_m_press():
 		_:
 			return # Do nothing for all other menu states
 
-
+func _handle_player_death():
+	var menus = get_children()
+	for menu in menus:
+		if menu.visible:
+			toggle_menu(menu, MenuState.NONE)
+		
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState):
 	if menu == $ShipSelectionMenu:

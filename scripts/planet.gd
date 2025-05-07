@@ -1,6 +1,9 @@
 extends Node2D
 
-@onready var sprite = $PlanetTexture
+@onready var node: Node2D = $Node
+@onready var label: RichTextLabel = $Node/Label
+@onready var sprite: Sprite2D = $PlanetTexture
+
 var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var CanCommunicate: bool = false
@@ -11,8 +14,6 @@ var player: Player
 	
 	
 func _ready():
-	rotation = round(deg_to_rad(randi_range(0, 360)))
-	
 	var random_index = randi_range(0, 220)
 	sprite.frame = random_index
 	
@@ -21,6 +22,7 @@ func _ready():
 	
 func _physics_process(delta):
 	rotate(deg_to_rad(1.5)*delta)
+	node.global_rotation = 0 # Counter rotate label
 
 
 func _on_comm_area_body_entered(body):
@@ -33,3 +35,6 @@ func _on_comm_area_body_exited(body):
 	if body.is_in_group("player"):
 		player = null
 		CanCommunicate = false
+
+func set_label(name):
+	label.bbcode_text = Utility.UI_blue + name

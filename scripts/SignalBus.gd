@@ -32,7 +32,6 @@ signal joystickMoved(playerDirection)
 # Menus
 signal pause_menu_clicked
 
-
 # World
 signal border_size_moved
 signal world_reset

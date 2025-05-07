@@ -50,6 +50,7 @@ func _change_system(system):
 		all_planets[p].global_position.y = planet_data[p].y
 		all_planets[p].sprite.frame = planet_data[p].frame
 		all_planets[p].name = planet_data[p].name
+		all_planets[p].set_label(planet_data[p].name)
 		Utility.mainScene.planets.append(all_planets[p])
 		Utility.mainScene.planets[p].planetFaction = all_systems_data.get(system).faction
 	#print(Utility.mainScene.planets)

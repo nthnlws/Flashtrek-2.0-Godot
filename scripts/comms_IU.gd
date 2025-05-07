@@ -9,6 +9,7 @@ var sound_array_location:int = 0
 
 var comm_distance:float
 var pending_mission: Dictionary
+var completedUIdisplay: bool # Var to lock new mission select until menu closed after completion
 
 var cargo_types: Array = [
 	"Dilithium Crystals",
@@ -73,10 +74,10 @@ var confirmation_accept: Array = [
 var confirmation_complete: Array = [
 	"Ready to complete the assignment?",
 	"Prepared to proceed with the task.",
-	"All systems go.",
+	"All systems go, proceed with beam.",
 	"Acknowledged. Moving to final phase.",
-	"Cargo confirmed.",
-	"Orders understood.",
+	"Cargo confirmed, beam it over.",
+	"Orders understood, ready to receive cargo.",
 	"Initiating final mission steps.",
 ]
 var federation_thankYou: Array = [
@@ -126,6 +127,7 @@ func _ready():
 func handle_UI_click(event: InputEvent, button: TextureButton):
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
+			completedUIdisplay = false
 			Utility.play_click_sound(0)
 			var current_mission = generate_mission()
 			set_mission_text(current_mission)
@@ -174,6 +176,7 @@ func set_mission_text(mission_data: Dictionary):
 func open_comms():
 	if visible:
 		self.visible = false
+		completedUIdisplay = false
 	# Only toggles on if within required distance
 	elif check_distance_to_planets() and player.warping_active == false:
 		self.visible = true
@@ -184,6 +187,7 @@ func open_comms():
 
 func close_comms():
 	if visible == true:
+		completedUIdisplay = false
 		visible = false
 		
 		
@@ -229,7 +233,7 @@ func generate_mission():
 
 func handle_cargo_beam():
 	# Accept new mission
-	if pending_mission and visible and player.has_mission == false:
+	if pending_mission and visible and player.has_mission == false and completedUIdisplay == false:
 		# Update text to "accepted"
 		var data: Dictionary = {
 			"target_planet": "[color=#FFCC66]" + pending_mission.planet + "[/color]",
@@ -245,6 +249,7 @@ func handle_cargo_beam():
 		
 	# Succesfull mission complete
 	elif visible and player.has_mission and current_planet.name == player.current_mission.planet:
+		completedUIdisplay = true
 		var data: Dictionary = {
 			"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",

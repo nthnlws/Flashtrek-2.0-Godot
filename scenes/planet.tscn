@@ -23,5 +23,17 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CommArea"]
 shape = SubResource("CircleShape2D_st7tq")
 
+[node name="Node" type="Node2D" parent="."]
+
+[node name="Label" type="RichTextLabel" parent="Node"]
+offset_left = -248.333
+offset_top = -332.0
+offset_right = 249.667
+offset_bottom = -297.0
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "PLANET"
+horizontal_alignment = 1
+
 [connection signal="body_entered" from="CommArea" to="." method="_on_comm_area_body_entered"]
 [connection signal="body_exited" from="CommArea" to="." method="_on_comm_area_body_exited"]

@@ -285,7 +285,7 @@ libraries = {
 unique_name_in_owner = true
 stream = ExtResource("6_ihea4")
 volume_db = -12.0
-pitch_scale = 0.7
+pitch_scale = 0.65
 
 [node name="warp_off" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true

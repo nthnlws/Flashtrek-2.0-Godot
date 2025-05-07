@@ -126,7 +126,7 @@ func _ready():
 	SignalBus.finishMission.connect(mission_finish)
 	SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	#SignalBus.Quad1_clicked.connect(galaxy_warp_out)
+	SignalBus.playerDied.connect(mission_finish)
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
 	
@@ -465,8 +465,7 @@ func galaxy_warp_out():
 		var error_message: String = "Must be stationary and in impulse to warp"
 		SignalBus.changePopMessage.emit(error_message)
 		
-	if Utility.mainScene.galaxy_warp_check():
-		
+	else:
 		SignalBus.entering_galaxy_warp.emit()
 		Utility.mainScene.in_galaxy_warp = true
 		

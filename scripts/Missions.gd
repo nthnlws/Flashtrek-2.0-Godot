@@ -9,8 +9,9 @@ var showing: bool = false
 func _ready():
 	SignalBus.missionAccepted.connect(_update_mission)
 	SignalBus.entering_galaxy_warp.connect(close_menu)
+	SignalBus.finishMission.connect(_reset_text)
 	
-	mission_label.bbcode_text = "Mission: " + Utility.UI_yellow + "None[/color]"
+	_reset_text()
 	mission_container.position = Vector2(-275, 170)
 
 
@@ -24,8 +25,7 @@ func _input(event):
 
 func _update_mission(current_mission: Dictionary):
 	if current_mission.is_empty():
-		mission_label.text = "Mission: None"
-		mission_label.custom_minimum_size.y = 20
+		_reset_text()
 	else:
 		var mission_text: String = "Mission: " + Utility.UI_yellow + current_mission.mission_type + "[/color]\n"
 		mission_text += "Target System: " + Utility.UI_blue + current_mission.system + "[/color]\n"
@@ -35,7 +35,7 @@ func _update_mission(current_mission: Dictionary):
 		mission_label.custom_minimum_size.y = mission_label.get_line_count() * 30
 
 var current_tweens = []
-func close_menu(): # Expand or collapse mission menu
+func close_menu(): # Collapse mission menu
 	# Stop all running tweens
 	for tween in current_tweens:
 		if tween.is_running():
@@ -51,3 +51,7 @@ func open_menu():
 	tween_pos.tween_property(mission_container, "position", Vector2(0, 170), 1.0)
 	current_tweens.append(tween_pos)
 	showing = true
+
+func _reset_text():
+	mission_label.bbcode_text = "Mission: " + Utility.UI_yellow + "None[/color]"
+	mission_label.custom_minimum_size.y = 30

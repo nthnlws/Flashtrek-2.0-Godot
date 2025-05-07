@@ -4,6 +4,10 @@ extends Control
 @onready var playerShield: Sprite2D = player.get_node("playerShield")
 @onready var camera: Camera2D = player.get_node("Camera2D")
 
+@onready var missions: Control = $Missions
+@onready var comms_ui: Control = $Comms_UI
+@onready var message_ui: Control = $message_UI
+
 var shieldActive:bool = false
 
 @onready var score = %Score:
@@ -18,6 +22,8 @@ func _ready():
 	SignalBus.playerHealthChanged.connect(_on_player_health_changed)
 	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
 	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
+	
+	SignalBus.playerDied.connect(close_menus)
 
 	set_bar_maxes() # Initializes bar values
 
@@ -54,3 +60,9 @@ func _on_texture_rect_gui_input(event: InputEvent):
 	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
 		Utility.play_click_sound(4)
 		SignalBus.pause_menu_clicked.emit()
+
+func close_menus():
+	comms_ui.close_comms()
+	missions.close_menu()
+	message_ui.close_pop_menu()
+	
