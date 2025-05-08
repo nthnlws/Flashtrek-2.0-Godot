@@ -1,14 +1,16 @@
+# Main SignalBus
 extends Node
 
 signal enemyDied(enemy)
 
+# Missions
 signal missionAccepted(current_mission)
 signal finishMission()
 signal changePopMessage(text)
+signal enteredPlanetComm(planet)
+signal exitedPlanetComm(planet)
 
-signal playerHealthChanged(hp_current)
-signal playerShieldChanged(sp_current)
-signal playerEnergyChanged(energy_current)
+# Player
 signal playerDied
 
 #World navigation
@@ -29,6 +31,10 @@ signal HUDchanged(scale)
 
 signal joystickMoved(playerDirection)
 
+signal playerHealthChanged(hp_current)
+signal playerShieldChanged(sp_current)
+signal playerEnergyChanged(energy_current)
+
 # Menus
 signal pause_menu_clicked
 
@@ -40,9 +46,3 @@ signal teleport_player(xCoord, yCoord)
 
 signal enemy_shield_cheat_state(shield_state)
 signal enemy_type_changed(ENEMY_TYPE)
-
-var player: Node = null
-var HUD: Node = null
-var pauseMenu: Node = null
-var settingsButton: Node = null
-var saveGame: Node = null

@@ -111,4 +111,4 @@ func get_entry_point(angle_rad: float) -> Vector2:
 			best_t = t
 			best_intersection = Vector2(x, square_min.y)
 	
-	return best_intersection.move_toward(Vector2.ZERO, 2500)
+	return best_intersection.move_toward(Vector2.ZERO, 2000)

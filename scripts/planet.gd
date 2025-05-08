@@ -27,14 +27,12 @@ func _physics_process(delta):
 
 func _on_comm_area_body_entered(body):
 	if body.is_in_group("player"):
-		player = body
-		CanCommunicate = true
+		SignalBus.enteredPlanetComm.emit(self)
 
 
 func _on_comm_area_body_exited(body):
 	if body.is_in_group("player"):
-		player = null
-		CanCommunicate = false
+		SignalBus.exitedPlanetComm.emit(self)
 
-func set_label(name):
-	label.bbcode_text = Utility.UI_blue + name
+func set_label(planet_name):
+	label.bbcode_text = Utility.UI_blue + planet_name

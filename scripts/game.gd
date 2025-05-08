@@ -59,7 +59,7 @@ func galaxy_fade_out():
 	
 	await get_tree().create_timer(1.5).timeout
 	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 1), 3.0)
+	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 0.4), 1.5)
 	
 	await get_tree().create_timer(2.0).timeout
 	#get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
@@ -69,9 +69,9 @@ func galaxy_fade_out():
 	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
 	in_galaxy_warp = false
 	
-	%LoadingScreen.visible = true
-	$transition_overlay.visible = false
-	$Video_layer.visible = false
+	#%LoadingScreen.visible = true
+	#$transition_overlay.visible = false
+	#$Video_layer.visible = false
 
 func handlePlayerDied():
 	%LoadingScreen.visible = true
@@ -83,26 +83,31 @@ func handlePlayerDied():
 	%LoadingScreen.visible = false
 
 func _warp_into_new_system(system):
+	player.global_position = Navigation.entry_coords
+	
+	var tween: Object = create_tween().set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 0), 1.0)
+	
 	Navigation.set_current_system(system)
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
 	await get_tree().create_timer(1.5).timeout
+	
 	SignalBus.entering_new_system.emit()
 	
-	%LoadingScreen.visible = false
-	$transition_overlay.visible = true
-	%FadeAnimation.visible = false
+	#%LoadingScreen.visible = false
+	#$transition_overlay.visible = true
+	#FadeAnimation.visible = false
 	
-	player.global_position = Navigation.entry_coords
-	
-	player._teleport_shader_toggle("uncloak")
 	player.warping_state_change("INSTANT")
+	player._teleport_shader_toggle("uncloak")
 	
 	
-	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
+	
+	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
+	tween2.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
 	create_tween().tween_property(player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
-	await tween.finished
-	player.camera._zoom = Vector2(0.5, 0.5)
+	await tween2.finished
 	
+	player.camera._zoom = Vector2(0.5, 0.5)
 	player.warping_state_change("SMOOTH")

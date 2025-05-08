@@ -3,8 +3,8 @@ extends CanvasLayer
 @onready var anim: AnimationPlayer = $AnimationPlayer
 
 func _ready():
-	SignalBus.galaxy_warp_finished.connect(fade_hud)
-	SignalBus.galaxy_warp_screen_fade.connect(galaxyFade)
+	#SignalBus.galaxy_warp_finished.connect(fade_hud)
+	#SignalBus.galaxy_warp_screen_fade.connect(galaxyFade)
 	
 	anim.play("fade_in_long")
 	

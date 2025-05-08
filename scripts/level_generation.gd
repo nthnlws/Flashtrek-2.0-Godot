@@ -18,6 +18,7 @@ const MAX_LEVEL = 31  # Highest system level
 
 func _ready() -> void:
 	SignalBus.galaxy_warp_finished.connect(_change_system)
+	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generate info for all systems
 	_change_system("Solarus") # Spawn planets and move to JSON data location

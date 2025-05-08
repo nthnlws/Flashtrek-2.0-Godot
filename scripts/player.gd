@@ -2,8 +2,6 @@ class_name Player extends CharacterBody2D
 
 @onready var intersection_line: Line2D = $intersection_line
 
-signal died
-
 var shoot_cd:bool = false
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 

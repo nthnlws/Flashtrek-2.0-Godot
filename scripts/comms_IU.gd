@@ -105,6 +105,8 @@ var random_confirm_query: String
 
 func _ready():
 	#Signal Connections
+	SignalBus.enteredPlanetComm.connect(_enter_comms)
+	SignalBus.exitedPlanetComm.connect(_exit_comms)
 	SignalBus.Quad2_clicked.connect(handle_cargo_beam)
 	SignalBus.Quad3_clicked.connect(open_comms)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
@@ -178,7 +180,7 @@ func open_comms():
 		self.visible = false
 		completedUIdisplay = false
 	# Only toggles on if within required distance
-	elif check_distance_to_planets() and player.warping_active == false:
+	elif current_planet and player.warping_active == false:
 		self.visible = true
 		#if player.has_mission == false:
 		var mission_data = generate_mission()
@@ -191,20 +193,6 @@ func close_comms():
 		visible = false
 		
 		
-func check_distance_to_planets() -> bool:
-	var player_position: Vector2 = player.global_position
-	# Iterate through the planets array
-	for planet in Utility.mainScene.planets:
-		var planet_position: Vector2 = planet.global_position
-		var distance: float = player_position.distance_to(planet_position)
-		
-		# Check if the distance is within the threshold
-		if distance <= comm_distance:
-			current_planet = planet
-			return true
-
-	# No planet is within the specified distance
-	return false
 
 func generate_mission():
 	# Get random system
@@ -269,3 +257,11 @@ func handle_cargo_beam():
 		comms_message.bbcode_text = formatted_text
 		
 		SignalBus.finishMission.emit()
+
+func _enter_comms(planet):
+	current_planet = planet
+	
+func _exit_comms(planet):
+	current_planet = null
+	close_comms()
+	

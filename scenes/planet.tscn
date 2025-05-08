@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://csqm03cav5a3l" path="res://assets/textures/planets/planet_sprite_sheet.png" id="2_ayfns"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_st7tq"]
-radius = 1000.0
+radius = 800.0
 
 [node name="Planet" type="Node2D"]
 scale = Vector2(3, 3)

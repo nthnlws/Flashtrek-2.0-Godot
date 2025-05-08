@@ -25,7 +25,6 @@ var yCoord: int = 0:
 var file
 
 func _ready():
-	SignalBus.pauseMenu = self
 	
 	# Creates default save file on first load, otherwise restores settings to previous state
 	if GameSettings.loadNumber == 0: 

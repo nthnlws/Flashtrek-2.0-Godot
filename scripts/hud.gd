@@ -16,7 +16,6 @@ var shieldActive:bool = false
 
 	
 func _ready():
-	SignalBus.HUD = self
 	
 	# Signal connections
 	SignalBus.playerHealthChanged.connect(_on_player_health_changed)
