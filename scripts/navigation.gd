@@ -24,6 +24,9 @@ var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
 # Vars for galaxy map navigation
 var targetSystem: String = "" # Currently selected system on galaxy map
 
+func _ready() -> void:
+	SignalBus.galaxy_warp_finished.connect(set_current_system)
+
 
 func set_current_system(system):
 	print("setting system to " + system)

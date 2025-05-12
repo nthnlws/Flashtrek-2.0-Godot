@@ -371,6 +371,8 @@ func killPlayer():
 func respawn(pos: Vector2):
 	if alive == false:
 		alive = true
+		SignalBus.playerRespawned.emit()
+		
 		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true

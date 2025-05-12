@@ -88,7 +88,6 @@ func _warp_into_new_system(system):
 	var tween: Object = create_tween().set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 0), 1.0)
 	
-	Navigation.set_current_system(system)
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
 	await get_tree().create_timer(1.5).timeout

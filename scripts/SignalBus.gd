@@ -12,6 +12,7 @@ signal exitedPlanetComm(planet)
 
 # Player
 signal playerDied
+signal playerRespawned
 
 #World navigation
 signal galaxy_map_clicked(system_clicked)
