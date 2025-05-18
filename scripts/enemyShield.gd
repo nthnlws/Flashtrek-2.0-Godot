@@ -9,16 +9,11 @@ func _process(delta):
 		shieldDie()
 
 
-func take_damage(damage:float, shooter:String, projectile:Area2D):
-	if shooter != "enemy":
-		damageTimeout()
-		
-		sp_current -= damage
-		
-		var spawn: Marker2D = projectile.create_damage_indicator(damage, $shield_area.name)
-		projectile.kill_projectile($shield_area.name)
-		$Hitmarkers.add_child(spawn)
-		
-		
-		if sp_current <= 0:
-			shieldDie()
+func take_damage(damage:float, hit_pos:Vector2):
+	damageTimeout()
+	sp_current -= damage
+	
+	Utility.createDamageIndicator(damage, Utility.damage_blue, hit_pos)
+	
+	if sp_current <= 0:
+		shieldDie()

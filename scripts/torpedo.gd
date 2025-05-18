@@ -8,7 +8,7 @@ extends Area2D
 
 
 @export var speed:int = 1000
-@export var energy_drain:int = 10
+@export var energy_cost:int = 10
 
 var animation_finished: bool = false
 var sound_finished: bool = false
@@ -24,7 +24,13 @@ var age: float = 0.0
 var damage:float = 15.0#:
 	#get:
 		#return PlayerUpgrades.DamageAdd + (base_damage * PlayerUpgrades.DamageMult)
-	
+
+func _ready() -> void:
+	var parent = get_parent().get_parent()
+	if parent.has_method("energy_drain"):
+		if GameSettings.unlimitedEnergy == false:
+			parent.energy_drain(energy_cost)
+		
 	
 func _process(delta):
 	age += delta
@@ -46,7 +52,6 @@ func _physics_process(delta):
 
 func kill_projectile(target): # Creates explosion animation and kills self
 	$Sprite2D.visible = false
-	create_damage_indicator(damage, target)
 	moving = false
 	if target == "shield_area":
 		animation.play("explode_shield")
@@ -58,20 +63,10 @@ func kill_projectile(target): # Creates explosion animation and kills self
 
 func _on_torpedo_collision(area: Area2D) -> void:
 	var parent = area.get_parent()
-	if parent.has_method("take_damage") and area.name != "AgroBox":
-		var target = parent.take_damage(damage, shooter, self)
-
-
-func create_damage_indicator(damage_taken:float, target:String):
-	var indicator: Marker2D = damage_indicator.instantiate()
-	if target == "shield_area":
-		var color: String = Utility.damage_blue
-		indicator.find_child("Label").text = color + str(damage_taken)
-	if target == "hitbox_area":
-		var color: String = Utility.damage_red
-		indicator.find_child("Label").text = color + str(damage_taken)
-	indicator.global_position = self.global_position
-	return indicator
+	var name = area.name
+	if parent.has_method("take_damage"):
+		var target = parent.take_damage(damage, self.global_position)
+	kill_projectile(name)
 
 
 func _on_animation_finished() -> void:

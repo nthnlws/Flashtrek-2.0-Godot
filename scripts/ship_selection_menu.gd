@@ -58,7 +58,7 @@ func _ready():
 		menu_state_machine = get_node("..")
 	
 	var width: int = max(num_fed, num_klin, num_rom, num_neut)*100
-	var middle_pos: float = (960/2) - (50)
+	var middle_pos: int = (960/2) - (50)
 	$Grid.position.x = middle_pos - 170
 	
 	for i in range(num_fed):

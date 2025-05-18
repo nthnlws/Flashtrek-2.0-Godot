@@ -1,4 +1,5 @@
-class_name Player extends CharacterBody2D
+extends CharacterBody2D
+class_name Player
 
 @onready var intersection_line: Line2D = $intersection_line
 
@@ -91,10 +92,10 @@ var energy_current:float = max_energy:
 		SignalBus.playerEnergyChanged.emit(energy_current)
 	
 
-@onready var base_weapon_drain:float = torpedo_scene.instantiate().energy_drain
-var weapon_drain:float:
-	get:
-		return PlayerUpgrades.EnergyDrainAdd + (base_weapon_drain * PlayerUpgrades.EnergyDrainMult)
+#@onready var base_weapon_drain:float = torpedo_scene.instantiate().energy_drain
+#var weapon_drain:float:
+	#get:
+		#return PlayerUpgrades.EnergyDrainAdd + (base_weapon_drain * PlayerUpgrades.EnergyDrainMult)
 
 var base_rate_of_fire:float = 0.2
 var rate_of_fire:float:
@@ -158,13 +159,7 @@ func _process(delta):
 	else:
 		idle_sound(false)
 		
-	#Laser energy drain system
-	if $Laser.laserClickState == true:
-		if GameSettings.unlimitedEnergy == false:
-			energy_current -= %Laser.energy_drain * delta
-		energyTimeout()
-	
-	if $Laser.laserClickState == false and energy_current < max_energy and energyTime == false:
+	if !$Laser.laserStatus and !energyTime:
 		energy_current += energy_regen_speed * delta
 
 
@@ -331,21 +326,25 @@ func warping_state_change(speed): # Reverses warping state
 				
 				shield.fadeout_SMOOTH()
 
-	
+
 func shoot_torpedo():
-	if energy_current > weapon_drain and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
-		
-		var t: Area2D = torpedo_scene.instantiate()
+	var t: Area2D = torpedo_scene.instantiate()
+	if energy_current > t.energy_cost and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
-		t.shooter = "player"
+		
+		t.set_collision_layer_value(9, true) # Sets layer to player projectile
+		t.set_collision_mask_value(3, true) # Turns on enemy hitbox
+		t.set_collision_mask_value(8, true) # Turns on enemy shield
+		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(t)
-		if GameSettings.unlimitedEnergy == false:
-			energy_current -= weapon_drain
 
-
+func energy_drain(energy):
+	energy_current -= energy
+	
+	
 func killPlayer():
 	if alive:
 		Utility.mainScene.in_galaxy_warp = false
@@ -438,13 +437,11 @@ func idle_sound(active: bool):
 				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
-func take_damage(damage:float, shooter:String, projectile:Area2D):
-	if shooter != "player" and Utility.mainScene.in_galaxy_warp == false:
+func take_damage(damage:float, hit_pos: Vector2):
+	if Utility.mainScene.in_galaxy_warp == false:
 		hp_current -= damage # Take damage
 		SignalBus.playerShieldChanged.emit(hp_current) # Update HUD
-		var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
-		projectile.kill_projectile($hitbox_area.name)
-		$Hitmarkers.add_child(spawn)
+		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
 		
 		if hp_current <= 0:
 			killPlayer()
@@ -536,3 +533,12 @@ func mission_finish():
 	current_mission.clear()
 	has_mission = false
 	current_cargo -= 1
+
+func create_damage_indicator(damage:float, shooter:String, projectile:Area2D):
+	var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
+	projectile.kill_projectile($hitbox_area.name)
+	$Hitmarkers.add_child(spawn)
+
+
+func _on_laser_ended() -> void:
+	create_damage_indicator

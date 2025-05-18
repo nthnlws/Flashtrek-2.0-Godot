@@ -7,7 +7,6 @@ var max_SP:int = 150:
 		return PlayerUpgrades.ShieldAdd + (base_max_SP * PlayerUpgrades.ShieldMult)
 
 
-
 func _process(delta):
 	if sp_current <= max_SP and damageTime == false:
 		regen_shield(delta)
@@ -16,15 +15,14 @@ func _process(delta):
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
 
-func take_damage(damage:float, shooter:String, projectile:Area2D):
-	if shooter != "player" and Utility.mainScene.in_galaxy_warp == false:
+func take_damage(damage:float, hit_pos: Vector2):
+	if Utility.mainScene.in_galaxy_warp == false:
 		damageTimeout() # Turn off shield regen for period
 		sp_current -= damage # Take damage
-		SignalBus.playerShieldChanged.emit(sp_current) # Update HUD
-		var spawn: Marker2D = projectile.create_damage_indicator(damage, $shield_area.name)
-		projectile.kill_projectile($shield_area.name)
-		$Hitmarkers.add_child(spawn)
+		Utility.createDamageIndicator(damage, Utility.damage_blue, hit_pos)
 		
 		if sp_current <= 0:
 			shieldDie()
+		
+		SignalBus.playerShieldChanged.emit(sp_current) # Update HUD
 		

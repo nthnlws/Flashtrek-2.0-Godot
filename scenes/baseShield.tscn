@@ -9,7 +9,7 @@ shader = ExtResource("1_7v2r8")
 shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
-radius = 14.7
+radius = 14.0017
 
 [sub_resource type="Animation" id="Animation_q5ohx"]
 length = 0.001

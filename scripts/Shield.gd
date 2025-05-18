@@ -1,6 +1,7 @@
 class_name Shield extends Sprite2D
 
 @onready var parent: Node = get_parent()
+@onready var collision_shape: CollisionShape2D = $shield_area/CollisionShape2D
 
 var damageTime:bool = false # Timeout
 var shieldActive:bool = true
@@ -10,10 +11,10 @@ var trans_length:float = 0.8
 
 @onready var shield_area:Area2D = $shield_area
 
-# Enemy shield health variables
+# Shield health variables
 @export var sp_max:int = 50
 var sp_current:float = sp_max:
-	get: return clamp(sp_current, 0, sp_max)
+	get: return clamp(sp_current, 0.0, sp_max)
 	
 
 
@@ -26,36 +27,31 @@ func fadeout_INSTANT():
 	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
-	shield_area.set_monitoring.call_deferred(false)
-	shield_area.set_monitorable.call_deferred(false)
+	collision_shape.set_deferred("disabled", true)
 	shieldActive = false
 
 func fadeout_SMOOTH():
 	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
-	shield_area.set_monitoring.call_deferred(false)
-	shield_area.set_monitorable.call_deferred(false)
+	collision_shape.set_deferred("disabled", true)
 	shieldActive = false
 
 # Fades shield in to 255 Alpha
 func fadein_INSTANT():
 	modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
-	shield_area.set_monitoring(true)
-	shield_area.set_monitorable(true)
+	collision_shape.set_deferred("disabled", false)
 	shieldActive = true
 
 func fadein_SMOOTH():
 	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 1, trans_length)
 	await tween.finished
-	shield_area.set_monitoring.call_deferred(true)
-	shield_area.set_monitorable.call_deferred(true)
+	collision_shape.set_deferred("disabled", false)
 	shieldActive = true
 
 func shieldDie(): #Instantly turns off shield
-	shield_area.set_monitoring.call_deferred(false)
-	shield_area.set_monitorable.call_deferred(false)
+	collision_shape.set_deferred("disabled", true)
 	self.visible = false
 	shieldActive = false
 	sp_current = 0.1
@@ -63,8 +59,7 @@ func shieldDie(): #Instantly turns off shield
 	shieldAlive()
 	
 func shieldAlive(): #Instant on shield
-	shield_area.set_monitoring.call_deferred(true)
-	shield_area.set_monitorable.call_deferred(true)
+	collision_shape.set_deferred("disabled", false)
 	self.visible = true
 	shieldActive = true
 

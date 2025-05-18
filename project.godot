@@ -173,14 +173,16 @@ letter_e={
 2d_physics/layer_1="world"
 2d_physics/layer_2="player_character"
 2d_physics/layer_3="enemy_character"
-2d_physics/layer_4="projectile"
 2d_physics/layer_5="player_spawn_area"
 2d_physics/layer_6="HUD"
 2d_physics/layer_7="player_damage_areas"
 2d_physics/layer_8="enemy_damage_areas"
+2d_physics/layer_9="player_projectile"
+2d_physics/layer_10="enemy_projectile"
 
 [rendering]
 
+renderer/rendering_method="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 anti_aliasing/quality/screen_space_aa=1

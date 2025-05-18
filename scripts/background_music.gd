@@ -15,26 +15,21 @@ func _ready() -> void:
 	SignalBus.playerDied.connect(fade_music_out)
 	SignalBus.playerRespawned.connect(start_music)
 	
-	call_deferred("start_music")
+	start_music()
 
 
 func start_music():
-	print("starting music")
 	match Navigation.current_system_faction:
 		Utility.FACTION.FEDERATION:
-			print("Fed Music")
 			fed_music.volume_db = fed_volume
 			fed_music.play()
 		Utility.FACTION.KLINGON:
-			print("Klingon Music")
 			klingon_music.volume_db = klingon_volume
 			klingon_music.play()
 		Utility.FACTION.ROMULAN:
-			print("Romulan Music")
 			rom_music.volume_db = rom_volume
 			rom_music.play()
 		_:
-			print("Default system music")
 			fed_music.volume_db = fed_volume
 			fed_music.play()
 

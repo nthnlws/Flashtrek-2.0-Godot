@@ -307,6 +307,9 @@ const rom_green: String = "[color=#009301]"
 const klin_red: String = "[color=#FF2A2A]"
 const neut_cyan: String = "[color=#78D9C2]"
 
+const DAMAGE_MARKER = preload("res://scenes/damage_marker.tscn")
+
+
 func _ready() -> void:
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
@@ -362,3 +365,12 @@ func store_level_data(save_data: Dictionary):
 		#var file = FileAccess.open(file_path, FileAccess.READ)
 		#save_data = JSON.parse_string(file.get_as_text())
 		#file.close()
+
+func createDamageIndicator(damage: float, color: String, position: Vector2):
+	damage = snapped(damage, 0.1)
+	var string: String = "[center]" + color + str(damage)
+	var label = DAMAGE_MARKER.instantiate()
+	add_child(label)
+	label.global_position = position
+	var text: RichTextLabel = label.get_child(0)
+	text.bbcode_text = string

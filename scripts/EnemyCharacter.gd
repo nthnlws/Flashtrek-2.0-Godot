@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-signal exploded(pos, size, points)
-
 @export var BIRD_OF_PREY_ENEMY: Resource
 @export var JEM_HADAR_ENEMY: Resource
 @export var ENTERPRISE_TNG_ENEMY: Resource
@@ -303,7 +301,11 @@ func shoot_bullet():# Instantiate and configure bullet
 		var bullet: Area2D = torpedo.instantiate()
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
-		bullet.shooter = "enemy"
+		
+		bullet.set_collision_layer_value(10, true) # Sets layer to enemy projectile
+		bullet.set_collision_mask_value(2, true) # Turns on player hitbox
+		bullet.set_collision_mask_value(7, true) # Turns on player shield
+		
 		call_deferred("instantiate_bullet", bullet)
 
 
@@ -326,13 +328,10 @@ func _on_agro_box_body_exited(body: Node2D) -> void:
 		player = null
 		angle_diff = TAU
 
-func take_damage(damage:float, shooter:String, projectile:Area2D):
-	if shooter != "enemy":
-		hp_current -= damage
-		
-		var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
-		projectile.kill_projectile($hitbox_area.name)
-		$Hitmarkers.add_child(spawn)
-		
-		if hp_current <= 0:
-			explode()
+func take_damage(damage:float, hit_pos: Vector2):
+	hp_current -= damage
+	
+	Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
+	
+	if hp_current <= 0:
+		explode()

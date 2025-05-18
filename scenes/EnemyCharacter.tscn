@@ -113,7 +113,7 @@ damage_indicator = ExtResource("10_scmjr")
 position = Vector2(0, -150)
 
 [node name="AgroBox" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 8
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox"]
@@ -125,7 +125,7 @@ region_rect = Rect2(144, 144, 144, 144)
 
 [node name="hitbox_area" type="Area2D" parent="." groups=["enemy_hitbox"]]
 collision_layer = 128
-collision_mask = 15
+collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_area"]
 shape = ExtResource("8_8v3kn")
@@ -184,4 +184,3 @@ attenuation = 0.615573
 
 [connection signal="body_entered" from="AgroBox" to="." method="_on_agro_box_body_entered"]
 [connection signal="body_exited" from="AgroBox" to="." method="_on_agro_box_body_exited"]
-[connection signal="area_entered" from="hitbox_area" to="." method="_on_hitbox_area_entered"]
