@@ -5,10 +5,6 @@ extends Control
 @onready var color_rect: ColorRect = $"../../transition_overlay/FadeAnimation"
 @onready var Menus = $".."
 
-# Backing variables
-var _xcoord: int = 0
-var _ycoord: int = 0
-
 signal teleport
 
 var xCoord: int = 0:
@@ -47,8 +43,8 @@ func _ready():
 func populate_type_button():
 	var type_list: OptionButton = %TypeSetting
 	type_list.clear()
-	for name in Utility.SHIP_NAMES.keys():
-		type_list.add_item(name)
+	for ship in Utility.SHIP_NAMES.keys():
+		type_list.add_item(ship)
 	
 	
 #Header buttons

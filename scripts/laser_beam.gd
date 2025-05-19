@@ -24,7 +24,6 @@ signal laserEnded
 const BLUE = Color(0.5, 1.0, 0.96, 1.0)
 const GREEN = Color(0.2, 0.432, 0.198, 1.0)
 const RED = Color(0.888, 0.362, 0.412, 1.0)
-var color: Color = BLUE
 
 var accumulated_damage: float = 0.0
 var laserStatus:bool = false
@@ -68,8 +67,6 @@ func _process(delta: float) -> void:
 			accumulated_damage += base_damage * delta
 			if accumulated_damage > 10:
 				accumulated_damage = 10
-				#var color = _get_laser_color(target.name)
-				#Utility.createDamageIndicator(accumulated_damage, Utility.rom_green, target_particles.global_position)
 				
 				var target_parent = target.get_parent()
 				if target_parent.has_method("take_damage"):

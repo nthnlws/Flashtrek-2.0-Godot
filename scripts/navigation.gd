@@ -1,5 +1,8 @@
 extends Node
 
+var galaxyMapData = preload("res://assets/data/galaxy_map_data.tres")
+var player_range: int
+
 var currentSystem: String = "Solarus"
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
@@ -25,11 +28,11 @@ var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
 var targetSystem: String = "" # Currently selected system on galaxy map
 
 func _ready() -> void:
+	SignalBus.Quad1_clicked.connect(trigger_warp)
 	SignalBus.galaxy_warp_finished.connect(set_current_system)
 
 
 func set_current_system(system):
-	print("setting system to " + system)
 	currentSystem = system
 	current_system_faction = get_faction_for_system(system)
 	
@@ -115,3 +118,50 @@ func get_entry_point(angle_rad: float) -> Vector2:
 			best_intersection = Vector2(x, square_min.y)
 	
 	return best_intersection.move_toward(Vector2.ZERO, 2000)
+
+func trigger_warp():
+	if !warp_range_check(currentSystem, targetSystem, player_range):
+		var error_message: String = "Warp path not valid"
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	if !Utility.mainScene.player.velocity_check():
+		var error_message: String = "Must be stationary and in impulse to warp"
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	else:
+		SignalBus.triggerGalaxyWarp.emit()
+
+func warp_range_check(origin, target, range) -> bool:
+	var valid_systems = get_reachable_systems(origin, range)
+	return target in valid_systems
+	
+
+func get_reachable_systems(start_name: String, max_range: int) -> Array:
+	var visited := {}
+	var queue: Array = []
+	var reachable := []
+
+	queue.append({ "name": start_name, "depth": 0 })
+	visited[start_name] = true
+
+	while not queue.is_empty():
+		var current = queue.pop_front()
+		var current_name = current["name"]
+		var depth = current["depth"]
+
+		if depth > 0:
+			reachable.append(current_name)
+
+		if depth >= max_range:
+			continue
+
+		var current_system = galaxyMapData.get_system(current_name)
+		if current_system == null:
+			continue
+
+		for neighbor_name in current_system.neighbors:
+			if not visited.has(neighbor_name):
+				visited[neighbor_name] = true
+				queue.append({ "name": neighbor_name, "depth": depth + 1 })
+	
+	return reachable

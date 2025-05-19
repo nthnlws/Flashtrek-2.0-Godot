@@ -24,8 +24,10 @@ script = ExtResource("1_n1dvt")
 selection_marker = ExtResource("2_rvfec")
 systemMarker = ExtResource("3_uixyg")
 
-[node name="mapBackground" type="Sprite2D" parent="."]
-position = Vector2(512, 512)
+[node name="mapBackground" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 1024.0
+offset_bottom = 1024.0
 texture = ExtResource("1_f67k2")
 
 [node name="nodeMap" type="TextureRect" parent="."]

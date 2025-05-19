@@ -62,6 +62,7 @@ func kill_projectile(target): # Creates explosion animation and kills self
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
+	set_deferred("collision.disabled", true)
 	var parent = area.get_parent()
 	var name = area.name
 	if parent.has_method("take_damage"):

@@ -23,7 +23,6 @@ func _ready():
 	
 	SignalBus.finishMission.connect(clear_mission)
 	SignalBus.galaxy_warp_finished.connect(selectCurrentSystem)
-	SignalBus.Quad1_clicked.connect(trigger_warp)
 	SignalBus.missionAccepted.connect(_update_mission)
 	SignalBus.playerDied.connect(selectCurrentSystem.bind("Solarus"))
 
@@ -139,19 +138,5 @@ func _on_close_menu_button_pressed():
 
 func _on_warp_button_pressed():
 	Utility.play_click_sound(HIGH)
-	trigger_warp()
-	
-	
-func trigger_warp():
-	if !selected_system: # Error for no selected system
-		var error_message: String = "Select destination warp system"
-		SignalBus.changePopMessage.emit(error_message)
-		
-	else: # System selected
-		if selected_system == Navigation.currentSystem: # Current system selected
-			var error_message: String = "Cannot warp to current system"
-			SignalBus.changePopMessage.emit(error_message)
-		else: # All checks good, warp
-			SignalBus.triggerGalaxyWarp.emit()
-			
-	self.visible = false
+	Navigation.trigger_warp()
+	visible = false

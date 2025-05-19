@@ -29,10 +29,10 @@ func _instaniate_enemies():
 	Utility.mainScene.enemies.clear()
 	var planets = Utility.mainScene.planets
 	for e in range(planets.size()):
-		var randi: int = randi_range(-1000, 1000) # Spawn distance from planet
+		var randint: int = randi_range(-1000, 1000) # Spawn distance from planet
 		var init_hostiles: CharacterBody2D = Hostiles.instantiate()
 		
-		init_hostiles.global_position = planets[e].global_position + Vector2(randi, randi)
+		init_hostiles.global_position = planets[e].global_position + Vector2(randint, randint)
 		add_child(init_hostiles)
 		init_hostiles.add_to_group("level_nodes")
 	

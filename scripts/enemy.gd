@@ -49,7 +49,7 @@ var collision_scale:float
 @export var max_hp:int = 100
 @export var max_shield_health:int = 50
 @export var max_cargo_size:int = 1
-@export var max_antimatter:int = 10
+@export var max_antimatter:int = 1
 
 @export var sprite_texture: Texture = preload("res://assets/textures/ships/ship_sprites.png")
 

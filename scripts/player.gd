@@ -108,10 +108,10 @@ var rate_of_fire:float:
 		return enemy_data.max_cargo_size + PlayerUpgrades.CargoAdd
 var current_cargo:int = 0
 
-@export var ship_antimatter: int = 100:
-	get:
-		return PlayerUpgrades.AntimatterAdd + (enemy_data.max_antimatter * PlayerUpgrades.AntimatterMult)
-var current_antimatter:int = 0
+@export var warp_range: int = 2
+#@export var warp_range: int = 1:
+	#get:
+		#return PlayerUpgrades.AntimatterAdd + (enemy_data.max_antimatter * PlayerUpgrades.AntimatterMult)
 
 
 func set_player_direction(joystick_direction):
@@ -120,6 +120,7 @@ func set_player_direction(joystick_direction):
 	
 func _ready():
 	Utility.mainScene.player = self
+	Navigation.player_range = warp_range
 	# Signal setup
 	SignalBus.missionAccepted.connect(mission_accept)
 	SignalBus.finishMission.connect(mission_finish)
@@ -136,8 +137,6 @@ func _ready():
 	
 	#animation_scale = animation.scale
 	sprite.material.set("shader_parameter/flash_value", 0.0)
-	
-	current_antimatter = ship_antimatter
 	
 	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
 	sync_to_resource()
@@ -293,7 +292,7 @@ func warping_state_change(speed): # Reverses warping state
 				current_tweens.append(tween_scale)
 				
 				var tween_v = create_tween() # Max Velocity
-				tween_v.tween_property(self, "warpm_v", 1.0, trans_length*5)
+				tween_v.tween_property(self, "warpm_v", 1.0, trans_length*4)
 				current_tweens.append(tween_v)
 				
 				var tween_r = create_tween() # Rotation speed
@@ -352,8 +351,6 @@ func killPlayer():
 		alive = false
 		self.visible = false
 		shield.shieldActive = false
-		
-		var spawn_options = get_tree().get_nodes_in_group("player_spawn_area")
 		
 		if warping_active == true:
 			warping_state_change("INSTANT")
@@ -456,73 +453,80 @@ func _teleport_shader_toggle(toggle: String):
 		var tween: Object = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		tween.tween_property(sprite.material, "shader_parameter/progress", 0.0, 4.0)
 
-
+func velocity_check() -> bool:
+	# Check base warp criteria
+	var base_check = (
+		!Utility.mainScene.in_galaxy_warp and
+		velocity.x > -100 and velocity.x < 100 and
+		velocity.y > -100 and velocity.y < 100 and
+		!warping_active
+	)
+	
+	if not base_check:
+		return false
+	else: return true
+	
 func galaxy_warp_out():
-	if !Utility.mainScene.galaxy_warp_check():
-		var error_message: String = "Must be stationary and in impulse to warp"
-		SignalBus.changePopMessage.emit(error_message)
-		
-	else:
-		SignalBus.entering_galaxy_warp.emit()
-		Utility.mainScene.in_galaxy_warp = true
-		
-		self.velocity = Vector2.ZERO
-		
-		Navigation.entry_coords = Navigation.get_entry_point(self.global_rotation)
-		
-		galaxy_warp_sound.play()
-		await get_tree().create_timer(1.5).timeout
-		shield.fadeout_SMOOTH()
-		
-		await get_tree().create_timer(0.5).timeout # 2 sec
-		
-		# Velocity tween
-		var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(self, "velocity", Vector2(0, -2500).rotated(rotation), 8.0)
-		
-		
-		await get_tree().create_timer(1.0).timeout #3.0 sec
-		create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0)
-		galaxy_particles.emitting = true
-		
-		#Camera Zoom out
-		create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/warp_multiplier*3)
-		
-		await get_tree().create_timer(3.0).timeout #6.0 sec
-		#print("flat, scale")
-		create_tween().tween_property(galaxy_particles.process_material, "flatness", 0.0, 5.0)
-		create_tween().tween_property(galaxy_particles.process_material, "scale_min", 1.0, 3.5)
-		create_tween().tween_property(galaxy_particles.process_material, "scale_max", 2.0, 3.5)
-		
-		await get_tree().create_timer(2.5).timeout #7.5 sec
-		var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-		tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
-		
-		await get_tree().create_timer(2.5).timeout
-		_teleport_shader_toggle("cloak")
-		
-		await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
-		#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
-		create_tween().tween_property(galaxy_particles, "amount_ratio", 0.0, 2.5)
-		
-		
-		
-		await get_tree().create_timer(0.30).timeout
-		%warp_boom.play()
-		
-		await get_tree().create_timer(0.20).timeout
-		galaxy_warp_sound.stop()
-		
-		# Camera zoom in
-		var tween3: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-		tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)
-		
-		
-		SignalBus.galaxy_warp_screen_fade.emit()
-		galaxy_warp_sound.pitch_scale = 1.0
-		tween.stop()
-		tween2.stop()
-		tween3.stop()
+	SignalBus.entering_galaxy_warp.emit()
+	Utility.mainScene.in_galaxy_warp = true
+	
+	self.velocity = Vector2.ZERO
+	
+	Navigation.entry_coords = Navigation.get_entry_point(self.global_rotation)
+	
+	galaxy_warp_sound.play()
+	await get_tree().create_timer(1.5).timeout
+	shield.fadeout_SMOOTH()
+	
+	await get_tree().create_timer(0.5).timeout # 2 sec
+	
+	# Velocity tween
+	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, "velocity", Vector2(0, -2500).rotated(rotation), 8.0)
+	
+	
+	await get_tree().create_timer(1.0).timeout #3.0 sec
+	create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0)
+	galaxy_particles.emitting = true
+	
+	#Camera Zoom out
+	create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/warp_multiplier*3)
+	
+	await get_tree().create_timer(3.0).timeout #6.0 sec
+	#print("flat, scale")
+	create_tween().tween_property(galaxy_particles.process_material, "flatness", 0.0, 5.0)
+	create_tween().tween_property(galaxy_particles.process_material, "scale_min", 1.0, 3.5)
+	create_tween().tween_property(galaxy_particles.process_material, "scale_max", 2.0, 3.5)
+	
+	await get_tree().create_timer(2.5).timeout #7.5 sec
+	var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
+	
+	await get_tree().create_timer(2.5).timeout
+	_teleport_shader_toggle("cloak")
+	
+	await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
+	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
+	create_tween().tween_property(galaxy_particles, "amount_ratio", 0.0, 2.5)
+	
+	
+	
+	await get_tree().create_timer(0.30).timeout
+	%warp_boom.play()
+	
+	await get_tree().create_timer(0.20).timeout
+	galaxy_warp_sound.stop()
+	
+	# Camera zoom in
+	var tween3: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)
+	
+	
+	SignalBus.galaxy_warp_screen_fade.emit()
+	galaxy_warp_sound.pitch_scale = 1.0
+	tween.stop()
+	tween2.stop()
+	tween3.stop()
 
 func mission_accept(mission_data):
 	current_mission = mission_data
