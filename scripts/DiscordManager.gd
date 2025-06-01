@@ -8,7 +8,7 @@ func  _process(delta) -> void:
 	DiscordRPC.run_callbacks()
 	
 	
-func main_menu():
+func main_menu() -> void:
 	#print("Discord Main menu")
 	DiscordRPC.app_id = 1273082300866891807 # Application ID
 	DiscordRPC.details = "In Main menu"
@@ -24,7 +24,7 @@ func main_menu():
 	DiscordRPC.refresh() # Always refresh after changing the values!
 	
 	
-func single_player_game():
+func single_player_game() -> void:
 	#print("Discord SP")
 	DiscordRPC.details = "Where no man has gone before"
 	DiscordRPC.state = "In Solarus"

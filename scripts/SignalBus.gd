@@ -9,6 +9,7 @@ signal finishMission()
 signal changePopMessage(text)
 signal enteredPlanetComm(planet)
 signal exitedPlanetComm(planet)
+signal updateScore(score)
 
 # Player
 signal playerDied

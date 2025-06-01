@@ -6,8 +6,10 @@ extends Control
 var showing: bool = false
 var pop_up_time: float = 3.0
 
+var current_tweens: Array = []
 
-func _ready():
+
+func _ready() -> void:
 	timer.wait_time = pop_up_time
 	SignalBus.changePopMessage.connect(_update_text)
 	
@@ -16,7 +18,7 @@ func _ready():
 
 	
 		
-func _update_text(error_message):
+func _update_text(error_message:String) -> void:
 	pop_message.bbcode_text = Utility.damage_red + error_message + "[/color]"
 	
 	open_pop_menu()
@@ -29,20 +31,20 @@ func _update_text(error_message):
 		await $Timer.timeout
 	close_pop_menu()
 
-var current_tweens = []
-func close_pop_menu(): # Expand or collapse mission menu
+
+func close_pop_menu() -> void: # Expand or collapse mission menu
 	# Stop all running tweens
-	for tween in current_tweens:
+	for tween:Tween in current_tweens:
 		if tween.is_running():
 			tween.stop()
 			
-	var tween_pos: Object = create_tween()
+	var tween_pos: Tween = create_tween()
 	tween_pos.tween_property(self, "position", Vector2(0, -130), 1.0)
 	current_tweens.append(tween_pos)
 	showing = false
 
-func open_pop_menu():
-	var tween_pos: Object = create_tween()
+func open_pop_menu() -> void:
+	var tween_pos: Tween = create_tween()
 	tween_pos.tween_property(self, "position", Vector2(0, 0), 1.0)
 	current_tweens.append(tween_pos)
 	showing = true

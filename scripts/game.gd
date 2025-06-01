@@ -1,12 +1,11 @@
 extends Node2D
 
 @onready var hud: Control = $HUD_layer/HUD
-@onready var VidModulate: CanvasModulate = %VidModulate
-@onready var warp_video: VideoStreamPlayer = %warp_video
+@onready var warp_tunnel: ColorRect = %WarpTunnel
 @onready var loading_screen: Control = %LoadingScreen
 @onready var level: Node = $Level
 
-var galaxy_map = preload("res://assets/data/galaxy_map_data.tres")
+var galaxy_map: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
 var in_galaxy_warp:bool = false
 
@@ -19,13 +18,13 @@ var suns: Array = []
 var player: Player
 var starbase: Array = []
 
-func _printArrays():
+func _printArrays() -> void:
 	print(enemies)
 	print(planets)
 	print(suns)
 	print(levelWalls)
 	
-func clearArrays():
+func clearArrays() -> void:
 	enemies.clear()
 	planets.clear()
 	suns.clear()
@@ -37,38 +36,34 @@ var score:int = 0:
 		hud.score = score
 
 
-func _init():
+func _init() -> void:
 	Utility.mainScene = self
 	clearArrays()
-	
-	
-func _ready():
+
+
+func _ready() -> void:
 	# Signal Connections
 	SignalBus.galaxy_warp_finished.connect(_warp_into_new_system)
 	SignalBus.playerDied.connect(handlePlayerDied)
 	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
 
 
-func galaxy_fade_out():
-	warp_video.play()
+func galaxy_fade_out() -> void:
+	warp_tunnel.visible = true
 	
 	await get_tree().create_timer(1.5).timeout
-	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 0.4), 1.5)
+	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	tween.tween_property(warp_tunnel, "material:shader_parameter/addH", 3, 3.0)
 	
 	await get_tree().create_timer(2.0).timeout
-	#get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
 	
 	
 	print("Warp finished with target system " + str(Navigation.targetSystem))
 	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
 	in_galaxy_warp = false
-	
-	#%LoadingScreen.visible = true
-	#$transition_overlay.visible = false
-	#$Video_layer.visible = false
 
-func handlePlayerDied():
+
+func handlePlayerDied() -> void:
 	%LoadingScreen.visible = true
 	if Navigation.currentSystem != "Solarus":
 		level._change_system("Solarus")
@@ -77,11 +72,12 @@ func handlePlayerDied():
 	player.respawn(spawn_options.pick_random().global_position)
 	%LoadingScreen.visible = false
 
-func _warp_into_new_system(system):
+
+func _warp_into_new_system(system) -> void:
 	player.global_position = Navigation.entry_coords
 	
-	var tween: Object = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(VidModulate, "color", Color(1, 1, 1, 0), 1.0)
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(warp_tunnel, "material:shader_parameter/addH", 150, 3.0)
 	
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
@@ -89,14 +85,8 @@ func _warp_into_new_system(system):
 	
 	SignalBus.entering_new_system.emit()
 	
-	#%LoadingScreen.visible = false
-	#$transition_overlay.visible = true
-	#FadeAnimation.visible = false
-	
 	player.warping_state_change("INSTANT")
 	player._teleport_shader_toggle("uncloak")
-	
-	
 	
 	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	tween2.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)

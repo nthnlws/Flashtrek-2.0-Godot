@@ -27,7 +27,7 @@ func _process(delta):
 func spawn_tumbling_sprite(is_initial: bool):
 	# Create a new sprite
 	var sprite: Sprite2D = Sprite2D.new()
-	var sprite_script = preload("res://scripts/rotating_planets.gd")
+	var sprite_script: GDScript = preload("res://scripts/rotating_planets.gd")
 	
 	
 	# Randomly select the texture

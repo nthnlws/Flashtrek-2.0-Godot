@@ -19,41 +19,30 @@ var menu_state_machine: Node
 @export var num_rom:int
 @export var num_neut:int
 
-var ship_list: Dictionary = Utility.ship_sprites
-
-@export var ship_rss: Dictionary = {
-	"California_Class": preload("res://resources/Ships/California_class_enemy.tres"),
-	"Galaxy_Class": preload("res://resources/Ships/enterpriseTNG_enemy.tres"),
-	
-	"Brel_Class": preload("res://resources/Ships/BirdOfPrey_enemy.tres"),
-	
-	"Monaveen": preload("res://resources/Ships/Monaveen_enemy.tres")
-}
-
 
 var fed_ships: Dictionary = {
-	Utility.SHIP_NAMES.Galaxy_Class: ship_list[Utility.SHIP_NAMES.Galaxy_Class],
-	Utility.SHIP_NAMES.California_Class: ship_list[Utility.SHIP_NAMES.California_Class],
-	Utility.SHIP_NAMES.Cardenas_Class: ship_list[Utility.SHIP_NAMES.Cardenas_Class]
+	Utility.SHIP_TYPES.Galaxy_Class: ship_list[Utility.SHIP_TYPES.Galaxy_Class],
+	Utility.SHIP_TYPES.California_Class: ship_list[Utility.SHIP_TYPES.California_Class],
+	Utility.SHIP_TYPES.Cardenas_Class: ship_list[Utility.SHIP_TYPES.Cardenas_Class]
 	}
 	
 var klin_ships: Dictionary = {
-	Utility.SHIP_NAMES.Brel_Class: ship_list[Utility.SHIP_NAMES.Brel_Class]
+	Utility.SHIP_TYPES.Brel_Class: ship_list[Utility.SHIP_TYPES.Brel_Class]
 	}
 	
 var rom_ships: Dictionary = {
-	Utility.SHIP_NAMES.California_Class: ship_list[Utility.SHIP_NAMES.California_Class]
+	Utility.SHIP_TYPES.California_Class: ship_list[Utility.SHIP_TYPES.California_Class]
 	}
 	
 var neut_ships: Dictionary = {
-	Utility.SHIP_NAMES.Monaveen: ship_list[Utility.SHIP_NAMES.Monaveen],
-	Utility.SHIP_NAMES.DKora_Marauder: ship_list[Utility.SHIP_NAMES.DKora_Marauder]
+	Utility.SHIP_TYPES.Monaveen: ship_list[Utility.SHIP_TYPES.Monaveen],
+	Utility.SHIP_TYPES.DKora_Marauder: ship_list[Utility.SHIP_TYPES.DKora_Marauder]
 	}
 
 var frame_textures: Array = [federation_frame, klingon_frame, romulan_frame, neutral_frame]
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	if get_parent().name == "Menus":
 		menu_state_machine = get_node("..")
 	
@@ -71,7 +60,7 @@ func _ready():
 		create_selection_frames(Utility.FACTION.NEUTRAL, i)
 		
 
-func _process(delta):
+func _process(delta: float) -> void:
 	if visible == true:
 		if ambience.playing == false:
 			start_ambience()
@@ -80,7 +69,7 @@ func _process(delta):
 		if %ship_name.text != "": clear_stats()
 		
 
-func clear_stats():
+func clear_stats() -> void:
 		%ship_name.text = "Ship Name: "
 		%faction.text = "Faction: "
 		%health_stat.text = "Health: "
@@ -91,14 +80,14 @@ func clear_stats():
 		%antimatter_stat.text = "Antimatter: "
 		
 		
-func start_ambience():
+func start_ambience() -> void:
 	ambience.volume_db = -25
 	ambience.play()
-	var tween: Object = create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(ambience, "volume_db", -20, 4.0)
 	
 	
-func create_selection_frames(faction: Utility.FACTION, i: int):
+func create_selection_frames(faction: Utility.FACTION, i: int) -> void:
 	# Create a container to group the frame and ship image
 	var container: Control = Control.new()
 
@@ -167,7 +156,7 @@ func create_selection_frames(faction: Utility.FACTION, i: int):
 
 	frame.mouse_entered.connect(update_ship_stats.bind(frame.name))
 
-func update_ship_stats(ship_name: String):
+func update_ship_stats(ship_name: String) -> void:
 	if ship_rss.has(ship_name):
 		var enemy_rss = ship_rss[ship_name]
 		%ship_name.text = "Ship Name: " + Utility.UI_ship_lime + ship_name.replace("_", " ")
@@ -197,6 +186,6 @@ func update_ship_stats(ship_name: String):
 		%maneuver_stat.text = "Maneuverability: Placeholder"
 		%antimatter_stat.text = "Antimatter: Placeholder"
 
-func _on_close_menu_button_pressed():
+func _on_close_menu_button_pressed() -> void:
 	self.visible = false
 	menu_state_machine.current_state = menu_state_machine.MenuState.NONE

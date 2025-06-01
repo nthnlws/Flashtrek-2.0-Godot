@@ -1,16 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene load_steps=6 format=3 uid="uid://b3ruu3xegfccq"]
 
-[ext_resource type="Script" uid="uid://kgsd2ge22qph" path="res://scripts/ship_selection_menu.gd" id="1_cpdl5"]
-[ext_resource type="Texture2D" uid="uid://rrf3pe2c2ey7" path="res://assets/textures/UI/Federation_frame.png" id="2_uw5yw"]
-[ext_resource type="Texture2D" uid="uid://b71d8n3ou78es" path="res://assets/textures/UI/Klingon_frame.png" id="3_6ldbl"]
-[ext_resource type="Texture2D" uid="uid://dy6fjs8soq55y" path="res://assets/textures/UI/Romulan_frame.png" id="4_2rp6b"]
-[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/Neutral_frame.png" id="5_t6atb"]
-[ext_resource type="Texture2D" uid="uid://wbg8efg148y6" path="res://assets/textures/UI/Federation_frame_pressed.png" id="6_4l46l"]
 [ext_resource type="Texture2D" uid="uid://digj0ww7e6iir" path="res://assets/textures/UI/starbase_background.png" id="6_pmy4k"]
-[ext_resource type="Texture2D" uid="uid://dbdwg26aneknc" path="res://assets/textures/UI/Klingon_frame_pressed.png" id="7_0yoys"]
 [ext_resource type="Texture2D" uid="uid://cn6hk6q2vqimy" path="res://assets/textures/UI/gray_background.png" id="7_6y24t"]
-[ext_resource type="Texture2D" uid="uid://dp4hhvgp5vey7" path="res://assets/textures/UI/Romulan_frame_pressed.png" id="8_afpcq"]
-[ext_resource type="Texture2D" uid="uid://sykblrvv152y" path="res://assets/textures/UI/Neutral_frame_pressed.png" id="9_bb8g1"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="12_lf3ul"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="13_cq87e"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="14_5cpsl"]
@@ -23,19 +14,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-script = ExtResource("1_cpdl5")
-federation_frame = ExtResource("2_uw5yw")
-klingon_frame = ExtResource("3_6ldbl")
-romulan_frame = ExtResource("4_2rp6b")
-neutral_frame = ExtResource("5_t6atb")
-federation_frame_pressed = ExtResource("6_4l46l")
-klingon_frame_pressed = ExtResource("7_0yoys")
-romulan_frame_pressed = ExtResource("8_afpcq")
-neutral_frame_pressed = ExtResource("9_bb8g1")
-num_fed = 6
-num_klin = 6
-num_rom = 6
-num_neut = 6
 
 [node name="starbase_back" type="TextureRect" parent="."]
 z_index = -2

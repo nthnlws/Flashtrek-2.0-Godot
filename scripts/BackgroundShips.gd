@@ -38,7 +38,7 @@ func spawn_ship() -> void:
 	add_child(ship)
 	
 	# Move the ship to the target position with Tween
-	var tween: Object = create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(ship, "position", end_position, distance/speed)
 
 func get_start_position() -> Vector2:

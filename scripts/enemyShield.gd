@@ -1,7 +1,7 @@
 extends Shield
 
 
-func _process(delta):
+func _process(delta: float) -> void:
 	if shieldActive and sp_current <= sp_max and damageTime == false:
 		regen_shield(delta)
 	
@@ -9,7 +9,7 @@ func _process(delta):
 		shieldDie()
 
 
-func take_damage(damage:float, hit_pos:Vector2):
+func take_damage(damage:float, hit_pos:Vector2) -> void:
 	damageTimeout()
 	sp_current -= damage
 	

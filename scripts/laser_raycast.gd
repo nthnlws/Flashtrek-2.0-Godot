@@ -3,7 +3,7 @@ extends RayCast2D
 @onready var parent: Laser = $".."
 
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	force_raycast_update()
 
 	# Collision logic

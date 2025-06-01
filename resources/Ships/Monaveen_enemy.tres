@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://cxss5g0oh32uc"]
 
 [ext_resource type="Shape2D" uid="uid://386480b4b2b4" path="res://resources/Ships/Monaveencollision.tres" id="1_83n64"]
-[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/enemy.gd" id="2_01fob"]
+[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/ShipStats.gd" id="2_01fob"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_3ln3m"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_s04ph"]
 

@@ -7,15 +7,15 @@ extends Node2D
 func _init():
 	Utility.mainScene.starbase.append(self)
 	
-func _ready():
+func _ready() -> void:
 	SignalBus.Quad3_clicked.connect(toggle_comms)
 	
 	
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	rotate(deg_to_rad(1.5)*delta)
 
 
-func toggle_comms():# Only toggles on if within required distance
+func toggle_comms() -> void: # Only toggles on if within required distance
 	if check_distance_to_planets(): # and Utility.mainScene.player.warping_active == false:
 		# Open starbase menu here
 		#starbase_menu.visible = true

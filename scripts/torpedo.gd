@@ -32,7 +32,7 @@ func _ready() -> void:
 			parent.energy_drain(energy_cost)
 		
 	
-func _process(delta):
+func _process(delta: float) -> void:
 	age += delta
 	if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
 		self.global_position.y >= GameSettings.borderValue or self.global_position.y < -GameSettings.borderValue):
@@ -45,12 +45,12 @@ func _process(delta):
 		queue_free()
 
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	if moving:
 		global_position += movement_vector.rotated(rotation) * speed * delta
 
 
-func kill_projectile(target): # Creates explosion animation and kills self
+func kill_projectile(target) -> void: # Creates explosion animation and kills self
 	$Sprite2D.visible = false
 	moving = false
 	if target == "shield_area":
@@ -66,7 +66,7 @@ func _on_torpedo_collision(area: Area2D) -> void:
 	var parent = area.get_parent()
 	var name = area.name
 	if parent.has_method("take_damage"):
-		var target = parent.take_damage(damage, self.global_position)
+		parent.take_damage(damage, self.global_position)
 	kill_projectile(name)
 
 

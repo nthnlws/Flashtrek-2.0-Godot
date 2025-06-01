@@ -1,12 +1,12 @@
 extends CharacterBody3D
 
-var move_speed = 100.0
-var mouse_sensitivity = Vector2(0.2, 0.2)
-var camera_rotation = Vector2.ZERO
-var boost_multiplier : float = 4.0
+var move_speed: float = 100.0
+var mouse_sensitivity: Vector2 = Vector2(0.2, 0.2)
+var camera_rotation: Vector2 = Vector2.ZERO
+var boost_multiplier: float = 4.0
 
-@onready var camera = $Camera3D  # Replace with the correct path to your Camera node
-@onready var ent_kelvin = %Ent_Kelvin
+@onready var camera: Camera3D = $Camera3D  # Replace with the correct path to your Camera node
+@onready var ent_kelvin: Node3D = %Ent_Kelvin
 
 
 #func _ready():
@@ -14,7 +14,7 @@ var boost_multiplier : float = 4.0
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
-func _process(delta):
+func _process(delta: float) -> void:
 	var target_position = ent_kelvin.global_transform.origin + Vector3(50, 25, 0)
 	camera.look_at(target_position, Vector3.UP)
 

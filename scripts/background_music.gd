@@ -4,9 +4,9 @@ extends Node
 @onready var klingon_music: AudioStreamPlayer = %"Klingon - Subterranean"
 @onready var rom_music: AudioStreamPlayer = %"Romulan - Rising Dawn"
 
-var fed_volume = -15
-var rom_volume = -20
-var klingon_volume = -15
+var fed_volume: float = -15.0
+var rom_volume: float = -20.0
+var klingon_volume: float = -15.0
 
 
 func _ready() -> void:
@@ -18,7 +18,7 @@ func _ready() -> void:
 	start_music()
 
 
-func start_music():
+func start_music() -> void:
 	match Navigation.current_system_faction:
 		Utility.FACTION.FEDERATION:
 			fed_music.volume_db = fed_volume
@@ -33,29 +33,29 @@ func start_music():
 			fed_music.volume_db = fed_volume
 			fed_music.play()
 
-func fade_music_out():
+func fade_music_out() -> void:
 	if fed_music.is_playing():
-		var tween: Object = create_tween()
+		var tween: Tween = create_tween()
 		tween.tween_property(fed_music, "volume_db", -50, 4.0)
 		await tween.finished
 		stop_music()
 		return
 		
 	elif klingon_music.is_playing():
-		var tween: Object = create_tween()
+		var tween: Tween = create_tween()
 		tween.tween_property(klingon_music, "volume_db", -50, 4.0)
 		await tween.finished
 		stop_music()
 		return
 		
 	elif rom_music.is_playing():
-		var tween: Object = create_tween()
+		var tween: Tween = create_tween()
 		tween.tween_property(rom_music, "volume_db", -50, 4.0)
 		await tween.finished
 		stop_music()
 		
 
-func stop_music():
+func stop_music() -> void:
 	if fed_music.is_playing():
 		fed_music.stop()
 	elif klingon_music.is_playing():

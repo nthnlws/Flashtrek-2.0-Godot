@@ -1,9 +1,9 @@
 extends Control
 
-@onready var comms_message = $Comms_message
-@onready var player = Utility.mainScene.player
+@onready var player: Player = Utility.mainScene.player
+@onready var comms_message: RichTextLabel = $Comms_message
 
-var button_array = []
+var button_array: Array = []
 var sound_array:Array = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
@@ -103,7 +103,7 @@ var current_planet: Node2D
 var ship_name: String
 var random_confirm_query: String
 
-func _ready():
+func _ready() -> void:
 	#Signal Connections
 	SignalBus.enteredPlanetComm.connect(_enter_comms)
 	SignalBus.exitedPlanetComm.connect(_exit_comms)
@@ -111,7 +111,7 @@ func _ready():
 	SignalBus.Quad3_clicked.connect(open_comms)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 	button_array = get_tree().get_nodes_in_group("comms_button")
-	for button in button_array:
+	for button:TextureButton in button_array:
 		button.gui_input.connect(handle_UI_click.bind(button))
 	
 	# Mission text setup
@@ -126,19 +126,19 @@ func _ready():
 	sound_array.shuffle()
 
 
-func handle_UI_click(event: InputEvent, button: TextureButton):
+func handle_UI_click(event: InputEvent, button: TextureButton) -> void:
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
 			completedUIdisplay = false
 			Utility.play_click_sound(0)
-			var current_mission = generate_mission()
+			var current_mission: Dictionary = generate_mission()
 			set_mission_text(current_mission)
 		elif button.name == "close_button":
 			Utility.play_click_sound(0)
 			close_comms()
 	
 
-func set_mission_text(mission_data: Dictionary):
+func set_mission_text(mission_data: Dictionary) -> void:
 	# New mission pickup
 	if player.has_mission == false: 
 		var data: Dictionary = {
@@ -175,7 +175,7 @@ func set_mission_text(mission_data: Dictionary):
 			comms_message.bbcode_text = formatted_text
 			
 	
-func open_comms():
+func open_comms() -> void:
 	if visible:
 		self.visible = false
 		completedUIdisplay = false
@@ -183,18 +183,18 @@ func open_comms():
 	elif current_planet and player.warping_active == false:
 		self.visible = true
 		#if player.has_mission == false:
-		var mission_data = generate_mission()
+		var mission_data: Dictionary = generate_mission()
 		set_mission_text(mission_data)
 			
 
-func close_comms():
+func close_comms() -> void:
 	if visible == true:
 		completedUIdisplay = false
 		visible = false
 		
 		
 
-func generate_mission():
+func generate_mission() -> Dictionary:
 	# Get random system
 	var system_keys: Array = Navigation.systems
 	var random_system_name = system_keys.pick_random()
@@ -207,6 +207,7 @@ func generate_mission():
 	
 	var item_name: String = cargo_types.pick_random()
 	var random_confirm_query: String = confirmation_accept.pick_random()
+	var mission_reward: int = randi_range(1000, 8000)
 	
 	var misson_data: Dictionary = {
 		"mission_type": "Cargo delivery",
@@ -214,12 +215,13 @@ func generate_mission():
 		"planet": random_planet,
 		"cargo": item_name,
 		"message": random_confirm_query,
+		"reward": mission_reward,
 	}
 	
 	pending_mission = misson_data
 	return misson_data
 
-func handle_cargo_beam():
+func handle_cargo_beam() -> void:
 	# Accept new mission
 	if pending_mission and visible and player.has_mission == false and completedUIdisplay == false:
 		# Update text to "accepted"
@@ -256,12 +258,13 @@ func handle_cargo_beam():
 		var formatted_text: String = template_text.format(data)
 		comms_message.bbcode_text = formatted_text
 		
+		SignalBus.updateScore.emit(player.current_mission.reward)
 		SignalBus.finishMission.emit()
 
-func _enter_comms(planet):
+func _enter_comms(planet) -> void:
 	current_planet = planet
 	
-func _exit_comms(planet):
+func _exit_comms(planet) -> void:
 	current_planet = null
 	close_comms()
 	

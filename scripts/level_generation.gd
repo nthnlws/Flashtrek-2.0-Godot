@@ -25,7 +25,7 @@ func _ready() -> void:
 	
 	
 	
-func _instaniate_enemies():
+func _instaniate_enemies() -> void:
 	Utility.mainScene.enemies.clear()
 	var planets = Utility.mainScene.planets
 	for e in range(planets.size()):
@@ -34,11 +34,11 @@ func _instaniate_enemies():
 		
 		init_hostiles.global_position = planets[e].global_position + Vector2(randint, randint)
 		add_child(init_hostiles)
-		init_hostiles.add_to_group("level_nodes")
+		init_hostiles.add_to_group("level_nodwes")
 	
 	
 	
-func _change_system(system):
+func _change_system(system) -> void:
 	# Combining all planets into single array for new system spawning
 	var all_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
 	Utility.mainScene.planets.clear()
@@ -77,7 +77,7 @@ func _change_system(system):
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
 	
 	
-func instantiate_new_system_nodes():
+func instantiate_new_system_nodes() -> void:
 	var init_border: Node2D = levelBorders.instantiate()
 	add_child(init_border)
 	init_border.add_to_group("level_nodes")
@@ -110,7 +110,7 @@ func instantiate_new_system_nodes():
 	add_child(init_player)
 	init_player.add_to_group("level_nodes")
 	
-func generate_system_info():
+func generate_system_info() -> void:
 	var system_num: int = 1
 	
 	while system_num <= MAX_LEVEL:
@@ -182,7 +182,7 @@ func generate_system_variables(system_number) -> Dictionary:
 	}
 
 
-func generate_sun_data():
+func generate_sun_data() -> Dictionary:
 	var spawnDistance: int = 8000
 	var spawnVariability: int = 500
 	
@@ -252,10 +252,10 @@ func get_valid_position(
 
 	while attempt < max_attempts:
 		attempt += 1
-		var min_dist_sq = min_distance_from_origin * min_distance_from_origin
-		var max_dist_sq = max_distance_from_origin * max_distance_from_origin
-		var distance_sq = randf_range(min_dist_sq, max_dist_sq)
-		var distance = sqrt(distance_sq)
+		var min_dist_sq:float = min_distance_from_origin * min_distance_from_origin
+		var max_dist_sq:float = max_distance_from_origin * max_distance_from_origin
+		var distance_sq:float = randf_range(min_dist_sq, max_dist_sq)
+		var distance:float = sqrt(distance_sq)
 
 		var angle: float = randf_range(0, TAU) # TAU = 2 * PI
 

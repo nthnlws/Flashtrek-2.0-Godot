@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://bw30k7ywbsi2k"]
+[gd_resource type="Resource" script_class="Vessel" load_steps=5 format=3 uid="uid://bw30k7ywbsi2k"]
 
 [ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Ships/Kaplan_F17_collision.tres" id="1_muscy"]
-[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/enemy.gd" id="2_tkorf"]
+[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/ShipStats.gd" id="2_tkorf"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ob1pp"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="4_rs2gc"]
 
@@ -13,8 +13,7 @@ class_faction = 3
 ship_shield_scale = Vector2(2.5, 2.5)
 default_speed = 60
 rotation_rate = 3.0
-shield_on = true
-rate_of_fire = 1.0
+has_shield = true
 muzzle_pos = Vector2(0, -20)
 RANDOMNESS_ANGLE_DEGREES = 4.0
 detection_radius = 1250

@@ -32,7 +32,7 @@ var target: Area2D
 var target_point: Vector2
 var turning_off:bool = false
 
-func _ready():
+func _ready() -> void:
 	set_laser_color(RED)
 	
 	raycast.target_position.y = view_distance
@@ -81,7 +81,7 @@ func _process(delta: float) -> void:
 			particles_OFF()
 
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if parent is not Player: # Only process for player
 		return
 		
@@ -96,13 +96,13 @@ func _input(event):
 			particles_OFF()
 			fade_laser_OFF()
 
-func _handle_death():
+func _handle_death() -> void:
 	fade_laser_OFF()
 	particles_OFF()
 	target = null
 	accumulated_damage = 0
 
-func _get_laser_color(target) -> String:
+func _get_laser_color(target: String) -> String:
 	if target == "shield_area":
 		return Utility.damage_blue
 	elif target == "hitbox_area":
@@ -110,7 +110,7 @@ func _get_laser_color(target) -> String:
 	else: return Utility.damage_red
 	
 
-func _set_laser_distance(length):
+func _set_laser_distance(length: float) -> void:
 	laser.material.set_shader_parameter("cutoff_x_pixel", length)
 	path_particles.position.y = -length/2
 	path_particles.process_material.emission_box_extents = Vector3(1.0, length/2, 1.0)
@@ -118,18 +118,18 @@ func _set_laser_distance(length):
 
 
 
-func set_laser_color(color):
+func set_laser_color(color: Color) -> void:
 	laser.material.set_shader_parameter('outline_color', color)
 	path_particles.process_material.set_color(BLUE)
 
 
-func aim_laser(origin:Vector2, target:Vector2):
-	var length = origin.distance_to(target)
+func aim_laser(origin:Vector2, target:Vector2) -> void:
+	var length: float = origin.distance_to(target)
 	laser.size.x = length
 	laser.size.y = length
 
 
-func fade_laser_OFF():
+func fade_laser_OFF() -> void:
 	laserEnded.emit()
 	accumulated_damage = 0
 	
@@ -139,10 +139,10 @@ func fade_laser_OFF():
 	
 	turning_off = true
 	# Stop all active tweens
-	for tween in active_tweens:
+	for tween: Tween in active_tweens:
 		tween.stop()
 		
-	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(laser, "material:shader_parameter/progress", 0, 0.2)
 	active_tweens.append(tween)
 	
@@ -151,18 +151,19 @@ func fade_laser_OFF():
 	laser.visible = false
 	turning_off = false
 
-func fade_laser_ON():
+
+func fade_laser_ON() -> void:
 	accumulated_damage = 0
 	laser_sound.play()
 	laser_bass.play()
 	laser_bass_2.play()
 	
 	# Stop all active tweens
-	for tween in active_tweens:
+	for tween: Tween in active_tweens:
 		tween.stop()
 		
 	laser.visible = true
-	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(laser, "material:shader_parameter/progress", 1.0, 0.2)
 	active_tweens.append(tween)
 	
@@ -170,19 +171,19 @@ func fade_laser_ON():
 	active_tweens.erase(tween)
 
 
-func laser_fizzle_ON():
+func laser_fizzle_ON() -> void:
 	origin_particles.emitting = true
 	if !fizzle_sound.playing:
 		fizzle_sound.play()
 
-func particles_ON():
+func particles_ON() -> void:
 	if !path_particles.emitting and !target_particles.emitting:
 		path_particles.emitting = true
 		target_particles.emitting = true
 		
 		path_particles.process_material.emission_box_extents.y = laser.size.x/2
 
-func particles_OFF():
+func particles_OFF() -> void:
 	path_particles.emitting = false
 	target_particles.emitting = false
 	origin_particles.emitting = false

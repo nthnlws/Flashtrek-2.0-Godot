@@ -18,39 +18,39 @@ var sp_current:float = sp_max:
 	
 
 
-func regen_shield(delta: float):
+func regen_shield(delta: float) -> void:
 	sp_current += regen_speed * delta
 	
 	
 # Fades shield to 0 Alpha
-func fadeout_INSTANT():
-	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+func fadeout_INSTANT() -> void:
+	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
 	collision_shape.set_deferred("disabled", true)
 	shieldActive = false
 
-func fadeout_SMOOTH():
-	var tween: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+func fadeout_SMOOTH() -> void:
+	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 0, trans_length)
 	await tween.finished
 	collision_shape.set_deferred("disabled", true)
 	shieldActive = false
 
 # Fades shield in to 255 Alpha
-func fadein_INSTANT():
+func fadein_INSTANT() -> void:
 	modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
 	collision_shape.set_deferred("disabled", false)
 	shieldActive = true
 
-func fadein_SMOOTH():
-	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+func fadein_SMOOTH() -> void:
+	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(self, "modulate:a", 1, trans_length)
 	await tween.finished
 	collision_shape.set_deferred("disabled", false)
 	shieldActive = true
 
-func shieldDie(): #Instantly turns off shield
+func shieldDie() -> void: #Instantly turns off shield
 	collision_shape.set_deferred("disabled", true)
 	self.visible = false
 	shieldActive = false
@@ -58,12 +58,12 @@ func shieldDie(): #Instantly turns off shield
 	await get_tree().create_timer(3).timeout
 	shieldAlive()
 	
-func shieldAlive(): #Instant on shield
+func shieldAlive() -> void: #Instant on shield
 	collision_shape.set_deferred("disabled", false)
 	self.visible = true
 	shieldActive = true
 
-func damageTimeout(): #Turns off shield regen for 1 second after damage taken
+func damageTimeout() -> void: #Turns off shield regen for 1 second after damage taken
 	damageTime = true
 	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh
 		$Timer.stop()

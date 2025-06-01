@@ -25,17 +25,17 @@ var current_mission: Dictionary = {}
 var player_name: String = "USS Enterprise"
 var animation_scale:Vector2 = Vector2(1, 1)
 
-const WHITE_FLASH_MATERIAL = preload("res://resources/Materials_Shaders/white_flash.tres")
-const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/teleport_material_VERTICAL.tres")
+const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
+const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/teleport_material_VERTICAL.tres")
 
-@onready var muzzle = $Muzzle
+@onready var muzzle:Node2D = $Muzzle
 @onready var timer:Timer = $regen_timer
 @onready var sprite:Sprite2D = $PlayerSprite
 @onready var shield:Sprite2D = $playerShield
 @onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
-@onready var galaxy_warp_sound = %Galaxy_warp
-@onready var animation = $AnimationPlayer
-@onready var camera = $Camera2D
+@onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
+@onready var animation:AnimationPlayer = $AnimationPlayer
+@onready var camera:Camera2D = $Camera2D
 
 #TEMPORARY RESOURCE LINKS
 @export var BIRD_OF_PREY_ENEMY: Resource
@@ -45,8 +45,8 @@ const TELEPORT_FADE_MATERIAL = preload("res://resources/Materials_Shaders/telepo
 @export var CALIFORNIA_ENEMY: Resource
 @export var KAPLAN_ENEMY: Resource
 
-@export var SHIP_SPRITES = preload("res://assets/textures/ships/ship_sprites.png")
-@export var enemy_data: Enemy # Default resource file for stats and sprite
+@export var SHIP_SPRITES: Texture = preload("res://assets/textures/ships/ship_sprites.png")
+@export var enemy_data: Vessel # Default resource file for stats and sprite
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
 
@@ -114,17 +114,17 @@ var current_cargo:int = 0
 		#return PlayerUpgrades.AntimatterAdd + (enemy_data.max_antimatter * PlayerUpgrades.AntimatterMult)
 
 
-func set_player_direction(joystick_direction):
+func set_player_direction(joystick_direction) -> void:
 	direction = joystick_direction
-	
-	
-func _ready():
+
+
+func _ready() -> void:
 	Utility.mainScene.player = self
 	Navigation.player_range = warp_range
 	# Signal setup
 	SignalBus.missionAccepted.connect(mission_accept)
 	SignalBus.finishMission.connect(mission_finish)
-	SignalBus.enemy_type_changed.connect(change_enemy_resource)
+	#SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.playerDied.connect(mission_finish)
 	SignalBus.teleport_player.connect(teleport)
@@ -133,16 +133,14 @@ func _ready():
 	
 	var spawn_options: Array = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
-	#self.global_rotation = deg_to_rad(randi_range(-20, 20))
 	
-	#animation_scale = animation.scale
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
 	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
-	sync_to_resource()
-	
-	
-func _process(delta):
+	#sync_to_resource()
+
+
+func _process(delta: float) -> void:
 	if !alive: return
 	
 	#print(global_position)
@@ -162,13 +160,14 @@ func _process(delta):
 		energy_current += energy_regen_speed * delta
 
 
-func _unhandled_input(event):
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
 		shooting_button_held = true
 	if event.is_action_released("left_click"):
 		shooting_button_held = false
-		
-func _physics_process(delta):
+
+
+func _physics_process(delta: float) -> void:
 	if !alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("warp"):
@@ -187,7 +186,8 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func _handle_movement(delta: float):
+
+func _handle_movement(delta: float) -> void:
 	if Utility.mainScene.in_galaxy_warp == false:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
@@ -214,64 +214,11 @@ func _handle_movement(delta: float):
 			if Input.is_action_pressed("rotate_left"):
 				rotate(deg_to_rad(-rotation_speed * delta * warpm_r))
 
-func change_enemy_resource(ENEMY_TYPE: Utility.SHIP_NAMES):
-	#TODO Link to RSS File
-	match ENEMY_TYPE:
-		Utility.SHIP_NAMES.Brel_Class:
-			enemy_data = BIRD_OF_PREY_ENEMY
-		Utility.SHIP_NAMES.JemHadar:
-			enemy_data = JEM_HADAR_ENEMY
-		Utility.SHIP_NAMES.Galaxy_Class:
-			enemy_data = ENTERPRISE_TNG_ENEMY
-		Utility.SHIP_NAMES.Monaveen:
-			enemy_data = MONAVEEN_ENEMY
-		Utility.SHIP_NAMES.California_Class:
-			enemy_data = CALIFORNIA_ENEMY
-		Utility.SHIP_NAMES.La_Sirena:
-			enemy_data = KAPLAN_ENEMY
-		_:
-			enemy_data = BIRD_OF_PREY_ENEMY
-			print("Default RSS file used")
-	sync_to_resource()
-	
-	
-func sync_to_resource():
-	#TODO Have player variables automatically "Get:" from RSS file
-	# Assign values from the resource
-	base_max_speed = enemy_data.default_speed * 10 #Speed
-	base_rotation_speed = enemy_data.rotation_rate * 50
-	shield_on = enemy_data.shield_on
-	
-	shield.base_max_SP = enemy_data.max_shield_health # Health
-	base_max_HP = enemy_data.max_hp
-	hp_current = enemy_data.max_hp
-	
-	base_rate_of_fire = enemy_data.rate_of_fire / 5 # Weapons
-	muzzle.position = enemy_data.muzzle_pos
 
-	sprite.texture.region = Utility.ship_sprites.values()[enemy_data.enemy_type]
-	#sprite.scale = enemy_data.sprite_scale
-	#shield.scale = enemy_data.ship_shield_scale * enemy_data.sprite_scale
-	#animation.scale = enemy_data.sprite_scale * animation_scale * Vector2(2, 2)
-
-
-	# Load the collision shape from the resource
-	#if enemy_data.collision_shape and enemy_data.collision_shape is ConvexPolygonShape2D:
-		#$Hitbox/CollisionShape2D2.shape = enemy_data.collision_shape
-		#$WorldCollisionShape.shape = enemy_data.collision_shape
-		#$Hitbox/CollisionShape2D2.scale = enemy_data.sprite_scale
-		#$WorldCollisionShape.scale = enemy_data.sprite_scale
-	#else:
-		#print("Warning: No collision shape found for ", enemy_data.enemy_name)
-
-	# Initialize shield settings
-	#shield.enemy_name = enemy_data.enemy_name
-		
-
-var current_tweens = []
-func warping_state_change(speed): # Reverses warping state
+var current_tweens: Array = []
+func warping_state_change(speed) -> void: # Reverses warping state
 		# Stop any ongoing tweens
-	for tween in current_tweens:
+	for tween:Tween in current_tweens:
 		if tween.is_running():
 			tween.stop()
 
@@ -287,15 +234,15 @@ func warping_state_change(speed): # Reverses warping state
 				warpm_r = 1.0
 				shield.call_deferred("fadein_SMOOTH")
 			"SMOOTH":
-				var tween_scale = create_tween() # Ship sprite scale
+				var tween_scale: Object = create_tween() # Ship sprite scale
 				tween_scale.tween_property(self, "scale", Vector2(1, 1), trans_length)
 				current_tweens.append(tween_scale)
 				
-				var tween_v = create_tween() # Max Velocity
+				var tween_v: Object = create_tween() # Max Velocity
 				tween_v.tween_property(self, "warpm_v", 1.0, trans_length*4)
 				current_tweens.append(tween_v)
 				
-				var tween_r = create_tween() # Rotation speed
+				var tween_r: Object = create_tween() # Rotation speed
 				tween_r.tween_property(self, "warpm_r", 1.0, trans_length)
 				current_tweens.append(tween_r)
 				
@@ -311,22 +258,22 @@ func warping_state_change(speed): # Reverses warping state
 				warpm_r = warp_multiplier
 				shield.fadeout_INSTANT()
 			"SMOOTH":
-				var tween_scale = create_tween() # Ship sprite scale
+				var tween_scale: Object = create_tween() # Ship sprite scale
 				tween_scale.tween_property(self, "scale", Vector2(1, 1.70), trans_length)
 				current_tweens.append(tween_scale)
 				
-				var tween_v = create_tween() # Max Velocity
+				var tween_v: Object = create_tween() # Max Velocity
 				tween_v.tween_property(self, "warpm_v", warp_multiplier, trans_length)
 				current_tweens.append(tween_v)
 				
-				var tween_r = create_tween() # Rotation speed
+				var tween_r: Object = create_tween() # Rotation speed
 				tween_r.tween_property(self, "warpm_r", warp_multiplier, trans_length)
 				current_tweens.append(tween_r)
 				
 				shield.fadeout_SMOOTH()
 
 
-func shoot_torpedo():
+func shoot_torpedo() -> void:
 	var t: Area2D = torpedo_scene.instantiate()
 	if energy_current > t.energy_cost and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
 		t.position = muzzle.global_position
@@ -340,11 +287,12 @@ func shoot_torpedo():
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(t)
 
-func energy_drain(energy):
+
+func energy_drain(energy: float) -> void:
 	energy_current -= energy
-	
-	
-func killPlayer():
+
+
+func killPlayer() -> void:
 	if alive:
 		Utility.mainScene.in_galaxy_warp = false
 		%PlayerDieSound.play()
@@ -364,7 +312,8 @@ func killPlayer():
 		await get_tree().create_timer(1.5).timeout
 		SignalBus.playerDied.emit()
 
-func respawn(pos: Vector2):
+
+func respawn(pos: Vector2) -> void:
 	if alive == false:
 		alive = true
 		SignalBus.playerRespawned.emit()
@@ -385,7 +334,7 @@ func respawn(pos: Vector2):
 		shield.damageTime = false
 
 
-func energyTimeout(): #Turns off energy regen for 1 second after firing laser
+func energyTimeout() -> void: #Turns off energy regen for 1 second after firing laser
 	energyTime = true
 	if timer.is_stopped() == false: # If timer is already running, restarts timer fresh
 		timer.stop()
@@ -396,30 +345,32 @@ func energyTimeout(): #Turns off energy regen for 1 second after firing laser
 		timer.start()
 		await timer.timeout
 		energyTime = false
-	
-func warpTimeout(): #Turns off torpedo shooting for half of trans_length after leaving warp
+
+
+func warpTimeout() -> void: #Turns off torpedo shooting for half of trans_length after leaving warp
 	warpTime = true
 	await get_tree().create_timer(trans_length/2).timeout
 	warpTime = false
-	
-func teleport(xCoord: int, yCoord: int): # Uses coords from cheat menu to teleport player
+
+
+func teleport(xCoord: int, yCoord: int) -> void: # Uses coords from cheat menu to teleport player
 	global_position = Vector2(xCoord, yCoord)
 	velocity = Vector2(0, 0)
 	if warping_active == true:
 		warping_state_change("INSTANT")
-	
+
 
 #Audio functions
 # Movement
-func warp_sound_on():
-	var tween: Object = create_tween().set_trans(Tween.TRANS_LINEAR)
+func warp_sound_on() -> void:
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(%ship_idle, "volume_db", -60, 2.0) # Reduces idle sound volume
 	%warp_on.play() 
 
-func warp_sound_off():
+func warp_sound_off() -> void:
 	%warp_off.play()
 
-func idle_sound(active: bool):
+func idle_sound(active: bool) -> void:
 	if warping_active == true:
 		#$ship_idle.stop()
 		pass
@@ -427,14 +378,14 @@ func idle_sound(active: bool):
 		%ship_idle.play()
 	elif %ship_idle.playing == true:
 		if active == false:
-				var tween: Object = create_tween().set_trans(Tween.TRANS_LINEAR)
+				var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 				tween.tween_property(%ship_idle, "volume_db", -25, 2.0)
 		elif active == true:
-				var tween: Object = create_tween().set_trans(Tween.TRANS_LINEAR)
+				var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
-func take_damage(damage:float, hit_pos: Vector2):
+func take_damage(damage:float, hit_pos: Vector2) -> void:
 	if Utility.mainScene.in_galaxy_warp == false:
 		hp_current -= damage # Take damage
 		SignalBus.playerShieldChanged.emit(hp_current) # Update HUD
@@ -443,15 +394,17 @@ func take_damage(damage:float, hit_pos: Vector2):
 		if hp_current <= 0:
 			killPlayer()
 
-func _teleport_shader_toggle(toggle: String):
+
+func _teleport_shader_toggle(toggle: String) -> void:
 	if toggle == "cloak":
 		sprite.material = TELEPORT_FADE_MATERIAL
-		var tween: Object = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		tween.tween_property(sprite.material, "shader_parameter/progress", 1.0, 3.0)
 	elif toggle == "uncloak":
 		sprite.material = TELEPORT_FADE_MATERIAL
-		var tween: Object = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		tween.tween_property(sprite.material, "shader_parameter/progress", 0.0, 4.0)
+
 
 func velocity_check() -> bool:
 	# Check base warp criteria
@@ -465,8 +418,9 @@ func velocity_check() -> bool:
 	if not base_check:
 		return false
 	else: return true
-	
-func galaxy_warp_out():
+
+
+func galaxy_warp_out() -> void:
 	SignalBus.entering_galaxy_warp.emit()
 	Utility.mainScene.in_galaxy_warp = true
 	
@@ -481,7 +435,7 @@ func galaxy_warp_out():
 	await get_tree().create_timer(0.5).timeout # 2 sec
 	
 	# Velocity tween
-	var tween: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(self, "velocity", Vector2(0, -2500).rotated(rotation), 8.0)
 	
 	
@@ -528,17 +482,20 @@ func galaxy_warp_out():
 	tween2.stop()
 	tween3.stop()
 
-func mission_accept(mission_data):
+
+func mission_accept(mission_data:Dictionary) -> void:
 	current_mission = mission_data
 	has_mission = true
 	current_cargo += 1
 
-func mission_finish():
+
+func mission_finish() -> void:
 	current_mission.clear()
 	has_mission = false
 	current_cargo -= 1
 
-func create_damage_indicator(damage:float, shooter:String, projectile:Area2D):
+
+func create_damage_indicator(damage:float, shooter:String, projectile:Area2D) -> void:
 	var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
 	projectile.kill_projectile($hitbox_area.name)
 	$Hitmarkers.add_child(spawn)

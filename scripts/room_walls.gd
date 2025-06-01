@@ -24,7 +24,7 @@ var wall_rotations: Array = [
 	deg_to_rad(90)		# 90 degrees
 ]
 
-func _ready():
+func _ready() -> void:
 	SignalBus.entering_galaxy_warp.connect(toggle_world_borders)
 	SignalBus.entering_new_system.connect(toggle_world_borders)
 	
@@ -61,7 +61,7 @@ func _ready():
 		Utility.mainScene.levelWalls.append(wall)
 		i += 1
 		
-func _on_border_coords_moved():
+func _on_border_coords_moved() -> void:
 	wall_positions = [
 	Vector2(0, GameSettings.borderValue),
 	Vector2(0, -GameSettings.borderValue),
@@ -80,14 +80,14 @@ func _on_border_coords_moved():
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
-func _on_collision_changed(toggle_status):
+func _on_collision_changed(toggle_status: bool) -> void:
 	for i in range(Utility.mainScene.levelWalls.size()):
 		var wall: StaticBody2D = Utility.mainScene.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status
 
 
-func toggle_world_borders():
+func toggle_world_borders() -> void:
 	for bord in get_tree().get_nodes_in_group("borders"):
 		if bord.get_node("WorldBoundary").disabled == false:
 			bord.get_node("WorldBoundary").disabled = true
@@ -98,7 +98,7 @@ func toggle_world_borders():
 		else: 
 			bord.get_node("WorldBoundary").disabled = false
 			bord.modulate = Color(1, 1, 1, 1)
-	for label in get_tree().get_nodes_in_group("Labels"):
+	for label:Label in get_tree().get_nodes_in_group("Labels"):
 		if label.visible:
 			label.visible = false
 		else:

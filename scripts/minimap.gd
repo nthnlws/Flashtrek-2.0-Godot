@@ -1,9 +1,9 @@
 extends Control
 
-@export var enemy_texture = preload("res://assets/textures/Minimap/enemy_mini.png")
-@export var starbase_texture = preload("res://assets/textures/Minimap/starbase_mini.png")
-@export var planet_texture = preload("res://assets/textures/Minimap/planet_mini.png")
-@export var sun_texture = preload("res://assets/textures/Minimap/sun_mini.png")
+@export var enemy_texture := preload("res://assets/textures/Minimap/enemy_mini.png")
+@export var starbase_texture := preload("res://assets/textures/Minimap/starbase_mini.png")
+@export var planet_texture := preload("res://assets/textures/Minimap/planet_mini.png")
+@export var sun_texture := preload("res://assets/textures/Minimap/sun_mini.png")
 
 
 var count:int = 0
@@ -20,10 +20,10 @@ var scale_values: Array = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
 var current_index: int = 3  # Index of the current value in scale_values
 var minimapScale = scale_values[current_index]  # Start at 1.0
 
-
 var grid_scale: Vector2
 
-func _ready():
+
+func _ready() -> void:
 	SignalBus.enemyDied.connect(remove_minimap_object)
 	grid_scale = get_viewport().get_visible_rect().size/2 # Var to center minimap objects
 	
@@ -31,13 +31,13 @@ func _ready():
 	
 	create_minimap_objects()
 	
-func _process(delta):
+func _process(delta: float) -> void:
 	if !player: return
 	
 	if Utility.mainScene.in_galaxy_warp == false:
 		update_minimap()
 	
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("letter_e"):
 		if current_index < scale_values.size() - 1:
 			current_index += 1
@@ -55,7 +55,7 @@ func _input(event):
 		scale_minimap("IN")
 		
 		
-func scale_minimap(direction: String):
+func scale_minimap(direction: String) -> void:
 	var minimap_nodes: Array = get_tree().get_nodes_in_group("minimap_obj")
 	for node in minimap_nodes:
 		if direction == "OUT":
@@ -64,7 +64,7 @@ func scale_minimap(direction: String):
 			node.scale = clamp(Vector2(node.scale.x / 0.9, node.scale.y / 0.9), Vector2(0.5, 0.5), Vector2(1.0, 1.0))
 
 
-func create_minimap_objects():
+func create_minimap_objects() -> void:
 	clear_objects()
 	for enemy in Utility.mainScene.enemies:
 		if enemy:
@@ -106,7 +106,7 @@ func create_minimap_objects():
 			neutralObjects.append(texture_rect)
 			count += 1
 			
-	for sun in Utility.mainScene.suns:
+	for sun:Node2D in Utility.mainScene.suns:
 		if sun:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = sun_texture
@@ -120,10 +120,10 @@ func create_minimap_objects():
 			sunObjects.append(texture_rect)
 			count += 1
 
-func update_minimap():
+func update_minimap() -> void:
 	if enemyObjects:
 		count = 0
-		for character in Utility.mainScene.enemies:
+		for character:CharacterBody2D in Utility.mainScene.enemies:
 			var globalDistance:Vector2 = character.global_position - player.global_position
 			enemyObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			#enemyObjects[count].rotation = character.rotation
@@ -133,7 +133,7 @@ func update_minimap():
 
 	if starbaseObjects:
 		count = 0
-		for starbase in Utility.mainScene.starbase:
+		for starbase:Node2D in Utility.mainScene.starbase:
 			var globalDistance:Vector2 = starbase.global_position - player.global_position
 			starbaseObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
@@ -142,7 +142,7 @@ func update_minimap():
 
 	if neutralObjects:
 		count = 0
-		for planet in Utility.mainScene.planets:
+		for planet:Node2D in Utility.mainScene.planets:
 			var globalDistance:Vector2 = planet.global_position - player.global_position
 			neutralObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
@@ -154,9 +154,9 @@ func update_minimap():
 			sunObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
 
-func remove_minimap_object(enemy):
+func remove_minimap_object(enemy) -> void:
 	if enemy in enemy_to_texture:
-		var texture_rect = enemy_to_texture[enemy]
+		var texture_rect: TextureRect = enemy_to_texture[enemy]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
 		texture_rect.queue_free()  # Free the TextureRect
 		enemyObjects.erase(texture_rect)  # Remove from enemyObjects array
@@ -164,7 +164,7 @@ func remove_minimap_object(enemy):
 	else:
 		print("Enemy not found in minimap objects")
 
-func clear_objects():
+func clear_objects() -> void:
 	var old_objects: Array = enemyObjects + starbaseObjects + neutralObjects + sunObjects
 	
 	for obj in old_objects:
@@ -174,4 +174,3 @@ func clear_objects():
 	starbaseObjects.clear()
 	neutralObjects.clear()
 	sunObjects.clear()
-	

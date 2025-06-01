@@ -6,7 +6,6 @@ enum MenuState { NONE, PAUSE_MENU, GAME_OVER, GALAXY_MAP, SHIP_SELECTION }
 # Variable to keep track of the current menu state
 var current_state: MenuState = MenuState.NONE
 
-@onready var Menus = $".."
 @onready var loading_screen: Control = %LoadingScreen
 
 
@@ -16,7 +15,7 @@ func _ready() -> void:
 	SignalBus.Quad4_clicked.connect(toggle_menu.bindv([$ShipSelectionMenu, MenuState.SHIP_SELECTION]))
 
 # Input handling
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if Utility.mainScene.in_galaxy_warp == false:
 		if Input.is_action_just_pressed("escape"):
 			handle_escape_press()
@@ -26,7 +25,7 @@ func _input(event):
 	
 	
 # Handle Escape key press
-func handle_escape_press():
+func handle_escape_press() -> void:
 	match current_state:
 		MenuState.NONE:
 			# No menus are open, open the pause menu
@@ -45,7 +44,7 @@ func handle_escape_press():
 			toggle_menu($ShipSelectionMenu, MenuState.NONE)
 
 # Handle M key press (for the Galaxy Map)
-func handle_m_press():
+func handle_m_press() -> void:
 	match current_state:
 		MenuState.NONE:
 			# No menus are open, open the Galaxy Map
@@ -56,14 +55,14 @@ func handle_m_press():
 		_:
 			return # Do nothing for all other menu states
 
-func _handle_player_death():
-	var menus = get_children()
+func _handle_player_death() -> void:
+	var menus: Array[Node] = get_children()
 	for menu in menus:
 		if menu.visible:
 			toggle_menu(menu, MenuState.NONE)
 		
 # Toggle the menu visibility and update the state
-func toggle_menu(menu: Control, new_state: MenuState):
+func toggle_menu(menu: Control, new_state: MenuState) -> void:
 	if menu == $ShipSelectionMenu:
 		var starbase: Node2D = Utility.mainScene.starbase[0]
 		if !starbase.check_distance_to_planets():

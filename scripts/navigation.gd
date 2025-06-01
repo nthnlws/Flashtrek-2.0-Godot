@@ -1,13 +1,13 @@
 extends Node
 
-var galaxyMapData = preload("res://assets/data/galaxy_map_data.tres")
+var galaxyMapData: Resource = preload("res://assets/data/galaxy_map_data.tres")
 var player_range: int
 
 var currentSystem: String = "Solarus"
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var all_systems_data: Dictionary = {}
-var systems: Array
+var systems: Array = []
 var planet_names = load_planet_names("res://assets/data/planet_names.txt")
 
 var entry_coords: Vector2
@@ -18,11 +18,11 @@ const SYSTEM_RANGES = {
 	"Romulan": {"range": {"min": 25, "max": 31}},
 }
 
-var fed_min = SYSTEM_RANGES["Federation"]["range"]["min"]
-var fed_max = SYSTEM_RANGES["Federation"]["range"]["max"]
-var kling_min = SYSTEM_RANGES["Klingon"]["range"]["min"]
-var kling_max = SYSTEM_RANGES["Klingon"]["range"]["max"]
-var rom_min = SYSTEM_RANGES["Romulan"]["range"]["min"]
+var fed_min: int = SYSTEM_RANGES["Federation"]["range"]["min"]
+var fed_max: int = SYSTEM_RANGES["Federation"]["range"]["max"]
+var kling_min: int = SYSTEM_RANGES["Klingon"]["range"]["min"]
+var kling_max: int = SYSTEM_RANGES["Klingon"]["range"]["max"]
+var rom_min: int = SYSTEM_RANGES["Romulan"]["range"]["min"]
 
 # Vars for galaxy map navigation
 var targetSystem: String = "" # Currently selected system on galaxy map
@@ -58,14 +58,14 @@ func get_faction_for_system(system) -> int:
 	return -1 # Error status
 		
 func load_planet_names(file_path: String) -> Array:
-	var file = FileAccess.open(file_path, FileAccess.READ)
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
 	if file == null:
 		push_error("Failed to open planet names file at %s" % file_path)
 		return []
 
-	var names = []
+	var names: Array = []
 	while not file.eof_reached():
-		var line = file.get_line().strip_edges()
+		var line: String = file.get_line().strip_edges()
 		if line != "":
 			names.append(line)
 	file.close()
@@ -86,9 +86,9 @@ func get_entry_point(angle_rad: float) -> Vector2:
 	var sin_angle: float = sin(angle_rad)
 
 	# Check right side
-	var t = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	var t:float = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
 	if t > 0:
-		var y = coords.y + t * sin_angle
+		var y:float = coords.y + t * sin_angle
 		if y >= square_min.y and y <= square_max.y and t < best_t:
 			best_t = t
 			best_intersection = Vector2(square_max.x, y)
@@ -96,7 +96,7 @@ func get_entry_point(angle_rad: float) -> Vector2:
 	# Check left side
 	t = (square_min.x - coords.x) / cos_angle if cos_angle != 0 else INF
 	if t > 0:
-		var y = coords.y + t * sin_angle
+		var y:float = coords.y + t * sin_angle
 		if y >= square_min.y and y <= square_max.y and t < best_t:
 			best_t = t
 			best_intersection = Vector2(square_min.x, y)
@@ -104,7 +104,7 @@ func get_entry_point(angle_rad: float) -> Vector2:
 	# Check top side
 	t = (square_max.y - coords.y) / sin_angle if sin_angle != 0 else INF
 	if t > 0:
-		var x = coords.x + t * cos_angle
+		var x:float = coords.x + t * cos_angle
 		if x >= square_min.x and x <= square_max.x and t < best_t:
 			best_t = t
 			best_intersection = Vector2(x, square_max.y)
@@ -112,14 +112,14 @@ func get_entry_point(angle_rad: float) -> Vector2:
 	# Check bottom side
 	t = (square_min.y - coords.y) / sin_angle if sin_angle != 0 else INF
 	if t > 0:
-		var x = coords.x + t * cos_angle
+		var x:float = coords.x + t * cos_angle
 		if x >= square_min.x and x <= square_max.x and t < best_t:
 			best_t = t
 			best_intersection = Vector2(x, square_min.y)
 	
 	return best_intersection.move_toward(Vector2.ZERO, 2000)
 
-func trigger_warp():
+func trigger_warp() -> void:
 	if !warp_range_check(currentSystem, targetSystem, player_range):
 		var error_message: String = "Warp path not valid"
 		SignalBus.changePopMessage.emit(error_message)
@@ -131,7 +131,7 @@ func trigger_warp():
 	else:
 		SignalBus.triggerGalaxyWarp.emit()
 
-func warp_range_check(origin, target, range) -> bool:
+func warp_range_check(origin: String, target: String, range: int) -> bool:
 	var valid_systems = get_reachable_systems(origin, range)
 	return target in valid_systems
 	
@@ -139,15 +139,15 @@ func warp_range_check(origin, target, range) -> bool:
 func get_reachable_systems(start_name: String, max_range: int) -> Array:
 	var visited := {}
 	var queue: Array = []
-	var reachable := []
+	var reachable: Array = []
 
 	queue.append({ "name": start_name, "depth": 0 })
 	visited[start_name] = true
 
 	while not queue.is_empty():
-		var current = queue.pop_front()
+		var current:Dictionary = queue.pop_front()
 		var current_name = current["name"]
-		var depth = current["depth"]
+		var depth: int = current["depth"]
 
 		if depth > 0:
 			reachable.append(current_name)
@@ -155,7 +155,7 @@ func get_reachable_systems(start_name: String, max_range: int) -> Array:
 		if depth >= max_range:
 			continue
 
-		var current_system = galaxyMapData.get_system(current_name)
+		var current_system:SystemData = galaxyMapData.get_system(current_name)
 		if current_system == null:
 			continue
 

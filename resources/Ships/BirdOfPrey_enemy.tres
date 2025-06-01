@@ -1,20 +1,19 @@
-[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://35mhd3dwxeqw"]
+[gd_resource type="Resource" script_class="Vessel" load_steps=5 format=3 uid="uid://35mhd3dwxeqw"]
 
 [ext_resource type="Shape2D" uid="uid://b6t3xhqgvnnmi" path="res://resources/Ships/birdofpreycollision.tres" id="1_bm8io"]
-[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/enemy.gd" id="2_01fob"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="2_6qgd3"]
+[ext_resource type="Script" uid="uid://cdg5xfb175qbo" path="res://scripts/ShipStats.gd" id="2_as246"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="3_54vjk"]
 
 [resource]
-script = ExtResource("2_01fob")
+script = ExtResource("2_as246")
 enemy_type = 82
 class_size = 0
 class_faction = 1
 ship_shield_scale = Vector2(2.2, 1.9)
 default_speed = 60
 rotation_rate = 3.0
-shield_on = true
-rate_of_fire = 1.0
+has_shield = true
 muzzle_pos = Vector2(0, -12)
 RANDOMNESS_ANGLE_DEGREES = 4.0
 detection_radius = 1200

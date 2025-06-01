@@ -13,7 +13,7 @@ var system_array = []
 const HIGH:float = 4
 const LOW:float = 0
 
-func _ready():
+func _ready() -> void:
 	system_array = get_tree().get_nodes_in_group("map_node")
 	
 	# Adds close menu button if galaxy map is not root scene
@@ -28,7 +28,7 @@ func _ready():
 
 	selectCurrentSystem(Navigation.currentSystem)
 
-func _gui_input(event):
+func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
 		# Get the global position of the mouse click
 		var clicked_position: Vector2 = get_screen_position() + event.position
@@ -44,7 +44,7 @@ func _gui_input(event):
 				return
 				
 
-func selectCurrentSystem(system):
+func selectCurrentSystem(system) -> void:
 	# Clear old marker
 	for ind in get_tree().get_nodes_in_group("current_indicator"):
 		ind.queue_free()
@@ -76,7 +76,7 @@ func selectCurrentSystem(system):
 			var current_system_text: String = "Current system: [color=#FFCC66]" + system + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 	
-func update_map_destination(system:Area2D, system_name:String):
+func update_map_destination(system:Area2D, system_name:String) -> void:
 	# Delete old selection indicator
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
@@ -89,17 +89,17 @@ func update_map_destination(system:Area2D, system_name:String):
 	indicator.add_to_group("indicator_mark")
 	system.add_child(indicator)
 	
-	var tween: Object = create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
 	
 
-func clear_mission():
+func clear_mission() -> void:
 	mission_message.bbcode_text = "Current Mission: None"
 	
 	
-func _update_mission(current_mission: Dictionary):
+func _update_mission(current_mission: Dictionary) -> void:
 	if current_mission.is_empty():
 		clear_mission()
 	else:
@@ -129,14 +129,14 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 
 
-func _on_close_menu_button_pressed():
+func _on_close_menu_button_pressed() -> void:
 	Utility.play_click_sound(HIGH)
 	Menus.toggle_menu(self, 0)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 
 
-func _on_warp_button_pressed():
+func _on_warp_button_pressed() -> void:
 	Utility.play_click_sound(HIGH)
 	Navigation.trigger_warp()
 	visible = false
