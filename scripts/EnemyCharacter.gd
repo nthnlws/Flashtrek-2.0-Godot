@@ -5,7 +5,7 @@ var ship_name: String = str(Utility.SHIP_TYPES.Brel_Class)
 var faction: String = str(Utility.FACTION.FEDERATION)
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
-@onready var collision_shape: CollisionShape2D = $hitbox_area/CollisionShape2D  # Reference to the CollisionShape2D node
+@onready var collision_shape: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
 @onready var shield: Node = $enemyShield
 @onready var muzzle: Node2D = $Muzzle
 @onready var animation: AnimatedSprite2D = $hull_explosion
@@ -48,6 +48,8 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
+	SignalBus.enemy_type_changed.connect(_sync_stats_to_resource)
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
 	agro_box.body_exited.connect(_on_agro_box_body_exited)
 	
@@ -69,10 +71,19 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
 	faction = ship_data.FACTION
 	shield.scale = Vector2(ship_data.SHIELD_SCALE_X, ship_data.SHIELD_SCALE_Y)
+	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
+	
+	var rawColl = ship_data.COLLISION_POLY
+	var parsed_array = JSON.parse_string(rawColl)
+	var PV2Array = PackedVector2Array()
+	for pair in parsed_array:
+		PV2Array.append(Vector2(pair[0], pair[1]))
+	PV2Array = center_polygon(PV2Array)
+	collision_shape.polygon = PV2Array
 
 
 func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
-	var ship_stats:Dictionary = Utility.SHIP_STATS.values()[ship]
+	var ship_stats:Dictionary = Utility.ENEMY_SHIP_STATS.values()[ship]
 	
 	move_speed = ship_stats.SPEED
 	shoot_randomness = ship_stats.SHOOT_RANDOM_DEGREES
@@ -81,6 +92,38 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
 	shield.sp_max = ship_stats.MAX_SHIELD
 	agro_area.shape.radius = ship_stats.DETECTION_RADIUS
 	fire_rate = ship_stats.SHOOT_SPEED
+
+
+func center_polygon(points: Array) -> PackedVector2Array:
+	var min_x = points[0].x
+	var max_x = points[0].x
+	var min_y = points[0].y
+	var max_y = points[0].y
+
+	# Find bounds
+	for p in points:
+		min_x = min(min_x, p.x)
+		max_x = max(max_x, p.x)
+		min_y = min(min_y, p.y)
+		max_y = max(max_y, p.y)
+
+	var center_x = (min_x + max_x) / 2.0
+	var center_y = (min_y + max_y) / 2.0
+
+	var adjusted_points = []
+	for p in points:
+		var centered = Vector2(p.x - center_x, p.y - center_y)
+		var shifted = centered + Vector2(1, -4)
+		adjusted_points.append(shifted)
+
+	return PackedVector2Array(adjusted_points)
+
+
+func _set_ship_scale(new_scale: Vector2) -> void:
+	shield.scale *= new_scale
+	sprite.scale *= new_scale
+	$hitbox_area.scale *= new_scale
+	muzzle.position.y *= new_scale.y
 
 
 func _physics_process(delta: float) -> void:

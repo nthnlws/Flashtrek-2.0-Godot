@@ -15,6 +15,7 @@ var warpTime:bool = false
 var energy_regen_speed:int = 10
 
 var trans_length:float = 0.8
+var base_scale:Vector2 = Vector2(1.0, 1.0)
 var direction:Vector2 = Vector2(0, 0)
 var warp_multiplier:float = 0.45
 var warpm_r:float = 1.0
@@ -23,6 +24,7 @@ var warpm_v:float = 1.0
 var has_mission: bool = false
 var current_mission: Dictionary = {}
 var player_name: String = "USS Enterprise"
+var faction: String
 var animation_scale:Vector2 = Vector2(1, 1)
 
 const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
@@ -37,16 +39,7 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var animation:AnimationPlayer = $AnimationPlayer
 @onready var camera:Camera2D = $Camera2D
 
-#TEMPORARY RESOURCE LINKS
-@export var BIRD_OF_PREY_ENEMY: Resource
-@export var JEM_HADAR_ENEMY: Resource
-@export var ENTERPRISE_TNG_ENEMY: Resource
-@export var MONAVEEN_ENEMY: Resource
-@export var CALIFORNIA_ENEMY: Resource
-@export var KAPLAN_ENEMY: Resource
 
-@export var SHIP_SPRITES: Texture = preload("res://assets/textures/ships/ship_sprites.png")
-@export var enemy_data: Vessel # Default resource file for stats and sprite
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
 
@@ -68,7 +61,10 @@ var acceleration:int:
 
 
 # Health variables
-@export var base_max_HP: int = 150
+@export var base_max_HP: int = 150:
+	set(value):
+		base_max_HP = value
+		SignalBus.playerMaxHealthChanged.emit(value)
 var max_HP:int:
 	get:
 		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
@@ -92,20 +88,16 @@ var energy_current:float = max_energy:
 		SignalBus.playerEnergyChanged.emit(energy_current)
 	
 
-#@onready var base_weapon_drain:float = torpedo_scene.instantiate().energy_drain
-#var weapon_drain:float:
-	#get:
-		#return PlayerUpgrades.EnergyDrainAdd + (base_weapon_drain * PlayerUpgrades.EnergyDrainMult)
-
 var base_rate_of_fire:float = 0.2
+var shoot_rate_mult:float = 1.0
 var rate_of_fire:float:
 	get:
-		return PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult)
+		return (PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult))
 		
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
 	get:
-		return enemy_data.max_cargo_size + PlayerUpgrades.CargoAdd
+		return Utility.SHIP_DATA.CARGO_SIZE + PlayerUpgrades.CargoAdd
 var current_cargo:int = 0
 
 @export var warp_range: int = 2
@@ -121,10 +113,12 @@ func set_player_direction(joystick_direction) -> void:
 func _ready() -> void:
 	Utility.mainScene.player = self
 	Navigation.player_range = warp_range
+	
 	# Signal setup
+	SignalBus.player_type_changed.connect(_sync_data_to_resource)
+	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
 	SignalBus.missionAccepted.connect(mission_accept)
 	SignalBus.finishMission.connect(mission_finish)
-	#SignalBus.enemy_type_changed.connect(change_enemy_resource)
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.playerDied.connect(mission_finish)
 	SignalBus.teleport_player.connect(teleport)
@@ -136,8 +130,71 @@ func _ready() -> void:
 	
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
-	#%PlayerSprite.texture.region = Utility.ship_sprites["La Sirena"]
-	#sync_to_resource()
+	_sync_data_to_resource(Utility.SHIP_TYPES.Risian_Corvette)
+	_sync_stats_to_resource(Utility.SHIP_TYPES.Risian_Corvette)
+	
+	_set_ship_scale(Vector2(1.5, 1.5))
+
+func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
+	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
+	
+	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
+	faction = ship_data.FACTION
+	shield.scale = Vector2(ship_data.SHIELD_SCALE_X, ship_data.SHIELD_SCALE_Y) * base_scale
+	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
+	muzzle.position.y = ship_data.MUZZLE_POS * base_scale.y
+	
+	var rawColl = ship_data.COLLISION_POLY
+	var parsed_array = JSON.parse_string(rawColl)
+	var PV2Array = PackedVector2Array()
+	for pair in parsed_array:
+		PV2Array.append(Vector2(pair[0], pair[1]))
+	PV2Array = center_polygon(PV2Array)
+	$hitbox_area/CollisionPolygon2D.polygon = PV2Array
+	$WorldCollisionShape.polygon = PV2Array
+
+func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
+	var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[ship]
+	
+	base_max_speed = ship_stats.SPEED
+	base_rotation_speed = ship_stats.ROTATION_SPEED
+	base_max_HP = ship_stats.MAX_HP
+	shield.base_max_SP = ship_stats.MAX_SHIELD
+	shoot_rate_mult = ship_stats.SHOOT_MULTIPLIER
+	base_cargo_size = ship_stats.CARGO_SIZE
+
+func center_polygon(points: Array) -> PackedVector2Array:
+	var min_x = points[0].x
+	var max_x = points[0].x
+	var min_y = points[0].y
+	var max_y = points[0].y
+
+	# Find bounds
+	for p in points:
+		min_x = min(min_x, p.x)
+		max_x = max(max_x, p.x)
+		min_y = min(min_y, p.y)
+		max_y = max(max_y, p.y)
+
+	var center_x = (min_x + max_x) / 2.0
+	var center_y = (min_y + max_y) / 2.0
+
+	var adjusted_points = []
+	for p in points:
+		var centered = Vector2(p.x - center_x, p.y - center_y)
+		var shifted = centered + Vector2(0, 0)
+		adjusted_points.append(shifted)
+
+	return PackedVector2Array(adjusted_points)
+
+
+func _set_ship_scale(new_scale: Vector2) -> void:
+	base_scale = new_scale
+	shield.scale *= new_scale
+	sprite.scale *= new_scale
+	$hitbox_area.scale *= new_scale
+	$WorldCollisionShape.scale *= new_scale
+	muzzle.position.y *= new_scale.y
 
 
 func _process(delta: float) -> void:
@@ -229,13 +286,13 @@ func warping_state_change(speed) -> void: # Reverses warping state
 		warping_active = false
 		match speed:
 			"INSTANT":
-				scale = Vector2(1, 1)
+				scale = base_scale
 				warpm_v = 1.0
 				warpm_r = 1.0
 				shield.call_deferred("fadein_SMOOTH")
 			"SMOOTH":
 				var tween_scale: Object = create_tween() # Ship sprite scale
-				tween_scale.tween_property(self, "scale", Vector2(1, 1), trans_length)
+				tween_scale.tween_property(self, "scale", base_scale, trans_length)
 				current_tweens.append(tween_scale)
 				
 				var tween_v: Object = create_tween() # Max Velocity
@@ -253,13 +310,13 @@ func warping_state_change(speed) -> void: # Reverses warping state
 		warp_sound_on()
 		match speed:
 			"INSTANT":
-				scale = Vector2(1, 1.70)
+				scale = base_scale * Vector2(1, 1.70)
 				warpm_v = warp_multiplier
 				warpm_r = warp_multiplier
 				shield.fadeout_INSTANT()
 			"SMOOTH":
 				var tween_scale: Object = create_tween() # Ship sprite scale
-				tween_scale.tween_property(self, "scale", Vector2(1, 1.70), trans_length)
+				tween_scale.tween_property(self, "scale", base_scale * Vector2(1, 1.70), trans_length)
 				current_tweens.append(tween_scale)
 				
 				var tween_v: Object = create_tween() # Max Velocity
@@ -325,7 +382,7 @@ func respawn(pos: Vector2) -> void:
 		# Restores all HUD values to max
 		hp_current = max_HP #Resets HP to max
 		energy_current = max_energy #Resets energy
-		shield.sp_current = shield.max_SP #Resets Shield
+		shield.sp_current = shield.base_max_SP #Resets Shield
 	
 		rotation = 0 #Sets rotation to north
 		
@@ -367,8 +424,10 @@ func warp_sound_on() -> void:
 	tween.tween_property(%ship_idle, "volume_db", -60, 2.0) # Reduces idle sound volume
 	%warp_on.play() 
 
+
 func warp_sound_off() -> void:
 	%warp_off.play()
+
 
 func idle_sound(active: bool) -> void:
 	if warping_active == true:

@@ -1,14 +1,14 @@
 extends Shield
 
 # Player shield health variables
-@export var base_max_SP:int = 150
-var max_SP:int = 150:
-	get:
-		return PlayerUpgrades.ShieldAdd + (base_max_SP * PlayerUpgrades.ShieldMult)
+@export var base_max_SP:int = 150:
+	set(value):
+		base_max_SP = value
+		SignalBus.playerMaxShieldChanged.emit(value)
 
 
 func _process(delta: float) -> void:
-	if sp_current <= max_SP and damageTime == false:
+	if sp_current <= base_max_SP and damageTime == false:
 		regen_shield(delta)
 		SignalBus.playerShieldChanged.emit(sp_current)
 	if get_parent().warping_active == true and shieldActive == true:

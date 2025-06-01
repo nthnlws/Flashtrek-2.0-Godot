@@ -99,7 +99,8 @@ enum SHIP_TYPES {
 }
 
 var SHIP_DATA: Dictionary # Loaded from ShipData.JSON file
-var SHIP_STATS: Dictionary # Loaded from ShipStats.JSON file
+var PLAYER_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
+var ENEMY_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
 
 var is_initial_load: bool = true
 var mainScene:Node = null # Set by main scene on _init()
@@ -120,8 +121,8 @@ const neut_cyan: String = "[color=#78D9C2]"
 const DAMAGE_MARKER = preload("res://scenes/damage_marker.tscn")
 
 func _init() -> void:
-	SHIP_DATA = load_JSON_ship_data()
-	SHIP_STATS = load_JSON_ship_stats()
+	load_JSON_ship_data()
+	
 func _ready() -> void:
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
@@ -188,7 +189,7 @@ func createDamageIndicator(damage: float, color: String, position: Vector2) -> v
 	text.bbcode_text = string
 
 
-func load_JSON_ship_data() -> Dictionary:
+func load_JSON_ship_data() -> void:
 	var JSON_path:String = "res://assets/data/ShipData.json"
 	var file_string:String = FileAccess.get_file_as_string(JSON_path)
 	var JSON_ship_data: Dictionary
@@ -200,18 +201,6 @@ func load_JSON_ship_data() -> Dictionary:
 	if JSON_ship_data == null:
 		push_error("ShipData JSON file parsing failed at " + JSON_path)
 	
-	return JSON_ship_data
-
-func load_JSON_ship_stats() -> Dictionary:
-	var JSON_path:String = "res://assets/data/ShipStats.json"
-	var file_string:String = FileAccess.get_file_as_string(JSON_path)
-	var JSON_ship_stats: Dictionary
-	if file_string != null:
-		JSON_ship_stats = JSON.parse_string(file_string)
-	else:
-		push_warning("JSON loading from ShipStats failed at " + JSON_path)
-	
-	if JSON_ship_stats == null:
-		push_error("ShipStats JSON file parsing failed at " + JSON_path)
-	
-	return JSON_ship_stats
+	SHIP_DATA = JSON_ship_data.get("ShipData")
+	PLAYER_SHIP_STATS = JSON_ship_data.get("PlayerStats")
+	ENEMY_SHIP_STATS = JSON_ship_data.get("EnemyStats")

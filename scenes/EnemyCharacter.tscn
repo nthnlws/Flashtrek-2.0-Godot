@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bmw7a0sfnh82u"]
+[gd_scene load_steps=22 format=3 uid="uid://bmw7a0sfnh82u"]
 
 [ext_resource type="Script" uid="uid://c5qx80nhgkt0p" path="res://scripts/EnemyCharacter.gd" id="1_vetd3"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="3_bqw1s"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/enemyShield.tscn" id="3_sf3xf"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="5_gcgnf"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_5l27p"]
-[ext_resource type="Shape2D" uid="uid://dvnttn848m471" path="res://resources/birdofpreycollision.tres" id="8_8v3kn"]
 [ext_resource type="Texture2D" uid="uid://duvs6uixemkbt" path="res://assets/textures/ships/hull_explosion.png" id="11_h7mpe"]
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="14_06kab"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="15_hw27f"]
@@ -113,8 +112,7 @@ region_rect = Rect2(144, 144, 144, 144)
 collision_layer = 128
 collision_mask = 256
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_area"]
-shape = ExtResource("8_8v3kn")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area"]
 
 [node name="enemyShield" parent="." instance=ExtResource("3_sf3xf")]
 scale = Vector2(2, 1.6)

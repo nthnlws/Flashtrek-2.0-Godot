@@ -15,6 +15,12 @@ signal updateScore(score)
 signal playerDied
 signal playerRespawned
 
+signal playerHealthChanged(hp_current)
+signal playerMaxHealthChanged(hp_max)
+signal playerMaxShieldChanged(sp_max)
+signal playerShieldChanged(sp_current)
+signal playerEnergyChanged(energy_current)
+
 #World navigation
 signal galaxy_map_clicked(system_clicked)
 signal triggerGalaxyWarp
@@ -33,10 +39,6 @@ signal HUDchanged(scale)
 
 signal joystickMoved(playerDirection)
 
-signal playerHealthChanged(hp_current)
-signal playerShieldChanged(sp_current)
-signal playerEnergyChanged(energy_current)
-
 # Menus
 signal pause_menu_clicked
 
@@ -47,4 +49,5 @@ signal collisionChanged
 signal teleport_player(xCoord, yCoord)
 
 signal enemy_shield_cheat_state(shield_state)
-signal enemy_type_changed(ENEMY_TYPE)
+signal enemy_type_changed(ENEMY_TYPE: Utility.SHIP_TYPES)
+signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES)

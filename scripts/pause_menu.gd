@@ -1,6 +1,6 @@
 extends Control
 
-@onready var _bus := AudioServer.get_bus_index("Master")
+@onready var _bus: int = AudioServer.get_bus_index("Master")
 @onready var anim: AnimationPlayer = $"../../transition_overlay/AnimationPlayer"
 @onready var color_rect: ColorRect = $"../../transition_overlay/FadeAnimation"
 @onready var Menus: CanvasLayer = $".."
@@ -40,17 +40,18 @@ func _ready() -> void:
 
 
 func populate_type_button() -> void:
-	var type_list: OptionButton = %TypeSetting
-	type_list.clear()
+	var EnemyTypeList: OptionButton = %EnemyTypeList
+	var PlayerTypeList: OptionButton = %PlayerTypeList
 	for ship in Utility.SHIP_TYPES.keys():
-		type_list.add_item(ship)
-	
+		EnemyTypeList.add_item(ship)
+		PlayerTypeList.add_item(ship)
 	
 #Header buttons
 func _on_close_menu_button_pressed() -> void:
 	Utility.play_click_sound(4)
 	Menus.toggle_menu(self, 0)
-	
+
+
 func _on_main_menu_button_pressed() -> void:
 	Utility.play_click_sound(4)
 	color_rect.z_index = 2
@@ -187,14 +188,16 @@ func _on_scale_setting_item_selected(index: int) -> void:
 		5: # 50% HUD Scale
 			SignalBus.HUDchanged.emit(0.5)
 
-func _on_type_setting_item_selected(index: int) -> void:
-	var enemy_types = game_data.SHIP_TYPES.values()
-	if index >= 0 and index < enemy_types.size():
-		SignalBus.enemy_type_changed.emit(enemy_types[index])
-	else:
-		print("Error: Invalid enemy type index selected:", index)
-	
-	
+func _on_enemy_type_changed(index:int) -> void:
+	SignalBus.enemy_type_changed.emit(index)
+	Menus.toggle_menu(self, 0)
+
+
+func _on_player_type_changed(index:int) -> void:
+	SignalBus.player_type_changed.emit(index)
+	Menus.toggle_menu(self, 0)
+
+
 # Called functions
 func teleportPlayer() -> void:
 	#GameSettings.teleportCoords = Vector2(xCoord, yCoord)

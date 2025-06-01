@@ -8,6 +8,15 @@ extends Control
 @onready var comms_ui: Control = $Comms_UI
 @onready var message_ui: Control = $message_UI
 
+@onready var health_bar: ProgressBar = %HealthBar
+@onready var shield_bar: ProgressBar = %ShieldBar
+@onready var energy_bar: ProgressBar = %EnergyBar
+
+@onready var variable: Label = %Variable
+@onready var fps: Label = %FPS
+@onready var coords: Label = %Coords
+
+
 var shieldActive:bool = false
 
 @onready var score_label: Label = %Score
@@ -18,6 +27,8 @@ func _ready() -> void:
 	# Signal connections
 	SignalBus.updateScore.connect(updateScore)
 	SignalBus.playerHealthChanged.connect(_on_player_health_changed)
+	SignalBus.playerMaxHealthChanged.connect(_on_player_max_health_changed)
+	SignalBus.playerMaxShieldChanged.connect(_on_player_max_shield_changed)
 	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
 	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
 	
@@ -25,33 +36,43 @@ func _ready() -> void:
 
 	set_bar_maxes() # Initializes bar values
 
+
 func _process(delta: float) -> void:
-	%Variable.text = "Zoom: " + str(snapped(camera.zoom,Vector2(0.01, 0.01)))
-	%Coords.text = str(round(player.global_position))
+	variable.text = "Zoom: " + str(snapped(camera.zoom,Vector2(0.01, 0.01)))
+	coords.text = str(round(player.global_position))
 	
-	%FPS.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
+	fps.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
 
 
 func _on_player_health_changed(hp_current: float) -> void:
-	%HealthBar.value = hp_current
-	
+	health_bar.value = hp_current
+
+
+func _on_player_max_health_changed(hp_max:float) -> void:
+	health_bar.max_value = hp_max
+
+
 func _on_player_shield_changed(sp_current: float) -> void:
-	%ShieldBar.value = sp_current
+	shield_bar.value = sp_current
+
+func _on_player_max_shield_changed(sp_max:float) -> void:
+	shield_bar.max_value = sp_max
 
 func _on_player_energy_changed(energy_current: float) -> void:
-	%EnergyBar.value = energy_current
-		
+	energy_bar.value = energy_current
+
+
 func _on_shield_ready() -> void:
 	shieldActive = true
 
 
 func set_bar_maxes() -> void:
-	%HealthBar.max_value = player.max_HP
-	%ShieldBar.max_value = playerShield.base_max_SP
-	%EnergyBar.max_value = player.max_energy
-	%HealthBar.value = player.hp_current
-	%ShieldBar.value = playerShield.sp_current
-	%EnergyBar.value = player.energy_current
+	health_bar.max_value = player.max_HP
+	shield_bar.max_value = playerShield.base_max_SP
+	energy_bar.max_value = player.max_energy
+	health_bar.value = player.hp_current
+	shield_bar.value = playerShield.sp_current
+	energy_bar.value = player.energy_current
 
 
 func _on_texture_rect_gui_input(event: InputEvent) -> void:
@@ -59,10 +80,12 @@ func _on_texture_rect_gui_input(event: InputEvent) -> void:
 		Utility.play_click_sound(4)
 		SignalBus.pause_menu_clicked.emit()
 
+
 func close_menus() -> void:
 	comms_ui.close_comms()
 	missions.close_menu()
 	message_ui.close_pop_menu()
+
 
 func updateScore(reward:int) -> void:
 	current_score += reward

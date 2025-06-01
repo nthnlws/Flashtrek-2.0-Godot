@@ -1,22 +1,15 @@
-[gd_scene load_steps=51 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=44 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/player.gd" id="1_w51pe"]
-[ext_resource type="Resource" uid="uid://35mhd3dwxeqw" path="res://resources/Ships/BirdOfPrey_enemy.tres" id="2_4ix78"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/damage_marker.tscn" id="2_7odc1"]
 [ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/Camera2D.gd" id="3_fns5h"]
-[ext_resource type="Resource" uid="uid://d24cbe3l6hkfj" path="res://resources/Ships/Jem_Hadar_enemy.tres" id="3_i75xj"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/torpedo.tscn" id="3_newiu"]
-[ext_resource type="Resource" uid="uid://dbyrwmhbfunib" path="res://resources/Ships/enterpriseTNG_enemy.tres" id="4_bgcog"]
 [ext_resource type="Texture2D" uid="uid://cukwfy1ikknpy" path="res://assets/textures/ships/warpparticle.png" id="4_mse3f"]
-[ext_resource type="Resource" uid="uid://cxss5g0oh32uc" path="res://resources/Ships/Monaveen_enemy.tres" id="5_62fuk"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
-[ext_resource type="Resource" uid="uid://breh2tjl0qrqy" path="res://resources/Ships/California_class_enemy.tres" id="6_eu8n3"]
 [ext_resource type="AudioStream" uid="uid://n4xp0acsyiaj" path="res://assets/audio/warp_on.ogg" id="6_ihea4"]
-[ext_resource type="Resource" uid="uid://bw30k7ywbsi2k" path="res://resources/Ships/Kaplan_F17_enemy.tres" id="7_0rxlr"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
-[ext_resource type="Shape2D" uid="uid://8daa3d42e1af" path="res://resources/Ships/Kaplan_F17_collision.tres" id="7_b5xnp"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
@@ -206,18 +199,12 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(1.25, 1.25)
 collision_layer = 2
 collision_mask = 11
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
-BIRD_OF_PREY_ENEMY = ExtResource("2_4ix78")
-JEM_HADAR_ENEMY = ExtResource("3_i75xj")
-ENTERPRISE_TNG_ENEMY = ExtResource("4_bgcog")
-MONAVEEN_ENEMY = ExtResource("5_62fuk")
-CALIFORNIA_ENEMY = ExtResource("6_eu8n3")
-KAPLAN_ENEMY = ExtResource("7_0rxlr")
-enemy_data = ExtResource("7_0rxlr")
 damage_indicator = ExtResource("2_7odc1")
 torpedo_scene = ExtResource("3_newiu")
 base_max_speed = 600
@@ -243,6 +230,7 @@ script = ExtResource("3_fns5h")
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_6yxh3")
+position = Vector2(1, -4)
 texture = SubResource("AtlasTexture_wg5l6")
 
 [node name="Laser" parent="." instance=ExtResource("15_ke2ow")]
@@ -251,15 +239,12 @@ show_behind_parent = true
 [node name="regen_timer" type="Timer" parent="."]
 
 [node name="hitbox_area" type="Area2D" parent="." groups=["player"]]
-visible = false
 collision_layer = 64
 collision_mask = 512
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="hitbox_area" groups=["player"]]
-shape = ExtResource("7_b5xnp")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area" groups=["player"]]
 
-[node name="WorldCollisionShape" type="CollisionShape2D" parent="." groups=["player"]]
-shape = ExtResource("7_b5xnp")
+[node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["player"]]
 
 [node name="warp_anim" type="AnimatedSprite2D" parent="."]
 visible = false
