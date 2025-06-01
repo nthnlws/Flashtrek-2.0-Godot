@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const FLEET_DATA := preload("res://assets/data/fleet_data.tres") as FleetData
 var ship_name: String = str(Utility.SHIP_TYPES.Brel_Class)
-var faction: String = str(Utility.FACTION.FEDERATION)
+var faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
 @onready var collision_shape: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node

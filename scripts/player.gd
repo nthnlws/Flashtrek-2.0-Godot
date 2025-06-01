@@ -24,7 +24,7 @@ var warpm_v:float = 1.0
 var has_mission: bool = false
 var current_mission: Dictionary = {}
 var player_name: String = "USS Enterprise"
-var faction: String
+var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 var animation_scale:Vector2 = Vector2(1, 1)
 
 const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")

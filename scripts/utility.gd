@@ -98,6 +98,7 @@ enum SHIP_TYPES {
 	Nebula_Class,
 }
 
+#Accessed by Utility.SHIP_DATA.values()[Utility.SHIP_TYPES.ship_name]
 var SHIP_DATA: Dictionary # Loaded from ShipData.JSON file
 var PLAYER_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
 var ENEMY_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file

@@ -35,7 +35,7 @@ void fragment() {
         for (int i = 0; i < m; i++) {
             // This base value determines the particle's raw progress before wrapping and scaling
             float base_progress_value = 5. + float(n)/float(j)*10. + TIME*speed + 8. + float(i)*scale*stertch;
-            
+
             float z_mod_cycle = mod(base_progress_value, modTime); // Progress within the current 0 to modTime cycle
             float z = z_mod_cycle * scale; // Actual z used for drawing
 
@@ -58,7 +58,7 @@ void fragment() {
                     // It clamps at 1, so once it reaches color_b, it stays there for the rest of its cycle.
                     // A higher gradient_speed makes the transition complete earlier in the cycle.
                     float mix_factor = clamp(normalized_progress * gradient_speed, 0.0, 1.0);
-                    
+
                     // Alternative: Smoother transition
                     // float transition_endpoint = 1.0 / max(gradient_speed, 0.01); // Avoid division by zero
                     // float mix_factor = smoothstep(0.0, clamp(transition_endpoint, 0.001, 1.0 / 0.01), normalized_progress);
@@ -66,8 +66,8 @@ void fragment() {
 
                     vec3 mixed_rgb = mix(color_a.rgb, color_b.rgb, mix_factor);
                     // You can also mix alpha if color_a and color_b have different alphas
-                    float mixed_alpha = mix(color_a.a, color_b.a, mix_factor); 
-                    
+                    float mixed_alpha = mix(color_a.a, color_b.a, mix_factor);
+
                     L = vec4(mixed_rgb * l, mixed_alpha * l);
                 }
                 COLOR = min(COLOR + L, vec4(1.));

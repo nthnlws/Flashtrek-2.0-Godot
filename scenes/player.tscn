@@ -65,7 +65,8 @@ shader_parameter/color = Color(0, 1.02, 1.2, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wg5l6"]
 atlas = ExtResource("6_54us1")
-region = Rect2(0, 288, 48, 48)
+region = Rect2(96, 144, 48, 48)
+filter_clip = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rry4s"]
 atlas = ExtResource("11_epgvs")
