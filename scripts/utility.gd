@@ -1,6 +1,8 @@
 extends Node
 class_name game_data
 
+var player_name: String = "USS Enterprise"
+
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
 
 enum SHIP_TYPES {

@@ -11,7 +11,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_pksmb")
-font_size = 75
+font_size = 50
 
 [sub_resource type="Animation" id="Animation_8j3nr"]
 length = 0.001
@@ -157,157 +157,221 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_k8b36")
 
-[node name="TitleScreen" type="CanvasLayer" parent="."]
+[node name="Multiplayer_popup" type="ColorRect" parent="."]
 unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(200, 80)
+offset_left = 239.0
+offset_top = 247.0
+offset_right = 439.0
+offset_bottom = 327.0
+mouse_filter = 1
+color = Color(0.152941, 0.152941, 0.152941, 0.619608)
 
-[node name="MarginContainer" type="MarginContainer" parent="TitleScreen"]
-z_as_relative = false
+[node name="MarginContainer" type="MarginContainer" parent="Multiplayer_popup"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 411.0
-offset_bottom = 231.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.7, 0.7)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Multiplayer_popup/MarginContainer"]
 layout_mode = 2
 
-[node name="LeftContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(320, 0)
+[node name="Label" type="Label" parent="Multiplayer_popup/MarginContainer/VBoxContainer"]
 layout_mode = 2
-mouse_filter = 2
+size_flags_vertical = 0
+text = "Enter IP Address:"
+horizontal_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Multiplayer_popup/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_bottom = 300
 
-[node name="SPcontainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="SPbutton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/SPcontainer"]
-custom_minimum_size = Vector2(237, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Single Player"
-
-[node name="MarginContainer2" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/margin_top = 5
-
-[node name="MPcontainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="MarginContainer2" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/MPcontainer"]
+[node name="IPTextEdit" type="LineEdit" parent="Multiplayer_popup/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 8
+placeholder_text = "192.0.0.1:6007"
+max_length = 20
 
-[node name="HostMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/MPcontainer"]
-custom_minimum_size = Vector2(117, 0)
+[node name="IP_check_button" type="Button" parent="Multiplayer_popup/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Host MP"
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "✔"
 
-[node name="JoinMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/MPcontainer"]
-custom_minimum_size = Vector2(117, 0)
+[node name="TitleScreen" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TitleScreen"]
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer"]
 layout_mode = 2
-text = "Join MP"
 
-[node name="MarginContainer3" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/margin_top = 5
-
-[node name="SettingsContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="SettingsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/SettingsContainer"]
-custom_minimum_size = Vector2(237, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Settings"
-
-[node name="MarginContainer4" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/margin_top = 5
-
-[node name="CheatsContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="CheatsMenu" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/CheatsContainer"]
-custom_minimum_size = Vector2(237, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Cheats"
-
-[node name="MarginContainer6" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/margin_top = 5
-
-[node name="CreditsContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="CreditsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/CreditsContainer"]
-custom_minimum_size = Vector2(237, 0)
-layout_mode = 2
-text = "Credits"
-
-[node name="MarginContainer7" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/margin_top = 5
-
-[node name="ExitContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="ExitButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/ExitContainer"]
-custom_minimum_size = Vector2(237, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Exit Game"
-
-[node name="Copyright" type="Label" parent="TitleScreen/MarginContainer/HBoxContainer/LeftContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 10
-text = "© n8thegreat 2024"
-vertical_alignment = 2
-
-[node name="MiddleContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer"]
+[node name="TitleContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer"]
 layout_mode = 2
-theme_override_constants/margin_bottom = 100
 
-[node name="GameLogo" type="Label" parent="TitleScreen/MarginContainer/HBoxContainer/MiddleContainer"]
+[node name="GameLogo" type="Label" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "FLASHTREK"
 label_settings = SubResource("LabelSettings_fa2ty")
 
-[node name="RightContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(320, 0)
+[node name="MarginContainer" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer"]
 layout_mode = 2
-mouse_filter = 2
+theme_override_constants/margin_top = 2
 
-[node name="Version" type="Label" parent="TitleScreen/MarginContainer/HBoxContainer/RightContainer"]
+[node name="Username" type="ColorRect" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.152941, 0.152941, 0.152941, 0.619608)
+
+[node name="MarginContainer" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Name:"
+horizontal_alignment = 1
+
+[node name="ship_name_edit" type="LineEdit" parent="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 15
+placeholder_text = "USS Enterprise"
+max_length = 25
+
+[node name="MainContainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftSpacer" type="MarginContainer" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="LeftContainer" type="VBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="SPbutton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 13
+text = "Single Player"
+
+[node name="MPcontainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+layout_mode = 2
+
+[node name="HostMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Host MP"
+
+[node name="JoinMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Join MP"
+
+[node name="SettingsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Settings"
+
+[node name="CheatsMenu" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Cheats"
+
+[node name="CreditsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Credits"
+
+[node name="ExitButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Exit Game"
+
+[node name="BottomContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -470.0
+offset_top = -22.0
+offset_right = 470.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="Copyright" type="Label" parent="BottomContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 10
+theme_override_font_sizes/font_size = 15
+text = "© n8thegreat 2024"
+vertical_alignment = 1
+
+[node name="Version" type="Label" parent="BottomContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 15
 text = "V 0.0.07"
-vertical_alignment = 2
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Credits" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -1270,72 +1334,6 @@ value = 1.0
 tick_count = 6
 ticks_on_borders = true
 
-[node name="MainMenuBackground" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("10_hux8j")
-volume_db = -25.0
-
-[node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("8_i7hig")
-volume_db = -10.0
-
-[node name="Multiplayer_popup" type="CanvasLayer" parent="."]
-unique_name_in_owner = true
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="Multiplayer_popup"]
-custom_minimum_size = Vector2(200, 80)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 102.0
-offset_top = -75.0
-offset_right = 302.0
-offset_bottom = 5.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-color = Color(0.152941, 0.152941, 0.152941, 0.619608)
-
-[node name="MarginContainer" type="MarginContainer" parent="Multiplayer_popup/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Multiplayer_popup/ColorRect/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Enter IP Address:"
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="IPTextEdit" type="LineEdit" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 8
-text = "192.0.0.1:6007"
-
-[node name="IP_check_button" type="Button" parent="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 1, 0, 1)
-text = "✔"
-
 [node name="Transition_layer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 2
@@ -1356,14 +1354,26 @@ libraries = {
 &"": SubResource("AnimationLibrary_eo4tg")
 }
 
+[node name="MainMenuBackground" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_hux8j")
+volume_db = -25.0
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_i7hig")
+volume_db = -10.0
+
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/SPcontainer/SPbutton" to="." method="_on_sp_button_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/MPcontainer/HostMP" to="." method="_on_host_mp_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/MPcontainer/JoinMP" to="." method="_on_join_mp_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/SettingsContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/CheatsContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/CreditsContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/LeftContainer/ExitContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="focus_entered" from="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username" to="." method="_on_username_focus_entered"]
+[connection signal="text_changed" from="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username/MarginContainer/HBoxContainer/ship_name_edit" to="." method="_on_ship_name_changed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/SPbutton" to="." method="_on_sp_button_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer/HostMP" to="." method="_on_host_mp_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer/JoinMP" to="." method="_on_join_mp_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="visibility_changed" from="Credits" to="Credits" method="_on_visibility_changed"]
 [connection signal="pressed" from="Credits/XbuttonArea/closeMenuButton" to="." method="_on_credits_closed"]
 [connection signal="pressed" from="Settings/ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_settings_closed"]
@@ -1386,6 +1396,3 @@ libraries = {
 [connection signal="value_changed" from="Settings/ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="Settings" method="_on_volume_slider_value_changed"]
 [connection signal="finished" from="MainMenuBackground" to="." method="_on_main_menu_background_finished"]
 [connection signal="finished" from="MainMenuMusic" to="." method="_on_main_menu_music_finished"]
-[connection signal="focus_entered" from="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/IPTextEdit" to="Multiplayer_popup" method="_on_enter_ip_focus_entered"]
-[connection signal="text_submitted" from="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/IPTextEdit" to="Multiplayer_popup" method="_on_enter_ip_text_submitted"]
-[connection signal="pressed" from="Multiplayer_popup/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/IP_check_button" to="Multiplayer_popup" method="_on_ip_enter_pressed"]

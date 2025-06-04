@@ -23,7 +23,6 @@ var warpm_v:float = 1.0
 
 var has_mission: bool = false
 var current_mission: Dictionary = {}
-var player_name: String = "USS Enterprise"
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 var animation_scale:Vector2 = Vector2(1, 1)
 
@@ -130,8 +129,8 @@ func _ready() -> void:
 	
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
-	_sync_data_to_resource(Utility.SHIP_TYPES.Risian_Corvette)
-	_sync_stats_to_resource(Utility.SHIP_TYPES.Risian_Corvette)
+	_sync_data_to_resource(Utility.SHIP_TYPES.D5_Class)
+	_sync_stats_to_resource(Utility.SHIP_TYPES.D5_Class)
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
 
@@ -140,9 +139,10 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
 	faction = ship_data.FACTION
-	shield.scale = Vector2(ship_data.SHIELD_SCALE_X, ship_data.SHIELD_SCALE_Y) * base_scale
+	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
 	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
 	muzzle.position.y = ship_data.MUZZLE_POS * base_scale.y
+	faction = ship_data.FACTION
 	
 	var rawColl = ship_data.COLLISION_POLY
 	var parsed_array = JSON.parse_string(rawColl)
@@ -335,6 +335,7 @@ func shoot_torpedo() -> void:
 	if energy_current > t.energy_cost and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
+		t.z_index = -1
 		
 		t.set_collision_layer_value(9, true) # Sets layer to player projectile
 		t.set_collision_mask_value(3, true) # Turns on enemy hitbox

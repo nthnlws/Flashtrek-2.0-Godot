@@ -15,7 +15,7 @@ radius = 1250.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
 atlas = ExtResource("3_hv13s")
-region = Rect2(576, 288, 48, 48)
+region = Rect2(96, 144, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6mg26"]
 atlas = ExtResource("11_h7mpe")
@@ -115,7 +115,7 @@ collision_mask = 256
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area"]
 
 [node name="enemyShield" parent="." instance=ExtResource("3_sf3xf")]
-scale = Vector2(2, 1.6)
+scale = Vector2(2.2, 1.9)
 
 [node name="hull_explosion" type="AnimatedSprite2D" parent="."]
 visible = false

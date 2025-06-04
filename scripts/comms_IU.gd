@@ -118,7 +118,7 @@ func _ready() -> void:
 	var planet_node: Node2D = Utility.mainScene.planets[0]
 	var detection_radius: CollisionShape2D = planet_node.get_node("CommArea").get_node("CollisionShape2D")
 	
-	ship_name = player.player_name
+	ship_name = Utility.player_name
 	comm_distance = detection_radius.shape.radius*planet_node.scale.x
 
 	# Initialize sound array

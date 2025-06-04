@@ -1,7 +1,7 @@
 extends Control
 
 var menu_state_machine: Node
-
+ 
 @onready var ambience:AudioStreamPlayer = $ambience
 @onready var warp_stat: RichTextLabel = %warp_stat
 
@@ -22,20 +22,28 @@ var menu_state_machine: Node
 var fed_ships: Array = [
 	Utility.SHIP_TYPES.Galaxy_Class,
 	Utility.SHIP_TYPES.California_Class,
-	Utility.SHIP_TYPES.Cardenas_Class,]
+	Utility.SHIP_TYPES.Cardenas_Class,
+	Utility.SHIP_TYPES.Constitution_II_Class,
+	Utility.SHIP_TYPES.California_Class,
+	Utility.SHIP_TYPES.Pathfinder_Class,]
 
 
 var klin_ships: Array = [
-	Utility.SHIP_TYPES.Brel_Class,]
+	Utility.SHIP_TYPES.Brel_Class,
+	Utility.SHIP_TYPES.D5_Class,
+	Utility.SHIP_TYPES.chargh_Class,]
 
 
 var rom_ships: Array = [
-	Utility.SHIP_TYPES.Dderidex_Class,]
+	Utility.SHIP_TYPES.Dderidex_Class,
+	Utility.SHIP_TYPES.Dhailkhina_Class,]
 
 
 var neut_ships: Array = [
 	Utility.SHIP_TYPES.Monaveen,
-	Utility.SHIP_TYPES.DKora_Marauder,]
+	Utility.SHIP_TYPES.DKora_Marauder,
+	Utility.SHIP_TYPES.Tellarite_Cruiser,
+	Utility.SHIP_TYPES.Galor_Class,]
 
 
 var frame_textures: Array = [federation_frame, klingon_frame, romulan_frame, neutral_frame]
@@ -104,7 +112,7 @@ func create_selection_frames(faction: Utility.FACTION, i: Utility.SHIP_TYPES) ->
 
 	# Create the frame
 	var frame: TextureButton = TextureButton.new()
-	frame.scale = Vector2(1.3, 1.3)
+	frame.scale = Vector2(1.30, 1.30)
 
 	# Create the ship image
 	var ship_image: TextureRect = TextureRect.new()
@@ -112,8 +120,8 @@ func create_selection_frames(faction: Utility.FACTION, i: Utility.SHIP_TYPES) ->
 	atlas_texture.atlas = sprite_sheet
 	atlas_texture.filter_clip = true
 	ship_image.texture = atlas_texture
-	ship_image.scale = Vector2(1.2, 1.2)
-	ship_image.position = Vector2(14, 14)
+	ship_image.scale = Vector2(1.25, 1.25)
+	ship_image.position = Vector2(12, 13)
 
 	# Ensure the ship image is behind the frame
 	ship_image.z_index = 1
@@ -161,15 +169,16 @@ func create_selection_frames(faction: Utility.FACTION, i: Utility.SHIP_TYPES) ->
 	container.add_child(frame)
 
 	frame.mouse_entered.connect(update_ship_stats.bind(i))
+	frame.pressed.connect(func(): SignalBus.player_type_changed.emit(i))
 
 
 func create_placeholder_frame(faction: Utility.FACTION) -> void:
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[Utility.SHIP_TYPES.D5_Class]
+	var ship_data:Dictionary = Utility.SHIP_DATA.values()[Utility.SHIP_TYPES.Merchantman]
 	var container: Control = Control.new()
 
 	# Create the frame
 	var frame: TextureButton = TextureButton.new()
-	frame.scale = Vector2(1.3, 1.3)
+	frame.scale = Vector2(1.25, 1.25)
 	frame.name = "Placeholder"
 
 	# Create the ship image
@@ -180,7 +189,7 @@ func create_placeholder_frame(faction: Utility.FACTION) -> void:
 	ship_image.texture = atlas_texture
 	atlas_texture.filter_clip = true
 	ship_image.scale = Vector2(1.2, 1.2)
-	ship_image.position = Vector2(14, 14)
+	ship_image.position = Vector2(13, 12)
 	
 	# Ensure the ship image is behind the frame
 	ship_image.z_index = 1

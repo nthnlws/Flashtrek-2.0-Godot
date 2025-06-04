@@ -66,7 +66,7 @@ func _on_host_mp_pressed() -> void:
 func _on_settings_button_pressed() -> void:
 	Utility.play_click_sound(4)
 	toggle_element(%TitleScreen)
-	toggle_element(%Settings)
+	toggle_element(%Settings, State.SHOW)
 	toggle_element(%Multiplayer_popup, State.HIDE)
 
 
@@ -103,3 +103,11 @@ func _on_exit_button_pressed() -> void:
 
 func _on_ready() -> void:
 	anim.play("fade_in_long")
+
+
+func _on_ship_name_changed(new_text: String) -> void:
+	Utility.player_name = new_text
+
+
+func _on_username_focus_entered() -> void:
+	print("mouse")
