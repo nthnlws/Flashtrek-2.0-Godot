@@ -423,7 +423,7 @@ func teleport(xCoord: int, yCoord: int) -> void: # Uses coords from cheat menu t
 func warp_sound_on() -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(%ship_idle, "volume_db", -60, 2.0) # Reduces idle sound volume
-	%warp_on.play() 
+	%warp_on.play()
 
 
 func warp_sound_off() -> void:
@@ -438,11 +438,11 @@ func idle_sound(active: bool) -> void:
 		%ship_idle.play()
 	elif %ship_idle.playing == true:
 		if active == false:
-				var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-				tween.tween_property(%ship_idle, "volume_db", -25, 2.0)
+			var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+			tween.tween_property(%ship_idle, "volume_db", -25, 2.0)
 		elif active == true:
-				var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-				tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
+			var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+			tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
 func take_damage(damage:float, hit_pos: Vector2) -> void:
