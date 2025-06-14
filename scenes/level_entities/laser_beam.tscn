@@ -1,0 +1,146 @@
+[gd_scene load_steps=17 format=3 uid="uid://mc5mn1mhm67g"]
+
+[ext_resource type="Shader" uid="uid://b44fiir3u62ar" path="res://resources/Materials_Shaders/laser_beam.gdshader" id="1_d32f2"]
+[ext_resource type="Script" uid="uid://cdnbhbmhmvtjw" path="res://scripts/level_entities/laser_raycast.gd" id="2_8ibsp"]
+[ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/level_entities/damage_marker.tscn" id="2_cslsw"]
+[ext_resource type="Script" uid="uid://dndnc1mgs6mf6" path="res://scripts/level_entities/laser_beam.gd" id="2_lq3fp"]
+[ext_resource type="AudioStream" uid="uid://bdxta7lwtdrew" path="res://assets/audio/weapons/tos_ship_phaser.ogg" id="4_15dx7"]
+[ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="5_8ibsp"]
+[ext_resource type="AudioStream" uid="uid://cbpachnemcxrh" path="res://assets/audio/weapons/laser_fizzle.ogg" id="5_cslsw"]
+[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/weapons/laser_bass.ogg" id="6_4wilu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lq3fp"]
+shader = ExtResource("1_d32f2")
+shader_parameter/beams = 5
+shader_parameter/energy = 3.0
+shader_parameter/roughness = 3
+shader_parameter/frequency = 15
+shader_parameter/cutoff_x_pixel = 1200.0
+shader_parameter/cutoff_x_percent = 1.0
+shader_parameter/screen_height = 1200.0
+shader_parameter/speed = 0.4
+shader_parameter/thickness = 0.005
+shader_parameter/outline_thickness = 0.03
+shader_parameter/beam_difference = 0.0
+shader_parameter/glow = 0.0
+shader_parameter/outline_glow = 0.0
+shader_parameter/color = Color(0.91, 1, 1, 1)
+shader_parameter/outline_color = Color(0.888001, 0.361582, 0.411829, 1)
+shader_parameter/progress = 1.0
+shader_parameter/y_offset = 0.0
+shader_parameter/fixed_edge_size = 0.03
+shader_parameter/noise_scale = Vector2(0.6, 0.6)
+
+[sub_resource type="Gradient" id="Gradient_46iy5"]
+offsets = PackedFloat32Array(0.0102564, 0.635897, 1)
+colors = PackedColorArray(0.450378, 0.834976, 0.776331, 1, 0.256181, 0.494936, 0.813587, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_idc08"]
+gradient = SubResource("Gradient_46iy5")
+width = 1024
+
+[sub_resource type="Curve" id="Curve_4wilu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.609195, 1), 0.0, 0.0, 0, 0, Vector2(0.994253, 0.010989), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_84q1s"]
+width = 2048
+curve = SubResource("Curve_4wilu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0s161"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 70.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_84q1s")
+color_ramp = SubResource("GradientTexture1D_idc08")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fju22"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 600, 1)
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.8
+scale_max = 0.8
+color = Color(0.898234, 0.399196, 0.529132, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qyhl5"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 70.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_84q1s")
+color = Color(0.5, 3, 6, 1)
+
+[node name="Laser" type="Node2D"]
+script = ExtResource("2_lq3fp")
+damage_indicator = ExtResource("2_cslsw")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 1200)
+collision_mask = 128
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource("2_8ibsp")
+
+[node name="laser_beam" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_lq3fp")
+offset_left = -300.0
+offset_right = 900.0
+offset_bottom = 600.0
+rotation = -1.5708
+mouse_filter = 2
+
+[node name="origin_particles" type="GPUParticles2D" parent="."]
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 3
+texture = ExtResource("5_8ibsp")
+lifetime = 0.7
+process_material = SubResource("ParticleProcessMaterial_0s161")
+
+[node name="path_particles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -150)
+emitting = false
+amount = 4
+texture = ExtResource("5_8ibsp")
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_fju22")
+
+[node name="target_particles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -300)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 4
+texture = ExtResource("5_8ibsp")
+lifetime = 0.7
+process_material = SubResource("ParticleProcessMaterial_qyhl5")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="laserSound" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_15dx7")
+volume_db = -10.0
+
+[node name="laserFizzle" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_cslsw")
+volume_db = -25.0
+pitch_scale = 1.6
+
+[node name="laserBass" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_4wilu")
+volume_db = -30.0
+pitch_scale = 0.7
+
+[node name="laserBass2" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_4wilu")
+volume_db = -30.0
+pitch_scale = 0.6

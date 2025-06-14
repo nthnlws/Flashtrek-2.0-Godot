@@ -1,0 +1,392 @@
+[gd_scene load_steps=40 format=3 uid="uid://b250bg1ysk5dk"]
+
+[ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
+[ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
+[ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
+[ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_entities/level_borders.tscn" id="2_ufmu8"]
+[ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/menus_ui/game_over_screen.tscn" id="3_km7re"]
+[ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
+[ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/level_entities/player.tscn" id="4_s6h4r"]
+[ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/level_entities/player_spawn_area.tscn" id="6_qnb83"]
+[ext_resource type="PackedScene" uid="uid://bmw7a0sfnh82u" path="res://scenes/level_entities/EnemyCharacter.tscn" id="8_qnb83"]
+[ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/level_entities/sun.tscn" id="9_2srcp"]
+[ext_resource type="Script" uid="uid://5ubg1s4kiduk" path="res://scripts/menus_ui/hud_layer.gd" id="9_bhx41"]
+[ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/level_entities/starbase.tscn" id="9_y1jbs"]
+[ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
+[ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
+[ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
+[ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
+[ext_resource type="Script" uid="uid://dkdlhrm2eymj0" path="res://scripts/menus_ui/transition_overlay.gd" id="18_pl11u"]
+[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="19_1dh75"]
+[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="20_p5rub"]
+[ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
+[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="21_32ft0"]
+[ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="21_exi4y"]
+[ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
+[ext_resource type="Shader" uid="uid://b52d70lp44fh6" path="res://resources/Materials_Shaders/warp_tunnel_shader.gdshader" id="21_sgl2t"]
+[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="23_bt5mj"]
+[ext_resource type="Script" uid="uid://bf380s1hlsb0f" path="res://scripts/menus_ui/background_music.gd" id="23_xpi24"]
+[ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
+[ext_resource type="AudioStream" uid="uid://d1bp1vl6tiyrf" path="res://assets/audio/music/FEDERATION - Mesa.ogg" id="26_suyxu"]
+[ext_resource type="AudioStream" uid="uid://utcuo4fw5fto" path="res://assets/audio/music/Klingon - Subterranean.ogg" id="27_sgl2t"]
+[ext_resource type="AudioStream" uid="uid://gyyphmsw0db5" path="res://assets/audio/music/Romulan-The-Rising-Dawn-Bellows-Like-Thunder.ogg" id="28_qouja"]
+
+[sub_resource type="Animation" id="Animation_2b4ug"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0pgod"]
+resource_name = "fade_in_long"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_arcv3"]
+resource_name = "fade_in_short"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_d1ssx"]
+resource_name = "fade_in_video"
+length = 2.0
+
+[sub_resource type="Animation" id="Animation_7aag7"]
+resource_name = "fade_out_long"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_oc86j"]
+resource_name = "fade_out_short"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lmvo2"]
+resource_name = "galaxy_travel_fade_out"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2hu8d"]
+_data = {
+&"RESET": SubResource("Animation_2b4ug"),
+&"fade_in_long": SubResource("Animation_0pgod"),
+&"fade_in_short": SubResource("Animation_arcv3"),
+&"fade_in_video": SubResource("Animation_d1ssx"),
+&"fade_out_long": SubResource("Animation_7aag7"),
+&"fade_out_short": SubResource("Animation_oc86j"),
+&"galaxy_travel_fade_out": SubResource("Animation_lmvo2")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qouja"]
+shader = ExtResource("21_sgl2t")
+shader_parameter/hasNeonEffect = true
+shader_parameter/hasDot = false
+shader_parameter/haszExpend = true
+shader_parameter/theta = 80.0
+shader_parameter/addH = 150.0
+shader_parameter/scale = 0.01
+shader_parameter/light_disperse = 0.8
+shader_parameter/stertch = 30.0
+shader_parameter/speed = 16.1
+shader_parameter/modTime = 20.0
+shader_parameter/iswhite = false
+shader_parameter/color_a = Color(1, 1, 1, 1)
+shader_parameter/color_b = Color(0, 1, 1, 1)
+shader_parameter/gradient_speed = 3.0
+shader_parameter/m = 8
+shader_parameter/n = 100
+
+[node name="Game" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_ci0lx")
+
+[node name="Level" type="Node" parent="."]
+process_mode = 1
+script = ExtResource("2_nfpiu")
+levelBorders = ExtResource("2_ufmu8")
+Planet = ExtResource("23_bt5mj")
+Starbase = ExtResource("9_y1jbs")
+PlayerSpawnArea = ExtResource("6_qnb83")
+Sun = ExtResource("9_2srcp")
+Hostiles = ExtResource("8_qnb83")
+player = ExtResource("4_s6h4r")
+
+[node name="HUD_layer" type="CanvasLayer" parent="."]
+process_mode = 1
+script = ExtResource("9_bhx41")
+
+[node name="MiniMap" parent="HUD_layer" instance=ExtResource("13_pwbrs")]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
+visible = false
+offset_left = 89.0
+offset_top = 469.0
+offset_right = 89.0
+offset_bottom = 469.0
+
+[node name="CanvasModulate" type="CanvasModulate" parent="HUD_layer"]
+
+[node name="Menus" type="CanvasLayer" parent="."]
+process_mode = 1
+script = ExtResource("14_nkpvs")
+
+[node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
+visible = false
+z_index = 1
+
+[node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GalaxyMap" parent="Menus" instance=ExtResource("16_wq6qh")]
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LoadingScreen" parent="Menus" instance=ExtResource("20_qnb83")]
+unique_name_in_owner = true
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="transition_overlay" type="CanvasLayer" parent="."]
+process_mode = 1
+visible = false
+script = ExtResource("18_pl11u")
+
+[node name="FadeAnimation" type="ColorRect" parent="transition_overlay"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="transition_overlay"]
+root_node = NodePath("../FadeAnimation")
+libraries = {
+&"": SubResource("AnimationLibrary_2hu8d")
+}
+
+[node name="Video_layer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="WarpTunnel" type="ColorRect" parent="Video_layer"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_qouja")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScrollingBackground" type="Parallax2D" parent="."]
+process_mode = 1
+scroll_scale = Vector2(0.8, 0.8)
+repeat_size = Vector2(4096, 4096)
+repeat_times = 3
+
+[node name="StarBackground" type="Sprite2D" parent="ScrollingBackground"]
+z_index = -3
+scale = Vector2(4, 4)
+texture = ExtResource("21_exi4y")
+
+[node name="Audio" type="Node" parent="."]
+process_mode = 1
+
+[node name="UI" type="Node" parent="Audio"]
+
+[node name="Click01" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
+stream = ExtResource("19_1dh75")
+volume_db = -5.0
+mix_target = 2
+max_polyphony = 2
+
+[node name="Click02" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
+stream = ExtResource("20_p5rub")
+volume_db = -13.5
+mix_target = 2
+max_polyphony = 2
+
+[node name="Click03" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
+stream = ExtResource("21_32ft0")
+volume_db = -20.0
+mix_target = 2
+max_polyphony = 2
+
+[node name="Music" type="Node" parent="Audio"]
+script = ExtResource("23_xpi24")
+
+[node name="Fed - Mesa" type="AudioStreamPlayer" parent="Audio/Music"]
+unique_name_in_owner = true
+stream = ExtResource("26_suyxu")
+volume_db = -15.0
+
+[node name="Klingon - Subterranean" type="AudioStreamPlayer" parent="Audio/Music"]
+unique_name_in_owner = true
+stream = ExtResource("27_sgl2t")
+volume_db = -20.0
+
+[node name="Romulan - Rising Dawn" type="AudioStreamPlayer" parent="Audio/Music"]
+unique_name_in_owner = true
+stream = ExtResource("28_qouja")
+volume_db = -15.0
+
+[node name="SignalPrinter" type="Node" parent="."]
+script = ExtResource("25_dx7lr")
+enabled = false
+print_time = false
+
+[connection signal="ready" from="." to="." method="_on_ready"]

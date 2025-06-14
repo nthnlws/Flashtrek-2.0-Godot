@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="FlashTrek-2.0"
-run/main_scene="res://scenes/3D_menu_scene.tscn"
+run/main_scene="res://scenes/menus_ui/3D_menu_scene.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Flashtrek"
 config/features=PackedStringArray("4.4", "Forward Plus")
@@ -20,13 +20,13 @@ config/windows_native_icon="res://assets/icons/icon_256.ico"
 
 [autoload]
 
-GameSettings="*res://scripts/gameSettings.gd"
-DiscordManager="*res://scripts/DiscordManager.gd"
-Utility="*res://scenes/utility_autoload.tscn"
-PlayerUpgrades="*res://scripts/player_upgrades.gd"
+GameSettings="*res://scripts/menus_ui/gameSettings.gd"
+DiscordManager="*res://scripts/autoload/DiscordManager.gd"
+Utility="*res://scenes/autoload/utility_autoload.tscn"
+PlayerUpgrades="*res://scripts/autoload/player_upgrades.gd"
 Console="*res://addons/console/console.gd"
-SignalBus="*res://scripts/SignalBus.gd"
-Navigation="*res://scripts/navigation.gd"
+SignalBus="*res://scripts/autoload/SignalBus.gd"
+Navigation="*res://scripts/autoload/navigation.gd"
 
 [debug]
 
@@ -48,6 +48,16 @@ movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://assets/": "gray",
+"res://resources/": "blue",
+"res://scenes/": "red",
+"res://scenes/level_entities/planet.tscn": "gray",
+"res://scripts/": "green"
+}
 
 [import]
 

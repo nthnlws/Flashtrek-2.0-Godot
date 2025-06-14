@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://g3qxm0r002bc"]
+
+[ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
+[ext_resource type="Texture2D" uid="uid://bnoey0jajceax" path="res://assets/textures/UI/button2.png" id="2_8t0dc"]
+[ext_resource type="BitMap" uid="uid://cbk5q50wnnog8" path="res://assets/textures/UI/Q1_Mask.png" id="3_3iywc"]
+[ext_resource type="BitMap" uid="uid://clcxnolyonb6e" path="res://assets/textures/UI/Q2_Mask.png" id="4_ei53l"]
+[ext_resource type="BitMap" uid="uid://cliqsibujlxfc" path="res://assets/textures/UI/Q3_Mask.png" id="5_3us4v"]
+[ext_resource type="BitMap" uid="uid://4t13xykefb8" path="res://assets/textures/UI/Q4_Mask.png" id="6_jp451"]
+[ext_resource type="BitMap" uid="uid://cwycuapm6igh7" path="res://assets/textures/UI/Center_Mask.png" id="7_obdd4"]
+
+[node name="HUD_button" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 500.0
+pivot_offset = Vector2(450, 450)
+mouse_filter = 1
+script = ExtResource("1_6dfc7")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 500.0
+texture = ExtResource("2_8t0dc")
+
+[node name="Quad1" type="TextureButton" parent="." groups=["HUD_button"]]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_click_mask = ExtResource("3_3iywc")
+
+[node name="Quad2" type="TextureButton" parent="." groups=["HUD_button"]]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_click_mask = ExtResource("4_ei53l")
+
+[node name="Quad3" type="TextureButton" parent="." groups=["HUD_button"]]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_click_mask = ExtResource("5_3us4v")
+
+[node name="Quad4" type="TextureButton" parent="." groups=["HUD_button"]]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_click_mask = ExtResource("6_jp451")
+
+[node name="Center" type="TextureButton" parent="." groups=["HUD_button"]]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_click_mask = ExtResource("7_obdd4")

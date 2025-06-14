@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://be1sbec7mtn51"]
+
+[ext_resource type="Script" uid="uid://daxiqd2juj83" path="res://scripts/level_entities/Sun.gd" id="1_g5nfg"]
+[ext_resource type="Texture2D" uid="uid://byinr2jneiqgf" path="res://assets/textures/suns/sun_01-sheet.png" id="2_uxxcx"]
+
+[node name="Sun" type="Node2D"]
+script = ExtResource("1_g5nfg")
+
+[node name="SunTexture" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = ExtResource("2_uxxcx")
+hframes = 2
+vframes = 3

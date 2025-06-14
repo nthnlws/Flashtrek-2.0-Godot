@@ -1,0 +1,479 @@
+[gd_scene load_steps=11 format=3 uid="uid://cx1bafifkl17x"]
+
+[ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
+[ext_resource type="Script" uid="uid://ciiwlhnmwo72u" path="res://scripts/tools/galaxy_map.gd" id="1_n1dvt"]
+[ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/level_entities/destination_indicator.tscn" id="2_rvfec"]
+[ext_resource type="PackedScene" uid="uid://c2ffdiw7qy7v0" path="res://scenes/menus_ui/system_marker.tscn" id="3_uixyg"]
+[ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/UI/WorldMapShaded.png" id="4_7hrdk"]
+[ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
+[ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="5_oddma"]
+[ext_resource type="Texture2D" uid="uid://dr0bowl6i2leo" path="res://assets/textures/UI/warp_button.png" id="6_mpbwe"]
+[ext_resource type="BitMap" uid="uid://b1a4bmxr7t24t" path="res://assets/textures/UI/warp_button_mask.png" id="7_xtw53"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
+
+[node name="GalaxyMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_n1dvt")
+selection_marker = ExtResource("2_rvfec")
+systemMarker = ExtResource("3_uixyg")
+
+[node name="mapBackground" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 1024.0
+offset_bottom = 1024.0
+texture = ExtResource("1_f67k2")
+
+[node name="nodeMap" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 1931.0
+offset_bottom = 1125.0
+scale = Vector2(0.513265, 0.480901)
+texture = ExtResource("4_7hrdk")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="Systems" type="Node2D" parent="."]
+
+[node name="Solarus" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(1, 1, 0.494118, 1)
+position = Vector2(172, 396)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Solarus"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/Solarus"]
+texture = ExtResource("5_oddma")
+
+[node name="Romulus" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(1, 1, 0.494118, 1)
+position = Vector2(735, 410)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Romulus"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/Romulus"]
+texture = ExtResource("5_oddma")
+
+[node name="Kronos" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(1, 1, 0.494118, 1)
+position = Vector2(602, 95)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/Kronos"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/Kronos"]
+texture = ExtResource("5_oddma")
+
+[node name="1" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(69, 79)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/1"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/1"]
+texture = ExtResource("5_oddma")
+
+[node name="2" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(151, 101)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/2"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/2"]
+texture = ExtResource("5_oddma")
+
+[node name="3" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(49, 137)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/3"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/3"]
+texture = ExtResource("5_oddma")
+
+[node name="4" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(169, 195)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/4"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/4"]
+texture = ExtResource("5_oddma")
+
+[node name="5" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(59, 224)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/5"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/5"]
+texture = ExtResource("5_oddma")
+
+[node name="6" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(194, 286)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/6"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/6"]
+texture = ExtResource("5_oddma")
+
+[node name="7" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(84, 403)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/7"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/7"]
+texture = ExtResource("5_oddma")
+
+[node name="8" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(91, 468)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/8"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/8"]
+texture = ExtResource("5_oddma")
+
+[node name="9" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(156, 505)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/9"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/9"]
+texture = ExtResource("5_oddma")
+
+[node name="10" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(305, 472)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/10"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/10"]
+texture = ExtResource("5_oddma")
+
+[node name="11" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(355, 314)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/11"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/11"]
+texture = ExtResource("5_oddma")
+
+[node name="12" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(418, 296)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/12"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/12"]
+texture = ExtResource("5_oddma")
+
+[node name="13" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(417, 255)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/13"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/13"]
+texture = ExtResource("5_oddma")
+
+[node name="14" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(429, 190)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/14"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/14"]
+texture = ExtResource("5_oddma")
+
+[node name="15" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(284, 122)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/15"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/15"]
+texture = ExtResource("5_oddma")
+
+[node name="16" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(395, 91)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/16"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/16"]
+texture = ExtResource("5_oddma")
+
+[node name="17" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(500, 33)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/17"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/17"]
+texture = ExtResource("5_oddma")
+
+[node name="18" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(479, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/18"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/18"]
+texture = ExtResource("5_oddma")
+
+[node name="19" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(544, 242)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/19"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/19"]
+texture = ExtResource("5_oddma")
+
+[node name="20" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(600, 211)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/20"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/20"]
+texture = ExtResource("5_oddma")
+
+[node name="21" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(704, 137)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/21"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/21"]
+texture = ExtResource("5_oddma")
+
+[node name="22" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(775, 66)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/22"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/22"]
+texture = ExtResource("5_oddma")
+
+[node name="23" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(832, 142)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/23"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/23"]
+texture = ExtResource("5_oddma")
+
+[node name="24" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(764, 211)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/24"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/24"]
+texture = ExtResource("5_oddma")
+
+[node name="25" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(819, 280)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/25"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/25"]
+texture = ExtResource("5_oddma")
+
+[node name="26" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(652, 324)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/26"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/26"]
+texture = ExtResource("5_oddma")
+
+[node name="27" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(541, 343)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/27"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/27"]
+texture = ExtResource("5_oddma")
+
+[node name="28" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(521, 416)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/28"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/28"]
+texture = ExtResource("5_oddma")
+
+[node name="29" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(595, 428)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/29"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/29"]
+texture = ExtResource("5_oddma")
+
+[node name="30" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(811, 408)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/30"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/30"]
+texture = ExtResource("5_oddma")
+
+[node name="31" type="Area2D" parent="Systems" groups=["map_node"]]
+modulate = Color(0.431373, 1, 1, 1)
+position = Vector2(819, 496)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/31"]
+shape = SubResource("CircleShape2D_ays83")
+
+[node name="Sprite2D" type="Sprite2D" parent="Systems/31"]
+texture = ExtResource("5_oddma")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="closeMenuButton" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X"
+
+[node name="mission_message" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 236.0
+offset_top = 516.0
+offset_right = 794.0
+offset_bottom = 538.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Current mission: [color=#FFCC66]None[/color]"
+scroll_active = false
+autowrap_mode = 2
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="current_system_message" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 12.0
+offset_right = 446.0
+offset_bottom = 34.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Current destination: [color=#FFCC66]None[/color]"
+scroll_active = false
+autowrap_mode = 2
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="warp_button" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 377.0
+offset_top = 447.0
+offset_right = 567.0
+offset_bottom = 509.0
+
+[node name="TextureRect" type="TextureRect" parent="warp_button"]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 0.0400085
+offset_right = 482.0
+offset_bottom = 480.04
+scale = Vector2(0.394, 0.13)
+mouse_filter = 2
+texture = ExtResource("6_mpbwe")
+
+[node name="click_area" type="TextureButton" parent="warp_button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.52588e-05
+offset_right = 292.0
+offset_bottom = 418.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.394, 0.13)
+texture_click_mask = ExtResource("7_xtw53")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="warp_button"]
+layout_mode = 1
+offset_left = 21.0
+offset_top = 13.0
+offset_right = 325.0
+offset_bottom = 95.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_v4uvs")
+theme_override_font_sizes/normal_font_size = 60
+bbcode_enabled = true
+text = "[color=#000000] WARP"
+
+[connection signal="pressed" from="MarginContainer/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="warp_button/click_area" to="." method="_on_warp_button_pressed"]
