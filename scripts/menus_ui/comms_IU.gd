@@ -180,7 +180,7 @@ func open_comms() -> void:
 		self.visible = false
 		completedUIdisplay = false
 	# Only toggles on if within required distance
-	elif current_planet and player.warping_active == false:
+	elif current_planet and player.overdrive_active == false:
 		self.visible = true
 		#if player.has_mission == false:
 		var mission_data: Dictionary = generate_mission()

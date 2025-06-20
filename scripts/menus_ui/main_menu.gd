@@ -20,9 +20,6 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	if OS.get_name() == "Windows":
-			DiscordManager.main_menu() # Sets Discord status to main menu
-	
 	%MainMenuMusic.play(0.5)
 	anim.play("fade_in_long")
 	
@@ -52,6 +49,7 @@ func _on_sp_button_pressed() -> void:
 	anim.play("fade_out_long")
 	await anim.animation_finished
 	get_tree().change_scene_to_file("res://scenes/level_entities/game.tscn")
+	DiscordManager.single_player_game()
 
 
 func _on_join_mp_pressed() -> void:

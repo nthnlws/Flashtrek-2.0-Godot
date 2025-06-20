@@ -14,7 +14,7 @@ func _physics_process(delta: float) -> void:
 
 
 func toggle_comms() -> void: # Only toggles on if within required distance
-	if check_distance_to_planets(): # and Utility.mainScene.player.warping_active == false:
+	if check_distance_to_planets(): # and Utility.mainScene.player.overdrive_active == false:
 		# Open starbase menu here
 		#starbase_menu.visible = true
 		pass

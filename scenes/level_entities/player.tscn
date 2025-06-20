@@ -1,10 +1,11 @@
-[gd_scene load_steps=44 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=45 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/level_entities/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/level_entities/damage_marker.tscn" id="2_7odc1"]
 [ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/level_entities/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/level_entities/PlayerCamera2D.gd" id="3_fns5h"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="3_newiu"]
+[ext_resource type="Script" uid="uid://quybyrryuk3i" path="res://scenes/level_entities/player_health_component.gd" id="4_7pmes"]
 [ext_resource type="Texture2D" uid="uid://cukwfy1ikknpy" path="res://assets/textures/ships/warpparticle.png" id="4_mse3f"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
@@ -204,12 +205,16 @@ z_index = 1
 scale = Vector2(1.25, 1.25)
 collision_layer = 2
 collision_mask = 11
+slide_on_ceiling = false
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
 damage_indicator = ExtResource("2_7odc1")
 torpedo_scene = ExtResource("3_newiu")
 base_max_speed = 600
+
+[node name="health_component" type="Node" parent="."]
+script = ExtResource("4_7pmes")
 
 [node name="GalaxyParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 19)
@@ -264,13 +269,13 @@ libraries = {
 
 [node name="Audio" type="Node2D" parent="."]
 
-[node name="warp_on" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="overdrive_on" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("6_ihea4")
 volume_db = -14.0
 pitch_scale = 0.7
 
-[node name="warp_off" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="overdrive_off" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
 stream = ExtResource("6_c035k")
 volume_db = -15.0
@@ -308,8 +313,6 @@ volume_db = -7.0
 
 [node name="intersection_line" type="Line2D" parent="."]
 width = 15.0
-
-[node name="Hitmarkers" type="Node" parent="."]
 
 [connection signal="laserEnded" from="Laser" to="." method="_on_laser_ended"]
 [connection signal="area_entered" from="hitbox_area" to="." method="_on_hitbox_area_entered"]

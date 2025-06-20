@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 	if sp_current <= base_max_SP and damageTime == false:
 		regen_shield(delta)
 		SignalBus.playerShieldChanged.emit(sp_current)
-	if get_parent().warping_active == true and shieldActive == true:
+	if get_parent().overdrive_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
 

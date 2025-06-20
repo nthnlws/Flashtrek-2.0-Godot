@@ -23,13 +23,15 @@ func _printArrays() -> void:
 	print(planets)
 	print(suns)
 	print(levelWalls)
-	
+
+
 func clearArrays() -> void:
 	enemies.clear()
 	planets.clear()
 	suns.clear()
 	levelWalls.clear()
-	
+
+
 var score:int = 0:
 	set(value):
 		score = value
@@ -97,6 +99,7 @@ func _warp_into_new_system(system) -> void:
 	
 	player.camera._zoom = Vector2(0.5, 0.5)
 	player.warping_state_change("SMOOTH")
+
 
 func add_level_ships(ship:CharacterBody2D, type:String) -> void:
 	match type:

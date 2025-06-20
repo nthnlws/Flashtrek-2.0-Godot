@@ -1,13 +1,15 @@
 extends Node
 
 func _ready() -> void:
+	SignalBus.entering_new_system.connect(single_player_game)
 	if OS.get_name() == "Windows":
-		DiscordManager.single_player_game()
-		
+			DiscordManager.main_menu()
+
+
 func  _process(delta) -> void:
 	DiscordRPC.run_callbacks()
-	
-	
+
+
 func main_menu() -> void:
 	#print("Discord Main menu")
 	DiscordRPC.app_id = 1273082300866891807 # Application ID
@@ -25,9 +27,8 @@ func main_menu() -> void:
 	
 	
 func single_player_game() -> void:
-	#print("Discord SP")
-	DiscordRPC.details = "Where no man has gone before"
-	DiscordRPC.state = "In Solarus"
+	DiscordRPC.details = "In " + Navigation.currentSystem + " system"
+	#DiscordRPC.state = 
 	DiscordRPC.large_image = "icon"
 	DiscordRPC.large_image_text = "FlashTrek 2.0"
 	DiscordRPC.small_image = "enterprisetos"

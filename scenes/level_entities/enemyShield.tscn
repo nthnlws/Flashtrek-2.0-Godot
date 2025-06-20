@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b22yde5yoq56c"]
 
-[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/shield.gdshader" id="1_uausp"]
+[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="1_uausp"]
 [ext_resource type="Texture2D" uid="uid://degu3qo86a3hj" path="res://assets/textures/ships/blank_pship.png" id="2_h8s3t"]
 [ext_resource type="Script" uid="uid://1g8vwv3gjns3" path="res://scripts/level_entities/enemyShield.gd" id="3_0y86e"]
 

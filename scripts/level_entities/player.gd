@@ -8,18 +8,18 @@ var shooting_button_held:bool = false # Variable to check if fire button is curr
 
 var alive: bool = true
 
-var warping_active:bool = false
+var overdrive_active:bool = false
 var shield_active:bool = false
 var energyTime:bool = false
-var warpTime:bool = false
+var overdriveTime:bool = false
 var energy_regen_speed:int = 10
 
 var trans_length:float = 0.8
 var base_scale:Vector2 = Vector2(1.0, 1.0)
 var direction:Vector2 = Vector2(0, 0)
-var warp_multiplier:float = 0.45
-var warpm_r:float = 1.0
-var warpm_v:float = 1.0
+var overdrive_multiplier:float = 0.45
+var overdrivem_r:float = 1.0
+var overdrivem_v:float = 1.0
 
 var has_mission: bool = false
 var current_mission: Dictionary = {}
@@ -37,6 +37,7 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
 @onready var animation:AnimationPlayer = $AnimationPlayer
 @onready var camera:Camera2D = $Camera2D
+@onready var health: Node = $health_component
 
 
 @export var damage_indicator: PackedScene
@@ -58,20 +59,6 @@ var acceleration:int:
 	get:
 		return PlayerUpgrades.AccelAdd + (base_acceleration * PlayerUpgrades.AccelMult)
 
-
-# Health variables
-@export var base_max_HP: int = 150:
-	set(value):
-		base_max_HP = value
-		SignalBus.playerMaxHealthChanged.emit(value)
-var max_HP:int:
-	get:
-		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
-		
-var hp_current:float = max_HP:
-	set(value):
-		hp_current = clamp(value, 0, max_HP)
-		SignalBus.playerHealthChanged.emit(hp_current)
 
 @export var shield_on:bool = true
 
@@ -134,6 +121,7 @@ func _ready() -> void:
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
 
+
 func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	
@@ -153,15 +141,17 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 	$hitbox_area/CollisionPolygon2D.polygon = PV2Array
 	$WorldCollisionShape.polygon = PV2Array
 
+
 func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
 	var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[ship]
 	
 	base_max_speed = ship_stats.SPEED
 	base_rotation_speed = ship_stats.ROTATION_SPEED
-	base_max_HP = ship_stats.MAX_HP
+	health.base_max_HP = ship_stats.MAX_HP
 	shield.base_max_SP = ship_stats.MAX_SHIELD
 	shoot_rate_mult = ship_stats.SHOOT_MULTIPLIER
 	base_cargo_size = ship_stats.CARGO_SIZE
+
 
 func center_polygon(points: Array) -> PackedVector2Array:
 	var min_x = points[0].x
@@ -227,13 +217,13 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if !alive or GameSettings.menuStatus == true: return
 	
-	if Input.is_action_just_pressed("warp"):
+	if Input.is_action_just_pressed("overdrive"):
 		if Utility.mainScene.in_galaxy_warp == false:
-			warping_state_change("SMOOTH")
+			overdrive_state_change("SMOOTH")
 
 	if shooting_button_held:
 		if !shoot_cd:
-			if !warping_active:
+			if !overdrive_active:
 				shoot_cd = true
 				shoot_torpedo()
 				await get_tree().create_timer(rate_of_fire).timeout
@@ -255,40 +245,40 @@ func _handle_movement(delta: float) -> void:
 		#print(direction)
 		# Apply forward/backward thrust logic
 		if direction.y != 0:
-			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / warpm_v
-			velocity = velocity.limit_length(max_speed/warpm_v)
+			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / overdrivem_v
+			velocity = velocity.limit_length(max_speed/overdrivem_v)
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
 			
 		if direction.x !=0:
-			rotate(deg_to_rad(direction.x * rotation_speed * delta * warpm_v))
+			rotate(deg_to_rad(direction.x * rotation_speed * delta * overdrivem_v))
 		
 		# Handle rotation for keyboard input
 		if OS.get_name() == "Windows":
 			if Input.is_action_pressed("rotate_right"):
-				rotate(deg_to_rad(rotation_speed * delta * warpm_r))
+				rotate(deg_to_rad(rotation_speed * delta * overdrivem_r))
 			if Input.is_action_pressed("rotate_left"):
-				rotate(deg_to_rad(-rotation_speed * delta * warpm_r))
+				rotate(deg_to_rad(-rotation_speed * delta * overdrivem_r))
 
 
 var current_tweens: Array = []
-func warping_state_change(speed) -> void: # Reverses warping state
-		# Stop any ongoing tweens
+func overdrive_state_change(speed) -> void: # Reverses overdrive state
+	# Stop any ongoing tweens
 	for tween:Tween in current_tweens:
 		if tween.is_running():
 			tween.stop()
 
 	current_tweens.clear()  # Clear the list of running tweens
 	
-	if warping_active: # Transition to impulse
-		warpTimeout()
-		warping_active = false
+	if overdrive_active: # Transition to impulse
+		overdriveTimeout()
+		overdrive_active = false
 		match speed:
 			"INSTANT":
 				scale = base_scale
-				warpm_v = 1.0
-				warpm_r = 1.0
+				overdrivem_v = 1.0
+				overdrivem_r = 1.0
 				shield.call_deferred("fadein_SMOOTH")
 			"SMOOTH":
 				var tween_scale: Object = create_tween() # Ship sprite scale
@@ -296,23 +286,23 @@ func warping_state_change(speed) -> void: # Reverses warping state
 				current_tweens.append(tween_scale)
 				
 				var tween_v: Object = create_tween() # Max Velocity
-				tween_v.tween_property(self, "warpm_v", 1.0, trans_length*4)
+				tween_v.tween_property(self, "overdrivem_v", 1.0, trans_length*4)
 				current_tweens.append(tween_v)
 				
 				var tween_r: Object = create_tween() # Rotation speed
-				tween_r.tween_property(self, "warpm_r", 1.0, trans_length)
+				tween_r.tween_property(self, "overdrivem_r", 1.0, trans_length)
 				current_tweens.append(tween_r)
 				
 				shield.fadein_SMOOTH()
-				warp_sound_off()
-	else: # Transition to warp
-		warping_active = true
-		warp_sound_on()
+				overdrive_sound_off()
+	else: # Overdrive on transition
+		overdrive_active = true
+		overdrive_sound_off()
 		match speed:
 			"INSTANT":
 				scale = base_scale * Vector2(1, 1.70)
-				warpm_v = warp_multiplier
-				warpm_r = warp_multiplier
+				overdrivem_v = overdrive_multiplier
+				overdrivem_r = overdrive_multiplier
 				shield.fadeout_INSTANT()
 			"SMOOTH":
 				var tween_scale: Object = create_tween() # Ship sprite scale
@@ -320,11 +310,11 @@ func warping_state_change(speed) -> void: # Reverses warping state
 				current_tweens.append(tween_scale)
 				
 				var tween_v: Object = create_tween() # Max Velocity
-				tween_v.tween_property(self, "warpm_v", warp_multiplier, trans_length)
+				tween_v.tween_property(self, "overdrivem_v", overdrive_multiplier, trans_length)
 				current_tweens.append(tween_v)
 				
 				var tween_r: Object = create_tween() # Rotation speed
-				tween_r.tween_property(self, "warpm_r", warp_multiplier, trans_length)
+				tween_r.tween_property(self, "overdrivem_r", overdrive_multiplier, trans_length)
 				current_tweens.append(tween_r)
 				
 				shield.fadeout_SMOOTH()
@@ -332,14 +322,14 @@ func warping_state_change(speed) -> void: # Reverses warping state
 
 func shoot_torpedo() -> void:
 	var t: Area2D = torpedo_scene.instantiate()
-	if energy_current > t.energy_cost and warpTime == false and Utility.mainScene.in_galaxy_warp == false:
+	if energy_current > t.energy_cost and overdriveTime == false and Utility.mainScene.in_galaxy_warp == false:
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.z_index = 0
 		
 		t.set_collision_layer_value(9, true) # Sets layer to player projectile
-		t.set_collision_mask_value(3, true) # Turns on enemy hitbox
-		t.set_collision_mask_value(8, true) # Turns on enemy shield
+		t.set_collision_mask_value(3, true) # Turns on enemy hitbox detection
+		t.set_collision_mask_value(8, true) # Turns on enemy shield detection
 		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
@@ -358,11 +348,11 @@ func killPlayer() -> void:
 		self.visible = false
 		shield.shieldActive = false
 		
-		if warping_active == true:
-			warping_state_change("INSTANT")
+		if overdrive_active == true:
+			overdrive_state_change("INSTANT")
 		
 		#Kill player stats
-		hp_current = 0
+		health.hp_current = 0
 		energy_current = 0
 		shield.sp_current = 0
 		shield.damageTime = true
@@ -381,7 +371,7 @@ func respawn(pos: Vector2) -> void:
 		self.visible = true
 		
 		# Restores all HUD values to max
-		hp_current = max_HP #Resets HP to max
+		health.hp_current = health.max_HP #Resets HP to max
 		energy_current = max_energy #Resets energy
 		shield.sp_current = shield.base_max_SP #Resets Shield
 	
@@ -405,33 +395,33 @@ func energyTimeout() -> void: #Turns off energy regen for 1 second after firing 
 		energyTime = false
 
 
-func warpTimeout() -> void: #Turns off torpedo shooting for half of trans_length after leaving warp
-	warpTime = true
+func overdriveTimeout() -> void: #Turns off torpedo shooting for half of trans_length after leaving overdrive
+	overdriveTime = true
 	await get_tree().create_timer(trans_length/2).timeout
-	warpTime = false
+	overdriveTime = false
 
 
 func teleport(xCoord: int, yCoord: int) -> void: # Uses coords from cheat menu to teleport player
 	global_position = Vector2(xCoord, yCoord)
 	velocity = Vector2(0, 0)
-	if warping_active == true:
-		warping_state_change("INSTANT")
+	if overdrive_active == true:
+		overdrive_state_change("INSTANT")
 
 
 #Audio functions
 # Movement
-func warp_sound_on() -> void:
+func overdrive_sound_on() -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(%ship_idle, "volume_db", -60, 2.0) # Reduces idle sound volume
-	%warp_on.play()
+	%overdrive_on.play()
 
 
-func warp_sound_off() -> void:
-	%warp_off.play()
+func overdrive_sound_off() -> void:
+	%overdrive_off.play()
 
 
 func idle_sound(active: bool) -> void:
-	if warping_active == true:
+	if overdrive_active == true:
 		#$ship_idle.stop()
 		pass
 	elif %ship_idle.playing == false:
@@ -447,11 +437,11 @@ func idle_sound(active: bool) -> void:
 #Weapons
 func take_damage(damage:float, hit_pos: Vector2) -> void:
 	if Utility.mainScene.in_galaxy_warp == false:
-		hp_current -= damage # Take damage
-		SignalBus.playerShieldChanged.emit(hp_current) # Update HUD
+		health.hp_current -= damage # Take damage
+		SignalBus.playerShieldChanged.emit(health.hp_current) # Update HUD
 		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
 		
-		if hp_current <= 0:
+		if health.hp_current <= 0:
 			killPlayer()
 
 
@@ -467,12 +457,12 @@ func _teleport_shader_toggle(toggle: String) -> void:
 
 
 func velocity_check() -> bool:
-	# Check base warp criteria
+	# Check velocity warp criteria
 	var base_check = (
 		!Utility.mainScene.in_galaxy_warp and
 		velocity.x > -100 and velocity.x < 100 and
 		velocity.y > -100 and velocity.y < 100 and
-		!warping_active
+		!overdrive_active
 	)
 	
 	if not base_check:
@@ -504,7 +494,7 @@ func galaxy_warp_out() -> void:
 	galaxy_particles.emitting = true
 	
 	#Camera Zoom out
-	create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/warp_multiplier*3)
+	create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/overdrive_multiplier*3)
 	
 	await get_tree().create_timer(3.0).timeout #6.0 sec
 	#print("flat, scale")
