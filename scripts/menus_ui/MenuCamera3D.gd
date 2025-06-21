@@ -16,7 +16,7 @@ func _process(delta: float):
 	# Handle camera movement
 	var direction = Vector3.ZERO
 	var current_speed = move_speed
-	if Input.is_action_pressed("warp"):
+	if Input.is_action_pressed("overdrive"):
 		current_speed *= boost_multiplier
 
 	if Input.is_action_pressed("move_forward"):

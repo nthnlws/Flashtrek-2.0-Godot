@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	var current_speed: float = MOVE_SPEED
 	if OS.get_name() == "Windows":
-		if Input.is_action_pressed("warp"):
+		if Input.is_action_pressed("overdrive"):
 			current_speed *= boost_multiplier
 	if OS.get_name() == "Android":
 		if Input.is_action_pressed("left_click"):

@@ -1,6 +1,5 @@
 extends Area2D
 
-
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @export var damage_indicator: PackedScene
@@ -21,9 +20,7 @@ var lifetime_seconds:float = 7.5
 var age: float = 0.0
 
 @export var base_damage:int = 15
-var damage:float = 15.0#:
-	#get:
-		#return PlayerUpgrades.DamageAdd + (base_damage * PlayerUpgrades.DamageMult)
+var damage:float = 15.0
 
 func _ready() -> void:
 	var parent = get_parent().get_parent()

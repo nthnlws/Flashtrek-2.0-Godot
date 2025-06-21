@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://chbr28imsjgnv"]
+
+[ext_resource type="Script" uid="uid://d05d2u5krdsbn" path="res://scenes/menus_ui/health_indicator.gd" id="1_41b34"]
+[ext_resource type="Shader" uid="uid://b7m3owcdweg44" path="res://resources/Materials_Shaders/hull_health_shader.gdshader" id="1_b2c71"]
+[ext_resource type="Script" uid="uid://hxemtdb023e5" path="res://health_ship.gd" id="1_ddvhb"]
+[ext_resource type="Shader" uid="uid://ciiao8asu4lm4" path="res://resources/Materials_Shaders/shield_health_shader.gdshader" id="1_tnw4a"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="1_vpj4s"]
+[ext_resource type="Script" uid="uid://dmusguquxjkea" path="res://scenes/menus_ui/ship_shield_hud.gd" id="2_bmthh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bmthh"]
+shader = ExtResource("1_tnw4a")
+shader_parameter/color = Color(0.360158, 0.52734, 0.837233, 1)
+shader_parameter/health_ratio = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tnw4a"]
+shader = ExtResource("1_b2c71")
+shader_parameter/health_color = Color(0, 1, 0, 1)
+shader_parameter/empty_color = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/health_ratio = 1.0
+shader_parameter/fill_direction = 2
+shader_parameter/region_uv_offset = Vector2(0, 0)
+shader_parameter/region_uv_size = Vector2(1, 1)
+shader_parameter/content_bounds_in_region_uv_pos = Vector2(0, 0)
+shader_parameter/content_bounds_in_region_uv_size = Vector2(1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2c71"]
+atlas = ExtResource("1_vpj4s")
+region = Rect2(48, 0, 48, 48)
+filter_clip = true
+
+[node name="health_indicator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 60.0
+script = ExtResource("1_41b34")
+
+[node name="SP_health" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_bmthh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_bmthh")
+
+[node name="HP_health" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_tnw4a")
+layout_mode = 0
+offset_left = 64.0
+offset_top = 6.0
+offset_right = 112.0
+offset_bottom = 54.0
+rotation = 1.5708
+texture = SubResource("AtlasTexture_b2c71")
+stretch_mode = 3
+script = ExtResource("1_ddvhb")
+fill_color = Color(0, 0.7187, 0.290697, 1)
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -8,9 +8,8 @@ extends Control
 @onready var comms_ui: Control = $Comms_UI
 @onready var message_ui: Control = $message_UI
 
-@onready var health_bar: ProgressBar = %HealthBar
-@onready var shield_bar: ProgressBar = %ShieldBar
-@onready var energy_bar: ProgressBar = %EnergyBar
+@onready var health_indicator: Control = %health_indicator
+
 
 @onready var variable: Label = %Variable
 @onready var fps: Label = %FPS
@@ -30,7 +29,7 @@ func _ready() -> void:
 	SignalBus.playerMaxHealthChanged.connect(_on_player_max_health_changed)
 	SignalBus.playerMaxShieldChanged.connect(_on_player_max_shield_changed)
 	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
-	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
+	#SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
 	
 	SignalBus.playerDied.connect(close_menus)
 
@@ -45,21 +44,23 @@ func _process(delta: float) -> void:
 
 
 func _on_player_health_changed(hp_current: float) -> void:
-	health_bar.value = hp_current
+	health_indicator.update_hitbox_health(hp_current)
 
 
 func _on_player_max_health_changed(hp_max:float) -> void:
-	health_bar.max_value = hp_max
+	health_indicator.update_hitbox_max(hp_max)
 
 
 func _on_player_shield_changed(sp_current: float) -> void:
-	shield_bar.value = sp_current
+	health_indicator.update_shield_health(sp_current)
+
 
 func _on_player_max_shield_changed(sp_max:float) -> void:
-	shield_bar.max_value = sp_max
+	health_indicator.update_shield_max(sp_max)
 
-func _on_player_energy_changed(energy_current: float) -> void:
-	energy_bar.value = energy_current
+
+#func _on_player_energy_changed(energy_current: float) -> void:
+	#energy_bar.value = energy_current
 
 
 func _on_shield_ready() -> void:
@@ -67,12 +68,12 @@ func _on_shield_ready() -> void:
 
 
 func set_bar_maxes() -> void:
-	health_bar.max_value = player.max_HP
-	shield_bar.max_value = playerShield.base_max_SP
-	energy_bar.max_value = player.max_energy
-	health_bar.value = player.hp_current
-	shield_bar.value = playerShield.sp_current
-	energy_bar.value = player.energy_current
+	health_indicator.update_hitbox_max(player.max_HP)
+	health_indicator.update_shield_max(playerShield.base_max_SP)
+	#energy_bar.max_value = player.max_energy
+	health_indicator.update_hitbox_health(player.hp_current)
+	health_indicator.update_shield_health(playerShield.sp_current)
+	#energy_bar.value = player.energy_current
 
 
 func _on_texture_rect_gui_input(event: InputEvent) -> void:

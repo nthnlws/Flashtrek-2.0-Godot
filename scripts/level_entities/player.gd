@@ -37,11 +37,25 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
 @onready var animation:AnimationPlayer = $AnimationPlayer
 @onready var camera:Camera2D = $Camera2D
-@onready var health: Node = $health_component
 
 
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
+
+# Health variables
+@export var base_max_HP: int = 150:
+	set(value):
+		base_max_HP = value
+		SignalBus.playerMaxHealthChanged.emit(value)
+var max_HP:int:
+	get:
+		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
+		
+var hp_current:float = max_HP:
+	set(value):
+		hp_current = clamp(value, 0, max_HP)
+		SignalBus.playerHealthChanged.emit(hp_current)
+
 
 # Maneuverability variables
 @export var base_max_speed: int = 750
@@ -147,7 +161,7 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
 	
 	base_max_speed = ship_stats.SPEED
 	base_rotation_speed = ship_stats.ROTATION_SPEED
-	health.base_max_HP = ship_stats.MAX_HP
+	base_max_HP = ship_stats.MAX_HP
 	shield.base_max_SP = ship_stats.MAX_SHIELD
 	shoot_rate_mult = ship_stats.SHOOT_MULTIPLIER
 	base_cargo_size = ship_stats.CARGO_SIZE
@@ -172,7 +186,7 @@ func center_polygon(points: Array) -> PackedVector2Array:
 	var adjusted_points = []
 	for p in points:
 		var centered = Vector2(p.x - center_x, p.y - center_y)
-		var shifted = centered + Vector2(0, 0)
+		var shifted = centered + Vector2(0, -2) # Manual adjustment to center points on ship
 		adjusted_points.append(shifted)
 
 	return PackedVector2Array(adjusted_points)
@@ -352,7 +366,7 @@ func killPlayer() -> void:
 			overdrive_state_change("INSTANT")
 		
 		#Kill player stats
-		health.hp_current = 0
+		hp_current = 0
 		energy_current = 0
 		shield.sp_current = 0
 		shield.damageTime = true
@@ -371,7 +385,7 @@ func respawn(pos: Vector2) -> void:
 		self.visible = true
 		
 		# Restores all HUD values to max
-		health.hp_current = health.max_HP #Resets HP to max
+		hp_current = max_HP #Resets HP to max
 		energy_current = max_energy #Resets energy
 		shield.sp_current = shield.base_max_SP #Resets Shield
 	
@@ -437,11 +451,11 @@ func idle_sound(active: bool) -> void:
 #Weapons
 func take_damage(damage:float, hit_pos: Vector2) -> void:
 	if Utility.mainScene.in_galaxy_warp == false:
-		health.hp_current -= damage # Take damage
-		SignalBus.playerShieldChanged.emit(health.hp_current) # Update HUD
+		hp_current -= damage # Take damage
+		SignalBus.playerShieldChanged.emit(hp_current) # Update HUD
 		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
 		
-		if health.hp_current <= 0:
+		if hp_current <= 0:
 			killPlayer()
 
 

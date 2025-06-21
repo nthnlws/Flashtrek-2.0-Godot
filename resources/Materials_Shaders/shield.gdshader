@@ -12,7 +12,7 @@ void fragment(){
 
 	float outer = circle(vec2(UV.x, UV.y), 0.35, 0.035);
 
-	float fade_effect = sin(TIME) * 0.01;
+	float fade_effect = sin(TIME * 0.5) * 0.02;
 
 	float inner = 1.0 - circle(vec2(UV.x, UV.y), 0.275, 0.1 - fade_effect );
 
