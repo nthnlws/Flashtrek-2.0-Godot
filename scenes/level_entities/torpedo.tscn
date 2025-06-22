@@ -165,6 +165,5 @@ stream = ExtResource("5_3x835")
 volume_db = -20.0
 pitch_scale = 2.0
 
-[connection signal="area_entered" from="." to="." method="_on_torpedo_collision"]
 [connection signal="animation_finished" from="explosion_animation" to="." method="_on_animation_finished"]
 [connection signal="finished" from="torpedo_hit" to="." method="_on_torpedo_hit_finished"]

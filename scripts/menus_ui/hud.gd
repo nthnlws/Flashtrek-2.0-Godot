@@ -32,7 +32,7 @@ func _ready() -> void:
 	#SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
 	
 	SignalBus.playerDied.connect(close_menus)
-
+	
 	set_bar_maxes() # Initializes bar values
 
 
@@ -48,6 +48,7 @@ func _on_player_health_changed(hp_current: float) -> void:
 
 
 func _on_player_max_health_changed(hp_max:float) -> void:
+	print("signal recieved")
 	health_indicator.update_hitbox_max(hp_max)
 
 
@@ -68,8 +69,8 @@ func _on_shield_ready() -> void:
 
 
 func set_bar_maxes() -> void:
-	health_indicator.update_hitbox_max(player.max_HP)
-	health_indicator.update_shield_max(playerShield.base_max_SP)
+	health_indicator.update_hitbox_max(player.base_max_HP)
+	health_indicator.update_shield_max(playerShield.sp_max)
 	#energy_bar.max_value = player.max_energy
 	health_indicator.update_hitbox_health(player.hp_current)
 	health_indicator.update_shield_health(playerShield.sp_current)

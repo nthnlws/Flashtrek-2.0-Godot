@@ -21,6 +21,9 @@ signal playerMaxShieldChanged(sp_max)
 signal playerShieldChanged(sp_current)
 signal playerEnergyChanged(energy_current)
 
+signal playerShieldOff
+signal playerShieldOn
+
 #World navigation
 signal galaxy_map_clicked(system_clicked)
 signal triggerGalaxyWarp

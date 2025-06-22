@@ -13,7 +13,7 @@ var faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
-var rotation_rate: float = 3.0
+var rotation_rate: float = 1.5
 var shield_on: bool = true
 var hp_max: int = 100
 var fire_rate: float = 1.0
@@ -51,7 +51,7 @@ func _ready() -> void:
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
 	agro_box.body_exited.connect(_on_agro_box_body_exited)
 	
-	_sync_data_to_resource(Utility.SHIP_TYPES.Nebula_Class)
+	_sync_data_to_resource(Utility.SHIP_TYPES.Excelsior_Class)
 	_sync_stats_to_resource(Utility.SHIP_TYPES.Excelsior_Class)
 	# Initialize AI-related data
 	if AI_enabled:

@@ -1,5 +1,6 @@
 extends TextureRect
 
+@export var shield_node: ColorRect
 @export var fill_color: Color = Color(0.0, 1.0, 0.0, 1.0)
 @export var max_HP: float = 100.0
 var current_HP: float = 100.0:
@@ -19,6 +20,13 @@ func _ready():
 	update_hud_health_display()
 
 
+func update_sprite_position() -> void:
+	var current_scale:Vector2 = shield_node.scale
+	var new_sprite_x:float = (shield_node.custom_minimum_size.x * current_scale.x / 2) + 24
+	var new_sprite_y:float = (shield_node.custom_minimum_size.y * current_scale.y / 2) - 24
+	position = Vector2(new_sprite_x, new_sprite_y)
+	
+	
 func update_hud_health_display():
 	if material is ShaderMaterial:
 		var health_ratio = 0.0

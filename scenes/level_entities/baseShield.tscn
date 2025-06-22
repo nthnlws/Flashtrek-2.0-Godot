@@ -2,14 +2,14 @@
 
 [ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="1_7v2r8"]
 [ext_resource type="Texture2D" uid="uid://degu3qo86a3hj" path="res://assets/textures/ships/blank_pship.png" id="2_212fm"]
-[ext_resource type="Script" uid="uid://y3ogflhdxqcw" path="res://scripts/level_entities/Shield.gd" id="3_7v2r8"]
+[ext_resource type="Script" uid="uid://y3ogflhdxqcw" path="res://scripts/level_entities/base_shield.gd" id="3_7v2r8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
 shader = ExtResource("1_7v2r8")
 shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
-radius = 14.0017
+radius = 18.0
 
 [sub_resource type="Animation" id="Animation_q5ohx"]
 length = 0.001
@@ -58,7 +58,8 @@ collision_layer = 128
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
-scale = Vector2(1, 1.835)
+unique_name_in_owner = true
+scale = Vector2(1, 1.95)
 shape = SubResource("CircleShape2D_5nxll")
 
 [node name="Timer" type="Timer" parent="."]

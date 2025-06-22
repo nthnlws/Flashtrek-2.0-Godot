@@ -46,6 +46,7 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @export var base_max_HP: int = 150:
 	set(value):
 		base_max_HP = value
+		if hp_current > value: hp_current = value
 		SignalBus.playerMaxHealthChanged.emit(value)
 var max_HP:int:
 	get:
@@ -130,8 +131,8 @@ func _ready() -> void:
 	
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
-	_sync_data_to_resource(Utility.SHIP_TYPES.D5_Class)
-	_sync_stats_to_resource(Utility.SHIP_TYPES.D5_Class)
+	_sync_data_to_resource(Utility.SHIP_TYPES.Hideki_Class)
+	_sync_stats_to_resource(Utility.SHIP_TYPES.Hideki_Class)
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
 
@@ -162,7 +163,7 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
 	base_max_speed = ship_stats.SPEED
 	base_rotation_speed = ship_stats.ROTATION_SPEED
 	base_max_HP = ship_stats.MAX_HP
-	shield.base_max_SP = ship_stats.MAX_SHIELD
+	shield.sp_max = ship_stats.MAX_SHIELD
 	shoot_rate_mult = ship_stats.SHOOT_MULTIPLIER
 	base_cargo_size = ship_stats.CARGO_SIZE
 
@@ -203,8 +204,6 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 func _process(delta: float) -> void:
 	if !alive: return
-	
-	#print(global_position)
 	
 	if GameSettings.speedOverride == true:
 		max_speed = GameSettings.maxSpeed
@@ -311,7 +310,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 				overdrive_sound_off()
 	else: # Overdrive on transition
 		overdrive_active = true
-		overdrive_sound_off()
+		overdrive_sound_on()
 		match speed:
 			"INSTANT":
 				scale = base_scale * Vector2(1, 1.70)
@@ -387,7 +386,7 @@ func respawn(pos: Vector2) -> void:
 		# Restores all HUD values to max
 		hp_current = max_HP #Resets HP to max
 		energy_current = max_energy #Resets energy
-		shield.sp_current = shield.base_max_SP #Resets Shield
+		shield.sp_current = shield.sp_max #Resets Shield
 	
 		rotation = 0 #Sets rotation to north
 		
@@ -452,7 +451,6 @@ func idle_sound(active: bool) -> void:
 func take_damage(damage:float, hit_pos: Vector2) -> void:
 	if Utility.mainScene.in_galaxy_warp == false:
 		hp_current -= damage # Take damage
-		SignalBus.playerShieldChanged.emit(hp_current) # Update HUD
 		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
 		
 		if hp_current <= 0:

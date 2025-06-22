@@ -9,12 +9,15 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bmthh"]
 shader = ExtResource("1_tnw4a")
-shader_parameter/color = Color(0.360158, 0.52734, 0.837233, 1)
+shader_parameter/color = Color(0.36, 0.527, 0.837, 1)
 shader_parameter/health_ratio = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tnw4a"]
 shader = ExtResource("1_b2c71")
-shader_parameter/health_color = Color(0, 1, 0, 1)
+shader_parameter/high_health_color = Color(0, 1, 0, 1)
+shader_parameter/mid_health_color = Color(1, 0.65, 0, 1)
+shader_parameter/low_health_color = Color(1, 0, 0, 1)
+shader_parameter/mid_health_threshold = 0.6
 shader_parameter/empty_color = Color(0.1, 0.1, 0.1, 1)
 shader_parameter/outline_color = Color(1, 1, 1, 1)
 shader_parameter/outline_width = 1.0
@@ -27,7 +30,7 @@ shader_parameter/content_bounds_in_region_uv_size = Vector2(1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b2c71"]
 atlas = ExtResource("1_vpj4s")
-region = Rect2(48, 0, 48, 48)
+region = Rect2(48, 96, 48, 48)
 filter_clip = true
 
 [node name="health_indicator" type="Control"]
@@ -37,8 +40,9 @@ offset_right = 80.0
 offset_bottom = 60.0
 script = ExtResource("1_41b34")
 
-[node name="SP_health" type="ColorRect" parent="."]
+[node name="shield_icon" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_bmthh")
+custom_minimum_size = Vector2(80, 60)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,24 +51,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_bmthh")
 
-[node name="HP_health" type="TextureRect" parent="."]
-material = SubResource("ShaderMaterial_tnw4a")
-layout_mode = 0
-offset_left = 64.0
-offset_top = 6.0
-offset_right = 112.0
-offset_bottom = 54.0
-rotation = 1.5708
-texture = SubResource("AtlasTexture_b2c71")
-stretch_mode = 3
-script = ExtResource("1_ddvhb")
-fill_color = Color(0, 0.7187, 0.290697, 1)
-
-[node name="ReferenceRect" type="ReferenceRect" parent="."]
-visible = false
+[node name="ReferenceRect" type="ReferenceRect" parent="shield_icon"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="hull_icon" type="TextureRect" parent="." node_paths=PackedStringArray("shield_node")]
+material = SubResource("ShaderMaterial_tnw4a")
+layout_mode = 0
+offset_left = 64.0
+offset_top = 5.0
+offset_right = 112.0
+offset_bottom = 53.0
+rotation = 1.5708
+texture = SubResource("AtlasTexture_b2c71")
+stretch_mode = 3
+script = ExtResource("1_ddvhb")
+shield_node = NodePath("../shield_icon")
+fill_color = Color(0, 0.7187, 0.290697, 1)

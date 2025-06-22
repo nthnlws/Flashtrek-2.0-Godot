@@ -9,7 +9,7 @@ shader = ExtResource("1_rvxaq")
 shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
-radius = 14.0
+radius = 18.0
 
 [node name="playerShield" type="Sprite2D"]
 material = SubResource("ShaderMaterial_ksrv6")
@@ -21,7 +21,8 @@ collision_layer = 64
 collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
-scale = Vector2(1, 1.835)
+unique_name_in_owner = true
+scale = Vector2(1, 1.95)
 shape = SubResource("CircleShape2D_5nxll")
 
 [node name="Timer" type="Timer" parent="."]

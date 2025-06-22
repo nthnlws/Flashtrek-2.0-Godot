@@ -12,7 +12,7 @@ extends Area2D
 var animation_finished: bool = false
 var sound_finished: bool = false
 
-var moving: bool = true
+var alive: bool = true
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
 var movement_vector := Vector2(0, -1)
 
@@ -23,42 +23,46 @@ var age: float = 0.0
 var damage:float = 15.0
 
 func _ready() -> void:
+	area_entered.connect(_on_torpedo_collision)
+	
 	var parent = get_parent().get_parent()
 	if parent.has_method("energy_drain"):
 		if GameSettings.unlimitedEnergy == false:
 			parent.energy_drain(energy_cost)
-		
-	
+
+
 func _process(delta: float) -> void:
-	age += delta
-	if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
-		self.global_position.y >= GameSettings.borderValue or self.global_position.y < -GameSettings.borderValue):
+	if alive:
+		age += delta
+		if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
+			self.global_position.y >= GameSettings.borderValue or self.global_position.y < -GameSettings.borderValue):
+				queue_free()
+				
+		if age > lifetime_seconds:
 			queue_free()
-			
-	if age > lifetime_seconds:
-		queue_free()
-	
+		
 	if animation_finished and sound_finished:
 		queue_free()
 
 
 func _physics_process(delta: float) -> void:
-	if moving:
+	if alive:
 		global_position += movement_vector.rotated(rotation) * speed * delta
 
 
 func kill_projectile(target) -> void: # Creates explosion animation and kills self
 	$Sprite2D.visible = false
-	moving = false
 	if target == "shield_area":
 		animation.play("explode_shield")
 	elif target == "hitbox_area":
 		animation.play("explode_hull")
 	hit_sound.play()
-	
+	await hit_sound.finished
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
+	area_entered.disconnect(_on_torpedo_collision)
+	alive = false
 	set_deferred("collision.disabled", true)
 	var parent = area.get_parent()
 	var name = area.name
@@ -69,6 +73,7 @@ func _on_torpedo_collision(area: Area2D) -> void:
 
 func _on_animation_finished() -> void:
 	animation_finished = true
+
 
 func _on_torpedo_hit_finished() -> void:
 	sound_finished = true

@@ -10,7 +10,17 @@ var current_SP: float = 100.0:
 		(material as ShaderMaterial).set_shader_parameter("health_ratio", ratio)
 
 func _ready() -> void:
+	SignalBus.playerShieldOff.connect(handle_player_shield_state.bind("OFF"))
+	SignalBus.playerShieldOn.connect(handle_player_shield_state.bind("ON"))
 	current_SP = max_SP
+
+func handle_player_shield_state(state:String) -> void:
+	var mat: ShaderMaterial = material
+	match state:
+		"ON":
+			mat.set_shader_parameter("color", Color("5c86d5"))
+		"OFF":
+			mat.set_shader_parameter("color", Color("d65865"))
 
 # Debug func for shader testing
 #func _input(event): 
