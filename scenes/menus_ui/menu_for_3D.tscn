@@ -370,7 +370,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 15
-text = "V 0.0.07"
+text = "V 0.0.08"
 horizontal_alignment = 2
 vertical_alignment = 1
 

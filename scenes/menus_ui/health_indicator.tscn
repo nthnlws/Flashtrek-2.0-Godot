@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d05d2u5krdsbn" path="res://scenes/menus_ui/health_indicator.gd" id="1_41b34"]
 [ext_resource type="Shader" uid="uid://b7m3owcdweg44" path="res://resources/Materials_Shaders/hull_health_shader.gdshader" id="1_b2c71"]
-[ext_resource type="Script" uid="uid://hxemtdb023e5" path="res://health_ship.gd" id="1_ddvhb"]
+[ext_resource type="Script" uid="uid://hxemtdb023e5" path="res://scripts/menus_ui/hull_icon.gd" id="1_ddvhb"]
 [ext_resource type="Shader" uid="uid://ciiao8asu4lm4" path="res://resources/Materials_Shaders/shield_health_shader.gdshader" id="1_tnw4a"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="1_vpj4s"]
 [ext_resource type="Script" uid="uid://dmusguquxjkea" path="res://scenes/menus_ui/ship_shield_hud.gd" id="2_bmthh"]
