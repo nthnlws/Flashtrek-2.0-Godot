@@ -93,19 +93,6 @@ step = 0.1
 value = 100.0
 show_percentage = false
 
-[node name="EnergyBar" type="ProgressBar" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
-unique_name_in_owner = true
-visible = false
-modulate = Color(0.772549, 0.584314, 0.0235294, 1)
-custom_minimum_size = Vector2(180, 12)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-mouse_filter = 1
-step = 0.1
-value = 100.0
-show_percentage = false
-
 [node name="MiddleContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -114,18 +101,10 @@ mouse_filter = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer"]
 layout_mode = 2
 
-[node name="Variable" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 1
-text = "Zoom: (0.x, 0.x)"
-label_settings = SubResource("LabelSettings_qqd3h")
-
 [node name="Score" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 6
 size_flags_vertical = 0
 mouse_filter = 1
 text = "Score: 0"
@@ -134,6 +113,7 @@ label_settings = SubResource("LabelSettings_qqd3h")
 [node name="FPS" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "FPS: 123"
 label_settings = SubResource("LabelSettings_pu3f4")
 
@@ -180,7 +160,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 
 [node name="Comms_UI" parent="." instance=ExtResource("5_hp4w2")]
 visible = false

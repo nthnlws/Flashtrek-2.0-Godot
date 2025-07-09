@@ -78,11 +78,15 @@ var acceleration:int:
 @export var shield_on:bool = true
 
 # Energy system variables
-@export var base_max_energy: int = 150
+@export var base_max_energy: int = 150:
+	set(value):
+		base_max_energy = value
+		SignalBus.playerMaxEnergyChanged.emit(base_max_energy)
 var max_energy:int:
 	get:
 		return PlayerUpgrades.MaxEnergyAdd + (base_max_energy * PlayerUpgrades.MaxEnergyMult)
-		
+
+
 var energy_current:float = max_energy:
 	set(value):
 		energy_current = clamp(value, 0, max_energy)
@@ -135,9 +139,18 @@ func _ready() -> void:
 	_sync_stats_to_resource(Utility.SHIP_TYPES.Hideki_Class)
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
+	
+	call_deferred("initialize_hud_values")
 
 
-func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
+func initialize_hud_values() -> void:
+	SignalBus.playerMaxEnergyChanged.emit(max_energy)
+	SignalBus.playerEnergyChanged.emit(energy_current)
+	SignalBus.playerMaxHealthChanged.emit(max_HP)
+	SignalBus.playerHealthChanged.emit(hp_current)
+
+
+func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
@@ -157,7 +170,7 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 	$WorldCollisionShape.polygon = PV2Array
 
 
-func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
+func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[ship]
 	
 	base_max_speed = ship_stats.SPEED
@@ -339,6 +352,7 @@ func shoot_torpedo() -> void:
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.z_index = 0
+		t.drain_energy.connect(energy_drain)
 		
 		t.set_collision_layer_value(9, true) # Sets layer to player projectile
 		t.set_collision_mask_value(3, true) # Turns on enemy hitbox detection

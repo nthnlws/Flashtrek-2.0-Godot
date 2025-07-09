@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ql7hauppmo0q"
-path="res://.godot/imported/Kenney Blocks.ttf-0dfaffe2fefda88ad4794f6b60b99f7b.fontdata"
+uid="uid://d3pmli8sgfifn"
+path="res://.godot/imported/Okuda Bold.otf-e8b40891904cd36a9d46f2d5a1d6c015.fontdata"
 
 [deps]
 
-source_file="res://assets/font/Kenney Blocks.ttf"
-dest_files=["res://.godot/imported/Kenney Blocks.ttf-0dfaffe2fefda88ad4794f6b60b99f7b.fontdata"]
+source_file="res://assets/font/Okuda Bold.otf"
+dest_files=["res://.godot/imported/Okuda Bold.otf-e8b40891904cd36a9d46f2d5a1d6c015.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

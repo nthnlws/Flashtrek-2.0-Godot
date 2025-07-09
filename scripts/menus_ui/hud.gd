@@ -1,17 +1,12 @@
 extends Control
 
-@onready var player: Player = Utility.mainScene.player
-@onready var playerShield: Sprite2D = player.get_node("playerShield")
-@onready var camera: Camera2D = player.get_node("Camera2D")
-
 @onready var missions: Control = $Missions
 @onready var comms_ui: Control = $Comms_UI
 @onready var message_ui: Control = $message_UI
 
 @onready var health_indicator: Control = %health_indicator
+@onready var player = get_tree().get_first_node_in_group("player")
 
-
-@onready var variable: Label = %Variable
 @onready var fps: Label = %FPS
 @onready var coords: Label = %Coords
 
@@ -25,21 +20,19 @@ var current_score: int = 0
 func _ready() -> void:
 	# Signal connections
 	SignalBus.updateScore.connect(updateScore)
+	
 	SignalBus.playerHealthChanged.connect(_on_player_health_changed)
 	SignalBus.playerMaxHealthChanged.connect(_on_player_max_health_changed)
 	SignalBus.playerMaxShieldChanged.connect(_on_player_max_shield_changed)
 	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
-	#SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
+	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
+	SignalBus.playerMaxEnergyChanged.connect(_on_player_max_energy_changed)
 	
 	SignalBus.playerDied.connect(close_menus)
-	
-	set_bar_maxes() # Initializes bar values
 
 
 func _process(delta: float) -> void:
-	variable.text = "Zoom: " + str(snapped(camera.zoom,Vector2(0.01, 0.01)))
-	coords.text = str(round(player.global_position))
-	
+	coords.text = str(Vector2i(player.global_position))
 	fps.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
 
 
@@ -48,7 +41,6 @@ func _on_player_health_changed(hp_current: float) -> void:
 
 
 func _on_player_max_health_changed(hp_max:float) -> void:
-	print("signal recieved")
 	health_indicator.update_hitbox_max(hp_max)
 
 
@@ -60,21 +52,17 @@ func _on_player_max_shield_changed(sp_max:float) -> void:
 	health_indicator.update_shield_max(sp_max)
 
 
-#func _on_player_energy_changed(energy_current: float) -> void:
-	#energy_bar.value = energy_current
+func _on_player_energy_changed(energy_current: float) -> void:
+	health_indicator.update_energy_value(energy_current)
+
+
+func _on_player_max_energy_changed(energy_max: float) -> void:
+	print("HUD signal")
+	health_indicator.update_energy_max(energy_max)
 
 
 func _on_shield_ready() -> void:
 	shieldActive = true
-
-
-func set_bar_maxes() -> void:
-	health_indicator.update_hitbox_max(player.base_max_HP)
-	health_indicator.update_shield_max(playerShield.sp_max)
-	#energy_bar.max_value = player.max_energy
-	health_indicator.update_hitbox_health(player.hp_current)
-	health_indicator.update_shield_health(playerShield.sp_current)
-	#energy_bar.value = player.energy_current
 
 
 func _on_texture_rect_gui_input(event: InputEvent) -> void:

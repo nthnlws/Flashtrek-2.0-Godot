@@ -52,7 +52,15 @@ enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/
 [file_customization]
 
 folder_colors={
-"res://assets/": "gray",
+"res://assets/": "yellow",
+"res://assets/Blender/": "yellow",
+"res://assets/Discord Assets/": "yellow",
+"res://assets/audio/": "yellow",
+"res://assets/data/": "yellow",
+"res://assets/font/": "yellow",
+"res://assets/icons/": "yellow",
+"res://assets/textures/": "yellow",
+"res://assets/video/": "yellow",
 "res://resources/": "blue",
 "res://scenes/": "red",
 "res://scenes/level_entities/planet.tscn": "gray",

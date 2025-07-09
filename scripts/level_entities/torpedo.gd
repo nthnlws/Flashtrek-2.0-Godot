@@ -1,10 +1,11 @@
 extends Area2D
 
+signal drain_energy(amount:int)
+
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @export var damage_indicator: PackedScene
 @onready var hit_sound: AudioStreamPlayer2D = $torpedo_hit
-
 
 @export var speed:int = 1000
 @export var energy_cost:int = 10
@@ -24,11 +25,9 @@ var damage:float = 15.0
 
 func _ready() -> void:
 	area_entered.connect(_on_torpedo_collision)
-	
-	var parent = get_parent().get_parent()
-	if parent.has_method("energy_drain"):
-		if GameSettings.unlimitedEnergy == false:
-			parent.energy_drain(energy_cost)
+
+	if GameSettings.unlimitedEnergy == false:
+		drain_energy.emit(energy_cost)
 
 
 func _process(delta: float) -> void:

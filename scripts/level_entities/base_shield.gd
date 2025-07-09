@@ -1,6 +1,5 @@
 class_name Shield extends Sprite2D
 
-@onready var parent: Node = get_parent()
 @onready var collision_shape: CollisionShape2D = %CollisionShape2D
 @onready var shield_area:Area2D = $shield_area
 
@@ -15,18 +14,22 @@ var trans_length:float = 0.8
 
 
 # Shield health variables
-@export var sp_max:int = 50
+@export var sp_max:int = 50:
+	set(value):
+		sp_max = set_shield_max(value)
 var sp_current:float = sp_max:
 	set(value): 
-		sp_current = set_shield(value)
+		sp_current = set_shield_value(value)
 
 func _set_shield_active(state:bool):
 	return state
 
 
-func set_shield(value) -> float:
+func set_shield_value(value) -> float:
 	return clamp(value, 0.0, sp_max)
 
+func set_shield_max(value) -> float:
+	return value
 
 func regen_shield(delta: float) -> void:
 	sp_current += regen_speed * delta

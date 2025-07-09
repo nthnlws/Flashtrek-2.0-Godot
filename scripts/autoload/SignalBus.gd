@@ -20,6 +20,7 @@ signal playerMaxHealthChanged(hp_max)
 signal playerMaxShieldChanged(sp_max)
 signal playerShieldChanged(sp_current)
 signal playerEnergyChanged(energy_current)
+signal playerMaxEnergyChanged(energy_max)
 
 signal playerShieldOff
 signal playerShieldOn

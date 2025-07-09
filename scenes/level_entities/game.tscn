@@ -1,10 +1,9 @@
-[gd_scene load_steps=40 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=39 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
 [ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
 [ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_entities/level_borders.tscn" id="2_ufmu8"]
-[ext_resource type="PackedScene" uid="uid://dwwjje64opjab" path="res://scenes/menus_ui/game_over_screen.tscn" id="3_km7re"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/level_entities/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/level_entities/player_spawn_area.tscn" id="6_qnb83"]
@@ -270,10 +269,6 @@ offset_bottom = 469.0
 [node name="Menus" type="CanvasLayer" parent="."]
 process_mode = 1
 script = ExtResource("14_nkpvs")
-
-[node name="GameOverScreen" parent="Menus" instance=ExtResource("3_km7re")]
-visible = false
-z_index = 1
 
 [node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
 visible = false

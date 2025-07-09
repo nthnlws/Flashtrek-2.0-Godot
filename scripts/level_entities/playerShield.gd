@@ -1,5 +1,9 @@
 extends Shield
 
+func _ready() -> void:
+	#Initialize HUD values
+	call_deferred("initialize_hud_values")
+
 
 func _process(delta: float) -> void:
 	if sp_current <= sp_max and damageTime == false:
@@ -7,6 +11,7 @@ func _process(delta: float) -> void:
 	if get_parent().overdrive_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping
 		shieldActive = false
+
 
 func _set_shield_active(value) -> bool:
 	super(value)
@@ -18,11 +23,17 @@ func _set_shield_active(value) -> bool:
 	return value
 
 
-func set_shield(value) -> float:
+func set_shield_value(value) -> float:
 	super(value)
 	var clamped_value: float = clamp(value, 0.0, sp_max)
 	SignalBus.playerShieldChanged.emit(clamped_value)
 	return clamped_value
+
+
+func set_shield_max(value) -> float:
+	super(value)
+	SignalBus.playerMaxShieldChanged.emit(value)
+	return value
 
 
 func take_damage(damage:float, hit_pos: Vector2) -> void:
@@ -33,3 +44,8 @@ func take_damage(damage:float, hit_pos: Vector2) -> void:
 		
 		if sp_current <= 0:
 			shieldDie()
+
+
+func initialize_hud_values() -> void:
+	SignalBus.playerMaxShieldChanged.emit(sp_max)
+	SignalBus.playerShieldChanged.emit(sp_current)

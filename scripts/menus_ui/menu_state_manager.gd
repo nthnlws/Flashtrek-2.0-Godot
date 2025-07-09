@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 # Enum for menu states
-enum MenuState { NONE, PAUSE_MENU, GAME_OVER, GALAXY_MAP, SHIP_SELECTION }
+enum MenuState { NONE, PAUSE_MENU, GALAXY_MAP, SHIP_SELECTION }
 
 # Variable to keep track of the current menu state
 var current_state: MenuState = MenuState.NONE
@@ -37,8 +37,6 @@ func handle_escape_press() -> void:
 		MenuState.GALAXY_MAP:
 			# Galaxy map is open, close it
 			toggle_menu($GalaxyMap, MenuState.NONE)
-		MenuState.GAME_OVER:
-			toggle_menu($GameOverScreen, MenuState.NONE)
 		MenuState.SHIP_SELECTION:
 			# Starbse comms are open, close it
 			toggle_menu($ShipSelectionMenu, MenuState.NONE)

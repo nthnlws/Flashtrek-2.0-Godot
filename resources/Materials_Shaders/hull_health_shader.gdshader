@@ -63,7 +63,7 @@ void fragment() {
     if (local_uv_for_fill.x >= 0.0 && local_uv_for_fill.x <= 1.0 &&
         local_uv_for_fill.y >= 0.0 && local_uv_for_fill.y <= 1.0) {
         if (current_uv_check_value <= health_ratio) {
-            
+
             // --- COLOR LOGIC ---
             vec4 current_health_color;
             if (health_ratio > mid_health_threshold) {
@@ -74,14 +74,14 @@ void fragment() {
                 // We need to remap the health_ratio from the range [0.0, mid_health_threshold]
                 // to a new range of [0.0, 1.0] to use in the mix() function.
                 float transition_progress = health_ratio / mid_health_threshold;
-                
+
                 // mix() blends from the first color to the second based on the third argument.
                 // When transition_progress is 0 (health is 0), we get low_health_color (Red).
                 // When transition_progress is 1 (health is at the threshold), we get mid_health_color (Orange).
                 current_health_color = mix(low_health_color, mid_health_color, transition_progress);
             }
             final_color_fill = current_health_color;
-            
+
         } else {
             final_color_fill = empty_color;
         }

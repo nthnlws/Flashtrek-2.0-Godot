@@ -7,10 +7,10 @@ var current_HP: float = 100.0:
 	set(value):
 		current_HP = clampf(value, 0.0, max_HP)
 		update_hud_health_display()
-		_calculate_and_set_content_bounds()
+		calculate_and_set_content_bounds()
 
 # Match the enum in the shader
-enum FillDirection { VERTICAL_BOTTOM_UP = 3, VERTICAL_TOP_DOWN = 2, HORIZONTAL_LEFT_RIGHT = 0, HORIZONTAL_RIGHT_LEFT = 1 }
+enum FillDirection { HORIZONTAL_LEFT_RIGHT, HORIZONTAL_RIGHT_LEFT, VERTICAL_TOP_DOWN, VERTICAL_BOTTOM_UP }
 @export var health_fill_direction: FillDirection = FillDirection.HORIZONTAL_LEFT_RIGHT
 var _content_bounds_in_region_uv: Rect2 = Rect2(0, 0, 1, 1) # x, y, width, height (normalized)
 
@@ -55,7 +55,7 @@ func update_hud_health_display():
 	elif material == null:
 		printerr("Health display node has no material assigned!")
 
-func _calculate_and_set_content_bounds():
+func calculate_and_set_content_bounds():
 	var atlas_tex = texture as AtlasTexture
 	if not atlas_tex: # Not an atlas texture, assume content is full
 		_content_bounds_in_region_uv = Rect2(0, 0, 1, 1) # Default to full
