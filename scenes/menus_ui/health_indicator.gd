@@ -37,7 +37,6 @@ func update_shield_max(new_max_HP) -> void:
 
 
 func update_energy_max(new_max_energy) -> void:
-	print(new_max_energy)
 	energy_bar.max_value = new_max_energy
 
 

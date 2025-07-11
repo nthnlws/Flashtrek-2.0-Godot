@@ -286,6 +286,9 @@ func calculate_shooting_angle() -> float:
 
 
 func shoot_bullet() -> void:# Instantiate and configure bullet
+	if shoot_cd: return
+	shoot_cd = true
+	
 	var angle: float = calculate_shooting_angle()
 	if angle != -1.0:
 		# Prep torpedo to shoot
@@ -301,8 +304,6 @@ func shoot_bullet() -> void:# Instantiate and configure bullet
 
 
 func instantiate_bullet(bullet: Area2D) -> void:
-	if !shoot_cd:
-		shoot_cd = true
 		get_parent().add_child(bullet)
 		%LightTorpedo.play()
 		await get_tree().create_timer(fire_rate).timeout

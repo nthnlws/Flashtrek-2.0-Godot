@@ -40,8 +40,8 @@ func _process(delta: float) -> void:
 		if age > lifetime_seconds:
 			queue_free()
 		
-	if animation_finished and sound_finished:
-		queue_free()
+	elif animation_finished and sound_finished:
+			queue_free()
 
 
 func _physics_process(delta: float) -> void:
@@ -56,13 +56,17 @@ func kill_projectile(target) -> void: # Creates explosion animation and kills se
 	elif target == "hitbox_area":
 		animation.play("explode_hull")
 	hit_sound.play()
-	await hit_sound.finished
+	#await hit_sound.finished
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
-	area_entered.disconnect(_on_torpedo_collision)
+	if not alive: return
+	
 	alive = false
-	set_deferred("collision.disabled", true)
+	area_entered.disconnect(_on_torpedo_collision)
+	collision.disabled = true
+	#set_deferred("collision.disabled", true)
+	
 	var parent = area.get_parent()
 	var name = area.name
 	if parent.has_method("take_damage"):

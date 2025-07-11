@@ -89,7 +89,7 @@ func _warp_into_new_system(system) -> void:
 	
 	SignalBus.entering_new_system.emit()
 	
-	player.warping_state_change("INSTANT")
+	player.overdrive_state_change("INSTANT")
 	player._teleport_shader_toggle("uncloak")
 	
 	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
@@ -98,7 +98,7 @@ func _warp_into_new_system(system) -> void:
 	await tween2.finished
 	
 	player.camera._zoom = Vector2(0.5, 0.5)
-	player.warping_state_change("SMOOTH")
+	player.overdrive_state_change("SMOOTH")
 
 
 func add_level_ships(ship:CharacterBody2D, type:String) -> void:
