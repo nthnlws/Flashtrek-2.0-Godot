@@ -32,6 +32,7 @@ func set_shield_value(value) -> float:
 
 func set_shield_max(value) -> float:
 	super(value)
+	value = PlayerUpgrades.ShieldAdd + (value * PlayerUpgrades.ShieldMult)
 	SignalBus.playerMaxShieldChanged.emit(value)
 	return value
 

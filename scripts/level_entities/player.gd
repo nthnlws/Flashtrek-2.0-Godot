@@ -47,7 +47,7 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 	set(value):
 		base_max_HP = value
 		if hp_current > value: hp_current = value
-		SignalBus.playerMaxHealthChanged.emit(value)
+		SignalBus.playerMaxHealthChanged.emit(PlayerUpgrades.HullAdd + (value * PlayerUpgrades.HullMult))
 var max_HP:int:
 	get:
 		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
@@ -72,7 +72,7 @@ var rotation_speed:int:
 var base_acceleration:int= 5
 var acceleration:int:
 	get:
-		return PlayerUpgrades.AccelAdd + (base_acceleration * PlayerUpgrades.AccelMult)
+		return base_acceleration * PlayerUpgrades.SpeedMult
 
 
 @export var shield_on:bool = true
@@ -93,11 +93,12 @@ var energy_current:float = max_energy:
 		SignalBus.playerEnergyChanged.emit(energy_current)
 	
 
-var base_rate_of_fire:float = 0.2
+var base_rate_of_fire:float = 5
 var shoot_rate_mult:float = 1.0
 var rate_of_fire:float:
 	get:
 		return (PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult))
+		print((PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult)))
 		
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
@@ -252,7 +253,7 @@ func _physics_process(delta: float) -> void:
 			if !overdrive_active:
 				shoot_cd = true
 				shoot_torpedo()
-				await get_tree().create_timer(rate_of_fire).timeout
+				await get_tree().create_timer(1/rate_of_fire).timeout
 				shoot_cd = false
 				
 	_handle_movement(delta)
@@ -353,6 +354,7 @@ func shoot_torpedo() -> void:
 		t.rotation = self.rotation
 		t.z_index = 0
 		t.drain_energy.connect(energy_drain)
+		t.damage = (t.damage * PlayerUpgrades.DamageMult) + PlayerUpgrades.DamageAdd
 		
 		t.set_collision_layer_value(9, true) # Sets layer to player projectile
 		t.set_collision_mask_value(3, true) # Turns on enemy hitbox detection
@@ -579,3 +581,28 @@ func create_damage_indicator(damage:float, shooter:String, projectile:Area2D) ->
 
 func _on_laser_ended() -> void:
 	create_damage_indicator
+
+
+func apply_upgrade(pickup: UpgradePickup) -> void:
+	#print(max_HP)
+	var mult_step:float = 1.0 # Rate of multiplicitive increase per upgrade
+	
+	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type
+	var modifier: UpgradePickup.MODIFIER = pickup.modifier_type
+	
+	match type:
+		UpgradePickup.MODULE_TYPES.SPEED:
+			PlayerUpgrades.SpeedMult = PlayerUpgrades.SpeedMult + mult_step
+		UpgradePickup.MODULE_TYPES.ROTATION:
+			PlayerUpgrades.RotateMult = PlayerUpgrades.RotateMult + mult_step
+		UpgradePickup.MODULE_TYPES.FIRE_RATE:
+			PlayerUpgrades.FireRateMult = PlayerUpgrades.FireRateMult + mult_step
+		UpgradePickup.MODULE_TYPES.HEALTH:
+			PlayerUpgrades.HullMult = PlayerUpgrades.HullMult + mult_step
+			SignalBus.playerMaxHealthChanged.emit(max_HP)
+		UpgradePickup.MODULE_TYPES.SHIELD:
+			PlayerUpgrades.ShieldMult = PlayerUpgrades.ShieldMult + mult_step
+			if shield: # Manually forces the shield to calculate and signal the new max value
+				shield.sp_max = shield.sp_max
+		UpgradePickup.MODULE_TYPES.DAMAGE:
+			PlayerUpgrades.DamageMult = PlayerUpgrades.DamageMult + mult_step

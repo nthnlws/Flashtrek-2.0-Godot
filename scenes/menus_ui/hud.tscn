@@ -68,31 +68,6 @@ custom_minimum_size = Vector2(80, 60)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="HealthBar" type="ProgressBar" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
-unique_name_in_owner = true
-visible = false
-modulate = Color(0.192157, 0.392157, 0.101961, 1)
-custom_minimum_size = Vector2(180, 12)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-mouse_filter = 1
-step = 0.1
-value = 100.0
-show_percentage = false
-
-[node name="ShieldBar" type="ProgressBar" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
-unique_name_in_owner = true
-visible = false
-modulate = Color(0.141176, 0.329412, 0.827451, 1)
-custom_minimum_size = Vector2(180, 12)
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 1
-step = 0.1
-value = 100.0
-show_percentage = false
-
 [node name="MiddleContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3

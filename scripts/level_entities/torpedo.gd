@@ -20,7 +20,6 @@ var movement_vector := Vector2(0, -1)
 var lifetime_seconds:float = 7.5
 var age: float = 0.0
 
-@export var base_damage:int = 15
 var damage:float = 15.0
 
 func _ready() -> void:
@@ -64,8 +63,7 @@ func _on_torpedo_collision(area: Area2D) -> void:
 	
 	alive = false
 	area_entered.disconnect(_on_torpedo_collision)
-	collision.disabled = true
-	#set_deferred("collision.disabled", true)
+	set_deferred("collision.disabled", true)
 	
 	var parent = area.get_parent()
 	var name = area.name

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://berjp6uasq671"]
+
+[ext_resource type="Texture2D" uid="uid://ca0stn4vihtpd" path="res://assets/textures/UI/speed_upgrade_icon.png" id="1_labvw"]
+[ext_resource type="Script" uid="uid://bpw0odiw656e7" path="res://scenes/menus_ui/upgrade_item.gd" id="1_nm2sa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nm2sa"]
+size = Vector2(128, 128)
+
+[node name="UpgradeArea" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_nm2sa")
+
+[node name="UpgradeIcon" type="Sprite2D" parent="."]
+texture = ExtResource("1_labvw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nm2sa")
