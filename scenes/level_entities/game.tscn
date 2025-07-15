@@ -244,9 +244,13 @@ PlayerSpawnArea = ExtResource("6_qnb83")
 Sun = ExtResource("9_2srcp")
 Hostiles = ExtResource("8_qnb83")
 player = ExtResource("4_s6h4r")
+item_pickup = ExtResource("10_b4di1")
 
 [node name="UpgradeArea" parent="Level" instance=ExtResource("10_b4di1")]
 position = Vector2(2118, 494)
+upgrade_type = 5
+
+[node name="item_pickups" type="Node" parent="Level"]
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]
 process_mode = 1

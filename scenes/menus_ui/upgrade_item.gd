@@ -5,11 +5,18 @@ enum MODULE_TYPES { SPEED, ROTATION, FIRE_RATE, HEALTH, SHIELD, DAMAGE }
 enum MODIFIER { ADD, MULT }
 
 @export var modifier_type: MODIFIER = MODIFIER.MULT
-@export var upgrade_type: MODULE_TYPES = MODULE_TYPES.SPEED
+@export var upgrade_type: MODULE_TYPES = MODULE_TYPES.SPEED:
+	set(value):
+		upgrade_type = value
+		if is_node_ready():
+			change_icon_sprite(value)
 
 const FIRE_RATE_UPGRADE_ICON = preload("res://assets/textures/UI/fire_rate_upgrade_icon.png")
 const ROTATION_UPGRADE_ICON = preload("res://assets/textures/UI/rotation_upgrade_icon.png")
 const SPEED_UPGRADE_ICON = preload("res://assets/textures/UI/speed_upgrade_icon.png")
+const HEALTH_UPGRADE_ICON = preload("res://assets/textures/UI/health_upgrade_icon.png")
+const SHIELD_UPGRADE_ICON = preload("res://assets/textures/UI/shield_upgrade_icon.png")
+const DAMAGE_UPGRADE_ICON = preload("res://assets/textures/UI/damage_upgrade_icon.png")
 
 @onready var sprite: Sprite2D = $UpgradeIcon
 
@@ -20,7 +27,6 @@ func _ready() -> void:
 	
 	
 func _on_player_entered(body: Node2D) -> void:
-	print(body)
 	if body.has_method("apply_upgrade"):
 		body.apply_upgrade(self)
 		queue_free()
@@ -35,10 +41,8 @@ func change_icon_sprite(type: MODULE_TYPES) -> void:
 		MODULE_TYPES.FIRE_RATE:
 			sprite.texture = FIRE_RATE_UPGRADE_ICON
 		MODULE_TYPES.HEALTH:
-			#sprite.texture = HEALTH_UPGRADE_ICON
-			pass
+			sprite.texture = HEALTH_UPGRADE_ICON
 		MODULE_TYPES.SHIELD:
-			#sprite.texture = SHIELD_UPGRADE_ICON
-			pass
+			sprite.texture = SHIELD_UPGRADE_ICON
 		MODULE_TYPES.DAMAGE:
-			pass
+			sprite.texture = DAMAGE_UPGRADE_ICON

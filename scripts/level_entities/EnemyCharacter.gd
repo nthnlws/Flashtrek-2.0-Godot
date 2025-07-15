@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name EnemyCharacter
 
 var ship_name: String = str(Utility.SHIP_TYPES.Brel_Class)
 var faction: Utility.FACTION = Utility.FACTION.FEDERATION
@@ -185,17 +186,21 @@ func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> float:
 
 
 func explode() -> void:
-	Utility.mainScene.enemies.erase(self)
-	SignalBus.enemyDied.emit(self)
+	alive = false
 	shield.shieldDie()
 	sprite.visible = false
+	
+	Utility.mainScene.enemies.erase(self)
+	SignalBus.enemyDied.emit(self)
+	
 	collision_shape.set_deferred("disabled", true)
 	agro_area.set_deferred("disabled", true)
 	%ship_explosion.play()
-	alive = false
+	
 	animation.visible = true
 	animation.play("explode")
 	await animation.animation_finished
+	
 	queue_free()
 
 

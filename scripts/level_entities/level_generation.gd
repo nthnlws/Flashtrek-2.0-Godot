@@ -1,5 +1,6 @@
 extends Node
 
+@export_category("Level Entities")
 @export var levelBorders: PackedScene
 @export var Planet: PackedScene
 @export var Starbase: PackedScene
@@ -8,7 +9,12 @@ extends Node
 @export var Hostiles: PackedScene
 @export var player: PackedScene
 
+@export_category("Items")
+@export var item_pickup: PackedScene
+
+
 @onready var game: Node2D = $".."
+@onready var pickups: Node = $item_pickups
 
 var all_systems_data: Dictionary = {}
 
@@ -19,12 +25,21 @@ const MAX_LEVEL = 31  # Highest system level
 func _ready() -> void:
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
+	SignalBus.enemyDied.connect(spawn_loot)
+	
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generate info for all systems
 	_change_system("Solarus") # Spawn planets and move to JSON data location
-	
-	
-	
+
+
+func spawn_loot(enemy:EnemyCharacter) -> void:
+	var new_drop:UpgradePickup = item_pickup.instantiate()
+	new_drop.global_position = enemy.global_position
+	new_drop.scale = Vector2(1.25, 1.25)
+	new_drop.upgrade_type = randi_range(0, UpgradePickup.MODULE_TYPES.size() - 1) # Pick random drop type
+	pickups.call_deferred("add_child",new_drop)
+
+
 func _instaniate_enemies() -> void:
 	Utility.mainScene.enemies.clear()
 	var planets = Utility.mainScene.planets

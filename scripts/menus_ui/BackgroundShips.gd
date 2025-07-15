@@ -72,5 +72,3 @@ func get_end_position(start_position: Vector2) -> Vector2:
 		end_position = Vector2(-50, randi_range(0, viewport_size.y))
 
 	return end_position
-
-

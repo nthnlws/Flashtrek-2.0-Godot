@@ -1,7 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://berjp6uasq671"]
+[gd_scene load_steps=6 format=3 uid="uid://berjp6uasq671"]
 
 [ext_resource type="Texture2D" uid="uid://ca0stn4vihtpd" path="res://assets/textures/UI/speed_upgrade_icon.png" id="1_labvw"]
 [ext_resource type="Script" uid="uid://bpw0odiw656e7" path="res://scenes/menus_ui/upgrade_item.gd" id="1_nm2sa"]
+[ext_resource type="Shader" uid="uid://bex1pshojv55r" path="res://resources/Materials_Shaders/bounce.gdshader" id="2_ga0bh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_63q1b"]
+shader = ExtResource("2_ga0bh")
+shader_parameter/do_abs = false
+shader_parameter/do_quantize = false
+shader_parameter/quantize_to = 1.0
+shader_parameter/sine_amplitude = Vector2(0, 35)
+shader_parameter/sine_speed = Vector2(0, 2.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nm2sa"]
 size = Vector2(128, 128)
@@ -9,8 +18,10 @@ size = Vector2(128, 128)
 [node name="UpgradeArea" type="Area2D"]
 collision_mask = 2
 script = ExtResource("1_nm2sa")
+upgrade_type = 1
 
 [node name="UpgradeIcon" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_63q1b")
 texture = ExtResource("1_labvw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
