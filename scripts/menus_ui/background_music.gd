@@ -36,21 +36,21 @@ func start_music() -> void:
 func fade_music_out() -> void:
 	if fed_music.is_playing():
 		var tween: Tween = create_tween()
-		tween.tween_property(fed_music, "volume_db", -50, 4.0)
+		tween.tween_property(fed_music, "volume_db", -50, Utility.fadeLength * 2)
 		await tween.finished
 		stop_music()
 		return
 		
 	elif klingon_music.is_playing():
 		var tween: Tween = create_tween()
-		tween.tween_property(klingon_music, "volume_db", -50, 4.0)
+		tween.tween_property(klingon_music, "volume_db", -50, Utility.fadeLength * 2)
 		await tween.finished
 		stop_music()
 		return
 		
 	elif rom_music.is_playing():
 		var tween: Tween = create_tween()
-		tween.tween_property(rom_music, "volume_db", -50, 4.0)
+		tween.tween_property(rom_music, "volume_db", -50, 5.0)
 		await tween.finished
 		stop_music()
 		

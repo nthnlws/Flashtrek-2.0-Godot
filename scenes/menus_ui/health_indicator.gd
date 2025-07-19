@@ -5,7 +5,10 @@ extends Control
 @onready var energy_bar: ProgressBar = $energy_bar
 
 func _ready() -> void:
+	SignalBus.entering_galaxy_warp.connect(fade_indicator.bind("off"))
+	SignalBus.entering_new_system.connect(fade_indicator.bind("on"))
 	SignalBus.player_type_changed.connect(change_health_sprite)
+	
 	hull_icon.update_sprite_position()
 	energy_bar.set_bar_position(shield_icon.size.x * shield_icon.scale.x, shield_icon.size.y * shield_icon.scale.y)
 	
@@ -18,6 +21,14 @@ func change_health_sprite(ship:Utility.SHIP_TYPES):
 	hull_icon.calculate_and_set_content_bounds()
 	hull_icon.update_sprite_position()
 	energy_bar.set_bar_position(shield_icon.size.x * shield_icon.scale.x, shield_icon.size.y * shield_icon.scale.y)
+
+
+func fade_indicator(state) -> void:
+	if state == "off":
+		create_tween().tween_property(self, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
+	else:
+		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tween.tween_property(self, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)
 
 
 func update_shield_health(new_SP) -> void:

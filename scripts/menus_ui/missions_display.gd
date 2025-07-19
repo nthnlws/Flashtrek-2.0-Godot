@@ -34,6 +34,7 @@ func _update_mission(current_mission: Dictionary) -> void:
 		mission_label.bbcode_text = mission_text
 		mission_label.custom_minimum_size.y = mission_label.get_line_count() * 30
 
+
 var current_tweens = []
 func close_menu() -> void: # Collapse mission menu
 	# Stop all running tweens
@@ -46,11 +47,13 @@ func close_menu() -> void: # Collapse mission menu
 	current_tweens.append(tween_pos)
 	showing = false
 
+
 func open_menu() -> void:
 	var tween_pos: Object = create_tween()
 	tween_pos.tween_property(mission_container, "position", Vector2(0, 170), 1.0)
 	current_tweens.append(tween_pos)
 	showing = true
+
 
 func _reset_text() -> void:
 	mission_label.bbcode_text = "Mission: " + Utility.UI_yellow + "None[/color]"

@@ -93,8 +93,8 @@ func toggle_world_borders() -> void:
 			bord.get_node("WorldBoundary").disabled = true
 			await get_tree().create_timer(0.3).timeout
 			if Utility.mainScene.in_galaxy_warp == true:
-				create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), 0.8)
-			await get_tree().create_timer(0.8).timeout
+				create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
+			await get_tree().create_timer(Utility.fadeLength).timeout
 		else: 
 			bord.get_node("WorldBoundary").disabled = false
 			bord.modulate = Color(1, 1, 1, 1)

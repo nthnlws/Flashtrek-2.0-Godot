@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=41 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
 [ext_resource type="Shader" uid="uid://b52d70lp44fh6" path="res://resources/Materials_Shaders/warp_tunnel_shader.gdshader" id="21_sgl2t"]
 [ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="23_bt5mj"]
+[ext_resource type="Texture2D" uid="uid://clfu50ef34ac8" path="res://assets/textures/Nebula Background_edited_tilable.png" id="23_g86nl"]
 [ext_resource type="Script" uid="uid://bf380s1hlsb0f" path="res://scripts/menus_ui/background_music.gd" id="23_xpi24"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
 [ext_resource type="AudioStream" uid="uid://d1bp1vl6tiyrf" path="res://assets/audio/music/FEDERATION - Mesa.ogg" id="26_suyxu"]
@@ -334,6 +335,19 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="ScrollingBackground2" type="Parallax2D" parent="."]
+process_mode = 1
+visible = false
+scroll_scale = Vector2(0.5, 0.5)
+repeat_size = Vector2(8192, 8192)
+repeat_times = 3
+
+[node name="NebulaBackground" type="Sprite2D" parent="ScrollingBackground2"]
+visible = false
+z_index = -3
+scale = Vector2(4, 4)
+texture = ExtResource("23_g86nl")
 
 [node name="ScrollingBackground" type="Parallax2D" parent="."]
 process_mode = 1

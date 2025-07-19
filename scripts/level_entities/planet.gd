@@ -9,17 +9,17 @@ var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
 var CanCommunicate: bool = false
 var player: Player
 
-#func _process(delta):
-	#print(player)
-	
-	
+
 func _ready() -> void:
+	SignalBus.entering_galaxy_warp.connect(fade_label.bind("off"))
+	SignalBus.entering_new_system.connect(fade_label.bind("on"))
+	
 	var random_index: int = randi_range(0, 220)
 	sprite.frame = random_index
 	
 	Utility.mainScene.planets.append(self)
-	
-	
+
+
 func _physics_process(delta: float) -> void:
 	rotate(deg_to_rad(1.5)*delta)
 	node.global_rotation = 0 # Counter rotate label
@@ -34,5 +34,14 @@ func _on_comm_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		SignalBus.exitedPlanetComm.emit(self)
 
+
 func set_label(planet_name: String) -> void:
 	label.bbcode_text = Utility.UI_blue + planet_name
+
+
+func fade_label(state) -> void:
+	if state == "off":
+		create_tween().tween_property(label, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
+	elif state == "on":
+		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tween.tween_property(label, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)

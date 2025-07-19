@@ -136,7 +136,7 @@ func handle_UI_click(event: InputEvent, button: TextureButton) -> void:
 		elif button.name == "close_button":
 			Utility.play_click_sound(0)
 			close_comms()
-	
+
 
 func set_mission_text(mission_data: Dictionary) -> void:
 	# New mission pickup
@@ -173,8 +173,8 @@ func set_mission_text(mission_data: Dictionary) -> void:
 			var template_text: String = "Welcome to {planet}, {ship_name}, {random_deny}"
 			var formatted_text: String = template_text.format(data)
 			comms_message.bbcode_text = formatted_text
-			
-	
+
+
 func open_comms() -> void:
 	if visible:
 		self.visible = false
@@ -185,14 +185,13 @@ func open_comms() -> void:
 		#if player.has_mission == false:
 		var mission_data: Dictionary = generate_mission()
 		set_mission_text(mission_data)
-			
+
 
 func close_comms() -> void:
 	if visible == true:
 		completedUIdisplay = false
 		visible = false
-		
-		
+
 
 func generate_mission() -> Dictionary:
 	# Get random system
@@ -220,6 +219,7 @@ func generate_mission() -> Dictionary:
 	
 	pending_mission = misson_data
 	return misson_data
+
 
 func handle_cargo_beam() -> void:
 	# Accept new mission
@@ -261,10 +261,11 @@ func handle_cargo_beam() -> void:
 		SignalBus.updateScore.emit(player.current_mission.reward)
 		SignalBus.finishMission.emit()
 
+
 func _enter_comms(planet) -> void:
 	current_planet = planet
-	
+
+
 func _exit_comms(planet) -> void:
 	current_planet = null
 	close_comms()
-	

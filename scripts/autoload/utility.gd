@@ -108,6 +108,7 @@ var ENEMY_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
 
 var is_initial_load: bool = true
 var mainScene:Node = null # Set by main scene on _init()
+var fadeLength: float = 2.0 # Used for fade in/out on Galaxy Warp
 
 # Colors
 const UI_yellow: String = "[color=#FFCC66]"
