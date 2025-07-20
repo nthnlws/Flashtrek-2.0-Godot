@@ -33,8 +33,10 @@ func _ready() -> void:
 	if AI_enabled:
 		SignalBus.ship_instantiated.emit(self, ship_type)
 	
-	_sync_data_to_resource(Utility.SHIP_TYPES.Merchantman)
-	_sync_stats_to_resource(Utility.SHIP_TYPES.Merchantman)
+	if ship_type == "NeutralShip":
+		_sync_data_to_resource(Utility.SHIP_TYPES.Merchantman)
+		_sync_stats_to_resource(Utility.SHIP_TYPES.Merchantman)
+		
 	# Initialize AI-related data
 	if AI_enabled:
 		starbase = Utility.mainScene.starbase[0]

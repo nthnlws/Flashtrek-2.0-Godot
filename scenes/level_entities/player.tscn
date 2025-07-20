@@ -1,14 +1,15 @@
-[gd_scene load_steps=44 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=46 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/level_entities/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/level_entities/damage_marker.tscn" id="2_7odc1"]
-[ext_resource type="PackedScene" uid="uid://vrb6kndkqrbq" path="res://scenes/level_entities/playerShield.tscn" id="2_y8s0b"]
+[ext_resource type="PackedScene" uid="uid://fdd47efusngp" path="res://scenes/level_entities/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/level_entities/PlayerCamera2D.gd" id="3_fns5h"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="3_newiu"]
 [ext_resource type="Texture2D" uid="uid://cukwfy1ikknpy" path="res://assets/textures/ships/warpparticle.png" id="4_mse3f"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
 [ext_resource type="AudioStream" uid="uid://n4xp0acsyiaj" path="res://assets/audio/warp_on.ogg" id="6_ihea4"]
+[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="7_2mpn1"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
@@ -55,6 +56,10 @@ scale_min = 0.5
 color = Color(0.32549, 1, 1, 1)
 color_ramp = SubResource("GradientTexture1D_iucyo")
 alpha_curve = SubResource("CurveTexture_dad8g")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
+shader = ExtResource("7_2mpn1")
+shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6yxh3"]
 shader = ExtResource("14_ke2ow")
@@ -223,12 +228,14 @@ process_material = SubResource("ParticleProcessMaterial_ai1hp")
 [node name="Muzzle" type="Node2D" parent="."]
 position = Vector2(0, -12)
 
-[node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
-scale = Vector2(2.5, 2.5)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
 script = ExtResource("3_fns5h")
+
+[node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_ksrv6")
+scale = Vector2(2.5, 2.5)
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true

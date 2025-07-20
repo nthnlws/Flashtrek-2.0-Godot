@@ -1,7 +1,8 @@
-class_name Shield extends Sprite2D
+class_name baseShield extends Node2D
 
 @onready var collision_shape: CollisionShape2D = %CollisionShape2D
 @onready var shield_area:Area2D = $shield_area
+@onready var sprite: ColorRect = $ColorRect
 
 
 var damageTime:bool = false # Timeout
@@ -21,6 +22,11 @@ var sp_current:float = sp_max:
 	set(value): 
 		sp_current = set_shield_value(value)
 
+
+func _ready() -> void:
+	modulate.a = 1.0
+
+
 func _set_shield_active(state:bool):
 	return state
 
@@ -28,8 +34,10 @@ func _set_shield_active(state:bool):
 func set_shield_value(value) -> float:
 	return clamp(value, 0.0, sp_max)
 
+
 func set_shield_max(value) -> float:
 	return value
+
 
 func regen_shield(delta: float) -> void:
 	sp_current += regen_speed * delta
@@ -38,7 +46,7 @@ func regen_shield(delta: float) -> void:
 # Fades shield to 0 Alpha
 func fadeout_INSTANT() -> void:
 	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 0, trans_length)
+	tween.tween_property(sprite, "modulate:a", 0, trans_length)
 	await tween.finished
 	collision_shape.set_deferred("disabled", true)
 	shieldActive = false
@@ -46,7 +54,7 @@ func fadeout_INSTANT() -> void:
 
 func fadeout_SMOOTH() -> void:
 	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 0, trans_length)
+	tween.tween_property(sprite, "modulate:a", 0, trans_length)
 	await tween.finished
 	collision_shape.set_deferred("disabled", true)
 	shieldActive = false
@@ -54,14 +62,14 @@ func fadeout_SMOOTH() -> void:
 
 # Fades shield in to 255 Alpha
 func fadein_INSTANT() -> void:
-	modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
+	sprite.modulate.a = 1  # Instantly set alpha to 1 (255 equivalent)
 	collision_shape.set_deferred("disabled", false)
 	shieldActive = true
 
 
 func fadein_SMOOTH() -> void:
 	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(self, "modulate:a", 1, trans_length)
+	tween.tween_property(sprite, "modulate:a", 1, trans_length)
 	await tween.finished
 	collision_shape.set_deferred("disabled", false)
 	shieldActive = true
@@ -81,7 +89,7 @@ func shieldAlive() -> void: #Instant on shield
 	self.visible = true
 	shieldActive = true
 
-
+ 
 func damageTimeout() -> void: #Turns off shield regen for 1 second after damage taken
 	damageTime = true
 	if $Timer.is_stopped() == false: # If timer is already running, restarts timer fresh

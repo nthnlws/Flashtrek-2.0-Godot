@@ -1,32 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://b22yde5yoq56c"]
+[gd_scene load_steps=6 format=3 uid="uid://t8ejhfca8ulm"]
 
-[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="1_uausp"]
-[ext_resource type="Texture2D" uid="uid://degu3qo86a3hj" path="res://assets/textures/ships/blank_pship.png" id="2_h8s3t"]
+[ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="1_h5n85"]
 [ext_resource type="Script" uid="uid://1g8vwv3gjns3" path="res://scripts/level_entities/enemyShield.gd" id="3_0y86e"]
+[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="3_w2l47"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
-shader = ExtResource("1_uausp")
-shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_36h87"]
+shader = ExtResource("3_w2l47")
+shader_parameter/color = Color(0.36, 0.527, 0.837, 1)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_o5xdf"]
 radius = 18.0
 
-[node name="enemyShield" type="Sprite2D"]
-material = SubResource("ShaderMaterial_ksrv6")
-texture = ExtResource("2_h8s3t")
+[node name="enemyShield" instance=ExtResource("1_h5n85")]
 script = ExtResource("3_0y86e")
 
-[node name="shield_area" type="Area2D" parent="." groups=["enemy_shield"]]
-collision_layer = 128
-collision_mask = 256
+[node name="ColorRect" parent="." index="0"]
+material = SubResource("ShaderMaterial_36h87")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
-unique_name_in_owner = true
-scale = Vector2(1, 1.95)
-shape = SubResource("CircleShape2D_5nxll")
-
-[node name="Timer" type="Timer" parent="."]
-
-[node name="Hitmarkers" type="Node" parent="."]
-
-[connection signal="area_entered" from="shield_area" to="." method="_on_shield_area_entered"]
+[node name="CollisionShape2D" parent="shield_area" index="0"]
+shape = SubResource("CircleShape2D_o5xdf")

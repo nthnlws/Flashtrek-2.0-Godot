@@ -1,6 +1,9 @@
-extends Shield
+extends baseShield
+class_name PlayerShield
+
 
 func _ready() -> void:
+	super()
 	#Initialize HUD values
 	call_deferred("initialize_hud_values")
 
@@ -18,7 +21,7 @@ func _set_shield_active(value) -> bool:
 	# Used for setting HUD health indicator color
 	if value == false:
 		SignalBus.playerShieldOff.emit()
-	else:
+	else: 
 		SignalBus.playerShieldOn.emit()
 	return value
 

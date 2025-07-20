@@ -1,32 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://vrb6kndkqrbq"]
+[gd_scene load_steps=6 format=3 uid="uid://fdd47efusngp"]
 
-[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="1_rvxaq"]
-[ext_resource type="Texture2D" uid="uid://degu3qo86a3hj" path="res://assets/textures/ships/blank_pship.png" id="2_yve2b"]
+[ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="1_ffnip"]
 [ext_resource type="Script" uid="uid://3hwprilhyspa" path="res://scripts/level_entities/playerShield.gd" id="3_83jbl"]
+[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="3_vk8hy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
-shader = ExtResource("1_rvxaq")
-shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_doeqj"]
+shader = ExtResource("3_vk8hy")
+shader_parameter/color = Color(0.36, 0.527, 0.837, 1)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_cdtdq"]
 radius = 18.0
 
-[node name="playerShield" type="Sprite2D"]
-material = SubResource("ShaderMaterial_ksrv6")
-texture = ExtResource("2_yve2b")
+[node name="playerShield" instance=ExtResource("1_ffnip")]
 script = ExtResource("3_83jbl")
 
-[node name="shield_area" type="Area2D" parent="." groups=["shield"]]
+[node name="ColorRect" parent="." index="0"]
+material = SubResource("ShaderMaterial_doeqj")
+
+[node name="shield_area" parent="." index="1"]
 collision_layer = 64
-collision_mask = 512
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
-unique_name_in_owner = true
-scale = Vector2(1, 1.95)
-shape = SubResource("CircleShape2D_5nxll")
-
-[node name="Timer" type="Timer" parent="."]
-
-[node name="Hitmarkers" type="Node" parent="."]
-
-[connection signal="area_entered" from="shield_area" to="." method="_on_shield_area_entered"]
+[node name="CollisionShape2D" parent="shield_area" index="0"]
+shape = SubResource("CircleShape2D_cdtdq")

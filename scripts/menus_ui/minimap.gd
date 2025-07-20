@@ -92,6 +92,7 @@ func create_minimap_objects() -> void:
 		if starbase:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
+			texture_rect.modulate = Color.WHITE
 			texture_rect.size = Vector2(7, 7)
 			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
@@ -105,7 +106,7 @@ func create_minimap_objects() -> void:
 		if planet:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
-			texture_rect.modulate = Color("6c70c6")
+			texture_rect.modulate = Color.SLATE_BLUE
 			texture_rect.size = Vector2(7, 7)
 			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
@@ -119,7 +120,7 @@ func create_minimap_objects() -> void:
 		if sun:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
-			texture_rect.modulate = Color("d0be4b")
+			texture_rect.modulate = Color.YELLOW
 			texture_rect.size = Vector2(5, 5)
 			texture_rect.scale = Vector2(0.75, 0.75)
 			texture_rect.layout_mode = 1 # Sets to Anchors

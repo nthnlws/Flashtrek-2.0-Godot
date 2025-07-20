@@ -25,15 +25,16 @@ var player: Player = null
 
 func _ready() -> void:
 	ship_type = "EnemyShip"
-	super() # Runs NeutralShip _ready() function
+	super() # Runs NeutralCharacter _ready() function
 	
 	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
 	SignalBus.enemy_type_changed.connect(_sync_stats_to_resource)
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
 	agro_box.body_exited.connect(_on_agro_box_body_exited)
 	
-	_sync_data_to_resource(Utility.SHIP_TYPES.Excelsior_Class)
-	_sync_stats_to_resource(Utility.SHIP_TYPES.Excelsior_Class)
+	_sync_data_to_resource(Utility.SHIP_TYPES.D5_Class)
+	_sync_stats_to_resource(Utility.SHIP_TYPES.D5_Class)
+	
 	# Initialize AI-related data
 	if not AI_enabled:
 		agro_box.queue_free()
@@ -54,6 +55,7 @@ func setMovementState(delta:float) -> void:
 		starbaseMovement(delta)
 		moveTarget = "Starbase"
 	else: print("No matching movement status")
+
 
 func playerMovement(delta: float) -> void:
 	predict_player_position()

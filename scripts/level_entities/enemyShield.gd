@@ -1,4 +1,5 @@
-extends Shield
+extends baseShield
+class_name EnemyShield
 
 
 func _process(delta: float) -> void:

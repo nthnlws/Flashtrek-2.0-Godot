@@ -32,7 +32,7 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var muzzle:Node2D = $Muzzle
 @onready var timer:Timer = $regen_timer
 @onready var sprite:Sprite2D = $PlayerSprite
-@onready var shield:Sprite2D = $playerShield
+@onready var shield:Node2D = $playerShield
 @onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
 @onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
 @onready var animation:AnimationPlayer = $AnimationPlayer
@@ -476,11 +476,11 @@ func take_damage(damage:float, hit_pos: Vector2) -> void:
 func _teleport_shader_toggle(toggle: String) -> void:
 	if toggle == "cloak":
 		sprite.material = TELEPORT_FADE_MATERIAL
-		var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		tween.tween_property(sprite.material, "shader_parameter/progress", 1.0, 3.0)
+		var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+		tween.tween_property(sprite.material, "shader_parameter/progress", 1.0, 4.0)
 	elif toggle == "uncloak":
 		sprite.material = TELEPORT_FADE_MATERIAL
-		var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 		tween.tween_property(sprite.material, "shader_parameter/progress", 0.0, 4.0)
 
 

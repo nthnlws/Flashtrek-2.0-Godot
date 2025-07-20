@@ -17,7 +17,7 @@ void fragment() {
 	}
 
 	// --- 2. Shield Rendering Logic ---
-	float outer = circle(UV, 0.455, 0.045); 
+	float outer = circle(UV, 0.455, 0.045);
 	float fade_effect = sin(TIME * 0.5) * 0.052;
 	float inner = 1.0 - circle(UV, 0.357, 0.13 - fade_effect);
 

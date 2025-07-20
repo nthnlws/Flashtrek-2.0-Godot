@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://crsud8w51n07n"]
+[gd_scene load_steps=22 format=3 uid="uid://crsud8w51n07n"]
 
-[ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/neutral_ship.gd" id="1_h86cx"]
+[ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/NeutralCharacter.gd" id="1_h86cx"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_l33it"]
-[ext_resource type="PackedScene" uid="uid://b22yde5yoq56c" path="res://scenes/level_entities/enemyShield.tscn" id="4_a5e8g"]
+[ext_resource type="PackedScene" uid="uid://t8ejhfca8ulm" path="res://scenes/level_entities/enemyShield.tscn" id="4_a5e8g"]
+[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="5_s85ir"]
 [ext_resource type="Texture2D" uid="uid://duvs6uixemkbt" path="res://assets/textures/ships/hull_explosion.png" id="5_scpag"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="6_o4ahg"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_ljjbr"]
@@ -84,6 +85,10 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
+shader = ExtResource("5_s85ir")
+shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
+
 [node name="NeutralCharacter" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(2.25, 2.25)
 collision_layer = 4
@@ -99,14 +104,16 @@ collision_mask = 256
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area"]
 
-[node name="Shield" parent="." instance=ExtResource("4_a5e8g")]
-scale = Vector2(2.2, 1.9)
-
 [node name="hull_explosion" type="AnimatedSprite2D" parent="."]
 visible = false
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_mwxxd")
 animation = &"explode"
+
+[node name="Shield" parent="." instance=ExtResource("4_a5e8g")]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_ksrv6")
+scale = Vector2(2.5, 2.5)
 
 [node name="Sounds" type="Node" parent="."]
 
