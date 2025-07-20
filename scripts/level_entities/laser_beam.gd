@@ -143,7 +143,7 @@ func fade_laser_OFF() -> void:
 		tween.stop()
 		
 	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-	tween.tween_property(laser, "material:shader_parameter/progress", 0, 0.2)
+	tween.tween_property(laser.material, "shader_parameter/progress", 0, 0.2)
 	active_tweens.append(tween)
 	
 	await tween.finished
@@ -164,7 +164,7 @@ func fade_laser_ON() -> void:
 		
 	laser.visible = true
 	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	tween.tween_property(laser, "material:shader_parameter/progress", 1.0, 0.2)
+	tween.tween_property(laser.material, "shader_parameter/progress", 1.0, 0.2)
 	active_tweens.append(tween)
 	
 	await tween.finished

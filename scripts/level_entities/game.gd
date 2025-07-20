@@ -54,12 +54,10 @@ func _ready() -> void:
 
 func galaxy_fade_out() -> void:
 	warp_tunnel.visible = true
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(warp_tunnel.material, "shader_parameter/addH", 3, 4.0)
 	
-	await get_tree().create_timer(1.5).timeout
-	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(warp_tunnel, "material:shader_parameter/addH", 3, 3.0)
-	
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(4.0).timeout
 	
 	
 	print("Warp finished with target system " + str(Navigation.targetSystem))
@@ -81,7 +79,7 @@ func _warp_into_new_system(system) -> void:
 	player.global_position = Navigation.entry_coords
 	
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(warp_tunnel, "material:shader_parameter/addH", 150, 3.0)
+	tween.tween_property(warp_tunnel.material, "shader_parameter/addH", 135, 4.0)
 	
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
@@ -96,6 +94,7 @@ func _warp_into_new_system(system) -> void:
 	tween2.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
 	create_tween().tween_property(player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
 	await tween2.finished
+	warp_tunnel.visible = false
 	
 	player.camera._zoom = Vector2(0.5, 0.5)
 	player.overdrive_state_change("SMOOTH")

@@ -542,7 +542,6 @@ func galaxy_warp_out() -> void:
 	create_tween().tween_property(galaxy_particles, "amount_ratio", 0.0, 2.5)
 	
 	
-	
 	await get_tree().create_timer(0.30).timeout
 	%warp_boom.play()
 	

@@ -57,7 +57,6 @@ func _on_player_energy_changed(energy_current: float) -> void:
 
 
 func _on_player_max_energy_changed(energy_max: float) -> void:
-	print("HUD signal")
 	health_indicator.update_energy_max(energy_max)
 
 

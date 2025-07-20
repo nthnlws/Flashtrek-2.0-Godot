@@ -5,7 +5,7 @@ uniform bool hasDot = false;
 uniform bool haszExpend = false;
 
 uniform float theta: hint_range(0.0, 80.0, 0.1) = 80.;
-uniform float addH: hint_range(0.0, 150.0, 1.0) = 150;
+uniform float addH: hint_range(0.0, 150.0, 1.0) = 135;
 uniform float scale: hint_range(0.001, 0.01, 0.001) = 0.01;
 
 uniform float light_disperse: hint_range(0.1, 10, 0.1) = 2;

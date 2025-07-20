@@ -12,6 +12,7 @@ extends Node
 @export_category("Items")
 @export var item_pickup: PackedScene
 
+var PoissonDisc := preload("res://scripts/tools/poisson_disc_sampling.gd")
 
 @onready var game: Node2D = $".."
 @onready var pickups: Node = $item_pickups
@@ -19,7 +20,6 @@ extends Node
 var all_systems_data: Dictionary = {}
 
 const MAX_LEVEL = 31  # Highest system level
-
 
 
 func _ready() -> void:
@@ -50,16 +50,16 @@ func _instaniate_enemies() -> void:
 		init_hostiles.global_position = planets[e].global_position + Vector2(randint, randint)
 		add_child(init_hostiles)
 		init_hostiles.add_to_group("level_nodwes")
-	
-	
-	
+
+
 func _change_system(system) -> void:
 	# Combining all planets into single array for new system spawning
 	var all_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
+	# Clear old arrays
 	Utility.mainScene.planets.clear()
 	Utility.mainScene.unused_planets.clear()
 	
-	#Re-map planet array with correct count
+	# Re-map planet array with correct count
 	var planet_data: Array = all_systems_data.get(system).planet_data
 	for p in planet_data.size(): # Sets planets to JSON data
 		all_planets[p].global_position.x = planet_data[p].x
@@ -90,8 +90,8 @@ func _change_system(system) -> void:
 	_instaniate_enemies()
 	
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
-	
-	
+
+
 func instantiate_new_system_nodes() -> void:
 	var init_border: Node2D = levelBorders.instantiate()
 	add_child(init_border)
@@ -124,7 +124,8 @@ func instantiate_new_system_nodes() -> void:
 	var init_player: Player = player.instantiate()
 	add_child(init_player)
 	init_player.add_to_group("level_nodes")
-	
+
+
 func generate_system_info() -> void:
 	var system_num: int = 1
 	
@@ -145,6 +146,7 @@ func generate_system_info() -> void:
 	Utility.store_level_data(all_systems_data)
 	Navigation.all_systems_data = all_systems_data
 	Navigation.systems = all_systems_data.keys()
+
 
 func generate_system_variables(system_number) -> Dictionary:
 	var faction
@@ -182,8 +184,12 @@ func generate_system_variables(system_number) -> Dictionary:
 	
 	# Random planet count
 	var planet_count: int = randi_range(3, 6)
-	var planet_data: Array = generate_planet_data(planet_count)
-	var sun_data: Dictionary = generate_sun_data()
+	var spawn_positions: Array = get_valid_spawn_positions(planet_count)
+	# Use last position in array to spawn sun
+	var sun_data:Dictionary = generate_sun_data(planet_count)
+	# Use remaining positions to get planet data
+	var planet_data:Array = generate_planet_data(spawn_positions)
+	
 	
 	return {
 		"faction": faction,
@@ -197,45 +203,60 @@ func generate_system_variables(system_number) -> Dictionary:
 	}
 
 
-func generate_sun_data() -> Dictionary:
-	var spawnDistance: int = 8000
-	var spawnVariability: int = 500
+func generate_sun_data(PLANET_COUNT:int)-> Dictionary:
+	# Generate random angle and radius for spawn position
+	var max_spawn_distance: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0) - 2000
+	var min_spawn_distance: float = 3500
+	var random_angle: float = randf_range(0, TAU)
+	var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
 	
-	spawnDistance = randi() % (2 * spawnVariability + 1) - spawnVariability + spawnDistance
-	
+	var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
 	var random_index: int = randi_range(0, 5)
-	
-	var angle: float = randf_range(0, TAU) # 0-360 degrees
-	var sun_position: Vector2 = Vector2(cos(angle), sin(angle)) * spawnDistance
 	
 	var sun_data: Dictionary = {
 		"frame": random_index,
-		"x": int(sun_position.x),
-		"y": int(sun_position.y),
+		"x": int(spawn_position.x),
+		"y": int(spawn_position.y),
 	}
 	
 	return sun_data
-	
-	
-func generate_planet_data(PLANET_COUNT: int) -> Array:
+
+
+func get_valid_spawn_positions(PLANET_COUNT: int) -> Array:
 	var min_dist_between: float = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
 	var max_dist_origin: float = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
 	var min_dist_origin: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0)
 
 	var all_planets_data: Array = []
 	var placed_positions: Array[Vector2] = [] # Store positions placed *in this run*
+	
+	
+	var all_possible_points = PoissonDisc.generate_points_for_circle(
+		Vector2.ZERO,
+		max_dist_origin,
+		min_dist_origin,
+		30
+	)
+	
+	# Filter the points to be within the spawn ring
+	var valid_spawn_points: Array[Vector2] = []
+	for point in all_possible_points:
+		# Check if the point is outside the inner "no-spawn" zone
+		if point.distance_to(Vector2.ZERO) >= min_dist_origin:
+			valid_spawn_points.append(point)
+	
+	# Shuffle the list to get a random selection
+	valid_spawn_points.shuffle()
+	# Take the first 'num_planets_to_spawn' points from the shuffled list
+	var final_planet_positions = valid_spawn_points.slice(0, PLANET_COUNT)
+	return final_planet_positions
 
-	for i in range(PLANET_COUNT):
+
+func generate_planet_data(valid_spawns:Array[Vector2]) -> Array:
+	var all_planets_data:Array = []
+	for i in valid_spawns.size():
 		# Pass the list of already placed positions to the validation function
-		var position: Vector2 = get_valid_position(min_dist_origin, max_dist_origin, min_dist_between, placed_positions)
-
-		# Check if get_valid_position failed
-		if position == Vector2.ZERO:
-			push_warning("Failed to place planet %d. Stopping generation for this system." % (i + 1))
-			return all_planets_data # Return what we have so far
-
-		# If successful, add the new position to the tracking list for the next iteration
-		placed_positions.append(position)
+		var position: Vector2 = valid_spawns.pop_front()
 
 		var random_frame: int = randi() % 220
 		var planet_name: String = Navigation.planet_names.pop_at(randi() % Navigation.planet_names.size())
@@ -253,8 +274,8 @@ func generate_planet_data(PLANET_COUNT: int) -> Array:
 
 	# Return the completed array of planet dictionaries
 	return all_planets_data
-	
-	
+
+
 func get_valid_position(
 		min_distance_from_origin: float,
 		max_distance_from_origin: float,
