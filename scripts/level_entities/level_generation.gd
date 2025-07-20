@@ -22,20 +22,37 @@ const MAX_LEVEL = 31  # Highest system level
 
 
 func _ready() -> void:
+	Console.pause_enabled = true
+	Console.add_command(
+		"upgrade", # Command name
+		spawn_loot_command, # Function call
+		["type"], # Argument params
+		1, # Required params
+		"Spawns a damage upgrade on the player", # Description
+		)
+	Console.add_command_autocomplete_list("upgrade", UpgradePickup.MODULE_TYPES.keys())
+	
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
-	SignalBus.enemyShipDied.connect(spawn_loot)
+	SignalBus.spawnLoot.connect(spawn_loot)
 	
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generate info for all systems
 	_change_system("Solarus") # Spawn planets and move to JSON data location
 
 
-func spawn_loot(enemy:EnemyCharacter) -> void:
+func spawn_loot_command(type_str: String) -> void:
+	type_str = type_str.to_upper()
+	var type:int = UpgradePickup.MODULE_TYPES[type_str]
+	var position: Vector2 = Utility.mainScene.player.global_position
+	spawn_loot(type, position)
+
+func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2) -> void:
+	print(str(type) + str(position))
 	var new_drop:UpgradePickup = item_pickup.instantiate()
-	new_drop.global_position = enemy.global_position
+	new_drop.global_position = position
 	new_drop.scale = Vector2(1.25, 1.25)
-	new_drop.upgrade_type = randi_range(0, UpgradePickup.MODULE_TYPES.size() - 1) # Pick random drop type
+	new_drop.upgrade_type = type
 	pickups.call_deferred("add_child",new_drop)
 
 

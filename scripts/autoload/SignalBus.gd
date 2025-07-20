@@ -2,6 +2,7 @@
 extends Node
 
 signal enemyShipDied(enemy:EnemyCharacter)
+signal spawnLoot(type:UpgradePickup.MODULE_TYPES, postition:Vector2)
 signal neutralShipDied(enemy:NeutralCharacter)
 
 # Missions

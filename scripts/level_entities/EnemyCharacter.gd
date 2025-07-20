@@ -186,6 +186,7 @@ func explode() -> void:
 	sprite.visible = false
 	
 	Utility.mainScene.enemyShips.erase(self)
+	SignalBus.spawnLoot.emit(UpgradePickup.MODULE_TYPES.DAMAGE, self.global_position)
 	SignalBus.enemyShipDied.emit(self)
 	
 	collision_shape.set_deferred("disabled", true)
