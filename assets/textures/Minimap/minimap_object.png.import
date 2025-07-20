@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://crn20wba425xj"
-path="res://.godot/imported/starbase_mini.png-58530ab28224f37620a742dfea289fb7.ctex"
+path="res://.godot/imported/minimap_object.png-0ad5d16c5837f0971bae2d7dae0e1ccd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Minimap/starbase_mini.png"
-dest_files=["res://.godot/imported/starbase_mini.png-58530ab28224f37620a742dfea289fb7.ctex"]
+source_file="res://assets/textures/Minimap/minimap_object.png"
+dest_files=["res://.godot/imported/minimap_object.png-0ad5d16c5837f0971bae2d7dae0e1ccd.ctex"]
 
 [params]
 

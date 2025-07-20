@@ -3,15 +3,15 @@ extends Control
 @onready var player: Player = Utility.mainScene.player
 @onready var comms_message: RichTextLabel = $Comms_message
 
-var button_array: Array = []
-var sound_array:Array = [] # Contains all nodes in group "click_sound"
+var button_array: Array[Node] = []
+var sound_array:Array[Node] = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
 var comm_distance:float
 var pending_mission: Dictionary
 var completedUIdisplay: bool # Var to lock new mission select until menu closed after completion
 
-var cargo_types: Array = [
+var cargo_types: Array[String] = [
 	"Dilithium Crystals",
 	"Trilithium Resin",
 	"Medical Supplies",
@@ -52,7 +52,7 @@ var cargo_types: Array = [
 	"Klingon Bloodwine",
 	"Xenobiological Samples"]
 
-var cargo_full_messages: Array = [
+var cargo_full_messages: Array[String] = [
 	"[color=#f06c82]Cargo hold is already full.[/color] Return when you've delivered the goods.",
 	"[color=#f06c82]Mission queue is full.[/color] Complete your current objectives first.",
 	"[color=#f06c82]No room for more cargo.[/color] Clear your hold before accepting another mission.",
@@ -62,7 +62,7 @@ var cargo_full_messages: Array = [
 	"[color=#f06c82]No additional cargo can be loaded.[/color] Finish your delivery first.",
 	"[color=#f06c82]One task at a time![/color] Complete your current mission before returning."]
 
-var confirmation_accept: Array = [
+var confirmation_accept: Array[String] = [
 	"Will you take on this task?",
 	"Do you agree to these terms?",
 	"Are you ready to proceed?",
@@ -71,7 +71,7 @@ var confirmation_accept: Array = [
 	"Can we count on your assistance?",
 	"Do you confirm your participation?"]
 
-var confirmation_complete: Array = [
+var confirmation_complete: Array[String] = [
 	"Ready to complete the assignment?",
 	"Prepared to proceed with the task.",
 	"All systems go, proceed with beam.",
@@ -80,19 +80,19 @@ var confirmation_complete: Array = [
 	"Orders understood, ready to receive cargo.",
 	"Initiating final mission steps.",
 ]
-var federation_thankYou: Array = [
+var federation_thankYou: Array[String] = [
 	"Your delivery has arrived. Starfleet commends your service.",
 	"Shipment secured. We appreciate your reliability.",
 	"Thank you. The Federation acknowledges your efforts.",
 	"Mission complete. Your record has been updated.",
 	"Excellent work. Cargo confirmed and logged.",]
-var klingon_thankYou: Array = [
+var klingon_thankYou: Array[String] = [
 	"The cargo is delivered. You have done honor to this task.",
 	"Your duty is fulfilled. Qapla’!",
 	"Well fought. The shipment has arrived intact.",
 	"You have earned your reward in glory and goods.",
 	"Delivery made. Strength is proven through action.",]
-var romulan_thankYou: Array = [
+var romulan_thankYou: Array[String] = [
 	"Your task is complete. Efficiency is... noted.",
 	"Delivery received. The Empire is satisfied.",
 	"You’ve served the mission well—for now.",

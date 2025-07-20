@@ -1,7 +1,8 @@
 # Main SignalBus
 extends Node
 
-signal enemyDied(enemy)
+signal enemyShipDied(enemy:EnemyCharacter)
+signal neutralShipDied(enemy:NeutralCharacter)
 
 # Missions
 signal missionAccepted(current_mission)

@@ -10,7 +10,8 @@ var galaxy_map: Resource = preload("res://assets/data/galaxy_map_data.tres")
 var in_galaxy_warp:bool = false
 
 var spawn_options: Array = []
-var enemies: Array = []
+var enemyShips: Array = []
+var neutralShips: Array = []
 var levelWalls: Array = []
 var planets: Array = []
 var unused_planets: Array = []
@@ -19,14 +20,14 @@ var player: Player
 var starbase: Array = []
 
 func _printArrays() -> void:
-	print(enemies)
+	print(enemyShips)
 	print(planets)
 	print(suns)
 	print(levelWalls)
 
 
 func clearArrays() -> void:
-	enemies.clear()
+	enemyShips.clear()
 	planets.clear()
 	suns.clear()
 	levelWalls.clear()
@@ -102,10 +103,12 @@ func _warp_into_new_system(system) -> void:
 
 func add_level_ships(ship:CharacterBody2D, type:String) -> void:
 	match type:
-		"Enemy":
-			enemies.append(ship)
+		"EnemyShip":
+			enemyShips.append(ship)
 		"Player":
 			player = ship
+		"NeutralShip":
+			neutralShips.append(ship)
 
 
 func add_level_entity(node:Node2D, type:String) -> void:

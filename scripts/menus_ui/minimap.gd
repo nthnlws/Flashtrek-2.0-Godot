@@ -1,22 +1,19 @@
 extends Control
 
-@export var enemy_texture := preload("res://assets/textures/Minimap/enemy_mini.png")
-@export var starbase_texture := preload("res://assets/textures/Minimap/starbase_mini.png")
-@export var planet_texture := preload("res://assets/textures/Minimap/planet_mini.png")
-@export var sun_texture := preload("res://assets/textures/Minimap/sun_mini.png")
-
+var object_texture := preload("res://assets/textures/Minimap/minimap_object.png")
 
 var count:int = 0
 
-var enemyObjects: Array = []
+var enemyShips: Array = []
 var starbaseObjects: Array = []
-var neutralObjects: Array = []
+var neutralShips: Array = []
+var levelObjects: Array = []
 var sunObjects: Array = []
-var enemy_to_texture: Dictionary = {}  # Dictionary to map enemies to TextureRects
+var ship_to_object: Dictionary = {}  # Dictionary to map enemies to TextureRects
 var player: Player
 
 # Minimap scale values
-var scale_values: Array = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
+var scale_values: Array[float] = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
 var current_index: int = 3  # Index of the current value in scale_values
 var minimapScale = scale_values[current_index]  # Start at 1.0
 
@@ -24,19 +21,23 @@ var grid_scale: Vector2
 
 
 func _ready() -> void:
-	SignalBus.enemyDied.connect(remove_minimap_object)
-	grid_scale = get_viewport().get_visible_rect().size/2 # Var to center minimap objects
+	SignalBus.enemyShipDied.connect(remove_minimap_object)
+	SignalBus.neutralShipDied.connect(remove_minimap_object)
+	grid_scale = get_viewport().get_visible_rect().size / 2 # Var to center minimap objects
 	
 	player = Utility.mainScene.player
 	
 	create_minimap_objects()
-	
+	scale_minimap()
+
+
 func _process(delta: float) -> void:
 	if !player: return
 	
 	if Utility.mainScene.in_galaxy_warp == false:
 		update_minimap()
-	
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("letter_e"):
 		if current_index < scale_values.size() - 1:
@@ -47,43 +48,50 @@ func _input(event: InputEvent) -> void:
 		if current_index > 0:
 			current_index -= 1
 			minimapScale = scale_values[current_index]
-			
-	if Input.is_action_pressed("zoom_out"):
-		scale_minimap("OUT")
 
-	if Input.is_action_pressed("zoom_in"):
-		scale_minimap("IN")
-		
-		
-func scale_minimap(direction: String) -> void:
-	var minimap_nodes: Array = get_tree().get_nodes_in_group("minimap_obj")
+
+func scale_minimap() -> void:
+	var minimap_nodes: Array[Node] = get_tree().get_nodes_in_group("minimap_obj")
 	for node in minimap_nodes:
-		if direction == "OUT":
-			node.scale = clamp(Vector2(node.scale.x * 0.9, node.scale.y * 0.9), Vector2(0.5, 0.5), Vector2(1.0, 1.0))
-		elif direction == "IN":
-			node.scale = clamp(Vector2(node.scale.x / 0.9, node.scale.y / 0.9), Vector2(0.5, 0.5), Vector2(1.0, 1.0))
+		node.scale = Vector2(0.6, 0.6)
 
 
 func create_minimap_objects() -> void:
 	clear_objects()
-	for enemy in Utility.mainScene.enemies:
+	for enemy:EnemyCharacter in Utility.mainScene.enemyShips:
 		if enemy:
 			var texture_rect: TextureRect = TextureRect.new()
-			texture_rect.texture = enemy_texture
+			texture_rect.texture = object_texture
+			texture_rect.modulate = Color.RED # Red
 			texture_rect.size = Vector2(5, 5)
 			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			
 			self.add_child(texture_rect)
-			enemyObjects.append(texture_rect)
-			enemy_to_texture[enemy] = texture_rect  # Map enemy to TextureRect
+			enemyShips.append(texture_rect)
+			ship_to_object[enemy] = texture_rect  # Map enemy to TextureRect
 			count += 1
 			
-	for starbase in Utility.mainScene.starbase:
+	for NPC:NeutralCharacter in Utility.mainScene.neutralShips:
+		if NPC:
+			var texture_rect: TextureRect = TextureRect.new()
+			texture_rect.texture = object_texture
+			texture_rect.modulate = Color.SPRING_GREEN
+			texture_rect.size = Vector2(5, 5)
+			texture_rect.layout_mode = 1 # Sets to Anchors
+			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
+			texture_rect.add_to_group("minimap_obj")
+			
+			self.add_child(texture_rect)
+			neutralShips.append(texture_rect)
+			ship_to_object[NPC] = texture_rect  # Map enemy to TextureRect
+			count += 1
+			
+	for starbase:Node2D in Utility.mainScene.starbase:
 		if starbase:
 			var texture_rect: TextureRect = TextureRect.new()
-			texture_rect.texture = starbase_texture
+			texture_rect.texture = object_texture
 			texture_rect.size = Vector2(7, 7)
 			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
@@ -93,23 +101,25 @@ func create_minimap_objects() -> void:
 			starbaseObjects.append(texture_rect)
 			count += 1
 
-	for planet in Utility.mainScene.planets:
+	for planet:Node2D in Utility.mainScene.planets:
 		if planet:
 			var texture_rect: TextureRect = TextureRect.new()
-			texture_rect.texture = planet_texture
+			texture_rect.texture = object_texture
+			texture_rect.modulate = Color("6c70c6")
 			texture_rect.size = Vector2(7, 7)
 			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			
 			self.add_child(texture_rect)
-			neutralObjects.append(texture_rect)
+			levelObjects.append(texture_rect)
 			count += 1
 			
 	for sun:Node2D in Utility.mainScene.suns:
 		if sun:
 			var texture_rect: TextureRect = TextureRect.new()
-			texture_rect.texture = sun_texture
+			texture_rect.texture = object_texture
+			texture_rect.modulate = Color("d0be4b")
 			texture_rect.size = Vector2(5, 5)
 			texture_rect.scale = Vector2(0.75, 0.75)
 			texture_rect.layout_mode = 1 # Sets to Anchors
@@ -121,16 +131,24 @@ func create_minimap_objects() -> void:
 			count += 1
 
 func update_minimap() -> void:
-	if enemyObjects:
+	if enemyShips:
 		count = 0
-		for character:CharacterBody2D in Utility.mainScene.enemies:
+		for character:EnemyCharacter in Utility.mainScene.enemyShips:
 			var globalDistance:Vector2 = character.global_position - player.global_position
-			enemyObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
-			#enemyObjects[count].rotation = character.rotation
+			enemyShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == Utility.mainScene.enemies.size():
+			if count == Utility.mainScene.enemyShips.size():
 				count = 0
-
+	
+	if neutralShips:
+		count = 0
+		for character:NeutralCharacter in Utility.mainScene.neutralShips:
+			var globalDistance:Vector2 = character.global_position - player.global_position
+			neutralShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
+			count += 1
+			if count == Utility.mainScene.neutralShips.size():
+				count = 0
+	
 	if starbaseObjects:
 		count = 0
 		for starbase:Node2D in Utility.mainScene.starbase:
@@ -140,37 +158,42 @@ func update_minimap() -> void:
 			if count == Utility.mainScene.starbase.size():
 				count = 0
 
-	if neutralObjects:
+	if levelObjects:
 		count = 0
 		for planet:Node2D in Utility.mainScene.planets:
 			var globalDistance:Vector2 = planet.global_position - player.global_position
-			neutralObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
+			levelObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
 
 	if sunObjects:
 		count = 0
-		for sun in Utility.mainScene.suns:
+		for sun:Node2D in Utility.mainScene.suns:
 			var globalDistance:Vector2 = sun.global_position - player.global_position
 			sunObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
 
-func remove_minimap_object(enemy) -> void:
-	if enemy in enemy_to_texture:
-		var texture_rect: TextureRect = enemy_to_texture[enemy]
+
+func remove_minimap_object(ship) -> void:
+	if ship in ship_to_object:
+		var texture_rect: TextureRect = ship_to_object[ship]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
 		texture_rect.queue_free()  # Free the TextureRect
-		enemyObjects.erase(texture_rect)  # Remove from enemyObjects array
-		enemy_to_texture.erase(enemy)  # Remove from the dictionary
+		enemyShips.erase(texture_rect)  # Remove from enemyShips array (if present)
+		neutralShips.erase(texture_rect) # Remove from neutralShips array (if present)
+		ship_to_object.erase(ship)  # Remove from the dictionary
 	else:
-		print("Enemy not found in minimap objects")
+		print("Ship not found in minimap objects")
+
 
 func clear_objects() -> void:
-	var old_objects: Array = enemyObjects + starbaseObjects + neutralObjects + sunObjects
+	var old_objects: Array = enemyShips + neutralShips + starbaseObjects + levelObjects + sunObjects
 	
 	for obj in old_objects:
-		obj.queue_free()
+		if obj:
+			obj.queue_free()
 	
-	enemyObjects.clear()
+	enemyShips.clear()
+	neutralShips.clear()
 	starbaseObjects.clear()
-	neutralObjects.clear()
+	levelObjects.clear()
 	sunObjects.clear()

@@ -6,13 +6,12 @@ extends Node
 @export var Starbase: PackedScene
 @export var PlayerSpawnArea: PackedScene
 @export var Sun: PackedScene
-@export var Hostiles: PackedScene
-@export var player: PackedScene
+@export var EnemyShip: PackedScene
+@export var NeutralShip: PackedScene
+@export var Player: PackedScene
 
 @export_category("Items")
 @export var item_pickup: PackedScene
-
-var PoissonDisc := preload("res://scripts/tools/poisson_disc_sampling.gd")
 
 @onready var game: Node2D = $".."
 @onready var pickups: Node = $item_pickups
@@ -25,7 +24,7 @@ const MAX_LEVEL = 31  # Highest system level
 func _ready() -> void:
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
-	SignalBus.enemyDied.connect(spawn_loot)
+	SignalBus.enemyShipDied.connect(spawn_loot)
 	
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	generate_system_info() # Generate info for all systems
@@ -40,16 +39,32 @@ func spawn_loot(enemy:EnemyCharacter) -> void:
 	pickups.call_deferred("add_child",new_drop)
 
 
-func _instaniate_enemies() -> void:
-	Utility.mainScene.enemies.clear()
+func _instaniate_ships(PLANET_COUNT:int) -> void:
+	Utility.mainScene.enemyShips.clear()
 	var planets = Utility.mainScene.planets
-	for e in range(planets.size()):
-		var randint: int = randi_range(-1000, 1000) # Spawn distance from planet
-		var init_hostiles: CharacterBody2D = Hostiles.instantiate()
+	for e:int in range(planets.size()):
+		var max_spawn_distance: int = 1500
+		var min_spawn_distance: int = 500
+		var random_angle: float = randf_range(0, TAU)
+		var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
+		var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
 		
-		init_hostiles.global_position = planets[e].global_position + Vector2(randint, randint)
-		add_child(init_hostiles)
-		init_hostiles.add_to_group("level_nodwes")
+		var init_enemy: EnemyCharacter = EnemyShip.instantiate()
+		init_enemy.global_position = planets[e].global_position + spawn_position
+		add_child(init_enemy)
+		init_enemy.add_to_group("level_nodes")
+	
+	Utility.mainScene.neutralShips.clear()
+	for p: Node2D in planets:
+		var init_neutral: NeutralCharacter = NeutralShip.instantiate()
+		
+		# 0.0 is at Vector2.ZERO, 1.0 is at the planet's position.
+		var random_fraction: float = clamp(randf(),0.2, 0.8)
+		var spawn_pos: Vector2 = Vector2.ZERO.lerp(p.global_position, random_fraction)
+
+		init_neutral.global_position = spawn_pos
+		add_child(init_neutral)
+		init_neutral.add_to_group("level_nodes")
 
 
 func _change_system(system) -> void:
@@ -84,10 +99,10 @@ func _change_system(system) -> void:
 	sun.global_position.y = sun_data.y
 	sun.sprite.frame = sun_data.frame
 	
-	for enemy: CharacterBody2D in Utility.mainScene.enemies:
-		enemy.queue_free()
+	for ship: CharacterBody2D in Utility.mainScene.neutralShips + Utility.mainScene.enemyShips:
+		ship.queue_free()
 		
-	_instaniate_enemies()
+	_instaniate_ships(planet_data.size())
 	
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
 
@@ -100,28 +115,23 @@ func instantiate_new_system_nodes() -> void:
 	var init_sun: Node2D = Sun.instantiate()
 	add_child(init_sun)
 	init_sun.add_to_group("level_nodes")
-	
 
 	var init_starbase: Node2D = Starbase.instantiate()
 	add_child(init_starbase)
 	init_starbase.global_position = Vector2.ZERO
 	init_starbase.add_to_group("level_nodes")
-	
 
 	var init_spawn: Area2D = PlayerSpawnArea.instantiate()
 	add_child(init_spawn)
 	init_spawn.add_to_group("level_nodes")
 	init_spawn.add_to_group("player_spawn_area")
-	
 
 	for i in range(6): # Spawn 6 planets for use in level gen
 		var init_planet: Node2D = Planet.instantiate()
 		add_child(init_planet)
 		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
-		
 
-
-	var init_player: Player = player.instantiate()
+	var init_player: Player = Player.instantiate()
 	add_child(init_player)
 	init_player.add_to_group("level_nodes")
 
@@ -231,7 +241,7 @@ func get_valid_spawn_positions(PLANET_COUNT: int) -> Array:
 	var placed_positions: Array[Vector2] = [] # Store positions placed *in this run*
 	
 	
-	var all_possible_points = PoissonDisc.generate_points_for_circle(
+	var all_possible_points = PoissonDiscSampling.generate_points_for_circle(
 		Vector2.ZERO,
 		max_dist_origin,
 		min_dist_origin,

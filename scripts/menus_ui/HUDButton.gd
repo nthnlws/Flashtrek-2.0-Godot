@@ -1,14 +1,14 @@
 extends Control
 
-@onready var scale_nodes: Array = [$Quad1, $Quad2, $Quad3, $Quad4, $Center, $TextureRect]
+@onready var scale_nodes: Array[Node] = [$Quad1, $Quad2, $Quad3, $Quad4, $Center, $TextureRect]
 
-var sound_array:Array = [] # Contains all nodes in group "click_sound"
+var sound_array:Array[Node] = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
 const HIGH:float = 2.0
 const LOW:float = 0.5
 
-var button_array: Array = []
+var button_array: Array[Node] = []
 
 
 func _ready() -> void:

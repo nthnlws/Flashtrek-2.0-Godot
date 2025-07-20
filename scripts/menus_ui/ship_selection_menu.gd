@@ -169,7 +169,11 @@ func create_selection_frames(faction: Utility.FACTION, i: Utility.SHIP_TYPES) ->
 	container.add_child(frame)
 
 	frame.mouse_entered.connect(update_ship_stats.bind(i))
-	frame.pressed.connect(func(): SignalBus.player_type_changed.emit(i))
+	frame.pressed.connect(func():
+		SignalBus.player_type_changed.emit(i)
+		self.visible = false
+		menu_state_machine.current_state = menu_state_machine.MenuState.NONE
+		)
 
 
 func create_placeholder_frame(faction: Utility.FACTION) -> void:

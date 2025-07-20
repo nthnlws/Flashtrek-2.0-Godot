@@ -1,52 +1,32 @@
-extends CharacterBody2D
+extends NeutralCharacter
 class_name EnemyCharacter
 
-var ship_name: String = str(Utility.SHIP_TYPES.Brel_Class)
-var faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
-@onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
-@onready var collision_shape: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
-@onready var shield: Node = $enemyShield
 @onready var muzzle: Node2D = $Muzzle
-@onready var animation: AnimatedSprite2D = $hull_explosion
 @onready var agro_area: CollisionShape2D = $AgroBox/CollisionShape2D
 @onready var agro_box: Area2D = $AgroBox
 
 # Variables for handling dynamic behavior
-var move_speed: int = 60
-var rotation_rate: float = 1.5
-var shield_on: bool = true
-var hp_max: int = 100
 var fire_rate: float = 1.0
 var shoot_randomness: float = 3.0
 
 @export var torpedo: PackedScene
 
 #Enemy health variables
-var hp_current: float = 100.0
-
-var alive: bool = true
 var playerAgro: bool = false
-var endPoint: Vector2
-var returnToStarbaseBool: bool = false
-var moveTarget: String
 
 #Shooting calculation variables
-var angle_diff: float
 var predicted_position: Vector2
 var randomized_position: Vector2
-
-var AI_enabled:bool = true
-var player: Player = null
-var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
-
 var shoot_cd: float = false
+
+var player: Player = null
 
 
 func _ready() -> void:
-	if AI_enabled:
-		SignalBus.ship_instantiated.emit(self, "Enemy")
-		
+	ship_type = "EnemyShip"
+	super() # Runs NeutralShip _ready() function
+	
 	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
 	SignalBus.enemy_type_changed.connect(_sync_stats_to_resource)
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
@@ -55,85 +35,8 @@ func _ready() -> void:
 	_sync_data_to_resource(Utility.SHIP_TYPES.Excelsior_Class)
 	_sync_stats_to_resource(Utility.SHIP_TYPES.Excelsior_Class)
 	# Initialize AI-related data
-	if AI_enabled:
-		starbase = Utility.mainScene.starbase[0]
-	else:
+	if not AI_enabled:
 		agro_box.queue_free()
-
-	# Set initial movement state target
-	call_deferred("selectRandomPlanet")
-
-
-func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
-	
-	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	faction = ship_data.FACTION
-	shield.scale = Vector2(ship_data.SHIELD_SCALE_X, ship_data.SHIELD_SCALE_Y)
-	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
-	
-	var rawColl = ship_data.COLLISION_POLY
-	var parsed_array = JSON.parse_string(rawColl)
-	var PV2Array = PackedVector2Array()
-	for pair in parsed_array:
-		PV2Array.append(Vector2(pair[0], pair[1]))
-	PV2Array = center_polygon(PV2Array)
-	collision_shape.polygon = PV2Array
-
-
-func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
-	var ship_stats:Dictionary = Utility.ENEMY_SHIP_STATS.values()[ship]
-	
-	move_speed = ship_stats.SPEED
-	shoot_randomness = ship_stats.SHOOT_RANDOM_DEGREES
-	rotation_rate = ship_stats.ROTATION_SPEED
-	hp_max = ship_stats.MAX_HP
-	shield.sp_max = ship_stats.MAX_SHIELD
-	agro_area.shape.radius = ship_stats.DETECTION_RADIUS
-	fire_rate = ship_stats.SHOOT_SPEED
-
-
-func center_polygon(points: Array) -> PackedVector2Array:
-	var min_x = points[0].x
-	var max_x = points[0].x
-	var min_y = points[0].y
-	var max_y = points[0].y
-
-	# Find bounds
-	for p in points:
-		min_x = min(min_x, p.x)
-		max_x = max(max_x, p.x)
-		min_y = min(min_y, p.y)
-		max_y = max(max_y, p.y)
-
-	var center_x = (min_x + max_x) / 2.0
-	var center_y = (min_y + max_y) / 2.0
-
-	var adjusted_points = []
-	for p in points:
-		var centered = Vector2(p.x - center_x, p.y - center_y)
-		var shifted = centered + Vector2(1, -4)
-		adjusted_points.append(shifted)
-
-	return PackedVector2Array(adjusted_points)
-
-
-func _set_ship_scale(new_scale: Vector2) -> void:
-	shield.scale *= new_scale
-	sprite.scale *= new_scale
-	$hitbox_area.scale *= new_scale
-	muzzle.position.y *= new_scale.y
-
-
-func _physics_process(delta: float) -> void:
-	#TODO Sync Player and Enemy speed stats to be compatible
-	if not AI_enabled or not visible or not GameSettings.enemyMovement or alive == false:
-		return
-	
-	# Movement state setter
-	setMovementState(delta)
-	
-	move_and_slide()
 
 
 func setMovementState(delta:float) -> void:
@@ -152,56 +55,15 @@ func setMovementState(delta:float) -> void:
 		moveTarget = "Starbase"
 	else: print("No matching movement status")
 
-
-func selectRandomPlanet() -> void:
-	endPoint = Utility.mainScene.planets.pick_random().global_position
-
-
-func starbaseMovement(delta:float) -> void:
-	if starbase:
-		var starbaseLocation: Vector2 = starbase.global_position
-		var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
-		moveToTarget("Starbase", starbaseLocation, delta)
-
-
-func planetMovement(delta:float) -> void: 
-	moveToTarget("Planet", endPoint, delta)
+func playerMovement(delta: float) -> void:
+	predict_player_position()
+	if typeof(predict_player_position()) == TYPE_INT:
+		moveToTarget("Player", player.global_position, delta)
+	else:
+		moveToTarget("Player", predicted_position, delta)
 	
-	
-	if self.global_position.distance_to(endPoint) < 5:
-		returnToStarbaseBool = true
-
-
-func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> float:
-	var angle: float = (targetPos - self.global_position).angle() + deg_to_rad(90)
-	var rotation_speed: float = rotation_rate * delta
-	angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
-	
-	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
-	
-	velocity = (targetPos - self.global_position).normalized()*move_speed
-		
-	move_and_slide()
-	return angle_diff
-
-
-func explode() -> void:
-	alive = false
-	shield.shieldDie()
-	sprite.visible = false
-	
-	Utility.mainScene.enemies.erase(self)
-	SignalBus.enemyDied.emit(self)
-	
-	collision_shape.set_deferred("disabled", true)
-	agro_area.set_deferred("disabled", true)
-	%ship_explosion.play()
-	
-	animation.visible = true
-	animation.play("explode")
-	await animation.animation_finished
-	
-	queue_free()
+	if abs(angle_diff) < TAU/12:
+		shoot_bullet()
 
 
 func predict_player_position() -> Vector2:
@@ -264,17 +126,6 @@ func randomize_position(predicted_position: Vector2) -> Vector2:
 	return random_predicted_position
 
 
-func playerMovement(delta: float) -> void:
-	predict_player_position()
-	if typeof(predict_player_position()) == TYPE_INT:
-		moveToTarget("Player", player.global_position, delta)
-	else:
-		moveToTarget("Player", predicted_position, delta)
-	
-	if abs(angle_diff) < TAU/12:
-		shoot_bullet()
-
-
 func calculate_shooting_angle() -> float:
 	if typeof(predicted_position) == TYPE_INT or typeof(predicted_position) == TYPE_NIL:
 		return -1.0 # No valid firing solution
@@ -327,11 +178,19 @@ func _on_agro_box_body_exited(body) -> void:
 		player = null
 		angle_diff = TAU
 
-
-func take_damage(damage:float, hit_pos: Vector2) -> void:
-	hp_current -= damage
+func explode() -> void:
+	alive = false
+	shield.shieldDie()
+	sprite.visible = false
 	
-	Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
+	Utility.mainScene.enemyShips.erase(self)
+	SignalBus.enemyShipDied.emit(self)
 	
-	if hp_current <= 0 and alive:
-		explode()
+	collision_shape.set_deferred("disabled", true)
+	%ship_explosion.play()
+	
+	animation.visible = true
+	animation.play("explode")
+	await animation.animation_finished
+	
+	queue_free()

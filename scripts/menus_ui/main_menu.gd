@@ -47,6 +47,7 @@ func _on_main_menu_music_finished() -> void:
 func _on_sp_button_pressed() -> void:
 	Utility.play_click_sound(4)
 	anim.play("fade_out_long")
+	%SPbutton.disabled = true
 	await anim.animation_finished
 	get_tree().change_scene_to_file("res://scenes/level_entities/game.tscn")
 	DiscordManager.single_player_game()
