@@ -16,6 +16,7 @@ func _ready() -> void:
 	
 	var random_index: int = randi_range(0, 220)
 	sprite.frame = random_index
+	z_index = Utility.Z["Planets"]
 	
 	Utility.mainScene.planets.append(self)
 

@@ -130,11 +130,12 @@ func _ready() -> void:
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
 	
-	
+	z_index = Utility.Z["Player"]
 	var spawn_options: Array = get_tree().get_nodes_in_group("player_spawn_area")
 	self.global_position = spawn_options[0].global_position
 	
 	sprite.material.set("shader_parameter/flash_value", 0.0)
+	$warp_anim.z_index = Utility.Z["Effects"]
 	
 	_sync_data_to_resource(Utility.SHIP_TYPES.Hideki_Class)
 	_sync_stats_to_resource(Utility.SHIP_TYPES.Hideki_Class)
@@ -430,8 +431,8 @@ func overdriveTimeout() -> void: #Turns off torpedo shooting for half of trans_l
 	overdriveTime = false
 
 
-func teleport(xCoord: int, yCoord: int) -> void: # Uses coords from cheat menu to teleport player
-	global_position = Vector2(xCoord, yCoord)
+func teleport(position:Vector2) -> void: # Uses coords from cheat menu to teleport player
+	global_position = position
 	velocity = Vector2(0, 0)
 	if overdrive_active == true:
 		overdrive_state_change("INSTANT")

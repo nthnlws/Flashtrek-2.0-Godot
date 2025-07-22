@@ -24,6 +24,7 @@ var damage:float = 15.0
 
 func _ready() -> void:
 	area_entered.connect(_on_torpedo_collision)
+	z_index = Utility.Z["Projectiles"]
 
 	if GameSettings.unlimitedEnergy == false:
 		drain_energy.emit(energy_cost)

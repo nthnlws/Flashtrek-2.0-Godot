@@ -27,6 +27,9 @@ func _ready() -> void:
 	ship_type = "EnemyShip"
 	super() # Runs NeutralCharacter _ready() function
 	
+	$hull_explosion.z_index = Utility.Z["Effects"]
+	z_index = Utility.Z["EnemyShips"]
+	
 	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
 	SignalBus.enemy_type_changed.connect(_sync_stats_to_resource)
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
@@ -186,7 +189,8 @@ func explode() -> void:
 	sprite.visible = false
 	
 	Utility.mainScene.enemyShips.erase(self)
-	SignalBus.spawnLoot.emit(UpgradePickup.MODULE_TYPES.DAMAGE, self.global_position)
+	var random_pickup_type:int = randi_range(0, UpgradePickup.MODULE_TYPES.keys().size())
+	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position)
 	SignalBus.enemyShipDied.emit(self)
 	
 	collision_shape.set_deferred("disabled", true)

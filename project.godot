@@ -27,6 +27,7 @@ PlayerUpgrades="*res://scripts/autoload/player_upgrades.gd"
 Console="*res://addons/console/console.gd"
 SignalBus="*res://scripts/autoload/SignalBus.gd"
 Navigation="*res://scripts/autoload/navigation.gd"
+CheatsMenu="*res://scripts/autoload/cheats_menu.gd"
 
 [debug]
 

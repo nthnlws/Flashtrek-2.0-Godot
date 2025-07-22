@@ -5,6 +5,7 @@ extends Node2D
 
 func _ready() -> void:
 	SignalBus.level_entity_added.emit(self, "Sun")
+	z_index = Utility.Z["Suns"]
 
 
 func _physics_process(delta: float) -> void:

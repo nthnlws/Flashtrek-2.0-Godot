@@ -25,6 +25,8 @@ func _ready() -> void:
 	body_entered.connect(_on_player_entered)
 	change_icon_sprite(upgrade_type)
 	
+	z_index = Utility.Z["LootDrops"]
+	
 	
 func _on_player_entered(body: Node2D) -> void:
 	if body.has_method("apply_upgrade"):

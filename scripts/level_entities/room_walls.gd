@@ -28,7 +28,7 @@ func _ready() -> void:
 	SignalBus.entering_galaxy_warp.connect(toggle_world_borders)
 	SignalBus.entering_new_system.connect(toggle_world_borders)
 	
-	
+	z_index = Utility.Z["WorldBorders"]
 	Utility.mainScene.levelWalls.clear()
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)

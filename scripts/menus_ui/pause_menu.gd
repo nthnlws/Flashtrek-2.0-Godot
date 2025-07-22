@@ -20,7 +20,6 @@ var yCoord: int = 0:
 var file: FileAccess
 
 func _ready() -> void:
-	
 	# Creates default save file on first load, otherwise restores settings to previous state
 	if GameSettings.loadNumber == 0: 
 		store_menu_state(0)

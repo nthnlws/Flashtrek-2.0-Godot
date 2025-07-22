@@ -43,6 +43,7 @@ func _ready() -> void:
 	
 	# Set initial movement state target
 	call_deferred("selectRandomPlanet")
+	z_index = Utility.Z["NeutralShips"]
 
 
 func _sync_data_to_resource(ship:Utility.SHIP_TYPES):

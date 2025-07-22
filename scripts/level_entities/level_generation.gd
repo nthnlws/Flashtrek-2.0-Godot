@@ -1,6 +1,6 @@
 extends Node
 
-@export_category("Level Entities")
+@export_category("Level Objects")
 @export var levelBorders: PackedScene
 @export var Planet: PackedScene
 @export var Starbase: PackedScene
@@ -22,16 +22,6 @@ const MAX_LEVEL = 31  # Highest system level
 
 
 func _ready() -> void:
-	Console.pause_enabled = true
-	Console.add_command(
-		"upgrade", # Command name
-		spawn_loot_command, # Function call
-		["type"], # Argument params
-		1, # Required params
-		"Spawns a damage upgrade on the player", # Description
-		)
-	Console.add_command_autocomplete_list("upgrade", UpgradePickup.MODULE_TYPES.keys())
-	
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
 	SignalBus.spawnLoot.connect(spawn_loot)
@@ -41,14 +31,7 @@ func _ready() -> void:
 	_change_system("Solarus") # Spawn planets and move to JSON data location
 
 
-func spawn_loot_command(type_str: String) -> void:
-	type_str = type_str.to_upper()
-	var type:int = UpgradePickup.MODULE_TYPES[type_str]
-	var position: Vector2 = Utility.mainScene.player.global_position
-	spawn_loot(type, position)
-
 func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2) -> void:
-	print(str(type) + str(position))
 	var new_drop:UpgradePickup = item_pickup.instantiate()
 	new_drop.global_position = position
 	new_drop.scale = Vector2(1.25, 1.25)
@@ -68,19 +51,21 @@ func _instaniate_ships(PLANET_COUNT:int) -> void:
 		
 		var init_enemy: EnemyCharacter = EnemyShip.instantiate()
 		init_enemy.global_position = planets[e].global_position + spawn_position
-		add_child(init_enemy)
+		init_enemy.name = "Enemy" + str(e)
+		$ships.add_child(init_enemy)
 		init_enemy.add_to_group("level_nodes")
 	
 	Utility.mainScene.neutralShips.clear()
-	for p: Node2D in planets:
+	for i:int in planets.size():
 		var init_neutral: NeutralCharacter = NeutralShip.instantiate()
 		
 		# 0.0 is at Vector2.ZERO, 1.0 is at the planet's position.
 		var random_fraction: float = clamp(randf(),0.2, 0.8)
-		var spawn_pos: Vector2 = Vector2.ZERO.lerp(p.global_position, random_fraction)
+		var spawn_pos: Vector2 = Vector2.ZERO.lerp(planets[i].global_position, random_fraction)
 
 		init_neutral.global_position = spawn_pos
-		add_child(init_neutral)
+		init_neutral.name = "Neutral" + str(i)
+		$ships.add_child(init_neutral)
 		init_neutral.add_to_group("level_nodes")
 
 
@@ -107,6 +92,7 @@ func _change_system(system) -> void:
 			Utility.mainScene.unused_planets.append(all_planets.pop_back())
 		for i in range(Utility.mainScene.unused_planets.size()):
 			Utility.mainScene.unused_planets[i].global_position = Vector2(40000, 40000)
+			Utility.mainScene.unused_planets[i].name = "Unused Planet" + str(i)
 	#print(Utility.mainScene.unused_planets)
 	
 	
@@ -125,27 +111,29 @@ func _change_system(system) -> void:
 
 
 func instantiate_new_system_nodes() -> void:
+	var level_folder:Node = $level_objects
+	
 	var init_border: Node2D = levelBorders.instantiate()
-	add_child(init_border)
+	level_folder.add_child(init_border)
 	init_border.add_to_group("level_nodes")
 
 	var init_sun: Node2D = Sun.instantiate()
-	add_child(init_sun)
+	level_folder.add_child(init_sun)
 	init_sun.add_to_group("level_nodes")
 
 	var init_starbase: Node2D = Starbase.instantiate()
-	add_child(init_starbase)
+	level_folder.add_child(init_starbase)
 	init_starbase.global_position = Vector2.ZERO
 	init_starbase.add_to_group("level_nodes")
 
 	var init_spawn: Area2D = PlayerSpawnArea.instantiate()
-	add_child(init_spawn)
+	level_folder.add_child(init_spawn)
 	init_spawn.add_to_group("level_nodes")
 	init_spawn.add_to_group("player_spawn_area")
 
 	for i in range(6): # Spawn 6 planets for use in level gen
 		var init_planet: Node2D = Planet.instantiate()
-		add_child(init_planet)
+		level_folder.add_child(init_planet)
 		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
 
 	var init_player: Player = Player.instantiate()

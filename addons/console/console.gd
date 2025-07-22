@@ -303,8 +303,8 @@ func autocomplete() -> void:
 				var param_input := split_text[1]
 				if (command_parameters.has(command)):
 					for param in command_parameters[command]:
-						if (param_input in param):
-							suggestions.append(str(command, " ", param))
+						#if (param_input in param):
+						suggestions.append(str(command, " ", param))
 		else:
 			var sorted_commands := []
 			for command in console_commands:

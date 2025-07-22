@@ -8,6 +8,8 @@ func _ready() -> void:
 	SignalBus.Quad3_clicked.connect(toggle_comms)
 	SignalBus.level_entity_added.emit(self, "Starbase")
 	
+	z_index = Utility.Z["Starbase"]
+	
 	
 func _physics_process(delta: float) -> void:
 	rotate(deg_to_rad(1.5)*delta)

@@ -52,7 +52,7 @@ signal pause_menu_clicked
 signal border_size_moved
 signal world_reset
 signal collisionChanged
-signal teleport_player(xCoord, yCoord)
+signal teleport_player(position:Vector2)
 
 signal enemy_shield_cheat_state(shield_state)
 signal enemy_type_changed(ENEMY_TYPE: Utility.SHIP_TYPES)
