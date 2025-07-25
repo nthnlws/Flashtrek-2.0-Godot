@@ -61,7 +61,6 @@ folder_colors={
 "res://assets/font/": "yellow",
 "res://assets/icons/": "yellow",
 "res://assets/textures/": "yellow",
-"res://assets/video/": "yellow",
 "res://resources/": "blue",
 "res://scenes/": "red",
 "res://scenes/level_entities/planet.tscn": "gray",
@@ -207,7 +206,6 @@ tool_script={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 anti_aliasing/quality/screen_space_aa=1

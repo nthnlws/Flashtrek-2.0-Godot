@@ -1,9 +1,9 @@
 extends Node2D
 
 @onready var hud: Control = $HUD_layer/HUD
-@onready var warp_tunnel: ColorRect = %WarpTunnel
 @onready var loading_screen: Control = %LoadingScreen
 @onready var level: Node = $Level
+@onready var tunnel_effect: SubViewportContainer = %TunnelEffect
 
 var galaxy_map: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
@@ -54,9 +54,9 @@ func _ready() -> void:
 
 
 func galaxy_fade_out() -> void:
-	warp_tunnel.visible = true
+	tunnel_effect.visible = true
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(warp_tunnel.material, "shader_parameter/addH", 3, 4.0)
+	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 3, 4.0)
 	
 	await get_tree().create_timer(4.0).timeout
 	
@@ -79,8 +79,8 @@ func handlePlayerDied() -> void:
 func _warp_into_new_system(system) -> void:
 	player.global_position = Navigation.entry_coords
 	
-	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(warp_tunnel.material, "shader_parameter/addH", 135, 4.0)
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 200, 4.0)
 	
 	player.camera._zoom = Vector2(0.4, 0.4)
 	
@@ -95,7 +95,7 @@ func _warp_into_new_system(system) -> void:
 	tween2.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)
 	create_tween().tween_property(player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
 	await tween2.finished
-	warp_tunnel.visible = false
+	tunnel_effect.visible = false
 	
 	player.camera._zoom = Vector2(0.5, 0.5)
 	player.overdrive_state_change("SMOOTH")

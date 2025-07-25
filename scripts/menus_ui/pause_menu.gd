@@ -183,6 +183,7 @@ func _on_vsync_select_item_selected(index: int) -> void:
 	elif index == 2: # Disabled
 		GameSettings.vSyncSetting = 2
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	print(DisplayServer.window_get_vsync_mode())
 
 
 func _on_volume_slider_value_changed(value: float) -> void:

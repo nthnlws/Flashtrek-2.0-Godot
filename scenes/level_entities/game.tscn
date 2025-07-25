@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=40 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
@@ -24,9 +24,8 @@
 [ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="21_32ft0"]
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="21_exi4y"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
-[ext_resource type="Shader" uid="uid://b52d70lp44fh6" path="res://resources/Materials_Shaders/warp_tunnel_shader.gdshader" id="21_sgl2t"]
 [ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="23_bt5mj"]
-[ext_resource type="Texture2D" uid="uid://clfu50ef34ac8" path="res://assets/textures/Nebula Background_edited_tilable.png" id="23_g86nl"]
+[ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 [ext_resource type="Script" uid="uid://bf380s1hlsb0f" path="res://scripts/menus_ui/background_music.gd" id="23_xpi24"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
 [ext_resource type="AudioStream" uid="uid://d1bp1vl6tiyrf" path="res://assets/audio/music/FEDERATION - Mesa.ogg" id="26_suyxu"]
@@ -213,25 +212,6 @@ _data = {
 &"galaxy_travel_fade_out": SubResource("Animation_lmvo2")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qouja"]
-shader = ExtResource("21_sgl2t")
-shader_parameter/hasNeonEffect = true
-shader_parameter/hasDot = false
-shader_parameter/haszExpend = true
-shader_parameter/theta = 80.0
-shader_parameter/addH = 135.0
-shader_parameter/scale = 0.01
-shader_parameter/light_disperse = 0.8
-shader_parameter/stertch = 30.0
-shader_parameter/speed = 16.1
-shader_parameter/modTime = 20.0
-shader_parameter/iswhite = false
-shader_parameter/color_a = Color(1, 1, 1, 0.464)
-shader_parameter/color_b = Color(0, 1, 1, 0.221)
-shader_parameter/gradient_speed = 3.0
-shader_parameter/m = 8
-shader_parameter/n = 100
-
 [node name="Game" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_ci0lx")
@@ -306,6 +286,19 @@ visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="TunnelEffect" parent="Menus" instance=ExtResource("23_g86nl")]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
 [node name="transition_overlay" type="CanvasLayer" parent="."]
 process_mode = 1
 visible = false
@@ -326,33 +319,6 @@ root_node = NodePath("../FadeAnimation")
 libraries = {
 &"": SubResource("AnimationLibrary_2hu8d")
 }
-
-[node name="Video_layer" type="CanvasLayer" parent="."]
-process_mode = 3
-
-[node name="WarpTunnel" type="ColorRect" parent="Video_layer"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_qouja")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="ScrollingBackground2" type="Parallax2D" parent="."]
-process_mode = 1
-visible = false
-scroll_scale = Vector2(0.5, 0.5)
-repeat_size = Vector2(8192, 8192)
-repeat_times = 3
-
-[node name="NebulaBackground" type="Sprite2D" parent="ScrollingBackground2"]
-visible = false
-z_index = -3
-scale = Vector2(4, 4)
-texture = ExtResource("23_g86nl")
 
 [node name="ScrollingBackground" type="Parallax2D" parent="."]
 process_mode = 1
