@@ -1,29 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://yyaf3bkj00o6"]
+[gd_scene load_steps=6 format=3 uid="uid://yyaf3bkj00o6"]
 
 [ext_resource type="Script" uid="uid://d3u51f4um1ark" path="res://scripts/autoload/utility.gd" id="1_ojnp0"]
 [ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="2_mpq53"]
 [ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="3_sdnem"]
 [ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="4_mvya1"]
+[ext_resource type="AudioStream" uid="uid://bypekt52tpuh4" path="res://assets/audio/UI/menu_navigate.ogg" id="5_j0xcw"]
 
 [node name="Utility_Autoload" type="Node"]
 script = ExtResource("1_ojnp0")
 
-[node name="Audio" type="Node" parent="."]
+[node name="UI_navigation" type="Node" parent="."]
 
-[node name="Click01" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+[node name="Click01" type="AudioStreamPlayer" parent="UI_navigation" groups=["click_sound"]]
 stream = ExtResource("2_mpq53")
 volume_db = -5.0
 mix_target = 2
 max_polyphony = 2
 
-[node name="Click02" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+[node name="Click02" type="AudioStreamPlayer" parent="UI_navigation" groups=["click_sound"]]
 stream = ExtResource("3_sdnem")
 volume_db = -13.5
 mix_target = 2
 max_polyphony = 2
 
-[node name="Click03" type="AudioStreamPlayer" parent="Audio" groups=["click_sound"]]
+[node name="Click03" type="AudioStreamPlayer" parent="UI_navigation" groups=["click_sound"]]
 stream = ExtResource("4_mvya1")
 volume_db = -20.0
 mix_target = 2
 max_polyphony = 2
+
+[node name="Button_select" type="AudioStreamPlayer" parent="UI_navigation"]
+stream = ExtResource("5_j0xcw")
+volume_db = -7.0

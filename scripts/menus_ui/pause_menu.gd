@@ -59,8 +59,8 @@ func _on_main_menu_button_pressed() -> void:
 	#anim.play("fade_out")
 	#await anim.animation_finished
 	#BUG No Fade Animation
-	SignalBus.levelReset.emit()
-	get_tree().change_scene_to_file("res://scenes/3D_menu_scene.tscn")
+	#SignalBus.levelReset.emit()
+	get_tree().change_scene_to_file("res://scenes/menus_ui/3D_menu_scene.tscn")
 
 
 func _on_close_game_button_pressed() -> void:

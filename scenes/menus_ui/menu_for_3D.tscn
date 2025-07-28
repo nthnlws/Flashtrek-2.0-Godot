@@ -280,6 +280,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+focus_mode = 0
 theme_override_font_sizes/font_size = 15
 placeholder_text = "USS Enterprise"
 max_length = 25
@@ -299,50 +300,67 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 7
 
-[node name="SPbutton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+[node name="SPbutton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer" groups=["UI_button"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_neighbor_top = NodePath("../ExitButton")
+focus_neighbor_bottom = NodePath("../MPcontainer/HostMP")
 theme_override_font_sizes/font_size = 13
 text = "Single Player"
 
 [node name="MPcontainer" type="HBoxContainer" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
 layout_mode = 2
 
-[node name="HostMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer"]
+[node name="HostMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer" groups=["UI_button"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_right = NodePath("../JoinMP")
+focus_neighbor_bottom = NodePath("../../SettingsButton")
 theme_override_font_sizes/font_size = 13
 text = "Host MP"
 
-[node name="JoinMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer"]
+[node name="JoinMP" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer" groups=["UI_button"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../HostMP")
+focus_neighbor_bottom = NodePath("../../SettingsButton")
 theme_override_font_sizes/font_size = 13
 text = "Join MP"
 
-[node name="SettingsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+[node name="SettingsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer" groups=["UI_button"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_top = NodePath("../MPcontainer/HostMP")
+focus_neighbor_bottom = NodePath("../CheatsMenu")
 theme_override_font_sizes/font_size = 13
 text = "Settings"
 
-[node name="CheatsMenu" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+[node name="CheatsMenu" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer" groups=["UI_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_top = NodePath("../SettingsButton")
+focus_neighbor_bottom = NodePath("../CreditsButton")
 theme_override_font_sizes/font_size = 13
 text = "Cheats"
 
-[node name="CreditsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+[node name="CreditsButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer" groups=["UI_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_top = NodePath("../CheatsMenu")
+focus_neighbor_bottom = NodePath("../ExitButton")
 theme_override_font_sizes/font_size = 13
 text = "Credits"
 
-[node name="ExitButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer"]
+[node name="ExitButton" type="Button" parent="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer" groups=["UI_button"]]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_top = NodePath("../CreditsButton")
+focus_neighbor_bottom = NodePath("../SPbutton")
 theme_override_font_sizes/font_size = 13
 text = "Exit Game"
 
@@ -1370,7 +1388,10 @@ volume_db = -10.0
 [connection signal="focus_entered" from="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username" to="." method="_on_username_focus_entered"]
 [connection signal="text_changed" from="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username/MarginContainer/HBoxContainer/ship_name_edit" to="." method="_on_ship_name_changed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/SPbutton" to="." method="_on_sp_button_pressed"]
+[connection signal="ready" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/SPbutton" to="." method="_on_SP_button_ready"]
+[connection signal="focus_entered" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer/HostMP" to="." method="_on_host_focus_entered"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer/HostMP" to="." method="_on_host_mp_pressed"]
+[connection signal="focus_entered" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer/JoinMP" to="." method="_on_join_focus_entered"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/MPcontainer/JoinMP" to="." method="_on_join_mp_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="TitleScreen/MarginContainer/HBoxContainer/MainContainer/LeftContainer/CheatsMenu" to="." method="_on_cheats_menu_pressed"]

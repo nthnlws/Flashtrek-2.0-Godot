@@ -3,6 +3,11 @@ extends Control
 enum State {SHOW, HIDE}
 
 @onready var anim: AnimationPlayer = %AnimationPlayer
+@onready var sp_button: Button = %SPbutton
+@onready var host: Button = %HostMP
+@onready var join: Button = %JoinMP
+@onready var settings_button: Button = %SettingsButton
+
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("escape"):
@@ -13,10 +18,6 @@ func _input(event: InputEvent) -> void:
 		#if %Cheats.visible:
 			#toggle_element(%Cheats)
 			#toggle_element(%TitleScreen)
-	if Input.is_action_just_pressed("rotate_left"):
-		Utility.play_click_sound(0)
-	if Input.is_action_just_pressed("rotate_right"):
-		Utility.play_click_sound(4)
 
 
 func _ready() -> void:
@@ -27,6 +28,12 @@ func _ready() -> void:
 	%MainMenuBackground.play()
 
 
+func connect_button_signals() -> void:
+	# Menu sound for keyboard focus
+	for button:Button in get_tree().get_nodes_in_group("UI_button"):
+		button.connect("focus_entered", _handle_button_focus)
+
+
 func toggle_element(element_name, force_state: Variant = null) -> void:
 	if force_state == State.HIDE:
 		element_name.visible = false
@@ -34,6 +41,9 @@ func toggle_element(element_name, force_state: Variant = null) -> void:
 		element_name.visible = true
 	else: #Reverses visible state
 		element_name.visible = not element_name.visible
+
+func _handle_button_focus() -> void:
+	Utility.play_UI_sound()
 
 
 func _on_main_menu_background_finished() -> void:
@@ -108,5 +118,16 @@ func _on_ship_name_changed(new_text: String) -> void:
 	Utility.player_name = new_text
 
 
-func _on_username_focus_entered() -> void:
-	print("mouse")
+func _on_SP_button_ready() -> void:
+	%SPbutton.call_deferred("grab_focus")
+	call_deferred("connect_button_signals")
+
+
+func _on_host_focus_entered() -> void:
+	sp_button.focus_neighbor_bottom = host.get_path()
+	settings_button.focus_neighbor_top = host.get_path()
+
+
+func _on_join_focus_entered() -> void:
+	sp_button.focus_neighbor_bottom = join.get_path()
+	settings_button.focus_neighbor_top = join.get_path()

@@ -22,6 +22,8 @@ const DAMAGE_UPGRADE_ICON = preload("res://assets/textures/UI/damage_upgrade_ico
 
 
 func _ready() -> void:
+	self.add_to_group("upgrade_drop")
+	
 	body_entered.connect(_on_player_entered)
 	change_icon_sprite(upgrade_type)
 	

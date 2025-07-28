@@ -131,6 +131,7 @@ func create_minimap_objects() -> void:
 			sunObjects.append(texture_rect)
 			count += 1
 
+
 func update_minimap() -> void:
 	if enemyShips:
 		count = 0

@@ -148,12 +148,13 @@ const DAMAGE_MARKER = preload("res://scenes/level_entities/damage_marker.tscn")
 
 func _init() -> void:
 	load_JSON_ship_data()
-	
+
+
 func _ready() -> void:
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
-	
-	
+
+
 func _input(event: InputEvent) -> void:
 	#Fullscreen management
 	if Input.is_action_just_pressed("f11"):
@@ -190,6 +191,12 @@ func play_click_sound(volume: float) -> void:
 			sound_array[sound_array_location].set_volume_db(default_db)
 			sound_array_location += 1
 
+
+@onready var button_select: AudioStreamPlayer = $UI_navigation/Button_select
+func play_UI_sound() -> void:
+	button_select.play()
+
+
 func store_level_data(save_data: Dictionary) -> void:
 	var file_path: String = "user://level_data.json"
 	
@@ -204,6 +211,7 @@ func store_level_data(save_data: Dictionary) -> void:
 		#var file = FileAccess.open(file_path, FileAccess.READ)
 		#save_data = JSON.parse_string(file.get_as_text())
 		#file.close()
+
 
 func createDamageIndicator(damage: float, color: String, position: Vector2) -> void:
 	damage = snapped(damage, 0.1)

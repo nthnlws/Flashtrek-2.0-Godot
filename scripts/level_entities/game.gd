@@ -56,10 +56,9 @@ func _ready() -> void:
 func galaxy_fade_out() -> void:
 	tunnel_effect.visible = true
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 3, 4.0)
+	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 85, 4.0)
 	
 	await get_tree().create_timer(4.0).timeout
-	
 	
 	print("Warp finished with target system " + str(Navigation.targetSystem))
 	SignalBus.galaxy_warp_finished.emit(Navigation.targetSystem)
@@ -79,17 +78,16 @@ func handlePlayerDied() -> void:
 func _warp_into_new_system(system) -> void:
 	player.global_position = Navigation.entry_coords
 	
-	var tween: Tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 200, 4.0)
 	
 	player.camera._zoom = Vector2(0.4, 0.4)
+	player.overdrive_state_change("INSTANT")
+	player._teleport_shader_toggle("uncloak")
 	
 	await get_tree().create_timer(1.5).timeout
 	
 	SignalBus.entering_new_system.emit()
-	
-	player.overdrive_state_change("INSTANT")
-	player._teleport_shader_toggle("uncloak")
 	
 	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	tween2.tween_property(player, "velocity", Vector2(0, -600).rotated(player.global_rotation), 3.0)

@@ -70,6 +70,10 @@ func _instaniate_ships(PLANET_COUNT:int) -> void:
 
 
 func _change_system(system) -> void:
+	var old_upgrade_drops:Array[Node] = get_tree().get_nodes_in_group("upgrade_drop")
+	for drop:Area2D in old_upgrade_drops: # Delete all 
+		drop.queue_free()
+	
 	# Combining all planets into single array for new system spawning
 	var all_planets: Array = Utility.mainScene.planets + Utility.mainScene.unused_planets
 	# Clear old arrays

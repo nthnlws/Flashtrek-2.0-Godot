@@ -1,7 +1,6 @@
 extends Node
 
 
-
 func _ready() -> void:
 	Console.pause_enabled = true
 	
