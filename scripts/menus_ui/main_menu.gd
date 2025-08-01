@@ -8,6 +8,7 @@ enum State {SHOW, HIDE}
 @onready var join: Button = %JoinMP
 @onready var settings_button: Button = %SettingsButton
 
+var last_focus:Button = null # Used for resetting focus when returning to main menu
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("escape"):
@@ -31,7 +32,7 @@ func _ready() -> void:
 func connect_button_signals() -> void:
 	# Menu sound for keyboard focus
 	for button:Button in get_tree().get_nodes_in_group("UI_button"):
-		button.connect("focus_entered", _handle_button_focus)
+		button.connect("focus_entered", _handle_button_focus.bind(button))
 
 
 func toggle_element(element_name, force_state: Variant = null) -> void:
@@ -42,8 +43,9 @@ func toggle_element(element_name, force_state: Variant = null) -> void:
 	else: #Reverses visible state
 		element_name.visible = not element_name.visible
 
-func _handle_button_focus() -> void:
-	Utility.play_UI_sound()
+func _handle_button_focus(button:Button) -> void:
+	last_focus = button
+	SignalBus.UIselectSound.emit()
 
 
 func _on_main_menu_background_finished() -> void:
@@ -55,7 +57,7 @@ func _on_main_menu_music_finished() -> void:
 
 
 func _on_sp_button_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 	anim.play("fade_out_long")
 	%SPbutton.disabled = true
 	await anim.animation_finished
@@ -64,49 +66,53 @@ func _on_sp_button_pressed() -> void:
 
 
 func _on_join_mp_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 	toggle_element(%Multiplayer_popup)
 
 
 func _on_host_mp_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 
 
 func _on_settings_button_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
+	$Settings/ColorRect/HeaderArea/XbuttonArea/closeMenuButton.grab_focus()
 	toggle_element(%TitleScreen)
 	toggle_element(%Settings, State.SHOW)
 	toggle_element(%Multiplayer_popup, State.HIDE)
 
 
 func _on_settings_closed() -> void:
-	Utility.play_click_sound(0)
+	SignalBus.UIclickSound.emit()
+	last_focus.grab_focus()
 	anim.play("fade_in_short")
 	toggle_element(%TitleScreen)
 	toggle_element(%Settings)
 
 
 func _on_cheats_menu_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 	toggle_element(%Multiplayer_popup, State.HIDE)
 
 
 func _on_credits_button_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
+	$Credits/XbuttonArea/closeMenuButton.grab_focus()
 	toggle_element(%Credits)
 	toggle_element(%TitleScreen)
 	toggle_element(%Multiplayer_popup, State.HIDE)
 
 
 func _on_credits_closed() -> void:
-	Utility.play_click_sound(0)
+	SignalBus.UIclickSound.emit()
+	last_focus.grab_focus()
 	anim.play("fade_in_short")
 	toggle_element(%Credits)
 	toggle_element(%TitleScreen)
 
 
 func _on_exit_button_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 	get_tree().quit()
 
 

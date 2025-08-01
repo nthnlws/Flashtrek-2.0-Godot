@@ -18,7 +18,7 @@ func _ready() -> void:
 	sprite.frame = random_index
 	z_index = Utility.Z["Planets"]
 	
-	Utility.mainScene.planets.append(self)
+	LevelData.planets.append(self)
 
 
 func _physics_process(delta: float) -> void:

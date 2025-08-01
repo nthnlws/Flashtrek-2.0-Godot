@@ -128,7 +128,6 @@ var PLAYER_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
 var ENEMY_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
 
 var is_initial_load: bool = true
-var mainScene:Node = null # Set by main scene on _init()
 var fadeLength: float = 2.0 # Used for fade in/out on Galaxy Warp
 
 # Colors
@@ -151,8 +150,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	sound_array = get_tree().get_nodes_in_group("click_sound")
-	sound_array.shuffle()
+	SignalBus.updateLevelData.connect(store_level_data)
 
 
 func _input(event: InputEvent) -> void:
@@ -162,39 +160,6 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-
-
-# Click button sound variables
-var sound_array:Array = [] # Contains all nodes in group "click_sound"
-var sound_array_location:int = 0
-const HIGH:float = 2.0
-const LOW:float = 0.5
-func play_click_sound(volume: float) -> void: 
-	var sound_array_length: int = sound_array.size() - 1
-
-	match sound_array_location:
-		sound_array_length: # When location in array = array size, shuffle array and reset location
-			var default_db: float = sound_array[sound_array_location].volume_db
-			var effective_volume: float = default_db + volume
-			sound_array[sound_array_location].set_volume_db(effective_volume)
-			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
-			sound_array[sound_array_location].play()
-			sound_array[sound_array_location].set_volume_db(default_db)
-			sound_array.shuffle()
-			sound_array_location = 0
-		_: # Runs for all array values besides last
-			var default_db: float = sound_array[sound_array_location].volume_db
-			var effective_volume: float = default_db + volume
-			sound_array[sound_array_location].set_volume_db(effective_volume)
-			sound_array[sound_array_location].stop() # Ensure the sound is stopped before playing
-			sound_array[sound_array_location].play()
-			sound_array[sound_array_location].set_volume_db(default_db)
-			sound_array_location += 1
-
-
-@onready var button_select: AudioStreamPlayer = $UI_navigation/Button_select
-func play_UI_sound() -> void:
-	button_select.play()
 
 
 func store_level_data(save_data: Dictionary) -> void:
@@ -238,3 +203,6 @@ func load_JSON_ship_data() -> void:
 	SHIP_DATA = JSON_ship_data.get("ShipData")
 	PLAYER_SHIP_STATS = JSON_ship_data.get("PlayerStats")
 	ENEMY_SHIP_STATS = JSON_ship_data.get("EnemyStats")
+
+func create_custom_tween(node:Node, property:String, final_val, duration:float, curve:Curve) -> void:
+	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))

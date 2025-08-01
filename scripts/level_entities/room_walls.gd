@@ -29,7 +29,7 @@ func _ready() -> void:
 	SignalBus.entering_new_system.connect(toggle_world_borders)
 	
 	z_index = Utility.Z["WorldBorders"]
-	Utility.mainScene.levelWalls.clear()
+	LevelData.levelWalls.clear()
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)
 	SignalBus.collisionChanged.connect(_on_collision_changed)
@@ -74,15 +74,15 @@ func _on_border_coords_moved() -> void:
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 ]
-	for i in range(Utility.mainScene.levelWalls.size()):
-		var wall: StaticBody2D  = Utility.mainScene.levelWalls[i]
+	for i in range(LevelData.levelWalls.size()):
+		var wall: StaticBody2D  = LevelData.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
 func _on_collision_changed(toggle_status: bool) -> void:
-	for i in range(Utility.mainScene.levelWalls.size()):
-		var wall: StaticBody2D = Utility.mainScene.levelWalls[i]
+	for i in range(LevelData.levelWalls.size()):
+		var wall: StaticBody2D = LevelData.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status
 
@@ -92,7 +92,7 @@ func toggle_world_borders() -> void:
 		if bord.get_node("WorldBoundary").disabled == false:
 			bord.get_node("WorldBoundary").disabled = true
 			await get_tree().create_timer(0.3).timeout
-			if Utility.mainScene.in_galaxy_warp == true:
+			if Navigation.in_galaxy_warp == true:
 				create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
 			await get_tree().create_timer(Utility.fadeLength).timeout
 		else: 

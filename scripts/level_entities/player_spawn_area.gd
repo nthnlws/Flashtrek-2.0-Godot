@@ -5,7 +5,7 @@ extends Area2D
 @export var MAX_DISTANCE_FROM_ORIGIN: int = 1500
 
 func _init() -> void:
-	Utility.mainScene.spawn_options.append(self)
+	LevelData.spawn_options.append(self)
 	
 	
 func _ready() -> void:

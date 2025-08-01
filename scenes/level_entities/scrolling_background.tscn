@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmickf1y1dx86"]
+
+[ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_owi3o"]
+
+[node name="ScrollingBackground" type="Parallax2D"]
+process_mode = 1
+scroll_scale = Vector2(0.8, 0.8)
+repeat_size = Vector2(4096, 4096)
+repeat_times = 3
+
+[node name="StarBackground" type="Sprite2D" parent="."]
+z_index = -3
+scale = Vector2(4, 4)
+texture = ExtResource("1_owi3o")

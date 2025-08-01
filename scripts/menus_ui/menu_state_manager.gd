@@ -16,7 +16,7 @@ func _ready() -> void:
 
 # Input handling
 func _input(event: InputEvent) -> void:
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 		if Input.is_action_just_pressed("escape"):
 			handle_escape_press()
 		elif Input.is_action_just_pressed("letter_m"):
@@ -29,7 +29,7 @@ func handle_escape_press() -> void:
 	match current_state:
 		MenuState.NONE:
 			# No menus are open, open the pause menu
-			if Utility.mainScene.in_galaxy_warp == false:
+			if Navigation.in_galaxy_warp == false:
 				toggle_menu($PauseMenu, MenuState.PAUSE_MENU)
 		MenuState.PAUSE_MENU:
 			# Pause menu is open, close it
@@ -62,7 +62,7 @@ func _handle_player_death() -> void:
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState) -> void:
 	if menu == $ShipSelectionMenu:
-		var starbase: Node2D = Utility.mainScene.starbase[0]
+		var starbase: Node2D = LevelData.starbase[0]
 		if !starbase.check_distance_to_planets():
 			menu.visible = true
 			menu.mouse_filter = Control.MOUSE_FILTER_STOP

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=25 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
@@ -13,204 +13,17 @@
 [ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="9_ia24r"]
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/level_entities/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://berjp6uasq671" path="res://scenes/menus_ui/upgrade_area.tscn" id="10_b4di1"]
+[ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="12_ia24r"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
-[ext_resource type="Script" uid="uid://dkdlhrm2eymj0" path="res://scripts/menus_ui/transition_overlay.gd" id="18_pl11u"]
-[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="19_1dh75"]
-[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="20_p5rub"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
-[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="21_32ft0"]
-[ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="21_exi4y"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
 [ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="23_bt5mj"]
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
-[ext_resource type="Script" uid="uid://bf380s1hlsb0f" path="res://scripts/menus_ui/background_music.gd" id="23_xpi24"]
+[ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
-[ext_resource type="AudioStream" uid="uid://d1bp1vl6tiyrf" path="res://assets/audio/music/FEDERATION - Mesa.ogg" id="26_suyxu"]
-[ext_resource type="AudioStream" uid="uid://utcuo4fw5fto" path="res://assets/audio/music/Klingon - Subterranean.ogg" id="27_sgl2t"]
-[ext_resource type="AudioStream" uid="uid://gyyphmsw0db5" path="res://assets/audio/music/Romulan-The-Rising-Dawn-Bellows-Like-Thunder.ogg" id="28_qouja"]
-
-[sub_resource type="Animation" id="Animation_2b4ug"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_0pgod"]
-resource_name = "fade_in_long"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_arcv3"]
-resource_name = "fade_in_short"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_d1ssx"]
-resource_name = "fade_in_video"
-length = 2.0
-
-[sub_resource type="Animation" id="Animation_7aag7"]
-resource_name = "fade_out_long"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_oc86j"]
-resource_name = "fade_out_short"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_lmvo2"]
-resource_name = "galaxy_travel_fade_out"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2hu8d"]
-_data = {
-&"RESET": SubResource("Animation_2b4ug"),
-&"fade_in_long": SubResource("Animation_0pgod"),
-&"fade_in_short": SubResource("Animation_arcv3"),
-&"fade_in_video": SubResource("Animation_d1ssx"),
-&"fade_out_long": SubResource("Animation_7aag7"),
-&"fade_out_short": SubResource("Animation_oc86j"),
-&"galaxy_travel_fade_out": SubResource("Animation_lmvo2")
-}
 
 [node name="Game" type="Node2D"]
 process_mode = 3
@@ -238,6 +51,8 @@ item_pickup = ExtResource("10_b4di1")
 [node name="UpgradeArea" parent="Level/item_pickups" instance=ExtResource("10_b4di1")]
 position = Vector2(2118, 494)
 upgrade_type = 5
+
+[node name="ScrollingBackground" parent="Level" instance=ExtResource("12_ia24r")]
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]
 process_mode = 1
@@ -299,82 +114,10 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="transition_overlay" type="CanvasLayer" parent="."]
-process_mode = 1
-visible = false
-script = ExtResource("18_pl11u")
-
-[node name="FadeAnimation" type="ColorRect" parent="transition_overlay"]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="transition_overlay"]
-root_node = NodePath("../FadeAnimation")
-libraries = {
-&"": SubResource("AnimationLibrary_2hu8d")
-}
-
-[node name="ScrollingBackground" type="Parallax2D" parent="."]
-process_mode = 1
-scroll_scale = Vector2(0.8, 0.8)
-repeat_size = Vector2(4096, 4096)
-repeat_times = 3
-
-[node name="StarBackground" type="Sprite2D" parent="ScrollingBackground"]
-z_index = -3
-scale = Vector2(4, 4)
-texture = ExtResource("21_exi4y")
-
-[node name="Audio" type="Node" parent="."]
-process_mode = 1
-
-[node name="UI" type="Node" parent="Audio"]
-
-[node name="Click01" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
-stream = ExtResource("19_1dh75")
-volume_db = -5.0
-mix_target = 2
-max_polyphony = 2
-
-[node name="Click02" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
-stream = ExtResource("20_p5rub")
-volume_db = -13.5
-mix_target = 2
-max_polyphony = 2
-
-[node name="Click03" type="AudioStreamPlayer" parent="Audio/UI" groups=["click_sound"]]
-stream = ExtResource("21_32ft0")
-volume_db = -20.0
-mix_target = 2
-max_polyphony = 2
-
-[node name="Music" type="Node" parent="Audio"]
-script = ExtResource("23_xpi24")
-
-[node name="Fed - Mesa" type="AudioStreamPlayer" parent="Audio/Music"]
-unique_name_in_owner = true
-stream = ExtResource("26_suyxu")
-volume_db = -15.0
-
-[node name="Klingon - Subterranean" type="AudioStreamPlayer" parent="Audio/Music"]
-unique_name_in_owner = true
-stream = ExtResource("27_sgl2t")
-volume_db = -20.0
-
-[node name="Romulan - Rising Dawn" type="AudioStreamPlayer" parent="Audio/Music"]
-unique_name_in_owner = true
-stream = ExtResource("28_qouja")
-volume_db = -15.0
+[node name="audio_manager" parent="." instance=ExtResource("23_l5jjv")]
 
 [node name="SignalPrinter" type="Node" parent="."]
 script = ExtResource("25_dx7lr")
 enabled = false
-print_time = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]

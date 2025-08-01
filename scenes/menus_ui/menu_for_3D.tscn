@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://5xdx8abl1xi1"]
+[gd_scene load_steps=18 format=3 uid="uid://5xdx8abl1xi1"]
 
 [ext_resource type="Script" uid="uid://dpalqg2cengf" path="res://scripts/menus_ui/main_menu.gd" id="1_k8b36"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_pksmb"]
@@ -6,8 +6,10 @@
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="7_d5k3n"]
 [ext_resource type="Script" uid="uid://bcmgkke5kh5pw" path="res://scripts/menus_ui/settings_menu.gd" id="8_bff6q"]
 [ext_resource type="AudioStream" uid="uid://fhaou6mjhc3s" path="res://assets/audio/music/MAIN_TITLE - Ether.ogg" id="8_i7hig"]
+[ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="9_bhn2o"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="9_ua14u"]
 [ext_resource type="AudioStream" uid="uid://ir7wno6dp7vh" path="res://assets/audio/bridge_ambiance.ogg" id="10_hux8j"]
+[ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="10_iqa3n"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fa2ty"]
 font = ExtResource("2_pksmb")
@@ -1357,6 +1359,7 @@ ticks_on_borders = true
 [node name="Transition_layer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 2
+visible = false
 
 [node name="FadeAnimation" type="ColorRect" parent="Transition_layer"]
 anchors_preset = 15
@@ -1383,6 +1386,12 @@ volume_db = -25.0
 unique_name_in_owner = true
 stream = ExtResource("8_i7hig")
 volume_db = -10.0
+
+[node name="audio_manager" parent="." instance=ExtResource("9_bhn2o")]
+
+[node name="SignalPrinter" type="Node" parent="."]
+script = ExtResource("10_iqa3n")
+enabled = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="focus_entered" from="TitleScreen/MarginContainer/HBoxContainer/TitleContainer/VBoxContainer/Username" to="." method="_on_username_focus_entered"]

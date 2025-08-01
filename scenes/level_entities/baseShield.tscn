@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bextl4yltypag"]
 
 [ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="1_7v2r8"]
-[ext_resource type="Script" uid="uid://y3ogflhdxqcw" path="res://scripts/level_entities/base_shield.gd" id="3_7v2r8"]
+[ext_resource type="Script" uid="uid://y3ogflhdxqcw" path="res://scripts/level_entities/shield_Base.gd" id="3_7v2r8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k87u5"]
 shader = ExtResource("1_7v2r8")

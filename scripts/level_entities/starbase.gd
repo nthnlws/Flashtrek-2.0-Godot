@@ -16,13 +16,13 @@ func _physics_process(delta: float) -> void:
 
 
 func toggle_comms() -> void: # Only toggles on if within required distance
-	if check_distance_to_planets(): # and Utility.mainScene.player.overdrive_active == false:
+	if check_distance_to_planets(): # and LevelData.player.overdrive_active == false:
 		# Open starbase menu here
 		#starbase_menu.visible = true
 		pass
 
 func check_distance_to_planets() -> bool:
-	var player_position: Vector2 = Utility.mainScene.player.global_position
+	var player_position: Vector2 = LevelData.player.global_position
 
 	var starbase_position: Vector2 = self.global_position
 	var distance: float = player_position.distance_to(starbase_position)

@@ -30,8 +30,7 @@ var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 
 
 func _ready() -> void:
-	if AI_enabled:
-		SignalBus.ship_instantiated.emit(self, ship_type)
+	shield.shieldStatusChanged.connect(func(shieldStatus:bool): shield_on = shieldStatus)
 	
 	if ship_type == "NeutralShip":
 		_sync_data_to_resource(Utility.SHIP_TYPES.Merchantman)
@@ -39,7 +38,7 @@ func _ready() -> void:
 		
 	# Initialize AI-related data
 	if AI_enabled:
-		starbase = Utility.mainScene.starbase[0]
+		starbase = LevelData.starbase[0]
 	
 	# Set initial movement state target
 	call_deferred("selectRandomPlanet")
@@ -128,7 +127,7 @@ func setMovementState(delta:float) -> void:
 
 
 func selectRandomPlanet() -> void:
-	endPoint = Utility.mainScene.planets.pick_random().global_position
+	endPoint = LevelData.planets.pick_random().global_position
 
 
 func starbaseMovement(delta:float) -> void:
@@ -161,11 +160,16 @@ func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> float:
 
 func explode() -> void:
 	alive = false
-	shield.shieldDie()
+	shield.turnShieldOff()
 	sprite.visible = false
 	
-	Utility.mainScene.neutralShips.erase(self)
+	LevelData.neutralShips.erase(self)
 	SignalBus.neutralShipDied.emit(self)
+	if LevelData.all_systems_data.get(Navigation.currentSystem).get("neutrals").has(self.name):
+		print("Before: %s" % LevelData.all_systems_data[Navigation.currentSystem]["neutrals"])
+		LevelData.all_systems_data[Navigation.currentSystem]["neutrals"].erase(self.name)
+		print("After: %s" % LevelData.all_systems_data[Navigation.currentSystem]["neutrals"])
+	else: print("%s not found in dict" % self.name)
 	
 	collision_shape.set_deferred("disabled", true)
 	%ship_explosion.play()

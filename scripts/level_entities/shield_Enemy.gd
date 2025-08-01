@@ -7,7 +7,7 @@ func _process(delta: float) -> void:
 		regen_shield(delta)
 	
 	if sp_current < 0.1:
-		shieldDie()
+		turnShieldOff()
 
 
 func take_damage(damage:float, hit_pos:Vector2) -> void:
@@ -17,4 +17,4 @@ func take_damage(damage:float, hit_pos:Vector2) -> void:
 	Utility.createDamageIndicator(damage, Utility.damage_blue, hit_pos)
 	
 	if sp_current <= 0:
-		shieldDie()
+		turnShieldOff()

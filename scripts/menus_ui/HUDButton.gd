@@ -25,12 +25,12 @@ func _ready() -> void:
 #
 #
 func handle_button_click(event: InputEvent, button: TextureButton) -> void:
-	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
+	if event.is_action_pressed("left_click") and Navigation.in_galaxy_warp == false:
 		var signal_name: String = button.name + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")
-			Utility.play_click_sound(0)
+			SignalBus.UIclickSound.emit()
 		else: print("No button signal found")
 
 func manual_scale(new_scale: float) -> void:

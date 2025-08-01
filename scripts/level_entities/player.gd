@@ -117,9 +117,6 @@ func set_player_direction(joystick_direction) -> void:
 
 
 func _ready() -> void:
-	SignalBus.ship_instantiated.emit(self, "Player")
-	Navigation.player_range = warp_range
-	
 	# Signal setup
 	SignalBus.player_type_changed.connect(_sync_data_to_resource)
 	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
@@ -128,7 +125,7 @@ func _ready() -> void:
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.playerDied.connect(mission_finish)
 	SignalBus.teleport_player.connect(teleport)
-	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
+	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out.unbind(1))
 	
 	z_index = Utility.Z["Player"]
 	var spawn_options: Array = get_tree().get_nodes_in_group("player_spawn_area")
@@ -226,7 +223,7 @@ func _process(delta: float) -> void:
 		max_speed = max_speed
 
 	# Movement check for idle audio
-	if abs(velocity.x)+abs(velocity.y)>100 and Utility.mainScene.in_galaxy_warp:
+	if abs(velocity.x)+abs(velocity.y)>100 and Navigation.in_galaxy_warp:
 		idle_sound(true)
 	else:
 		idle_sound(false)
@@ -246,7 +243,7 @@ func _physics_process(delta: float) -> void:
 	if !alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("overdrive"):
-		if Utility.mainScene.in_galaxy_warp == false:
+		if Navigation.in_galaxy_warp == false:
 			overdrive_state_change("SMOOTH")
 
 	if shooting_button_held:
@@ -263,7 +260,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _handle_movement(delta: float) -> void:
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
 			direction.y = Input.get_axis("move_forward", "move_backward")  # Forward/backward movement
@@ -350,7 +347,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 
 func shoot_torpedo() -> void:
 	var t: Area2D = torpedo_scene.instantiate()
-	if energy_current > t.energy_cost and overdriveTime == false and Utility.mainScene.in_galaxy_warp == false:
+	if energy_current > t.energy_cost and overdriveTime == false and Navigation.in_galaxy_warp == false:
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.z_index = 0
@@ -372,7 +369,7 @@ func energy_drain(energy: float) -> void:
 
 func killPlayer() -> void:
 	if alive:
-		Utility.mainScene.in_galaxy_warp = false
+		Navigation.in_galaxy_warp = false
 		%PlayerDieSound.play()
 		alive = false
 		self.visible = false
@@ -407,12 +404,12 @@ func respawn(pos: Vector2) -> void:
 	
 		rotation = 0 #Sets rotation to north
 		
-		shield.shieldAlive()
+		shield.turnShieldOn()
 
 		shield.damageTime = false
 
 
-func energyTimeout() -> void: #Turns off energy regen for 1 second after firing laser
+func energyTimeout() -> void: #Turns of5f energy regen for 1 second after firing laser
 	energyTime = true
 	if timer.is_stopped() == false: # If timer is already running, restarts timer fresh
 		timer.stop()
@@ -466,7 +463,7 @@ func idle_sound(active: bool) -> void:
 
 #Weapons
 func take_damage(damage:float, hit_pos: Vector2) -> void:
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 		hp_current -= damage # Take damage
 		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
 		
@@ -488,7 +485,7 @@ func _teleport_shader_toggle(toggle: String) -> void:
 func velocity_check() -> bool:
 	# Check velocity warp criteria
 	var base_check = (
-		!Utility.mainScene.in_galaxy_warp and
+		!Navigation.in_galaxy_warp and
 		velocity.x > -100 and velocity.x < 100 and
 		velocity.y > -100 and velocity.y < 100 and
 		!overdrive_active
@@ -501,7 +498,7 @@ func velocity_check() -> bool:
 
 func galaxy_warp_out() -> void:
 	SignalBus.entering_galaxy_warp.emit()
-	Utility.mainScene.in_galaxy_warp = true
+	Navigation.in_galaxy_warp = true
 	
 	self.velocity = Vector2.ZERO
 	

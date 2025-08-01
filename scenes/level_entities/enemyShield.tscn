@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://t8ejhfca8ulm"]
 
 [ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="1_h5n85"]
-[ext_resource type="Script" uid="uid://1g8vwv3gjns3" path="res://scripts/level_entities/enemyShield.gd" id="3_0y86e"]
+[ext_resource type="Script" uid="uid://1g8vwv3gjns3" path="res://scripts/level_entities/shield_Enemy.gd" id="3_0y86e"]
 [ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="3_w2l47"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_36h87"]

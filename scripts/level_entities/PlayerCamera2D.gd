@@ -11,7 +11,7 @@ var _zoom:Vector2 = Vector2(0.5, 0.5):
 
 
 func _input(event: InputEvent) -> void:
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 		if Input.is_action_pressed("zoom_out"):
 			if _zoom > ZOOM_MIN:
 				_zoom -= ZOOM_STEP
@@ -21,6 +21,6 @@ func _input(event: InputEvent) -> void:
 				_zoom += ZOOM_STEP
 
 func _process(delta: float) -> void:
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 		if zoom != _zoom:
 			zoom = _zoom

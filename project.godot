@@ -22,12 +22,13 @@ config/windows_native_icon="res://assets/icons/icon_256.ico"
 
 GameSettings="*res://scripts/menus_ui/gameSettings.gd"
 DiscordManager="*res://scripts/autoload/DiscordManager.gd"
-Utility="*res://scenes/autoload/utility_autoload.tscn"
 PlayerUpgrades="*res://scripts/autoload/player_upgrades.gd"
 Console="*res://addons/console/console.gd"
 SignalBus="*res://scripts/autoload/SignalBus.gd"
 Navigation="*res://scripts/autoload/navigation.gd"
 CheatsMenu="*res://scripts/autoload/cheats_menu.gd"
+LevelData="*res://scripts/autoload/level_data.gd"
+Utility="*res://scripts/autoload/utility.gd"
 
 [debug]
 
@@ -48,7 +49,7 @@ movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
 
 [file_customization]
 

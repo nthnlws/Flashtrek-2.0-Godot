@@ -65,8 +65,8 @@ func _on_shield_ready() -> void:
 
 
 func _on_texture_rect_gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_click") and Utility.mainScene.in_galaxy_warp == false:
-		Utility.play_click_sound(4)
+	if event.is_action_pressed("left_click") and Navigation.in_galaxy_warp == false:
+		SignalBus.UIclickSound.emit()
 		SignalBus.pause_menu_clicked.emit()
 
 

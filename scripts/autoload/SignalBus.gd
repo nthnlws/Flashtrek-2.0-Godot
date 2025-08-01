@@ -4,6 +4,7 @@ extends Node
 signal enemyShipDied(enemy:EnemyCharacter)
 signal spawnLoot(type:UpgradePickup.MODULE_TYPES, postition:Vector2)
 signal neutralShipDied(enemy:NeutralCharacter)
+signal updateLevelData(all_system_data:Dictionary)
 
 # Missions
 signal missionAccepted(current_mission)
@@ -59,5 +60,8 @@ signal enemy_type_changed(ENEMY_TYPE: Utility.SHIP_TYPES)
 signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES)
 
 # Level Creation
-signal ship_instantiated(character:CharacterBody2D, type:String)
 signal level_entity_added(node:Node2D, type:String)
+
+# Audio
+signal UIselectSound
+signal UIclickSound

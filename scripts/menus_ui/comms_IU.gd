@@ -1,6 +1,6 @@
 extends Control
 
-@onready var player: Player = Utility.mainScene.player
+@onready var player: Player = LevelData.player
 @onready var comms_message: RichTextLabel = $Comms_message
 
 var button_array: Array[Node] = []
@@ -115,7 +115,7 @@ func _ready() -> void:
 		button.gui_input.connect(handle_UI_click.bind(button))
 	
 	# Mission text setup
-	var planet_node: Node2D = Utility.mainScene.planets[0]
+	var planet_node: Node2D = LevelData.planets[0]
 	var detection_radius: CollisionShape2D = planet_node.get_node("CommArea").get_node("CollisionShape2D")
 	
 	ship_name = Utility.player_name
@@ -130,11 +130,11 @@ func handle_UI_click(event: InputEvent, button: TextureButton) -> void:
 	if event.is_action_pressed("left_click"):
 		if button.name == "reroll_button":
 			completedUIdisplay = false
-			Utility.play_click_sound(0)
+			SignalBus.UIclickSound.emit()
 			var current_mission: Dictionary = generate_mission()
 			set_mission_text(current_mission)
 		elif button.name == "close_button":
-			Utility.play_click_sound(0)
+			SignalBus.UIclickSound.emit()
 			close_comms()
 
 
@@ -201,7 +201,7 @@ func generate_mission() -> Dictionary:
 		random_system_name = system_keys.pick_random()
 	
 	# Get random planet from picked system
-	var planet_list: Array = Navigation.all_systems_data[str(random_system_name)].planet_data
+	var planet_list: Array = LevelData.all_systems_data[str(random_system_name)].planet_data
 	var random_planet: String = str(planet_list.pick_random().name)
 	
 	var item_name: String = cargo_types.pick_random()

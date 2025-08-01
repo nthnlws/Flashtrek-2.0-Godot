@@ -40,7 +40,7 @@ func _gui_input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				SignalBus.galaxy_map_clicked.emit(area.name)
 				update_map_destination(area, area.name)
-				Utility.play_click_sound(0)
+				SignalBus.UIclickSound.emit()
 				return
 				
 
@@ -130,13 +130,13 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 
 func _on_close_menu_button_pressed() -> void:
-	Utility.play_click_sound(HIGH)
+	SignalBus.UIclickSound.emit()
 	Menus.toggle_menu(self, 0)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 
 
 func _on_warp_button_pressed() -> void:
-	Utility.play_click_sound(HIGH)
+	SignalBus.UIclickSound.emit()
 	Navigation.trigger_warp()
 	visible = false

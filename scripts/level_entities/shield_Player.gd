@@ -41,13 +41,13 @@ func set_shield_max(value) -> float:
 
 
 func take_damage(damage:float, hit_pos: Vector2) -> void:
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 		damageTimeout() # Turn off shield regen for period
 		sp_current -= damage # Take damage
 		Utility.createDamageIndicator(damage, Utility.damage_blue, hit_pos)
 		
 		if sp_current <= 0:
-			shieldDie()
+			turnShieldOff()
 
 
 func initialize_hud_values() -> void:

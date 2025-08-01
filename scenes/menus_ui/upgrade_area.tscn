@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://berjp6uasq671"]
 
 [ext_resource type="Texture2D" uid="uid://ca0stn4vihtpd" path="res://assets/textures/UI/speed_upgrade_icon.png" id="1_labvw"]
-[ext_resource type="Script" uid="uid://bpw0odiw656e7" path="res://scenes/menus_ui/upgrade_item.gd" id="1_nm2sa"]
+[ext_resource type="Script" uid="uid://bpw0odiw656e7" path="res://scripts/level_entities/upgrade_item.gd" id="1_nm2sa"]
 [ext_resource type="Shader" uid="uid://bex1pshojv55r" path="res://resources/Materials_Shaders/bounce.gdshader" id="2_ga0bh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_63q1b"]

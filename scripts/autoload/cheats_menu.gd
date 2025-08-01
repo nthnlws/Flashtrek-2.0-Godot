@@ -7,7 +7,7 @@ func _ready() -> void:
 	Console.add_command( # Upgrade loot
 		"upgrade", # Command name
 		spawn_loot_command, # Function call
-		["type"], # Argument params
+		["type", "number"], # Argument params
 		1, # Required params
 		"Spawns a damage upgrade on the player", # Description
 		)
@@ -23,11 +23,11 @@ func _ready() -> void:
 		)
 
 
-func spawn_loot_command(type_str: String) -> void:
+func spawn_loot_command(type_str: String, number:String = "1") -> void:
 	type_str = type_str.to_upper()
 	var type:int = UpgradePickup.MODULE_TYPES[type_str]
-	var position: Vector2 = Utility.mainScene.player.global_position
-	SignalBus.spawnLoot.emit(type, position)
+	var position: Vector2 = LevelData.player.global_position
+	SignalBus.spawnLoot.emit(type, position, int(number))
 
 
 func teleport_command(x_coord:String, y_coord: String) -> void:

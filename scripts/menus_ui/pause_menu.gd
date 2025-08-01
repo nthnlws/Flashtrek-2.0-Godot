@@ -1,8 +1,6 @@
 extends Control
 
 @onready var _bus: int = AudioServer.get_bus_index("Master")
-@onready var anim: AnimationPlayer = $"../../transition_overlay/AnimationPlayer"
-@onready var color_rect: ColorRect = $"../../transition_overlay/FadeAnimation"
 @onready var Menus: CanvasLayer = $".."
 
 var xCoord: int = 0:
@@ -48,23 +46,18 @@ func populate_type_button() -> void:
 
 #Header buttons
 func _on_close_menu_button_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 	Menus.toggle_menu(self, 0)
 
 
 func _on_main_menu_button_pressed() -> void:
-	Utility.play_click_sound(4)
-	color_rect.z_index = 2
+	SignalBus.UIclickSound.emit()
 	z_index = 0
-	#anim.play("fade_out")
-	#await anim.animation_finished
-	#BUG No Fade Animation
-	#SignalBus.levelReset.emit()
 	get_tree().change_scene_to_file("res://scenes/menus_ui/3D_menu_scene.tscn")
 
 
 func _on_close_game_button_pressed() -> void:
-	Utility.play_click_sound(4)
+	SignalBus.UIclickSound.emit()
 	get_tree().quit()
 
 
@@ -154,7 +147,7 @@ func _on_move_button_toggled(toggled_on: bool) -> void:
 # World Column
 func _on_reset_pressed() -> void:
 	GameSettings.loadNumber += 1
-	SignalBus.levelReset.emit()
+#	SignalBus.levelReset.emit()
 	store_menu_state(1)
 	
 	get_tree().reload_current_scene()
@@ -265,5 +258,4 @@ func set_menu_to_savefile(resets: int) -> void:
 
 
 func _on_save_game_pressed() -> void:
-	print("saved")
-	Utility.store_level_data(Navigation.all_systems_data)
+	SignalBus.updateLevelData.emit(LevelData.all_systems_data)

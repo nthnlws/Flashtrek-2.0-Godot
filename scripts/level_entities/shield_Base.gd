@@ -4,28 +4,26 @@ class_name baseShield extends Node2D
 @onready var shield_area:Area2D = $shield_area
 @onready var sprite: ColorRect = $ColorRect
 
+signal shieldStatusChanged(status:bool)
 
 var damageTime:bool = false # Timeout
 var shieldActive:bool = true:
 	set(value):
-		shieldActive = _set_shield_active(value)
+		shieldStatusChanged.emit(value)
+		shieldActive = value
 
 var trans_length:float = 0.8
 @export var regen_speed:float = 2.5
 
-
 # Shield health variables
-@export var sp_max:int = 50:
-	set(value):
-		sp_max = set_shield_max(value)
+@export var sp_max:int = 50
 var sp_current:float = sp_max:
 	set(value): 
-		sp_current = set_shield_value(value)
+		sp_current = clamp(value, 0.0, sp_max)
 
 
 func _ready() -> void:
 	modulate.a = 1.0
-
 
 func _set_shield_active(state:bool):
 	return state
@@ -75,16 +73,16 @@ func fadein_SMOOTH() -> void:
 	shieldActive = true
 
 
-func shieldDie() -> void: #Instantly turns off shield
+func turnShieldOff() -> void: #Instantly turns off shield
 	collision_shape.set_deferred("disabled", true)
 	self.visible = false
 	shieldActive = false
 	sp_current = 0.1
 	await get_tree().create_timer(3).timeout
-	shieldAlive()
+	turnShieldOn()
 
 
-func shieldAlive() -> void: #Instant on shield
+func turnShieldOn() -> void: #Instant on shield
 	collision_shape.set_deferred("disabled", false)
 	self.visible = true
 	shieldActive = true

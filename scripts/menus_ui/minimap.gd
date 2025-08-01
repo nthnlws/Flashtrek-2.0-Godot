@@ -25,7 +25,7 @@ func _ready() -> void:
 	SignalBus.neutralShipDied.connect(remove_minimap_object)
 	grid_scale = get_viewport().get_visible_rect().size / 2 # Var to center minimap objects
 	
-	player = Utility.mainScene.player
+	player = LevelData.player
 	
 	create_minimap_objects()
 	scale_minimap()
@@ -34,7 +34,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if !player: return
 	
-	if Utility.mainScene.in_galaxy_warp == false:
+	if Navigation.in_galaxy_warp == false:
 		update_minimap()
 
 
@@ -58,7 +58,7 @@ func scale_minimap() -> void:
 
 func create_minimap_objects() -> void:
 	clear_objects()
-	for enemy:EnemyCharacter in Utility.mainScene.enemyShips:
+	for enemy:EnemyCharacter in LevelData.enemyShips:
 		if enemy:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
@@ -73,7 +73,7 @@ func create_minimap_objects() -> void:
 			ship_to_object[enemy] = texture_rect  # Map enemy to TextureRect
 			count += 1
 			
-	for NPC:NeutralCharacter in Utility.mainScene.neutralShips:
+	for NPC:NeutralCharacter in LevelData.neutralShips:
 		if NPC:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
@@ -88,7 +88,7 @@ func create_minimap_objects() -> void:
 			ship_to_object[NPC] = texture_rect  # Map enemy to TextureRect
 			count += 1
 			
-	for starbase:Node2D in Utility.mainScene.starbase:
+	for starbase:Node2D in LevelData.starbase:
 		if starbase:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
@@ -102,7 +102,7 @@ func create_minimap_objects() -> void:
 			starbaseObjects.append(texture_rect)
 			count += 1
 
-	for planet:Node2D in Utility.mainScene.planets:
+	for planet:Node2D in LevelData.planets:
 		if planet:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
@@ -116,7 +116,7 @@ func create_minimap_objects() -> void:
 			levelObjects.append(texture_rect)
 			count += 1
 			
-	for sun:Node2D in Utility.mainScene.suns:
+	for sun:Node2D in LevelData.suns:
 		if sun:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
@@ -135,41 +135,41 @@ func create_minimap_objects() -> void:
 func update_minimap() -> void:
 	if enemyShips:
 		count = 0
-		for character:EnemyCharacter in Utility.mainScene.enemyShips:
+		for character:EnemyCharacter in LevelData.enemyShips:
 			var globalDistance:Vector2 = character.global_position - player.global_position
 			enemyShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == Utility.mainScene.enemyShips.size():
+			if count == LevelData.enemyShips.size():
 				count = 0
 	
 	if neutralShips:
 		count = 0
-		for character:NeutralCharacter in Utility.mainScene.neutralShips:
+		for character:NeutralCharacter in LevelData.neutralShips:
 			var globalDistance:Vector2 = character.global_position - player.global_position
 			neutralShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == Utility.mainScene.neutralShips.size():
+			if count == LevelData.neutralShips.size():
 				count = 0
 	
 	if starbaseObjects:
 		count = 0
-		for starbase:Node2D in Utility.mainScene.starbase:
+		for starbase:Node2D in LevelData.starbase:
 			var globalDistance:Vector2 = starbase.global_position - player.global_position
 			starbaseObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == Utility.mainScene.starbase.size():
+			if count == LevelData.starbase.size():
 				count = 0
 
 	if levelObjects:
 		count = 0
-		for planet:Node2D in Utility.mainScene.planets:
+		for planet:Node2D in LevelData.planets:
 			var globalDistance:Vector2 = planet.global_position - player.global_position
 			levelObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
 
 	if sunObjects:
 		count = 0
-		for sun:Node2D in Utility.mainScene.suns:
+		for sun:Node2D in LevelData.suns:
 			var globalDistance:Vector2 = sun.global_position - player.global_position
 			sunObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1

@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 	if parent is not Player: # Only process for player
 		return
 		
-	if parent.overdrive_active or Utility.mainScene.in_galaxy_warp:
+	if parent.overdrive_active or Navigation.in_galaxy_warp:
 		if laser.visible and !turning_off: # Turn off laser when warping
 			fade_laser_OFF()
 			particles_OFF()
@@ -87,7 +87,7 @@ func _input(event: InputEvent) -> void:
 		
 	if Input.is_action_just_pressed("right_click"):
 		laserStatus = true
-		if target == null and !parent.overdrive_active and !Utility.mainScene.in_galaxy_warp:
+		if target == null and !parent.overdrive_active and !Navigation.in_galaxy_warp:
 			laser_fizzle_ON()
 	
 	if Input.is_action_just_released("right_click"):

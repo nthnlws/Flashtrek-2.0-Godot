@@ -1,14 +1,15 @@
 extends Node
 
 var galaxyMapData: Resource = preload("res://assets/data/galaxy_map_data.tres")
-var player_range: int
+var player_range: int = 4
 
+var in_galaxy_warp:bool = false
 var currentSystem: String = "Solarus"
+var targetSystem: String = "Solarus" # Currently selected system on galaxy map
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
-var all_systems_data: Dictionary = {}
 var systems: Array = []
-var planet_names = load_planet_names("res://assets/data/planet_names.txt")
+var planet_names = load_planet_names()
 
 var entry_coords: Vector2
 
@@ -24,19 +25,17 @@ var kling_min: int = SYSTEM_RANGES["Klingon"]["range"]["min"]
 var kling_max: int = SYSTEM_RANGES["Klingon"]["range"]["max"]
 var rom_min: int = SYSTEM_RANGES["Romulan"]["range"]["min"]
 
-# Vars for galaxy map navigation
-var targetSystem: String = "" # Currently selected system on galaxy map
 
 func _ready() -> void:
 	SignalBus.Quad1_clicked.connect(trigger_warp)
-	SignalBus.galaxy_warp_finished.connect(set_current_system)
+	SignalBus.entering_galaxy_warp.connect(set_current_system)
 
 
-func set_current_system(system):
+func set_current_system(system:String = Navigation.targetSystem):
 	currentSystem = system
 	current_system_faction = get_faction_for_system(system)
-	
-	
+
+
 func get_faction_for_system(system) -> int:
 	match system:
 		"Solarus":
@@ -56,8 +55,9 @@ func get_faction_for_system(system) -> int:
 			elif system >= rom_min:
 				return Utility.FACTION.ROMULAN
 	return -1 # Error status
-		
-func load_planet_names(file_path: String) -> Array:
+
+
+func load_planet_names(file_path:String = "res://assets/data/planet_names.txt") -> Array:
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
 	if file == null:
 		push_error("Failed to open planet names file at %s" % file_path)
@@ -70,8 +70,8 @@ func load_planet_names(file_path: String) -> Array:
 			names.append(line)
 	file.close()
 	return names
-	
-	
+
+
 func get_entry_point(angle_rad: float) -> Vector2:
 	var coords: Vector2 = Vector2.ZERO
 	angle_rad = (angle_rad - PI/2) - PI # Flips angle 180 degrees (and accounts for player offset)
@@ -119,22 +119,24 @@ func get_entry_point(angle_rad: float) -> Vector2:
 	
 	return best_intersection.move_toward(Vector2.ZERO, 2000)
 
+
 func trigger_warp() -> void:
 	if !warp_range_check(currentSystem, targetSystem, player_range):
-		var error_message: String = "Warp path not valid"
+		var error_message: String = "Max warp range of %s systems" % player_range
 		SignalBus.changePopMessage.emit(error_message)
 		return
-	if !Utility.mainScene.player.velocity_check():
+	if !LevelData.player.velocity_check():
 		var error_message: String = "Must be stationary and in impulse to warp"
 		SignalBus.changePopMessage.emit(error_message)
 		return
 	else:
-		SignalBus.triggerGalaxyWarp.emit()
+		SignalBus.triggerGalaxyWarp.emit(targetSystem)
+
 
 func warp_range_check(origin: String, target: String, range: int) -> bool:
 	var valid_systems = get_reachable_systems(origin, range)
 	return target in valid_systems
-	
+
 
 func get_reachable_systems(start_name: String, max_range: int) -> Array:
 	var visited := {}

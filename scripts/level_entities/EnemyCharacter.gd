@@ -185,12 +185,18 @@ func _on_agro_box_body_exited(body) -> void:
 
 func explode() -> void:
 	alive = false
-	shield.shieldDie()
+	shield.turnShieldOff()
 	sprite.visible = false
 	
-	Utility.mainScene.enemyShips.erase(self)
+	LevelData.enemyShips.erase(self)
+	var self_ref = LevelData.all_systems_data.get(Navigation.currentSystem).get("enemies").get(self.name)
+	print("self ref %s" % self_ref)
+	if self_ref != null:
+		LevelData.all_systems_data.erase(self_ref)
+		print(LevelData.all_systems_data.get(Navigation.currentSystem).get("enemies"))
+	
 	var random_pickup_type:int = randi_range(0, UpgradePickup.MODULE_TYPES.keys().size())
-	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position)
+	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position, 1)
 	SignalBus.enemyShipDied.emit(self)
 	
 	collision_shape.set_deferred("disabled", true)
