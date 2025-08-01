@@ -41,9 +41,9 @@ func _change_system(targetSystem:String) -> void:
 	cleanup_old_system()
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
 	
-	_instaniate_ships(LevelData.planets.size())
-	
 	sync_planets_to_dict(targetSystem)
+	
+	_instaniate_ships(LevelData.planets.size())
 	
 	if sync_system["neutrals"].is_empty():
 		if sync_system["neutrals_defeated"] == true:
@@ -66,6 +66,7 @@ func _change_system(targetSystem:String) -> void:
 
 
 func _instaniate_ships(PLANET_COUNT:int) -> void:
+	print("instantiating %s ships" % PLANET_COUNT)
 	for i:int in range(PLANET_COUNT):
 		var new_enemy:EnemyCharacter = EnemyShip.instantiate()
 		new_enemy.add_to_group("level_nodes")
@@ -102,7 +103,7 @@ func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
 	var planets = LevelData.planets
 	
 	if neutral_ships.size() != planets.size():
-		push_error("Enemy ships and planets count mismatch! %s enemy ships and %s planets" % [neutral_ships.size(), planets.size()])
+		push_error("Enemy ships and planets count mismatch! %s neutral ships and %s planets" % [neutral_ships.size(), planets.size()])
 		return
 	
 	for n in neutral_ships.size():

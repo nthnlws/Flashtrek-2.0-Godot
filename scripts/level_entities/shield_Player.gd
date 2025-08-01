@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if sp_current <= sp_max and damageTime == false:
+	if sp_current < sp_max and damageTime == false:
 		regen_shield(delta)
 	if get_parent().overdrive_active == true and shieldActive == true:
 		#Forces shieldActive to false when player is warping

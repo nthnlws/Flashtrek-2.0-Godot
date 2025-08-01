@@ -10,7 +10,7 @@ var damageTime:bool = false # Timeout
 var shieldActive:bool = true:
 	set(value):
 		shieldStatusChanged.emit(value)
-		shieldActive = value
+		shieldActive = _set_shield_active(value)
 
 var trans_length:float = 0.8
 @export var regen_speed:float = 2.5
@@ -19,7 +19,7 @@ var trans_length:float = 0.8
 @export var sp_max:int = 50
 var sp_current:float = sp_max:
 	set(value): 
-		sp_current = clamp(value, 0.0, sp_max)
+		sp_current = set_shield_value(value)
 
 
 func _ready() -> void:

@@ -21,9 +21,9 @@ signal playerRespawned
 signal playerHealthChanged(hp_current)
 signal playerMaxHealthChanged(hp_max)
 signal playerMaxShieldChanged(sp_max)
-signal playerShieldChanged(sp_current)
-signal playerEnergyChanged(energy_current)
-signal playerMaxEnergyChanged(energy_max)
+signal playerShieldChanged(sp_current:float)
+signal playerEnergyChanged(energy_current:float)
+signal playerMaxEnergyChanged(energy_max:float)
 
 signal playerShieldOff
 signal playerShieldOn
@@ -61,6 +61,7 @@ signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES)
 
 # Level Creation
 signal level_entity_added(node:Node2D, type:String)
+signal levelReset
 
 # Audio
 signal UIselectSound

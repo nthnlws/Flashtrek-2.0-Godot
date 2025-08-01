@@ -229,7 +229,8 @@ func _process(delta: float) -> void:
 		idle_sound(false)
 		
 	if !$Laser.laserStatus and !energyTime:
-		energy_current += energy_regen_speed * delta
+		if energy_current < max_energy:
+			energy_current += energy_regen_speed * delta
 
 
 func _unhandled_input(event: InputEvent) -> void:

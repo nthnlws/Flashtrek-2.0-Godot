@@ -147,7 +147,7 @@ func _on_move_button_toggled(toggled_on: bool) -> void:
 # World Column
 func _on_reset_pressed() -> void:
 	GameSettings.loadNumber += 1
-#	SignalBus.levelReset.emit()
+	SignalBus.levelReset.emit()
 	store_menu_state(1)
 	
 	get_tree().reload_current_scene()

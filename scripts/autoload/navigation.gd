@@ -9,7 +9,7 @@ var targetSystem: String = "Solarus" # Currently selected system on galaxy map
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var systems: Array = []
-var planet_names = load_planet_names()
+var planet_names:Array[String] = load_planet_names()
 
 var entry_coords: Vector2
 
@@ -29,6 +29,7 @@ var rom_min: int = SYSTEM_RANGES["Romulan"]["range"]["min"]
 func _ready() -> void:
 	SignalBus.Quad1_clicked.connect(trigger_warp)
 	SignalBus.entering_galaxy_warp.connect(set_current_system)
+	SignalBus.levelReset.connect(load_planet_names)
 
 
 func set_current_system(system:String = Navigation.targetSystem):
@@ -57,13 +58,14 @@ func get_faction_for_system(system) -> int:
 	return -1 # Error status
 
 
-func load_planet_names(file_path:String = "res://assets/data/planet_names.txt") -> Array:
+func load_planet_names(file_path:String = "res://assets/data/planet_names.txt") -> Array[String]:
+	planet_names.clear()
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
 	if file == null:
 		push_error("Failed to open planet names file at %s" % file_path)
 		return []
 
-	var names: Array = []
+	var names: Array[String] = []
 	while not file.eof_reached():
 		var line: String = file.get_line().strip_edges()
 		if line != "":
