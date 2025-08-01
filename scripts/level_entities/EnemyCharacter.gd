@@ -188,16 +188,10 @@ func explode() -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
 	
-	LevelData.enemyShips.erase(self)
-	var self_ref = LevelData.all_systems_data.get(Navigation.currentSystem).get("enemies").get(self.name)
-	print("self ref %s" % self_ref)
-	if self_ref != null:
-		LevelData.all_systems_data.erase(self_ref)
-		print(LevelData.all_systems_data.get(Navigation.currentSystem).get("enemies"))
+	remove_data_reference()
 	
 	var random_pickup_type:int = randi_range(0, UpgradePickup.MODULE_TYPES.keys().size())
 	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position, 1)
-	SignalBus.enemyShipDied.emit(self)
 	
 	collision_shape.set_deferred("disabled", true)
 	%ship_explosion.play()
@@ -207,3 +201,15 @@ func explode() -> void:
 	await animation.animation_finished
 	
 	queue_free()
+
+
+func remove_data_reference() -> void:
+	LevelData.enemyShips.erase(self)
+	SignalBus.enemyShipDied.emit(self)
+	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
+	var enemy_list:Dictionary = system_data["enemies"]
+	if enemy_list.has(self.name):
+		enemy_list.erase(self.name)
+		if enemy_list.is_empty():
+			system_data["enemies_defeated"] = true
+	else: push_error("%s not found in dict" % self.name)

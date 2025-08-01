@@ -26,6 +26,8 @@ func _ready() -> void:
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	get_parent().generate_system_info() # Generate info for all systems
 	_change_system("Solarus") # Spawn planets and move to JSON data location
+	
+	save_ship_data()
 
 
 func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -> void:
@@ -60,13 +62,13 @@ func _change_system(targetSystem:String) -> void:
 			generate_enemy_positions(LevelData.enemyShips)
 	else:
 		sync_enemies_to_dict(targetSystem, LevelData.enemyShips)
+	
 	sync_sun_to_dict(targetSystem)
 
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
 
 
 func _instaniate_ships(PLANET_COUNT:int) -> void:
-	print("instantiating %s ships" % PLANET_COUNT)
 	for i:int in range(PLANET_COUNT):
 		var new_enemy:EnemyCharacter = EnemyShip.instantiate()
 		new_enemy.add_to_group("level_nodes")
@@ -182,22 +184,20 @@ func save_ship_data(enemy_array:Array[EnemyCharacter] = LevelData.enemyShips, ne
 	current_system.get("enemies")
 	current_system.get("neutrals")
 	
-	if current_system["enemies"].is_empty():
-		current_system["enemies_defeated"] = true
-	else:
-		current_system["defeated"] = false
-		for ship:EnemyCharacter in enemy_array:
-			current_system["enemies"][str(ship.name)] = {
-				"position": ship.global_position,
-				"shield_state":ship.shield_on,
-				"movement_target": ship.moveTarget,
-				"max_hp": ship.hp_max,
-				"max_sp": ship.shield.sp_max,
-				"current_hp": ship.hp_current,
-				"current_sp": ship.shield.sp_current,
-			}
-	if current_system["neutrals"].is_empty():
-		current_system["neutrals_defeated"] = true
+	#if current_system["enemies"].is_empty():
+		#current_system["enemies_defeated"] = true
+	for ship:EnemyCharacter in enemy_array:
+		current_system["enemies"][str(ship.name)] = {
+			"position": ship.global_position,
+			"shield_state":ship.shield_on,
+			"movement_target": ship.moveTarget,
+			"max_hp": ship.hp_max,
+			"max_sp": ship.shield.sp_max,
+			"current_hp": ship.hp_current,
+			"current_sp": ship.shield.sp_current,
+		}
+	#if current_system["neuwdtrals"].is_empty():
+		#current_system["neutrals_defeated"] = true
 	for ship:NeutralCharacter in neutral_array:
 		current_system["neutrals"][str(ship.name)] = {
 			"position": ship.global_position,

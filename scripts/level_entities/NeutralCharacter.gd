@@ -165,11 +165,13 @@ func explode() -> void:
 	
 	LevelData.neutralShips.erase(self)
 	SignalBus.neutralShipDied.emit(self)
-	if LevelData.all_systems_data.get(Navigation.currentSystem).get("neutrals").has(self.name):
-		print("Before: %s" % LevelData.all_systems_data[Navigation.currentSystem]["neutrals"])
-		LevelData.all_systems_data[Navigation.currentSystem]["neutrals"].erase(self.name)
-		print("After: %s" % LevelData.all_systems_data[Navigation.currentSystem]["neutrals"])
-	else: print("%s not found in dict" % self.name)
+	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
+	var neutrals_list:Dictionary = system_data["neutrals"]
+	if neutrals_list.has(self.name):
+		neutrals_list.erase(self.name)
+		if neutrals_list.is_empty():
+			system_data["neutrals_defeated"] = true
+	else: push_error("%s not found in dict" % self.name)
 	
 	collision_shape.set_deferred("disabled", true)
 	%ship_explosion.play()
