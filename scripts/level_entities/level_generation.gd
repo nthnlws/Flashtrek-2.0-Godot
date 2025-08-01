@@ -15,13 +15,14 @@ extends Node
 
 @onready var game: Node2D = $".."
 @onready var pickups: Node = $item_pickups
+@onready var ship_folder: Node = $ship_folder
 
 
 func _ready() -> void:
 	SignalBus.galaxy_warp_finished.connect(_change_system)
 	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
 	SignalBus.spawnLoot.connect(spawn_loot)
-	SignalBus.triggerGalaxyWarp.connect(save_ship_data)
+	SignalBus.triggerGalaxyWarp.connect(save_ship_data.unbind(1))
 	
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	get_parent().generate_system_info() # Generate info for all systems
@@ -40,29 +41,38 @@ func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -
 
 
 func _change_system(targetSystem:String) -> void:
-	cleanup_old_system()
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
+	cleanup_old_system()
 	
 	sync_planets_to_dict(targetSystem)
 	
 	_instaniate_ships(LevelData.planets.size())
 	
+	# --- Neutrals Logic ---
 	if sync_system["neutrals"].is_empty():
 		if sync_system["neutrals_defeated"] == true:
+			print("NEUTRALS: Dict is empty and they were already defeated. Doing nothing.")
 			pass
 		else:
+			print("NEUTRALS: Dict is empty, not yet defeated. Generating new positions.")
 			generate_neutral_positions(LevelData.neutralShips)
 	else:
+		print("NEUTRALS: Dict is NOT empty. Syncing existing data.")
 		sync_neutral_to_dict(targetSystem, LevelData.neutralShips)
-	
+
+	# --- Enemies Logic ---
 	if sync_system["enemies"].is_empty():
 		if sync_system["enemies_defeated"] == true:
+			print("ENEMIES: Dict is empty and they were already defeated. Doing nothing.")
 			pass
 		else:
+			print("ENEMIES: Dict is empty, not yet defeated. Generating new positions.")
 			generate_enemy_positions(LevelData.enemyShips)
 	else:
+		print("ENEMIES: Dict is NOT empty. Syncing existing data.")
 		sync_enemies_to_dict(targetSystem, LevelData.enemyShips)
 	
+	save_ship_data()
 	sync_sun_to_dict(targetSystem)
 
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
@@ -74,14 +84,14 @@ func _instaniate_ships(PLANET_COUNT:int) -> void:
 		new_enemy.add_to_group("level_nodes")
 		new_enemy.add_to_group("enemy_ships")
 		LevelData.enemyShips.append(new_enemy)
-		add_child(new_enemy)
+		ship_folder.add_child(new_enemy)
 		new_enemy.name = "Enemy_" + str(i)
 	for i:int in range(PLANET_COUNT):
 		var new_neutral:NeutralCharacter = NeutralShip.instantiate()
 		new_neutral.add_to_group("level_nodes")
 		new_neutral.add_to_group("neutral_ships")
 		LevelData.neutralShips.append(new_neutral)
-		add_child(new_neutral)
+		ship_folder.add_child(new_neutral)
 		new_neutral.name = "Neutral_" + str(i)
 
 
@@ -105,7 +115,7 @@ func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
 	var planets = LevelData.planets
 	
 	if neutral_ships.size() != planets.size():
-		push_error("Enemy ships and planets count mismatch! %s neutral ships and %s planets" % [neutral_ships.size(), planets.size()])
+		push_error("Neutral ships and planets count mismatch! %s neutral ships and %s planets" % [neutral_ships.size(), planets.size()])
 		return
 	
 	for n in neutral_ships.size():
@@ -114,36 +124,38 @@ func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
 		var spawn_pos: Vector2 = Vector2.ZERO.lerp(planets[n].global_position, random_fraction)
 
 		neutral_ships[n].global_position = spawn_pos
-		neutral_ships[n].name = "Neutral" + str(n)
 
 
 func sync_neutral_to_dict(targetSystem:String, neutral_array:Array[NeutralCharacter]) -> void:
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
 	for n in neutral_array:
-		sync_system["neutrals"][str(n.name)] = {
-			"position": n.global_position,
-			"shield_state": n.shield_on,
-			"movement_target": n.moveTarget,
-			"max_hp": n.hp_max,
-			"max_sp": n.shield.sp_max,
-			"current_hp": n.hp_current,
-			"current_sp": n.shield.sp_current,
-		}
+		var ship_data:Dictionary = sync_system["neutrals"][str(n.name)]
+		if ship_data:
+			n.global_position = ship_data["position"]
+			n.shield_on = ship_data["shield_state"]
+			n.moveTarget = ship_data["movement_target"]
+			n.hp_max = ship_data["max_hp"]
+			n.shield.sp_max = ship_data["max_sp"]
+			n.hp_current = ship_data["current_hp"]
+			n.shield.sp_current = ship_data["current_sp"]
+		else:
+			push_error("Neutral %s not found in system data" % n.name)
 
 
 func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[EnemyCharacter]) -> void:
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
 	for e in enemy_array:
-		sync_system["enemies"][str(e.name)] = {
-			"position": e.global_position,
-			"shield_state": e.shield_on,
-			"movement_target": e.moveTarget,
-			"max_hp": e.hp_max,
-			"max_sp": e.shield.sp_max,
-			"current_hp": e.hp_current,
-			"current_sp": e.shield.sp_current,
-		}
-
+		var ship_data:Dictionary = sync_system["enemies"][str(e.name)]
+		if ship_data:
+			e.global_position = ship_data["position"]
+			e.shield_on = ship_data["shield_state"]
+			e.moveTarget = ship_data["movement_target"]
+			e.hp_max = ship_data["max_hp"]
+			e.shield.sp_max = ship_data["max_sp"]
+			e.hp_current = ship_data["current_hp"]
+			e.shield.sp_current = ship_data["current_sp"]
+		else:
+			push_error("Enemy %s not found in system data" % e.name)
 
 func sync_sun_to_dict(targetSystem:String) -> void:
 	var sun_data: Dictionary = LevelData.all_systems_data[targetSystem]["sun_data"]
@@ -216,8 +228,8 @@ func cleanup_old_system() -> void:
 	for drop:Area2D in old_upgrade_drops: # Delete all upgrade drops
 		drop.queue_free()
 	
-	for ship: CharacterBody2D in LevelData.neutralShips + LevelData.enemyShips:
-		ship.queue_free() # Delete all old ships
+	for ship:CharacterBody2D in LevelData.neutralShips + LevelData.enemyShips:
+		ship.free() # Delete all old ships
 	
 	LevelData.enemyShips.clear()
 	LevelData.neutralShips.clear()

@@ -44,7 +44,7 @@ item_pickup = ExtResource("10_b4di1")
 
 [node name="level_objects" type="Node" parent="Level"]
 
-[node name="ships" type="Node" parent="Level"]
+[node name="ship_folder" type="Node" parent="Level"]
 
 [node name="item_pickups" type="Node" parent="Level"]
 
