@@ -46,8 +46,12 @@ func _change_system(targetSystem:String) -> void:
 	
 	sync_planets_to_dict(targetSystem)
 	
-	_instaniate_ships(LevelData.planets.size())
-	
+	if not sync_system["enemies"].is_empty():
+		var num_enemies:int = min(sync_system["enemies"].size(), LevelData.planets.size())
+		_instaniate_ships(num_enemies)
+	elif sync_system["neutrals_defeated"] == false:
+		_instaniate_ships(LevelData.planets.size())
+		
 	# --- Neutrals Logic ---
 	if sync_system["neutrals"].is_empty():
 		if sync_system["neutrals_defeated"] == true:
@@ -130,16 +134,13 @@ func sync_neutral_to_dict(targetSystem:String, neutral_array:Array[NeutralCharac
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
 	for n in neutral_array:
 		var ship_data:Dictionary = sync_system["neutrals"][str(n.name)]
-		if ship_data:
-			n.global_position = ship_data["position"]
-			n.shield_on = ship_data["shield_state"]
-			n.moveTarget = ship_data["movement_target"]
-			n.hp_max = ship_data["max_hp"]
-			n.shield.sp_max = ship_data["max_sp"]
-			n.hp_current = ship_data["current_hp"]
-			n.shield.sp_current = ship_data["current_sp"]
-		else:
-			push_error("Neutral %s not found in system data" % n.name)
+		n.global_position = ship_data["position"]
+		n.shield_on = ship_data["shield_state"]
+		n.moveTarget = ship_data["movement_target"]
+		n.hp_max = ship_data["max_hp"]
+		n.shield.sp_max = ship_data["max_sp"]
+		n.hp_current = ship_data["current_hp"]
+		n.shield.sp_current = ship_data["current_sp"]
 
 
 func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[EnemyCharacter]) -> void:
