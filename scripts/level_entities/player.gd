@@ -13,6 +13,7 @@ var shield_active:bool = false
 var energyTime:bool = false
 var overdriveTime:bool = false
 var energy_regen_speed:int = 10
+@export var shield_on:bool = true
 
 var trans_length:float = 0.8
 var base_scale:Vector2 = Vector2(1.0, 1.0)
@@ -41,17 +42,23 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
+@export var Stats: PlayerUpgrades
 
 # Health variables
-@export var base_max_HP: int = 150:
+@export var max_HP: float = 150:
 	set(value):
-		base_max_HP = value
-		if hp_current > value: hp_current = value
-		SignalBus.playerMaxHealthChanged.emit(PlayerUpgrades.HullAdd + (value * PlayerUpgrades.HullMult))
-var max_HP:int:
+		max_HP = value
+		if hp_current > get_max_HP(max_HP): # Reduce current HP if max reduced
+			hp_current = value
+		SignalBus.playerMaxHealthChanged.emit(get_max_HP(max_HP))
 	get:
-		return PlayerUpgrades.HullAdd + (base_max_HP * PlayerUpgrades.HullMult)
-		
+		return get_max_HP(max_HP)
+func get_max_HP(new_value:float) -> float:
+	if Stats:
+		return new_value * Stats.HullMult
+	else:
+		return new_value
+
 var hp_current:float = max_HP:
 	set(value):
 		hp_current = clamp(value, 0, max_HP)
@@ -59,57 +66,52 @@ var hp_current:float = max_HP:
 
 
 # Maneuverability variables
-@export var base_max_speed: int = 750
-var max_speed:int:
+var max_speed:float = 750.0:
 	get:
-		return PlayerUpgrades.SpeedAdd + (base_max_speed * PlayerUpgrades.SpeedMult)
+		return max_speed * Stats.SpeedMult
 
-@export var base_rotation_speed: int = 150
-var rotation_speed:int:
+var rotation_speed:float = 150.0:
 	get:
-		return PlayerUpgrades.RotateAdd + (base_rotation_speed * PlayerUpgrades.RotateMult)
+		return rotation_speed * Stats.RotateMult
 
-var base_acceleration:int= 5
-var acceleration:int:
+var acceleration:float = 6.5:
 	get:
-		return base_acceleration * PlayerUpgrades.SpeedMult
+		return acceleration * Stats.AccelMult
 
-
-@export var shield_on:bool = true
 
 # Energy system variables
-@export var base_max_energy: int = 150:
+@export var max_energy: float = 150.0:
 	set(value):
-		base_max_energy = value
-		SignalBus.playerMaxEnergyChanged.emit(base_max_energy)
-var max_energy:int:
+		max_energy = value
+		if energy_current > get_max_energy(max_energy): # Reduce current HP if max reduced
+			energy_current = value
+		SignalBus.playerMaxEnergyChanged.emit(get_max_energy(max_energy))
 	get:
-		return PlayerUpgrades.MaxEnergyAdd + (base_max_energy * PlayerUpgrades.MaxEnergyMult)
-
+		return get_max_energy(max_energy)
+func get_max_energy(new_value:float) -> float:
+	if Stats:
+		return new_value * Stats.EnergyCapacityMult
+	else:
+		return new_value
 
 var energy_current:float = max_energy:
 	set(value):
 		energy_current = clamp(value, 0, max_energy)
 		SignalBus.playerEnergyChanged.emit(energy_current)
-	
 
-var base_rate_of_fire:float = 5
-var shoot_rate_mult:float = 1.0
-var rate_of_fire:float:
+var rate_of_fire:float = 5.0:
 	get:
-		return (PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult))
-		print((PlayerUpgrades.FireRateAdd + (base_rate_of_fire * PlayerUpgrades.FireRateMult)))
-		
+		return rate_of_fire * Stats.FireRateMult
+
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
 	get:
-		return Utility.SHIP_DATA.CARGO_SIZE + PlayerUpgrades.CargoAdd
+		return base_cargo_size + Stats.CargoCapacityAdd
 var current_cargo:int = 0
 
-@export var warp_range: int = 2
-#@export var warp_range: int = 1:
-	#get:
-		#return PlayerUpgrades.AntimatterAdd + (enemy_data.max_antimatter * PlayerUpgrades.AntimatterMult)
+@export var warp_range: int = 2:
+	get:
+		return warp_range + Stats.WarpRangeAdd
 
 
 func set_player_direction(joystick_direction) -> void:
@@ -172,11 +174,10 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[ship]
 	
-	base_max_speed = ship_stats.SPEED
-	base_rotation_speed = ship_stats.ROTATION_SPEED
-	base_max_HP = ship_stats.MAX_HP
+	max_speed = ship_stats.SPEED
+	rotation_speed = ship_stats.ROTATION_SPEED
+	max_HP = ship_stats.MAX_HP
 	shield.sp_max = ship_stats.MAX_SHIELD
-	shoot_rate_mult = ship_stats.SHOOT_MULTIPLIER
 	base_cargo_size = ship_stats.CARGO_SIZE
 
 
@@ -353,7 +354,7 @@ func shoot_torpedo() -> void:
 		t.rotation = self.rotation
 		t.z_index = 0
 		t.drain_energy.connect(energy_drain)
-		t.damage = (t.damage * PlayerUpgrades.DamageMult) + PlayerUpgrades.DamageAdd
+		t.damage = t.damage * Stats.DamageMult
 		
 		t.set_collision_layer_value(9, true) # Sets layer to player projectile
 		t.set_collision_mask_value(3, true) # Turns on enemy hitbox detection
@@ -583,24 +584,23 @@ func _on_laser_ended() -> void:
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
 	#print(max_HP)
-	var mult_step:float = 1.0 # Rate of multiplicitive increase per upgrade
+	var mult_step:float = 0.05 # 5% increase to stat
 	
 	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type
 	var modifier: UpgradePickup.MODIFIER = pickup.modifier_type
 	
 	match type:
 		UpgradePickup.MODULE_TYPES.SPEED:
-			PlayerUpgrades.SpeedMult = PlayerUpgrades.SpeedMult + mult_step
+			Stats.SpeedMult = Stats.SpeedMult + mult_step
 		UpgradePickup.MODULE_TYPES.ROTATION:
-			PlayerUpgrades.RotateMult = PlayerUpgrades.RotateMult + mult_step
+			Stats.RotateMult = Stats.RotateMult + mult_step
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
-			PlayerUpgrades.FireRateMult = PlayerUpgrades.FireRateMult + mult_step
+			Stats.FireRateMult = Stats.FireRateMult + mult_step
 		UpgradePickup.MODULE_TYPES.HEALTH:
-			PlayerUpgrades.HullMult = PlayerUpgrades.HullMult + mult_step
-			SignalBus.playerMaxHealthChanged.emit(max_HP)
+			Stats.HullMult = Stats.HullMult + mult_step
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			PlayerUpgrades.ShieldMult = PlayerUpgrades.ShieldMult + mult_step
+			Stats.ShieldMult = Stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
 				shield.sp_max = shield.sp_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
-			PlayerUpgrades.DamageMult = PlayerUpgrades.DamageMult + mult_step
+			Stats.DamageMult = Stats.DamageMult + mult_step

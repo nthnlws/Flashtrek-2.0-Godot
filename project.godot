@@ -22,7 +22,6 @@ config/windows_native_icon="res://assets/icons/icon_256.ico"
 
 GameSettings="*res://scripts/menus_ui/gameSettings.gd"
 DiscordManager="*res://scripts/autoload/DiscordManager.gd"
-PlayerUpgrades="*res://scripts/autoload/player_upgrades.gd"
 Console="*res://addons/console/console.gd"
 SignalBus="*res://scripts/autoload/SignalBus.gd"
 Navigation="*res://scripts/autoload/navigation.gd"

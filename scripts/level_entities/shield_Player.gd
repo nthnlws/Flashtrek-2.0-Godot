@@ -27,15 +27,14 @@ func _set_shield_active(value) -> bool:
 
 
 func set_shield_value(value) -> float:
-	super(value)
 	var clamped_value: float = clamp(value, 0.0, sp_max)
 	SignalBus.playerShieldChanged.emit(clamped_value)
 	return clamped_value
 
 
 func set_shield_max(value) -> float:
-	super(value)
-	value = PlayerUpgrades.ShieldAdd + (value * PlayerUpgrades.ShieldMult)
+	if get_parent():
+		value = value * get_parent().Stats.ShieldMult
 	SignalBus.playerMaxShieldChanged.emit(value)
 	return value
 

@@ -216,66 +216,68 @@ func _ready() -> void:
 
 
 func _input(event : InputEvent) -> void:
-	if (event is InputEventKey):
-		if (event.get_physical_keycode_with_modifiers() == KEY_QUOTELEFT): # ~ key.
-			if (event.pressed):
-				toggle_console()
-			get_tree().get_root().set_input_as_handled()
-		elif (event.physical_keycode == KEY_QUOTELEFT and event.is_command_or_control_pressed()): # Toggles console size or opens big console.
-			if (event.pressed):
-				if (v_box_container.visible):
-					toggle_size()
-				else:
-					toggle_console()
-					toggle_size()
-			get_tree().get_root().set_input_as_handled()
-		elif (event.get_physical_keycode_with_modifiers() == KEY_ESCAPE && v_box_container.visible): # Disable console on ESC
-			if (event.pressed):
-				toggle_console()
-				get_tree().get_root().set_input_as_handled()
-		if (v_box_container.visible and event.pressed):
-			if (event.get_physical_keycode_with_modifiers() == KEY_UP):
-				get_tree().get_root().set_input_as_handled()
-				if (console_history_index > 0):
-					console_history_index -= 1
-					if (console_history_index >= 0):
-						line_edit.text = console_history[console_history_index]
-						line_edit.caret_column = line_edit.text.length()
-						reset_autocomplete()
-			if (event.get_physical_keycode_with_modifiers() == KEY_DOWN):
-				get_tree().get_root().set_input_as_handled()
-				if (console_history_index < console_history.size()):
-					console_history_index += 1
-					if (console_history_index < console_history.size()):
-						line_edit.text = console_history[console_history_index]
-						line_edit.caret_column = line_edit.text.length()
-						reset_autocomplete()
-					else:
-						line_edit.text = ""
-						reset_autocomplete()
-			if (event.get_physical_keycode_with_modifiers() == KEY_PAGEUP):
-				var scroll := rich_label.get_v_scroll_bar()
-				var tween := create_tween()
-				tween.tween_property(scroll, "value",  scroll.value - (scroll.page - scroll.page * 0.1), 0.1)
-				get_tree().get_root().set_input_as_handled()
-			if (event.get_physical_keycode_with_modifiers() == KEY_PAGEDOWN):
-				var scroll := rich_label.get_v_scroll_bar()
-				var tween := create_tween()
-				tween.tween_property(scroll, "value",  scroll.value + (scroll.page - scroll.page * 0.1), 0.1)
-				get_tree().get_root().set_input_as_handled()
-			if (event.get_physical_keycode_with_modifiers() == KEY_TAB):
-				autocomplete()
-				get_tree().get_root().set_input_as_handled()
+	if get_tree().current_scene.name == "Game":
+		if get_tree().get_root().get_node("Game").get_node("Menus").current_state == 0:
+			if (event is InputEventKey):
+				if (event.get_physical_keycode_with_modifiers() == KEY_QUOTELEFT): # ~ key.
+					if (event.pressed):
+						toggle_console()
+					get_tree().get_root().set_input_as_handled()
+				elif (event.physical_keycode == KEY_QUOTELEFT and event.is_command_or_control_pressed()): # Toggles console size or opens big console.
+					if (event.pressed):
+						if (v_box_container.visible):
+							toggle_size()
+						else:
+							toggle_console()
+							toggle_size()
+					get_tree().get_root().set_input_as_handled()
+				elif (event.get_physical_keycode_with_modifiers() == KEY_ESCAPE && v_box_container.visible): # Disable console on ESC
+					if (event.pressed):
+						toggle_console()
+						get_tree().get_root().set_input_as_handled()
+				if (v_box_container.visible and event.pressed):
+					if (event.get_physical_keycode_with_modifiers() == KEY_UP):
+						get_tree().get_root().set_input_as_handled()
+						if (console_history_index > 0):
+							console_history_index -= 1
+							if (console_history_index >= 0):
+								line_edit.text = console_history[console_history_index]
+								line_edit.caret_column = line_edit.text.length()
+								reset_autocomplete()
+					if (event.get_physical_keycode_with_modifiers() == KEY_DOWN):
+						get_tree().get_root().set_input_as_handled()
+						if (console_history_index < console_history.size()):
+							console_history_index += 1
+							if (console_history_index < console_history.size()):
+								line_edit.text = console_history[console_history_index]
+								line_edit.caret_column = line_edit.text.length()
+								reset_autocomplete()
+							else:
+								line_edit.text = ""
+								reset_autocomplete()
+					if (event.get_physical_keycode_with_modifiers() == KEY_PAGEUP):
+						var scroll := rich_label.get_v_scroll_bar()
+						var tween := create_tween()
+						tween.tween_property(scroll, "value",  scroll.value - (scroll.page - scroll.page * 0.1), 0.1)
+						get_tree().get_root().set_input_as_handled()
+					if (event.get_physical_keycode_with_modifiers() == KEY_PAGEDOWN):
+						var scroll := rich_label.get_v_scroll_bar()
+						var tween := create_tween()
+						tween.tween_property(scroll, "value",  scroll.value + (scroll.page - scroll.page * 0.1), 0.1)
+						get_tree().get_root().set_input_as_handled()
+					if (event.get_physical_keycode_with_modifiers() == KEY_TAB):
+						autocomplete()
+						get_tree().get_root().set_input_as_handled()
 
-	elif event is InputEventMouseButton:
-		if (v_box_container.visible):
-			if (event.is_command_or_control_pressed()):
-				if event.button_index == MOUSE_BUTTON_WHEEL_UP: # Increase font size with ctrl+mouse wheel up
-					font_size = min(128, font_size + 2) # Limit to max of 128
-					get_tree().get_root().set_input_as_handled()
-				elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN: # Decrease font size with ctrl+mouse wheel down
-					font_size = max(8, font_size - 2) # Limit to minimum of 8
-					get_tree().get_root().set_input_as_handled()
+			elif event is InputEventMouseButton:
+				if (v_box_container.visible):
+					if (event.is_command_or_control_pressed()):
+						if event.button_index == MOUSE_BUTTON_WHEEL_UP: # Increase font size with ctrl+mouse wheel up
+							font_size = min(128, font_size + 2) # Limit to max of 128
+							get_tree().get_root().set_input_as_handled()
+						elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN: # Decrease font size with ctrl+mouse wheel down
+							font_size = max(8, font_size - 2) # Limit to minimum of 8
+							get_tree().get_root().set_input_as_handled()
 
 
 var suggestions := []

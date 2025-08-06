@@ -16,11 +16,6 @@ const LOW:float = 0
 func _ready() -> void:
 	system_array = get_tree().get_nodes_in_group("map_node")
 	
-	# Adds close menu button if galaxy map is not root scene
-	if get_tree().current_scene.name == "GalaxyMap":
-		$MarginContainer/closeMenuButton.visible = false
-		Utility.mainScene = self
-	
 	SignalBus.finishMission.connect(clear_mission)
 	SignalBus.galaxy_warp_finished.connect(selectCurrentSystem)
 	SignalBus.missionAccepted.connect(_update_mission)

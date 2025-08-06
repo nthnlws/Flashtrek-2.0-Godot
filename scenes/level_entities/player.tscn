@@ -1,10 +1,11 @@
-[gd_scene load_steps=46 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=47 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/level_entities/player.gd" id="1_w51pe"]
-[ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/level_entities/damage_marker.tscn" id="2_7odc1"]
+[ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/level_entities/destination_indicator.tscn" id="2_2mpn1"]
 [ext_resource type="PackedScene" uid="uid://fdd47efusngp" path="res://scenes/level_entities/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/level_entities/PlayerCamera2D.gd" id="3_fns5h"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="3_newiu"]
+[ext_resource type="Resource" uid="uid://bmm1omk0h3igu" path="res://resources/PlayerUpgradesRSS.tres" id="4_2mpn1"]
 [ext_resource type="Texture2D" uid="uid://cukwfy1ikknpy" path="res://assets/textures/ships/warpparticle.png" id="4_mse3f"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
 [ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
@@ -213,9 +214,9 @@ slide_on_ceiling = false
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
-damage_indicator = ExtResource("2_7odc1")
+damage_indicator = ExtResource("2_2mpn1")
 torpedo_scene = ExtResource("3_newiu")
-base_max_speed = 600
+Stats = ExtResource("4_2mpn1")
 
 [node name="GalaxyParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 19)
