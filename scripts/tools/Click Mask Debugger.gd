@@ -1,5 +1,8 @@
 extends TextureButton
 
+func _ready():
+	texture_normal = null
+
 func _draw():
 	if texture_click_mask:
 		# Get mask size

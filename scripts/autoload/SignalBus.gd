@@ -10,9 +10,10 @@ signal updateLevelData(all_system_data:Dictionary)
 signal missionAccepted(current_mission)
 signal finishMission()
 signal changePopMessage(text)
-signal enteredPlanetComm(planet)
-signal exitedPlanetComm(planet)
-signal updateScore(score)
+signal updateScore(score:float)
+
+signal enteredPlanetComm(planet:Node2D)
+signal exitedPlanetComm(planet:Node2D)
 
 # Player
 signal playerDied
@@ -42,9 +43,13 @@ signal TopLeft_clicked
 signal TopRight_clicked
 signal BottomLeft_clicked
 signal BottomRight_clicked
-signal HUDchanged(scale)
+signal HUDchanged(scale:float)
 
-signal joystickMoved(playerDirection)
+signal toggleQ2HUD(state:String)
+signal toggleQ3HUD(state:String)
+signal toggleQ4HUD(state:String)
+
+signal joystickMoved(playerDirection:Vector2)
 
 # Menus
 signal pause_menu_clicked

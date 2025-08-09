@@ -168,6 +168,7 @@ func set_mission_text(mission_data: Dictionary) -> void:
 			
 		# Wrong planet for mission
 		else:
+			SignalBus.toggleQ2HUD.emit("off")
 			data.random_deny = cargo_full_messages.pick_random()
 				
 			var template_text: String = "Welcome to {planet}, {ship_name}, {random_deny}"
@@ -181,6 +182,7 @@ func open_comms() -> void:
 		completedUIdisplay = false
 	# Only toggles on if within required distance
 	elif current_planet and player.overdrive_active == false:
+		SignalBus.toggleQ3HUD.emit("off")
 		self.visible = true
 		#if player.has_mission == false:
 		var mission_data: Dictionary = generate_mission()
@@ -189,8 +191,11 @@ func open_comms() -> void:
 
 func close_comms() -> void:
 	if visible == true:
+		SignalBus.toggleQ2HUD.emit("off") # Turn beam HUD animation off
 		completedUIdisplay = false
 		visible = false
+		if player.has_mission == false: # Turn on hail animation if mission still empty
+			SignalBus.toggleQ3HUD.emit("on")
 
 
 func generate_mission() -> Dictionary:
@@ -218,11 +223,13 @@ func generate_mission() -> Dictionary:
 	}
 	
 	pending_mission = misson_data
+	SignalBus.toggleQ2HUD.emit("on")
 	return misson_data
 
 
 func handle_cargo_beam() -> void:
 	# Accept new mission
+	SignalBus.toggleQ2HUD.emit("off") # Turn off "Beam" HUD animation
 	if pending_mission and visible and player.has_mission == false and completedUIdisplay == false:
 		# Update text to "accepted"
 		var data: Dictionary = {
