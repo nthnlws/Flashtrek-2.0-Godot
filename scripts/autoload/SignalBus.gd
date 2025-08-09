@@ -7,9 +7,9 @@ signal neutralShipDied(enemy:NeutralCharacter)
 signal updateLevelData(all_system_data:Dictionary)
 
 # Missions
-signal missionAccepted(current_mission)
-signal finishMission()
-signal changePopMessage(text)
+signal missionAccepted(current_mission:Dictionary)
+signal finishMission
+signal changePopMessage(text:String)
 signal updateScore(score:int)
 
 signal enteredPlanetComm(planet:Node2D)
@@ -19,9 +19,9 @@ signal exitedPlanetComm(planet:Node2D)
 signal playerDied
 signal playerRespawned
 
-signal playerHealthChanged(hp_current)
-signal playerMaxHealthChanged(hp_max)
-signal playerMaxShieldChanged(sp_max)
+signal playerHealthChanged(hp_current:float)
+signal playerMaxHealthChanged(hp_max:float)
+signal playerMaxShieldChanged(sp_max:float)
 signal playerShieldChanged(sp_current:float)
 signal playerEnergyChanged(energy_current:float)
 signal playerMaxEnergyChanged(energy_max:float)
@@ -30,7 +30,7 @@ signal playerShieldOff
 signal playerShieldOn
 
 #World navigation
-signal galaxy_map_clicked(system_clicked)
+signal galaxy_map_clicked(system_clicked:String)
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade

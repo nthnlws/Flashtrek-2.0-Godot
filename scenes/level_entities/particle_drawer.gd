@@ -49,7 +49,6 @@ func _process(delta):
 	var tan_theta = tan(deg_to_rad(theta))
 	var scale_stretch = scale_x * stretch
 	var time_offset = 13.0 + time * speed
-	var z_expend_factor = scale_x * modTime * 0.5
 
 	var instance_index = 0
 	for j in range(1, arms + 1):

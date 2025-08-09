@@ -201,7 +201,7 @@ func generate_planet_data(valid_spawns:Array[Vector2]) -> Array:
 	var all_planets_data:Array = []
 	for i in valid_spawns.size():
 		# Pass the list of already placed positions to the validation function
-		var position: Vector2 = valid_spawns.pop_front()
+		var new_position: Vector2 = valid_spawns.pop_front()
 		
 		var random_frame: int = randi() % 220
 		var planet_name: String = Navigation.planet_names.pop_at(randi() % Navigation.planet_names.size())
@@ -210,8 +210,8 @@ func generate_planet_data(valid_spawns:Array[Vector2]) -> Array:
 		var current_planet_dict: Dictionary = {
 			"name": planet_name,
 			"frame": random_frame,
-			"x": int(position.x),
-			"y": int(position.y),
+			"x": int(new_position.x),
+			"y": int(new_position.y),
 		}
 		
 		# Add the dictionary for this planet to the main array

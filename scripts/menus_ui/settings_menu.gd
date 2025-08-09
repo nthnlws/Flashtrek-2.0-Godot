@@ -100,10 +100,10 @@ func store_menu_state(resets: int):
 	
 	# Get the property list of GlobalSettings
 	for variables in GameSettings.get_script().get_script_property_list():
-		var name: String = variables.name
+		var var_name: String = variables.name
 		# Add each property to save_data if it's not a built-in property
 		if variables.type != 0:
-			save_data[name] = GameSettings.get(name)
+			save_data[var_name] = GameSettings.get(var_name)
 	
 	var json = JSON.stringify(save_data)
 	file.store_string(json)

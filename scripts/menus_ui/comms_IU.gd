@@ -99,7 +99,6 @@ var romulan_thankYou: Array[String] = [
 
 var current_planet: Node2D
 var ship_name: String
-var random_confirm_query: String
 
 func _ready() -> void:
 	#Signal Connections
@@ -178,7 +177,7 @@ func generate_mission() -> Dictionary:
 	
 	var item_name: String = cargo_types.pick_random()
 	var random_confirm_query: String = confirmation_accept.pick_random()
-	var mission_reward: int = randi_range(1000, 8000)
+	var mission_reward: int = Navigation.get_system_distance(Navigation.currentSystem, random_system_name) * 1000
 	
 	var misson_data: Dictionary = {
 		"mission_type": "Cargo delivery",
@@ -208,7 +207,7 @@ func create_new_mission_text(mission_data: Dictionary) -> String:
 	return formatted_text
 
 
-func set_mission_full_text():
+func set_mission_full_text() -> String:
 	var data: Dictionary = {
 			"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
@@ -254,7 +253,7 @@ func handle_cargo_beam() -> void:
 		finish_mission()
 
 
-func pick_up_new_mission():
+func pick_up_new_mission() -> void:
 	# Update text to "accepted"
 	var data: Dictionary = {
 		"target_planet": "[color=#FFCC66]" + pending_mission.planet + "[/color]",

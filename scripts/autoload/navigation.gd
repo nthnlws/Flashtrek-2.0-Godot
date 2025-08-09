@@ -122,7 +122,7 @@ func get_entry_point(angle_rad: float) -> Vector2:
 
 
 func trigger_warp() -> void:
-	if !warp_range_check(currentSystem, targetSystem, LevelData.player.warp_range):
+	if get_system_distance(currentSystem, targetSystem) > LevelData.player.warp_range:
 		var error_message: String = "Max warp range of %s systems" % LevelData.player.warp_range
 		SignalBus.changePopMessage.emit(error_message)
 		return
@@ -134,9 +134,33 @@ func trigger_warp() -> void:
 		SignalBus.triggerGalaxyWarp.emit(targetSystem)
 
 
-func warp_range_check(origin: String, target: String, range: int) -> bool:
-	var valid_systems = get_reachable_systems(origin, range)
-	return target in valid_systems
+func get_system_distance(origin: String, target: String) -> int:
+	if origin == target:
+		return 0
+
+	var visited := {}
+	var queue: Array = []
+	queue.append({ "name": origin, "depth": 0 })
+	visited[origin] = true
+
+	while not queue.is_empty():
+		var current: Dictionary = queue.pop_front()
+		var current_name = current["name"]
+		var depth: int = current["depth"]
+
+		var current_system: SystemData = galaxyMapData.get_system(current_name)
+		if current_system == null:
+			continue
+
+		for neighbor_name in current_system.neighbors:
+			if neighbor_name == target:
+				return depth + 1
+			if not visited.has(neighbor_name):
+				visited[neighbor_name] = true
+				queue.append({ "name": neighbor_name, "depth": depth + 1 })
+	
+	push_error("No system path found between %s and %s" % ["origin", "target"])
+	return -1  # Target not reachable
 
 
 func get_reachable_systems(start_name: String, max_range: int) -> Array:

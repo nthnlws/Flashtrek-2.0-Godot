@@ -80,6 +80,7 @@ func _change_system(targetSystem:String) -> void:
 	sync_sun_to_dict(targetSystem)
 
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
+	%MiniMap.scale_minimap()
 
 
 func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
