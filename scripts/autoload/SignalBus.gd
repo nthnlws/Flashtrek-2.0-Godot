@@ -10,7 +10,7 @@ signal updateLevelData(all_system_data:Dictionary)
 signal missionAccepted(current_mission)
 signal finishMission()
 signal changePopMessage(text)
-signal updateScore(score:float)
+signal updateScore(score:int)
 
 signal enteredPlanetComm(planet:Node2D)
 signal exitedPlanetComm(planet:Node2D)

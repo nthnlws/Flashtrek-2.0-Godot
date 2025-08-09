@@ -289,7 +289,6 @@ func finish_mission() -> void:
 	var formatted_text: String = template_text.format(data)
 	update_comms_message(formatted_text)
 	
-	SignalBus.updateScore.emit(player.current_mission.reward)
 	SignalBus.finishMission.emit()
 
 

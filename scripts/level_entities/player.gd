@@ -13,7 +13,7 @@ var shield_active:bool = false
 var energyTime:bool = false
 var overdriveTime:bool = false
 var energy_regen_speed:int = 10
-@export var shield_on:bool = true
+var shield_on:bool = true
 
 var trans_length:float = 0.8
 var base_scale:Vector2 = Vector2(1.0, 1.0)
@@ -39,10 +39,10 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var animation:AnimationPlayer = $AnimationPlayer
 @onready var camera:Camera2D = $Camera2D
 
-
 @export var damage_indicator: PackedScene
 @export var torpedo_scene: PackedScene
-@export var Stats: PlayerUpgrades
+var Stats: PlayerUpgrades = PlayerUpgrades.new()
+var Reputation: PlayerReputation = PlayerReputation.new()
 
 # Health variables
 @export var max_HP: float = 150:
@@ -570,6 +570,19 @@ func mission_accept(mission_data:Dictionary) -> void:
 
 
 func mission_finish() -> void:
+	var points:int = current_mission["reward"]
+	var faction:Utility.FACTION = Navigation.get_faction_for_system(current_mission.system)
+	SignalBus.updateScore.emit(points)
+	match faction:
+		Utility.FACTION.FEDERATION:
+			Reputation.FederationRep += points
+		Utility.FACTION.KLINGON:
+			Reputation.KlingonRep += points
+		Utility.FACTION.ROMULAN:
+			Reputation.RomulanRep += points
+		Utility.FACTION.NEUTRAL:
+			Reputation.NeutralRep += points
+			
 	current_mission.clear()
 	has_mission = false
 	current_cargo -= 1

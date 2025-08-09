@@ -78,5 +78,5 @@ func close_menus() -> void:
 
 func updateScore(reward:int) -> void:
 	current_score += reward
-	var new_score: String = "Score: " + str(current_score)
+	var new_score: String = "Total Score: " + str(current_score)
 	score_label.text = new_score
