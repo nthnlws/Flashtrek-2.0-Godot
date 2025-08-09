@@ -113,18 +113,25 @@ func _ready() -> void:
 
 
 func _connect_signals() -> void:
-	SignalBus.enteredPlanetComm.connect(_enter_comms)
+	SignalBus.enteredPlanetComm.connect(_enter_comms_range)
 	SignalBus.exitedPlanetComm.connect(_exit_comms)
 	SignalBus.TopRight_clicked.connect(handle_cargo_beam)
 	SignalBus.BottomLeft_clicked.connect(open_comms)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 
 
+func update_comms_message(message: String):
+	comms_message.bbcode_text = message
+
+
 func _handle_reroll_pressed() -> void:
 	completedUIdisplay = false
 	SignalBus.UIclickSound.emit()
-	var current_mission: Dictionary = generate_mission()
-	set_mission_text(current_mission)
+	if _can_accept_mission():
+		var current_mission: Dictionary = generate_mission()
+		update_comms_message(create_new_mission_text(current_mission))
+	else:
+		update_comms_message(set_mission_full_text())
 
 
 func _handle_close_ui_pressed() -> void:
@@ -132,66 +139,32 @@ func _handle_close_ui_pressed() -> void:
 	close_comms()
 
 
-func set_mission_text(mission_data: Dictionary) -> void:
-	# New mission pickup
-	if player.has_mission == false: 
-		var data: Dictionary = {
-			"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
-			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
-			"target_planet": "[color=#FFCC66]" + mission_data.planet + "[/color]",
-			"target_system": "[color=#FFCC66]" + mission_data.system + "[/color]",
-			"item_name": "[color=#1DCC4B]" + mission_data.cargo + "[/color]",
-			"random_confirm_query": mission_data.message,
-			}
-		var template_text: String = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
-		var formatted_text: String = template_text.format(data)
-		comms_message.bbcode_text = formatted_text
-	
-	# Player already has cargo/mission
-	else:
-		var data: Dictionary = {
-			"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
-			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
-			}
-		# Comms planet is same as mission destination
-		if current_planet.name == player.current_mission.planet:
-			data.random_accept = confirmation_complete.pick_random()
-			var template_text: String = "Welcome to {planet}, {ship_name}, {random_accept}"
-			var formatted_text: String = template_text.format(data)
-			comms_message.bbcode_text = formatted_text
-			
-		# Wrong planet for mission
-		else:
-			SignalBus.toggleQ2HUD.emit("off")
-			data.random_deny = cargo_full_messages.pick_random()
-				
-			var template_text: String = "Welcome to {planet}, {ship_name}, {random_deny}"
-			var formatted_text: String = template_text.format(data)
-			comms_message.bbcode_text = formatted_text
-
-
 func open_comms() -> void:
-	if visible:
-		self.visible = false
-		completedUIdisplay = false
-	# Only toggles on if within required distance
-	elif current_planet and player.overdrive_active == false:
+	if _can_enter_comms():
 		SignalBus.toggleQ3HUD.emit("off")
 		self.visible = true
-		#if player.has_mission == false:
-		var mission_data: Dictionary = generate_mission()
-		set_mission_text(mission_data)
+		if player.has_mission == false:
+			var mission_data: Dictionary = generate_mission()
+			update_comms_message(create_new_mission_text(mission_data))
+		else:
+			update_comms_message(set_mission_full_text())
+
+
+func _can_enter_comms() -> bool:
+	if current_planet and player.overdrive_active == false:
+		return true
+	else: return false
 
 
 func close_comms() -> void:
-	if visible == true:
-		SignalBus.toggleQ2HUD.emit("off") # Turn beam HUD animation off
-		completedUIdisplay = false
-		visible = false
-		if player.has_mission == false: # Turn on hail animation if mission still empty
-			SignalBus.toggleQ3HUD.emit("on")
+	SignalBus.toggleQ2HUD.emit("off") # Turn beam HUD animation off
+	completedUIdisplay = false
+	visible = false
+	if player.has_mission == false: # Turn on hail animation if mission still empty
+		SignalBus.toggleQ3HUD.emit("on")
 
 
+#region 
 func generate_mission() -> Dictionary:
 	# Get random system
 	var system_keys: Array = Navigation.systems
@@ -221,49 +194,106 @@ func generate_mission() -> Dictionary:
 	return misson_data
 
 
-func handle_cargo_beam() -> void:
-	# Accept new mission
-	SignalBus.toggleQ2HUD.emit("off") # Turn off "Beam" HUD animation
-	if pending_mission and visible and player.has_mission == false and completedUIdisplay == false:
-		# Update text to "accepted"
-		var data: Dictionary = {
-			"target_planet": "[color=#FFCC66]" + pending_mission.planet + "[/color]",
-			"target_system": "[color=#FFCC66]" + pending_mission.system + "[/color]",
-			}
-			
-			
-		var template_text: String = "Mission accepted! Head to {target_planet} in the {target_system} system."
-		var formatted_text: String = template_text.format(data)
-	
-		comms_message.bbcode_text = formatted_text
-		SignalBus.missionAccepted.emit(pending_mission)
-		
-	# Succesfull mission complete
-	elif visible and player.has_mission and current_planet.name == player.current_mission.planet:
-		completedUIdisplay = true
-		var data: Dictionary = {
+func create_new_mission_text(mission_data: Dictionary) -> String:
+	var data: Dictionary = {
+		"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
+		"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
+		"target_planet": "[color=#FFCC66]" + mission_data.planet + "[/color]",
+		"target_system": "[color=#FFCC66]" + mission_data.system + "[/color]",
+		"item_name": "[color=#1DCC4`B]" + mission_data.cargo + "[/color]",
+		"random_confirm_query": mission_data.message,
+		}
+	var template_text: String = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
+	var formatted_text: String = template_text.format(data)
+	return formatted_text
+
+
+func set_mission_full_text():
+	var data: Dictionary = {
 			"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
 			"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
 			}
-		# Pick random confirmation message for succesful mission complete
-		match current_planet.planetFaction:
-			Utility.FACTION.FEDERATION:
-				data.random_confirm = federation_thankYou.pick_random()
-			Utility.FACTION.KLINGON:
-				data.random_confirm = klingon_thankYou.pick_random()
-			Utility.FACTION.ROMULAN:
-				data.random_confirm = romulan_thankYou.pick_random()
+	var formatted_text:String
+	
+	# Current planet is ready to finish mission
+	if current_planet.name == player.current_mission.planet:
+		SignalBus.toggleQ2HUD.emit("on") # Turn beam HUD animation on
+		data.random_accept = confirmation_complete.pick_random()
+		var template_text: String = "Welcome to {planet}, {ship_name}, {random_accept}"
+		formatted_text = template_text.format(data)
 		
-		# Format UI with mission finish
-		var template_text: String = "Welcome to {planet}, {ship_name}, {random_confirm}"
-		var formatted_text: String = template_text.format(data)
-		comms_message.bbcode_text = formatted_text
-		
-		SignalBus.updateScore.emit(player.current_mission.reward)
-		SignalBus.finishMission.emit()
+	# Wrong planet for mission
+	else:
+		SignalBus.toggleQ2HUD.emit("off")
+		data.random_deny = cargo_full_messages.pick_random()
+			
+		var template_text: String = "Welcome to {planet}, {ship_name}, {random_deny}"
+		formatted_text = template_text.format(data)
+	
+	return formatted_text
 
 
-func _enter_comms(planet) -> void:
+func _can_accept_mission() -> bool:
+	if pending_mission and visible and player.has_mission == false and completedUIdisplay == false:
+		return true
+	else: return false
+
+func _can_complete_mission() -> bool:
+	if visible and player.has_mission and current_planet.name == player.current_mission.planet:
+		return true
+	else: return false
+
+
+func handle_cargo_beam() -> void:
+	# Accept new mission
+	SignalBus.toggleQ2HUD.emit("off") # Turn off "Beam" HUD animation
+	if _can_accept_mission():
+		pick_up_new_mission()
+	
+	elif _can_complete_mission():
+		finish_mission()
+
+
+func pick_up_new_mission():
+	# Update text to "accepted"
+	var data: Dictionary = {
+		"target_planet": "[color=#FFCC66]" + pending_mission.planet + "[/color]",
+		"target_system": "[color=#FFCC66]" + pending_mission.system + "[/color]",
+		}
+		
+		
+	var template_text: String = "Mission accepted! Head to {target_planet} in the {target_system} system."
+	var formatted_text: String = template_text.format(data)
+
+	update_comms_message(formatted_text)
+	SignalBus.missionAccepted.emit(pending_mission)
+
+
+func finish_mission() -> void:
+	completedUIdisplay = true
+	var data: Dictionary = {
+		"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
+		"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
+		}
+	# Pick random confirmation message for succesful mission complete
+	match current_planet.planetFaction:
+		Utility.FACTION.FEDERATION:
+			data.random_confirm = federation_thankYou.pick_random()
+		Utility.FACTION.KLINGON:
+			data.random_confirm = klingon_thankYou.pick_random()
+		Utility.FACTION.ROMULAN:
+			data.random_confirm = romulan_thankYou.pick_random()
+	
+	# Format UI with mission finish
+	var template_text: String = "Welcome to {planet}, {ship_name}, {random_confirm}"
+	var formatted_text: String = template_text.format(data)
+	update_comms_message(formatted_text)
+	
+	SignalBus.updateScore.emit(player.current_mission.reward)
+	SignalBus.finishMission.emit()
+
+
+func _enter_comms_range(planet) -> void:
 	current_planet = planet
 
 

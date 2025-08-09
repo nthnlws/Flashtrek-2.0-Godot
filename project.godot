@@ -28,6 +28,7 @@ Navigation="*res://scripts/autoload/navigation.gd"
 CheatsMenu="*res://scripts/autoload/cheats_menu.gd"
 LevelData="*res://scripts/autoload/level_data.gd"
 Utility="*res://scripts/autoload/utility.gd"
+SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 
 [debug]
 
@@ -47,7 +48,7 @@ movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_lens/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
 
 [file_customization]
 

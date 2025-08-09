@@ -1,4 +1,5 @@
-class_name TextButton extends Label
+class_name TextButton
+extends Label
 
 signal button_hovered
 signal button_pressed
@@ -8,37 +9,51 @@ signal button_pressed
 @export var pressed_color: Color
 
 @export var enabled: bool = true
-var hover: bool = false
-var pressed: bool = false
+var hover := false
+var pressed := false
 
-func _on_mouse_entered() -> void :
+func _ready() -> void:
+	modulate = default_color
+
+func _on_mouse_entered() -> void:
 	hover = true
+	_update_color()
 	button_hovered.emit()
 
-func _on_mouse_exited() -> void :
+func _on_mouse_exited() -> void:
 	hover = false
+	_update_color()
 
-func _process(delta: float) -> void :
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and hover:
+		if event.is_action_pressed("left_click"):
+			press()
+			get_viewport().set_input_as_handled()
+		# Release returns to hover state unless disabled
+		elif pressed:
+			pressed = false
+			_update_color()
+
+func press() -> void:
+	if pressed:
+		return
+	pressed = true
+	_update_color()
+	button_pressed.emit()
+	await get_tree().create_timer(0.3).timeout
+	pressed = false
+	_update_color()
+
+func set_enabled(state: bool) -> void:
+	enabled = state
+	_update_color()
+
+func _update_color() -> void:
 	if pressed:
 		modulate = pressed_color
-		return
-	elif !enabled or !is_visible_in_tree():
+	elif not enabled:
 		modulate = default_color
-		return
-	if hover:
-		if Input.is_action_just_pressed("left_click"):
-			press()
+	elif hover:
 		modulate = hover_color
 	else:
 		modulate = default_color
-
-func press() -> void :
-	if pressed: return
-	pressed = true
-	await get_tree().process_frame
-	button_pressed.emit()
-	await get_tree().create_timer(0.2).timeout
-	pressed = false
-
-func set_enabled(state: bool) -> void :
-	enabled = state

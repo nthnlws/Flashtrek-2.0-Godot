@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://c0pg53tyg8qep"
+path="res://.godot/imported/BottomRightMask.png-df5a7ecbfceca53481f17dd259191d50.res"
+
+[deps]
+
+source_file="res://assets/textures/UI/HUD_button/BottomRightMask.png"
+dest_files=["res://.godot/imported/BottomRightMask.png-df5a7ecbfceca53481f17dd259191d50.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

@@ -1,18 +1,18 @@
 [gd_scene load_steps=29 format=3 uid="uid://g3qxm0r002bc"]
 
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
-[ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/Top Left.png" id="2_40wxk"]
-[ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/Center.png" id="2_i1l8v"]
-[ext_resource type="BitMap" uid="uid://blral80hq81w" path="res://assets/textures/UI/CenterMask.png" id="3_07d7y"]
+[ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/HUD_button/Top Left.png" id="2_40wxk"]
+[ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/HUD_button/Center.png" id="2_i1l8v"]
+[ext_resource type="BitMap" uid="uid://blral80hq81w" path="res://assets/textures/UI/HUD_button/CenterMask.png" id="3_07d7y"]
 [ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="4_luur1"]
 [ext_resource type="LabelSettings" uid="uid://dq77lfk3mfiye" path="res://resources/HUD_button_theme.tres" id="5_07d7y"]
-[ext_resource type="Texture2D" uid="uid://cea41tj1fwv62" path="res://assets/textures/UI/Top Right.png" id="5_41du8"]
-[ext_resource type="BitMap" uid="uid://dkc6wtpipedbe" path="res://assets/textures/UI/TopLeftMask.png" id="6_41du8"]
-[ext_resource type="Texture2D" uid="uid://btn3m1g4nnbhn" path="res://assets/textures/UI/Bottom Left.png" id="6_n5omj"]
-[ext_resource type="BitMap" uid="uid://gorvlqn37qsv" path="res://assets/textures/UI/TopRightMask.png" id="7_luur1"]
-[ext_resource type="Texture2D" uid="uid://bud3556rue421" path="res://assets/textures/UI/Bottom Right.png" id="7_ot80n"]
-[ext_resource type="BitMap" uid="uid://c0pg53tyg8qep" path="res://assets/textures/UI/BottomRightMask.png" id="9_07d7y"]
-[ext_resource type="BitMap" uid="uid://ce68f843beccr" path="res://assets/textures/UI/BottomLeftMask.png" id="11_5v4fm"]
+[ext_resource type="Texture2D" uid="uid://cea41tj1fwv62" path="res://assets/textures/UI/HUD_button/Top Right.png" id="5_41du8"]
+[ext_resource type="BitMap" uid="uid://dkc6wtpipedbe" path="res://assets/textures/UI/HUD_button/TopLeftMask.png" id="6_41du8"]
+[ext_resource type="Texture2D" uid="uid://btn3m1g4nnbhn" path="res://assets/textures/UI/HUD_button/Bottom Left.png" id="6_n5omj"]
+[ext_resource type="BitMap" uid="uid://gorvlqn37qsv" path="res://assets/textures/UI/HUD_button/TopRightMask.png" id="7_luur1"]
+[ext_resource type="Texture2D" uid="uid://bud3556rue421" path="res://assets/textures/UI/HUD_button/Bottom Right.png" id="7_ot80n"]
+[ext_resource type="BitMap" uid="uid://c0pg53tyg8qep" path="res://assets/textures/UI/HUD_button/BottomRightMask.png" id="9_07d7y"]
+[ext_resource type="BitMap" uid="uid://ce68f843beccr" path="res://assets/textures/UI/HUD_button/BottomLeftMask.png" id="11_5v4fm"]
 
 [sub_resource type="Animation" id="Animation_5v4fm"]
 length = 0.001
@@ -218,7 +218,7 @@ pivot_offset = Vector2(500, 500)
 mouse_filter = 1
 script = ExtResource("1_6dfc7")
 
-[node name="Center" type="TextureButton" parent="."]
+[node name="Center" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -243,7 +243,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_2eq81")
 }
 
-[node name="CenterText" parent="Center" instance=ExtResource("4_luur1")]
+[node name="Center" parent="Center" groups=["label_buttons"] instance=ExtResource("4_luur1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -263,7 +263,7 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.4, 0.6, 0.8, 1)
 
-[node name="TopLeft" type="TextureButton" parent="."]
+[node name="TopLeft" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -287,7 +287,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_07d7y")
 }
 
-[node name="TopLeftText" parent="TopLeft" instance=ExtResource("4_luur1")]
+[node name="TopLeft" parent="TopLeft" groups=["label_buttons"] instance=ExtResource("4_luur1")]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 78.0
@@ -300,7 +300,7 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="TopRight" type="TextureButton" parent="."]
+[node name="TopRight" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -324,7 +324,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_4n70s")
 }
 
-[node name="TopRightText" parent="TopRight" instance=ExtResource("4_luur1")]
+[node name="TopRight" parent="TopRight" groups=["label_buttons"] instance=ExtResource("4_luur1")]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 77.0
@@ -337,7 +337,7 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="BottomRight" type="TextureButton" parent="."]
+[node name="BottomRight" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -360,7 +360,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_x62qd")
 }
 
-[node name="TextButton2" parent="BottomRight" instance=ExtResource("4_luur1")]
+[node name="BottomRight" parent="BottomRight" groups=["label_buttons"] instance=ExtResource("4_luur1")]
 layout_mode = 0
 offset_left = 85.0
 offset_top = 73.0
@@ -373,7 +373,7 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="BottomLeft" type="TextureButton" parent="."]
+[node name="BottomLeft" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -397,7 +397,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_c8m1s")
 }
 
-[node name="TextButton" parent="BottomLeft" instance=ExtResource("4_luur1")]
+[node name="BottomLeft" parent="BottomLeft" groups=["label_buttons"] instance=ExtResource("4_luur1")]
 layout_mode = 0
 offset_left = 63.0
 offset_top = 75.0

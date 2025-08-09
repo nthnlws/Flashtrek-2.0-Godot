@@ -1,6 +1,7 @@
 extends Control
 
-@onready var button_array: Array[Node] = self.get_children()
+@onready var label_button_array: Array[Node] = get_tree().get_nodes_in_group("label_buttons")
+@onready var texture_button_array: Array[Node] = get_tree().get_nodes_in_group("texture_buttons")
 @onready var animation_players: Array[Node] = get_tree().get_nodes_in_group("anims")
 
 var sound_array:Array[Node] = [] # Contains all nodes in group "click_sound"
@@ -15,30 +16,33 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	SignalBus.toggleQ2HUD.connect(_handle_beam_animation)
-	SignalBus.toggleQ3HUD.connect(_handle_hail_animation)
-	SignalBus.toggleQ4HUD.connect(_handle_dock_animation)
-	
+	_connect_signals()
 	manual_scale(0.7)
-	SignalBus.HUDchanged.connect(manual_scale)
 	
-	#Connect Input signals from HUD buttons
-	for button in button_array:
-		if button is TextureButton:
-			button.gui_input.connect(handle_button_click.bind(button))
-#
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
 
 
-func handle_button_click(event: InputEvent, button: TextureButton) -> void:
-	if event.is_action_pressed("left_click") and Navigation.in_galaxy_warp == false:
-		var signal_name: String = button.name + "_clicked"
+func _connect_signals():
+	SignalBus.toggleQ2HUD.connect(_handle_beam_animation)
+	SignalBus.toggleQ3HUD.connect(_handle_hail_animation)
+	SignalBus.toggleQ4HUD.connect(_handle_dock_animation)
+	SignalBus.HUDchanged.connect(manual_scale)
+	
+	for button in label_button_array:
+		button.button_pressed.connect(_handle_button_click.bind(button.name))
+	for button in texture_button_array:
+		button.pressed.connect(_handle_button_click.bind(button.name))
+
+
+func _handle_button_click(button_name: String) -> void:
+	if Navigation.in_galaxy_warp == false:
+		SignalBus.UIclickSound.emit()
+		var signal_name: String = button_name + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")
-			SignalBus.UIclickSound.emit()
-		else: print("No button signal found")
+		else: print("%s not found in SignalBus" % signal_name)
 
 
 func manual_scale(new_scale: float) -> void:
