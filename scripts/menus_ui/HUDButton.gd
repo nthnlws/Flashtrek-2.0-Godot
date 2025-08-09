@@ -34,7 +34,6 @@ func _ready() -> void:
 func handle_button_click(event: InputEvent, button: TextureButton) -> void:
 	if event.is_action_pressed("left_click") and Navigation.in_galaxy_warp == false:
 		var signal_name: String = button.name + "_clicked"
-		print(signal_name)
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")

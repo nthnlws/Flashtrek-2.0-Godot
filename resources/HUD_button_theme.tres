@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dq77lfk3mfiye"]
+
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="1_vp8po"]
+
+[resource]
+font = ExtResource("1_vp8po")
+font_size = 70

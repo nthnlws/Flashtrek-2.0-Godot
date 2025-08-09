@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dryvfp2n7djov"]
+
+[ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="1_ajjcv"]
+
+[resource]
+font = ExtResource("1_ajjcv")
+font_size = 11

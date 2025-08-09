@@ -1,10 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://g3qxm0r002bc"]
+[gd_scene load_steps=29 format=3 uid="uid://g3qxm0r002bc"]
 
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
 [ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/Top Left.png" id="2_40wxk"]
 [ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/Center.png" id="2_i1l8v"]
 [ext_resource type="BitMap" uid="uid://blral80hq81w" path="res://assets/textures/UI/CenterMask.png" id="3_07d7y"]
-[ext_resource type="Theme" uid="uid://bjqft50lislgc" path="res://resources/HUD Button Theme.tres" id="3_ot80n"]
+[ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="4_luur1"]
+[ext_resource type="LabelSettings" uid="uid://dq77lfk3mfiye" path="res://resources/HUD_button_theme.tres" id="5_07d7y"]
 [ext_resource type="Texture2D" uid="uid://cea41tj1fwv62" path="res://assets/textures/UI/Top Right.png" id="5_41du8"]
 [ext_resource type="BitMap" uid="uid://dkc6wtpipedbe" path="res://assets/textures/UI/TopLeftMask.png" id="6_41du8"]
 [ext_resource type="Texture2D" uid="uid://btn3m1g4nnbhn" path="res://assets/textures/UI/Bottom Left.png" id="6_n5omj"]
@@ -52,6 +53,22 @@ _data = {
 &"pulse_Center": SubResource("Animation_07d7y")
 }
 
+[sub_resource type="Animation" id="Animation_x62qd"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_luur1"]
 resource_name = "pulse_TopLeft"
 length = 1.5
@@ -69,7 +86,13 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_x62qd"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_07d7y"]
+_data = {
+&"RESET": SubResource("Animation_x62qd"),
+&"pulse_TopLeft": SubResource("Animation_luur1")
+}
+
+[sub_resource type="Animation" id="Animation_c8m1s"]
 resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
@@ -83,12 +106,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_07d7y"]
-_data = {
-&"RESET": SubResource("Animation_x62qd"),
-&"pulse_TopLeft": SubResource("Animation_luur1")
 }
 
 [sub_resource type="Animation" id="Animation_2eq81"]
@@ -108,7 +125,13 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_c8m1s"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4n70s"]
+_data = {
+&"RESET": SubResource("Animation_c8m1s"),
+&"pulse_TopRight": SubResource("Animation_2eq81")
+}
+
+[sub_resource type="Animation" id="Animation_jmbck"]
 resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
@@ -122,12 +145,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_4n70s"]
-_data = {
-&"RESET": SubResource("Animation_c8m1s"),
-&"pulse_TopRight": SubResource("Animation_2eq81")
 }
 
 [sub_resource type="Animation" id="Animation_4n70s"]
@@ -147,7 +164,13 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_jmbck"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x62qd"]
+_data = {
+&"RESET": SubResource("Animation_jmbck"),
+&"pulse_BottomRight": SubResource("Animation_4n70s")
+}
+
+[sub_resource type="Animation" id="Animation_vkuib"]
 resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
@@ -161,12 +184,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_x62qd"]
-_data = {
-&"RESET": SubResource("Animation_jmbck"),
-&"pulse_BottomRight": SubResource("Animation_4n70s")
 }
 
 [sub_resource type="Animation" id="Animation_4mst5"]
@@ -184,22 +201,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_vkuib"]
-resource_name = "RESET"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c8m1s"]
@@ -236,30 +237,31 @@ texture_click_mask = ExtResource("3_07d7y")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="Center"]
+[node name="CenterAnim" type="AnimationPlayer" parent="Center" groups=["anims"]]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_2eq81")
+}
+
+[node name="CenterText" parent="Center" instance=ExtResource("4_luur1")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -108.0
-offset_top = -45.5
-offset_right = 108.0
-offset_bottom = 45.5
+offset_left = -81.0
+offset_top = -42.2917
+offset_right = 81.0
+offset_bottom = 42.2917
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_ot80n")
-theme_override_font_sizes/font_size = 100
 text = "SHIP"
+label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="CenterAnim" type="AnimationPlayer" parent="Center" groups=["anims"]]
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_2eq81")
-}
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.4, 0.6, 0.8, 1)
 
 [node name="TopLeft" type="TextureButton" parent="."]
 layout_mode = 1
@@ -280,26 +282,23 @@ texture_click_mask = ExtResource("6_41du8")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="TopLeft"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -47.0
-offset_right = 67.0
-offset_bottom = 44.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_ot80n")
-text = "WARP"
-
 [node name="TopLeftAnim" type="AnimationPlayer" parent="TopLeft" groups=["anims"]]
 libraries = {
 &"": SubResource("AnimationLibrary_07d7y")
 }
+
+[node name="TopLeftText" parent="TopLeft" instance=ExtResource("4_luur1")]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 78.0
+offset_right = 186.0
+offset_bottom = 162.583
+text = "WARP"
+label_settings = ExtResource("5_07d7y")
+horizontal_alignment = 1
+vertical_alignment = 1
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="TopRight" type="TextureButton" parent="."]
 layout_mode = 1
@@ -320,26 +319,23 @@ texture_click_mask = ExtResource("7_luur1")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="TopRight"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -47.0
-offset_right = 63.0
-offset_bottom = 44.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_ot80n")
-text = "BEAM"
-
 [node name="TopRightAnim" type="AnimationPlayer" parent="TopRight" groups=["anims"]]
 libraries = {
 &"": SubResource("AnimationLibrary_4n70s")
 }
+
+[node name="TopRightText" parent="TopRight" instance=ExtResource("4_luur1")]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 77.0
+offset_right = 184.0
+offset_bottom = 161.583
+text = "BEAM"
+label_settings = ExtResource("5_07d7y")
+horizontal_alignment = 1
+vertical_alignment = 1
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="BottomRight" type="TextureButton" parent="."]
 layout_mode = 1
@@ -359,26 +355,23 @@ texture_click_mask = ExtResource("9_07d7y")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="BottomRight"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -47.0
-offset_right = 63.0
-offset_bottom = 44.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_ot80n")
-text = "DOCK"
-
 [node name="BottomRightAnim" type="AnimationPlayer" parent="BottomRight" groups=["anims"]]
 libraries = {
 &"": SubResource("AnimationLibrary_x62qd")
 }
+
+[node name="TextButton2" parent="BottomRight" instance=ExtResource("4_luur1")]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 73.0
+offset_right = 198.0
+offset_bottom = 157.583
+text = "Dock"
+label_settings = ExtResource("5_07d7y")
+horizontal_alignment = 1
+vertical_alignment = 1
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="BottomLeft" type="TextureButton" parent="."]
 layout_mode = 1
@@ -399,23 +392,20 @@ texture_click_mask = ExtResource("11_5v4fm")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="BottomLeft"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -47.0
-offset_right = 63.0
-offset_bottom = 44.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_ot80n")
-text = "HAIL"
-
 [node name="BottomLeftAnim" type="AnimationPlayer" parent="BottomLeft" groups=["anims"]]
 libraries = {
 &"": SubResource("AnimationLibrary_c8m1s")
 }
+
+[node name="TextButton" parent="BottomLeft" instance=ExtResource("4_luur1")]
+layout_mode = 0
+offset_left = 63.0
+offset_top = 75.0
+offset_right = 158.0
+offset_bottom = 159.583
+text = "HAIL"
+label_settings = ExtResource("5_07d7y")
+horizontal_alignment = 1
+vertical_alignment = 1
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.972549, 0.776471, 0.388235, 1)

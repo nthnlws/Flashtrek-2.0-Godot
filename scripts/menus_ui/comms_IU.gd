@@ -3,11 +3,9 @@ extends Control
 @onready var player: Player = LevelData.player
 @onready var comms_message: RichTextLabel = $Comms_message
 
-var button_array: Array[Node] = []
 var sound_array:Array[Node] = [] # Contains all nodes in group "click_sound"
 var sound_array_location:int = 0
 
-var comm_distance:float
 var pending_mission: Dictionary
 var completedUIdisplay: bool # Var to lock new mission select until menu closed after completion
 
@@ -105,37 +103,33 @@ var random_confirm_query: String
 
 func _ready() -> void:
 	#Signal Connections
-	SignalBus.enteredPlanetComm.connect(_enter_comms)
-	SignalBus.exitedPlanetComm.connect(_exit_comms)
-	SignalBus.TopRight_clicked.connect(handle_cargo_beam)
-	SignalBus.BottomLeft_clicked.connect(open_comms)
-	SignalBus.entering_galaxy_warp.connect(close_comms)
-	button_array = get_tree().get_nodes_in_group("comms_button")
-	for button:TextureButton in button_array:
-		button.gui_input.connect(handle_UI_click.bind(button))
-	
-	# Mission text setup
-	var planet_node: Node2D = LevelData.planets[0]
-	var detection_radius: CollisionShape2D = planet_node.get_node("CommArea").get_node("CollisionShape2D")
+	_connect_signals()
 	
 	ship_name = Utility.player_name
-	comm_distance = detection_radius.shape.radius*planet_node.scale.x
 
 	# Initialize sound array
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
 
 
-func handle_UI_click(event: InputEvent, button: TextureButton) -> void:
-	if event.is_action_pressed("left_click"):
-		if button.name == "reroll_button":
-			completedUIdisplay = false
-			SignalBus.UIclickSound.emit()
-			var current_mission: Dictionary = generate_mission()
-			set_mission_text(current_mission)
-		elif button.name == "close_button":
-			SignalBus.UIclickSound.emit()
-			close_comms()
+func _connect_signals() -> void:
+	SignalBus.enteredPlanetComm.connect(_enter_comms)
+	SignalBus.exitedPlanetComm.connect(_exit_comms)
+	SignalBus.TopRight_clicked.connect(handle_cargo_beam)
+	SignalBus.BottomLeft_clicked.connect(open_comms)
+	SignalBus.entering_galaxy_warp.connect(close_comms)
+
+
+func _handle_reroll_pressed() -> void:
+	completedUIdisplay = false
+	SignalBus.UIclickSound.emit()
+	var current_mission: Dictionary = generate_mission()
+	set_mission_text(current_mission)
+
+
+func _handle_close_ui_pressed() -> void:
+	SignalBus.UIclickSound.emit()
+	close_comms()
 
 
 func set_mission_text(mission_data: Dictionary) -> void:

@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://nr3ksi6mj4h8"]
 
-[ext_resource type="Texture2D" uid="uid://c8u8gecdegfsb" path="res://assets/textures/UI/Comms_menu.png" id="1_m5mxc"]
 [ext_resource type="Script" uid="uid://cm2dhgcj48fob" path="res://scripts/menus_ui/comms_IU.gd" id="1_u5bv0"]
-[ext_resource type="BitMap" uid="uid://r1q582krg3ol" path="res://assets/textures/UI/Comms_close_mask.png" id="3_mrlvj"]
-[ext_resource type="BitMap" uid="uid://53udfmxj0v4f" path="res://assets/textures/UI/comms_reroll_mask.png" id="4_ehn2o"]
+[ext_resource type="Texture2D" uid="uid://dgw0hf715lkkx" path="res://assets/textures/UI/Bottom UI Message.png" id="2_65idp"]
+[ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="4_hki4h"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="5_1daiq"]
+[ext_resource type="LabelSettings" uid="uid://dryvfp2n7djov" path="res://resources/UI_popup_theme.tres" id="5_08d4c"]
 
 [node name="Comms_UI" type="Control"]
 layout_mode = 3
@@ -25,29 +25,11 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -209.0
-offset_right = 621.0
+offset_right = 652.0
 grow_vertical = 0
-texture = ExtResource("1_m5mxc")
-
-[node name="close_button" type="TextureButton" parent="." groups=["comms_button"]]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -209.0
-offset_right = 621.0
-grow_vertical = 0
-texture_click_mask = ExtResource("3_mrlvj")
-
-[node name="reroll_button" type="TextureButton" parent="." groups=["comms_button"]]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -209.0
-offset_right = 621.0
-grow_vertical = 0
-texture_click_mask = ExtResource("4_ehn2o")
+texture = ExtResource("2_65idp")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Comms_message" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -64,3 +46,31 @@ scroll_active = false
 autowrap_mode = 2
 shortcut_keys_enabled = false
 drag_and_drop_selection_enabled = false
+
+[node name="RerollButton" parent="." instance=ExtResource("4_hki4h")]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 145.0
+offset_right = 484.0
+offset_bottom = 175.0
+text = "REROLL"
+label_settings = ExtResource("5_08d4c")
+horizontal_alignment = 1
+vertical_alignment = 1
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
+
+[node name="CloseButton" parent="." instance=ExtResource("4_hki4h")]
+layout_mode = 0
+offset_left = 498.0
+offset_top = 145.0
+offset_right = 615.0
+offset_bottom = 176.0
+text = "close
+            button"
+label_settings = ExtResource("5_08d4c")
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(0.4, 0.6, 0.8, 1)
+
+[connection signal="button_pressed" from="RerollButton" to="." method="_handle_reroll_pressed"]
+[connection signal="button_pressed" from="CloseButton" to="." method="_handle_close_ui_pressed"]
