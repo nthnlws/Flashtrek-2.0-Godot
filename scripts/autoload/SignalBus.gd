@@ -37,11 +37,11 @@ signal galaxy_warp_finished(target_system)
 signal entering_new_system
 
 #HUD
-signal Quad1_clicked # Declared in HUD_Button script by string name
-signal Quad2_clicked
-signal Quad3_clicked
-signal Quad4_clicked
-signal Center_clicked
+signal Center_clicked # Declared in HUD_Button script by string name
+signal TopLeft_clicked
+signal TopRight_clicked
+signal BottomLeft_clicked
+signal BottomRight_clicked
 signal HUDchanged(scale)
 
 signal joystickMoved(playerDirection)

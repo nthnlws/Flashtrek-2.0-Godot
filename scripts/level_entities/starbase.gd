@@ -5,7 +5,7 @@ extends Node2D
 
 
 func _ready() -> void:
-	SignalBus.Quad3_clicked.connect(toggle_comms)
+	SignalBus.BottomLeft_clicked.connect(toggle_comms)
 	SignalBus.level_entity_added.emit(self, "Starbase")
 	
 	z_index = Utility.Z["Starbase"]

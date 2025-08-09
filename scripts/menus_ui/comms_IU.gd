@@ -107,8 +107,8 @@ func _ready() -> void:
 	#Signal Connections
 	SignalBus.enteredPlanetComm.connect(_enter_comms)
 	SignalBus.exitedPlanetComm.connect(_exit_comms)
-	SignalBus.Quad2_clicked.connect(handle_cargo_beam)
-	SignalBus.Quad3_clicked.connect(open_comms)
+	SignalBus.TopRight_clicked.connect(handle_cargo_beam)
+	SignalBus.BottomLeft_clicked.connect(open_comms)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 	button_array = get_tree().get_nodes_in_group("comms_button")
 	for button:TextureButton in button_array:

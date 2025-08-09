@@ -1,54 +1,194 @@
-[gd_scene load_steps=8 format=3 uid="uid://g3qxm0r002bc"]
+[gd_scene load_steps=12 format=3 uid="uid://g3qxm0r002bc"]
 
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
-[ext_resource type="Texture2D" uid="uid://bnoey0jajceax" path="res://assets/textures/UI/button2.png" id="2_8t0dc"]
-[ext_resource type="BitMap" uid="uid://cbk5q50wnnog8" path="res://assets/textures/UI/Q1_Mask.png" id="3_3iywc"]
-[ext_resource type="BitMap" uid="uid://clcxnolyonb6e" path="res://assets/textures/UI/Q2_Mask.png" id="4_ei53l"]
-[ext_resource type="BitMap" uid="uid://cliqsibujlxfc" path="res://assets/textures/UI/Q3_Mask.png" id="5_3us4v"]
-[ext_resource type="BitMap" uid="uid://4t13xykefb8" path="res://assets/textures/UI/Q4_Mask.png" id="6_jp451"]
-[ext_resource type="BitMap" uid="uid://cwycuapm6igh7" path="res://assets/textures/UI/Center_Mask.png" id="7_obdd4"]
+[ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/Top Left.png" id="2_40wxk"]
+[ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/Center.png" id="2_i1l8v"]
+[ext_resource type="Theme" uid="uid://bjqft50lislgc" path="res://resources/HUD Button Theme.tres" id="3_ot80n"]
+[ext_resource type="Texture2D" uid="uid://cea41tj1fwv62" path="res://assets/textures/UI/Top Right.png" id="5_41du8"]
+[ext_resource type="BitMap" uid="uid://dkc6wtpipedbe" path="res://assets/textures/UI/TopLeftMask.png" id="6_41du8"]
+[ext_resource type="Texture2D" uid="uid://btn3m1g4nnbhn" path="res://assets/textures/UI/Bottom Left.png" id="6_n5omj"]
+[ext_resource type="BitMap" uid="uid://gorvlqn37qsv" path="res://assets/textures/UI/TopRightMask.png" id="7_luur1"]
+[ext_resource type="Texture2D" uid="uid://bud3556rue421" path="res://assets/textures/UI/Bottom Right.png" id="7_ot80n"]
+[ext_resource type="BitMap" uid="uid://c0pg53tyg8qep" path="res://assets/textures/UI/BottomRightMask.png" id="9_07d7y"]
+[ext_resource type="BitMap" uid="uid://ce68f843beccr" path="res://assets/textures/UI/BottomLeftMask.png" id="11_5v4fm"]
 
 [node name="HUD_button" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 500.0
 offset_bottom = 500.0
-pivot_offset = Vector2(450, 450)
+pivot_offset = Vector2(500, 500)
 mouse_filter = 1
 script = ExtResource("1_6dfc7")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 500.0
-offset_bottom = 500.0
-texture = ExtResource("2_8t0dc")
+[node name="Center" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -363.0
+offset_right = -135.0
+offset_bottom = -138.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("2_i1l8v")
+ignore_texture_size = true
+stretch_mode = 4
 
-[node name="Quad1" type="TextureButton" parent="." groups=["HUD_button"]]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture_click_mask = ExtResource("3_3iywc")
+[node name="Label" type="Label" parent="Center"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = -45.5
+offset_right = 108.0
+offset_bottom = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ot80n")
+theme_override_font_sizes/font_size = 100
+text = "SHIP"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Quad2" type="TextureButton" parent="." groups=["HUD_button"]]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture_click_mask = ExtResource("4_ei53l")
+[node name="TopLeft" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -500.0
+offset_right = -256.0
+offset_bottom = -256.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("2_40wxk")
+texture_click_mask = ExtResource("6_41du8")
+ignore_texture_size = true
+stretch_mode = 4
 
-[node name="Quad3" type="TextureButton" parent="." groups=["HUD_button"]]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture_click_mask = ExtResource("5_3us4v")
+[node name="Label" type="Label" parent="TopLeft"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -47.0
+offset_right = 67.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ot80n")
+text = "WARP"
 
-[node name="Quad4" type="TextureButton" parent="." groups=["HUD_button"]]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture_click_mask = ExtResource("6_jp451")
+[node name="TopRight" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -242.0
+offset_top = -500.0
+offset_right = 2.0
+offset_bottom = -256.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("5_41du8")
+texture_click_mask = ExtResource("7_luur1")
+ignore_texture_size = true
+stretch_mode = 4
 
-[node name="Center" type="TextureButton" parent="." groups=["HUD_button"]]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture_click_mask = ExtResource("7_obdd4")
+[node name="Label" type="Label" parent="TopRight"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -47.0
+offset_right = 63.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ot80n")
+text = "BEAM"
+
+[node name="BottomRight" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -242.0
+offset_top = -242.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("7_ot80n")
+texture_click_mask = ExtResource("9_07d7y")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="BottomRight"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -47.0
+offset_right = 63.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ot80n")
+text = "DOCK"
+
+[node name="BottomLeft" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -242.0
+offset_right = -256.0
+offset_bottom = 2.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("6_n5omj")
+texture_click_mask = ExtResource("11_5v4fm")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="BottomLeft"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -47.0
+offset_right = 63.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ot80n")
+text = "HAIL"

@@ -27,7 +27,7 @@ var rom_min: int = SYSTEM_RANGES["Romulan"]["range"]["min"]
 
 
 func _ready() -> void:
-	SignalBus.Quad1_clicked.connect(trigger_warp)
+	SignalBus.TopLeft_clicked.connect(trigger_warp)
 	SignalBus.entering_galaxy_warp.connect(set_current_system)
 	SignalBus.levelReset.connect(load_planet_names)
 

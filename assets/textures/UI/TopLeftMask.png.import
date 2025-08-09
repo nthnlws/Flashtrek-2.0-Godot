@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://dkc6wtpipedbe"
+path="res://.godot/imported/TopLeftMask.png-50a620ab2ce7105147209631f3d62523.res"
+
+[deps]
+
+source_file="res://assets/textures/UI/TopLeftMask.png"
+dest_files=["res://.godot/imported/TopLeftMask.png-50a620ab2ce7105147209631f3d62523.res"]
+
+[params]
+
+create_from=0
+threshold=0.5
