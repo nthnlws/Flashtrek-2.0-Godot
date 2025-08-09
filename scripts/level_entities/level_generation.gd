@@ -46,34 +46,34 @@ func _change_system(targetSystem:String) -> void:
 	
 	sync_planets_to_dict(targetSystem)
 	
-	if not sync_system["enemies"].is_empty():
+	if not sync_system["enemies"].is_empty(): # Some enemy data already exists for system
 		var num_enemies:int = min(sync_system["enemies"].size(), LevelData.planets.size())
-		_instaniate_ships(num_enemies)
-	elif sync_system["neutrals_defeated"] == false:
-		_instaniate_ships(LevelData.planets.size())
+		_instaniate_ships(num_enemies, sync_system)
+	elif sync_system["neutrals_defeated"] == false: # System data empty and system not defeated, generating enemies
+		_instaniate_ships(LevelData.planets.size(), sync_system)
 		
 	# --- Neutrals Logic ---
 	if sync_system["neutrals"].is_empty():
 		if sync_system["neutrals_defeated"] == true:
-			print("NEUTRALS: Dict is empty and they were already defeated. Doing nothing.")
+			#print("NEUTRALS: Dict is empty and they were already defeated. Doing nothing.")
 			pass
 		else:
-			print("NEUTRALS: Dict is empty, not yet defeated. Generating new positions.")
+			#print("NEUTRALS: Dict is empty, not yet defeated. Generating new positions.")
 			generate_neutral_positions(LevelData.neutralShips)
 	else:
-		print("NEUTRALS: Dict is NOT empty. Syncing existing data.")
+		#print("NEUTRALS: Dict is NOT empty. Syncing existing data.")
 		sync_neutral_to_dict(targetSystem, LevelData.neutralShips)
 
 	# --- Enemies Logic ---
 	if sync_system["enemies"].is_empty():
 		if sync_system["enemies_defeated"] == true:
-			print("ENEMIES: Dict is empty and they were already defeated. Doing nothing.")
+			#print("ENEMIES: Dict is empty and they were already defeated. Doing nothing.")
 			pass
 		else:
-			print("ENEMIES: Dict is empty, not yet defeated. Generating new positions.")
+			#print("ENEMIES: Dict is empty, not yet defeated. Generating new positions.")
 			generate_enemy_positions(LevelData.enemyShips)
 	else:
-		print("ENEMIES: Dict is NOT empty. Syncing existing data.")
+		#print("ENEMIES: Dict is NOT empty. Syncing existing data.")
 		sync_enemies_to_dict(targetSystem, LevelData.enemyShips)
 	
 	save_ship_data()
@@ -82,13 +82,16 @@ func _change_system(targetSystem:String) -> void:
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
 
 
-func _instaniate_ships(PLANET_COUNT:int) -> void:
+func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 	for i:int in range(PLANET_COUNT):
 		var new_enemy:EnemyCharacter = EnemyShip.instantiate()
 		new_enemy.add_to_group("level_nodes")
 		new_enemy.add_to_group("enemy_ships")
 		LevelData.enemyShips.append(new_enemy)
 		ship_folder.add_child(new_enemy)
+
+		new_enemy.hp_max = new_enemy.hp_max * system_data["ship_health_mult"]
+		new_enemy.damage_mult = new_enemy.damage_mult * system_data["enemy_damage_mult"]
 		new_enemy.name = "Enemy_" + str(i)
 	for i:int in range(PLANET_COUNT):
 		var new_neutral:NeutralCharacter = NeutralShip.instantiate()
@@ -96,6 +99,8 @@ func _instaniate_ships(PLANET_COUNT:int) -> void:
 		new_neutral.add_to_group("neutral_ships")
 		LevelData.neutralShips.append(new_neutral)
 		ship_folder.add_child(new_neutral)
+		
+		new_neutral.hp_max = new_neutral.hp_max * system_data["ship_health_mult"]
 		new_neutral.name = "Neutral_" + str(i)
 
 

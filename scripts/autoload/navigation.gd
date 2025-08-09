@@ -1,7 +1,6 @@
 extends Node
 
 var galaxyMapData: Resource = preload("res://assets/data/galaxy_map_data.tres")
-var player_range: int = 4
 
 var in_galaxy_warp:bool = false
 var currentSystem: String = "Solarus"
@@ -123,8 +122,8 @@ func get_entry_point(angle_rad: float) -> Vector2:
 
 
 func trigger_warp() -> void:
-	if !warp_range_check(currentSystem, targetSystem, player_range):
-		var error_message: String = "Max warp range of %s systems" % player_range
+	if !warp_range_check(currentSystem, targetSystem, LevelData.player.warp_range):
+		var error_message: String = "Max warp range of %s systems" % LevelData.player.warp_range
 		SignalBus.changePopMessage.emit(error_message)
 		return
 	if !LevelData.player.velocity_check():

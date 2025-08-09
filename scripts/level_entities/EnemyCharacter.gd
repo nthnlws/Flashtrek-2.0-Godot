@@ -9,6 +9,7 @@ class_name EnemyCharacter
 # Variables for handling dynamic behavior
 var fire_rate: float = 1.0
 var shoot_randomness: float = 3.0
+var damage_mult: float = 1.0
 
 @export var torpedo: PackedScene
 
@@ -154,6 +155,7 @@ func shoot_bullet() -> void:# Instantiate and configure bullet
 	if angle != -1.0:
 		# Prep torpedo to shoot
 		var bullet: Area2D = torpedo.instantiate()
+		bullet.damage = bullet.damage * damage_mult
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
 		

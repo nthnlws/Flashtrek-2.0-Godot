@@ -96,34 +96,37 @@ func generate_system_variables(system_number) -> Dictionary:
 	if typeof(system_number) == TYPE_STRING:
 		match system_number:
 			"Solarus":
-				system_number = 10
+				system_number = 1
 				faction = Utility.FACTION.FEDERATION
 			"Kronos":
 				system_number = 20
 				faction = Utility.FACTION.KLINGON
 			"Romulus":
-				system_number = 28
+				system_number = 30
 				faction = Utility.FACTION.ROMULAN
 			"Neutral":
 				faction = Utility.FACTION.NEUTRAL
-				system_number = 15
+				system_number = 12
 	else:
 		faction = Navigation.get_faction_for_system(system_number)
 		system_number = int(system_number)
 	
 	# Health Scaling
-	var enemy_health_mult: float = 1
-	var health_scaling_rate: float = 1.0/30.0
+	var ship_health_mult: float = 1
+	var health_scaling_rate: float = 4.0/14.0
 	
 	# Damage Scaling
 	var enemy_damage_mult: float = 1
-	var damage_scaling_rate: float = 1.0/30.0
-	if system_number <= 30:
-		enemy_health_mult = snapped(1 + (system_number * health_scaling_rate), 0.01)
-		enemy_damage_mult = snapped(1 + (system_number * damage_scaling_rate), 0.01)
+	var damage_scaling_rate: float = 4.0/14.0
+	if system_number <= 6:
+		pass
+	elif system_number <= 20:
+		ship_health_mult = snapped(1 + ((system_number - 6) * health_scaling_rate), 0.01)
+		enemy_damage_mult = snapped(1 + ((system_number - 6) * damage_scaling_rate), 0.01)
+		#print("Health mult equals 1 + (" + str(system_number - 6) + " times scaling rate: %s" % health_scaling_rate + " equals %s" % enemy_health_mult)
 	else: 
-		enemy_health_mult = 2.0 # Default double scaling above system 30
-		enemy_damage_mult = 2.0
+		ship_health_mult = 5.0 # Default double scaling above system 20
+		enemy_damage_mult = 5.0
 	
 	# Random planet count
 	var planet_count: int = randi_range(3, 6)
@@ -138,7 +141,7 @@ func generate_system_variables(system_number) -> Dictionary:
 		"faction": faction,
 		"planet_data": planet_data,
 		"sun_data": sun_data,
-		"enemy_health_mult": enemy_health_mult,
+		"ship_health_mult": ship_health_mult,
 		"enemy_damage_mult": enemy_damage_mult,
 		"system_size": 20000,
 		"enemies": {},

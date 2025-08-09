@@ -14,7 +14,10 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 var move_speed: int = 60
 var rotation_rate: float = 1.5
 var shield_on: bool = true
-var hp_max: int = 100
+var hp_max: int = 100:
+	set(value): # Ensures that current HP = max_HP when changed
+		hp_max = value
+		hp_current = value
 var angle_diff: float
 
 #Enemy health variables

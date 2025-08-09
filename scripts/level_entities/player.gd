@@ -109,7 +109,10 @@ var rate_of_fire:float = 5.0:
 		return base_cargo_size + Stats.CargoCapacityAdd
 var current_cargo:int = 0
 
-@export var warp_range: int = 2:
+@export var warp_range: int = 20:
+	set(value):
+		warp_range = value
+		Navigation.player_range = value
 	get:
 		return warp_range + Stats.WarpRangeAdd
 

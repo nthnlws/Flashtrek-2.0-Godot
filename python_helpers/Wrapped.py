@@ -1,28 +1,4 @@
-# yeah the code's probably horrible lol
-# when posting pls tag @lim95.com on bluesky !!
-# also follow me and check out my game Green Guy Goes Grappling
-
-# requires pygame-ce (not regular pygame)
-# font.ttf should be jetbrains mono regular
-# just do python3/py main.py [path to your game folder here (the one with project.godot)]
-
-# mine for example (CLI)
-
-# Total lines: 4198
-# Biggest file: GGGG/Source/manager.gd (696 lines)
-# Tool scripts: 9 | Process scripts: 106
-# ====================================================================================================================================================================
-# 578 variables (165 were explicitly typed, so 29%)
-# 85 @export calls
-# 62 connected signals (out of 5 defined)
-# ====================================================================================================================================================================
-# Scenes (*.tscn): 92
-# Assets (*.tres): 46
-# ====================================================================================================================================================================
-# Your top 3 most used file formats:
-# #1: png (183)
-# #2: gd (142)
-# #3: tscn (92)
+# run with cmd in folder "python Wrapped.py .."
 
 import os
 import pygame
