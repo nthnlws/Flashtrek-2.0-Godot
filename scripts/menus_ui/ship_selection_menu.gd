@@ -1,6 +1,4 @@
 extends Control
-
-var menu_state_machine: Node
  
 @onready var ambience:AudioStreamPlayer = $ambience
 @onready var warp_stat: RichTextLabel = %warp_stat
@@ -18,6 +16,7 @@ var menu_state_machine: Node
 @export var romulan_frame_pressed: CompressedTexture2D
 @export var neutral_frame_pressed: CompressedTexture2D
 
+signal menu_closed
 
 var fed_ships: Array = [
 	Utility.SHIP_TYPES.Galaxy_Class,
@@ -50,10 +49,7 @@ var frame_textures: Array = [federation_frame, klingon_frame, romulan_frame, neu
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if get_parent().name == "Menus":
-		menu_state_machine = get_node("..")
-	
+func _ready() -> void:	
 	var middle_pos: int = (960/2) - (50)
 	#%Grid.position.x = middle_pos - 170
 	
@@ -167,13 +163,14 @@ func create_selection_frames(faction: Utility.FACTION, i: Utility.SHIP_TYPES) ->
 		
 	container.add_child(ship_image)
 	container.add_child(frame)
-
+	
 	frame.mouse_entered.connect(update_ship_stats.bind(i))
-	frame.pressed.connect(func():
-		SignalBus.player_type_changed.emit(i)
-		self.visible = false
-		menu_state_machine.current_state = menu_state_machine.MenuState.NONE
-		)
+	frame.pressed.connect(_handle_menu_closed.bind(i))
+
+func _handle_menu_closed(type:Utility.SHIP_TYPES) -> void:
+	SignalBus.player_type_changed.emit(type)
+	self.visible = false
+	menu_closed.emit()
 
 
 func create_placeholder_frame(faction: Utility.FACTION) -> void:
@@ -267,4 +264,4 @@ func update_ship_stats(ship:Variant) -> void:
 
 func _on_close_menu_button_pressed() -> void:
 	self.visible = false
-	menu_state_machine.current_state = menu_state_machine.MenuState.NONE
+	menu_closed.emit()

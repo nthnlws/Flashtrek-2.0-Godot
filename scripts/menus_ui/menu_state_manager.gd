@@ -12,7 +12,7 @@ var current_state: MenuState = MenuState.NONE
 func _ready() -> void:
 	SignalBus.playerDied.connect(_handle_player_death)
 	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
-	SignalBus.BottomRight_clicked.connect(toggle_menu.bindv([$ShipSelectionMenu, MenuState.SHIP_SELECTION]))
+	SignalBus.BottomRight_clicked.connect(toggle_ship_selection)
 
 
 # Input handling
@@ -61,15 +61,15 @@ func _handle_player_death() -> void:
 		if menu.visible:
 			toggle_menu(menu, MenuState.NONE)
 
-
+func toggle_ship_selection():
+	var starbase: Node2D = LevelData.starbase[0]
+	if starbase.player_in_range == true:
+		$ShipSelectionMenu.visible = true
+		$ShipSelectionMenu.mouse_filter = Control.MOUSE_FILTER_STOP
+		current_state = MenuState.SHIP_SELECTION
+	
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState) -> void:
-	if menu == $ShipSelectionMenu:
-		var starbase: Node2D = LevelData.starbase[0]
-		if starbase.player_in_range == true:
-			menu.visible = true
-			menu.mouse_filter = Control.MOUSE_FILTER_STOP
-			current_state = new_state
 	if menu.visible == false:
 		# Show the menu
 		menu.visible = true
@@ -80,3 +80,6 @@ func toggle_menu(menu: Control, new_state: MenuState) -> void:
 		menu.visible = false
 		menu.mouse_filter = Control.MOUSE_FILTER_PASS
 		current_state = MenuState.NONE
+
+func _handle_ship_menu_closed() -> void:
+	current_state = MenuState.NONE

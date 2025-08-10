@@ -121,3 +121,4 @@ script = ExtResource("25_dx7lr")
 enabled = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="menu_closed" from="Menus/ShipSelectionMenu" to="Menus" method="_handle_ship_menu_closed"]

@@ -570,22 +570,23 @@ func mission_accept(mission_data:Dictionary) -> void:
 
 
 func mission_finish() -> void:
-	var points:int = current_mission["reward"]
-	var faction:Utility.FACTION = Navigation.get_faction_for_system(current_mission.system)
-	SignalBus.updateScore.emit(points)
-	match faction:
-		Utility.FACTION.FEDERATION:
-			Reputation.FederationRep += points
-		Utility.FACTION.KLINGON:
-			Reputation.KlingonRep += points
-		Utility.FACTION.ROMULAN:
-			Reputation.RomulanRep += points
-		Utility.FACTION.NEUTRAL:
-			Reputation.NeutralRep += points
-			
-	current_mission.clear()
+	if !current_mission.is_empty():
+		var points:int = current_mission["reward"]
+		var faction:Utility.FACTION = Navigation.get_faction_for_system(current_mission.system)
+		SignalBus.updateScore.emit(points)
+		match faction:
+			Utility.FACTION.FEDERATION:
+				Reputation.FederationRep += points
+			Utility.FACTION.KLINGON:
+				Reputation.KlingonRep += points
+			Utility.FACTION.ROMULAN:
+				Reputation.RomulanRep += points
+			Utility.FACTION.NEUTRAL:
+				Reputation.NeutralRep += points
+		current_mission.clear()
+		
 	has_mission = false
-	current_cargo -= 1
+	current_cargo = max(0, current_cargo - 1)
 
 
 func create_damage_indicator(damage:float, shooter:String, projectile:Area2D) -> void:
@@ -599,7 +600,6 @@ func _on_laser_ended() -> void:
 
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
-	#print(max_HP)
 	var mult_step:float = 0.05 # 5% increase to stat
 	
 	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type

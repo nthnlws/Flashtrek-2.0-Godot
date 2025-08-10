@@ -37,8 +37,8 @@ func update_sprite_position() -> void:
 	var new_sprite_x:float = (shield_node.custom_minimum_size.x * current_scale.x / 2) + 24
 	var new_sprite_y:float = (shield_node.custom_minimum_size.y * current_scale.y / 2) - 24
 	position = Vector2(new_sprite_x, new_sprite_y)
-	
-	
+
+
 func initialize_hull_icon():
 	if material is ShaderMaterial:
 		var mat: ShaderMaterial = material
@@ -68,6 +68,7 @@ func calculate_and_set_content_bounds():
 		_content_bounds_in_region_uv = Rect2(0, 0, 1, 1) # Default to full
 		(material as ShaderMaterial).set_shader_parameter("content_bounds_in_region_uv_pos", _content_bounds_in_region_uv.position)
 		(material as ShaderMaterial).set_shader_parameter("content_bounds_in_region_uv_size", _content_bounds_in_region_uv.size)
+		print("no atlas texture")
 		return
 
 	var base_atlas_image: Image = atlas_tex.atlas.get_image()
