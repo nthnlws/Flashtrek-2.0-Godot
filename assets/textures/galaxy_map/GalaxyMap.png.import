@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bswih0cvx1t64"
-path="res://.godot/imported/Gemini_Generated_Image_7oznup7oznup7ozn.png-cced3b4d7183abb14f924e30965c1bfd.ctex"
+uid="uid://bkj2gfgpm15e0"
+path="res://.godot/imported/GalaxyMap.png-953e953dd847d825f883abf031cb76ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Gemini_Generated_Image_7oznup7oznup7ozn.png"
-dest_files=["res://.godot/imported/Gemini_Generated_Image_7oznup7oznup7ozn.png-cced3b4d7183abb14f924e30965c1bfd.ctex"]
+source_file="res://assets/textures/galaxy_map/GalaxyMap.png"
+dest_files=["res://.godot/imported/GalaxyMap.png-953e953dd847d825f883abf031cb76ce.ctex"]
 
 [params]
 

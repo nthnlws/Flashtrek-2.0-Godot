@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://prkoslnq705f"
-path="res://.godot/imported/WorldMap.png-71ad3e89f968a2b4dd339bafe9e30350.ctex"
+uid="uid://b1vfpvlamicil"
+path="res://.godot/imported/romulan_mask.png-38aef44986c74a9b93b07bc15126915c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/UI/WorldMap.png"
-dest_files=["res://.godot/imported/WorldMap.png-71ad3e89f968a2b4dd339bafe9e30350.ctex"]
+source_file="res://assets/textures/galaxy_map/romulan_mask.png"
+dest_files=["res://.godot/imported/romulan_mask.png-38aef44986c74a9b93b07bc15126915c.ctex"]
 
 [params]
 

@@ -36,7 +36,6 @@ func fade_indicator(state) -> void:
 
 
 func set_bar_position(x: float, y: float):
-	print("x: %s, y: %s" % [x, y])
 	energy_bar.custom_minimum_size = Vector2(y, 20.0)
 	energy_bar.size = Vector2(y, 20.0)
 	energy_bar.position = Vector2(x, 60.0)

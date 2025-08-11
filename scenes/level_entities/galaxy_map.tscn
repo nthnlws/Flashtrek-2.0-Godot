@@ -1,14 +1,45 @@
-[gd_scene load_steps=11 format=3 uid="uid://cx1bafifkl17x"]
+[gd_scene load_steps=18 format=3 uid="uid://cx1bafifkl17x"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_f67k2"]
 [ext_resource type="Script" uid="uid://ciiwlhnmwo72u" path="res://scripts/tools/galaxy_map.gd" id="1_n1dvt"]
 [ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/level_entities/destination_indicator.tscn" id="2_rvfec"]
 [ext_resource type="PackedScene" uid="uid://c2ffdiw7qy7v0" path="res://scenes/menus_ui/system_marker.tscn" id="3_uixyg"]
-[ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/UI/WorldMapShaded.png" id="4_7hrdk"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="4_v4uvs"]
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="5_oddma"]
+[ext_resource type="Texture2D" uid="uid://cc0p0r7y0if3j" path="res://assets/textures/galaxy_map/federation_mask.png" id="6_8nqs0"]
+[ext_resource type="Texture2D" uid="uid://b1vfpvlamicil" path="res://assets/textures/galaxy_map/romulan_mask.png" id="6_adr1o"]
+[ext_resource type="Shader" uid="uid://6315ajpgvgvy" path="res://resources/Materials_Shaders/faction_color.gdshader" id="6_dyhbf"]
 [ext_resource type="Texture2D" uid="uid://dr0bowl6i2leo" path="res://assets/textures/UI/warp_button.png" id="6_mpbwe"]
+[ext_resource type="Texture2D" uid="uid://7qqdgpx5xqce" path="res://assets/textures/galaxy_map/klingon_mask.png" id="7_pdn8u"]
 [ext_resource type="BitMap" uid="uid://b1a4bmxr7t24t" path="res://assets/textures/UI/warp_button_mask.png" id="7_xtw53"]
+[ext_resource type="Texture2D" uid="uid://bkj2gfgpm15e0" path="res://assets/textures/galaxy_map/GalaxyMap.png" id="9_adr1o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qqn77"]
+shader = ExtResource("6_dyhbf")
+shader_parameter/mask_texture = ExtResource("6_adr1o")
+shader_parameter/faction_color = Color(0.154532, 0.474697, 0.288837, 0.211765)
+shader_parameter/stripe_color = Color(0.1504, 0.47, 0.288893, 0.321569)
+shader_parameter/stripe_speed = 0.2
+shader_parameter/stripe_spacing = 30.0
+shader_parameter/stripe_width = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xf4cy"]
+shader = ExtResource("6_dyhbf")
+shader_parameter/mask_texture = ExtResource("7_pdn8u")
+shader_parameter/faction_color = Color(0.807929, 0.201548, 0.258497, 0.211765)
+shader_parameter/stripe_color = Color(0.81, 0.2025, 0.26325, 0.286275)
+shader_parameter/stripe_speed = 0.2
+shader_parameter/stripe_spacing = 30.0
+shader_parameter/stripe_width = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kl0cb"]
+shader = ExtResource("6_dyhbf")
+shader_parameter/mask_texture = ExtResource("6_8nqs0")
+shader_parameter/faction_color = Color(0.09, 0.3175, 1, 0.211765)
+shader_parameter/stripe_color = Color(0.31, 0.517, 1, 0.270588)
+shader_parameter/stripe_speed = 0.2
+shader_parameter/stripe_spacing = 30.0
+shader_parameter/stripe_width = 0.2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
 
@@ -30,12 +61,39 @@ offset_right = 1024.0
 offset_bottom = 1024.0
 texture = ExtResource("1_f67k2")
 
+[node name="RomulanShading" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_qqn77")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KlingonShading" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xf4cy")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FederationShading" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_kl0cb")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="nodeMap" type="TextureRect" parent="."]
 layout_mode = 1
 offset_right = 1931.0
 offset_bottom = 1125.0
 scale = Vector2(0.513265, 0.480901)
-texture = ExtResource("4_7hrdk")
+texture = ExtResource("9_adr1o")
 expand_mode = 3
 stretch_mode = 4
 
@@ -381,7 +439,7 @@ shape = SubResource("CircleShape2D_ays83")
 [node name="Sprite2D" type="Sprite2D" parent="Systems/31"]
 texture = ExtResource("5_oddma")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="CloseContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -393,7 +451,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="closeMenuButton" type="Button" parent="MarginContainer"]
+[node name="closeMenuButton" type="Button" parent="CloseContainer"]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -475,5 +533,5 @@ theme_override_font_sizes/normal_font_size = 60
 bbcode_enabled = true
 text = "[color=#000000] WARP"
 
-[connection signal="pressed" from="MarginContainer/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="CloseContainer/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
 [connection signal="pressed" from="warp_button/click_area" to="." method="_on_warp_button_pressed"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4tjf13f4fb1b"
-path="res://.godot/imported/WorldMapShaded.png-b23c6ff19bb46d5927d753f2083fc968.ctex"
+uid="uid://cc0p0r7y0if3j"
+path="res://.godot/imported/federation_mask.png-84b2baa8daba02acde0e83b8b7be6feb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/UI/WorldMapShaded.png"
-dest_files=["res://.godot/imported/WorldMapShaded.png-b23c6ff19bb46d5927d753f2083fc968.ctex"]
+source_file="res://assets/textures/galaxy_map/federation_mask.png"
+dest_files=["res://.godot/imported/federation_mask.png-84b2baa8daba02acde0e83b8b7be6feb.ctex"]
 
 [params]
 

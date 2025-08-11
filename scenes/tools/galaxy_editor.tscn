@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://q0h3gakqpb3x" path="res://scripts/tools/galaxy_editor.gd" id="1_na621"]
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="2_kiut0"]
-[ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/UI/WorldMapShaded.png" id="3_tdgxq"]
+[ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/galaxy_map/GalaxyMapShaded.png" id="3_tdgxq"]
 
 [node name="GalaxyEditor" type="Control"]
 layout_mode = 3

@@ -46,6 +46,8 @@ func get_faction_for_system(system) -> int:
 			return Utility.FACTION.ROMULAN
 		"Neutral":
 			return Utility.FACTION.NEUTRAL
+		"18":
+			return Utility.FACTION.NEUTRAL
 		_:
 			system = int(system)
 			if system <= fed_max:
