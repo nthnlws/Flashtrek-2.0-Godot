@@ -371,7 +371,7 @@ void fragment() {
 		// A positive offset value moves the bar to the right.
 		vec2 offset_uv = UV;
 		offset_uv.x -= x_offset;
-		
+
         vec2 uv = mix(vec2(scale), vec2(1.0 - scale), offset_uv);
         vec2 slanted_uv = uv;
         slanted_uv.x += slant_amount * (0.5 - uv.y) * 2.0;

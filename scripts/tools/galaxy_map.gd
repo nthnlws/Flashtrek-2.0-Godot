@@ -37,7 +37,7 @@ func _gui_input(event: InputEvent) -> void:
 				update_map_destination(area, area.name)
 				SignalBus.UIclickSound.emit()
 				return
-				
+
 
 func selectCurrentSystem(system) -> void:
 	# Clear old marker
@@ -104,7 +104,8 @@ func _update_mission(current_mission: Dictionary) -> void:
 
 		var destination_text: String = first_string + "[color=#FFCC66]" + system_name + "[/color]"
 		mission_message.bbcode_text = destination_text
-	
+
+
 func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape2D) -> bool:
 	# Get the CircleShape2D from the CollisionShape2D
 	var shape = collision_shape.shape as CircleShape2D
@@ -121,7 +122,6 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 	# Check if the distance between the point and the center is less than or equal to the scaled radius
 	return point.distance_to(global_center) <= scaled_radius
-
 
 
 func _on_close_menu_button_pressed() -> void:

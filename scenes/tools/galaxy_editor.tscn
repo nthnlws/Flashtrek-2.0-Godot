@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://q0h3gakqpb3x" path="res://scripts/tools/galaxy_editor.gd" id="1_na621"]
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="2_kiut0"]
-[ext_resource type="Texture2D" uid="uid://4tjf13f4fb1b" path="res://assets/textures/galaxy_map/GalaxyMapShaded.png" id="3_tdgxq"]
+[ext_resource type="Texture2D" uid="uid://bkj2gfgpm15e0" path="res://assets/textures/galaxy_map/GalaxyMap.png" id="3_svcoi"]
 
 [node name="GalaxyEditor" type="Control"]
 layout_mode = 3
@@ -12,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_na621")
+output_file_path = "res://assets/data/galaxy_map.tres"
 
 [node name="mapBackground" type="TextureRect" parent="."]
 layout_mode = 0
@@ -24,7 +25,7 @@ layout_mode = 0
 offset_right = 1931.0
 offset_bottom = 1125.0
 scale = Vector2(0.513265, 0.480901)
-texture = ExtResource("3_tdgxq")
+texture = ExtResource("3_svcoi")
 expand_mode = 3
 stretch_mode = 4
 
@@ -79,9 +80,6 @@ position = Vector2(395, 92)
 [node name="17" type="Marker2D" parent="."]
 position = Vector2(500, 33)
 
-[node name="18" type="Marker2D" parent="."]
-position = Vector2(479, 167)
-
 [node name="19" type="Marker2D" parent="."]
 position = Vector2(544, 242)
 
@@ -120,6 +118,9 @@ position = Vector2(811, 408)
 
 [node name="31" type="Marker2D" parent="."]
 position = Vector2(819, 496)
+
+[node name="Risa" type="Marker2D" parent="."]
+position = Vector2(479, 167)
 
 [node name="Solarus" type="Marker2D" parent="."]
 position = Vector2(172, 396)

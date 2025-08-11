@@ -100,6 +100,7 @@ shader_parameter/x_offset = 0.0
 shader_parameter/slant_clip_margin = 0.0
 
 [node name="health_indicator" type="Control"]
+modulate = Color(1, 1, 0, 1)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 80.0

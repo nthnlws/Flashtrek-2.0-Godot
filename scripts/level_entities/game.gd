@@ -86,6 +86,9 @@ func generate_system_info() -> void:
 	var romulus_data: Dictionary = generate_system_variables("Romulus")
 	all_systems_data["Romulus"] = romulus_data
 	
+	var risa_data: Dictionary = generate_system_variables("Risa")
+	all_systems_data["Risa"] = romulus_data
+	
 	LevelData.all_systems_data = all_systems_data
 	Navigation.systems = all_systems_data.keys()
 	SignalBus.updateLevelData.emit(all_systems_data)
@@ -105,6 +108,9 @@ func generate_system_variables(system_number) -> Dictionary:
 				system_number = 30
 				faction = Utility.FACTION.ROMULAN
 			"Neutral":
+				faction = Utility.FACTION.NEUTRAL
+				system_number = 12
+			"Risa":
 				faction = Utility.FACTION.NEUTRAL
 				system_number = 12
 	else:

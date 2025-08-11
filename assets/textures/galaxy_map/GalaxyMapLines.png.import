@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4tjf13f4fb1b"
-path="res://.godot/imported/GalaxyMapShaded.png-518a57ccdfc874072bd38bc9bde09515.ctex"
+uid="uid://b62sn0p61u6jx"
+path="res://.godot/imported/GalaxyMapLines.png-40992e98e2d6f5fd8015c69b2e268f4f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/galaxy_map/GalaxyMapShaded.png"
-dest_files=["res://.godot/imported/GalaxyMapShaded.png-518a57ccdfc874072bd38bc9bde09515.ctex"]
+source_file="res://assets/textures/galaxy_map/GalaxyMapLines.png"
+dest_files=["res://.godot/imported/GalaxyMapLines.png-40992e98e2d6f5fd8015c69b2e268f4f.ctex"]
 
 [params]
 

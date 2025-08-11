@@ -4,8 +4,9 @@ extends Control
 
 var neighbor_map: Dictionary = {
 	"Solarus": ["6", "7", "8", "10"],
-	"Kronos": ["16", "17", "18", "20", "21"],
+	"Kronos": ["16", "17", "Risa", "20", "21"],
 	"Romulus": ["26", "29", "30", "31"],
+	"Risa": ["14", "Kronos", "20", "19"],
 	"1": ["2", "3"],
 	"2": ["1", "4"],
 	"3": ["1", "5"],
@@ -19,13 +20,12 @@ var neighbor_map: Dictionary = {
 	"11": ["6", "12", "10"],
 	"12": ["11", "13", "19", "28"],
 	"13": ["14", "12"],
-	"14": ["18", "13"],
+	"14": ["Risa", "13"],
 	"15": ["4", "16"],
 	"16": ["15", "17", "Kronos"],
 	"17": ["16", "Kronos"],
-	"18": ["14", "Kronos", "20", "19"],
-	"19": ["12", "18", "20", "27"],
-	"20": ["19", "18", "Kronos", "28"],
+	"19": ["12", "Risa", "20", "27"],
+	"20": ["19", "Risa", "Kronos", "28"],
 	"21": ["Kronos", "22", "24"],
 	"22": ["21", "23"],
 	"23": ["22", "24"],
@@ -39,7 +39,7 @@ var neighbor_map: Dictionary = {
 	"31": ["Romulus", "30"],
 }
 
-@export_file("*.tres") var output_file_path: String = "res://assets/data/galaxy_map.tres"
+@export_file("*.tres") var output_file_path: String = "res://assets/data/galaxy_map_data.tres"
 
 @export var generate_button := false: set = _on_generate_button_pressed
 
