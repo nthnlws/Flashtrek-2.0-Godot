@@ -5,7 +5,8 @@ class_name NeutralCharacter
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
-@onready var collision_shape: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
+@onready var hitbox: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
+@onready var collision_shape: CollisionPolygon2D = $WorldCollisionShape
 @onready var shield: Node = $Shield
 @onready var animation: AnimatedSprite2D = $hull_explosion
 
@@ -68,6 +69,7 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 		PV2Array.append(Vector2(pair[0], pair[1]))
 	PV2Array = center_polygon(PV2Array)
 	collision_shape.polygon = PV2Array
+	hitbox.polygon = PV2Array
 
 
 func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
@@ -154,17 +156,25 @@ func planetMovement(delta:float) -> void:
 		returnToStarbaseBool = true
 
 
-func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> float:
+func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> void:
+	velocity = (targetPos - self.global_position).normalized()*move_speed
+	var angle_diff = calc_angle(targetPos, delta)
+	look_at_target(targetPos, angle_diff, delta)
+	move_and_slide()
+
+
+func calc_angle(targetPos:Vector2, delta:float) -> float:
 	var angle: float = (targetPos - self.global_position).angle() + deg_to_rad(90)
 	var rotation_speed: float = rotation_rate * delta
-	angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
+	var angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
 	
-	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
-	
-	velocity = (targetPos - self.global_position).normalized()*move_speed
-		
-	move_and_slide()
 	return angle_diff
+
+
+func look_at_target(targetPos:Vector2,angle_diff:float, delta:float) -> void:
+	var angle: float = (targetPos - self.global_position).angle() + deg_to_rad(90)
+	var rotation_speed: float = rotation_rate * delta
+	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 
 
 func explode() -> void:
@@ -183,6 +193,7 @@ func explode() -> void:
 	else: push_error("%s not found in dict" % self.name)
 	
 	collision_shape.set_deferred("disabled", true)
+	hitbox.set_deferred("disabled", true)
 	%ship_explosion.play()
 	
 	animation.visible = true

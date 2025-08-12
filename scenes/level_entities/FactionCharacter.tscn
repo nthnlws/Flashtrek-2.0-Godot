@@ -27,7 +27,7 @@ position = Vector2(0, -12)
 
 [node name="AgroBox" type="Area2D" parent="." index="1"]
 collision_layer = 8
-collision_mask = 66
+collision_mask = 70
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox" index="0"]
 shape = SubResource("CircleShape2D_uivqo")
@@ -35,5 +35,5 @@ shape = SubResource("CircleShape2D_uivqo")
 [node name="Sprite2D" parent="." index="2"]
 texture = SubResource("AtlasTexture_ytmji")
 
-[node name="Shield" parent="." index="5"]
+[node name="Shield" parent="." index="6"]
 material = SubResource("ShaderMaterial_ksrv6")

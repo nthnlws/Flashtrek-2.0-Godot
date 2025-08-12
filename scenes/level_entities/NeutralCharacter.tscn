@@ -99,6 +99,8 @@ script = ExtResource("1_h86cx")
 texture = SubResource("AtlasTexture_lot0p")
 region_rect = Rect2(144, 144, 144, 144)
 
+[node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["enemy"]]
+
 [node name="hitbox_area" type="Area2D" parent="." groups=["enemy_hitbox"]]
 collision_layer = 128
 collision_mask = 256

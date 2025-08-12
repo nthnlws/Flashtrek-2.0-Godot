@@ -19,10 +19,14 @@ var movement_vector := Vector2(0, -1)
 
 var lifetime_seconds:float = 7.5
 var age: float = 0.0
+var faction: Utility.FACTION
 
 var damage:float = 15.0
 
 func _ready() -> void:
+	if shooter == "Player":
+		set_collision_mask_value(2, false)
+		set_collision_mask_value(7, false)
 	area_entered.connect(_on_torpedo_collision)
 	z_index = Utility.Z["Weapons"]
 
@@ -60,13 +64,39 @@ func kill_projectile(target) -> void: # Creates explosion animation and kills se
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
-	if not alive: return
+	var parent = area.get_parent()
+	var target_faction:Utility.FACTION
+	if area.name == "shield_area":
+		target_faction = parent.get_parent().faction
+	elif area.name == "hitbox_area":
+		target_faction = parent.faction
 	
+	if shooter == "Player":
+		hit_success(area)
+	else:
+		match faction:
+			Utility.FACTION.FEDERATION:
+				if target_faction == Utility.FACTION.ROMULAN or target_faction == Utility.FACTION.KLINGON:
+					hit_success(area)
+			Utility.FACTION.KLINGON:
+				if target_faction == Utility.FACTION.ROMULAN or target_faction == Utility.FACTION.FEDERATION:
+					hit_success(area)
+			Utility.FACTION.ROMULAN:
+				if target_faction == Utility.FACTION.FEDERATION or target_faction == Utility.FACTION.KLINGON:
+					hit_success(area)
+			Utility.FACTION.NEUTRAL:
+				if target_faction != self.faction: # If not neutral
+					hit_success(area)
+
+
+func hit_success(area:Area2D):
+	if not alive:
+		return
+	
+	var parent = area.get_parent()
 	alive = false
 	area_entered.disconnect(_on_torpedo_collision)
 	set_deferred("collision.disabled", true)
-	
-	var parent = area.get_parent()
 	var projectile_name = area.name
 	if parent.has_method("take_damage"):
 		parent.take_damage(damage, self.global_position)

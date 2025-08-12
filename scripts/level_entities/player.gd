@@ -358,8 +358,9 @@ func shoot_torpedo() -> void:
 		t.z_index = 0
 		t.drain_energy.connect(energy_drain)
 		t.damage = t.damage * Stats.DamageMult
+		t.faction = self.faction
+		t.shooter = "Player"
 		
-		t.set_collision_layer_value(9, true) # Sets layer to player projectile
 		t.set_collision_mask_value(3, true) # Turns on enemy hitbox detection
 		t.set_collision_mask_value(8, true) # Turns on enemy shield detection
 		

@@ -51,10 +51,17 @@ func setMovementState(delta:float) -> void:
 func targetMovement(delta: float) -> void:
 	var predicted_position:Vector2 = predict_ship_position()
 	var randomized_position: Vector2 = randomize_position(predicted_position)
-	if typeof(predict_ship_position()) == TYPE_INT:
-		moveToTarget("Enemy", enemy_target.global_position, delta)
+	var distance_to_target: float = self.global_position.distance_to(predicted_position)
+	var angle_diff = calc_angle(predicted_position, delta)
+	look_at_target(predicted_position, angle_diff, delta)
+	if distance_to_target > 1000:
+		if typeof(predicted_position) == TYPE_INT:
+			moveToTarget("Enemy", enemy_target.global_position, delta)
+		else:
+			moveToTarget("Enemy", predicted_position, delta)
 	else:
-		moveToTarget("Enemy", predicted_position, delta)
+		velocity = velocity.move_toward(Vector2.ZERO, 25 * delta)
+		
 	
 	if abs(angle_diff) < TAU/12:
 		shoot_bullet(predicted_position, randomized_position)
@@ -145,10 +152,9 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 		bullet.damage = bullet.damage * damage_mult
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
+		bullet.faction = self.faction
 		
-		bullet.set_collision_layer_value(10, true) # Sets layer to enemy projectile
-		bullet.set_collision_mask_value(2, true) # Turns on player hitbox
-		bullet.set_collision_mask_value(7, true) # Turns on player shield
+		bullet.set_collision_layer_value(10, true)
 		
 		call_deferred("instantiate_bullet", bullet)
 
@@ -161,7 +167,7 @@ func instantiate_bullet(bullet: Area2D) -> void:
 
 
 func _on_agro_box_body_entered(body) -> void:
-	#print("Own faction: %s, target faction: %s" % [self.faction, body.faction])
+	print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
 	if body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
 		enemyAgro =  true
 		enemy_target = body

@@ -238,8 +238,7 @@ tool_script={
 2d_physics/layer_6="HUD"
 2d_physics/layer_7="player_damage_areas"
 2d_physics/layer_8="enemy_damage_areas"
-2d_physics/layer_9="player_projectile"
-2d_physics/layer_10="enemy_projectile"
+2d_physics/layer_9="projectile"
 
 [rendering]
 
