@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/level_entities/player.tscn" id="4_s6h4r"]
 [ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/level_entities/player_spawn_area.tscn" id="6_qnb83"]
-[ext_resource type="PackedScene" uid="uid://c8tsyg40o4m7h" path="res://scenes/level_entities/EnemyCharacter.tscn" id="8_qnb83"]
+[ext_resource type="PackedScene" uid="uid://c8tsyg40o4m7h" path="res://scenes/level_entities/FactionCharacter.tscn" id="8_l5jjv"]
 [ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/level_entities/sun.tscn" id="9_2srcp"]
 [ext_resource type="Script" uid="uid://5ubg1s4kiduk" path="res://scripts/menus_ui/hud_layer.gd" id="9_bhx41"]
 [ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="9_ia24r"]
@@ -37,7 +37,7 @@ Planet = ExtResource("23_bt5mj")
 Starbase = ExtResource("9_y1jbs")
 PlayerSpawnArea = ExtResource("6_qnb83")
 Sun = ExtResource("9_2srcp")
-EnemyShip = ExtResource("8_qnb83")
+FactionShip = ExtResource("8_l5jjv")
 NeutralShip = ExtResource("9_ia24r")
 Player = ExtResource("4_s6h4r")
 item_pickup = ExtResource("10_b4di1")

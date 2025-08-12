@@ -12,8 +12,9 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 	"LootDrops": 5, # Should appear on top of planets but behind ships
 	"Weapons": 10, # Lasers, torpedoes, etc.
 	"NeutralShips": 20, # Player and NPCs will share this base layer
-	"EnemyShips": 25,
-	"Player": 30,
+	"FriendlyShips": 25, # Player and NPCs will share this base layer
+	"EnemyShips": 30,
+	"Player": 40,
 	
 	# -- GAME WORLD EFFECTS --
 	"Effects": 50, # Explosions, shield hits, etc., on top of everything

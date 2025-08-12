@@ -1,7 +1,7 @@
 extends Node
 
 var spawn_options: Array[Area2D] = []
-var enemyShips: Array[EnemyCharacter] = []
+var enemyShips: Array[FactionCharacter] = []
 var neutralShips: Array[NeutralCharacter] = []
 var levelWalls: Array[Node2D] = []
 var planets: Array[Node2D] = []

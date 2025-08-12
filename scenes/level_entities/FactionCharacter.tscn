@@ -1,25 +1,26 @@
 [gd_scene load_steps=9 format=3 uid="uid://c8tsyg40o4m7h"]
 
-[ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="1_jjqxs"]
-[ext_resource type="Script" uid="uid://c5qx80nhgkt0p" path="res://scripts/level_entities/EnemyCharacter.gd" id="1_vetd3"]
-[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="4_a7val"]
-[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="4_epxo7"]
-[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="5_gcgnf"]
+[ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="1_pewyh"]
+[ext_resource type="Script" uid="uid://b2270c41mmjk1" path="res://scripts/level_entities/FactionCharacter.gd" id="2_owcls"]
+[ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="3_owcls"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ph44v"]
+[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="4_ikyfi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uivqo"]
 radius = 1250.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytmji"]
-atlas = ExtResource("4_a7val")
+atlas = ExtResource("3_ph44v")
 region = Rect2(96, 144, 48, 48)
+filter_clip = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
-shader = ExtResource("4_epxo7")
+shader = ExtResource("4_ikyfi")
 shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
 
-[node name="EnemyCharacter" instance=ExtResource("1_jjqxs")]
-script = ExtResource("1_vetd3")
-torpedo = ExtResource("5_gcgnf")
+[node name="FactionCharacter" instance=ExtResource("1_pewyh")]
+script = ExtResource("2_owcls")
+torpedo = ExtResource("3_owcls")
 
 [node name="Muzzle" type="Node2D" parent="." index="0"]
 position = Vector2(0, -12)

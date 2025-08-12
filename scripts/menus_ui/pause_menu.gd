@@ -201,7 +201,7 @@ func _on_scale_setting_item_selected(index: int) -> void:
 			SignalBus.HUDchanged.emit(0.5)
 
 
-func _on_enemy_type_changed(index:int) -> void:
+func _on_new_enemy_type_selected(index:int) -> void:
 	SignalBus.enemy_type_changed.emit(index)
 	Menus.toggle_menu(self, 0)
 

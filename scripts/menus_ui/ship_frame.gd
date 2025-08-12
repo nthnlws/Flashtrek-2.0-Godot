@@ -17,10 +17,7 @@ const PRESSED_GREY:Color = Color("707070")
 @export var ship_faction:Utility.FACTION = Utility.FACTION.NEUTRAL
 
 func _ready() -> void:
-	var atlas_texture: AtlasTexture = AtlasTexture.new()
-	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
-	atlas_texture.filter_clip = true
-	ship_sprite.texture = atlas_texture
+	_create_unique_atlas()
 	
 	set_gray_out(grayed_out)
 	set_ship_type(current_ship_type)
@@ -34,6 +31,13 @@ func _on_hovered() -> void:
 
 func _on_mouse_exited() -> void:
 	background.color = DEFAULT_GREY
+
+
+func _create_unique_atlas() -> void:
+	var atlas_texture: AtlasTexture = AtlasTexture.new()
+	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
+	atlas_texture.filter_clip = true
+	ship_sprite.texture = atlas_texture
 
 
 func set_faction(faction) -> void:

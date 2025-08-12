@@ -13,6 +13,7 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
 atlas = ExtResource("3_l33it")
 region = Rect2(96, 144, 48, 48)
+filter_clip = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6mg26"]
 atlas = ExtResource("5_scpag")

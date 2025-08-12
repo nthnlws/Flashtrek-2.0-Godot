@@ -1,8 +1,7 @@
 extends CharacterBody2D
 class_name NeutralCharacter
 
-var ship_type: String = "NeutralShip"
-var ship_name: String = str(Utility.SHIP_TYPES.Brel_Class)
+@export var ship_type:Utility.SHIP_TYPES = Utility.SHIP_TYPES.Merchantman
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
@@ -33,12 +32,12 @@ var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 
 
 func _ready() -> void:
+	_create_unique_atlas()
 	shield.shieldStatusChanged.connect(func(shieldStatus:bool): shield_on = shieldStatus)
+
+	_sync_data_to_resource(ship_type)
+	_sync_stats_to_resource(ship_type)
 	
-	if ship_type == "NeutralShip":
-		_sync_data_to_resource(Utility.SHIP_TYPES.Merchantman)
-		_sync_stats_to_resource(Utility.SHIP_TYPES.Merchantman)
-		
 	# Initialize AI-related data
 	if AI_enabled:
 		starbase = LevelData.starbase[0]
@@ -46,6 +45,13 @@ func _ready() -> void:
 	# Set initial movement state target
 	call_deferred("selectRandomPlanet")
 	z_index = Utility.Z["NeutralShips"]
+
+
+func _create_unique_atlas() -> void:
+	var atlas_texture: AtlasTexture = AtlasTexture.new()
+	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
+	atlas_texture.filter_clip = true
+	sprite.texture = atlas_texture
 
 
 func _sync_data_to_resource(ship:Utility.SHIP_TYPES):

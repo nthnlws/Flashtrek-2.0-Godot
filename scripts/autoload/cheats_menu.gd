@@ -44,6 +44,22 @@ func _add_cheat_commands() -> void:
 		)
 	var factions: Array = ["federation", "romulan", "klingon", "neutral"]
 	Console.add_command_autocomplete_list("add_score", PackedStringArray(factions))
+	
+	Console.add_command( # Upgrade loot
+		"spawn", # Command name
+		spawn_ship, # Function call
+		["ship"], # Argument params
+		1, # Required params
+		"Spawns a faction ship (uses int for ship type)", # Description
+		)
+
+
+func spawn_ship(ship_type:String) -> void:
+	var ship:int = int(ship_type)
+
+	SignalBus.spawnShip.emit(ship)
+	print("Spawned ship of type: %s" % Utility.SHIP_TYPES.keys()[ship])
+
 
 func add_score(faction: String, number: String) -> void:
 	var score:int = int(number)
@@ -91,10 +107,10 @@ func kill_command(ship_type:String, number:String = "1") -> void:
 				else:
 					print("No ships of type '%s' to kill" % ship_type)
 		elif ship_type == "enemy" or ship_type == "enemies":
-			var enemy_ships:Array[EnemyCharacter] = LevelData.enemyShips
+			var enemy_ships:Array[FactionCharacter] = LevelData.enemyShips
 			for i in range(num):
 				if enemy_ships.size() > 0:
-					var ship:EnemyCharacter = enemy_ships[randi_range(0, enemy_ships.size() - 1)]
+					var ship:FactionCharacter = enemy_ships[randi_range(0, enemy_ships.size() - 1)]
 					ship.explode()
 				else:
 					print("No ships of type '%s' to kill" % ship_type)

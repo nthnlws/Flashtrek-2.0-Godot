@@ -23,6 +23,7 @@ var grid_scale: Vector2
 func _ready() -> void:
 	SignalBus.enemyShipDied.connect(remove_minimap_object)
 	SignalBus.neutralShipDied.connect(remove_minimap_object)
+	SignalBus.spawnShip.connect(add_minimap_ship)
 	grid_scale = get_viewport().get_visible_rect().size / 2 # Var to center minimap objects
 	
 	player = LevelData.player
@@ -56,9 +57,22 @@ func scale_minimap() -> void:
 		node.scale = Vector2(0.6, 0.6)
 
 
+func add_minimap_ship(ship:Utility.SHIP_TYPES) -> void:
+	var texture_rect: TextureRect = TextureRect.new()
+	texture_rect.texture = object_texture
+	texture_rect.modulate = Color.RED  # Default color for enemy ships
+	texture_rect.size = Vector2(5, 5)
+	texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER  # Set anchor to center
+	texture_rect.add_to_group("minimap_obj")
+	
+	self.add_child(texture_rect)
+	enemyShips.append(texture_rect)
+	ship_to_object[ship] = texture_rect  # Map ship type to TextureRect
+
+
 func create_minimap_objects() -> void:
 	clear_objects()
-	for enemy:EnemyCharacter in LevelData.enemyShips:
+	for enemy:FactionCharacter in LevelData.enemyShips:
 		if enemy:
 			var texture_rect: TextureRect = TextureRect.new()
 			texture_rect.texture = object_texture
@@ -130,7 +144,7 @@ func create_minimap_objects() -> void:
 func update_minimap() -> void:
 	if enemyShips:
 		count = 0
-		for character:EnemyCharacter in LevelData.enemyShips:
+		for character:FactionCharacter in LevelData.enemyShips:
 			var globalDistance:Vector2 = character.global_position - player.global_position
 			enemyShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1

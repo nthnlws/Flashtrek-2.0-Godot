@@ -6,7 +6,7 @@ extends Node
 @export var Starbase: PackedScene
 @export var PlayerSpawnArea: PackedScene
 @export var Sun: PackedScene
-@export var EnemyShip: PackedScene
+@export var FactionShip: PackedScene
 @export var NeutralShip: PackedScene
 @export var Player: PackedScene
 
@@ -23,6 +23,7 @@ func _ready() -> void:
 	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
 	SignalBus.spawnLoot.connect(spawn_loot)
 	SignalBus.triggerGalaxyWarp.connect(save_ship_data.unbind(1))
+	SignalBus.spawnShip.connect(spawn_faction_ship)
 	
 	instantiate_new_system_nodes() # Init spawn for all level nodes
 	get_parent().generate_system_info() # Generate info for all systems
@@ -31,6 +32,23 @@ func _ready() -> void:
 	save_ship_data()
 
 
+func spawn_faction_ship(ship_type:Utility.SHIP_TYPES) -> void:
+	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
+	var position: Vector2 = LevelData.player.global_position
+	var faction_ship:FactionCharacter = FactionShip.instantiate()
+	faction_ship.add_to_group("level_nodes")
+	faction_ship.add_to_group("enemy_ships")
+	faction_ship.ship_type = ship_type
+	faction_ship.global_position = position
+	LevelData.enemyShips.append(faction_ship)
+	ship_folder.add_child(faction_ship)
+
+	faction_ship.hp_max = faction_ship.hp_max * system_data["ship_health_mult"]
+	faction_ship.damage_mult = faction_ship.damage_mult * system_data["enemy_damage_mult"]
+	faction_ship.name = "ManualFactionShip"
+	
+	
+	
 func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -> void:
 	for i in number:
 		var new_drop:UpgradePickup = item_pickup.instantiate()
@@ -85,19 +103,21 @@ func _change_system(targetSystem:String) -> void:
 
 func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 	for i:int in range(PLANET_COUNT):
-		var new_enemy:EnemyCharacter = EnemyShip.instantiate()
-		new_enemy.add_to_group("level_nodes")
-		new_enemy.add_to_group("enemy_ships")
-		LevelData.enemyShips.append(new_enemy)
-		ship_folder.add_child(new_enemy)
+		var faction_ship:FactionCharacter = FactionShip.instantiate()
+		faction_ship.add_to_group("level_nodes")
+		faction_ship.add_to_group("enemy_ships")
+		faction_ship.ship_type = Utility.SHIP_TYPES.Sampson_Class
+		LevelData.enemyShips.append(faction_ship)
+		ship_folder.add_child(faction_ship)
 
-		new_enemy.hp_max = new_enemy.hp_max * system_data["ship_health_mult"]
-		new_enemy.damage_mult = new_enemy.damage_mult * system_data["enemy_damage_mult"]
-		new_enemy.name = "Enemy_" + str(i)
+		faction_ship.hp_max = faction_ship.hp_max * system_data["ship_health_mult"]
+		faction_ship.damage_mult = faction_ship.damage_mult * system_data["enemy_damage_mult"]
+		faction_ship.name = "Enemy_" + str(i)
 	for i:int in range(PLANET_COUNT):
 		var new_neutral:NeutralCharacter = NeutralShip.instantiate()
 		new_neutral.add_to_group("level_nodes")
 		new_neutral.add_to_group("neutral_ships")
+		new_neutral.ship_type = Utility.SHIP_TYPES.Merchantman
 		LevelData.neutralShips.append(new_neutral)
 		ship_folder.add_child(new_neutral)
 		
@@ -105,7 +125,7 @@ func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 		new_neutral.name = "Neutral_" + str(i)
 
 
-func generate_enemy_positions(enemy_ships:Array[EnemyCharacter]) -> void:
+func generate_enemy_positions(enemy_ships:Array[FactionCharacter]) -> void:
 	var planets = LevelData.planets
 	var max_spawn_distance: int = 1500
 	var min_spawn_distance: int = 500
@@ -149,7 +169,7 @@ func sync_neutral_to_dict(targetSystem:String, neutral_array:Array[NeutralCharac
 		n.shield.sp_current = ship_data["current_sp"]
 
 
-func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[EnemyCharacter]) -> void:
+func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[FactionCharacter]) -> void:
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
 	for e in enemy_array:
 		var ship_data:Dictionary = sync_system["enemies"][str(e.name)]
@@ -197,7 +217,7 @@ func sync_planets_to_dict(targetSystem:String) -> void:
 			LevelData.unused_planets[i].name = "Unused Planet" + str(i)
 
 
-func save_ship_data(enemy_array:Array[EnemyCharacter] = LevelData.enemyShips, neutral_array:Array[NeutralCharacter] = LevelData.neutralShips) -> void:
+func save_ship_data(enemy_array:Array[FactionCharacter] = LevelData.enemyShips, neutral_array:Array[NeutralCharacter] = LevelData.neutralShips) -> void:
 	var current_system:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
 	
 	current_system.get("enemies")
@@ -205,7 +225,7 @@ func save_ship_data(enemy_array:Array[EnemyCharacter] = LevelData.enemyShips, ne
 	
 	#if current_system["enemies"].is_empty():
 		#current_system["enemies_defeated"] = true
-	for ship:EnemyCharacter in enemy_array:
+	for ship:FactionCharacter in enemy_array:
 		current_system["enemies"][str(ship.name)] = {
 			"position": ship.global_position,
 			"shield_state":ship.shield_on,
