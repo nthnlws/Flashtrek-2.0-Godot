@@ -28,7 +28,7 @@ enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
 
 # Used for global references to dict ship data JSON
 enum SHIP_TYPES {
-	Merchantman,
+	Merchantman,				#0
 	Keldon_Class,
 	batlh_Class,
 	JemHadar,
@@ -38,7 +38,7 @@ enum SHIP_TYPES {
 	Soyuz_Class,
 	Miranda_Class,
 	Nimitz_Class,
-	Freedom_Class,
+	Freedom_Class,				#10
 	Intrepid_Class,
 	Niagara_Class,
 	Talarian_Freighter,
@@ -48,7 +48,7 @@ enum SHIP_TYPES {
 	Klingon_Bird_of_Prey,
 	Walker_Class,
 	Sovereign_Class,
-	Malachowski_Class,
+	Malachowski_Class,			#20
 	Miranda_Class_Lantree_variant,
 	Nova_Class,
 	Constitution_Class_Strange_New_Worlds,
@@ -58,7 +58,8 @@ enum SHIP_TYPES {
 	Hideki_Class,
 	Qugh_Class,
 	Hiawatha_Class,
-	Mars_Synth_Defense_Ship,
+	Mars_Synth_Defense_Ship,	 #30
+	Mogai_Class,
 	Intrepid_Class_Aeroshuttle,
 	Gagarin_Class,
 	Saber_Class,
@@ -67,7 +68,7 @@ enum SHIP_TYPES {
 	Georgiou_Class,
 	Defiant_Class,
 	Cheyenne_Class,
-	Peregrine_Class,
+	Peregrine_Class,			 #40
 	Odyssey_Class,
 	D5_Class,
 	Risian_Corvette,
@@ -77,7 +78,7 @@ enum SHIP_TYPES {
 	Cardenas_Class,
 	Vesta_Class,
 	Miranda_Class_Antares_variant,
-	Challenger_Class,
+	Challenger_Class,			 #50
 	Constitution_II_Class,
 	Constitution_III_Class,
 	Galaxy_Class,
@@ -87,7 +88,7 @@ enum SHIP_TYPES {
 	Dhailkhina_Class,
 	Sampson_Class,
 	Excelsior_Class,
-	Class_III_Neutronic_Fuel_Carrier_Kobayashi_Maru,
+	Class_III_Neutronic_Fuel_Carrier_Kobayashi_Maru, #60
 	Shepard_Class,
 	Norway_Class,
 	California_Class,
@@ -97,7 +98,7 @@ enum SHIP_TYPES {
 	Groumall_Freighter,
 	Tellarite_Cruiser,
 	Magee_Class,
-	bortaS_bIr_Class,
+	bortaS_bIr_Class,			#70
 	Dia_Vectau_Class,
 	Hernandez_Class,
 	Excelsior_Class_Refit,
@@ -107,7 +108,7 @@ enum SHIP_TYPES {
 	Sagan_Class,
 	Sutherland_Class,
 	Nebula_Class_Phoenix_variant,
-	La_Sirena,
+	La_Sirena,					#80
 	Monaveen,
 	Risian_Luxury_Cruiser,
 	Brel_Class,
@@ -117,7 +118,7 @@ enum SHIP_TYPES {
 	Ross_Class,
 	Akira_Class,
 	Ambassador_Class,
-	Excelsior_II_Class,
+	Excelsior_II_Class,			#90
 	Hoover_Class,
 	Nebula_Class,
 }

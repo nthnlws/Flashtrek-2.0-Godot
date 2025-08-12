@@ -49,8 +49,10 @@ func set_faction(faction) -> void:
 
 
 func set_ship_type(i: Utility.SHIP_TYPES) -> void:
+	#print(Utility.SHIP_TYPES.keys()[i] + " " + str(i))
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[i]
 	ship_sprite.texture.region =  Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
+	
 
 
 func set_gray_out(state:bool) -> void:

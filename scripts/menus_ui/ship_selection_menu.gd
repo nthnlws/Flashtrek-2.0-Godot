@@ -27,8 +27,9 @@ var klingon_unlocks:Dictionary = {
 }
 
 var romulan_unlocks:Dictionary = {
-	Utility.SHIP_TYPES.Dderidex_Class: 5000,
-	Utility.SHIP_TYPES.Dhailkhina_Class: 10000,
+	Utility.SHIP_TYPES.Dhailkhina_Class: 40000,
+	Utility.SHIP_TYPES.Dderidex_Class: 8000,
+	Utility.SHIP_TYPES.Mogai_Class: 10000,
 }
 
 var neutral_unlocks:Dictionary = {
@@ -71,16 +72,16 @@ func _update_faction_reputations(faction:Utility.FACTION, new_score:float) -> vo
 
 
 func _update_ship_unlocks(faction:Utility.FACTION, new_score:float) -> void:
-	print("new rep: %s for faction %s" % [new_score, faction])
+	#print("new rep: %s for faction %s" % [new_score, faction])
 	match faction:
 		Utility.FACTION.FEDERATION:
 			for frame:ShipSelector in frames:
 				if frame.ship_faction == Utility.FACTION.FEDERATION and federation_unlocks.has(frame.current_ship_type):
 					if FederationRep >= federation_unlocks[frame.current_ship_type]:
-						print('ungreying fed frame: %s' % frame.name)
+						#print('ungreying fed frame: %s' % frame.name)
 						frame.set_gray_out(false)
 					else:
-						print('greying fed frame: %s' % frame.name)
+						#print('greying fed frame: %s' % frame.name)
 						frame.set_gray_out(true)
 		Utility.FACTION.KLINGON:
 			for frame:ShipSelector in frames:

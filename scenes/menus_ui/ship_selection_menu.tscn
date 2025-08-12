@@ -91,13 +91,13 @@ theme_override_constants/separation = 30
 
 [node name="Control" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 53
+current_ship_type = 54
 grayed_out = false
 ship_faction = 0
 
 [node name="Control2" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 37
+current_ship_type = 38
 ship_faction = 0
 
 [node name="Control3" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
@@ -107,17 +107,17 @@ ship_faction = 0
 
 [node name="Control4" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 46
+current_ship_type = 47
 ship_faction = 0
 
 [node name="Control5" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 62
+current_ship_type = 63
 ship_faction = 0
 
 [node name="Control6" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 50
+current_ship_type = 51
 ship_faction = 0
 
 [node name="KlingonGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
@@ -127,17 +127,17 @@ theme_override_constants/separation = 30
 
 [node name="Control" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 82
+current_ship_type = 83
 ship_faction = 1
 
 [node name="Control2" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 41
+current_ship_type = 42
 ship_faction = 1
 
 [node name="Control3" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 54
+current_ship_type = 55
 ship_faction = 1
 
 [node name="Control4" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
@@ -159,16 +159,17 @@ theme_override_constants/separation = 30
 
 [node name="Control" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 83
+current_ship_type = 57
 ship_faction = 2
 
 [node name="Control2" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 56
+current_ship_type = 84
 ship_faction = 2
 
 [node name="Control3" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
+current_ship_type = 31
 ship_faction = 2
 
 [node name="Control4" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
@@ -190,11 +191,11 @@ theme_override_constants/separation = 30
 
 [node name="Control" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 79
+current_ship_type = 80
 
 [node name="Control2" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 67
+current_ship_type = 68
 
 [node name="Control3" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
@@ -206,11 +207,11 @@ current_ship_type = 26
 
 [node name="Control5" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 42
+current_ship_type = 43
 
 [node name="Control6" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
-current_ship_type = 80
+current_ship_type = 81
 
 [node name="vert_gray" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0.470588)

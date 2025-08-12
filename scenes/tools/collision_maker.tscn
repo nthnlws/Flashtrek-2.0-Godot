@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgvcoy4y2ygwx"]
+
+[ext_resource type="Texture2D" uid="uid://dsnhk654y1bmp" path="res://assets/textures/ships/Sprite-0001.png" id="1_g6pgu"]
+[ext_resource type="Script" uid="uid://c1t11j6ykdmlp" path="res://scripts/tools/collision_maker.gd" id="2_b6uka"]
+
+[node name="Node2D" type="Sprite2D"]
+texture = ExtResource("1_g6pgu")
+script = ExtResource("2_b6uka")
