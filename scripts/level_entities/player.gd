@@ -1,12 +1,15 @@
 extends CharacterBody2D
 class_name Player
 
+
+@onready var cloak_anim: AnimationPlayer = $PlayerSprite/CloakAnim
 @onready var intersection_line: Line2D = $intersection_line
 
 var shoot_cd:bool = false
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
 var alive: bool = true
+var cloaked: bool = false
 
 var overdrive_active:bool = false
 var shield_active:bool = false
@@ -351,7 +354,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 
 func shoot_torpedo() -> void:
 	var t: Area2D = torpedo_scene.instantiate()
-	if energy_current > t.energy_cost and overdriveTime == false and Navigation.in_galaxy_warp == false:
+	if _can_shoot(t):
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.z_index = 0
@@ -366,6 +369,13 @@ func shoot_torpedo() -> void:
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(t)
+
+
+func _can_shoot(t:Area2D) -> bool:
+	if energy_current > t.energy_cost and overdriveTime == false\
+	 and Navigation.in_galaxy_warp == false and cloaked == false:
+		return true
+	else: return false
 
 
 func energy_drain(energy: float) -> void:
@@ -476,12 +486,6 @@ func take_damage(damage:float, hit_pos: Vector2) -> void:
 			killPlayer()
 
 
-func cloak_ship(toggle: String, length:float) -> void:
-	anim.speed_scale = 4/length
-	sprite.material = TELEPORT_FADE_MATERIAL
-	anim.play(toggle)
-
-
 func velocity_check() -> bool:
 	# Check velocity warp criteria
 	var base_check = (
@@ -533,7 +537,7 @@ func galaxy_warp_out() -> void:
 	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 	
 	await get_tree().create_timer(2.5).timeout
-	cloak_ship("cloak", 4.0)
+	cloak_ship(3.0)
 	
 	await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
 	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
@@ -621,3 +625,36 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 				shield.sp_max = shield.sp_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			Stats.DamageMult = Stats.DamageMult + mult_step
+
+
+func cloak_ship(length:float) -> void:
+	cloaked = true
+	
+	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
+	var new_mat = ShaderMaterial.new()
+	new_mat.shader = cloak_shader
+	new_mat.resource_local_to_scene = true
+	sprite.material = new_mat
+	
+	cloak_anim.speed_scale = 2/length
+	cloak_anim.play("cloak")
+	await cloak_anim.animation_finished
+	
+	var cloak_fill = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
+	var new_mat2 = cloak_fill
+	new_mat2.resource_local_to_scene = true
+	sprite.material = new_mat2
+
+
+func uncloak_ship(length:float) -> void:
+	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
+	var new_mat = ShaderMaterial.new()
+	new_mat.shader = cloak_shader
+	new_mat.resource_local_to_scene = true
+	sprite.material = new_mat
+	
+	cloak_anim.speed_scale = 2/length
+	cloak_anim.play("uncloak")
+	await cloak_anim.animation_finished
+	
+	cloaked = false

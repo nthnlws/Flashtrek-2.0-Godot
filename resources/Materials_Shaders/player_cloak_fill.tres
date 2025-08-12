@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dqhokiuj50pek"]
+
+[ext_resource type="Shader" uid="uid://bxs62v6ygtxwj" path="res://resources/Materials_Shaders/solid_fill.gdshader" id="1_js7am"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_js7am")
+shader_parameter/fill_color = Color(0.015, 0.015, 0.015, 0.7)
+shader_parameter/fill_amount = 1.0

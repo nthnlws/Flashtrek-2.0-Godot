@@ -82,7 +82,7 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if parent is not Player: # Only process for player
+	if parent is not Player or parent.cloaked: # Only process for player
 		return
 		
 	if Input.is_action_just_pressed("right_click"):
@@ -96,11 +96,13 @@ func _input(event: InputEvent) -> void:
 			particles_OFF()
 			fade_laser_OFF()
 
+
 func _handle_death() -> void:
 	fade_laser_OFF()
 	particles_OFF()
 	target = null
 	accumulated_damage = 0
+
 
 func _get_laser_color(target: String) -> String:
 	if target == "shield_area":
@@ -108,14 +110,13 @@ func _get_laser_color(target: String) -> String:
 	elif target == "hitbox_area":
 		return Utility.damage_red
 	else: return Utility.damage_red
-	
+
 
 func _set_laser_distance(length: float) -> void:
 	laser.material.set_shader_parameter("cutoff_x_pixel", length)
 	path_particles.position.y = -length/2
 	path_particles.process_material.emission_box_extents = Vector3(1.0, length/2, 1.0)
 	target_particles.position.y = -length
-
 
 
 func set_laser_color(color: Color) -> void:
@@ -176,12 +177,14 @@ func laser_fizzle_ON() -> void:
 	if !fizzle_sound.playing:
 		fizzle_sound.play()
 
+
 func particles_ON() -> void:
 	if !path_particles.emitting and !target_particles.emitting:
 		path_particles.emitting = true
 		target_particles.emitting = true
 		
 		path_particles.process_material.emission_box_extents.y = laser.size.x/2
+
 
 func particles_OFF() -> void:
 	path_particles.emitting = false

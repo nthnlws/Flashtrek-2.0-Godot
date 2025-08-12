@@ -54,7 +54,7 @@ func _warp_into_new_system(system) -> void:
 	
 	LevelData.player.camera._zoom = Vector2(0.4, 0.4)
 	LevelData.player.overdrive_state_change("INSTANT")
-	LevelData.player.cloak_ship("uncloak", 4.0)
+	LevelData.player.uncloak_ship(3.0)
 	
 	await get_tree().create_timer(1.5).timeout
 	
