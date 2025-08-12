@@ -24,7 +24,7 @@ var damage:float = 15.0
 
 func _ready() -> void:
 	area_entered.connect(_on_torpedo_collision)
-	z_index = Utility.Z["Projectiles"]
+	z_index = Utility.Z["Weapons"]
 
 	if GameSettings.unlimitedEnergy == false:
 		drain_energy.emit(energy_cost)
@@ -67,10 +67,10 @@ func _on_torpedo_collision(area: Area2D) -> void:
 	set_deferred("collision.disabled", true)
 	
 	var parent = area.get_parent()
-	var name = area.name
+	var projectile_name = area.name
 	if parent.has_method("take_damage"):
 		parent.take_damage(damage, self.global_position)
-	kill_projectile(name)
+	kill_projectile(projectile_name)
 
 
 func _on_animation_finished() -> void:

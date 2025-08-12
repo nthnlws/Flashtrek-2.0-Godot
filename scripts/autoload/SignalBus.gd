@@ -15,6 +15,8 @@ signal updateScore(score:int)
 signal enteredPlanetComm(planet:Node2D)
 signal exitedPlanetComm(planet:Node2D)
 
+signal reputationChanged(faction:Utility.FACTION, score:float)
+
 # Player
 signal playerDied
 signal playerRespawned
@@ -45,9 +47,9 @@ signal BottomLeft_clicked
 signal BottomRight_clicked
 signal HUDchanged(scale:float)
 
-signal toggleQ2HUD(state:String)
-signal toggleQ3HUD(state:String)
-signal toggleQ4HUD(state:String)
+signal toggleQ2HUD(state:String) # States: "on", "off"
+signal toggleQ3HUD(state:String) # States: "on", "off"
+signal toggleQ4HUD(state:String) # States: "on", "off"
 
 signal joystickMoved(playerDirection:Vector2)
 

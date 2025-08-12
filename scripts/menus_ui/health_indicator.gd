@@ -38,7 +38,7 @@ func fade_indicator(state) -> void:
 func set_bar_position(x: float, y: float):
 	energy_bar.custom_minimum_size = Vector2(y, 20.0)
 	energy_bar.size = Vector2(y, 20.0)
-	energy_bar.position = Vector2(x, 60.0)
+	energy_bar.position = Vector2(x, y)
 
 
 func update_shield_health(new_SP:float) -> void:

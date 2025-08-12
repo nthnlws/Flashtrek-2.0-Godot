@@ -35,6 +35,8 @@ func galaxy_fade_out() -> void:
 
 
 func handlePlayerDied() -> void:
+	SignalBus.toggleQ3HUD.emit("off")
+	SignalBus.toggleQ2HUD.emit("off")
 	%LoadingScreen.visible = true
 	if Navigation.currentSystem != "Solarus":
 		level._change_system("Solarus")

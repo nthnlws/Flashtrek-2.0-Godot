@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://djjxdvhjd147f"]
+
+[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/Neutral_frame.png" id="1_h3uuf"]
+[ext_resource type="Script" uid="uid://drrpthed6v3fy" path="res://scripts/menus_ui/ship_frame.gd" id="3_3s3b2"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="4_0qmj0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l75uu"]
+atlas = ExtResource("4_0qmj0")
+region = Rect2(0, 0, 48, 48)
+filter_clip = true
+
+[node name="Control" type="TextureButton" groups=["selection_frame"]]
+offset_right = 64.0
+offset_bottom = 64.0
+keep_pressed_outside = true
+texture_normal = ExtResource("1_h3uuf")
+stretch_mode = 4
+script = ExtResource("3_3s3b2")
+
+[node name="background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 58.0
+offset_bottom = 58.0
+mouse_filter = 1
+color = Color(0.364706, 0.364706, 0.364706, 1)
+
+[node name="ship_sprite" type="TextureRect" parent="background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(26, 26)
+mouse_filter = 2
+texture = SubResource("AtlasTexture_l75uu")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="gray_out" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.439216, 0.439216, 0.439216, 0.752941)
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]
+[connection signal="mouse_entered" from="background" to="." method="_on_hovered"]
+[connection signal="mouse_exited" from="background" to="." method="_on_mouse_exited"]

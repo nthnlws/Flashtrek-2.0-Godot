@@ -1,18 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene load_steps=8 format=3 uid="uid://b3ruu3xegfccq"]
 
 [ext_resource type="Script" uid="uid://kgsd2ge22qph" path="res://scripts/menus_ui/ship_selection_menu.gd" id="1_3djgo"]
-[ext_resource type="Texture2D" uid="uid://rrf3pe2c2ey7" path="res://assets/textures/UI/Federation_frame.png" id="2_73umq"]
-[ext_resource type="Texture2D" uid="uid://b71d8n3ou78es" path="res://assets/textures/UI/Klingon_frame.png" id="3_8akni"]
-[ext_resource type="Texture2D" uid="uid://dy6fjs8soq55y" path="res://assets/textures/UI/Romulan_frame.png" id="4_y3r6x"]
-[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/Neutral_frame.png" id="5_5wu20"]
-[ext_resource type="Texture2D" uid="uid://wbg8efg148y6" path="res://assets/textures/UI/Federation_frame_pressed.png" id="6_4e0dx"]
 [ext_resource type="Texture2D" uid="uid://digj0ww7e6iir" path="res://assets/textures/UI/starbase_background.png" id="6_pmy4k"]
 [ext_resource type="Texture2D" uid="uid://cn6hk6q2vqimy" path="res://assets/textures/UI/gray_background.png" id="7_6y24t"]
-[ext_resource type="Texture2D" uid="uid://dbdwg26aneknc" path="res://assets/textures/UI/Klingon_frame_pressed.png" id="7_pywhn"]
-[ext_resource type="Texture2D" uid="uid://dp4hhvgp5vey7" path="res://assets/textures/UI/Romulan_frame_pressed.png" id="8_bwows"]
-[ext_resource type="Texture2D" uid="uid://sykblrvv152y" path="res://assets/textures/UI/Neutral_frame_pressed.png" id="9_cwxfv"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="12_lf3ul"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="13_cq87e"]
+[ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_frame.tscn" id="13_y5r6i"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="14_5cpsl"]
 
 [node name="ShipSelectionMenu" type="Control"]
@@ -24,14 +17,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_3djgo")
-federation_frame = ExtResource("2_73umq")
-klingon_frame = ExtResource("3_8akni")
-romulan_frame = ExtResource("4_y3r6x")
-neutral_frame = ExtResource("5_5wu20")
-federation_frame_pressed = ExtResource("6_4e0dx")
-klingon_frame_pressed = ExtResource("7_pywhn")
-romulan_frame_pressed = ExtResource("8_bwows")
-neutral_frame_pressed = ExtResource("9_cwxfv")
 
 [node name="starbase_back" type="TextureRect" parent="."]
 z_index = -2
@@ -95,27 +80,137 @@ theme_override_constants/margin_bottom = 15
 [node name="Grid" type="VBoxContainer" parent="ship_selection_area/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 100
+size_flags_horizontal = 4
+theme_override_constants/separation = 25
+alignment = 1
 
 [node name="FederationGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 30
+
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 53
+grayed_out = false
+ship_faction = 0
+
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 37
+ship_faction = 0
+
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 5
+ship_faction = 0
+
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 46
+ship_faction = 0
+
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 62
+ship_faction = 0
+
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 50
+ship_faction = 0
 
 [node name="KlingonGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 30
+
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 82
+ship_faction = 1
+
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 41
+ship_faction = 1
+
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 54
+ship_faction = 1
+
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 1
+
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 1
+
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 1
 
 [node name="RomulanGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 30
+
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 83
+ship_faction = 2
+
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 56
+ship_faction = 2
+
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 2
+
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 2
+
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 2
+
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+ship_faction = 2
 
 [node name="NeutralGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 30
+
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 79
+
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 67
+
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 14
+
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 26
+
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 42
+
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+layout_mode = 2
+current_ship_type = 80
 
 [node name="vert_gray" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0.470588)

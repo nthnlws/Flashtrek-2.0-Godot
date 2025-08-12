@@ -64,7 +64,6 @@ func create_minimap_objects() -> void:
 			texture_rect.texture = object_texture
 			texture_rect.modulate = Color.RED # Red
 			texture_rect.size = Vector2(5, 5)
-			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			
@@ -79,7 +78,6 @@ func create_minimap_objects() -> void:
 			texture_rect.texture = object_texture
 			texture_rect.modulate = Color.SPRING_GREEN
 			texture_rect.size = Vector2(5, 5)
-			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			
@@ -94,7 +92,6 @@ func create_minimap_objects() -> void:
 			texture_rect.texture = object_texture
 			texture_rect.modulate = Color.WHITE
 			texture_rect.size = Vector2(7, 7)
-			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			
@@ -108,7 +105,6 @@ func create_minimap_objects() -> void:
 			texture_rect.texture = object_texture
 			texture_rect.modulate = Color.SLATE_BLUE
 			texture_rect.size = Vector2(7, 7)
-			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			
@@ -123,7 +119,6 @@ func create_minimap_objects() -> void:
 			texture_rect.modulate = Color.YELLOW
 			texture_rect.size = Vector2(5, 5)
 			texture_rect.scale = Vector2(0.75, 0.75)
-			texture_rect.layout_mode = 1 # Sets to Anchors
 			texture_rect.anchors_preset = LayoutPreset.PRESET_CENTER # Set anchor to center
 			texture_rect.add_to_group("minimap_obj")
 			

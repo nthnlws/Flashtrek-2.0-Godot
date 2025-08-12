@@ -128,7 +128,7 @@ func _ready() -> void:
 	SignalBus.missionAccepted.connect(mission_accept)
 	SignalBus.finishMission.connect(mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.playerDied.connect(mission_finish)
+	SignalBus.playerDied.connect(clear_mission)
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out.unbind(1))
 	
@@ -569,6 +569,12 @@ func mission_accept(mission_data:Dictionary) -> void:
 	current_cargo += 1
 
 
+func clear_mission() -> void:
+	current_mission.clear()
+	has_mission = false
+	current_cargo = max(0, current_cargo - 1)
+	
+	
 func mission_finish() -> void:
 	if !current_mission.is_empty():
 		var points:int = current_mission["reward"]
@@ -576,13 +582,13 @@ func mission_finish() -> void:
 		SignalBus.updateScore.emit(points)
 		match faction:
 			Utility.FACTION.FEDERATION:
-				Reputation.FederationRep += points
+				SignalBus.reputationChanged.emit(Utility.FACTION.FEDERATION, Reputation.FederationRep + points)
 			Utility.FACTION.KLINGON:
-				Reputation.KlingonRep += points
+				SignalBus.reputationChanged.emit(Utility.FACTION.KLINGON, Reputation.KlingonRep + points)
 			Utility.FACTION.ROMULAN:
-				Reputation.RomulanRep += points
+				SignalBus.reputationChanged.emit(Utility.FACTION.ROMULAN, Reputation.RomulanRep + points)
 			Utility.FACTION.NEUTRAL:
-				Reputation.NeutralRep += points
+				SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, Reputation.NeutralRep + points)
 		current_mission.clear()
 		
 	has_mission = false

@@ -4,6 +4,10 @@ extends Node
 func _ready() -> void:
 	Console.pause_enabled = true
 	
+	_add_cheat_commands()
+
+
+func _add_cheat_commands() -> void:
 	Console.add_command( # Upgrade loot
 		"upgrade", # Command name
 		spawn_loot_command, # Function call
@@ -28,9 +32,31 @@ func _ready() -> void:
 		1, # Required params
 		"Kills random ship based on input type (Neutral or Enemy)", # Description
 		)
-	var kill_params: Array[String] = ["neutral", "enemy"]
+	var kill_params: Array = ["neutral", "enemy"]
 	Console.add_command_autocomplete_list("kill_command", PackedStringArray(kill_params))
 
+	Console.add_command( # Upgrade loot
+		"score", # Command name
+		add_score, # Function call
+		["faction", "number"], # Argument params
+		2, # Required params
+		"Sets player faction score to number", # Description
+		)
+	var factions: Array = ["federation", "romulan", "klingon", "neutral"]
+	Console.add_command_autocomplete_list("add_score", PackedStringArray(factions))
+
+func add_score(faction: String, number: String) -> void:
+	var score:int = int(number)
+	if faction.to_lower() == "fed" or faction.to_lower() == "federation":
+		SignalBus.reputationChanged.emit(Utility.FACTION.FEDERATION, score)
+	if faction.to_lower() == "kling" or faction.to_lower() == "klingon":
+		SignalBus.reputationChanged.emit(Utility.FACTION.KLINGON, score)
+	if faction.to_lower() == "rom" or faction.to_lower() == "romulan":
+		SignalBus.reputationChanged.emit(Utility.FACTION.ROMULAN, score)
+	if faction.to_lower() == "neut" or faction.to_lower() == "neutral":
+		SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, score)
+	else:
+		print("Unknown faction '%s' for score command." % faction)
 
 func spawn_loot_command(type_str: String, number:String = "1") -> void:
 	type_str = type_str.to_upper()

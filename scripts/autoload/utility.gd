@@ -10,16 +10,16 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 	
 	# -- GAME WORLD DYNAMIC OBJECTS --
 	"LootDrops": 5, # Should appear on top of planets but behind ships
-	"NeutralShips": 10, # Player and NPCs will share this base layer
-	"EnemyShips": 11,
-	"Player": 12,
+	"Weapons": 10, # Lasers, torpedoes, etc.
+	"NeutralShips": 20, # Player and NPCs will share this base layer
+	"EnemyShips": 25,
+	"Player": 30,
 	
 	# -- GAME WORLD EFFECTS --
-	"Projectiles": 15, # Lasers, torpedoes, etc., on top of ships
-	"Effects": 20, # Explosions, shield hits, etc., on top of everything
+	"Effects": 50, # Explosions, shield hits, etc., on top of everything
 	
 	# -- LEVEL STATIC OBJECTS --
-	"WorldBorders": 30,
+	"WorldBorders": 60,
 }
 
 var player_name: String = "USS Enterprise"
