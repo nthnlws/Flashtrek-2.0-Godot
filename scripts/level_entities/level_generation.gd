@@ -98,7 +98,6 @@ func _change_system(targetSystem:String) -> void:
 	sync_sun_to_dict(targetSystem)
 
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
-	%MiniMap.scale_minimap()
 
 
 func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
@@ -106,9 +105,11 @@ func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 		var faction_ship:FactionCharacter = FactionShip.instantiate()
 		faction_ship.add_to_group("level_nodes")
 		faction_ship.add_to_group("enemy_ships")
-		faction_ship.ship_type = Utility.SHIP_TYPES.Sampson_Class
+		
+		faction_ship.ship_type = _get_faction_ship(system_data)
 		LevelData.enemyShips.append(faction_ship)
 		ship_folder.add_child(faction_ship)
+		
 
 		faction_ship.hp_max = faction_ship.hp_max * system_data["ship_health_mult"]
 		faction_ship.damage_mult = faction_ship.damage_mult * system_data["enemy_damage_mult"]
@@ -117,12 +118,39 @@ func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 		var new_neutral:NeutralCharacter = NeutralShip.instantiate()
 		new_neutral.add_to_group("level_nodes")
 		new_neutral.add_to_group("neutral_ships")
-		new_neutral.ship_type = Utility.SHIP_TYPES.Merchantman
+
+		new_neutral.ship_type = _get_neutral_ship(system_data)
 		LevelData.neutralShips.append(new_neutral)
 		ship_folder.add_child(new_neutral)
 		
 		new_neutral.hp_max = new_neutral.hp_max * system_data["ship_health_mult"]
 		new_neutral.name = "Neutral_" + str(i)
+
+
+func _get_neutral_ship(system_data:Dictionary) -> Utility.SHIP_TYPES:
+	var neutral_ship_array:Array[Utility.SHIP_TYPES] = [
+		Utility.SHIP_TYPES.Merchantman,
+		Utility.SHIP_TYPES.DKora_Marauder,
+		Utility.SHIP_TYPES.Hideki_Class,
+		Utility.SHIP_TYPES.Tellarite_Cruiser,
+		Utility.SHIP_TYPES.Talarian_Freighter,
+	]
+	return neutral_ship_array.pick_random()
+
+
+func _get_faction_ship(system_data:Dictionary) -> Utility.SHIP_TYPES:
+	match system_data["faction"] as Utility.FACTION:
+		Utility.FACTION.FEDERATION:
+			return Utility.SHIP_TYPES.Ambassador_Class
+		Utility.FACTION.KLINGON:
+			return Utility.SHIP_TYPES.Brel_Class
+		Utility.FACTION.ROMULAN:
+			return Utility.SHIP_TYPES.Dderidex_Class
+		Utility.FACTION.NEUTRAL:
+			return Utility.SHIP_TYPES.JemHadar
+		_:
+			push_error("Unknown faction type %s" % system_data["faction"])
+			return Utility.SHIP_TYPES.Merchantman
 
 
 func generate_enemy_positions(enemy_ships:Array[FactionCharacter]) -> void:

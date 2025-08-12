@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://d02qw0b8fwpm0"]
+
+[ext_resource type="Texture2D" uid="uid://crn20wba425xj" path="res://assets/textures/Minimap/minimap_object.png" id="1_ocqmn"]
+
+[node name="minimap_object" type="TextureRect" groups=["minimap_obj"]]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -270.0
+offset_right = -471.0
+offset_bottom = -261.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_ocqmn")

@@ -9,6 +9,7 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @onready var collision_shape: CollisionPolygon2D = $WorldCollisionShape
 @onready var shield: Node = $Shield
 @onready var animation: AnimatedSprite2D = $hull_explosion
+@onready var cloak_animation: AnimationPlayer = $Sprite2D/CloakAnimation
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
@@ -210,3 +211,12 @@ func take_damage(damage:float, hit_pos: Vector2) -> void:
 	
 	if hp_current <= 0 and alive:
 		explode()
+
+
+func cloak_ship(length:float) -> void:
+	cloak_animation.speed_scale = 2/length
+	cloak_animation.play("cloak")
+
+func uncloak_ship(length:float) -> void:
+	cloak_animation.speed_scale = 2/length
+	cloak_animation.play("uncloak")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bwobserx3nqqe"]
 
 [ext_resource type="Script" uid="uid://dyvc6cc4unpfy" path="res://python_helpers/ship_tester.gd" id="1_cusbe"]
-[ext_resource type="Shader" uid="uid://xoe0le12ln0y" path="res://resources/Materials_Shaders/teleport_VERTICAL.gdshader" id="2_5hrua"]
+[ext_resource type="Shader" uid="uid://xoe0le12ln0y" path="res://resources/Materials_Shaders/cloak_VERTICAL.gdshader" id="2_5hrua"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_hqeld"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g4eht"]

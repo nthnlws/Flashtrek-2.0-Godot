@@ -167,7 +167,7 @@ func instantiate_bullet(bullet: Area2D) -> void:
 
 
 func _on_agro_box_body_entered(body) -> void:
-	print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
+	#print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
 	if body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
 		enemyAgro =  true
 		enemy_target = body

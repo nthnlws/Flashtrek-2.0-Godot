@@ -25,10 +25,9 @@ var overdrivem_v:float = 1.0
 var has_mission: bool = false
 var current_mission: Dictionary = {}
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
-var animation_scale:Vector2 = Vector2(1, 1)
 
 const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
-const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/teleport_material_VERTICAL.tres")
+const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/cloak_material_VERTICAL.tres")
 
 @onready var muzzle:Node2D = $Muzzle
 @onready var timer:Timer = $regen_timer
@@ -36,7 +35,7 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var shield:Node2D = $playerShield
 @onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
 @onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
-@onready var animation:AnimationPlayer = $AnimationPlayer
+@onready var anim:AnimationPlayer = $AnimationPlayer
 @onready var camera:Camera2D = $Camera2D
 
 @export var damage_indicator: PackedScene
@@ -477,15 +476,10 @@ func take_damage(damage:float, hit_pos: Vector2) -> void:
 			killPlayer()
 
 
-func _teleport_shader_toggle(toggle: String) -> void:
-	if toggle == "cloak":
-		sprite.material = TELEPORT_FADE_MATERIAL
-		var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-		tween.tween_property(sprite.material, "shader_parameter/progress", 1.0, 4.0)
-	elif toggle == "uncloak":
-		sprite.material = TELEPORT_FADE_MATERIAL
-		var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-		tween.tween_property(sprite.material, "shader_parameter/progress", 0.0, 4.0)
+func cloak_ship(toggle: String, length:float) -> void:
+	anim.speed_scale = 4/length
+	sprite.material = TELEPORT_FADE_MATERIAL
+	anim.play(toggle)
 
 
 func velocity_check() -> bool:
@@ -522,7 +516,7 @@ func galaxy_warp_out() -> void:
 	
 	
 	await get_tree().create_timer(1.0).timeout #3.0 sec
-	create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0)
+	create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	galaxy_particles.emitting = true
 	
 	#Camera Zoom out
@@ -539,7 +533,7 @@ func galaxy_warp_out() -> void:
 	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 	
 	await get_tree().create_timer(2.5).timeout
-	_teleport_shader_toggle("cloak")
+	cloak_ship("cloak", 4.0)
 	
 	await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
 	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)

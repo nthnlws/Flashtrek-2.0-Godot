@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c7htollnbbtij"]
 
-[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/teleport_CENTER.gdshader" id="1_hya10"]
+[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="1_hya10"]
 
 [resource]
 shader = ExtResource("1_hya10")
