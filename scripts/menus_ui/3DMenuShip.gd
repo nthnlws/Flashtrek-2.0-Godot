@@ -24,8 +24,8 @@ func _process(delta: float) -> void:
 	else: distance_multiplier = 1.00
 	
 	
-	volume_factor = clamp(-0.007826 * distanceToCamera - 1.8, -12, -3)
-	engine.volume_db = volume_factor
+	#volume_factor = clamp(-0.007826 * distanceToCamera - 1.8, -12, -3)
+	#engine.volume_db = volume_factor
 	
 func _physics_process(delta: float) -> void:
 	var current_speed: float = MOVE_SPEED

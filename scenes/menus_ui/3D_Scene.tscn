@@ -63,6 +63,6 @@ transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622
 [node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D"]
 unique_name_in_owner = true
 stream = ExtResource("5_sixrc")
-volume_db = -25.0
+volume_db = -20.0
 pitch_scale = 0.9
 autoplay = true

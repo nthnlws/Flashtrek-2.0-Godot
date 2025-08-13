@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="1_jc0wf"]
 [ext_resource type="Texture2D" uid="uid://bfihp00rslko2" path="res://assets/textures/UI/main_menu/menu_button.png" id="1_q7y3f"]
-[ext_resource type="Script" uid="uid://dn8dfejdx8fh2" path="res://scenes/menus_ui/menu_tab_button.gd" id="1_qwxu6"]
+[ext_resource type="Script" uid="uid://dn8dfejdx8fh2" path="res://scripts/menus_ui/menu_tab_button.gd" id="1_qwxu6"]
 [ext_resource type="Script" uid="uid://bcfk7xye7h7fe" path="res://scripts/menus_ui/text_button_area.gd" id="2_q7y3f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_83pdj"]

@@ -14,3 +14,10 @@ signal button_pressed
 
 func _on_button_pressed() -> void:
 	button_pressed.emit()
+
+
+func _release_focus() -> void:
+	text_label.pressed = false
+	text_label.hover = false
+	text_label._on_mouse_exited()
+	

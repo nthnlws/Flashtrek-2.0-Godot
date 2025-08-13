@@ -48,14 +48,14 @@ script = ExtResource("6_tctoi")
 [node name="Fed - Mesa" type="AudioStreamPlayer" parent="Music"]
 unique_name_in_owner = true
 stream = ExtResource("7_ddeio")
-volume_db = -15.0
+volume_db = -20.0
 
 [node name="Klingon - Subterranean" type="AudioStreamPlayer" parent="Music"]
 unique_name_in_owner = true
 stream = ExtResource("8_tyipu")
-volume_db = -20.0
+volume_db = -24.0
 
 [node name="Romulan - Rising Dawn" type="AudioStreamPlayer" parent="Music"]
 unique_name_in_owner = true
 stream = ExtResource("9_cw5bc")
-volume_db = -15.0
+volume_db = -20.0

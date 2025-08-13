@@ -4,9 +4,9 @@ extends Node
 @onready var klingon_music: AudioStreamPlayer = %"Klingon - Subterranean"
 @onready var rom_music: AudioStreamPlayer = %"Romulan - Rising Dawn"
 
-var fed_volume: float = -15.0
-var rom_volume: float = -20.0
-var klingon_volume: float = -15.0
+var fed_volume: float = -20.0
+var rom_volume: float = -24.0
+var klingon_volume: float = -20.0
 
 
 func _ready() -> void:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=3 uid="uid://b28vbasgqihyh"]
 
-[ext_resource type="Script" uid="uid://dpalqg2cengf" path="res://scripts/menus_ui/main_menu.gd" id="1_k143m"]
+[ext_resource type="Script" uid="uid://dpalqg2cengf" path="res://scripts/menus_ui/old_menu.gd" id="1_k143m"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="2_1bju2"]
 [ext_resource type="Script" uid="uid://c1worij74iy2k" path="res://scripts/menus_ui/ParallaxBackground.gd" id="3_u5b7k"]
 [ext_resource type="Texture2D" uid="uid://bn7pmakf7alos" path="res://assets/textures/main_menu_star_background.png" id="3_ynlqk"]

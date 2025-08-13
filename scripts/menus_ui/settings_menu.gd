@@ -1,9 +1,10 @@
 extends CanvasLayer
 
 @onready var _bus := AudioServer.get_bus_index("Master")
+@export var closeButton:Button
 
 var file: FileAccess
-
+signal close_button_pressed
 
 func _ready() -> void:
 	# Creates default save file on first load, otherwise restores settings to previous state
@@ -126,3 +127,7 @@ func set_menu_to_savefile(resets: int):
 			child.value = value
 	
 	file.close()
+
+
+func _on_close_button_pressed() -> void:
+	close_button_pressed.emit()

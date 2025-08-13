@@ -3,10 +3,14 @@ extends CanvasLayer
 var is_scrolling:bool = false
 var target_y: float = 0.0
 
+@export var closeButton:Button
+
+signal closed_credits
 const scroll_speed:int = 20
 
 func _ready() -> void:
 	target_y = $ColorRect.position.y
+	_on_visibility_changed()
 	
 func _process(delta: float) -> void:
 	if is_scrolling:
@@ -28,3 +32,7 @@ func _on_visibility_changed() -> void:
 		$Timer.start()
 		await $Timer.timeout
 		is_scrolling = true
+
+
+func _on_close_button_pressed() -> void:
+	closed_credits.emit()

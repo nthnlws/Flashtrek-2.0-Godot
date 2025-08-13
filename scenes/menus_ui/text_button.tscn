@@ -6,6 +6,7 @@
 [node name="TextButton" type="Label"]
 offset_right = 48.0
 offset_bottom = 12.0833
+mouse_filter = 0
 theme_override_fonts/font = ExtResource("1_4c2wq")
 theme_override_font_sizes/font_size = 10
 text = "buttonBUTTON"

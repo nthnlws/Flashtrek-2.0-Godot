@@ -1,0 +1,180 @@
+[gd_scene load_steps=14 format=3 uid="uid://okyqdm864inl"]
+
+[ext_resource type="Script" uid="uid://dasdlanaqwebv" path="res://scripts/menus_ui/main_menu.gd" id="1_ci3rm"]
+[ext_resource type="Texture2D" uid="uid://d2en54x5q83bv" path="res://assets/textures/UI/main_menu/menu_layout.png" id="2_j785f"]
+[ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="3_jsvya"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="4_7rxst"]
+[ext_resource type="Script" uid="uid://c332wn3a0kl8i" path="res://scripts/menus_ui/stardate.gd" id="5_sii2t"]
+[ext_resource type="PackedScene" uid="uid://wn6a7fwifvry" path="res://scenes/menus_ui/tab_button.tscn" id="6_86ijy"]
+[ext_resource type="PackedScene" uid="uid://bq60hxexkpcpi" path="res://scenes/menus_ui/3D_Scene.tscn" id="7_cauqe"]
+[ext_resource type="PackedScene" uid="uid://cqst2wt0kvivm" path="res://scenes/menus_ui/credits.tscn" id="8_huiy3"]
+[ext_resource type="PackedScene" uid="uid://bf1ju8luknc17" path="res://scenes/menus_ui/settings.tscn" id="9_pw3bc"]
+[ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="10_j785f"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_k84q2"]
+font = ExtResource("4_7rxst")
+font_size = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_q7df0"]
+font = ExtResource("4_7rxst")
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_j785f"]
+font_size = 15
+font_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ci3rm")
+
+[node name="MainMenu" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="TextureRect" parent="MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_j785f")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="SystemsReady" parent="MainMenu/MainMenu" instance=ExtResource("3_jsvya")]
+layout_mode = 0
+offset_right = 339.0
+offset_bottom = 69.0
+text = "Systems: READY"
+label_settings = SubResource("LabelSettings_k84q2")
+horizontal_alignment = 1
+vertical_alignment = 1
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(1, 1, 1, 1)
+
+[node name="Stardate" type="Label" parent="MainMenu/MainMenu"]
+layout_mode = 0
+offset_left = 688.0
+offset_top = 496.0
+offset_right = 909.0
+offset_bottom = 544.333
+mouse_filter = 0
+text = "STARDATE: 4513.3"
+label_settings = SubResource("LabelSettings_q7df0")
+script = ExtResource("5_sii2t")
+hover_color = Color(1, 1, 1, 1)
+pressed_color = Color(1, 1, 1, 1)
+metadata/_custom_type_script = "uid://dtc20owbkcnv0"
+
+[node name="Copyright" type="Label" parent="MainMenu/MainMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -233.0
+offset_top = -23.0
+offset_right = -89.0
+offset_bottom = -2.0625
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 8
+text = "© n8thegreat 2025"
+label_settings = SubResource("LabelSettings_j785f")
+vertical_alignment = 1
+
+[node name="Version" type="Label" parent="MainMenu/MainMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -23.0
+offset_right = 151.0
+offset_bottom = -0.666687
+grow_vertical = 0
+size_flags_horizontal = 8
+text = "v0.0.09"
+label_settings = SubResource("LabelSettings_j785f")
+vertical_alignment = 1
+
+[node name="LeftMenu" type="VBoxContainer" parent="MainMenu/MainMenu"]
+layout_mode = 0
+offset_top = 65.0
+offset_right = 388.0
+offset_bottom = 921.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/separation = 45
+
+[node name="HSeparator" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu"]
+layout_mode = 2
+
+[node name="SinglePlayer" parent="MainMenu/MainMenu/LeftMenu" instance=ExtResource("6_86ijy")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator2" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu"]
+layout_mode = 2
+
+[node name="SettingsButton" parent="MainMenu/MainMenu/LeftMenu" instance=ExtResource("6_86ijy")]
+unique_name_in_owner = true
+layout_mode = 2
+tab_text = "Settings"
+
+[node name="HSeparator3" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu"]
+layout_mode = 2
+
+[node name="CreditsButton" parent="MainMenu/MainMenu/LeftMenu" instance=ExtResource("6_86ijy")]
+unique_name_in_owner = true
+layout_mode = 2
+tab_text = "Credits"
+
+[node name="HSeparator4" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu"]
+layout_mode = 2
+
+[node name="ExitGame" parent="MainMenu/MainMenu/LeftMenu" instance=ExtResource("6_86ijy")]
+layout_mode = 2
+tab_text = "Exit Game"
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 244.0
+offset_top = 93.0
+offset_right = -46.0
+offset_bottom = -77.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="3D_Viewport" type="SubViewport" parent="MainMenu/ViewportContainer"]
+handle_input_locally = false
+msaa_3d = 3
+use_debanding = true
+size = Vector2i(670, 370)
+render_target_update_mode = 4
+
+[node name="3D_Menu_Scene" parent="MainMenu/ViewportContainer/3D_Viewport" instance=ExtResource("7_cauqe")]
+
+[node name="Credits" parent="." instance=ExtResource("8_huiy3")]
+layer = 2
+visible = false
+
+[node name="Settings" parent="." instance=ExtResource("9_pw3bc")]
+layer = 3
+visible = false
+
+[node name="audio_manager" parent="." instance=ExtResource("10_j785f")]
+
+[connection signal="button_pressed" from="MainMenu/MainMenu/LeftMenu/SinglePlayer" to="." method="_on_single_player_button_pressed"]
+[connection signal="button_pressed" from="MainMenu/MainMenu/LeftMenu/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="button_pressed" from="MainMenu/MainMenu/LeftMenu/CreditsButton" to="." method="_on_credit_button_clicked"]
+[connection signal="button_pressed" from="MainMenu/MainMenu/LeftMenu/ExitGame" to="." method="_on_exit_button_pressed"]
+[connection signal="closed_credits" from="Credits" to="." method="_on_credits_closed"]
+[connection signal="close_button_pressed" from="Settings" to="." method="_on_settings_closed"]
