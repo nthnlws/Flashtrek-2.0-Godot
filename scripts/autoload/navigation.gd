@@ -4,7 +4,7 @@ var galaxyMapData: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
 var in_galaxy_warp:bool = false
 var currentSystem: String = "Solarus"
-var targetSystem: String = "Solarus" # Currently selected system on galaxy map
+var targetSystem: String = "" # Currently selected system on galaxy map
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var systems: Array = []
@@ -124,7 +124,9 @@ func get_entry_point(angle_rad: float) -> Vector2:
 
 
 func trigger_warp() -> void:
-	if get_system_distance(currentSystem, targetSystem) > LevelData.player.warp_range:
+	#print("current: %s, target: %s" % [currentSystem, targetSystem ])
+	var warp_distance:int = get_system_distance(currentSystem, targetSystem)
+	if  warp_distance > LevelData.player.warp_range:
 		var error_message: String = "Max warp range of %s systems" % LevelData.player.warp_range
 		SignalBus.changePopMessage.emit(error_message)
 		return
@@ -132,13 +134,23 @@ func trigger_warp() -> void:
 		var error_message: String = "Must be stationary and in impulse to warp"
 		SignalBus.changePopMessage.emit(error_message)
 		return
+	if warp_distance == -1:
+		var error_message: String = "You must select a destination system"
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	elif warp_distance == -2:
+		var error_message: String = "Warp destination must not be same as current system"
+		SignalBus.changePopMessage.emit(error_message)
+		return
 	else:
 		SignalBus.triggerGalaxyWarp.emit(targetSystem)
 
 
 func get_system_distance(origin: String, target: String) -> int:
+	if target == "":
+		return -1
 	if origin == target:
-		return 0
+		return -2
 
 	var visited := {}
 	var queue: Array = []

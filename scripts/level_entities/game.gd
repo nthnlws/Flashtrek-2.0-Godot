@@ -125,13 +125,13 @@ func generate_system_variables(system_number) -> Dictionary:
 	
 	# Damage Scaling
 	var enemy_damage_mult: float = 1
-	var damage_scaling_rate: float = 4.0/14.0
-	if system_number <= 6:
+	var damage_scaling_rate: float = 4.0/10.0
+	if system_number <= 10:
 		pass
 	elif system_number <= 20:
-		ship_health_mult = snapped(1 + ((system_number - 6) * health_scaling_rate), 0.01)
-		enemy_damage_mult = snapped(1 + ((system_number - 6) * damage_scaling_rate), 0.01)
-		#print("Health mult equals 1 + (" + str(system_number - 6) + " times scaling rate: %s" % health_scaling_rate + " equals %s" % enemy_health_mult)
+		ship_health_mult = snapped(1 + ((system_number - 10) * health_scaling_rate), 0.01)
+		enemy_damage_mult = snapped(1 + ((system_number - 10) * damage_scaling_rate), 0.01)
+		#print("Health mult equals 1 + (" + str(system_number - 10) + " times scaling rate: %s" % health_scaling_rate + " equals %s" % enemy_health_mult)
 	else: 
 		ship_health_mult = 5.0 # Default double scaling above system 20
 		enemy_damage_mult = 5.0

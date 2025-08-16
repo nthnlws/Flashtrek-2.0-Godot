@@ -537,7 +537,7 @@ func galaxy_warp_out() -> void:
 	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 	
 	await get_tree().create_timer(2.5).timeout
-	cloak_ship(3.0)
+	cloak_ship(3.0, false)
 	
 	await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
 	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
@@ -627,7 +627,7 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 			Stats.DamageMult = Stats.DamageMult + mult_step
 
 
-func cloak_ship(length:float) -> void:
+func cloak_ship(length:float, show_shadow:bool = false) -> void:
 	cloaked = true
 	
 	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
@@ -640,10 +640,11 @@ func cloak_ship(length:float) -> void:
 	cloak_anim.play("cloak")
 	await cloak_anim.animation_finished
 	
-	var cloak_fill = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
-	var new_mat2 = cloak_fill
-	new_mat2.resource_local_to_scene = true
-	sprite.material = new_mat2
+	if show_shadow:
+		var cloak_fill = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
+		var new_mat2 = cloak_fill
+		new_mat2.resource_local_to_scene = true
+		sprite.material = new_mat2
 
 
 func uncloak_ship(length:float) -> void:
