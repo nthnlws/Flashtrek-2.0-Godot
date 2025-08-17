@@ -160,11 +160,10 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	faction = ship_data.FACTION
+	#faction = ship_data.FACTION
 	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
 	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
 	muzzle.position.y = ship_data.MUZZLE_POS * base_scale.y
-	faction = ship_data.FACTION
 	
 	var rawColl = ship_data.COLLISION_POLY
 	var parsed_array = JSON.parse_string(rawColl)
@@ -592,6 +591,22 @@ func mission_finish() -> void:
 		
 	has_mission = false
 	current_cargo = max(0, current_cargo - 1)
+	
+	faction = _recalculate_current_faction()
+
+
+func _recalculate_current_faction() -> Utility.FACTION:
+	if max(Reputation.FederationRep, Reputation.KlingonRep, Reputation.RomulanRep) <= 5000:
+		return Utility.FACTION.NEUTRAL
+	elif Reputation.FederationRep >= max(Reputation.KlingonRep, Reputation.RomulanRep):
+		return Utility.FACTION.FEDERATION
+	elif Reputation.KlingonRep >= max(Reputation.FederationRep, Reputation.RomulanRep):
+		return Utility.FACTION.KLINGON
+	elif Reputation.RomulanRep >= max(Reputation.FederationRep, Reputation.KlingonRep):
+		return Utility.FACTION.ROMULAN
+	else:
+		return Utility.FACTION.NEUTRAL
+		push_error("Current faction calculation failed, current faction unknown")
 
 
 func create_damage_indicator(damage:float, shooter:String, projectile:Area2D) -> void:

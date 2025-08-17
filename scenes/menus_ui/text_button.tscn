@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://tnebb72tf6h1"]
+[gd_scene load_steps=4 format=3 uid="uid://tnebb72tf6h1"]
 
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="1_4c2wq"]
 [ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="1_s8spn"]
+[ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="3_4c2wq"]
 
 [node name="TextButton" type="Label"]
 offset_right = 48.0
@@ -11,3 +12,16 @@ theme_override_fonts/font = ExtResource("1_4c2wq")
 theme_override_font_sizes/font_size = 10
 text = "buttonBUTTON"
 script = ExtResource("1_s8spn")
+
+[node name="PolygonMouseDetector" parent="." instance=ExtResource("3_4c2wq")]
+layout_mode = 1
+
+[node name="Polygon2D" parent="PolygonMouseDetector" index="0"]
+color = Color(1, 1, 1, 0)
+
+[connection signal="mouse_entered" from="PolygonMouseDetector" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PolygonMouseDetector" to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="PolygonMouseDetector" to="." method="_on_mouse_clicked"]
+[connection signal="released" from="PolygonMouseDetector" to="." method="_on_mouse_released"]
+
+[editable path="PolygonMouseDetector"]

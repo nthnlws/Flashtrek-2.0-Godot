@@ -2,7 +2,7 @@
 extends Control
 
 signal button_pressed
-@onready var text_label: MenuTextButton = $TextureRect/TextLabel
+@onready var text_label: MenuTextButton = $TextureRect/TextButton
 
 @export var tab_text: String = "Single Player":
 	set(value):

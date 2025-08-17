@@ -1,14 +1,17 @@
-[gd_scene load_steps=29 format=3 uid="uid://g3qxm0r002bc"]
+[gd_scene load_steps=32 format=3 uid="uid://g3qxm0r002bc"]
 
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
 [ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/HUD_button/Top Left.png" id="2_40wxk"]
 [ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/HUD_button/Center.png" id="2_i1l8v"]
 [ext_resource type="BitMap" uid="uid://blral80hq81w" path="res://assets/textures/UI/HUD_button/CenterMask.png" id="3_07d7y"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="4_4n70s"]
 [ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="4_luur1"]
 [ext_resource type="LabelSettings" uid="uid://dq77lfk3mfiye" path="res://resources/HUD_button_theme.tres" id="5_07d7y"]
 [ext_resource type="Texture2D" uid="uid://cea41tj1fwv62" path="res://assets/textures/UI/HUD_button/Top Right.png" id="5_41du8"]
 [ext_resource type="BitMap" uid="uid://dkc6wtpipedbe" path="res://assets/textures/UI/HUD_button/TopLeftMask.png" id="6_41du8"]
 [ext_resource type="Texture2D" uid="uid://btn3m1g4nnbhn" path="res://assets/textures/UI/HUD_button/Bottom Left.png" id="6_n5omj"]
+[ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="6_x62qd"]
+[ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="7_4mst5"]
 [ext_resource type="BitMap" uid="uid://gorvlqn37qsv" path="res://assets/textures/UI/HUD_button/TopRightMask.png" id="7_luur1"]
 [ext_resource type="Texture2D" uid="uid://bud3556rue421" path="res://assets/textures/UI/HUD_button/Bottom Right.png" id="7_ot80n"]
 [ext_resource type="BitMap" uid="uid://c0pg53tyg8qep" path="res://assets/textures/UI/HUD_button/BottomRightMask.png" id="9_07d7y"]
@@ -243,7 +246,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_2eq81")
 }
 
-[node name="Center" parent="Center" groups=["label_buttons"] instance=ExtResource("4_luur1")]
+[node name="Center" type="Label" parent="Center" groups=["label_buttons"]]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -256,12 +259,23 @@ offset_right = 81.0
 offset_bottom = 42.2917
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("4_4n70s")
+theme_override_font_sizes/font_size = 10
 text = "SHIP"
 label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("6_x62qd")
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.4, 0.6, 0.8, 1)
+
+[node name="PolygonMouseDetector" parent="Center/Center" instance=ExtResource("7_4mst5")]
+layout_mode = 1
+
+[node name="Polygon2D" parent="Center/Center/PolygonMouseDetector" index="0"]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(81, -69.7083, 102, -67.7083, 126, -60.7083, 150, -47.7083, 168, -28.7083, 184, -3.7083, 192, 19.2917, 194, 45.2917, 190, 78.2917, 173, 109.292, 146, 135.292, 116, 150.292, 89, 155.292, 66, 154.292, 38, 147.292, 14, 133.292, -3, 117.292, -17, 97.2917, -27, 75.2917, -32, 46.2917, -29, 18.2917, -17, -12.7083, 2, -37.7083, 24, -53.7083, 49, -64.7083, 68, -69.7083)
 
 [node name="TopLeft" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
@@ -300,6 +314,9 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
+[node name="Polygon2D" parent="TopLeft/TopLeft/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(-64, 166, 60, 166, 62, 152, 70, 127, 87, 96, 111, 73, 137, 57, 161, 49, 180, 46, 180, -78, 158, -77, 119, -70, 78, -56, 44, -37, 11, -11, -13, 17, -36, 53, -52, 89, -60, 126)
+
 [node name="TopRight" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 3
@@ -337,6 +354,9 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
+[node name="Polygon2D" parent="TopRight/TopRight/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(-64, -78, -64, 47, -39, 52, -9, 65, 15, 82, 35, 105, 47, 130, 53, 149, 56, 167, 181, 167, 179, 137, 169, 93, 152, 52, 128, 15, 89, -24, 49, -50, 8, -66, -30, -75)
+
 [node name="BottomRight" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
 anchors_preset = 3
@@ -372,6 +392,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
+
+[node name="Polygon2D" parent="BottomRight/BottomRight/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(34, -73, 159, -73, 158, -44, 150, -7, 137, 29, 114, 69, 75, 112, 31, 142, -23, 163, -62, 170, -85, 171, -85, 46, -65, 44, -36, 33, -5, 10, 13, -12, 28, -40)
 
 [node name="BottomLeft" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
@@ -409,3 +432,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
+
+[node name="Polygon2D" parent="BottomLeft/BottomLeft/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(61, -75, -63, -75, -62, -52, -59, -27, -48, 10, -32, 43, -9, 78, 20, 109, 59, 136, 98, 155, 137, 165, 181, 169, 181, 45, 154, 39, 124, 26, 98, 6, 79, -21, 67, -47)
+
+[connection signal="mouse_entered" from="Center/Center/PolygonMouseDetector" to="Center/Center" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Center/Center/PolygonMouseDetector" to="Center/Center" method="_on_mouse_exited"]
+[connection signal="pressed" from="Center/Center/PolygonMouseDetector" to="Center/Center" method="_on_mouse_clicked"]
+[connection signal="released" from="Center/Center/PolygonMouseDetector" to="Center/Center" method="_on_mouse_released"]
+
+[editable path="Center/Center/PolygonMouseDetector"]
+[editable path="TopLeft/TopLeft"]
+[editable path="TopLeft/TopLeft/PolygonMouseDetector"]
+[editable path="TopRight/TopRight"]
+[editable path="TopRight/TopRight/PolygonMouseDetector"]
+[editable path="BottomRight/BottomRight"]
+[editable path="BottomRight/BottomRight/PolygonMouseDetector"]
+[editable path="BottomLeft/BottomLeft"]
+[editable path="BottomLeft/BottomLeft/PolygonMouseDetector"]

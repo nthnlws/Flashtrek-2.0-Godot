@@ -125,6 +125,7 @@ func update_comms_message(message: String):
 
 func _handle_reroll_pressed() -> void:
 	completedUIdisplay = false
+	
 	SignalBus.UIclickSound.emit()
 	if _can_accept_mission():
 		var current_mission: Dictionary = generate_mission()
@@ -134,6 +135,9 @@ func _handle_reroll_pressed() -> void:
 
 
 func _handle_close_ui_pressed() -> void:
+	$CloseButton.pressed = false
+	$CloseButton.hover = false
+	
 	SignalBus.UIclickSound.emit()
 	close_comms()
 

@@ -60,6 +60,9 @@ vertical_alignment = 1
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
+[node name="Polygon2D" parent="RerollButton/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(-1.74997, 0, 70.75, 0, 70.75, 30, -1.74997, 30)
+
 [node name="CloseButton" parent="." instance=ExtResource("4_hki4h")]
 layout_mode = 0
 offset_left = 498.0
@@ -72,5 +75,13 @@ label_settings = ExtResource("5_08d4c")
 hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.4, 0.6, 0.8, 1)
 
+[node name="Polygon2D" parent="CloseButton/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(-0.5, 0, 118.25, 0, 118.25, 30, -0.5, 30)
+
 [connection signal="button_pressed" from="RerollButton" to="." method="_handle_reroll_pressed"]
 [connection signal="button_pressed" from="CloseButton" to="." method="_handle_close_ui_pressed"]
+
+[editable path="RerollButton"]
+[editable path="RerollButton/PolygonMouseDetector"]
+[editable path="CloseButton"]
+[editable path="CloseButton/PolygonMouseDetector"]

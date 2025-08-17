@@ -14,8 +14,6 @@ var pressed: bool= false
 
 
 func _ready() -> void:
-	self.mouse_entered.connect(_on_mouse_entered)
-	self.mouse_exited.connect(_on_mouse_exited)
 	modulate = default_color
 
 
@@ -30,16 +28,14 @@ func _on_mouse_exited() -> void:
 	_update_color()
 
 
-func _input(event: InputEvent) -> void:
-	if event is InputEvent and hover and enabled:
-		if event.is_action_pressed("left_click"):
-			get_viewport().set_input_as_handled()
-			press()
-		# Release returns to hover state unless disabled
-		elif event.is_action_released("left_click"):
-			pressed = false
-			_update_color()
-			get_viewport().set_input_as_handled()
+func _on_mouse_clicked() -> void:
+	press()
+
+
+func _on_mouse_released() -> void:
+	pressed = false
+	_update_color()
+	get_viewport().set_input_as_handled()
 
 
 func press() -> void:

@@ -1,11 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://wn6a7fwifvry"]
+[gd_scene load_steps=7 format=3 uid="uid://wn6a7fwifvry"]
 
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="1_jc0wf"]
 [ext_resource type="Texture2D" uid="uid://bfihp00rslko2" path="res://assets/textures/UI/main_menu/menu_button.png" id="1_q7y3f"]
 [ext_resource type="Script" uid="uid://dn8dfejdx8fh2" path="res://scripts/menus_ui/menu_tab_button.gd" id="1_qwxu6"]
-[ext_resource type="Script" uid="uid://bcfk7xye7h7fe" path="res://scripts/menus_ui/text_button_area.gd" id="2_q7y3f"]
+[ext_resource type="Script" uid="uid://bcfk7xye7h7fe" path="res://scripts/menus_ui/MovingTextButton.gd" id="2_q7y3f"]
+[ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="5_2dbeg"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_83pdj"]
+[sub_resource type="LabelSettings" id="LabelSettings_0ju8t"]
 font = ExtResource("1_jc0wf")
 font_size = 45
 
@@ -26,21 +27,22 @@ texture = ExtResource("1_q7y3f")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="TextLabel" type="Label" parent="TextureRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
+[node name="TextButton" parent="TextureRect" instance=ExtResource("5_2dbeg")]
+layout_mode = 0
+offset_right = 426.0
+offset_bottom = 72.0
 text = "SINGLE PLAYER"
-label_settings = SubResource("LabelSettings_83pdj")
+label_settings = SubResource("LabelSettings_0ju8t")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_q7y3f")
 hover_color = Color(1, 1, 1, 1)
-pressed_color = Color(0.766793, 0.666737, 0, 1)
-metadata/_custom_type_script = "uid://dtc20owbkcnv0"
+pressed_color = Color(0.768627, 0.666667, 0, 1)
 
-[connection signal="button_pressed" from="TextureRect/TextLabel" to="." method="_on_button_pressed"]
+[node name="Polygon2D" parent="TextureRect/TextButton/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(0, 0, 392.1, 0, 402.1, 2, 410.1, 6, 418.1, 14, 422.1, 22, 424.1, 34, 424.1, 44, 420.1, 54, 414.1, 62, 406.1, 68, 394.1, 72, 0.0999985, 72)
+
+[connection signal="button_pressed" from="TextureRect/TextButton" to="." method="_on_button_pressed"]
+
+[editable path="TextureRect/TextButton"]
+[editable path="TextureRect/TextButton/PolygonMouseDetector"]

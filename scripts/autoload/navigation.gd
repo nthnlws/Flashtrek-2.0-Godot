@@ -36,7 +36,7 @@ func set_current_system(system:String = Navigation.targetSystem):
 	current_system_faction = get_faction_for_system(system)
 
 
-func get_faction_for_system(system) -> int:
+func get_faction_for_system(system) -> Utility.FACTION:
 	match system:
 		"Solarus":
 			return Utility.FACTION.FEDERATION
@@ -56,7 +56,7 @@ func get_faction_for_system(system) -> int:
 				return Utility.FACTION.KLINGON
 			elif system >= rom_min:
 				return Utility.FACTION.ROMULAN
-	return -1 # Error status
+	return Utility.FACTION.NEUTRAL
 
 
 func load_planet_names(file_path:String = "res://assets/data/planet_names.txt") -> Array[String]:
