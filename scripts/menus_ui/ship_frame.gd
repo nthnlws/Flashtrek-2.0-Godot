@@ -11,7 +11,7 @@ signal ship_hovered
 const DEFAULT_GREY:Color = Color("5d5d5d")
 const PRESSED_GREY:Color = Color("707070")
 
-@export var current_ship_type:Utility.SHIP_TYPES = 0
+@export var current_ship_type:Utility.SHIP_TYPES = 0 as Utility.SHIP_TYPES
 @export var grayed_out:bool = true
 
 @export var ship_faction:Utility.FACTION = Utility.FACTION.NEUTRAL

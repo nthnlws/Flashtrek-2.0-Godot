@@ -444,8 +444,8 @@ func overdriveTimeout() -> void: #Turns off torpedo shooting for half of trans_l
 	overdriveTime = false
 
 
-func teleport(position:Vector2) -> void: # Uses coords from cheat menu to teleport player
-	global_position = position
+func teleport(new_position:Vector2) -> void: # Uses coords from cheat menu to teleport player
+	global_position = new_position
 	velocity = Vector2(0, 0)
 	if overdrive_active == true:
 		overdrive_state_change("INSTANT")
@@ -578,9 +578,9 @@ func clear_mission() -> void:
 func mission_finish() -> void:
 	if !current_mission.is_empty():
 		var points:int = current_mission["reward"]
-		var faction:Utility.FACTION = Navigation.get_faction_for_system(current_mission.system)
+		var mission_faction:Utility.FACTION = Navigation.get_faction_for_system(current_mission.system)
 		SignalBus.updateScore.emit(points)
-		match faction:
+		match mission_faction:
 			Utility.FACTION.FEDERATION:
 				SignalBus.reputationChanged.emit(Utility.FACTION.FEDERATION, Reputation.FederationRep + points)
 			Utility.FACTION.KLINGON:
@@ -607,8 +607,8 @@ func _recalculate_current_faction() -> Utility.FACTION:
 	elif Reputation.RomulanRep >= max(Reputation.FederationRep, Reputation.KlingonRep):
 		return Utility.FACTION.ROMULAN
 	else:
-		return Utility.FACTION.NEUTRAL
 		push_error("Current faction calculation failed, current faction unknown")
+		return Utility.FACTION.NEUTRAL
 
 
 func create_damage_indicator(damage:float, shooter:String, projectile:Area2D) -> void:

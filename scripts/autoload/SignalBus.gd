@@ -1,6 +1,9 @@
 # Main SignalBus
 extends Node
 
+func _init() -> void:
+	@warning_ignore_start("UNUSED_SIGNAL")
+
 signal enemyShipDied(enemy:FactionCharacter)
 signal spawnLoot(type:UpgradePickup.MODULE_TYPES, postition:Vector2)
 signal neutralShipDied(enemy:NeutralCharacter)

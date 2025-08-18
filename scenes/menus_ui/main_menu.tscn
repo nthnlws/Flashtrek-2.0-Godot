@@ -15,9 +15,9 @@
 font = ExtResource("4_7rxst")
 font_size = 45
 
-[sub_resource type="LabelSettings" id="LabelSettings_q7df0"]
+[sub_resource type="LabelSettings" id="LabelSettings_jsvya"]
 font = ExtResource("4_7rxst")
-font_size = 40
+font_size = 35
 
 [sub_resource type="LabelSettings" id="LabelSettings_j785f"]
 font_size = 15
@@ -53,22 +53,26 @@ text = "Systems: READY"
 label_settings = SubResource("LabelSettings_k84q2")
 horizontal_alignment = 1
 vertical_alignment = 1
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(1, 1, 1, 1)
 
-[node name="Stardate" type="Label" parent="MainMenu/MainMenu"]
+[node name="Polygon2D" parent="MainMenu/MainMenu/SystemsReady/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(56, 13, 284, 13, 284, 48, 56, 48)
+
+[node name="Stardate" parent="MainMenu/MainMenu" instance=ExtResource("3_jsvya")]
 layout_mode = 0
-offset_left = 688.0
-offset_top = 496.0
-offset_right = 909.0
-offset_bottom = 544.333
-mouse_filter = 0
+offset_left = 724.0
+offset_top = 498.0
+offset_right = 918.0
+offset_bottom = 540.292
 text = "STARDATE: 4513.3"
-label_settings = SubResource("LabelSettings_q7df0")
+label_settings = SubResource("LabelSettings_jsvya")
+horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("5_sii2t")
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(1, 1, 1, 1)
-metadata/_custom_type_script = "uid://dtc20owbkcnv0"
+
+[node name="Polygon2D" parent="MainMenu/MainMenu/Stardate/PolygonMouseDetector" index="0"]
+polygon = PackedVector2Array(0, 5, 193, 5, 193, 32, 0, 32)
 
 [node name="Copyright" type="Label" parent="MainMenu/MainMenu"]
 layout_mode = 1
@@ -178,3 +182,8 @@ visible = false
 [connection signal="button_pressed" from="MainMenu/MainMenu/LeftMenu/ExitGame" to="." method="_on_exit_button_pressed"]
 [connection signal="closed_credits" from="Credits" to="." method="_on_credits_closed"]
 [connection signal="close_button_pressed" from="Settings" to="." method="_on_settings_closed"]
+
+[editable path="MainMenu/MainMenu/SystemsReady"]
+[editable path="MainMenu/MainMenu/SystemsReady/PolygonMouseDetector"]
+[editable path="MainMenu/MainMenu/Stardate"]
+[editable path="MainMenu/MainMenu/Stardate/PolygonMouseDetector"]

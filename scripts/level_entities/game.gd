@@ -89,7 +89,7 @@ func generate_system_info() -> void:
 	all_systems_data["Romulus"] = romulus_data
 	
 	var risa_data: Dictionary = generate_system_variables("Risa")
-	all_systems_data["Risa"] = romulus_data
+	all_systems_data["Risa"] = risa_data
 	
 	LevelData.all_systems_data = all_systems_data
 	Navigation.systems = all_systems_data.keys()

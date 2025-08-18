@@ -5,8 +5,8 @@ signal button_hovered
 signal button_pressed
 
 @export var default_color: Color
-@export var hover_color: Color
-@export var pressed_color: Color
+@export var hover_color: Color = Color(1, 1, 1, 1)
+@export var pressed_color: Color = Color("c4aa00")
 
 @export var enabled: bool = true
 var hover: bool= false

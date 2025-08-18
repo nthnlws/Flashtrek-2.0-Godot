@@ -102,4 +102,4 @@ func toggle_world_borders() -> void:
 		if label.visible:
 			label.visible = false
 		else:
-			label.visible
+			label.visible = true

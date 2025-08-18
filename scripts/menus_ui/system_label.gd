@@ -19,8 +19,8 @@ func _ready() -> void:
 
 func _setup_label() -> void:
 	label_settings = GALAXY_MAP_LABEL_THEME # Assign theme
-	horizontal_alignment = 1 # Center alignment
-	vertical_alignment = 1 # Center alignment
+	horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER # Center alignment
+	vertical_alignment = VERTICAL_ALIGNMENT_CENTER # Center alignment
 	uppercase = true
 	size = Vector2(10, 10)
 	modulate = modulate_color

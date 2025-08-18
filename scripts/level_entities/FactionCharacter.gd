@@ -177,7 +177,6 @@ func _on_agro_box_body_exited(body) -> void:
 	if body == enemy_target:
 		enemyAgro =  false
 		enemy_target = null
-		angle_diff = TAU
 
 
 func explode() -> void:
