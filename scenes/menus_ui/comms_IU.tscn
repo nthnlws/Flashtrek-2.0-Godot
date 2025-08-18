@@ -57,7 +57,6 @@ text = "REROLL"
 label_settings = ExtResource("5_08d4c")
 horizontal_alignment = 1
 vertical_alignment = 1
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="Polygon2D" parent="RerollButton/PolygonMouseDetector" index="0"]
@@ -72,7 +71,6 @@ offset_bottom = 176.0
 text = "close
             button"
 label_settings = ExtResource("5_08d4c")
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.4, 0.6, 0.8, 1)
 
 [node name="Polygon2D" parent="CloseButton/PolygonMouseDetector" index="0"]

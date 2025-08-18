@@ -267,7 +267,6 @@ label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("6_x62qd")
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.4, 0.6, 0.8, 1)
 
 [node name="PolygonMouseDetector" parent="Center/Center" instance=ExtResource("7_4mst5")]
@@ -311,7 +310,6 @@ text = "WARP"
 label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="Polygon2D" parent="TopLeft/TopLeft/PolygonMouseDetector" index="0"]
@@ -351,7 +349,6 @@ text = "BEAM"
 label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="Polygon2D" parent="TopRight/TopRight/PolygonMouseDetector" index="0"]
@@ -390,7 +387,6 @@ text = "Dock"
 label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="Polygon2D" parent="BottomRight/BottomRight/PolygonMouseDetector" index="0"]
@@ -430,7 +426,6 @@ text = "HAIL"
 label_settings = ExtResource("5_07d7y")
 horizontal_alignment = 1
 vertical_alignment = 1
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
 [node name="Polygon2D" parent="BottomLeft/BottomLeft/PolygonMouseDetector" index="0"]

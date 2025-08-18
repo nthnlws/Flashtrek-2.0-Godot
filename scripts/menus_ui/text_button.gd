@@ -1,3 +1,4 @@
+@icon("res://assets/textures/UI/custom_icons/TextButton.svg")
 class_name TextButton
 extends Label
 

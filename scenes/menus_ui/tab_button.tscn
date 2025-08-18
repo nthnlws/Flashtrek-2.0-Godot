@@ -36,7 +36,6 @@ label_settings = SubResource("LabelSettings_0ju8t")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_q7y3f")
-hover_color = Color(1, 1, 1, 1)
 pressed_color = Color(0.768627, 0.666667, 0, 1)
 
 [node name="Polygon2D" parent="TextureRect/TextButton/PolygonMouseDetector" index="0"]

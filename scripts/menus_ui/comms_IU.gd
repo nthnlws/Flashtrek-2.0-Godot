@@ -130,8 +130,6 @@ func _handle_reroll_pressed() -> void:
 	if _can_accept_mission():
 		var current_mission: Dictionary = generate_mission()
 		update_comms_message(create_new_mission_text(current_mission))
-	else:
-		update_comms_message(set_mission_full_text())
 
 
 func _handle_close_ui_pressed() -> void:

@@ -1,5 +1,5 @@
 extends TextButton
-class_name MenuTextButton
+class_name MovingTextButton
 
 @onready var texture_rect: TextureRect = $".."
 
