@@ -63,6 +63,7 @@ func get_max_HP(new_value:float) -> float:
 
 var hp_current:float = max_HP:
 	set(value):
+		if hp_current == value: return
 		hp_current = clamp(value, 0, max_HP)
 		SignalBus.playerHealthChanged.emit(hp_current)
 
@@ -98,6 +99,7 @@ func get_max_energy(new_value:float) -> float:
 
 var energy_current:float = max_energy:
 	set(value):
+		if energy_current == value: return
 		energy_current = clamp(value, 0, max_energy)
 		SignalBus.playerEnergyChanged.emit(energy_current)
 

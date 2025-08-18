@@ -6,6 +6,7 @@ extends ColorRect
 		update_shield_display()
 var current_SP: float = 100.0:
 	set(value):
+		if current_SP == value: return
 		current_SP = clampf(value, 0.0, max_SP)
 		update_shield_display()
 

@@ -9,6 +9,7 @@ signal shieldStatusChanged(status:bool)
 var damageTime:bool = false # Timeout
 var shieldActive:bool = true:
 	set(value):
+		if shieldActive == value: return
 		shieldStatusChanged.emit(value)
 		shieldActive = _set_shield_active(value)
 
@@ -21,6 +22,7 @@ var trans_length:float = 0.8
 		sp_max = set_shield_max(value)
 var sp_current:float = sp_max:
 	set(value): 
+		if sp_current == value: return
 		sp_current = set_shield_value(value)
 
 

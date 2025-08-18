@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://djjxdvhjd147f"]
 
-[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/Neutral_frame.png" id="1_h3uuf"]
+[ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/white_frame.png" id="1_h3uuf"]
 [ext_resource type="Script" uid="uid://drrpthed6v3fy" path="res://scripts/menus_ui/ship_frame.gd" id="3_3s3b2"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="4_0qmj0"]
 

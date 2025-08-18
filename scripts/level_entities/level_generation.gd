@@ -96,7 +96,7 @@ func _change_system(targetSystem:String) -> void:
 	
 	save_ship_data()
 	sync_sun_to_dict(targetSystem)
-
+	
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
 
 
