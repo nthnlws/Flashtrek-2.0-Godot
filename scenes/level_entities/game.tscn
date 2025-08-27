@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=26 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
+[ext_resource type="PackedScene" uid="uid://dfehj0ebpawa0" path="res://scenes/menus_ui/new_HUD.tscn" id="16_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
@@ -66,6 +67,9 @@ size_flags_vertical = 3
 [node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="New_HUD" parent="HUD_layer" instance=ExtResource("16_ijd2y")]
+visible = false
 
 [node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
 visible = false

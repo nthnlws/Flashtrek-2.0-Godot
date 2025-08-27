@@ -61,7 +61,9 @@ folder_colors={
 "res://assets/font/": "yellow",
 "res://assets/icons/": "yellow",
 "res://assets/textures/": "yellow",
+"res://assets/textures/UI/new_HUD/": "red",
 "res://resources/": "blue",
+"res://resources/LCARS.tres": "red",
 "res://scenes/": "red",
 "res://scenes/level_entities/planet.tscn": "gray",
 "res://scripts/": "green"

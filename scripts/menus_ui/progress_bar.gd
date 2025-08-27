@@ -42,9 +42,21 @@ signal segment_lost(segment_index: int)
 signal segment_gained(segment_index: int)
 
 func _ready():
+	SignalBus.playerEnergyChanged.connect(update_energy_max)
+	SignalBus.playerMaxEnergyChanged.connect(update_energy_value)
+	
 	segment_count = material.get_shader_parameter("segment_count")
 	max_segments = segment_count
 	_update_display_from_value()
+
+
+func update_energy_max(new_max_energy:float) -> void:
+	set_max_value(new_max_energy)
+
+
+func update_energy_value(new_energy:float) -> void:
+	set_bar_value(new_energy)
+
 
 func _update_display_from_value():
 	var fill_ratio = clamp(current_value / max_value, 0.0, 1.0)

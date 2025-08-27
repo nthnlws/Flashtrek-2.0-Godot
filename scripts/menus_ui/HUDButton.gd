@@ -17,7 +17,6 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	_connect_signals()
-	manual_scale(0.7)
 	
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()

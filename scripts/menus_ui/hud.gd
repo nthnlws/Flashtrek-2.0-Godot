@@ -25,15 +25,14 @@ func _ready() -> void:
 	SignalBus.playerMaxHealthChanged.connect(_on_player_max_health_changed)
 	SignalBus.playerMaxShieldChanged.connect(_on_player_max_shield_changed)
 	SignalBus.playerShieldChanged.connect(_on_player_shield_changed)
-	SignalBus.playerEnergyChanged.connect(_on_player_energy_changed)
-	SignalBus.playerMaxEnergyChanged.connect(_on_player_max_energy_changed)
 	
 	SignalBus.playerDied.connect(close_menus)
 
 
 func _process(delta: float) -> void:
-	coords.text = str(Vector2i(player.global_position))
-	fps.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
+	if player:
+		coords.text = str(Vector2i(player.global_position))
+		fps.text = "FPS: " + str(Performance.get_monitor(Performance.TIME_FPS))
 
 
 func _on_player_health_changed(hp_current: float) -> void:
@@ -52,12 +51,12 @@ func _on_player_max_shield_changed(sp_max:float) -> void:
 	health_indicator.update_shield_max(sp_max)
 
 
-func _on_player_energy_changed(energy_current: float) -> void:
-	health_indicator.update_energy_value(energy_current)
-
-
-func _on_player_max_energy_changed(energy_max: float) -> void:
-	health_indicator.update_energy_max(energy_max)
+#func _on_player_energy_changed(energy_current: float) -> void:
+	#health_indicator.update_energy_value(energy_current)
+#
+#
+#func _on_player_max_energy_changed(energy_max: float) -> void:
+	#health_indicator.update_energy_max(energy_max)
 
 
 func _on_shield_ready() -> void:

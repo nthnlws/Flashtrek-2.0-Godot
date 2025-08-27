@@ -3,7 +3,6 @@ class_name HealthIndicator
 
 @onready var shield_icon: ColorRect = $shield_icon
 @onready var hull_icon: TextureRect = $hull_icon
-@onready var energy_bar: CustomProgressBar = $energy_bar
 
 
 func _ready() -> void:
@@ -12,9 +11,8 @@ func _ready() -> void:
 	SignalBus.player_type_changed.connect(change_health_sprite)
 	
 	hull_icon.update_sprite_position()
-	set_bar_position(shield_icon.size.x * shield_icon.scale.x, shield_icon.size.y * shield_icon.scale.y)
-	
-	
+
+
 func change_health_sprite(ship:Utility.SHIP_TYPES):
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	hull_icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
@@ -24,7 +22,6 @@ func change_health_sprite(ship:Utility.SHIP_TYPES):
 	hull_icon.calculate_and_set_content_bounds()
 	hull_icon.update_hud_health_display()
 	hull_icon.update_sprite_position()
-	set_bar_position(shield_icon.get_rect().size.x, shield_icon.get_rect().size.y)
 
 
 func fade_indicator(state) -> void:
@@ -33,12 +30,6 @@ func fade_indicator(state) -> void:
 	else:
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(self, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)
-
-
-func set_bar_position(x: float, y: float):
-	energy_bar.custom_minimum_size = Vector2(y, 20.0)
-	energy_bar.size = Vector2(y, 20.0)
-	energy_bar.position = Vector2(x, y)
 
 
 func update_shield_health(new_SP:float) -> void:
@@ -55,11 +46,3 @@ func update_hitbox_max(new_max_HP:float) -> void:
 
 func update_shield_max(new_max_HP:float) -> void:
 	shield_icon.max_SP = new_max_HP
-
-
-func update_energy_max(new_max_energy:float) -> void:
-	energy_bar.set_max_value(new_max_energy)
-
-
-func update_energy_value(new_energy:float) -> void:
-	energy_bar.set_bar_value(new_energy)

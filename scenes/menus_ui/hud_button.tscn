@@ -1,21 +1,16 @@
-[gd_scene load_steps=32 format=3 uid="uid://g3qxm0r002bc"]
+[gd_scene load_steps=27 format=3 uid="uid://g3qxm0r002bc"]
 
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
 [ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/HUD_button/Top Left.png" id="2_40wxk"]
 [ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/HUD_button/Center.png" id="2_i1l8v"]
-[ext_resource type="BitMap" uid="uid://blral80hq81w" path="res://assets/textures/UI/HUD_button/CenterMask.png" id="3_07d7y"]
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="4_4n70s"]
 [ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="4_luur1"]
 [ext_resource type="LabelSettings" uid="uid://dq77lfk3mfiye" path="res://resources/HUD_button_theme.tres" id="5_07d7y"]
 [ext_resource type="Texture2D" uid="uid://cea41tj1fwv62" path="res://assets/textures/UI/HUD_button/Top Right.png" id="5_41du8"]
-[ext_resource type="BitMap" uid="uid://dkc6wtpipedbe" path="res://assets/textures/UI/HUD_button/TopLeftMask.png" id="6_41du8"]
 [ext_resource type="Texture2D" uid="uid://btn3m1g4nnbhn" path="res://assets/textures/UI/HUD_button/Bottom Left.png" id="6_n5omj"]
 [ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="6_x62qd"]
 [ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="7_4mst5"]
-[ext_resource type="BitMap" uid="uid://gorvlqn37qsv" path="res://assets/textures/UI/HUD_button/TopRightMask.png" id="7_luur1"]
 [ext_resource type="Texture2D" uid="uid://bud3556rue421" path="res://assets/textures/UI/HUD_button/Bottom Right.png" id="7_ot80n"]
-[ext_resource type="BitMap" uid="uid://c0pg53tyg8qep" path="res://assets/textures/UI/HUD_button/BottomRightMask.png" id="9_07d7y"]
-[ext_resource type="BitMap" uid="uid://ce68f843beccr" path="res://assets/textures/UI/HUD_button/BottomLeftMask.png" id="11_5v4fm"]
 
 [sub_resource type="Animation" id="Animation_5v4fm"]
 length = 0.001
@@ -236,7 +231,6 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(112.5, 112.5)
 texture_normal = ExtResource("2_i1l8v")
-texture_click_mask = ExtResource("3_07d7y")
 ignore_texture_size = true
 stretch_mode = 4
 
@@ -291,7 +285,6 @@ grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(244, 244)
 texture_normal = ExtResource("2_40wxk")
-texture_click_mask = ExtResource("6_41du8")
 ignore_texture_size = true
 stretch_mode = 4
 
@@ -330,7 +323,6 @@ grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(0, 244)
 texture_normal = ExtResource("5_41du8")
-texture_click_mask = ExtResource("7_luur1")
 ignore_texture_size = true
 stretch_mode = 4
 
@@ -368,7 +360,6 @@ offset_bottom = 2.0
 grow_horizontal = 0
 grow_vertical = 0
 texture_normal = ExtResource("7_ot80n")
-texture_click_mask = ExtResource("9_07d7y")
 ignore_texture_size = true
 stretch_mode = 4
 
@@ -407,7 +398,6 @@ grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(244, 0)
 texture_normal = ExtResource("6_n5omj")
-texture_click_mask = ExtResource("11_5v4fm")
 ignore_texture_size = true
 stretch_mode = 4
 

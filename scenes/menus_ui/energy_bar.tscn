@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://cup0hh5dv0n1n"]
+
+[ext_resource type="Shader" uid="uid://8fi6r1et5itn" path="res://resources/Materials_Shaders/progress_bar.gdshader" id="1_rvg74"]
+[ext_resource type="Texture2D" uid="uid://dr4s5824otkpw" path="res://assets/textures/UI/energy_indicator_WO_BARS.png" id="2_cu6tr"]
+[ext_resource type="Script" uid="uid://ddy8qr8tanrj2" path="res://scripts/menus_ui/progress_bar.gd" id="3_t5mb4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kllqa"]
+shader = ExtResource("1_rvg74")
+shader_parameter/bar_mode = 4
+shader_parameter/fill_mode = 2
+shader_parameter/segment_count = 10
+shader_parameter/discrete_fill_amount = 10
+shader_parameter/fade_fill_amount = 1.0
+shader_parameter/pour_fill_amount = 1.0
+shader_parameter/animation_speed = 0.5
+shader_parameter/flash_type = 3
+shader_parameter/flash_segment = 0
+shader_parameter/flash_intensity = 0.0
+shader_parameter/single_segment_previous_fill = 1.0
+shader_parameter/single_segment_current_fill = 1.0
+shader_parameter/single_segment_flash_intensity = 0.8
+shader_parameter/flash_from_segment = 0
+shader_parameter/flash_to_segment = 0
+shader_parameter/single_segment_fade_from = 1.0
+shader_parameter/single_segment_fade_to = 1.0
+shader_parameter/single_segment_fade_progress = 0.0
+shader_parameter/drain_previous_fill = 1.0
+shader_parameter/drain_current_fill = 1.0
+shader_parameter/drain_time_progress = 0.0
+shader_parameter/background_color = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/filled_color = Color(1, 0.85, 0, 1)
+shader_parameter/border_color = Color(0, 0, 0, 1)
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/drain_flash_color = Color(1, 1, 1, 1)
+shader_parameter/custom_frame = true
+shader_parameter/frame_texture = ExtResource("2_cu6tr")
+shader_parameter/frame_trim = 0.0
+shader_parameter/alpha_threshold = 0.69
+shader_parameter/scan_steps = 15
+shader_parameter/edge_smoothness = 0.02
+shader_parameter/mask_expansion = 0.0
+shader_parameter/frame_edge_opacity = 0.9
+shader_parameter/fluid_base_color = Color(0.2, 0.6, 1, 1)
+shader_parameter/fluid_highlight_color = Color(0.8, 0.9, 1, 1)
+shader_parameter/fluid_shadow_color = Color(0.1, 0.3, 0.6, 1)
+shader_parameter/fluid_flow_speed = 1.5
+shader_parameter/fluid_turbulence = 1.0
+shader_parameter/fluid_noise_scale = 6.0
+shader_parameter/gas_mode = false
+shader_parameter/gas_intensity = 0.8
+shader_parameter/effect_mode = 0
+shader_parameter/effect_strength = 0.3
+shader_parameter/effect_speed = 1.5
+shader_parameter/wave_thickness = 0.1
+shader_parameter/bubbles_aspect_ratio = 1.0
+shader_parameter/vertical_gradient = true
+shader_parameter/V_gradient_strength = 0.6
+shader_parameter/horizontal_gradient = false
+shader_parameter/H_gradient_strength = 0.75
+shader_parameter/segment_gap = 0.0
+shader_parameter/universal_border_size = 0.0
+shader_parameter/horizontal_border_size = 1.0
+shader_parameter/inner_border_thickness_multiplier = 1.0
+shader_parameter/outer_border_size = 3.0
+shader_parameter/slant_amount = 0.0
+shader_parameter/scale = -0.16
+shader_parameter/x_offset = 0.0
+shader_parameter/slant_clip_margin = 0.0
+
+[node name="energy_bar" type="ColorRect"]
+material = SubResource("ShaderMaterial_kllqa")
+custom_minimum_size = Vector2(60, 20)
+offset_right = 60.0
+offset_bottom = 20.0
+rotation = -1.5708
+script = ExtResource("3_t5mb4")
