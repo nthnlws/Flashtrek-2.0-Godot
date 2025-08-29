@@ -1,9 +1,9 @@
 extends Node2D
 
-@onready var hud: Control = $HUD_layer/HUD
 @onready var loading_screen: Control = %LoadingScreen
 @onready var level: Node = $Level
 @onready var tunnel_effect: SubViewportContainer = %TunnelEffect
+@onready var hud: Control = $HUD_layer/New_HUD
 
 var galaxy_map: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
@@ -162,7 +162,7 @@ func generate_system_variables(system_number) -> Dictionary:
 func generate_sun_data(PLANET_COUNT:int)-> Dictionary:
 	# Generate random angle and radius for spawn position
 	var max_spawn_distance: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0) - 2000
-	var min_spawn_distance: float = 3500
+	var min_spawn_distance: float = 4000
 	var random_angle: float = randf_range(0, TAU)
 	var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
 	

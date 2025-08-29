@@ -16,12 +16,12 @@ func _ready() -> void:
 func change_health_sprite(ship:Utility.SHIP_TYPES):
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	hull_icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	shield_icon.scale = Vector2(ship_data.SHIELD_SCALE_X * 1.87, ship_data.SHIELD_SCALE_Y * 1.87)
+	#shield_icon.scale = Vector2(ship_data.SHIELD_SCALE_X * 1.87, ship_data.SHIELD_SCALE_Y * 1.87)
 	
 	hull_icon.initialize_hull_icon()
 	hull_icon.calculate_and_set_content_bounds()
-	hull_icon.update_hud_health_display()
-	hull_icon.update_sprite_position()
+	#hull_icon.update_hud_health_display()
+	#hull_icon.update_sprite_position()
 
 
 func fade_indicator(state) -> void:

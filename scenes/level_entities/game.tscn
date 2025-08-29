@@ -1,7 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=25 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
-[ext_resource type="PackedScene" uid="uid://cyg1avbtmwoj7" path="res://scenes/menus_ui/hud.tscn" id="2_g7hwg"]
 [ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
 [ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_entities/level_borders.tscn" id="2_ufmu8"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
@@ -64,12 +63,7 @@ unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HUD" parent="HUD_layer" instance=ExtResource("2_g7hwg")]
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="New_HUD" parent="HUD_layer" instance=ExtResource("16_ijd2y")]
-visible = false
 
 [node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
 visible = false

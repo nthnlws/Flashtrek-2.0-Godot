@@ -30,8 +30,8 @@ func _connect_signals():
 	
 	for button in label_button_array:
 		button.button_pressed.connect(_handle_button_click.bind(button.name))
-	for button in texture_button_array:
-		button.pressed.connect(_handle_button_click.bind(button.name))
+	#for button in texture_button_array:
+		#button.pressed.connect(_handle_button_click.bind(button.name))
 
 
 func _handle_button_click(button_name: String) -> void:

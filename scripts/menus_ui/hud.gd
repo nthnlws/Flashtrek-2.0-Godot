@@ -51,14 +51,6 @@ func _on_player_max_shield_changed(sp_max:float) -> void:
 	health_indicator.update_shield_max(sp_max)
 
 
-#func _on_player_energy_changed(energy_current: float) -> void:
-	#health_indicator.update_energy_value(energy_current)
-#
-#
-#func _on_player_max_energy_changed(energy_max: float) -> void:
-	#health_indicator.update_energy_max(energy_max)
-
-
 func _on_shield_ready() -> void:
 	shieldActive = true
 

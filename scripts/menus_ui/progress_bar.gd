@@ -42,8 +42,8 @@ signal segment_lost(segment_index: int)
 signal segment_gained(segment_index: int)
 
 func _ready():
-	SignalBus.playerEnergyChanged.connect(update_energy_max)
-	SignalBus.playerMaxEnergyChanged.connect(update_energy_value)
+	SignalBus.playerEnergyChanged.connect(update_energy_value)
+	SignalBus.playerMaxEnergyChanged.connect(update_energy_max)
 	
 	segment_count = material.get_shader_parameter("segment_count")
 	max_segments = segment_count

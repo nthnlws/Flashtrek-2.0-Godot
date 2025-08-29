@@ -265,6 +265,7 @@ pressed_color = Color(0.4, 0.6, 0.8, 1)
 
 [node name="PolygonMouseDetector" parent="Center/Center" instance=ExtResource("7_4mst5")]
 layout_mode = 1
+offset_bottom = 2.28882e-05
 
 [node name="Polygon2D" parent="Center/Center/PolygonMouseDetector" index="0"]
 color = Color(1, 1, 1, 0)

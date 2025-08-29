@@ -109,6 +109,8 @@ func _ready() -> void:
 	# Initialize sound array
 	sound_array = get_tree().get_nodes_in_group("click_sound")
 	sound_array.shuffle()
+	
+	self.visible = false
 
 
 func _connect_signals() -> void:
