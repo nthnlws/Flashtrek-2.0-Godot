@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
-[ext_resource type="PackedScene" uid="uid://dfehj0ebpawa0" path="res://scenes/menus_ui/new_HUD.tscn" id="16_ijd2y"]
+[ext_resource type="PackedScene" uid="uid://dfehj0ebpawa0" path="res://scenes/menus_ui/HUD.tscn" id="16_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]

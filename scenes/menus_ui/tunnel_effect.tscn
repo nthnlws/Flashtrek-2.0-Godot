@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://coo2wawx2fvq2"]
 
-[ext_resource type="Script" uid="uid://dbdtxpx47wa8f" path="res://scenes/level_entities/particle_drawer.gd" id="1_ociux"]
+[ext_resource type="Script" uid="uid://dbdtxpx47wa8f" path="res://scripts/level_entities/particle_drawer.gd" id="1_ociux"]
 [ext_resource type="Shader" uid="uid://c3kino6wdh5on" path="res://resources/Materials_Shaders/blur.gdshader" id="1_rb5du"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rb5du"]

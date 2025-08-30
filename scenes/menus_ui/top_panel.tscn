@@ -1,0 +1,104 @@
+[gd_scene load_steps=8 format=3 uid="uid://8hmvc0qqsew1"]
+
+[ext_resource type="Texture2D" uid="uid://b20en8nmq4c7x" path="res://assets/textures/UI/new_HUD/HUD_topPanel.svg" id="1_wfts6"]
+[ext_resource type="Script" uid="uid://7y7ofpana70q" path="res://scripts/menus_ui/top_HUD_UI.gd" id="2_krb6w"]
+[ext_resource type="LabelSettings" uid="uid://b4cf2e7l2ktky" path="res://resources/LCARS.tres" id="3_ad1hx"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_krb6w"]
+[ext_resource type="Texture2D" uid="uid://byr1t4wk3r0yl" path="res://assets/textures/UI/new_HUD/federation_symbol.svg" id="4_dosv1"]
+[ext_resource type="Texture2D" uid="uid://b6g254d043h22" path="res://assets/textures/UI/new_HUD/klingon_symbol.svg" id="5_wmi6d"]
+[ext_resource type="Texture2D" uid="uid://dhpxi3okw2mo0" path="res://assets/textures/UI/new_HUD/romulan_symbol.svg" id="6_jfvsq"]
+
+[node name="TopPanel" type="TextureRect"]
+offset_right = 1920.0
+offset_bottom = 101.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = ExtResource("1_wfts6")
+script = ExtResource("2_krb6w")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+
+[node name="MissionText" type="RichTextLabel" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/normal_font = ExtResource("3_krb6w")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "Mission: [color=#6699CC]Planet[/color] in [color=#FFCC66]System[/color] "
+scroll_active = false
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="FedContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 10
+
+[node name="Fed" type="TextureRect" parent="MarginContainer/HBoxContainer/FedContainer"]
+modulate = Color(0.453633, 0.584588, 0.933372, 1)
+layout_mode = 2
+texture = ExtResource("4_dosv1")
+expand_mode = 3
+
+[node name="FedScore" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0000"
+label_settings = ExtResource("3_ad1hx")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+
+[node name="KlinContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_bottom = 10
+
+[node name="Klingon" type="TextureRect" parent="MarginContainer/HBoxContainer/KlinContainer"]
+modulate = Color(0.880395, 0.210751, 0.256262, 1)
+layout_mode = 2
+texture = ExtResource("5_wmi6d")
+expand_mode = 3
+
+[node name="KlingonScore" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0000"
+label_settings = ExtResource("3_ad1hx")
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+
+[node name="RomContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_bottom = 10
+
+[node name="Romulan" type="TextureRect" parent="MarginContainer/HBoxContainer/RomContainer"]
+modulate = Color(0.104224, 0.597945, 0.305314, 1)
+layout_mode = 2
+texture = ExtResource("6_jfvsq")
+expand_mode = 3
+
+[node name="RomScore" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0000"
+label_settings = ExtResource("3_ad1hx")

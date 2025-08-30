@@ -1,147 +1,76 @@
-[gd_scene load_steps=12 format=3 uid="uid://cyg1avbtmwoj7"]
+[gd_scene load_steps=9 format=3 uid="uid://dfehj0ebpawa0"]
 
-[ext_resource type="Script" uid="uid://y365qbp8cpj" path="res://scripts/menus_ui/hud.gd" id="1_3evr2"]
-[ext_resource type="PackedScene" uid="uid://mwmd8nnqveb0" path="res://scenes/menus_ui/pop_message.tscn" id="2_047uy"]
-[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_158n7"]
-[ext_resource type="Texture2D" uid="uid://d2uj6nbv5t3fb" path="res://assets/textures/UI/Engineering_Insignia.png" id="3_8t62i"]
-[ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="3_aqg3t"]
-[ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/menus_ui/hud_button.tscn" id="4_6ifva"]
-[ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_IU.tscn" id="5_hp4w2"]
-[ext_resource type="PackedScene" uid="uid://do3osaer0ntc8" path="res://scenes/menus_ui/missions_UI.tscn" id="7_5pdws"]
+[ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
+[ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
+[ext_resource type="Script" uid="uid://c14ywbiqs8efn" path="res://scripts/menus_ui/HUD_settings_button.gd" id="8_tbbuv"]
+[ext_resource type="Texture2D" uid="uid://bt1p5jtm8aw1l" path="res://assets/textures/UI/new_HUD/HUD_bottomPanel.svg" id="9_07do6"]
+[ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/menus_ui/hud_button.tscn" id="10_ee1ns"]
+[ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="11_sp3p0"]
+[ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
+[ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_IU.tscn" id="13_sk8fp"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_amtcr"]
-font = ExtResource("2_158n7")
-
-[sub_resource type="LabelSettings" id="LabelSettings_qqd3h"]
-font = ExtResource("2_158n7")
-font_size = 12
-
-[sub_resource type="LabelSettings" id="LabelSettings_pu3f4"]
-font = ExtResource("2_158n7")
-font_size = 12
-
-[node name="HUD" type="Control"]
+[node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
-script = ExtResource("1_3evr2")
-
-[node name="TopRow" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TopRow"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TopRow/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="LeftContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Coords" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 1
-text = "Coords:"
-label_settings = SubResource("LabelSettings_amtcr")
+[node name="TopPanel" parent="." instance=ExtResource("2_l28jr")]
+layout_mode = 0
 
-[node name="health_indicator" parent="TopRow/VBoxContainer/HBoxContainer/LeftContainer" instance=ExtResource("3_aqg3t")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 60)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="MiddleContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer"]
-layout_mode = 2
-
-[node name="Score" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 0
-mouse_filter = 1
-text = "Score: 0"
-label_settings = SubResource("LabelSettings_qqd3h")
-
-[node name="FPS" type="Label" parent="TopRow/VBoxContainer/HBoxContainer/MiddleContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "FPS: 123"
-label_settings = SubResource("LabelSettings_pu3f4")
-
-[node name="RightContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TopRow/VBoxContainer/HBoxContainer/RightContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TextureRect" type="TextureRect" parent="TopRow/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer"]
-custom_minimum_size = Vector2(35, 44)
-layout_mode = 2
-size_flags_horizontal = 8
-mouse_filter = 0
-texture = ExtResource("3_8t62i")
-expand_mode = 1
-stretch_mode = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="TopRow/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="message_UI" parent="." instance=ExtResource("2_047uy")]
-layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 945.0
-offset_bottom = 15.0
-
-[node name="HUD_button" parent="." instance=ExtResource("4_6ifva")]
+[node name="SettingsButton" type="TextureButton" parent="."]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -520.0
-offset_top = -520.0
-offset_right = -20.0
-offset_bottom = -20.0
+offset_left = -40.0
+offset_bottom = 46.0
 grow_horizontal = 0
+scale = Vector2(0.85, 0.85)
+pivot_offset = Vector2(40, 0)
+size_flags_horizontal = 8
+texture_normal = ExtResource("7_lg2su")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("8_tbbuv")
+
+[node name="BottomPanel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -110.0
+offset_right = 1920.0
+offset_bottom = 110.0
 grow_vertical = 0
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = ExtResource("9_07do6")
 
-[node name="Comms_UI" parent="." instance=ExtResource("5_hp4w2")]
-visible = false
+[node name="HUD_button" parent="." instance=ExtResource("10_ee1ns")]
+offset_left = 456.0
+offset_top = 36.0
+offset_right = 956.0
+offset_bottom = 536.0
+scale = Vector2(0.2, 0.2)
+
+[node name="health_indicator" parent="." instance=ExtResource("11_sp3p0")]
+offset_left = 11.0
+offset_top = 473.0
+offset_right = 91.0
+offset_bottom = 533.0
+
+[node name="energy_bar" parent="." instance=ExtResource("12_lmyut")]
+layout_mode = 0
+offset_left = 99.0
+offset_top = 533.0
+offset_right = 159.0
+offset_bottom = 553.0
+
+[node name="Comms_UI" parent="." instance=ExtResource("13_sk8fp")]
 layout_mode = 1
 
-[node name="Missions" parent="." instance=ExtResource("7_5pdws")]
-layout_mode = 1
-
-[connection signal="gui_input" from="TopRow/VBoxContainer/HBoxContainer/RightContainer/VBoxContainer/TextureRect" to="." method="_on_texture_rect_gui_input"]
+[connection signal="pressed" from="SettingsButton" to="SettingsButton" method="_on_pressed"]
