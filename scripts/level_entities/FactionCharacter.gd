@@ -32,17 +32,17 @@ func _ready() -> void:
 
 
 func setMovementState(delta:float) -> void:
-	if enemy_target: # Movement toward player
+	if enemyAgro: # Movement toward player
 		targetMovement(delta)
 		moveTarget = "Enemy"
 	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase":
 		returnToStarbaseBool = false
 		selectRandomPlanet()
 		moveTarget = "Planet"
-	elif !enemy_target and returnToStarbaseBool == false: # Movement toward picked planet
+	elif !enemyAgro and returnToStarbaseBool == false: # Movement toward picked planet
 		planetMovement(delta)
 		moveTarget = "Planet"
-	elif !enemy_target and returnToStarbaseBool == true: # Move toward starbase
+	elif !enemyAgro and returnToStarbaseBool == true: # Move toward starbase
 		starbaseMovement(delta)
 		moveTarget = "Starbase"
 	else: print("No matching movement status")
@@ -149,12 +149,12 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 	if angle != -1.0:
 		# Prep torpedo to shoot
 		var bullet: Area2D = torpedo.instantiate()
+		bullet.exceptions.append($hitbox_area)
+		bullet.exceptions.append(shield.get_node("shield_area"))
 		bullet.damage = bullet.damage * damage_mult
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
 		bullet.faction = self.faction
-		
-		bullet.set_collision_layer_value(10, true)
 		
 		call_deferred("instantiate_bullet", bullet)
 
@@ -166,17 +166,31 @@ func instantiate_bullet(bullet: Area2D) -> void:
 		shoot_cd = false
 
 
+var stored_enemies:Array = []
 func _on_agro_box_body_entered(body) -> void:
+	enemy_target = body
+	if stored_enemies.has(enemy_target):
+		enemyAgro =  true
 	#print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
 	if body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
 		enemyAgro =  true
-		enemy_target = body
 
 
 func _on_agro_box_body_exited(body) -> void:
 	if body == enemy_target:
 		enemyAgro =  false
 		enemy_target = null
+
+
+func take_damage(damage:float, hit_pos: Vector2) -> void:
+	super(damage, hit_pos)
+	_check_aggression()
+
+
+func _check_aggression() -> void:
+	if enemy_target:
+		enemyAgro = true
+		stored_enemies.append(enemy_target)
 
 
 func explode() -> void:

@@ -7,6 +7,7 @@ const SHOWN_POS:Vector2 = Vector2.ZERO
 
 var tween: Tween
 var total_distance: float = 51
+const SHIP_VALUE:int = 100
 
 @onready var mission_text: RichTextLabel = %MissionText
 @onready var fed_score: Label = %FedScore
@@ -17,6 +18,7 @@ func _ready() -> void:
 	SignalBus.missionAccepted.connect(_update_mission_text)
 	SignalBus.reputationChanged.connect(_update_faction_score)
 	SignalBus.finishMission.connect(_clear_mission_text)
+	SignalBus.enemyShipDied.connect(_on_enemy_ship_died)
 	
 	if showing == false:
 		position = HIDDEN_POS
@@ -37,6 +39,34 @@ func _input(event: InputEvent) -> void:
 
 func _clear_mission_text() -> void:
 	mission_text.text = "Mission:"
+
+
+func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
+	match enemy.faction:
+		Utility.FACTION.FEDERATION:
+			var old_fed:int = int(fed_score.text)
+			var old_klingon:int = int(klingon_score.text)
+
+			var new_fed:int = old_fed - SHIP_VALUE
+			var new_klingon:int = old_klingon + (SHIP_VALUE * 0.75)
+			fed_score.text = str(new_fed)
+			klingon_score.text = str(new_klingon)
+		Utility.FACTION.KLINGON:
+			var old_klingon:int = int(klingon_score.text)
+			var old_rom:int = int(rom_score.text)
+
+			var new_klingon:int = old_klingon - SHIP_VALUE
+			var new_rom:int = old_rom + (SHIP_VALUE * 0.75)
+			klingon_score.text = str(new_klingon)
+			rom_score.text = str(new_rom)
+		Utility.FACTION.ROMULAN:
+			var old_rom:int = int(rom_score.text)
+			var old_fed:int = int(fed_score.text)
+
+			var new_rom:int = old_rom - SHIP_VALUE
+			var new_fed:int = old_fed + (SHIP_VALUE * 0.75)
+			rom_score.text = str(new_rom)
+			fed_score.text = str(new_fed)
 
 
 func _update_mission_text(mission_data:Dictionary) -> void:

@@ -14,6 +14,7 @@ var animation_finished: bool = false
 var sound_finished: bool = false
 
 var alive: bool = true
+var exceptions: Array = []
 var shooter: String #Saves the shooter ID so that collision detection does not shoot self
 var movement_vector := Vector2(0, -1)
 
@@ -65,29 +66,8 @@ func kill_projectile(target) -> void: # Creates explosion animation and kills se
 
 func _on_torpedo_collision(area: Area2D) -> void:
 	var parent = area.get_parent()
-	var target_faction:Utility.FACTION
-	if area.name == "shield_area":
-		target_faction = parent.get_parent().faction
-	elif area.name == "hitbox_area":
-		target_faction = parent.faction
-	
-	if shooter == "Player":
+	if !exceptions.has(area):
 		hit_success(area)
-	else:
-		match faction:
-			Utility.FACTION.FEDERATION:
-				if target_faction == Utility.FACTION.ROMULAN or target_faction == Utility.FACTION.KLINGON:
-					hit_success(area)
-			Utility.FACTION.KLINGON:
-				if target_faction == Utility.FACTION.ROMULAN or target_faction == Utility.FACTION.FEDERATION:
-					hit_success(area)
-			Utility.FACTION.ROMULAN:
-				if target_faction == Utility.FACTION.FEDERATION or target_faction == Utility.FACTION.KLINGON:
-					hit_success(area)
-			Utility.FACTION.NEUTRAL:
-				if target_faction != self.faction: # If not neutral
-					hit_success(area)
-
 
 func hit_success(area:Area2D):
 	if not alive:

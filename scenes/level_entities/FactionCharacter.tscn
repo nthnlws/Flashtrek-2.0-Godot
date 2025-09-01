@@ -37,3 +37,5 @@ texture = SubResource("AtlasTexture_ytmji")
 
 [node name="Shield" parent="." index="6"]
 material = SubResource("ShaderMaterial_ksrv6")
+
+[connection signal="took_damage" from="Shield" to="." method="_check_aggression"]

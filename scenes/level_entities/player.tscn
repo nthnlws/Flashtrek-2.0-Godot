@@ -348,7 +348,7 @@ show_behind_parent = true
 
 [node name="hitbox_area" type="Area2D" parent="." groups=["player"]]
 collision_layer = 64
-collision_mask = 512
+collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area" groups=["player"]]
 

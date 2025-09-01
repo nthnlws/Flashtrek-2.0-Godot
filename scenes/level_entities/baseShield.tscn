@@ -27,6 +27,7 @@ offset_right = 46.25
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="shield_area" type="Area2D" parent="." groups=["enemy_shield"]]
 scale = Vector2(2.5, 2.5)

@@ -359,13 +359,12 @@ func shoot_torpedo() -> void:
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
 		t.z_index = 0
+		t.exceptions.append($hitbox_area)
+		t.exceptions.append(shield.get_node("shield_area"))
 		t.drain_energy.connect(energy_drain)
 		t.damage = t.damage * Stats.DamageMult
 		t.faction = self.faction
 		t.shooter = "Player"
-		
-		t.set_collision_mask_value(3, true) # Turns on enemy hitbox detection
-		t.set_collision_mask_value(8, true) # Turns on enemy shield detection
 		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()

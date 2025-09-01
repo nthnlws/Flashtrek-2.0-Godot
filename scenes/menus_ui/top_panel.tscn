@@ -58,7 +58,7 @@ expand_mode = 3
 [node name="FedScore" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0000"
+text = "0.00"
 label_settings = ExtResource("3_ad1hx")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
@@ -79,7 +79,7 @@ expand_mode = 3
 [node name="KlingonScore" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0000"
+text = "0.00"
 label_settings = ExtResource("3_ad1hx")
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
@@ -100,5 +100,5 @@ expand_mode = 3
 [node name="RomScore" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0000"
+text = "0.00"
 label_settings = ExtResource("3_ad1hx")
