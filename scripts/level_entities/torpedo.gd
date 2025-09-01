@@ -15,7 +15,7 @@ var sound_finished: bool = false
 
 var alive: bool = true
 var exceptions: Array = []
-var shooter: String #Saves the shooter ID so that collision detection does not shoot self
+var shooterObject: Node #Saves the shooter ID for targetting logic
 var movement_vector := Vector2(0, -1)
 
 var lifetime_seconds:float = 7.5
@@ -25,9 +25,6 @@ var faction: Utility.FACTION
 var damage:float = 15.0
 
 func _ready() -> void:
-	if shooter == "Player":
-		set_collision_mask_value(2, false)
-		set_collision_mask_value(7, false)
 	area_entered.connect(_on_torpedo_collision)
 	z_index = Utility.Z["Weapons"]
 
@@ -78,8 +75,8 @@ func hit_success(area:Area2D):
 	area_entered.disconnect(_on_torpedo_collision)
 	set_deferred("collision.disabled", true)
 	var projectile_name = area.name
-	if parent.has_method("take_damage"):
-		parent.take_damage(damage, self.global_position)
+	if parent.has_method("take_damage") and is_instance_valid(shooterObject):
+		parent.take_damage(damage, self.global_position, shooterObject)
 	kill_projectile(projectile_name)
 
 

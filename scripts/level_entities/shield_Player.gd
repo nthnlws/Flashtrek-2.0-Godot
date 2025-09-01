@@ -39,7 +39,7 @@ func set_shield_max(value) -> float:
 	return value
 
 
-func take_damage(damage:float, hit_pos: Vector2) -> void:
+func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
 	if Navigation.in_galaxy_warp == false:
 		damageTimeout() # Turn off shield regen for period
 		sp_current -= damage # Take damage

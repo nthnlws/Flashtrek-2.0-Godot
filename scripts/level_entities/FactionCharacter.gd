@@ -35,7 +35,7 @@ func setMovementState(delta:float) -> void:
 	if enemyAgro: # Movement toward player
 		targetMovement(delta)
 		moveTarget = "Enemy"
-	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase":
+	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase" and moveTarget != "Planet":
 		returnToStarbaseBool = false
 		selectRandomPlanet()
 		moveTarget = "Planet"
@@ -151,6 +151,7 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 		var bullet: Area2D = torpedo.instantiate()
 		bullet.exceptions.append($hitbox_area)
 		bullet.exceptions.append(shield.get_node("shield_area"))
+		bullet.shooterObject = self
 		bullet.damage = bullet.damage * damage_mult
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle + deg_to_rad(90)  # Direction
@@ -168,12 +169,13 @@ func instantiate_bullet(bullet: Area2D) -> void:
 
 var stored_enemies:Array = []
 func _on_agro_box_body_entered(body) -> void:
-	enemy_target = body
-	if stored_enemies.has(enemy_target):
+	if stored_enemies.has(body):
 		enemyAgro =  true
+		enemy_target = body
 	#print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
 	if body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
 		enemyAgro =  true
+		enemy_target = body
 
 
 func _on_agro_box_body_exited(body) -> void:
@@ -182,15 +184,15 @@ func _on_agro_box_body_exited(body) -> void:
 		enemy_target = null
 
 
-func take_damage(damage:float, hit_pos: Vector2) -> void:
+func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
 	super(damage, hit_pos)
-	_check_aggression()
+	_set_aggression_to_shooter(shooter)
 
 
-func _check_aggression() -> void:
-	if enemy_target:
-		enemyAgro = true
-		stored_enemies.append(enemy_target)
+func _set_aggression_to_shooter(shooter: Node) -> void:
+	enemyAgro =  true
+	enemy_target = shooter
+	stored_enemies.append(enemy_target)
 
 
 func explode() -> void:

@@ -361,10 +361,10 @@ func shoot_torpedo() -> void:
 		t.z_index = 0
 		t.exceptions.append($hitbox_area)
 		t.exceptions.append(shield.get_node("shield_area"))
+		t.shooterObject = self
 		t.drain_energy.connect(energy_drain)
 		t.damage = t.damage * Stats.DamageMult
 		t.faction = self.faction
-		t.shooter = "Player"
 		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
@@ -477,7 +477,7 @@ func idle_sound(active: bool) -> void:
 			tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
 #Weapons
-func take_damage(damage:float, hit_pos: Vector2) -> void:
+func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
 	if Navigation.in_galaxy_warp == false:
 		hp_current -= damage # Take damage
 		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)

@@ -203,7 +203,7 @@ func explode() -> void:
 	queue_free()
 
 
-func take_damage(damage:float, hit_pos: Vector2) -> void:
+func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
 	hp_current -= damage
 	
 	Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)

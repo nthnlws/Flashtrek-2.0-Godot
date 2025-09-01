@@ -6,22 +6,28 @@ class_name HealthIndicator
 
 
 func _ready() -> void:
+	_connect_signals()
+	
+	hull_icon.update_sprite_position()
+
+
+func _connect_signals() -> void:
 	SignalBus.entering_galaxy_warp.connect(fade_indicator.bind("off"))
 	SignalBus.entering_new_system.connect(fade_indicator.bind("on"))
 	SignalBus.player_type_changed.connect(change_health_sprite)
 	
-	hull_icon.update_sprite_position()
+	SignalBus.playerHealthChanged.connect(update_hitbox_health)
+	SignalBus.playerMaxHealthChanged.connect(update_hitbox_max)
+	SignalBus.playerMaxShieldChanged.connect(update_shield_max)
+	SignalBus.playerShieldChanged.connect(update_shield_health)
 
 
 func change_health_sprite(ship:Utility.SHIP_TYPES):
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	hull_icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	#shield_icon.scale = Vector2(ship_data.SHIELD_SCALE_X * 1.87, ship_data.SHIELD_SCALE_Y * 1.87)
 	
 	hull_icon.initialize_hull_icon()
 	hull_icon.calculate_and_set_content_bounds()
-	#hull_icon.update_hud_health_display()
-	#hull_icon.update_sprite_position()
 
 
 func fade_indicator(state) -> void:
@@ -30,6 +36,10 @@ func fade_indicator(state) -> void:
 	else:
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(self, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)
+
+
+func update_shield_max(new_max_HP:float) -> void:
+	shield_icon.max_SP = new_max_HP
 
 
 func update_shield_health(new_SP:float) -> void:
@@ -42,7 +52,3 @@ func update_hitbox_health(new_HP:float) -> void:
 
 func update_hitbox_max(new_max_HP:float) -> void:
 	hull_icon.max_HP = new_max_HP
-
-
-func update_shield_max(new_max_HP:float) -> void:
-	shield_icon.max_SP = new_max_HP
