@@ -354,7 +354,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 
 
 func shoot_torpedo() -> void:
-	var t: Area2D = torpedo_scene.instantiate()
+	var t: Torpedo = torpedo_scene.instantiate()
 	if _can_shoot(t):
 		t.position = muzzle.global_position
 		t.rotation = self.rotation
@@ -424,7 +424,7 @@ func respawn(pos: Vector2) -> void:
 		shield.damageTime = false
 
 
-func energyTimeout() -> void: #Turns of5f energy regen for 1 second after firing laser
+func energyTimeout() -> void: #Turns off energy regen for 1 second after firing laser
 	energyTime = true
 	if timer.is_stopped() == false: # If timer is already running, restarts timer fresh
 		timer.stop()

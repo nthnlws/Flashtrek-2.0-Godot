@@ -1,4 +1,5 @@
 extends Area2D
+class_name Torpedo
 
 signal drain_energy(amount:int)
 
@@ -15,7 +16,7 @@ var sound_finished: bool = false
 
 var alive: bool = true
 var exceptions: Array = []
-var shooterObject: Node #Saves the shooter ID for targetting logic
+var shooterObject: Node #Saves the shooter ID for targeting logic
 var movement_vector := Vector2(0, -1)
 
 var lifetime_seconds:float = 7.5

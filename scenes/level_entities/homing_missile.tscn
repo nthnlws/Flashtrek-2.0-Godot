@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dj5rx83i8si03"]
+
+[ext_resource type="Script" uid="uid://s4vl05dusmfn" path="res://scripts/level_entities/homing_missile.gd" id="1_50fve"]
+[ext_resource type="Texture2D" uid="uid://bjxfaemlhrswx" path="res://assets/textures/ships/HomingMissile.png" id="1_eoqnr"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_50fve"]
+frequency = 1.0
+
+[sub_resource type="Curve" id="Curve_50fve"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eoqnr"]
+radius = 50.0
+
+[node name="Node2D" type="Area2D"]
+position = Vector2(411, 412)
+script = ExtResource("1_50fve")
+winding_noise = SubResource("FastNoiseLite_50fve")
+damage_curve = SubResource("Curve_50fve")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.5, 31)
+texture = ExtResource("1_eoqnr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_eoqnr")
+disabled = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]

@@ -148,7 +148,7 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 	var angle: float = calculate_shooting_angle(predicted_position, randomized_position)
 	if angle != -1.0:
 		# Prep torpedo to shoot
-		var bullet: Area2D = torpedo.instantiate()
+		var bullet: Torpedo = torpedo.instantiate()
 		bullet.exceptions.append($hitbox_area)
 		bullet.exceptions.append(shield.get_node("shield_area"))
 		bullet.shooterObject = self

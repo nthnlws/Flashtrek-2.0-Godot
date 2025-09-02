@@ -310,6 +310,10 @@ platform_wall_layers = 1
 script = ExtResource("1_w51pe")
 damage_indicator = ExtResource("2_2mpn1")
 torpedo_scene = ExtResource("3_newiu")
+max_HP = null
+max_energy = null
+base_cargo_size = null
+warp_range = null
 
 [node name="GalaxyParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 19)
