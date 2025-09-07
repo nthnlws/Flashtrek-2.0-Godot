@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="shield_area" type="Area2D" parent="." groups=["enemy_shield"]]
+[node name="shield_area" type="Area2D" parent="."]
 scale = Vector2(2.5, 2.5)
 collision_layer = 128
 collision_mask = 8

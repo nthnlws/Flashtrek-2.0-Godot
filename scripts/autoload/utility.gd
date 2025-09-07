@@ -17,7 +17,8 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 	"Player": 40,
 	
 	# -- GAME WORLD EFFECTS --
-	"Effects": 50, # Explosions, shield hits, etc., on top of everything
+	"Effects": 50, # Explosions, shield hits, etc.
+	"Hitmarker": 60, 
 	
 	# -- LEVEL STATIC OBJECTS --
 	"WorldBorders": 60,
@@ -137,15 +138,14 @@ const UI_yellow: String = "[color=#FFCC66]"
 const UI_blue: String = "[color=#6699CC]"
 const UI_cargo_green: String = "[color=#1DCC4B]"
 const UI_ship_lime: String = "[color=#3bdb8b]"
-const damage_red: String = "[center][color=#eb4034]"
-const damage_green: String = "[center][color=#46e065]"
+const damage_red: String = "[color=#eb4034]"
+const damage_green: String = "[color=#46e065]"
 const damage_blue: String = "[color=#80b9ff]"
 const fed_blue: String = "[color=#3984BE]"
 const rom_green: String = "[color=#009301]"
 const klin_red: String = "[color=#FF2A2A]"
 const neut_cyan: String = "[color=#78D9C2]"
 
-const DAMAGE_MARKER = preload("res://scenes/level_entities/damage_marker.tscn")
 
 func _init() -> void:
 	load_JSON_ship_data()
@@ -178,16 +178,6 @@ func store_level_data(save_data: Dictionary) -> void:
 		#var file = FileAccess.open(file_path, FileAccess.READ)
 		#save_data = JSON.parse_string(file.get_as_text())
 		#file.close()
-
-
-func createDamageIndicator(damage: float, color: String, position: Vector2) -> void:
-	damage = snapped(damage, 0.1)
-	var string: String = "[center]" + color + str(damage)
-	var label: Marker2D = DAMAGE_MARKER.instantiate()
-	add_child(label)
-	label.global_position = position
-	var text: RichTextLabel = label.get_child(0)
-	text.bbcode_text = string
 
 
 func load_JSON_ship_data() -> void:

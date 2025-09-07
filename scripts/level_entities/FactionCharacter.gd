@@ -32,7 +32,7 @@ func _ready() -> void:
 
 
 func setMovementState(delta:float) -> void:
-	if enemyAgro: # Movement toward player
+	if enemyAgro and enemy_target: # Movement toward target
 		targetMovement(delta)
 		moveTarget = "Enemy"
 	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase" and moveTarget != "Planet":
@@ -184,15 +184,18 @@ func _on_agro_box_body_exited(body) -> void:
 		enemy_target = null
 
 
-func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
-	super(damage, hit_pos)
-	_set_aggression_to_shooter(shooter)
+func take_damage(hit_event:HitEvent) -> void:
+	super(hit_event)
+	var shooter = hit_event.get_shooter_node()
+	if shooter.faction != self.faction:
+		_set_aggression_to_shooter(shooter)
 
 
 func _set_aggression_to_shooter(shooter: Node) -> void:
 	enemyAgro =  true
 	enemy_target = shooter
-	stored_enemies.append(enemy_target)
+	if !stored_enemies.has(shooter):
+		stored_enemies.append(shooter)
 
 
 func explode() -> void:

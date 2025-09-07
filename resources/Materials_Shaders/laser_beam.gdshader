@@ -10,18 +10,16 @@ the modified result to godotshaders.com.
 shader_type canvas_item;
 render_mode blend_add; // Remove this if you want to use HDR glow instead (use "Glow" and "Outline Glow" sliders)
 
-uniform int beams = 2; // How many beams the energy field should have
+uniform int beams = 5; // How many beams the energy field should have
 
 uniform float energy = 3.0; // How much the beams will travel up and down
 uniform int roughness : hint_range(1, 10) = 3; // How compact the noise texture will be
-uniform int frequency = 10; // Amount of "ripples" in the beams
+uniform int frequency = 15; // Amount of "ripples" in the beams
 
-uniform float cutoff_x_pixel : hint_range(0.0, 1200.0) = 1200.0; // Pixel cutoff
 uniform float cutoff_x_percent : hint_range(0.0, 1.0) = 1.0;      // Percentage cutoff (1.0 = full height)
-uniform float screen_height : hint_range(1.0, 2000.0) = 1200.0;   // Height of the ColorRect in pixels
 
-uniform float speed = 1.0; // Animation speed
-uniform float thickness : hint_range(0.0, 0.1) = 0.006; // Thickness of the main beam
+uniform float speed = 0.4; // Animation speed
+uniform float thickness : hint_range(0.0, 0.1) = 0.005; // Thickness of the main beam
 uniform float outline_thickness : hint_range(0.0, 0.1) = 0.03; //Thickness of the outline color
 uniform float beam_difference : hint_range(0.0, 1.0) = 0.0; // The thickness difference between the main beam and the other, if there are more than one beam. The closer to 1 the smaller the thickness difference.
 
@@ -29,13 +27,13 @@ uniform float glow : hint_range(0.0, 3.0) = 0.0; // Use together with WorldEnvir
 uniform float outline_glow : hint_range(0.0, 3.0) = 0.0;
 
 uniform vec4 color : source_color = vec4(0.91, 1.0, 1.0, 1.0);
-uniform vec4 outline_color : source_color = vec4(0.5, 1.0, 0.96, 1.0);
+uniform vec4 outline_color : source_color = vec4(0.888, 0.362, 0.412, 1.0);
 
 uniform float progress : hint_range(0.0, 1.0) = 1.0;
 
 uniform float y_offset : hint_range (-0.5, 0.5) = 0.0; // Position of the beam
-uniform float fixed_edge_size : hint_range(0.0, 0.5) = 0.05; // How close to the edge should the beam be still before the animatino starts
-uniform vec2 noise_scale = vec2(1.0); // If the object (for example the ColorRect or Sprite node) is compressed use this to compensate for the noise texture being compressed.
+uniform float fixed_edge_size : hint_range(0.0, 0.5) = 0.03; // How close to the edge should the beam be still before the animatino starts
+uniform vec2 noise_scale = vec2(0.6, 0.6); // If the object (for example the ColorRect or Sprite node) is compressed use this to compensate for the noise texture being compressed.
 
 float random(vec2 uv) {
    return fract(sin(dot(uv.xy,
@@ -114,15 +112,14 @@ void fragment()
 {
    vec4 beam = vec4(0.0);
 
-	float cutoff_uv_x = min(cutoff_x_pixel / screen_height, cutoff_x_percent);
-	if (UV.x > cutoff_uv_x) {
+	if (UV.x > cutoff_x_percent) {
     	discard; // Ignore rendering below this Y
 }
 
 		// Fade near the cutoff (so laser end softens instead of abruptly stopping)
-	float fade_zone = 0.08;// adjust softness of fade area
-	float fade_start = cutoff_uv_x - fade_zone;
-	float fade = smoothstep(cutoff_uv_x, fade_start, UV.x);
+	//float fade_zone = 0.01;// adjust softness of fade area
+	//float fade_start = cutoff_uv_x - fade_zone;
+	//float fade = smoothstep(cutoff_uv_x, fade_start, UV.x);
 
 	// Apply to final beam color
 
@@ -132,5 +129,5 @@ void fragment()
    }
 
    COLOR = beam;
-	COLOR.a *= fade;
+	//COLOR.a *= fade;
 }

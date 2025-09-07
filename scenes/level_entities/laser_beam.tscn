@@ -1,23 +1,22 @@
-[gd_scene load_steps=17 format=3 uid="uid://mc5mn1mhm67g"]
+[gd_scene load_steps=18 format=3 uid="uid://dl1t2pm0xwqsn"]
 
-[ext_resource type="Shader" uid="uid://b44fiir3u62ar" path="res://resources/Materials_Shaders/laser_beam.gdshader" id="1_d32f2"]
-[ext_resource type="Script" uid="uid://cdnbhbmhmvtjw" path="res://scripts/level_entities/laser_raycast.gd" id="2_8ibsp"]
-[ext_resource type="PackedScene" uid="uid://bax7dybiuk6w3" path="res://scenes/level_entities/damage_marker.tscn" id="2_cslsw"]
-[ext_resource type="Script" uid="uid://dndnc1mgs6mf6" path="res://scripts/level_entities/laser_beam.gd" id="2_lq3fp"]
-[ext_resource type="AudioStream" uid="uid://bdxta7lwtdrew" path="res://assets/audio/weapons/tos_ship_phaser.ogg" id="4_15dx7"]
-[ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="5_8ibsp"]
-[ext_resource type="AudioStream" uid="uid://cbpachnemcxrh" path="res://assets/audio/weapons/laser_fizzle.ogg" id="5_cslsw"]
-[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/weapons/laser_bass.ogg" id="6_4wilu"]
+[ext_resource type="Script" uid="uid://dndnc1mgs6mf6" path="res://scripts/level_entities/laser_beam.gd" id="1_at5dv"]
+[ext_resource type="Script" uid="uid://bk1wg6cxmimat" path="res://scripts/level_entities/visuals_controller.gd" id="2_jcd4p"]
+[ext_resource type="Shader" uid="uid://b44fiir3u62ar" path="res://resources/Materials_Shaders/laser_beam.gdshader" id="3_uacia"]
+[ext_resource type="PackedScene" uid="uid://dglsm5u65wcm6" path="res://scenes/level_entities/laser_hit_effect.tscn" id="4_uacia"]
+[ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="4_yk7ts"]
+[ext_resource type="AudioStream" uid="uid://bdxta7lwtdrew" path="res://assets/audio/weapons/tos_ship_phaser.ogg" id="5_ajshl"]
+[ext_resource type="Texture2D" uid="uid://dtc6ckladq0td" path="res://addons/discord-rpc-gd/nodes/assets/circle.svg" id="5_yk7ts"]
+[ext_resource type="AudioStream" uid="uid://cbpachnemcxrh" path="res://assets/audio/weapons/laser_fizzle.ogg" id="6_ghpyy"]
+[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/weapons/laser_bass.ogg" id="7_44saj"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lq3fp"]
-shader = ExtResource("1_d32f2")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mbro"]
+shader = ExtResource("3_uacia")
 shader_parameter/beams = 5
 shader_parameter/energy = 3.0
 shader_parameter/roughness = 3
 shader_parameter/frequency = 15
-shader_parameter/cutoff_x_pixel = 1200.0
 shader_parameter/cutoff_x_percent = 1.0
-shader_parameter/screen_height = 1200.0
 shader_parameter/speed = 0.4
 shader_parameter/thickness = 0.005
 shader_parameter/outline_thickness = 0.03
@@ -78,69 +77,90 @@ gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_84q1s")
 color = Color(0.5, 3, 6, 1)
 
-[node name="Laser" type="Node2D"]
-script = ExtResource("2_lq3fp")
-damage_indicator = ExtResource("2_cslsw")
+[node name="Laser" type="Node2D" groups=["secondary_weapon"]]
+z_as_relative = false
+script = ExtResource("1_at5dv")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, 1200)
-collision_mask = 128
+enabled = false
+target_position = Vector2(1200, 0)
+collision_mask = 132
 hit_from_inside = true
 collide_with_areas = true
 collide_with_bodies = false
-script = ExtResource("2_8ibsp")
 
-[node name="laser_beam" type="ColorRect" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_lq3fp")
-offset_left = -300.0
-offset_right = 900.0
-offset_bottom = 600.0
-rotation = -1.5708
+[node name="VisualsController" type="Node2D" parent="."]
+script = ExtResource("2_jcd4p")
+
+[node name="laser_beam" type="ColorRect" parent="VisualsController"]
+material = SubResource("ShaderMaterial_7mbro")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -300.0
+offset_right = 1200.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="origin_particles" type="GPUParticles2D" parent="."]
+[node name="LaserHitEffect" parent="VisualsController/laser_beam" instance=ExtResource("4_uacia")]
+visible = false
+position = Vector2(0, 300)
+
+[node name="DebugTargetMarker" type="Sprite2D" parent="VisualsController/laser_beam"]
+position = Vector2(1200, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_yk7ts")
+
+[node name="Particles" type="Node2D" parent="VisualsController"]
+
+[node name="origin_particles" type="GPUParticles2D" parent="VisualsController/Particles"]
 scale = Vector2(0.5, 0.5)
 emitting = false
 amount = 3
-texture = ExtResource("5_8ibsp")
+texture = ExtResource("4_yk7ts")
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_0s161")
 
-[node name="path_particles" type="GPUParticles2D" parent="."]
-position = Vector2(0, -150)
+[node name="path_particles" type="GPUParticles2D" parent="VisualsController/Particles"]
+position = Vector2(600, 0)
 emitting = false
 amount = 4
-texture = ExtResource("5_8ibsp")
+texture = ExtResource("4_yk7ts")
 lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_fju22")
 
-[node name="target_particles" type="GPUParticles2D" parent="."]
-position = Vector2(0, -300)
+[node name="target_particles" type="GPUParticles2D" parent="VisualsController/Particles"]
+position = Vector2(1200, 0)
 scale = Vector2(0.5, 0.5)
 emitting = false
 amount = 4
-texture = ExtResource("5_8ibsp")
+texture = ExtResource("4_yk7ts")
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_qyhl5")
 
-[node name="Audio" type="Node" parent="."]
+[node name="Audio" type="Node" parent="VisualsController"]
 
-[node name="laserSound" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("4_15dx7")
+[node name="laserSound" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+stream = ExtResource("5_ajshl")
 volume_db = -10.0
 
-[node name="laserFizzle" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("5_cslsw")
+[node name="laserFizzle" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+stream = ExtResource("6_ghpyy")
 volume_db = -25.0
 pitch_scale = 1.6
 
-[node name="laserBass" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("6_4wilu")
+[node name="laserBass" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+stream = ExtResource("7_44saj")
 volume_db = -30.0
 pitch_scale = 0.7
 
-[node name="laserBass2" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("6_4wilu")
+[node name="laserBass2" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+stream = ExtResource("7_44saj")
 volume_db = -30.0
 pitch_scale = 0.6
+
+[connection signal="fade_out_finished" from="VisualsController" to="." method="_on_fade_out_finished"]

@@ -1,192 +1,178 @@
 extends Node2D
 class_name Laser
 
-signal laserEnded
+enum State { IDLE, FIZZLING, FIRING, FADING_OUT, DISABLED }
 
-@onready var laser: ColorRect = $laser_beam
-@onready var origin_particles: GPUParticles2D = $origin_particles
-@onready var path_particles: GPUParticles2D = $path_particles
-@onready var target_particles: GPUParticles2D = $target_particles
+var current_state = State.IDLE
+var target_node = null
+var scale_modifier: Vector2 = Vector2.ONE
+var disabled: bool = false
+var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
+
+var laser_on:bool = false
+
+@onready var visuals_controller: LaserVisualsController = $VisualsController
 @onready var raycast: RayCast2D = $RayCast2D
-@onready var parent = get_parent()
 
-@onready var fizzle_sound: AudioStreamPlayer = $Audio/laserFizzle
-@onready var laser_sound: AudioStreamPlayer = $Audio/laserSound
-@onready var laser_bass: AudioStreamPlayer = $Audio/laserBass
-@onready var laser_bass_2: AudioStreamPlayer = $Audio/laserBass2
-
-@export var damage_indicator: PackedScene
-
-@export var base_damage:int = 20
-@export var base_energy_drain:float = 7.5
-@export var view_distance:int = -1200
-
-const BLUE = Color(0.5, 1.0, 0.96, 1.0)
-const GREEN = Color(0.2, 0.432, 0.198, 1.0)
-const RED = Color(0.888, 0.362, 0.412, 1.0)
-
+@export var base_damage: float = 20.0
+@export var energy_drain: float = 7.5
+@export var cone_size:int = 90
+@export var max_range:int = 1200
 var accumulated_damage: float = 0.0
-var laserStatus:bool = false
-var active_tweens: Array = []
-var target: Area2D
-var target_point: Vector2
-var turning_off:bool = false
+
+signal drained_energy(amount:float)
+var firing_button_held:bool = false
+
 
 func _ready() -> void:
-	set_laser_color(RED)
+	z_index = Utility.Z["Weapons"]
 	
-	raycast.target_position.y = view_distance
-	
-	SignalBus.playerDied.connect(_handle_death)
+	# Hacky way to invert any scale effects on owner ship
+	scale_modifier = self.get_global_transform().get_scale()
+	self.scale  = scale/scale_modifier
 
 
-func _process(delta: float) -> void:
-	if parent is not Player: # Only process for player
-		return
-		
-	if parent.overdrive_active or Navigation.in_galaxy_warp:
-		if laser.visible and !turning_off: # Turn off laser when warping
-			fade_laser_OFF()
-			particles_OFF()
-		return
-	if laserStatus: # Right click is held
-		# Energy drain and fizzle
-		if parent.has_method("energy_drain"):
-			parent.energy_drain(base_energy_drain * delta)
-		if parent.has_method("energyTimeout"):
-			parent.energyTimeout()
-	
-		# Laser beam visible
-		if target: # If laser has valid target
-			var distance: float = self.position.distance_to(target_point) + 25
-			particles_ON() # Turn on particles
-			if !laser.visible: # Turn on laser beam
-				fade_laser_ON()
-			_set_laser_distance(distance)
+func _physics_process(delta):
+	if !disabled:
+		if firing_button_held:
+			_aim_at_mouse()
+			if can_fire():
+				#print('can fire, rotation: %s' % str(fmod((rad_to_deg(rotation) + 90), 360.0)))
+				if current_state == State.IDLE:
+					start_firing()
+			else:
+				#print('cant fire, rotation: %s' % str(fmod((rad_to_deg(rotation) + 90), 360.0)))
+				if current_state == State.FIRING or current_state == State.FIZZLING:
+					stop_firing()
 			
-			accumulated_damage += base_damage * delta
-			if accumulated_damage > 10:
-				accumulated_damage = 10
-				
-				var target_parent = target.get_parent()
-				if target_parent.has_method("take_damage"):
-					target_parent.take_damage(accumulated_damage, target_particles.global_position)
-				
-				accumulated_damage = 0
-					
-			
-		else:
-			if laser.visible and !turning_off:
-				fade_laser_OFF()
-			particles_OFF()
+		match current_state:
+			State.IDLE:
+				_state_logic_idle(delta)
+			State.FIZZLING:
+				_state_logic_fizzling(delta)
+			State.FIRING:
+				_state_logic_firing(delta)
+	
+	if current_state in [State.IDLE, State.DISABLED, State.FADING_OUT]:
+		if laser_on:
+			laser_on = false
+	elif current_state in [State.FIZZLING, State.FIRING]:
+		if !laser_on:
+			laser_on = true
 
 
-func _input(event: InputEvent) -> void:
-	if parent is not Player or parent.cloaked: # Only process for player
+func add_exceptions(exceptions:Array[Node]):
+	for area in exceptions:
+		raycast.add_exception(area)
+
+func _aim_at_mouse() -> void:
+	var mouse_position = get_global_mouse_position()
+	look_at(mouse_position)
+	rotation = wrapf(rotation, 0, TAU)
+
+
+func can_fire() -> bool:
+	# Hacky magic numbers to check if within +- 90 degrees of player rotation
+	#print(rad_to_deg(fmod(rotation, PI)))
+	if rotation <= TAU and rotation >= PI:
+		return true
+	else: return false
+
+
+func start_firing(): # Transition from IDLE to FIZZLING.
+	raycast.enabled = true
+	self.visible = true
+	if target_node != null:
+		_change_state(State.FIRING)
+	else:
+		_change_state(State.FIZZLING)
+
+
+func stop_firing(): # Player releases the fire button.
+	_change_state(State.FADING_OUT)
+
+func force_disable(): # Called by Player during warp drive or other events.
+	disabled = true
+	_change_state(State.DISABLED)
+
+func force_enable(): # Called by Player when disabling event ends
+	disabled = false
+	_change_state(State.IDLE)
+
+
+func _state_logic_idle(delta):
+	pass
+
+func _state_logic_fizzling(delta):
+	drained_energy.emit(energy_drain * 0.75 * delta)
+	_update_aiming()
+	# If target, transition to FIRING state
+	if target_node != null:
+		_change_state(State.FIRING)
+	else:
+		_change_state(State.FIZZLING)
+
+
+func _state_logic_firing(delta):
+	var tick_damage_amount:float = base_damage * delta
+	var tick_energy_drain_amount:float = energy_drain * delta
+	drained_energy.emit(tick_energy_drain_amount)
+	
+	_update_aiming()
+	# If no target, transition back to FIZZLING
+	if target_node == null:
+		_change_state(State.FIZZLING)
+	else: # Accumulate and deal damage
+		var parent = target_node.get_parent()
+		
+		# Hit event creation
+		var hit_event = HitEvent.new()
+		hit_event.shooter_instance_id = get_parent().get_instance_id()
+		hit_event.shooter_faction = faction
+		hit_event.hit_position = raycast.get_collision_point()
+		
+		hit_event.is_critical_hit = false
+		hit_event.is_continuous_damage = true
+		
+		hit_event.damage_amount = tick_damage_amount
+		
+		
+		if parent.has_method("take_damage") and is_instance_valid(target_node):
+			parent.take_damage(hit_event)
+		# Update visuals
+		visuals_controller.update_beam_target(target_node.global_position, raycast.get_collision_point())
+
+
+func _update_aiming():
+	raycast.force_raycast_update()
+	if raycast.is_colliding(): #TODO update if check for group name/layer
+		target_node = raycast.get_collider()
+		#print("target: %s" % target_node.name)
+	else:
+		target_node = null
+		#print("no target")
+
+
+func _change_state(new_state):
+	if current_state == new_state:
 		return
-		
-	if Input.is_action_just_pressed("right_click"):
-		laserStatus = true
-		if target == null and !parent.overdrive_active and !Navigation.in_galaxy_warp:
-			laser_fizzle_ON()
 	
-	if Input.is_action_just_released("right_click"):
-		laserStatus = false
-		if laser.visible:
-			particles_OFF()
-			fade_laser_OFF()
+	# Visual updates
+	current_state = new_state
+	match new_state:
+		State.IDLE:
+			visuals_controller.play_idle_effect()
+			raycast.enabled = false
+		State.FIZZLING:
+			visuals_controller.play_fizzling_effect()
+		State.FIRING:
+			visuals_controller.play_firing_effect(target_node.global_position, raycast.get_collision_point())
+		State.FADING_OUT:
+			# Called _on_fade_out_finished
+			visuals_controller.play_fade_out_animation()
+		State.DISABLED:
+			visuals_controller.play_disabled_effect()
 
 
-func _handle_death() -> void:
-	fade_laser_OFF()
-	particles_OFF()
-	target = null
-	accumulated_damage = 0
-
-
-func _get_laser_color(target: String) -> String:
-	if target == "shield_area":
-		return Utility.damage_blue
-	elif target == "hitbox_area":
-		return Utility.damage_red
-	else: return Utility.damage_red
-
-
-func _set_laser_distance(length: float) -> void:
-	laser.material.set_shader_parameter("cutoff_x_pixel", length)
-	path_particles.position.y = -length/2
-	path_particles.process_material.emission_box_extents = Vector3(1.0, length/2, 1.0)
-	target_particles.position.y = -length
-
-
-func set_laser_color(color: Color) -> void:
-	laser.material.set_shader_parameter('outline_color', color)
-	path_particles.process_material.set_color(BLUE)
-
-
-func aim_laser(origin:Vector2, target:Vector2) -> void:
-	var length: float = origin.distance_to(target)
-	laser.size.x = length
-	laser.size.y = length
-
-
-func fade_laser_OFF() -> void:
-	laserEnded.emit()
-	accumulated_damage = 0
-	
-	laser_sound.stop()
-	laser_bass.stop()
-	laser_bass_2.stop()
-	
-	turning_off = true
-	# Stop all active tweens
-	for tween: Tween in active_tweens:
-		tween.stop()
-		
-	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-	tween.tween_property(laser.material, "shader_parameter/progress", 0, 0.2)
-	active_tweens.append(tween)
-	
-	await tween.finished
-	active_tweens.erase(tween)
-	laser.visible = false
-	turning_off = false
-
-
-func fade_laser_ON() -> void:
-	accumulated_damage = 0
-	laser_sound.play()
-	laser_bass.play()
-	laser_bass_2.play()
-	
-	# Stop all active tweens
-	for tween: Tween in active_tweens:
-		tween.stop()
-		
-	laser.visible = true
-	var tween: Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	tween.tween_property(laser.material, "shader_parameter/progress", 1.0, 0.2)
-	active_tweens.append(tween)
-	
-	await tween.finished
-	active_tweens.erase(tween)
-
-
-func laser_fizzle_ON() -> void:
-	origin_particles.emitting = true
-	if !fizzle_sound.playing:
-		fizzle_sound.play()
-
-
-func particles_ON() -> void:
-	if !path_particles.emitting and !target_particles.emitting:
-		path_particles.emitting = true
-		target_particles.emitting = true
-		
-		path_particles.process_material.emission_box_extents.y = laser.size.x/2
-
-
-func particles_OFF() -> void:
-	path_particles.emitting = false
-	target_particles.emitting = false
-	origin_particles.emitting = false
+func _on_fade_out_finished():  # Called by visuals controller when fade-out is done
+	_change_state(State.IDLE)

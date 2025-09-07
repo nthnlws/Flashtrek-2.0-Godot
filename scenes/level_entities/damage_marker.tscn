@@ -99,6 +99,8 @@ _data = {
 }
 
 [node name="FloatingText" type="Marker2D"]
+z_index = 60
+z_as_relative = false
 scale = Vector2(2, 2)
 
 [node name="Label" type="RichTextLabel" parent="."]
@@ -116,10 +118,12 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(50, 12)
 bbcode_enabled = true
-text = "[center][color=#eb4034]0"
+text = "[color=#eb4034]0"
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

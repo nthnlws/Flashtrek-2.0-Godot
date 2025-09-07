@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=26 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/level_entities/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://berjp6uasq671" path="res://scenes/menus_ui/upgrade_area.tscn" id="10_b4di1"]
 [ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="12_ia24r"]
+[ext_resource type="Script" uid="uid://gqgsthrsg8ka" path="res://scripts/level_entities/hitmarker_manager.gd" id="12_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
@@ -45,6 +46,9 @@ item_pickup = ExtResource("10_b4di1")
 [node name="level_objects" type="Node" parent="Level"]
 
 [node name="ship_folder" type="Node" parent="Level"]
+
+[node name="hitmarker_manager" type="Node" parent="Level"]
+script = ExtResource("12_ijd2y")
 
 [node name="item_pickups" type="Node" parent="Level"]
 

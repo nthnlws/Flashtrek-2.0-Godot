@@ -1,7 +1,6 @@
-[gd_scene load_steps=50 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=49 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/level_entities/player.gd" id="1_w51pe"]
-[ext_resource type="PackedScene" uid="uid://d3d0qkwoxcu2y" path="res://scenes/level_entities/destination_indicator.tscn" id="2_2mpn1"]
 [ext_resource type="PackedScene" uid="uid://fdd47efusngp" path="res://scenes/level_entities/playerShield.tscn" id="2_y8s0b"]
 [ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/level_entities/PlayerCamera2D.gd" id="3_fns5h"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="3_newiu"]
@@ -16,7 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="13_klvb2"]
-[ext_resource type="PackedScene" uid="uid://mc5mn1mhm67g" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
+[ext_resource type="PackedScene" uid="uid://dl1t2pm0xwqsn" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
 [ext_resource type="AudioStream" uid="uid://dq11kuumua3bu" path="res://assets/audio/galaxy_warp_UP.ogg" id="16_hjmq1"]
 [ext_resource type="AudioStream" uid="uid://w1mbhrv11vbo" path="res://assets/audio/warp_boom.ogg" id="17_e8fxd"]
 
@@ -303,17 +302,12 @@ _data = {
 z_index = 1
 scale = Vector2(1.5, 1.5)
 collision_layer = 2
-collision_mask = 11
+collision_mask = 0
 slide_on_ceiling = false
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_w51pe")
-damage_indicator = ExtResource("2_2mpn1")
 torpedo_scene = ExtResource("3_newiu")
-max_HP = null
-max_energy = null
-base_cargo_size = null
-warp_range = null
 
 [node name="GalaxyParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 19)
@@ -333,6 +327,8 @@ script = ExtResource("3_fns5h")
 [node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
 material = SubResource("ShaderMaterial_ksrv6")
 scale = Vector2(2.5, 2.5)
+regen_speed = null
+sp_max = null
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
@@ -347,6 +343,7 @@ libraries = {
 
 [node name="Laser" parent="." instance=ExtResource("15_ke2ow")]
 show_behind_parent = true
+rotation = -1.5708
 
 [node name="regen_timer" type="Timer" parent="."]
 
@@ -419,5 +416,5 @@ volume_db = -7.0
 [node name="intersection_line" type="Line2D" parent="."]
 width = 15.0
 
-[connection signal="laserEnded" from="Laser" to="." method="_on_laser_ended"]
+[connection signal="drained_energy" from="Laser" to="." method="energy_drain"]
 [connection signal="area_entered" from="hitbox_area" to="." method="_on_hitbox_area_entered"]

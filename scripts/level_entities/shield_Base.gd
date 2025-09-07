@@ -103,3 +103,25 @@ func damageTimeout() -> void: #Turns off shield regen for 1 second after damage 
 		$Timer.start()
 		await $Timer.timeout
 		damageTime = false
+
+
+var continuous_damage_accumulator: float = 0.0
+const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
+func take_damage(hit_event:HitEvent) -> void:
+	damageTimeout()
+	sp_current -= hit_event.damage_amount
+	
+	if hit_event.is_continuous_damage:
+		# --- Laser Logic ---
+		continuous_damage_accumulator += hit_event.damage_amount
+		
+		if continuous_damage_accumulator >= HITMARKER_DAMAGE_THRESHOLD:
+			Hitmarker.createDamageHitmarker(continuous_damage_accumulator, hit_event.hit_position, Hitmarker.TargetType.SHIELD)
+			# Reset the accumulator.
+			continuous_damage_accumulator = 0.0
+	else:
+		# --- Torpedo / Instant Damage Logic ---
+		Hitmarker.createDamageHitmarker(hit_event.damage_amount, hit_event.hit_position, Hitmarker.TargetType.SHIELD)
+	
+	if sp_current <= 0:
+		turnShieldOff()

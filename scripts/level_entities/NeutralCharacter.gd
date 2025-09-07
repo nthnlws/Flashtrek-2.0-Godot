@@ -202,14 +202,36 @@ func explode() -> void:
 	
 	queue_free()
 
-
-func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
-	hp_current -= damage
-	
-	Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
+var continuous_damage_accumulator: float = 0.0
+const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
+func take_damage(hit_event:HitEvent) -> void:
+	if !alive: return
 	
 	if hp_current <= 0 and alive:
 		explode()
+	
+		# 1. Apply the damage
+	hp_current -= hit_event.damage_amount
+
+	if hit_event.is_continuous_damage:
+		# --- Laser Logic ---
+		continuous_damage_accumulator += hit_event.damage_amount
+		
+		if continuous_damage_accumulator >= HITMARKER_DAMAGE_THRESHOLD:
+			Hitmarker.createDamageHitmarker(
+				continuous_damage_accumulator,
+				hit_event.hit_position, 
+				Hitmarker.TargetType.HULL
+			)
+			# Reset the accumulator.
+			continuous_damage_accumulator = 0.0
+	else:
+		# --- Torpedo / Instant Damage Logic ---
+		Hitmarker.createDamageHitmarker(
+			hit_event.damage_amount, 
+			hit_event.hit_position, 
+			Hitmarker.TargetType.HULL
+		)
 
 
 func cloak_ship(length:float) -> void:

@@ -32,16 +32,18 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
 const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/cloak_material_VERTICAL.tres")
 
-@onready var muzzle:Node2D = $Muzzle
-@onready var timer:Timer = $regen_timer
 @onready var sprite:Sprite2D = $PlayerSprite
 @onready var shield:Node2D = $playerShield
 @onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
 @onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
-@onready var anim:AnimationPlayer = $AnimationPlayer
-@onready var camera:Camera2D = $Camera2D
 
-@export var damage_indicator: PackedScene
+@onready var laser: Laser = $Laser
+@onready var muzzle:Node2D = $Muzzle
+
+@onready var timer:Timer = $regen_timer
+@onready var camera:Camera2D = $Camera2D
+@onready var anim:AnimationPlayer = $AnimationPlayer
+
 @export var torpedo_scene: PackedScene
 var Stats: PlayerUpgrades = PlayerUpgrades.new()
 var Reputation: PlayerReputation = PlayerReputation.new()
@@ -126,15 +128,7 @@ func set_player_direction(joystick_direction) -> void:
 
 
 func _ready() -> void:
-	# Signal setup
-	SignalBus.player_type_changed.connect(_sync_data_to_resource)
-	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
-	SignalBus.missionAccepted.connect(mission_accept)
-	SignalBus.finishMission.connect(mission_finish)
-	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.playerDied.connect(clear_mission)
-	SignalBus.teleport_player.connect(teleport)
-	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out.unbind(1))
+	_connect_signals()
 	
 	z_index = Utility.Z["Player"]
 	var spawn_options: Array = get_tree().get_nodes_in_group("player_spawn_area")
@@ -149,6 +143,20 @@ func _ready() -> void:
 	_set_ship_scale(Vector2(1.5, 1.5))
 	
 	call_deferred("initialize_hud_values")
+	
+	for weapon in get_tree().get_nodes_in_group("secondary_weapon"):
+		weapon.faction = faction
+
+
+func _connect_signals() -> void:
+	SignalBus.player_type_changed.connect(_sync_data_to_resource)
+	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
+	SignalBus.missionAccepted.connect(mission_accept)
+	SignalBus.finishMission.connect(mission_finish)
+	SignalBus.joystickMoved.connect(set_player_direction)
+	SignalBus.playerDied.connect(clear_mission)
+	SignalBus.teleport_player.connect(teleport)
+	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out.unbind(1))
 
 
 func initialize_hud_values() -> void:
@@ -230,21 +238,28 @@ func _process(delta: float) -> void:
 		max_speed = max_speed
 
 	# Movement check for idle audio
-	if abs(velocity.x)+abs(velocity.y)>100 and Navigation.in_galaxy_warp:
+	if abs(velocity.x)+abs(velocity.y) > 100 and Navigation.in_galaxy_warp:
 		idle_sound(true)
 	else:
 		idle_sound(false)
-		
-	if !$Laser.laserStatus and !energyTime:
-		if energy_current < max_energy:
-			energy_current += energy_regen_speed * delta
+	
+	regenerate_energy(delta)
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Primary weapon firing
 	if event.is_action_pressed("left_click"):
 		shooting_button_held = true
 	if event.is_action_released("left_click"):
 		shooting_button_held = false
+	
+	# Secondary weapon firing
+	if event.is_action_pressed("right_click"):
+		if _can_fire_weapons(laser.energy_drain):
+			laser.firing_button_held = true
+	if event.is_action_released("right_click"):
+		laser.firing_button_held = false
+		laser.stop_firing()
 
 
 func _physics_process(delta: float) -> void:
@@ -263,7 +278,7 @@ func _physics_process(delta: float) -> void:
 				shoot_cd = false
 				
 	_handle_movement(delta)
-
+	
 	move_and_slide()
 
 
@@ -307,6 +322,8 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 	if overdrive_active: # Transition to impulse
 		overdriveTimeout()
 		overdrive_active = false
+		if laser:
+			laser.force_enable()
 		match speed:
 			"INSTANT":
 				scale = base_scale
@@ -328,9 +345,11 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 				
 				shield.fadein_SMOOTH()
 				overdrive_sound_off()
-	else: # Overdrive on transition
+	else: # Transition to overdrive
 		overdrive_active = true
 		overdrive_sound_on()
+		if laser:
+			laser.force_disable()
 		match speed:
 			"INSTANT":
 				scale = base_scale * Vector2(1, 1.70)
@@ -354,26 +373,26 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 
 
 func shoot_torpedo() -> void:
-	var t: Torpedo = torpedo_scene.instantiate()
-	if _can_shoot(t):
-		t.position = muzzle.global_position
-		t.rotation = self.rotation
-		t.z_index = 0
-		t.exceptions.append($hitbox_area)
-		t.exceptions.append(shield.get_node("shield_area"))
-		t.shooterObject = self
-		t.drain_energy.connect(energy_drain)
-		t.damage = t.damage * Stats.DamageMult
-		t.faction = self.faction
+	var bullet: Torpedo = torpedo_scene.instantiate()
+	if _can_fire_weapons(bullet.energy_drain):
+		bullet.position = muzzle.global_position
+		bullet.rotation = self.rotation
+		bullet.z_index = 0
+		bullet.exceptions.append($hitbox_area)
+		bullet.exceptions.append(shield.get_node("shield_area"))
+		bullet.shooterObject = self
+		bullet.drain_energy.connect(energy_drain)
+		bullet.damage = bullet.damage * Stats.DamageMult
+		bullet.faction = self.faction
 		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
-		$Projectiles.add_child(t)
+		$Projectiles.add_child(bullet)
 
 
-func _can_shoot(t:Area2D) -> bool:
-	if energy_current > t.energy_cost and overdriveTime == false\
-	 and Navigation.in_galaxy_warp == false and cloaked == false:
+func _can_fire_weapons(energy_drain:float) -> bool:
+	if energy_current > energy_drain and overdriveTime == false\
+	 and Navigation.in_galaxy_warp == false and cloaked == false and overdrive_active == false:
 		return true
 	else: return false
 
@@ -381,6 +400,11 @@ func _can_shoot(t:Area2D) -> bool:
 func energy_drain(energy: float) -> void:
 	energy_current -= energy
 
+
+func regenerate_energy(delta) -> void:
+	if !$Laser.laser_on and !energyTime:
+		if energy_current < max_energy:
+			energy_current += energy_regen_speed * delta
 
 func killPlayer() -> void:
 	if alive:
@@ -424,7 +448,7 @@ func respawn(pos: Vector2) -> void:
 		shield.damageTime = false
 
 
-func energyTimeout() -> void: #Turns off energy regen for 1 second after firing laser
+func energyTimeout() -> void: #Turns off energy regen for 1 second
 	energyTime = true
 	if timer.is_stopped() == false: # If timer is already running, restarts timer fresh
 		timer.stop()
@@ -476,14 +500,28 @@ func idle_sound(active: bool) -> void:
 			var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 			tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
 
-#Weapons
-func take_damage(damage:float, hit_pos: Vector2, shooter:Node = null) -> void:
-	if Navigation.in_galaxy_warp == false:
-		hp_current -= damage # Take damage
-		Utility.createDamageIndicator(damage, Utility.damage_red, hit_pos)
+var continuous_damage_accumulator: float = 0.0
+const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
+func take_damage(hit_event: HitEvent):
+	if Navigation.in_galaxy_warp or !alive:
+		return
+	
+	hp_current -= hit_event.damage_amount
+	
+	if hit_event.is_continuous_damage:
+		# --- Laser Logic ---
+		continuous_damage_accumulator += hit_event.damage_amount
 		
-		if hp_current <= 0:
-			killPlayer()
+		if continuous_damage_accumulator >= HITMARKER_DAMAGE_THRESHOLD:
+			Hitmarker.createDamageHitmarker(continuous_damage_accumulator, hit_event.hit_position, Hitmarker.TargetType.SELF)
+			# Reset the accumulator
+			continuous_damage_accumulator = 0.0
+	else:
+		# --- Torpedo / Instant Damage Logic ---
+		Hitmarker.createDamageHitmarker(hit_event.damage_amount, hit_event.hit_position, Hitmarker.TargetType.SELF)
+	
+	if hp_current <= 0:
+		killPlayer()
 
 
 func velocity_check() -> bool:
@@ -608,16 +646,6 @@ func _recalculate_current_faction() -> Utility.FACTION:
 	else:
 		push_error("Current faction calculation failed, current faction unknown")
 		return Utility.FACTION.NEUTRAL
-
-
-func create_damage_indicator(damage:float, shooter:String, projectile:Area2D) -> void:
-	var spawn: Marker2D = projectile.create_damage_indicator(damage, $hitbox_area.name)
-	projectile.kill_projectile($hitbox_area.name)
-	$Hitmarkers.add_child(spawn)
-
-
-func _on_laser_ended() -> void:
-	create_damage_indicator
 
 
 func apply_upgrade(pickup: UpgradePickup) -> void:

@@ -5,11 +5,10 @@ signal drain_energy(amount:int)
 
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
-@export var damage_indicator: PackedScene
 @onready var hit_sound: AudioStreamPlayer2D = $torpedo_hit
 
 @export var speed:int = 1000
-@export var energy_cost:int = 10
+@export var energy_drain:int = 10
 
 var animation_finished: bool = false
 var sound_finished: bool = false
@@ -30,7 +29,7 @@ func _ready() -> void:
 	z_index = Utility.Z["Weapons"]
 
 	if GameSettings.unlimitedEnergy == false:
-		drain_energy.emit(energy_cost)
+		drain_energy.emit(energy_drain)
 
 
 func _process(delta: float) -> void:
@@ -76,8 +75,21 @@ func hit_success(area:Area2D):
 	area_entered.disconnect(_on_torpedo_collision)
 	set_deferred("collision.disabled", true)
 	var projectile_name = area.name
+	
+	# Hit event creation
+	var hit_event = HitEvent.new()
+	hit_event.shooter_faction = faction
+	hit_event.hit_position = self.global_position
+	if shooterObject:
+		hit_event.shooter_instance_id = shooterObject.get_instance_id()
+	
+	hit_event.is_critical_hit = false
+	hit_event.is_continuous_damage = false
+	
+	hit_event.damage_amount = damage
+	
 	if parent.has_method("take_damage") and is_instance_valid(shooterObject):
-		parent.take_damage(damage, self.global_position, shooterObject)
+		parent.take_damage(hit_event)
 	kill_projectile(projectile_name)
 
 
