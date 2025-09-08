@@ -63,11 +63,10 @@ grow_vertical = 2
 [node name="hull_icon" type="TextureRect" parent="." node_paths=PackedStringArray("shield_node")]
 material = SubResource("ShaderMaterial_tnw4a")
 layout_mode = 0
-offset_left = 64.0
-offset_top = 5.0
-offset_right = 112.0
-offset_bottom = 53.0
-rotation = 1.5708
+offset_left = 16.0
+offset_top = 6.0
+offset_right = 64.0
+offset_bottom = 54.0
 texture = SubResource("AtlasTexture_b2c71")
 stretch_mode = 3
 script = ExtResource("1_ddvhb")

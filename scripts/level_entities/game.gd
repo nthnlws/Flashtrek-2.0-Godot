@@ -7,7 +7,7 @@ extends Node2D
 
 var galaxy_map: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
-const MAX_LEVEL = 31  # Highest system level
+const MAX_LEVEL:int = 31  # Highest system level
 
 var score:int = 0:
 	set(value):
@@ -61,7 +61,7 @@ func _warp_into_new_system(system) -> void:
 	SignalBus.entering_new_system.emit()
 	
 	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
-	tween2.tween_property(LevelData.player, "velocity", Vector2(0, -600).rotated(LevelData.player.global_rotation), 3.0)
+	tween2.tween_property(LevelData.player, "velocity", Vector2(600, 0).rotated(LevelData.player.global_rotation), 3.0)
 	create_tween().tween_property(LevelData.player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
 	await tween2.finished
 	tunnel_effect.visible = false

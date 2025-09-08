@@ -41,7 +41,7 @@ func _on_player_shield_button_toggled(toggled_on: bool) -> void:
 func _on_laser_slider_value_changed(value: int) -> void:
 	GameSettings.laserRange = value
 
-func _on_laser_damage_enabled_toggled(toggled_on: bool):
+func _on_laser_damage_enabled_toggled(toggled_on: bool) -> void:
 	GameSettings.laserRangeOverride = toggled_on
 
 func _on_damage_enabled_toggled(toggled_on: bool) -> void:
@@ -52,7 +52,7 @@ func _on_damage_slider_value_changed(value:float) -> void:
 
 func _on_speed_enabled_toggled(toggled_on: bool) -> void:
 	GameSettings.speedOverride = toggled_on
-func _on_speed_slider_value_changed(value: float):
+func _on_speed_slider_value_changed(value: float) -> void:
 	GameSettings.maxSpeed = value
 
 
@@ -86,12 +86,12 @@ func _on_vsync_select_item_selected(index: int) -> void:
 		GameSettings.vSyncSetting = 2
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
-func _on_volume_slider_value_changed(value: float):
+func _on_volume_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
 	GameSettings.gameVolume = value
 
 
-func store_menu_state(resets: int):
+func store_menu_state(resets: int) -> void:
 	if resets == 0:
 		file = FileAccess.open("user://defaultmenuoptions.json", FileAccess.WRITE)
 	elif resets > 0:
@@ -106,22 +106,23 @@ func store_menu_state(resets: int):
 		if variables.type != 0:
 			save_data[var_name] = GameSettings.get(var_name)
 	
-	var json = JSON.stringify(save_data)
+	var json:String = JSON.stringify(save_data)
 	file.store_string(json)
 	file.close()
 
-func set_menu_to_savefile(resets: int):
+
+func set_menu_to_savefile(resets: int) -> void:
 	# Chooses file to read based on number of resets
 	file = FileAccess.open("user://menuoptions.json", FileAccess.READ)
 	
 	var json: String = file.get_as_text()
 	var save_data = JSON.parse_string(json)
 	
-	for child in $ColorRect.find_children("", "CheckButton", true, false):
+	for child:CheckButton in $ColorRect.find_children("", "CheckButton", true, false):
 		if child != null:
 			var value = save_data.get(child.name)
 			child.button_pressed = value
-	for child in $ColorRect.find_children("", "HSlider", true, false):
+	for child:HSlider in $ColorRect.find_children("", "HSlider", true, false):
 		if child != null:
 			var value = save_data.get(child.name)
 			child.value = value

@@ -143,16 +143,17 @@ collision_mask = 192
 script = ExtResource("1_uf70w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(16, -1)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_m13ix")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(16, 0)
+rotation = 1.57079
 shape = SubResource("CapsuleShape2D_hsjqf")
 
 [node name="explosion_animation" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -30)
+position = Vector2(16, -1)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_sq830")
 animation = &"explode_hull"

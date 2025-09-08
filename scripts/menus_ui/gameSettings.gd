@@ -20,7 +20,7 @@ var laserDamageOverride: bool = false
 var laserDamage: int
 var speedOverride: bool  = false
 var maxSpeed: int
-var playerDirection
+var playerDirection: Vector2
 
 #Enemy
 var enemyShield: bool = true

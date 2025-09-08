@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 		shieldActive = false
 
 
-func _set_shield_active(value) -> bool:
+func _set_shield_active(value:bool) -> bool:
 	super(value)
 	# Used for setting HUD health indicator color
 	if value == false:
@@ -26,13 +26,13 @@ func _set_shield_active(value) -> bool:
 	return value
 
 
-func set_shield_value(value) -> float:
+func set_shield_value(value:float) -> float:
 	var clamped_value: float = clamp(value, 0.0, sp_max)
 	SignalBus.playerShieldChanged.emit(clamped_value)
 	return clamped_value
 
 
-func set_shield_max(value) -> float:
+func set_shield_max(value:float) -> float:
 	if get_parent():
 		value = value * get_parent().Stats.ShieldMult
 	SignalBus.playerMaxShieldChanged.emit(value)

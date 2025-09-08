@@ -42,7 +42,7 @@ func set_label(planet_name: String) -> void:
 	label.bbcode_text = Utility.UI_blue + planet_name
 
 
-func fade_label(state) -> void:
+func fade_label(state:String) -> void:
 	if state == "off":
 		create_tween().tween_property(label, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
 	elif state == "on":

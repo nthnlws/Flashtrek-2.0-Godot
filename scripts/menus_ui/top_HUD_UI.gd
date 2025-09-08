@@ -94,11 +94,11 @@ func tween_menu(target_position:Vector2) -> void: # Collapse mission menu
 	if is_instance_valid(tween):
 		tween.kill()
 	
-	var distance_to_go = abs(position.distance_to(target_position))
-	var travel_fraction = 0.0
+	var distance_to_go:float = abs(position.distance_to(target_position))
+	var travel_fraction:float = 0.0
 	if total_distance > 0:
 		travel_fraction = distance_to_go / total_distance
-	var dynamic_duration = transition_time * travel_fraction
+	var dynamic_duration:float = transition_time * travel_fraction
 	
 	tween = create_tween()
 	tween.tween_property(self, "position", target_position, dynamic_duration)

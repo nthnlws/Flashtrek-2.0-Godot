@@ -1,6 +1,6 @@
 extends Control
 
-const OBJECT = preload("res://scenes/menus_ui/minimap_object.tscn")
+const OBJECT:PackedScene = preload("res://scenes/menus_ui/minimap_object.tscn")
 
 var count:int = 0
 
@@ -15,7 +15,7 @@ var player: Player
 # Minimap scale values
 var scale_values: Array[float] = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
 var current_index: int = 3  # Index of the current value in scale_values
-var minimapScale = scale_values[current_index]  # Start at 1.0
+var minimapScale:float = scale_values[current_index]  # Start at 1.0
 
 var grid_scale: Vector2
 
@@ -50,14 +50,14 @@ func _input(event: InputEvent) -> void:
 			minimapScale = scale_values[current_index]
 
 
-func spawn_ship():
+func spawn_ship() -> void:
 	var new_obj = add_minimap_object()
 	enemyShips.append(new_obj)
 	new_obj.modulate = Color.RED # Red
 	#ship_to_object[enemy] = new_obj  # Map enemy to TextureRect
 
 
-func add_minimap_object():
+func add_minimap_object() -> TextureRect:
 	var new_obj = OBJECT.instantiate()
 	new_obj.add_to_group("minimap_obj")
 	add_child(new_obj)
@@ -71,7 +71,7 @@ func create_minimap_objects() -> void:
 	clear_objects()
 	for enemy:FactionCharacter in LevelData.enemyShips:
 		if enemy:
-			var new_obj = add_minimap_object()
+			var new_obj:TextureRect = add_minimap_object()
 			
 			enemyShips.append(new_obj)
 			new_obj.modulate = Color.RED # Red
@@ -80,7 +80,7 @@ func create_minimap_objects() -> void:
 			
 	for NPC:NeutralCharacter in LevelData.neutralShips:
 		if NPC:
-			var new_obj = add_minimap_object()
+			var new_obj:TextureRect = add_minimap_object()
 			
 			neutralShips.append(new_obj)
 			new_obj.modulate = Color.SPRING_GREEN # Red
@@ -89,7 +89,7 @@ func create_minimap_objects() -> void:
 			
 	for starbase:Node2D in LevelData.starbase:
 		if starbase:
-			var new_obj = add_minimap_object()
+			var new_obj:TextureRect = add_minimap_object()
 			
 			new_obj.modulate = Color.WHITE
 			starbaseObjects.append(new_obj)
@@ -97,7 +97,7 @@ func create_minimap_objects() -> void:
 
 	for planet:Node2D in LevelData.planets:
 		if planet:
-			var new_obj = add_minimap_object()
+			var new_obj:TextureRect = add_minimap_object()
 			
 			new_obj.modulate = Color.SLATE_BLUE
 			levelObjects.append(new_obj)
@@ -105,7 +105,7 @@ func create_minimap_objects() -> void:
 			
 	for sun:Node2D in LevelData.suns:
 		if sun:
-			var new_obj = add_minimap_object()
+			var new_obj:TextureRect = add_minimap_object()
 			
 			new_obj.modulate = Color.YELLOW
 			sunObjects.append(new_obj)

@@ -8,7 +8,7 @@ class_name HealthIndicator
 func _ready() -> void:
 	_connect_signals()
 	
-	hull_icon.update_sprite_position()
+	#hull_icon.update_sprite_position()
 
 
 func _connect_signals() -> void:

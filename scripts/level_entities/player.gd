@@ -286,21 +286,21 @@ func _handle_movement(delta: float) -> void:
 	if Navigation.in_galaxy_warp == false:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
-			direction.y = Input.get_axis("move_forward", "move_backward")  # Forward/backward movement
+			direction.x = Input.get_axis("move_backward", "move_forward")  # Forward/backward movement
 
 		# Add joystick direction for Android or hybrid control
 		#direction += direction
 		#print(direction)
 		# Apply forward/backward thrust logic
-		if direction.y != 0:
-			velocity += Vector2(0, direction.y).rotated(rotation) * acceleration / overdrivem_v
+		if direction.x != 0:
+			velocity += Vector2(direction.x, 0).rotated(rotation) * acceleration / overdrivem_v
 			velocity = velocity.limit_length(max_speed/overdrivem_v)
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
 			
-		if direction.x !=0:
-			rotate(deg_to_rad(direction.x * rotation_speed * delta * overdrivem_v))
+		if direction.y !=0:
+			rotate(deg_to_rad(direction.y * rotation_speed * delta * overdrivem_v))
 		
 		# Handle rotation for keyboard input
 		if OS.get_name() == "Windows":
@@ -352,13 +352,13 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 			laser.force_disable()
 		match speed:
 			"INSTANT":
-				scale = base_scale * Vector2(1, 1.70)
+				scale = base_scale * Vector2(1.5, 1.0)
 				overdrivem_v = overdrive_multiplier
 				overdrivem_r = overdrive_multiplier
 				shield.fadeout_INSTANT()
 			"SMOOTH":
 				var tween_scale: Object = create_tween() # Ship sprite scale
-				tween_scale.tween_property(self, "scale", base_scale * Vector2(1, 1.70), trans_length)
+				tween_scale.tween_property(self, "scale", base_scale * Vector2(1.5, 1), trans_length)
 				current_tweens.append(tween_scale)
 				
 				var tween_v: Object = create_tween() # Max Velocity
@@ -401,10 +401,11 @@ func energy_drain(energy: float) -> void:
 	energy_current -= energy
 
 
-func regenerate_energy(delta) -> void:
+func regenerate_energy(delta:float) -> void:
 	if !$Laser.laser_on and !energyTime:
 		if energy_current < max_energy:
 			energy_current += energy_regen_speed * delta
+
 
 func killPlayer() -> void:
 	if alive:
@@ -441,7 +442,7 @@ func respawn(pos: Vector2) -> void:
 		energy_current = max_energy #Resets energy
 		shield.sp_current = shield.sp_max #Resets Shield
 	
-		rotation = 0 #Sets rotation to north
+		rotation = deg_to_rad(-90.0) #Sets rotation to up
 		
 		shield.turnShieldOn()
 
@@ -554,17 +555,18 @@ func galaxy_warp_out() -> void:
 	
 	# Velocity tween
 	var tween: Tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-	tween.tween_property(self, "velocity", Vector2(0, -2500).rotated(rotation), 8.0)
+	tween.tween_property(self, "velocity", Vector2(2500, 0).rotated(rotation), 8.0)
 	
 	
 	await get_tree().create_timer(1.0).timeout #3.0 sec
-	create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	galaxy_particles.emitting = true
-	
 	#Camera Zoom out
 	create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/overdrive_multiplier*3)
 	
-	await get_tree().create_timer(3.0).timeout #6.0 sec
+	await get_tree().create_timer(1.5).timeout #4.5 sec
+	galaxy_particles.emitting = true
+	create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	
+	await get_tree().create_timer(1.5).timeout #6.0 sec
 	#print("flat, scale")
 	create_tween().tween_property(galaxy_particles.process_material, "flatness", 0.0, 5.0)
 	create_tween().tween_property(galaxy_particles.process_material, "scale_min", 1.0, 3.5)
@@ -685,7 +687,7 @@ func cloak_ship(length:float, show_shadow:bool = false) -> void:
 	await cloak_anim.animation_finished
 	
 	if show_shadow:
-		var cloak_fill = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
+		var cloak_fill:ShaderMaterial = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
 		var new_mat2 = cloak_fill
 		new_mat2.resource_local_to_scene = true
 		sprite.material = new_mat2

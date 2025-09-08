@@ -11,7 +11,7 @@ class_name SystemLabel
 	set(value):
 		modulate_color = value
 		modulate = value
-const GALAXY_MAP_LABEL_THEME = preload("res://resources/galaxy_map_label_theme.tres")
+const GALAXY_MAP_LABEL_THEME:LabelSettings = preload("res://resources/galaxy_map_label_theme.tres")
 
 func _ready() -> void:
 	_setup_label()

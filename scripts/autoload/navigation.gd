@@ -12,7 +12,7 @@ var planet_names:Array[String] = load_planet_names()
 
 var entry_coords: Vector2
 
-const SYSTEM_RANGES = {
+const SYSTEM_RANGES:Dictionary = {
 	"Federation": {"range": {"min": 1, "max": 16}},
 	"Klingon": {"range": {"min": 17, "max": 24}},
 	"Romulan": {"range": {"min": 25, "max": 31}},
@@ -31,7 +31,7 @@ func _ready() -> void:
 	SignalBus.levelReset.connect(load_planet_names)
 
 
-func set_current_system(system:String = Navigation.targetSystem):
+func set_current_system(system:String = Navigation.targetSystem) -> void:
 	currentSystem = system
 	current_system_faction = get_faction_for_system(system)
 
@@ -152,7 +152,7 @@ func get_system_distance(origin: String, target: String) -> int:
 	if origin == target:
 		return -2
 
-	var visited := {}
+	var visited:Dictionary = {}
 	var queue: Array = []
 	queue.append({ "name": origin, "depth": 0 })
 	visited[origin] = true
@@ -178,7 +178,7 @@ func get_system_distance(origin: String, target: String) -> int:
 
 
 func get_reachable_systems(start_name: String, max_range: int) -> Array:
-	var visited := {}
+	var visited:Dictionary = {}
 	var queue: Array = []
 	var reachable: Array = []
 

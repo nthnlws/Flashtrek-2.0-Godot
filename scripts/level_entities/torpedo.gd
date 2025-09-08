@@ -1,22 +1,22 @@
 extends Area2D
 class_name Torpedo
 
-signal drain_energy(amount:int)
+signal drain_energy(amount:float)
 
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var hit_sound: AudioStreamPlayer2D = $torpedo_hit
 
 @export var speed:int = 1000
-@export var energy_drain:int = 10
+@export var energy_drain:float = 10.0
 
 var animation_finished: bool = false
 var sound_finished: bool = false
 
 var alive: bool = true
 var exceptions: Array = []
-var shooterObject: Node #Saves the shooter ID for targeting logic
-var movement_vector := Vector2(0, -1)
+var shooterObject: Node # Saves the shooter ID for targeting logic
+var movement_vector: Vector2 = Vector2(1, 0)
 
 var lifetime_seconds:float = 7.5
 var age: float = 0.0
@@ -66,7 +66,7 @@ func _on_torpedo_collision(area: Area2D) -> void:
 	if !exceptions.has(area):
 		hit_success(area)
 
-func hit_success(area:Area2D):
+func hit_success(area:Area2D) -> void:
 	if not alive:
 		return
 	
@@ -77,7 +77,7 @@ func hit_success(area:Area2D):
 	var projectile_name = area.name
 	
 	# Hit event creation
-	var hit_event = HitEvent.new()
+	var hit_event:HitEvent = HitEvent.new()
 	hit_event.shooter_faction = faction
 	hit_event.hit_position = self.global_position
 	if shooterObject:

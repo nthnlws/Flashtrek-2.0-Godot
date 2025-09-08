@@ -3,7 +3,7 @@ class_name Laser
 
 enum State { IDLE, FIZZLING, FIRING, FADING_OUT, DISABLED }
 
-var current_state = State.IDLE
+var current_state: State = State.IDLE
 var target_node = null
 var scale_modifier: Vector2 = Vector2.ONE
 var disabled: bool = false
@@ -32,7 +32,7 @@ func _ready() -> void:
 	self.scale  = scale/scale_modifier
 
 
-func _physics_process(delta):
+func _physics_process(delta:float) -> void:
 	if !disabled:
 		if firing_button_held:
 			_aim_at_mouse()
@@ -61,25 +61,24 @@ func _physics_process(delta):
 			laser_on = true
 
 
-func add_exceptions(exceptions:Array[Node]):
-	for area in exceptions:
+func add_exceptions(exceptions:Array[Node]) -> void:
+	for area:Area2D in exceptions:
 		raycast.add_exception(area)
 
 func _aim_at_mouse() -> void:
-	var mouse_position = get_global_mouse_position()
+	var mouse_position:Vector2 = get_global_mouse_position()
 	look_at(mouse_position)
 	rotation = wrapf(rotation, 0, TAU)
 
 
 func can_fire() -> bool:
-	# Hacky magic numbers to check if within +- 90 degrees of player rotation
-	#print(rad_to_deg(fmod(rotation, PI)))
-	if rotation <= TAU and rotation >= PI:
-		return true
-	else: return false
+	#print(rad_to_deg(rotation))
+	if rotation <= deg_to_rad(360 - cone_size) and rotation >= deg_to_rad(cone_size):
+		return false
+	else: return true
 
 
-func start_firing(): # Transition from IDLE to FIZZLING.
+func start_firing() -> void: # Transition from IDLE to FIZZLING.
 	raycast.enabled = true
 	self.visible = true
 	if target_node != null:
@@ -88,22 +87,22 @@ func start_firing(): # Transition from IDLE to FIZZLING.
 		_change_state(State.FIZZLING)
 
 
-func stop_firing(): # Player releases the fire button.
+func stop_firing() -> void: # Player releases the fire button.
 	_change_state(State.FADING_OUT)
 
-func force_disable(): # Called by Player during warp drive or other events.
+func force_disable() -> void: # Called by Player during warp drive or other events.
 	disabled = true
 	_change_state(State.DISABLED)
 
-func force_enable(): # Called by Player when disabling event ends
+func force_enable() -> void: # Called by Player when disabling event ends
 	disabled = false
 	_change_state(State.IDLE)
 
 
-func _state_logic_idle(delta):
+func _state_logic_idle(delta:float) -> void:
 	pass
 
-func _state_logic_fizzling(delta):
+func _state_logic_fizzling(delta:float) -> void:
 	drained_energy.emit(energy_drain * 0.75 * delta)
 	_update_aiming()
 	# If target, transition to FIRING state
@@ -113,7 +112,7 @@ func _state_logic_fizzling(delta):
 		_change_state(State.FIZZLING)
 
 
-func _state_logic_firing(delta):
+func _state_logic_firing(delta:float) -> void:
 	var tick_damage_amount:float = base_damage * delta
 	var tick_energy_drain_amount:float = energy_drain * delta
 	drained_energy.emit(tick_energy_drain_amount)
@@ -126,7 +125,7 @@ func _state_logic_firing(delta):
 		var parent = target_node.get_parent()
 		
 		# Hit event creation
-		var hit_event = HitEvent.new()
+		var hit_event:HitEvent = HitEvent.new()
 		hit_event.shooter_instance_id = get_parent().get_instance_id()
 		hit_event.shooter_faction = faction
 		hit_event.hit_position = raycast.get_collision_point()
@@ -143,7 +142,7 @@ func _state_logic_firing(delta):
 		visuals_controller.update_beam_target(target_node.global_position, raycast.get_collision_point())
 
 
-func _update_aiming():
+func _update_aiming() -> void:
 	raycast.force_raycast_update()
 	if raycast.is_colliding(): #TODO update if check for group name/layer
 		target_node = raycast.get_collider()
@@ -153,7 +152,7 @@ func _update_aiming():
 		#print("no target")
 
 
-func _change_state(new_state):
+func _change_state(new_state:State) -> void:
 	if current_state == new_state:
 		return
 	
@@ -174,5 +173,5 @@ func _change_state(new_state):
 			visuals_controller.play_disabled_effect()
 
 
-func _on_fade_out_finished():  # Called by visuals controller when fade-out is done
+func _on_fade_out_finished() -> void:  # Called by visuals controller when fade-out is done
 	_change_state(State.IDLE)

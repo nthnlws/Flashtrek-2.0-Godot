@@ -32,11 +32,11 @@ func update_hud_health_display() -> void:
 		mat.set_shader_parameter("health_ratio", health_ratio)
 
 
-func update_sprite_position() -> void:
-	var current_scale:Vector2 = shield_node.scale
-	var new_sprite_x:float = (shield_node.custom_minimum_size.x * current_scale.x / 2) + 24
-	var new_sprite_y:float = (shield_node.custom_minimum_size.y * current_scale.y / 2) - 24
-	position = Vector2(new_sprite_x, new_sprite_y)
+#func update_sprite_position() -> void:
+	#var current_scale:Vector2 = shield_node.scale
+	#var new_sprite_x:float = (shield_node.custom_minimum_size.x * current_scale.x / 2) + 24
+	#var new_sprite_y:float = (shield_node.custom_minimum_size.y * current_scale.y / 2) - 24
+	#position = Vector2(new_sprite_x, new_sprite_y)
 
 
 func initialize_hull_icon():

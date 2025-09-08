@@ -2,13 +2,13 @@ extends Node
 class_name Hitmarker
 
 enum TargetType { SELF, SHIELD, HULL }
-const DAMAGE_MARKER = preload("res://scenes/level_entities/damage_marker.tscn")
+const DAMAGE_MARKER: PackedScene = preload("res://scenes/level_entities/damage_marker.tscn")
 @onready var hitmarker_manager: Hitmarker = $"."
 
-static func createDamageHitmarker(damage_value:float, marker_position:Vector2, color:TargetType):
-	var node = Engine.get_main_loop().current_scene.get_node("Level/hitmarker_manager")
+static func createDamageHitmarker(damage_value:float, marker_position:Vector2, color:TargetType) -> void:
+	var manager:Node = Engine.get_main_loop().current_scene.get_node("Level/hitmarker_manager")
 	var marker:Marker2D = DAMAGE_MARKER.instantiate()
-	node.add_child(marker)
+	manager.add_child(marker)
 	marker.global_position = marker_position
 	var text: RichTextLabel = marker.get_child(0)
 	

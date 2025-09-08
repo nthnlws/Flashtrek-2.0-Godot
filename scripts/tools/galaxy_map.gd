@@ -112,7 +112,7 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 	var radius: float = shape.radius
 
 	# Get the global transformation of the CollisionShape2D
-	var global_transform = collision_shape.get_global_transform()
+	var global_transform:Transform2D = collision_shape.get_global_transform()
 
 	# Get the global center of the circle by using the origin of the global transform
 	var global_center: Vector2 = global_transform.origin

@@ -44,7 +44,7 @@ curve = SubResource("Curve_hvu0f")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ai1hp"]
 emission_shape = 1
 emission_sphere_radius = 28.0
-direction = Vector3(0, 1, 0)
+direction = Vector3(-1, 0, 0)
 spread = 35.0
 flatness = 1.0
 initial_velocity_min = 120.0
@@ -310,7 +310,6 @@ script = ExtResource("1_w51pe")
 torpedo_scene = ExtResource("3_newiu")
 
 [node name="GalaxyParticles" type="GPUParticles2D" parent="."]
-position = Vector2(0, 19)
 emitting = false
 amount = 500
 amount_ratio = 0.01
@@ -318,7 +317,7 @@ texture = ExtResource("4_mse3f")
 process_material = SubResource("ParticleProcessMaterial_ai1hp")
 
 [node name="Muzzle" type="Node2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(12, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -327,13 +326,10 @@ script = ExtResource("3_fns5h")
 [node name="playerShield" parent="." instance=ExtResource("2_y8s0b")]
 material = SubResource("ShaderMaterial_ksrv6")
 scale = Vector2(2.5, 2.5)
-regen_speed = null
-sp_max = null
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_2mpn1")
-position = Vector2(1, -4)
 texture = SubResource("AtlasTexture_wg5l6")
 
 [node name="CloakAnim" type="AnimationPlayer" parent="PlayerSprite"]
@@ -343,7 +339,6 @@ libraries = {
 
 [node name="Laser" parent="." instance=ExtResource("15_ke2ow")]
 show_behind_parent = true
-rotation = -1.5708
 
 [node name="regen_timer" type="Timer" parent="."]
 

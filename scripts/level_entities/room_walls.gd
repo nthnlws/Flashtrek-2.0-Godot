@@ -41,7 +41,7 @@ func _ready() -> void:
 	
 	var i: int = 0
 	var borders: Array = get_tree().get_nodes_in_group("borders")
-	for wall in borders:
+	for wall:StaticBody2D in borders:
 		wall.position = wall_positions[i]
 		wall.rotation = wall_rotations[i]
 		wall.scale = wall_scales[i]
@@ -63,25 +63,26 @@ func _ready() -> void:
 		
 func _on_border_coords_moved() -> void:
 	wall_positions = [
-	Vector2(0, GameSettings.borderValue),
-	Vector2(0, -GameSettings.borderValue),
-	Vector2(GameSettings.borderValue, 0),
-	Vector2(-GameSettings.borderValue, 0)
-]
+		Vector2(0, GameSettings.borderValue),
+		Vector2(0, -GameSettings.borderValue),
+		Vector2(GameSettings.borderValue, 0),
+		Vector2(-GameSettings.borderValue, 0)
+	]
 	wall_scales = [
-	Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
-	Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
-	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
-	Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
-]
-	for i in range(LevelData.levelWalls.size()):
+		Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
+		Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
+		Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
+		Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
+	]
+	
+	for i:int in range(LevelData.levelWalls.size()):
 		var wall: StaticBody2D  = LevelData.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
 func _on_collision_changed(toggle_status: bool) -> void:
-	for i in range(LevelData.levelWalls.size()):
+	for i:int in range(LevelData.levelWalls.size()):
 		var wall: StaticBody2D = LevelData.levelWalls[i]
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status

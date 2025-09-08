@@ -29,15 +29,15 @@ var sp_current:float = sp_max:
 func _ready() -> void:
 	modulate.a = 1.0
 
-func _set_shield_active(state:bool):
+func _set_shield_active(state:bool) -> bool:
 	return state
 
 
-func set_shield_value(value) -> float:
+func set_shield_value(value:float) -> float:
 	return clamp(value, 0.0, sp_max)
 
 
-func set_shield_max(value) -> float:
+func set_shield_max(value:float) -> float:
 	return value
 
 

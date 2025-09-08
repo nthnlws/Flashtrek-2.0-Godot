@@ -9,5 +9,5 @@ var boost_multiplier: float = 4.0
 
 
 func _process(delta: float) -> void:
-	var target_position = ent_kelvin.global_transform.origin + Vector3(50, 25, 0)
+	var target_position:Vector3 = ent_kelvin.global_transform.origin + Vector3(50, 25, 0)
 	look_at(target_position, Vector3.UP)

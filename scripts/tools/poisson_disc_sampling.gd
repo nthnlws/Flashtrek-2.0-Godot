@@ -5,8 +5,8 @@ enum ShapeType {CIRCLE, POLYGON}
 static var shape_info: Dictionary
 
 
-static func generate_points_for_circle(circle_position: Vector2, circle_radius: float, poisson_radius: float, retries: int, start_point := Vector2.INF) -> PackedVector2Array:
-	var sample_region_rect = Rect2(circle_position.x - circle_radius, circle_position.y - circle_radius, circle_radius * 2, circle_radius * 2)
+static func generate_points_for_circle(circle_position: Vector2, circle_radius: float, poisson_radius: float, retries: int, start_point:Vector2 = Vector2.INF) -> PackedVector2Array:
+	var sample_region_rect:Rect2 = Rect2(circle_position.x - circle_radius, circle_position.y - circle_radius, circle_radius * 2, circle_radius * 2)
 	if start_point.x == INF:
 		var angle: float = 2 * PI * randf()
 		start_point = circle_position + Vector2(cos(angle), sin(angle)) * circle_radius * randf()
@@ -24,7 +24,7 @@ static func generate_points_for_circle(circle_position: Vector2, circle_radius: 
 static func generate_points_for_polygon(polygon: PackedVector2Array, poisson_radius: float, retries: int, start_point := Vector2.INF) -> PackedVector2Array:
 	var start: Vector2 = polygon[0]
 	var end: Vector2 = polygon[0]
-	for i in range(1, polygon.size()):
+	for i:int in range(1, polygon.size()):
 		start.x = min(start.x, polygon[i].x)
 		start.y = min(start.y, polygon[i].y)
 		end.x = max(end.x, polygon[i].x)
@@ -59,9 +59,9 @@ static func _generate_points(shape: int, sample_region_rect: Rect2, poisson_radi
 	var transpose = -sample_region_rect.position
 	
 	var grid: Array = []
-	for i in cols:
+	for i:int in cols:
 		grid.append([])
-		for j in rows:
+		for j:int in rows:
 			grid[i].append(-1)
 	
 	var spawn_points: Array = []
@@ -90,13 +90,13 @@ static func _generate_points(shape: int, sample_region_rect: Rect2, poisson_radi
 
 
 static func _is_valid_sample(shape: int, sample: Vector2, transpose: Vector2, cell_size_scaled: Vector2, cols: int, rows: int, grid: Array, points: Array, poisson_radius: float) -> bool:
-	var cell := Vector2(int((transpose.x + sample.x) / cell_size_scaled.x), int((transpose.y + sample.y) / cell_size_scaled.y))
-	var cell_start := Vector2(max(0, cell.x - 2), max(0, cell.y - 2))
-	var cell_end := Vector2(min(cell.x + 2, cols - 1), min(cell.y + 2, rows - 1))
+	var cell:Vector2 = Vector2(int((transpose.x + sample.x) / cell_size_scaled.x), int((transpose.y + sample.y) / cell_size_scaled.y))
+	var cell_start:Vector2 = Vector2(max(0, cell.x - 2), max(0, cell.y - 2))
+	var cell_end:Vector2 = Vector2(min(cell.x + 2, cols - 1), min(cell.y + 2, rows - 1))
 
-	for i in range(cell_start.x, cell_end.x + 1):
-		for j in range(cell_start.y, cell_end.y + 1):
-			var search_index: int = grid[i][j]
+	for i:int in range(cell_start.x, cell_end.x + 1):
+		for j:int in range(cell_start.y, cell_end.y + 1):
+			var search_index:int = grid[i][j]
 			if search_index != -1:
 				var dist: float = points[search_index].distance_to(sample)
 				if dist < poisson_radius:

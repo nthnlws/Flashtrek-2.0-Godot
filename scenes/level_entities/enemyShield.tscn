@@ -16,8 +16,14 @@ script = ExtResource("3_0y86e")
 
 [node name="ColorRect" parent="." index="0"]
 material = SubResource("ShaderMaterial_36h87")
+custom_minimum_size = Vector2(180, 92.5)
+offset_left = -90.0
+offset_top = -46.5
+offset_right = 90.0
+offset_bottom = 46.5
 
 [node name="shield_area" parent="." index="1" groups=["enemy_shield"]]
 
 [node name="CollisionShape2D" parent="shield_area" index="0"]
+scale = Vector2(1.95, 1)
 shape = SubResource("CircleShape2D_o5xdf")

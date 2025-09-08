@@ -55,7 +55,7 @@ func _create_unique_atlas() -> void:
 	sprite.texture = atlas_texture
 
 
-func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
+func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
@@ -72,7 +72,7 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES):
 	hitbox.polygon = PV2Array
 
 
-func _sync_stats_to_resource(ship:Utility.SHIP_TYPES):
+func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_stats:Dictionary = Utility.ENEMY_SHIP_STATS.values()[ship]
 	
 	move_speed = ship_stats.SPEED
@@ -97,10 +97,10 @@ func center_polygon(points: Array) -> PackedVector2Array:
 	var center_x = (min_x + max_x) / 2.0
 	var center_y = (min_y + max_y) / 2.0
 
-	var adjusted_points = []
+	var adjusted_points:Array = []
 	for p in points:
-		var centered = Vector2(p.x - center_x, p.y - center_y)
-		var shifted = centered + Vector2(1, -4)
+		var centered:Vector2 = Vector2(p.x - center_x, p.y - center_y)
+		var shifted:Vector2 = centered + Vector2(1, -4)
 		adjusted_points.append(shifted)
 
 	return PackedVector2Array(adjusted_points)
@@ -144,7 +144,7 @@ func selectRandomPlanet() -> void:
 func starbaseMovement(delta:float) -> void:
 	if starbase:
 		var starbaseLocation: Vector2 = starbase.global_position
-		var direction = global_position.direction_to(starbase.position) # Sets movement direction to starbase
+		var direction:Vector2 = global_position.direction_to(starbase.position) # Sets movement direction to starbase
 		moveToTarget("Starbase", starbaseLocation, delta)
 
 
@@ -158,21 +158,21 @@ func planetMovement(delta:float) -> void:
 
 func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> void:
 	velocity = (targetPos - self.global_position).normalized()*move_speed
-	var angle_diff = calc_angle(targetPos, delta)
+	var angle_diff:float = calc_angle(targetPos, delta)
 	look_at_target(targetPos, angle_diff, delta)
 	move_and_slide()
 
 
 func calc_angle(targetPos:Vector2, delta:float) -> float:
-	var angle: float = (targetPos - self.global_position).angle() + deg_to_rad(90)
+	var angle: float = (targetPos - self.global_position).angle()
 	var rotation_speed: float = rotation_rate * delta
-	var angle_diff = wrapf(angle - self.global_rotation, -PI, PI)
+	var angle_diff:float = wrapf(angle - self.global_rotation, -PI, PI)
 	
 	return angle_diff
 
 
 func look_at_target(targetPos:Vector2,angle_diff:float, delta:float) -> void:
-	var angle: float = (targetPos - self.global_position).angle() + deg_to_rad(90)
+	var angle: float = (targetPos - self.global_position).angle()
 	var rotation_speed: float = rotation_rate * delta
 	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 

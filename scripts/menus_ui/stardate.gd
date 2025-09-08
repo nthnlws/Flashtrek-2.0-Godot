@@ -22,7 +22,7 @@ func update_stardate() -> void:
 
 
 func calculate_current_stardate() -> float:
-	var anchor_dict = {
+	var anchor_dict:Dictionary = {
 		"year": ANCHOR_YEAR,
 		"month": ANCHOR_MONTH,
 		"day": ANCHOR_DAY,

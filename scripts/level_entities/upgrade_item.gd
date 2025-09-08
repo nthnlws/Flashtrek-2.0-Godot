@@ -11,12 +11,12 @@ enum MODIFIER { ADD, MULT }
 		if is_node_ready():
 			change_icon_sprite(value)
 
-const FIRE_RATE_UPGRADE_ICON = preload("res://assets/textures/UI/fire_rate_upgrade_icon.png")
-const ROTATION_UPGRADE_ICON = preload("res://assets/textures/UI/rotation_upgrade_icon.png")
-const SPEED_UPGRADE_ICON = preload("res://assets/textures/UI/speed_upgrade_icon.png")
-const HEALTH_UPGRADE_ICON = preload("res://assets/textures/UI/health_upgrade_icon.png")
-const SHIELD_UPGRADE_ICON = preload("res://assets/textures/UI/shield_upgrade_icon.png")
-const DAMAGE_UPGRADE_ICON = preload("res://assets/textures/UI/damage_upgrade_icon.png")
+const FIRE_RATE_UPGRADE_ICON:Texture = preload("res://assets/textures/UI/fire_rate_upgrade_icon.png")
+const ROTATION_UPGRADE_ICON:Texture = preload("res://assets/textures/UI/rotation_upgrade_icon.png")
+const SPEED_UPGRADE_ICON:Texture = preload("res://assets/textures/UI/speed_upgrade_icon.png")
+const HEALTH_UPGRADE_ICON:Texture = preload("res://assets/textures/UI/health_upgrade_icon.png")
+const SHIELD_UPGRADE_ICON:Texture = preload("res://assets/textures/UI/shield_upgrade_icon.png")
+const DAMAGE_UPGRADE_ICON:Texture = preload("res://assets/textures/UI/damage_upgrade_icon.png")
 
 @onready var sprite: Sprite2D = $UpgradeIcon
 

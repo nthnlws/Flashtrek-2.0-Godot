@@ -27,37 +27,37 @@ extends MultiMeshInstance2D
 @export_range(-50, 50, 0.1) var speed: float = 15.5
 @export_range(1, 50, 0.1) var modTime: float = 20.0
 
-func _ready():
+func _ready() -> void:
 	if multimesh:
 		multimesh.instance_count = 0
 		multimesh.use_colors = true
 	set_instance_count(star_count, arms)
 
-func set_instance_count(star:int, arm:int):
+func set_instance_count(star:int, arm:int) -> void:
 	if multimesh:
 		multimesh.instance_count = star * arm
 
-func _process(delta):
+func _process(delta:float) -> void:
 	if not multimesh:
 		return
 
-	var instance_count = multimesh.instance_count
+	var instance_count:int = multimesh.instance_count
 	if instance_count != star_count * arms:
 		multimesh.instance_count = star_count * arms
 
-	var time = Time.get_ticks_msec() / 1000.0
-	var tan_theta = tan(deg_to_rad(theta))
-	var scale_stretch = scale_x * stretch
-	var time_offset = 13.0 + time * speed
+	var time:float = Time.get_ticks_msec() / 1000.0
+	var tan_theta:float = tan(deg_to_rad(theta))
+	var scale_stretch:float = scale_x * stretch
+	var time_offset:float = 13.0 + time * speed
 
 	var instance_index = 0
 	for j in range(1, arms + 1):
-		var seed_input = Vector2(2.0 - j, float(j) * 37.0)
-		var current_seed = fposmod(sin(seed_input.dot(Vector2(12.9898, 78.233))) * 46751.5453, 1.0)
+		var seed_input:Vector2 = Vector2(2.0 - j, float(j) * 37.0)
+		var current_seed:float = fposmod(sin(seed_input.dot(Vector2(12.9898, 78.233))) * 46751.5453, 1.0)
 		
-		var alpha = current_seed * TAU
-		var dir = Vector2(cos(alpha), sin(alpha))
-		var progress_j_base = time_offset + float(arms) / float(j) * 10.0
+		var alpha:float = current_seed * TAU
+		var dir:Vector2 = Vector2(cos(alpha), sin(alpha))
+		var progress_j_base:float = time_offset + float(arms) / float(j) * 10.0
 
 		for i in range(star_count):
 			# --- Position Calculation ---

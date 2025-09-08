@@ -52,7 +52,7 @@ func targetMovement(delta: float) -> void:
 	var predicted_position:Vector2 = predict_ship_position()
 	var randomized_position: Vector2 = randomize_position(predicted_position)
 	var distance_to_target: float = self.global_position.distance_to(predicted_position)
-	var angle_diff = calc_angle(predicted_position, delta)
+	var angle_diff:float = calc_angle(predicted_position, delta)
 	look_at_target(predicted_position, angle_diff, delta)
 	if distance_to_target > 1000:
 		if typeof(predicted_position) == TYPE_INT:
@@ -154,7 +154,7 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 		bullet.shooterObject = self
 		bullet.damage = bullet.damage * damage_mult
 		bullet.global_position = muzzle.global_position
-		bullet.rotation = angle + deg_to_rad(90)  # Direction
+		bullet.rotation = angle  # Direction
 		bullet.faction = self.faction
 		
 		call_deferred("instantiate_bullet", bullet)

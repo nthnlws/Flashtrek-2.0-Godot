@@ -22,16 +22,14 @@ func _ready() -> void:
 	sound_array.shuffle()
 
 
-func _connect_signals():
+func _connect_signals() -> void:
 	SignalBus.toggleQ2HUD.connect(_handle_beam_animation)
 	SignalBus.toggleQ3HUD.connect(_handle_hail_animation)
 	SignalBus.toggleQ4HUD.connect(_handle_dock_animation)
 	SignalBus.HUDchanged.connect(manual_scale)
 	
-	for button in label_button_array:
+	for button:TextButton in label_button_array:
 		button.button_pressed.connect(_handle_button_click.bind(button.name))
-	#for button in texture_button_array:
-		#button.pressed.connect(_handle_button_click.bind(button.name))
 
 
 func _handle_button_click(button_name: String) -> void:

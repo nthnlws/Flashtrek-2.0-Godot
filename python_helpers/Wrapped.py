@@ -85,7 +85,7 @@ for i in data:
         name = eval(i.replace("config/name=", ""))
 
 for i in files:
-    with open(i) as file:
+    with open(i, encoding="utf-8", errors="replace") as file:
         data = file.read().strip().split("\n")
     
     current_file_lines = 0

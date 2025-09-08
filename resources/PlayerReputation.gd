@@ -11,7 +11,7 @@ func _init() -> void:
 	SignalBus.reputationChanged.connect(_handle_reputation_change)
 
 
-func _handle_reputation_change(faction:Utility.FACTION, new_value: float):
+func _handle_reputation_change(faction:Utility.FACTION, new_value: float) -> void:
 	#print("new rep: %s for faction %s" % [new_value, faction])
 	match faction:
 		Utility.FACTION.FEDERATION:

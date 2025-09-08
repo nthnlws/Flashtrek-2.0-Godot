@@ -90,17 +90,17 @@ func kill_command(ship_type:String, number:String = "1") -> void:
 	if number == "all":
 		if ship_type == "neutral" or ship_type == "neutrals":
 			while not LevelData.neutralShips.is_empty():
-				var ship_to_explode = LevelData.neutralShips.pop_front()
+				var ship_to_explode:NeutralCharacter = LevelData.neutralShips.pop_front()
 				ship_to_explode.explode()
 		elif ship_type == "enemy" or ship_type == "enemies":
 			while not LevelData.enemyShips.is_empty():
-				var ship_to_explode = LevelData.enemyShips.pop_front()
+				var ship_to_explode:NeutralCharacter = LevelData.enemyShips.pop_front()
 				ship_to_explode.explode()
 	else:
-		var num = int(number)
+		var num:int = int(number)
 		if ship_type == "neutral" or ship_type == "neutrals":
 			var neutral_ships:Array[NeutralCharacter] = LevelData.neutralShips
-			for i in range(num):
+			for i:int in range(num):
 				if neutral_ships.size() > 0:
 					var ship:NeutralCharacter = neutral_ships[randi_range(0, neutral_ships.size() - 1)]
 					ship.explode()
@@ -108,7 +108,7 @@ func kill_command(ship_type:String, number:String = "1") -> void:
 					print("No ships of type '%s' to kill" % ship_type)
 		elif ship_type == "enemy" or ship_type == "enemies":
 			var enemy_ships:Array[FactionCharacter] = LevelData.enemyShips
-			for i in range(num):
+			for i:int in range(num):
 				if enemy_ships.size() > 0:
 					var ship:FactionCharacter = enemy_ships[randi_range(0, enemy_ships.size() - 1)]
 					ship.explode()

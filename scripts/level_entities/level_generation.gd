@@ -154,7 +154,7 @@ func _get_faction_ship(system_data:Dictionary) -> Utility.SHIP_TYPES:
 
 
 func generate_enemy_positions(enemy_ships:Array[FactionCharacter]) -> void:
-	var planets = LevelData.planets
+	var planets:Array[Node2D] = LevelData.planets
 	var max_spawn_distance: int = 1500
 	var min_spawn_distance: int = 500
 	var random_angle: float = randf_range(0, TAU)
@@ -170,7 +170,7 @@ func generate_enemy_positions(enemy_ships:Array[FactionCharacter]) -> void:
 
 
 func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
-	var planets = LevelData.planets
+	var planets:Array[Node2D] = LevelData.planets
 	
 	if neutral_ships.size() != planets.size():
 		push_error("Neutral ships and planets count mismatch! %s neutral ships and %s planets" % [neutral_ships.size(), planets.size()])
@@ -228,7 +228,7 @@ func sync_planets_to_dict(targetSystem:String) -> void:
 	LevelData.unused_planets.clear()
 	
 	var planet_data: Array = LevelData.all_systems_data[targetSystem]["planet_data"]
-	for p in planet_data.size(): # Sets planets to JSON data
+	for p:int in planet_data.size(): # Sets planets to JSON data
 		all_planets[p].global_position.x = planet_data[p].x
 		all_planets[p].global_position.y = planet_data[p].y
 		all_planets[p].sprite.frame = planet_data[p].frame
@@ -238,9 +238,9 @@ func sync_planets_to_dict(targetSystem:String) -> void:
 		LevelData.planets[p].planetFaction = LevelData.all_systems_data[targetSystem]["faction"]
 
 	if planet_data.size() < 6:
-		for extra in 6 - planet_data.size():
+		for extra:int in 6 - planet_data.size():
 			LevelData.unused_planets.append(all_planets.pop_back())
-		for i in range(LevelData.unused_planets.size()):
+		for i:int in range(LevelData.unused_planets.size()):
 			LevelData.unused_planets[i].global_position = Vector2(40000, 40000)
 			LevelData.unused_planets[i].name = "Unused Planet" + str(i)
 
@@ -311,7 +311,7 @@ func instantiate_new_system_nodes() -> void:
 	init_spawn.add_to_group("level_nodes")
 	init_spawn.add_to_group("player_spawn_area")
 
-	for i in range(6): # Spawn 6 planets for use in level gen
+	for i:int in range(6): # Spawn 6 planets for use in level gen
 		var init_planet: Node2D = Planet.instantiate()
 		level_folder.add_child(init_planet)
 		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
