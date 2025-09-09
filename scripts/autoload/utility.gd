@@ -25,6 +25,7 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 }
 
 var player_name: String = "USS Enterprise"
+var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
 

@@ -13,7 +13,7 @@
 [ext_resource type="BitMap" uid="uid://b1a4bmxr7t24t" path="res://assets/textures/UI/warp_button_mask.png" id="7_xtw53"]
 [ext_resource type="Texture2D" uid="uid://b62sn0p61u6jx" path="res://assets/textures/galaxy_map/GalaxyMapLines.png" id="9_adr1o"]
 [ext_resource type="PackedScene" uid="uid://3crojikwy3xa" path="res://scenes/menus_ui/system_indicator.tscn" id="11_pdn8u"]
-[ext_resource type="Script" path="res://scripts/menus_ui/system_label.gd" id="11_qqn77"]
+[ext_resource type="Script" uid="uid://da212y407emuk" path="res://scripts/menus_ui/system_label.gd" id="11_qqn77"]
 [ext_resource type="LabelSettings" uid="uid://dxr76rggjriau" path="res://resources/galaxy_map_label_theme.tres" id="11_xf4cy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qqn77"]

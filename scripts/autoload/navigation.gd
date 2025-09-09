@@ -77,7 +77,7 @@ func load_planet_names(file_path:String = "res://assets/data/planet_names.txt") 
 
 func get_entry_point(angle_rad: float) -> Vector2:
 	var coords: Vector2 = Vector2.ZERO
-	angle_rad = (angle_rad - PI/2) - PI # Flips angle 180 degrees (and accounts for player offset)
+	angle_rad = (angle_rad) - PI # Flips angle 180 degrees
 	var border_coords: int = 20000
 	var square_min: Vector2 = Vector2.ZERO - Vector2(border_coords, border_coords)
 	var square_max: Vector2 = Vector2.ZERO + Vector2(border_coords, border_coords)

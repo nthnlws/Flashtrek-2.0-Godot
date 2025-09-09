@@ -72,3 +72,4 @@ stretch_mode = 3
 script = ExtResource("1_ddvhb")
 shield_node = NodePath("../shield_icon")
 fill_color = Color(0, 0.7187, 0.290697, 1)
+health_fill_direction = 2

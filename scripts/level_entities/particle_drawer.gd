@@ -50,8 +50,8 @@ func _process(delta:float) -> void:
 	var scale_stretch:float = scale_x * stretch
 	var time_offset:float = 13.0 + time * speed
 
-	var instance_index = 0
-	for j in range(1, arms + 1):
+	var instance_index:int = 0
+	for j:int in range(1, arms + 1):
 		var seed_input:Vector2 = Vector2(2.0 - j, float(j) * 37.0)
 		var current_seed:float = fposmod(sin(seed_input.dot(Vector2(12.9898, 78.233))) * 46751.5453, 1.0)
 		
@@ -59,16 +59,16 @@ func _process(delta:float) -> void:
 		var dir:Vector2 = Vector2(cos(alpha), sin(alpha))
 		var progress_j_base:float = time_offset + float(arms) / float(j) * 10.0
 
-		for i in range(star_count):
+		for i:int in range(star_count):
 			# --- Position Calculation ---
-			var base_progress_value = progress_j_base + float(i) * scale_stretch
-			var z_mod_cycle = fmod(base_progress_value, modTime)
-			var z = z_mod_cycle * scale_x
+			var base_progress_value:float = progress_j_base + float(i) * scale_stretch
+			var z_mod_cycle:float = fmod(base_progress_value, modTime)
+			var z:float = z_mod_cycle * scale_x
 
 			var H = centerArea * scale_x + z * tan_theta
 			var nuv = H * dir
 			
-			var particle_transform = Transform2D()
+			var particle_transform:Transform2D = Transform2D()
 			particle_transform.origin = nuv * world_scale
 			particle_transform = particle_transform.scaled(Vector2.ONE)
 			
@@ -78,9 +78,9 @@ func _process(delta:float) -> void:
 				final_color = Color.WHITE
 			else:
 				# Normalized progress of the particle within its current cycle (0.0 to 1.0)
-				var normalized_progress = z_mod_cycle / modTime
+				var normalized_progress:float = z_mod_cycle / modTime
 				# Mix factor from 0 (color_a) to 1 (color_b)
-				var mix_factor = clampf(normalized_progress * gradient_speed, 0.0, 1.0)
+				var mix_factor:float = clampf(normalized_progress * gradient_speed, 0.0, 1.0)
 				# In GDScript, mix() is called lerp()
 				final_color = color_a.lerp(color_b, mix_factor)
 

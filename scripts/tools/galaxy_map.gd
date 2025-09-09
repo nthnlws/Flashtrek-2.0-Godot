@@ -13,6 +13,7 @@ var system_array = []
 const HIGH:float = 4
 const LOW:float = 0
 
+
 func _ready() -> void:
 	system_array = get_tree().get_nodes_in_group("map_node")
 	
@@ -22,6 +23,7 @@ func _ready() -> void:
 	SignalBus.playerDied.connect(selectCurrentSystem.bind("Solarus"))
 
 	selectCurrentSystem(Navigation.currentSystem)
+
 
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click"):
@@ -88,12 +90,12 @@ func update_map_destination(system:Area2D, system_name:String) -> void:
 	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
-	
+
 
 func clear_mission() -> void:
 	mission_message.bbcode_text = "Current Mission: None"
-	
-	
+
+
 func _update_mission(current_mission: Dictionary) -> void:
 	if current_mission.is_empty():
 		clear_mission()

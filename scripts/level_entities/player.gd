@@ -137,8 +137,8 @@ func _ready() -> void:
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	$warp_anim.z_index = Utility.Z["Effects"]
 	
-	_sync_data_to_resource(Utility.SHIP_TYPES.Hideki_Class)
-	_sync_stats_to_resource(Utility.SHIP_TYPES.Hideki_Class)
+	_sync_data_to_resource(Utility.starting_ship)
+	_sync_stats_to_resource(Utility.starting_ship)
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
 	
@@ -170,7 +170,6 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	#faction = ship_data.FACTION
 	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
 	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
 	muzzle.position.y = ship_data.MUZZLE_POS * base_scale.y
