@@ -17,8 +17,9 @@ var shieldActive: bool = true:
 
 var fade_length: float = 0.8
 
+
 func _on_damage_received(hit_event:HitEvent):
-	HealthComponent.handle_damage_taken(hit_event)
+	HealthComponent.collect_damage_events(hit_event)
 
 
 # Fades shield to 0 Alpha

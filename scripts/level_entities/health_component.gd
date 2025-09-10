@@ -12,8 +12,8 @@ signal ship_died
 signal shield_off
 signal shield_on
 
-signal hull_health_changed
-signal shield_health_changed
+signal hull_damage_received
+signal shield_damage_received
 
 #region HP Variables
 @export var HP_max: float = 150:
@@ -43,7 +43,7 @@ var hp_current:float = HP_max:
 var continuous_damage_accumulator: float = 0.0
 const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
 func take_hull_damage(hit_event: HitEvent):
-	hull_health_changed.emit()
+	hull_damage_received.emit(hit_event.get_shooter_node())
 	hp_current -= hit_event.damage_amount
 	
 	if hit_event.is_continuous_damage:
@@ -87,16 +87,38 @@ func initialize_hud() -> void:
 	SignalBus.playerShieldChanged.emit(sp_current)
 
 
-func handle_damage_taken(hit_event:HitEvent) -> void:
+var _is_processing_scheduled: bool = false # Flag to prevent multiple deferred calls
+var frame_hit_events:Array[HitEvent] = []
+func collect_damage_events(hit_event:HitEvent) -> void:
 	if Navigation.in_galaxy_warp:
 		return
 	
-	if hit_event.hit_shield:
-		if shield.shieldActive:
-			take_shield_damage(hit_event)
-	elif hit_event.hit_hull:
-		if !shield.shieldActive:
-			take_hull_damage(hit_event)
+	frame_hit_events.append(hit_event)
+	if not _is_processing_scheduled:
+		_is_processing_scheduled = true
+		call_deferred("handle_frame_hits")
+
+
+func handle_frame_hits() -> void:
+	var handled_projectiles:Dictionary = {}
+
+	# Loop 1: Prioritize Shield Hits
+	for event: HitEvent in frame_hit_events:
+		if event.hit_shield and shield.shieldActive:
+			take_shield_damage(event)
+			handled_projectiles[event.projectile_ID] = true
+
+	# Loop 2: Process Hull Hits
+	for event: HitEvent in frame_hit_events:
+		if event.hit_hull:
+			# Check if the projectile that caused this hull hit was already handled by the shield
+			if handled_projectiles.has(event.projectile_ID):
+				continue # Skip, shield took the hit.
+
+			take_hull_damage(event)
+	
+	frame_hit_events.clear()
+	_is_processing_scheduled = false
 #endregion
 
 
@@ -116,7 +138,7 @@ var sp_current:float = SP_max:
 #region Shield Functions
 func take_shield_damage(hit_event:HitEvent) -> void:
 	activate_regeneration_timeout()
-	shield_health_changed.emit()
+	shield_damage_received.emit(hit_event.get_shooter_node())
 	sp_current -= hit_event.damage_amount
 	
 	if hit_event.is_continuous_damage:
@@ -133,12 +155,12 @@ func take_shield_damage(hit_event:HitEvent) -> void:
 	
 	if sp_current <= 0:
 		shield_off.emit()
-		SignalBus.playerShieldOff.emit()
+		if is_on_player:
+			SignalBus.playerShieldOff.emit()
 		activate_regeneration_timeout()
 
 
 func set_shield_value(value:float) -> float:
-	shield_health_changed.emit()
 	if is_on_player:
 		SignalBus.playerShieldChanged.emit(value)
 	return clamp(value, 0.0, SP_max)

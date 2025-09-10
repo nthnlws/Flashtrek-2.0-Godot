@@ -128,6 +128,7 @@ func _state_logic_firing(delta:float) -> void:
 		var hit_event:HitEvent = HitEvent.new()
 		hit_event.shooter_instance_id = get_parent().get_instance_id()
 		hit_event.shooter_faction = faction
+		hit_event.projectile_ID = randi()
 		hit_event.hit_position = raycast.get_collision_point()
 		
 		hit_event.is_critical_hit = false

@@ -77,6 +77,7 @@ func hit_success(area:Area2D) -> void:
 	# Hit event creation
 	var hit_event:HitEvent = HitEvent.new()
 	hit_event.shooter_faction = faction
+	hit_event.projectile_ID = randi()
 	hit_event.hit_position = self.global_position
 	if shooterObject:
 		hit_event.shooter_instance_id = shooterObject.get_instance_id()

@@ -388,4 +388,4 @@ width = 15.0
 [connection signal="shield_off" from="HealthComponent" to="Shield" method="turnShieldOff"]
 [connection signal="ship_died" from="HealthComponent" to="." method="killPlayer"]
 [connection signal="drained_energy" from="Laser" to="." method="energy_drain"]
-[connection signal="recieved_damage" from="hitbox_area" to="HealthComponent" method="handle_damage_taken"]
+[connection signal="recieved_damage" from="hitbox_area" to="HealthComponent" method="collect_damage_events"]

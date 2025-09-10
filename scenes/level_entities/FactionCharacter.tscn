@@ -30,4 +30,5 @@ shape = SubResource("CircleShape2D_uivqo")
 [node name="Sprite2D" parent="." index="3"]
 texture = SubResource("AtlasTexture_ytmji")
 
-[connection signal="set_aggression" from="hitbox_area" to="." method="_set_aggression_to_shooter"]
+[connection signal="hull_damage_received" from="HealthComponent" to="." method="_set_aggression_to_shooter"]
+[connection signal="shield_damage_received" from="HealthComponent" to="." method="_set_aggression_to_shooter"]

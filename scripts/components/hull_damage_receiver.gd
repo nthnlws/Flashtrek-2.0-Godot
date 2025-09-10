@@ -2,7 +2,6 @@ extends Area2D
 class_name HullDamageReceiver
 
 signal recieved_damage(hit_event:HitEvent)
-signal set_aggression(shooter)
 
 
 func can_recieve_damage(hit_event:HitEvent):
@@ -13,5 +12,3 @@ func can_recieve_damage(hit_event:HitEvent):
 		
 		if get_parent() is FactionCharacter:
 			var shooter = hit_event.get_shooter_node()
-			if shooter.faction != get_parent().faction:
-				set_aggression.emit(shooter)

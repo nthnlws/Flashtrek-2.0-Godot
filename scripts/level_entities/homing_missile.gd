@@ -91,6 +91,7 @@ func create_hit_event() -> HitEvent:
 	# Create HitEvent resource
 	var hit_event:HitEvent = HitEvent.new()
 	hit_event.shooter_faction = faction
+	hit_event.projectile_ID = randi()
 	hit_event.hit_position = self.global_position
 	if shooterObject:
 		hit_event.shooter_instance_id = shooterObject.get_instance_id()
