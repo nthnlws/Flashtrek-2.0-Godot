@@ -111,7 +111,7 @@ func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 		ship_folder.add_child(faction_ship)
 		
 
-		faction_ship.hp_max = faction_ship.hp_max * system_data["ship_health_mult"]
+		faction_ship.HealthComponent.HP_max = faction_ship.HealthComponent.HP_max * system_data["ship_health_mult"]
 		faction_ship.damage_mult = faction_ship.damage_mult * system_data["enemy_damage_mult"]
 		faction_ship.name = "Enemy_" + str(i)
 	for i:int in range(PLANET_COUNT):
@@ -123,7 +123,7 @@ func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
 		LevelData.neutralShips.append(new_neutral)
 		ship_folder.add_child(new_neutral)
 		
-		new_neutral.hp_max = new_neutral.hp_max * system_data["ship_health_mult"]
+		new_neutral.HealthComponent.HP_max = new_neutral.HealthComponent.HP_max * system_data["ship_health_mult"]
 		new_neutral.name = "Neutral_" + str(i)
 
 
@@ -186,15 +186,15 @@ func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
 
 func sync_neutral_to_dict(targetSystem:String, neutral_array:Array[NeutralCharacter]) -> void:
 	var sync_system:Dictionary = LevelData.all_systems_data[targetSystem]
-	for n in neutral_array:
-		var ship_data:Dictionary = sync_system["neutrals"][str(n.name)]
-		n.global_position = ship_data["position"]
-		n.shield_on = ship_data["shield_state"]
-		n.moveTarget = ship_data["movement_target"]
-		n.hp_max = ship_data["max_hp"]
-		n.shield.sp_max = ship_data["max_sp"]
-		n.hp_current = ship_data["current_hp"]
-		n.shield.sp_current = ship_data["current_sp"]
+	for ship:NeutralCharacter in neutral_array:
+		var ship_data:Dictionary = sync_system["neutrals"][str(ship.name)]
+		ship.global_position = ship_data["position"]
+		ship.shield.shieldActive = ship_data["shield_state"]
+		ship.moveTarget = ship_data["movement_target"]
+		ship.HealthComponent.HP_max = ship_data["HP_max"]
+		ship.HealthComponent.SP_max = ship_data["SP_max"]
+		ship.HealthComponent.hp_current = ship_data["current_hp"]
+		ship.HealthComponent.sp_current = ship_data["current_sp"]
 
 
 func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[FactionCharacter]) -> void:
@@ -203,12 +203,12 @@ func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[FactionCharacte
 		var ship_data:Dictionary = sync_system["enemies"][str(e.name)]
 		if ship_data:
 			e.global_position = ship_data["position"]
-			e.shield_on = ship_data["shield_state"]
+			e.shield.shieldActive = ship_data["shield_state"]
 			e.moveTarget = ship_data["movement_target"]
-			e.hp_max = ship_data["max_hp"]
-			e.shield.sp_max = ship_data["max_sp"]
-			e.hp_current = ship_data["current_hp"]
-			e.shield.sp_current = ship_data["current_sp"]
+			e.HealthComponent.HP_max = ship_data["HP_max"]
+			e.HealthComponent.SP_max = ship_data["SP_max"]
+			e.HealthComponent.hp_current = ship_data["current_hp"]
+			e.HealthComponent.sp_current = ship_data["current_sp"]
 		else:
 			push_error("Enemy %s not found in system data" % e.name)
 
@@ -250,30 +250,27 @@ func save_ship_data(enemy_array:Array[FactionCharacter] = LevelData.enemyShips, 
 	
 	current_system.get("enemies")
 	current_system.get("neutrals")
-	
-	#if current_system["enemies"].is_empty():
-		#current_system["enemies_defeated"] = true
+
 	for ship:FactionCharacter in enemy_array:
 		current_system["enemies"][str(ship.name)] = {
 			"position": ship.global_position,
-			"shield_state":ship.shield_on,
+			"shield_state":ship.shield.shieldActive,
 			"movement_target": ship.moveTarget,
-			"max_hp": ship.hp_max,
-			"max_sp": ship.shield.sp_max,
-			"current_hp": ship.hp_current,
-			"current_sp": ship.shield.sp_current,
+			"HP_max": ship.HealthComponent.HP_max,
+			"SP_max": ship.HealthComponent.SP_max,
+			"current_hp": ship.HealthComponent.hp_current,
+			"current_sp": ship.HealthComponent.sp_current,
 		}
-	#if current_system["neuwdtrals"].is_empty():
-		#current_system["neutrals_defeated"] = true
+	
 	for ship:NeutralCharacter in neutral_array:
 		current_system["neutrals"][str(ship.name)] = {
 			"position": ship.global_position,
-			"shield_state":ship.shield_on,
+			"shield_state":ship.shield.shieldActive,
 			"movement_target": ship.moveTarget,
-			"max_hp": ship.hp_max,
-			"max_sp": ship.shield.sp_max,
-			"current_hp": ship.hp_current,
-			"current_sp": ship.shield.sp_current,
+			"HP_max": ship.HealthComponent.HP_max,
+			"SP_max": ship.HealthComponent.SP_max,
+			"current_hp": ship.HealthComponent.hp_current,
+			"current_sp": ship.HealthComponent.sp_current,
 		}
 	SignalBus.updateLevelData.emit(LevelData.all_systems_data)
 

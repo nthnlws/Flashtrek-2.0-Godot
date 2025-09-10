@@ -62,7 +62,6 @@ func kill_projectile(target) -> void: # Creates explosion animation and kills se
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
-	var parent = area.get_parent()
 	if !exceptions.has(area):
 		hit_success(area)
 
@@ -70,7 +69,6 @@ func hit_success(area:Area2D) -> void:
 	if not alive:
 		return
 	
-	var parent = area.get_parent()
 	alive = false
 	area_entered.disconnect(_on_torpedo_collision)
 	set_deferred("collision.disabled", true)
@@ -88,8 +86,8 @@ func hit_success(area:Area2D) -> void:
 	
 	hit_event.damage_amount = damage
 	
-	if parent.has_method("take_damage") and is_instance_valid(shooterObject):
-		parent.take_damage(hit_event)
+	if area.has_method("can_recieve_damage") and is_instance_valid(shooterObject):
+		area.can_recieve_damage(hit_event)
 	kill_projectile(projectile_name)
 
 

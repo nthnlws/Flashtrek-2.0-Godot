@@ -1,16 +1,17 @@
 [gd_scene load_steps=30 format=3 uid="uid://crsud8w51n07n"]
 
 [ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/NeutralCharacter.gd" id="1_h86cx"]
+[ext_resource type="PackedScene" uid="uid://cox3jpjtaf204" path="res://scenes/components/health_component.tscn" id="2_a5e8g"]
 [ext_resource type="Material" uid="uid://c7htollnbbtij" path="res://resources/Materials_Shaders/cloak_material_CENTER.tres" id="3_a5e8g"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_l33it"]
 [ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="3_scpag"]
-[ext_resource type="PackedScene" uid="uid://t8ejhfca8ulm" path="res://scenes/level_entities/enemyShield.tscn" id="4_a5e8g"]
 [ext_resource type="Shader" uid="uid://bxs62v6ygtxwj" path="res://resources/Materials_Shaders/solid_fill.gdshader" id="4_scpag"]
-[ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="5_s85ir"]
 [ext_resource type="Texture2D" uid="uid://duvs6uixemkbt" path="res://assets/textures/ships/hull_explosion.png" id="5_scpag"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="6_o4ahg"]
 [ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_ljjbr"]
+[ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/hull_damage_receiver.gd" id="7_scpag"]
 [ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="8_71til"]
+[ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="8_scpag"]
 [ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="9_8sljv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
@@ -35,58 +36,46 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../Shield:modulate")
+tracks/1/path = NodePath(".:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:self_modulate")
+tracks/2/path = NodePath(".:material")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"update": 1,
+"values": [null]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath(".:material")
+tracks/3/path = NodePath("..:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [null]
+"update": 0,
+"values": [Vector2(2.475, 2.475)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("..:scale")
+tracks/4/path = NodePath(".:material:shader")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(2.475, 2.475)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath(".:material:shader")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -117,14 +106,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../Shield:modulate")
+tracks/1/path = NodePath(".:material")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_a5e8g")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -133,30 +122,18 @@ tracks/2/path = NodePath(".:material")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_a5e8g")]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:material")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(2),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [SubResource("ShaderMaterial_l33it")]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("..:scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(2),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -169,58 +146,46 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../Shield:modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(2, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
+tracks/1/path = NodePath("..:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Vector2(2.25, 2.25)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("..:scale")
+tracks/2/path = NodePath(".:material:shader_parameter/progress")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(2.25, 2.25)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:material:shader_parameter/progress")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0.01, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.8, 0.2]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:material:shader")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -305,14 +270,13 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksrv6"]
-shader = ExtResource("5_s85ir")
-shader_parameter/color = Color(0.4, 0.705882, 0.980392, 1)
-
 [node name="NeutralCharacter" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(2.475, 2.475)
 collision_layer = 4
 script = ExtResource("1_h86cx")
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("shield") instance=ExtResource("2_a5e8g")]
+shield = NodePath("../Shield")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_lot0p")
@@ -323,11 +287,15 @@ libraries = {
 &"": SubResource("AnimationLibrary_o4ahg")
 }
 
+[node name="Shield" parent="." node_paths=PackedStringArray("HealthComponent") instance=ExtResource("8_scpag")]
+HealthComponent = NodePath("../HealthComponent")
+
 [node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["enemy"]]
 
 [node name="hitbox_area" type="Area2D" parent="." groups=["enemy_hitbox"]]
 collision_layer = 128
 collision_mask = 256
+script = ExtResource("7_scpag")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area"]
 
@@ -336,11 +304,6 @@ visible = false
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_mwxxd")
 animation = &"explode"
-
-[node name="Shield" parent="." instance=ExtResource("4_a5e8g")]
-modulate = Color(1, 1, 1, 0)
-material = SubResource("ShaderMaterial_ksrv6")
-scale = Vector2(2.5, 2.5)
 
 [node name="Sounds" type="Node" parent="."]
 
@@ -381,4 +344,6 @@ volume_db = -10.0
 max_distance = 3000.0
 attenuation = 0.615573
 
-[node name="Hitmarkers" type="Node" parent="."]
+[connection signal="shield_off" from="HealthComponent" to="Shield" method="turnShieldOff"]
+[connection signal="ship_died" from="HealthComponent" to="." method="explode"]
+[connection signal="recieved_damage" from="hitbox_area" to="HealthComponent" method="handle_damage_taken"]

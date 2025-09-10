@@ -1,7 +1,6 @@
 extends NeutralCharacter
 class_name FactionCharacter
 
-
 @onready var muzzle: Node2D = $Muzzle
 @onready var agro_area: CollisionShape2D = $AgroBox/CollisionShape2D
 @onready var agro_box: Area2D = $AgroBox
@@ -184,13 +183,6 @@ func _on_agro_box_body_exited(body) -> void:
 		enemy_target = null
 
 
-func take_damage(hit_event:HitEvent) -> void:
-	super(hit_event)
-	var shooter = hit_event.get_shooter_node()
-	if shooter.faction != self.faction:
-		_set_aggression_to_shooter(shooter)
-
-
 func _set_aggression_to_shooter(shooter: Node) -> void:
 	enemyAgro =  true
 	enemy_target = shooter
@@ -199,7 +191,6 @@ func _set_aggression_to_shooter(shooter: Node) -> void:
 
 
 func explode() -> void:
-	alive = false
 	shield.turnShieldOff()
 	sprite.visible = false
 	

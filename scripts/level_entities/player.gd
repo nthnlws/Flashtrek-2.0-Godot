@@ -2,21 +2,18 @@ extends CharacterBody2D
 class_name Player
 
 
-@onready var cloak_anim: AnimationPlayer = $PlayerSprite/CloakAnim
+@onready var cloak_anim: AnimationPlayer = $ShipSprite/CloakAnim
 @onready var intersection_line: Line2D = $intersection_line
 
 var shoot_cd:bool = false
 var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
 
-var alive: bool = true
 var cloaked: bool = false
 
 var overdrive_active:bool = false
-var shield_active:bool = false
 var energyTime:bool = false
 var overdriveTime:bool = false
 var energy_regen_speed:int = 10
-var shield_on:bool = true
 
 var trans_length:float = 0.8
 var base_scale:Vector2 = Vector2(1.0, 1.0)
@@ -32,8 +29,8 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
 const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/cloak_material_VERTICAL.tres")
 
-@onready var sprite:Sprite2D = $PlayerSprite
-@onready var shield:Node2D = $playerShield
+@onready var sprite:Sprite2D = $ShipSprite
+@onready var shield:Shield = $Shield
 @onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
 @onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
 
@@ -45,29 +42,10 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @onready var anim:AnimationPlayer = $AnimationPlayer
 
 @export var torpedo_scene: PackedScene
+@export var missile_scene: PackedScene
 var Stats: PlayerUpgrades = PlayerUpgrades.new()
 var Reputation: PlayerReputation = PlayerReputation.new()
-
-# Health variables
-@export var max_HP: float = 150:
-	set(value):
-		max_HP = value
-		if hp_current > get_max_HP(max_HP): # Reduce current HP if max reduced
-			hp_current = value
-		SignalBus.playerMaxHealthChanged.emit(get_max_HP(max_HP))
-	get:
-		return get_max_HP(max_HP)
-func get_max_HP(new_value:float) -> float:
-	if Stats:
-		return new_value * Stats.HullMult
-	else:
-		return new_value
-
-var hp_current:float = max_HP:
-	set(value):
-		if hp_current == value: return
-		hp_current = clamp(value, 0, max_HP)
-		SignalBus.playerHealthChanged.emit(hp_current)
+@onready var HealthComponent: HealthComponent = $HealthComponent
 
 
 # Maneuverability variables
@@ -162,8 +140,7 @@ func _connect_signals() -> void:
 func initialize_hud_values() -> void:
 	SignalBus.playerMaxEnergyChanged.emit(max_energy)
 	SignalBus.playerEnergyChanged.emit(energy_current)
-	SignalBus.playerMaxHealthChanged.emit(max_HP)
-	SignalBus.playerHealthChanged.emit(hp_current)
+	
 
 
 func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
@@ -189,9 +166,9 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	
 	max_speed = ship_stats.SPEED
 	rotation_speed = ship_stats.ROTATION_SPEED
-	max_HP = ship_stats.MAX_HP
-	shield.sp_max = ship_stats.MAX_SHIELD
 	base_cargo_size = ship_stats.CARGO_SIZE
+	HealthComponent.HP_max = ship_stats.MAX_HP
+	HealthComponent.SP_max = ship_stats.MAX_SHIELD
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -229,7 +206,7 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 
 func _process(delta: float) -> void:
-	if !alive: return
+	if !HealthComponent.alive: return
 	
 	if GameSettings.speedOverride == true:
 		max_speed = GameSettings.maxSpeed
@@ -252,17 +229,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("left_click"):
 		shooting_button_held = false
 	
-	# Secondary weapon firing
 	if event.is_action_pressed("right_click"):
-		if _can_fire_weapons(laser.energy_drain):
-			laser.firing_button_held = true
-	if event.is_action_released("right_click"):
-		laser.firing_button_held = false
-		laser.stop_firing()
+		shoot_missile(get_global_mouse_position())
+		
+	# Secondary weapon firing
+	#if event.is_action_pressed("right_click"):
+		#if _can_fire_weapons(laser.energy_drain):
+			#laser.firing_button_held = true
+	#if event.is_action_released("right_click"):
+		#laser.firing_button_held = false
+		#laser.stop_firing()
 
 
 func _physics_process(delta: float) -> void:
-	if !alive or GameSettings.menuStatus == true: return
+	if !HealthComponent.alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("overdrive"):
 		if Navigation.in_galaxy_warp == false:
@@ -389,9 +369,28 @@ func shoot_torpedo() -> void:
 		$Projectiles.add_child(bullet)
 
 
+func shoot_missile(clicked_pos:Vector2) -> void:
+	var missile: HomingMissile = missile_scene.instantiate()
+	if _can_fire_weapons(missile.energy_drain):
+		missile.position = muzzle.global_position
+		missile.rotation = self.rotation
+		missile.exceptions.append($hitbox_area)
+		missile.exceptions.append(shield.get_node("shield_area"))
+		missile.shooterObject = self
+		missile.drain_energy.connect(energy_drain)
+		missile.max_damage = missile.max_damage * Stats.DamageMult
+		missile.faction = self.faction
+		missile.target_position = clicked_pos
+		
+		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
+		%HeavyTorpedo.play()
+		$Projectiles.add_child(missile)
+
+
 func _can_fire_weapons(energy_drain:float) -> bool:
 	if energy_current > energy_drain and overdriveTime == false\
-	 and Navigation.in_galaxy_warp == false and cloaked == false and overdrive_active == false:
+		and Navigation.in_galaxy_warp == false and cloaked == false\
+		and overdrive_active == false:
 		return true
 	else: return false
 
@@ -407,29 +406,24 @@ func regenerate_energy(delta:float) -> void:
 
 
 func killPlayer() -> void:
-	if alive:
-		Navigation.in_galaxy_warp = false
-		%PlayerDieSound.play()
-		alive = false
-		self.visible = false
-		shield.shieldActive = false
-		
-		if overdrive_active == true:
-			overdrive_state_change("INSTANT")
-		
-		#Kill player stats
-		hp_current = 0
-		energy_current = 0
-		shield.sp_current = 0
-		shield.damageTime = true
-		
-		await get_tree().create_timer(1.5).timeout
-		SignalBus.playerDied.emit()
+	Navigation.in_galaxy_warp = false
+	%PlayerDieSound.play()
+	self.visible = false
+	shield.fadeout_INSTANT()
+	
+	if overdrive_active == true:
+		overdrive_state_change("INSTANT")
+	
+	#Kill player stats
+	energy_current = 0
+	
+	await get_tree().create_timer(1.5).timeout
+	SignalBus.playerDied.emit()
 
 
 func respawn(pos: Vector2) -> void:
-	if alive == false:
-		alive = true
+	if HealthComponent.alive == false:
+		HealthComponent.alive = true
 		SignalBus.playerRespawned.emit()
 		
 		global_position = pos
@@ -437,15 +431,14 @@ func respawn(pos: Vector2) -> void:
 		self.visible = true
 		
 		# Restores all HUD values to max
-		hp_current = max_HP #Resets HP to max
+		HealthComponent.hp_current = HealthComponent.HP_max #Resets HP to max
+		HealthComponent.sp_current = HealthComponent.SP_max #Resets Shield
 		energy_current = max_energy #Resets energy
-		shield.sp_current = shield.sp_max #Resets Shield
-	
+		
 		rotation = deg_to_rad(-90.0) #Sets rotation to up
 		
 		shield.turnShieldOn()
-
-		shield.damageTime = false
+		HealthComponent.damageTime = false
 
 
 func energyTimeout() -> void: #Turns off energy regen for 1 second
@@ -499,29 +492,6 @@ func idle_sound(active: bool) -> void:
 		elif active == true:
 			var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 			tween.tween_property(%ship_idle, "volume_db", -15, 2.0)
-
-var continuous_damage_accumulator: float = 0.0
-const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
-func take_damage(hit_event: HitEvent):
-	if Navigation.in_galaxy_warp or !alive:
-		return
-	
-	hp_current -= hit_event.damage_amount
-	
-	if hit_event.is_continuous_damage:
-		# --- Laser Logic ---
-		continuous_damage_accumulator += hit_event.damage_amount
-		
-		if continuous_damage_accumulator >= HITMARKER_DAMAGE_THRESHOLD:
-			Hitmarker.createDamageHitmarker(continuous_damage_accumulator, hit_event.hit_position, Hitmarker.TargetType.SELF)
-			# Reset the accumulator
-			continuous_damage_accumulator = 0.0
-	else:
-		# --- Torpedo / Instant Damage Logic ---
-		Hitmarker.createDamageHitmarker(hit_event.damage_amount, hit_event.hit_position, Hitmarker.TargetType.SELF)
-	
-	if hp_current <= 0:
-		killPlayer()
 
 
 func velocity_check() -> bool:
@@ -663,11 +633,11 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
 			Stats.FireRateMult = Stats.FireRateMult + mult_step
 		UpgradePickup.MODULE_TYPES.HEALTH:
-			Stats.HullMult = Stats.HullMult + mult_step
+			Stats.HullMult = HealthComponent.Stats.HullMult + mult_step
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			Stats.ShieldMult = Stats.ShieldMult + mult_step
+			HealthComponent.Stats.ShieldMult = HealthComponent.Stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
-				shield.sp_max = shield.sp_max
+				HealthComponent.sp_max = HealthComponent.sp_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			Stats.DamageMult = Stats.DamageMult + mult_step
 

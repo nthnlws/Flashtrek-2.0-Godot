@@ -39,6 +39,7 @@ func fade_indicator(state) -> void:
 
 
 func update_shield_max(new_max_HP:float) -> void:
+	print('updated shield max to %s' % new_max_HP)
 	shield_icon.max_SP = new_max_HP
 
 

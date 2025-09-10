@@ -136,8 +136,8 @@ func _state_logic_firing(delta:float) -> void:
 		hit_event.damage_amount = tick_damage_amount
 		
 		
-		if parent.has_method("take_damage") and is_instance_valid(target_node):
-			parent.take_damage(hit_event)
+		if target_node.has_method("can_recieve_damage") and is_instance_valid(target_node):
+			target_node.take_damage(hit_event)
 		# Update visuals
 		visuals_controller.update_beam_target(target_node.global_position, raycast.get_collision_point())
 

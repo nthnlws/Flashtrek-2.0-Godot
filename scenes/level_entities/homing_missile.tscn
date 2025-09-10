@@ -1,30 +1,155 @@
-[gd_scene load_steps=6 format=3 uid="uid://dj5rx83i8si03"]
+[gd_scene load_steps=22 format=3 uid="uid://dj5rx83i8si03"]
 
 [ext_resource type="Script" uid="uid://s4vl05dusmfn" path="res://scripts/level_entities/homing_missile.gd" id="1_50fve"]
 [ext_resource type="Texture2D" uid="uid://bjxfaemlhrswx" path="res://assets/textures/ships/HomingMissile.png" id="1_eoqnr"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_50fve"]
-frequency = 1.0
+[ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="3_2q6st"]
 
 [sub_resource type="Curve" id="Curve_50fve"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 1, Vector2(0.754448, 1), 0.0, 0.0, 0, 0, Vector2(0.996441, 0.504399), -2.048, 0.0, 1, 0]
 point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eoqnr"]
-radius = 50.0
+radius = 100.0
 
-[node name="Node2D" type="Area2D"]
-position = Vector2(411, 412)
+[sub_resource type="Curve" id="Curve_2q6st"]
+_data = [Vector2(0, 1), 0.0, 0.174443, 0, 0, Vector2(0.69869, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_a8bvv"]
+texture_mode = 1
+curve = SubResource("Curve_2q6st")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2q6st"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-25, 0, 0)
+emission_shape = 3
+emission_box_extents = Vector3(10, 10, 0)
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+color = Color(0.339, 0.68, 0.804, 0.596)
+alpha_curve = SubResource("CurveTexture_a8bvv")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rry4s"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_df2ky"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pt208"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vykux"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i02aa"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_acuc2"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8e03n"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ik23e"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_giqcb"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j21v0"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eslpw"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qh5g"]
+atlas = ExtResource("3_2q6st")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a8bvv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rry4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_df2ky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pt208")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vykux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i02aa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_acuc2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8e03n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik23e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_giqcb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j21v0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eslpw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3qh5g")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 30.0
+}]
+
+[node name="HomeMissile" type="Area2D" groups=["secondary_weapon"]]
+collision_layer = 256
+collision_mask = 132
 script = ExtResource("1_50fve")
-winding_noise = SubResource("FastNoiseLite_50fve")
 damage_curve = SubResource("Curve_50fve")
+speed = 1200.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0.5, 31)
+position = Vector2(-33, 1)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_eoqnr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_eoqnr")
-disabled = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1000
+lifetime = 0.75
+trail_lifetime = 0.92
+process_material = SubResource("ParticleProcessMaterial_2q6st")
+
+[node name="explosion_anim" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0.804, 0.36847, 0.231521, 1)
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_a8bvv")
+animation = &"explosion"

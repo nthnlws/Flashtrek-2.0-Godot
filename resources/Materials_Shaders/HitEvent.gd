@@ -12,9 +12,9 @@ var shooter_faction:Utility.FACTION
 #var weapon_type:WEAPON_TYPE
 #var firing_pos:Vector2
 var hit_position:Vector2
+var hit_hull:bool = false
+var hit_shield:bool = false
 
-var target_name:String
-var target_class:String
 
 var is_critical_hit:bool
 var is_continuous_damage:bool

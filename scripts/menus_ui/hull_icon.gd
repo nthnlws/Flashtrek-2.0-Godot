@@ -2,13 +2,13 @@ extends TextureRect
 
 @export var shield_node: ColorRect
 @export var fill_color: Color = Color(0.0, 1.0, 0.0, 1.0)
-@export var max_HP: float = 100.0:
+@export var HP_max: float = 100.0:
 	set(value):
-		max_HP = value
+		HP_max = value
 		update_hud_health_display()
 var current_HP: float = 100.0:
 	set(value):
-		current_HP = clampf(value, 0.0, max_HP)
+		current_HP = clampf(value, 0.0, HP_max)
 		update_hud_health_display()
 		calculate_and_set_content_bounds()
 
@@ -19,7 +19,7 @@ var _content_bounds_in_region_uv: Rect2 = Rect2(0, 0, 1, 1) # x, y, width, heigh
 
 
 func _ready():
-	current_HP = max_HP
+	current_HP = HP_max
 	initialize_hull_icon()
 
 
@@ -27,8 +27,8 @@ func update_hud_health_display() -> void:
 	if material is ShaderMaterial:
 		var mat: ShaderMaterial = material
 		var health_ratio = 0.0
-		if max_HP > 0:
-			health_ratio = current_HP / max_HP
+		if HP_max > 0:
+			health_ratio = current_HP / HP_max
 		mat.set_shader_parameter("health_ratio", health_ratio)
 
 

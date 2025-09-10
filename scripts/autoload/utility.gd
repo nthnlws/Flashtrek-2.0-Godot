@@ -199,3 +199,87 @@ func load_JSON_ship_data() -> void:
 
 func create_custom_tween(node:Node, property:String, final_val, duration:float, curve:Curve) -> void:
 	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))
+
+
+# This function finds the closest point on the surface of a body's shapes to a given global point.
+static func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:
+	# Remove old debug lines
+	for line in Engine.get_main_loop().get_nodes_in_group("lines"):
+		line.free()
+	
+	var shape_node = area.get_children()[0].shape
+	if not shape_node:
+		printerr("Error: shape_node is null.")
+		return INF
+
+	var shape_rect: Rect2 = shape_node.get_rect()
+
+	var closest_point_on_rect: Vector2 = Vector2.ZERO
+	var area_pos: Vector2 = area.global_position
+	var area_rot: float = area.global_rotation # Get the rotation in radians
+
+	# 1. Define all points in LOCAL space (relative to the area's origin)
+	var local_points: Array[Vector2] = [
+		# Corners
+		shape_rect.position,                                            # Top Left
+		Vector2(shape_rect.end.x, shape_rect.position.y),               # Top Right
+		Vector2(shape_rect.position.x, shape_rect.end.y),               # Bottom Left
+		shape_rect.end,                                                 # Bottom Right
+
+		# Midpoints of edges
+		shape_rect.position + Vector2(shape_rect.size.x / 2.0, 0),      # Top Mid
+		shape_rect.end - Vector2(shape_rect.size.x / 2.0, 0),           # Bottom Mid
+		shape_rect.position + Vector2(0, shape_rect.size.y / 2.0),      # Left Mid
+		shape_rect.end - Vector2(0, shape_rect.size.y / 2.0),           # Right Mid
+
+		# Center of the Area2D's transform (its local origin)
+		Vector2.ZERO,
+
+		# Your other custom points (calculated locally)
+		shape_rect.position / 2.0,
+		Vector2(shape_rect.position.x/2.0 + shape_rect.size.x/2.0, shape_rect.position.y/2.0),
+		Vector2(shape_rect.position.x/2.0, shape_rect.position.y/2.0 + shape_rect.size.y/2.0),
+		Vector2(shape_rect.position.x/2.0 + shape_rect.size.x/2.0, shape_rect.position.y/2.0 + shape_rect.size.y/2.0)
+	]
+	
+	var points: Array[Vector2] = []
+	for local_p in local_points:
+		var rotated_point: Vector2 = local_p.rotated(area_rot)
+		var global_point: Vector2 = rotated_point + area_pos
+		points.append(global_point)
+	
+	var distance_array:Array[float] = []
+	for point:Vector2 in points:
+		var distance_to_corner:float = to_point.distance_to(point)
+		distance_array.append(distance_to_corner)
+	distance_array.sort() # Sort by value
+	
+	# Debug line drawing
+	#for i in range(points.size()):
+		#var line:Line2D = Line2D.new()
+		#line.add_point(to_point)
+		#line.add_point(points[i])
+		#line.width = 2
+		#line.default_color = Color.WHITE
+		#line.add_to_group("lines")
+		#Engine.get_main_loop().current_scene.add_child(line)
+	
+	return distance_array[0] # Return the shortest distance in array
+
+
+func get_distance_to_polygon(to_point: Vector2, area: Area2D) -> float:
+	var collision_polygon = area.get_children()[0]
+	var local_vertices = collision_polygon.polygon
+
+	var min_distance = INF
+	var area_transform = area.global_transform
+
+	for vertex in local_vertices:
+		# Transform the local vertex point to a global world position
+		var global_vertex = area_transform * vertex
+		
+		var distance = to_point.distance_to(global_vertex)
+		if distance < min_distance:
+			min_distance = distance
+	
+	return min_distance

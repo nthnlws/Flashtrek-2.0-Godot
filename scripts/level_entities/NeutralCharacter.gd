@@ -7,23 +7,15 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
 @onready var hitbox: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
 @onready var collision_shape: CollisionPolygon2D = $WorldCollisionShape
-@onready var shield: Node = $Shield
+@onready var shield: Shield = $Shield
 @onready var animation: AnimatedSprite2D = $hull_explosion
 @onready var cloak_animation: AnimationPlayer = $Sprite2D/CloakAnimation
+@onready var HealthComponent: HealthComponent = $HealthComponent
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
 var rotation_rate: float = 1.5
-var shield_on: bool = true
-var hp_max: int = 100:
-	set(value): # Ensures that current HP = max_HP when changed
-		hp_max = value
-		hp_current = value
 
-#Enemy health variables
-var hp_current: float = 100.0
-
-var alive: bool = true
 var endPoint: Vector2
 var returnToStarbaseBool: bool = false
 var moveTarget: String
@@ -33,8 +25,7 @@ var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 
 
 func _ready() -> void:
-	_create_unique_atlas()
-	shield.shieldStatusChanged.connect(func(shieldStatus:bool): shield_on = shieldStatus)
+	_create_unique_texture_atlas()
 
 	_sync_data_to_resource(ship_type)
 	_sync_stats_to_resource(ship_type)
@@ -48,7 +39,7 @@ func _ready() -> void:
 	z_index = Utility.Z["NeutralShips"]
 
 
-func _create_unique_atlas() -> void:
+func _create_unique_texture_atlas() -> void:
 	var atlas_texture: AtlasTexture = AtlasTexture.new()
 	atlas_texture.atlas = preload("res://assets/textures/ships/ship_sprites.png")
 	atlas_texture.filter_clip = true
@@ -77,8 +68,8 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	
 	move_speed = ship_stats.SPEED
 	rotation_rate = ship_stats.ROTATION_SPEED
-	hp_max = ship_stats.MAX_HP
-	shield.sp_max = ship_stats.MAX_SHIELD
+	HealthComponent.HP_max = ship_stats.MAX_HP
+	HealthComponent.SP_max = ship_stats.MAX_SHIELD
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -114,7 +105,7 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	#TODO Sync Player and Enemy speed stats to be compatible
-	if not AI_enabled or not visible or not GameSettings.enemyMovement or alive == false:
+	if not AI_enabled or not visible or not GameSettings.enemyMovement or HealthComponent.alive == false:
 		return
 	
 	# Movement state setter
@@ -178,7 +169,6 @@ func look_at_target(targetPos:Vector2,angle_diff:float, delta:float) -> void:
 
 
 func explode() -> void:
-	alive = false
 	shield.turnShieldOff()
 	sprite.visible = false
 	
@@ -201,38 +191,6 @@ func explode() -> void:
 	await animation.animation_finished
 	
 	queue_free()
-
-var continuous_damage_accumulator: float = 0.0
-const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
-func take_damage(hit_event:HitEvent) -> void:
-	if !alive: return
-	
-	if hp_current <= 0 and alive:
-		explode()
-	
-		# 1. Apply the damage
-	hp_current -= hit_event.damage_amount
-
-	if hit_event.is_continuous_damage:
-		# --- Laser Logic ---
-		continuous_damage_accumulator += hit_event.damage_amount
-		
-		if continuous_damage_accumulator >= HITMARKER_DAMAGE_THRESHOLD:
-			Hitmarker.createDamageHitmarker(
-				continuous_damage_accumulator,
-				hit_event.hit_position, 
-				Hitmarker.TargetType.HULL
-			)
-			# Reset the accumulator.
-			continuous_damage_accumulator = 0.0
-	else:
-		# --- Torpedo / Instant Damage Logic ---
-		Hitmarker.createDamageHitmarker(
-			hit_event.damage_amount, 
-			hit_event.hit_position, 
-			Hitmarker.TargetType.HULL
-		)
-
 
 func cloak_ship(length:float) -> void:
 	cloak_animation.speed_scale = 2/length
