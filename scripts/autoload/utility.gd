@@ -13,7 +13,7 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 	"Weapons": 10, # Lasers, torpedoes, etc.
 	"NeutralShips": 20, # Player and NPCs will share this base layer
 	"FriendlyShips": 25, # Player and NPCs will share this base layer
-	"EnemyShips": 30,
+	"FactionShips": 30,
 	"Player": 40,
 	
 	# -- GAME WORLD EFFECTS --

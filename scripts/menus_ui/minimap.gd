@@ -4,7 +4,7 @@ const OBJECT:PackedScene = preload("res://scenes/menus_ui/minimap_object.tscn")
 
 var count:int = 0
 
-var enemyShips: Array = []
+var factionShips: Array = []
 var starbaseObjects: Array = []
 var neutralShips: Array = []
 var levelObjects: Array = []
@@ -21,7 +21,7 @@ var grid_scale: Vector2
 
 
 func _ready() -> void:
-	SignalBus.enemyShipDied.connect(remove_minimap_object)
+	SignalBus.factionShipDied.connect(remove_minimap_object)
 	SignalBus.neutralShipDied.connect(remove_minimap_object)
 	SignalBus.spawnShip.connect(spawn_ship.unbind(1))
 	grid_scale = get_viewport().get_visible_rect().size / 2 # Var to center minimap objects
@@ -52,7 +52,7 @@ func _input(event: InputEvent) -> void:
 
 func spawn_ship() -> void:
 	var new_obj = add_minimap_object()
-	enemyShips.append(new_obj)
+	factionShips.append(new_obj)
 	new_obj.modulate = Color.RED # Red
 	#ship_to_object[enemy] = new_obj  # Map enemy to TextureRect
 
@@ -69,11 +69,11 @@ func add_minimap_object() -> TextureRect:
 
 func create_minimap_objects() -> void:
 	clear_objects()
-	for enemy:FactionCharacter in LevelData.enemyShips:
+	for enemy:FactionCharacter in LevelData.factionShips:
 		if enemy:
 			var new_obj:TextureRect = add_minimap_object()
 			
-			enemyShips.append(new_obj)
+			factionShips.append(new_obj)
 			new_obj.modulate = Color.RED # Red
 			ship_to_object[enemy] = new_obj  # Map enemy to TextureRect
 			count += 1
@@ -113,13 +113,13 @@ func create_minimap_objects() -> void:
 
 
 func update_minimap() -> void:
-	if enemyShips:
+	if factionShips:
 		count = 0
-		for character:FactionCharacter in LevelData.enemyShips:
+		for character:FactionCharacter in LevelData.factionShips:
 			var globalDistance:Vector2 = character.global_position - player.global_position
-			enemyShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
+			factionShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == LevelData.enemyShips.size():
+			if count == LevelData.factionShips.size():
 				count = 0
 	
 	if neutralShips:
@@ -160,7 +160,7 @@ func remove_minimap_object(ship) -> void:
 		var texture_rect: TextureRect = ship_to_object[ship]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
 		texture_rect.queue_free()  # Free the TextureRect
-		enemyShips.erase(texture_rect)  # Remove from enemyShips array (if present)
+		factionShips.erase(texture_rect)  # Remove from factionShips array (if present)
 		neutralShips.erase(texture_rect) # Remove from neutralShips array (if present)
 		ship_to_object.erase(ship)  # Remove from the dictionary
 	else:
@@ -168,13 +168,13 @@ func remove_minimap_object(ship) -> void:
 
 
 func clear_objects() -> void:
-	var old_objects: Array = enemyShips + neutralShips + starbaseObjects + levelObjects + sunObjects
+	var old_objects: Array = factionShips + neutralShips + starbaseObjects + levelObjects + sunObjects
 	
 	for obj in old_objects:
 		if obj:
 			obj.queue_free()
 	
-	enemyShips.clear()
+	factionShips.clear()
 	neutralShips.clear()
 	starbaseObjects.clear()
 	levelObjects.clear()

@@ -30,9 +30,9 @@ func _add_cheat_commands() -> void:
 		kill_command, # Function call
 		["ship_type", "number"], # Argument params
 		1, # Required params
-		"Kills random ship based on input type (Neutral or Enemy)", # Description
+		"Kills random ship based on input type (Faction or Enemy)", # Description
 		)
-	var kill_params: Array = ["neutral", "enemy"]
+	var kill_params: Array = ["faction", "enemy"]
 	Console.add_command_autocomplete_list("kill_command", PackedStringArray(kill_params))
 
 	Console.add_command( # Upgrade loot
@@ -92,9 +92,9 @@ func kill_command(ship_type:String, number:String = "1") -> void:
 			while not LevelData.neutralShips.is_empty():
 				var ship_to_explode:NeutralCharacter = LevelData.neutralShips.pop_front()
 				ship_to_explode.explode()
-		elif ship_type == "enemy" or ship_type == "enemies":
-			while not LevelData.enemyShips.is_empty():
-				var ship_to_explode:NeutralCharacter = LevelData.enemyShips.pop_front()
+		elif ship_type == "faction":
+			while not LevelData.factionShips.is_empty():
+				var ship_to_explode:NeutralCharacter = LevelData.factionShips.pop_front()
 				ship_to_explode.explode()
 	else:
 		var num:int = int(number)
@@ -106,11 +106,11 @@ func kill_command(ship_type:String, number:String = "1") -> void:
 					ship.explode()
 				else:
 					print("No ships of type '%s' to kill" % ship_type)
-		elif ship_type == "enemy" or ship_type == "enemies":
-			var enemy_ships:Array[FactionCharacter] = LevelData.enemyShips
+		elif ship_type == "faction":
+			var factionShips:Array[FactionCharacter] = LevelData.factionShips
 			for i:int in range(num):
-				if enemy_ships.size() > 0:
-					var ship:FactionCharacter = enemy_ships[randi_range(0, enemy_ships.size() - 1)]
+				if factionShips.size() > 0:
+					var ship:FactionCharacter = factionShips[randi_range(0, factionShips.size() - 1)]
 					ship.explode()
 				else:
 					print("No ships of type '%s' to kill" % ship_type)

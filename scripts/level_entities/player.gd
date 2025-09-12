@@ -207,11 +207,6 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 func _process(delta: float) -> void:
 	if !HealthComponent.alive: return
-	
-	if GameSettings.speedOverride == true:
-		max_speed = GameSettings.maxSpeed
-	else:
-		max_speed = max_speed
 
 	# Movement check for idle audio
 	if abs(velocity.x)+abs(velocity.y) > 100 and Navigation.in_galaxy_warp:
@@ -356,7 +351,6 @@ func shoot_torpedo() -> void:
 	if _can_fire_weapons(bullet.energy_drain):
 		bullet.position = muzzle.global_position
 		bullet.rotation = self.rotation
-		bullet.z_index = 0
 		bullet.exceptions.append($hitbox_area)
 		bullet.exceptions.append(shield.get_node("shield_area"))
 		bullet.shooterObject = self
@@ -438,7 +432,7 @@ func respawn(pos: Vector2) -> void:
 		rotation = deg_to_rad(-90.0) #Sets rotation to up
 		
 		shield.turnShieldOn()
-		HealthComponent.damageTime = false
+		HealthComponent.regenTimeout = false
 
 
 func energyTimeout() -> void: #Turns off energy regen for 1 second

@@ -37,10 +37,10 @@ func spawn_faction_ship(ship_type:Utility.SHIP_TYPES) -> void:
 	var position: Vector2 = LevelData.player.global_position
 	var faction_ship:FactionCharacter = FactionShip.instantiate()
 	faction_ship.add_to_group("level_nodes")
-	faction_ship.add_to_group("enemy_ships")
+	faction_ship.add_to_group("faction_ships")
 	faction_ship.ship_type = ship_type
 	faction_ship.global_position = position
-	LevelData.enemyShips.append(faction_ship)
+	LevelData.factionShips.append(faction_ship)
 	ship_folder.add_child(faction_ship)
 
 	faction_ship.hp_max = faction_ship.hp_max * system_data["ship_health_mult"]
@@ -65,10 +65,13 @@ func _change_system(targetSystem:String) -> void:
 	sync_planets_to_dict(targetSystem)
 	
 	if not sync_system["enemies"].is_empty(): # Some enemy data already exists for system
-		var num_enemies:int = min(sync_system["enemies"].size(), LevelData.planets.size())
-		_instaniate_ships(num_enemies, sync_system)
+		var num_factionShips:int = min(sync_system["enemies"].size(), LevelData.planets.size())
+		var num_neutrals:int = min(sync_system["neutrals"].size(), LevelData.planets.size())
+		_instaniate_neutrals(num_neutrals, sync_system)
+		_instaniate_faction_ships(num_factionShips, sync_system)
 	elif sync_system["neutrals_defeated"] == false: # System data empty and system not defeated, generating enemies
-		_instaniate_ships(LevelData.planets.size(), sync_system)
+		_instaniate_neutrals(LevelData.planets.size(), sync_system)
+		_instaniate_faction_ships(LevelData.planets.size(), sync_system)
 		
 	# --- Neutrals Logic ---
 	if sync_system["neutrals"].is_empty():
@@ -89,10 +92,10 @@ func _change_system(targetSystem:String) -> void:
 			pass
 		else:
 			#print("ENEMIES: Dict is empty, not yet defeated. Generating new positions.")
-			generate_enemy_positions(LevelData.enemyShips)
+			generate_enemy_positions(LevelData.factionShips)
 	else:
 		#print("ENEMIES: Dict is NOT empty. Syncing existing data.")
-		sync_enemies_to_dict(targetSystem, LevelData.enemyShips)
+		sync_enemies_to_dict(targetSystem, LevelData.factionShips)
 	
 	save_ship_data()
 	sync_sun_to_dict(targetSystem)
@@ -100,34 +103,41 @@ func _change_system(targetSystem:String) -> void:
 	%MiniMap.create_minimap_objects() # Refresh minimap objects
 
 
-func _instaniate_ships(PLANET_COUNT:int, system_data:Dictionary) -> void:
-	for i:int in range(PLANET_COUNT):
+func _instaniate_neutrals(spawn_number:int, system_data:Dictionary) -> void:
+	for i:int in range(spawn_number):
+		var new_neutral:NeutralCharacter = NeutralShip.instantiate()
+		new_neutral.add_to_group("level_nodes")
+		new_neutral.add_to_group("neutral_ships")
+
+		new_neutral.ship_type = _get_random_neutral_ship_type(system_data)
+		LevelData.neutralShips.append(new_neutral)
+		ship_folder.add_child(new_neutral)
+		
+		new_neutral.HealthComponent.HP_max = new_neutral.HealthComponent.HP_max * system_data["ship_health_mult"]
+		if !system_data["neutrals"].is_empty(): # If data already has named ships
+			new_neutral.name = system_data["neutrals"].keys()[i]
+		else: new_neutral.name = "Neutral_" + str(i)
+
+
+func _instaniate_faction_ships(spawn_number:int, system_data:Dictionary) -> void:
+	for i:int in range(spawn_number):
 		var faction_ship:FactionCharacter = FactionShip.instantiate()
 		faction_ship.add_to_group("level_nodes")
-		faction_ship.add_to_group("enemy_ships")
+		faction_ship.add_to_group("faction_ships")
 		
 		faction_ship.ship_type = _get_faction_ship(system_data)
-		LevelData.enemyShips.append(faction_ship)
+		LevelData.factionShips.append(faction_ship)
 		ship_folder.add_child(faction_ship)
 		
 
 		faction_ship.HealthComponent.HP_max = faction_ship.HealthComponent.HP_max * system_data["ship_health_mult"]
 		faction_ship.damage_mult = faction_ship.damage_mult * system_data["enemy_damage_mult"]
-		faction_ship.name = "Enemy_" + str(i)
-	for i:int in range(PLANET_COUNT):
-		var new_neutral:NeutralCharacter = NeutralShip.instantiate()
-		new_neutral.add_to_group("level_nodes")
-		new_neutral.add_to_group("neutral_ships")
-
-		new_neutral.ship_type = _get_neutral_ship(system_data)
-		LevelData.neutralShips.append(new_neutral)
-		ship_folder.add_child(new_neutral)
-		
-		new_neutral.HealthComponent.HP_max = new_neutral.HealthComponent.HP_max * system_data["ship_health_mult"]
-		new_neutral.name = "Neutral_" + str(i)
+		if !system_data["enemies"].is_empty(): # If data already has named ships
+			faction_ship.name = system_data["enemies"].keys()[i]
+		else: faction_ship.name = "FactionShip_" + str(i)
 
 
-func _get_neutral_ship(system_data:Dictionary) -> Utility.SHIP_TYPES:
+func _get_random_neutral_ship_type(system_data:Dictionary) -> Utility.SHIP_TYPES:
 	var neutral_ship_array:Array[Utility.SHIP_TYPES] = [
 		Utility.SHIP_TYPES.Merchantman,
 		Utility.SHIP_TYPES.DKora_Marauder,
@@ -153,7 +163,7 @@ func _get_faction_ship(system_data:Dictionary) -> Utility.SHIP_TYPES:
 			return Utility.SHIP_TYPES.Merchantman
 
 
-func generate_enemy_positions(enemy_ships:Array[FactionCharacter]) -> void:
+func generate_enemy_positions(faction_ships:Array[FactionCharacter]) -> void:
 	var planets:Array[Node2D] = LevelData.planets
 	var max_spawn_distance: int = 1500
 	var min_spawn_distance: int = 500
@@ -161,12 +171,12 @@ func generate_enemy_positions(enemy_ships:Array[FactionCharacter]) -> void:
 	var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
 	var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
 	
-	if enemy_ships.size() != planets.size():
-		push_error("Enemy ships and planets count mismatch! %s enemy ships and %s planets" % [enemy_ships.size(), planets.size()])
+	if faction_ships.size() != planets.size():
+		push_error("Enemy ships and planets count mismatch! %s enemy ships and %s planets" % [faction_ships.size(), planets.size()])
 		return
 
-	for e in enemy_ships.size():
-		enemy_ships[e].global_position = planets[e].global_position + spawn_position
+	for e in faction_ships.size():
+		faction_ships[e].global_position = planets[e].global_position + spawn_position
 
 
 func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
@@ -178,9 +188,9 @@ func generate_neutral_positions(neutral_ships:Array[NeutralCharacter]) -> void:
 	
 	for n in neutral_ships.size():
 		# Set spawn distance between 20-80% from starbase to planet
-		var random_fraction: float = clamp(randf(),0.2, 0.8)
+		var random_fraction: float = clamp(randf(), 0.2, 0.8)
 		var spawn_pos: Vector2 = Vector2.ZERO.lerp(planets[n].global_position, random_fraction)
-
+		
 		neutral_ships[n].global_position = spawn_pos
 
 
@@ -211,6 +221,7 @@ func sync_enemies_to_dict(targetSystem:String, enemy_array:Array[FactionCharacte
 			e.HealthComponent.sp_current = ship_data["current_sp"]
 		else:
 			push_error("Enemy %s not found in system data" % e.name)
+
 
 func sync_sun_to_dict(targetSystem:String) -> void:
 	var sun_data: Dictionary = LevelData.all_systems_data[targetSystem]["sun_data"]
@@ -245,7 +256,7 @@ func sync_planets_to_dict(targetSystem:String) -> void:
 			LevelData.unused_planets[i].name = "Unused Planet" + str(i)
 
 
-func save_ship_data(enemy_array:Array[FactionCharacter] = LevelData.enemyShips, neutral_array:Array[NeutralCharacter] = LevelData.neutralShips) -> void:
+func save_ship_data(enemy_array:Array[FactionCharacter] = LevelData.factionShips, neutral_array:Array[NeutralCharacter] = LevelData.neutralShips) -> void:
 	var current_system:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
 	
 	current_system.get("enemies")
@@ -280,10 +291,10 @@ func cleanup_old_system() -> void:
 	for drop:Area2D in old_upgrade_drops: # Delete all upgrade drops
 		drop.queue_free()
 	
-	for ship:CharacterBody2D in LevelData.neutralShips + LevelData.enemyShips:
+	for ship:CharacterBody2D in LevelData.neutralShips + LevelData.factionShips:
 		ship.free() # Delete all old ships
 	
-	LevelData.enemyShips.clear()
+	LevelData.factionShips.clear()
 	LevelData.neutralShips.clear()
 
 

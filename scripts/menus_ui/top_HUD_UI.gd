@@ -18,7 +18,7 @@ func _ready() -> void:
 	SignalBus.missionAccepted.connect(_update_mission_text)
 	SignalBus.reputationChanged.connect(_update_faction_score)
 	SignalBus.finishMission.connect(_clear_mission_text)
-	SignalBus.enemyShipDied.connect(_on_enemy_ship_died)
+	SignalBus.factionShipDied.connect(_on_enemy_ship_died)
 	
 	if showing == false:
 		position = HIDDEN_POS

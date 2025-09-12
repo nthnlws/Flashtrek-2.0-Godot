@@ -172,15 +172,7 @@ func explode() -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
 	
-	LevelData.neutralShips.erase(self)
-	SignalBus.neutralShipDied.emit(self)
-	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
-	var neutrals_list:Dictionary = system_data["neutrals"]
-	if neutrals_list.has(self.name):
-		neutrals_list.erase(self.name)
-		if neutrals_list.is_empty():
-			system_data["neutrals_defeated"] = true
-	else: push_error("%s not found in dict" % self.name)
+	remove_data_reference()
 	
 	collision_shape.set_deferred("disabled", true)
 	hitbox.set_deferred("disabled", true)
@@ -191,6 +183,22 @@ func explode() -> void:
 	await animation.animation_finished
 	
 	queue_free()
+
+
+func remove_data_reference() -> void:
+	if LevelData.neutralShips.has(self):
+		LevelData.neutralShips.erase(self)
+	else: printerr('Ship not found in LevelData list, cannot remove from dict')
+	
+	SignalBus.neutralShipDied.emit(self)
+	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
+	var neutral_list:Dictionary = system_data["neutrals"]
+	if neutral_list.has(self.name):
+		neutral_list.erase(self.name)
+		if neutral_list.is_empty():
+			system_data["neutrals_defeated"] = true
+	else: push_error("%s not found in dict" % self.name)
+
 
 func cloak_ship(length:float) -> void:
 	cloak_animation.speed_scale = 2/length

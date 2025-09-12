@@ -1,7 +1,7 @@
 extends Node
 
 var spawn_options: Array[Area2D] = []
-var enemyShips: Array[FactionCharacter] = []
+var factionShips: Array[FactionCharacter] = []
 var neutralShips: Array[NeutralCharacter] = []
 var levelWalls: Array[Node2D] = []
 var planets: Array[Node2D] = []
@@ -19,7 +19,7 @@ func _ready() -> void:
 
 
 func _printArrays() -> void:
-	print(enemyShips)
+	print(factionShips)
 	#print("Planets: %s" % planets)
 	#print("Suns: %s" % suns)
 	#print("Level Walls: %s" % levelWalls)

@@ -9,6 +9,3 @@ func can_recieve_damage(hit_event:HitEvent):
 	
 	if hit_event.get_shooter_node() != get_parent():
 		recieved_damage.emit(hit_event)
-		
-		if get_parent() is FactionCharacter:
-			var shooter = hit_event.get_shooter_node()

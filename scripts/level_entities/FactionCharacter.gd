@@ -210,8 +210,11 @@ func explode() -> void:
 
 
 func remove_data_reference() -> void:
-	LevelData.enemyShips.erase(self)
-	SignalBus.enemyShipDied.emit(self)
+	if LevelData.factionShips.has(self):
+		LevelData.factionShips.erase(self)
+	else: printerr('Ship not found in LevelData list, cannot remove from dict')
+	
+	SignalBus.factionShipDied.emit(self)
 	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
 	var enemy_list:Dictionary = system_data["enemies"]
 	if enemy_list.has(self.name):
