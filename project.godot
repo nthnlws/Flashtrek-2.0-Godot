@@ -66,6 +66,7 @@ folder_colors={
 "res://assets/icons/": "yellow",
 "res://assets/textures/": "yellow",
 "res://assets/textures/UI/new_HUD/": "red",
+"res://assets/textures/UI/ship_upgrade_menu/": "green",
 "res://resources/": "blue",
 "res://resources/LCARS.tres": "red",
 "res://scenes/": "red",
@@ -254,5 +255,4 @@ tool_script={
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 anti_aliasing/quality/screen_space_aa=1

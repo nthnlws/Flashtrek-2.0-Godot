@@ -1,0 +1,225 @@
+[gd_scene load_steps=8 format=3 uid="uid://b3ruu3xegfccq"]
+
+[ext_resource type="Script" uid="uid://b10kpbvc80uj7" path="res://scripts/menus_ui/ship_upgrade_menu.gd" id="1_3ib4j"]
+[ext_resource type="Texture2D" uid="uid://cabdk1q27chx3" path="res://assets/textures/UI/ship_upgrade_menu/corridor_klingon_edited.png" id="1_k4fhh"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_x0k55"]
+[ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="3_3ib4j"]
+[ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="3_ir0yc"]
+[ext_resource type="PackedScene" uid="uid://c5s0nigwpa515" path="res://scenes/menus_ui/upgrade_hover.tscn" id="3_x0k55"]
+[ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="4_3ib4j"]
+
+[node name="ShipUpgradeMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_3ib4j")
+
+[node name="corridor_background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_k4fhh")
+expand_mode = 1
+
+[node name="left_panel" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 320.0
+grow_vertical = 2
+pivot_offset = Vector2(480, 270)
+color = Color(0.412, 0.416, 0.416, 0.6)
+
+[node name="MarginContainer" type="MarginContainer" parent="left_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 43
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="left_panel/MarginContainer"]
+layout_mode = 2
+
+[node name="stats_banner" type="Label" parent="left_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 25
+text = "Ship Status:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="health_indicator" parent="left_panel/MarginContainer/VBoxContainer" instance=ExtResource("3_3ib4j")]
+layout_mode = 2
+size_flags_vertical = 3
+ratio = 1.4895
+
+[node name="MarginContainer" type="MarginContainer" parent="left_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 200
+
+[node name="stats_banner2" type="Label" parent="left_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 25
+text = "Upgrades:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Upgrade Frames" type="GridContainer" parent="left_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 3
+
+[node name="Damage" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+layout_mode = 2
+
+[node name="FireRate" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+layout_mode = 2
+current_icon = 1
+
+[node name="Rotation" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+layout_mode = 2
+current_icon = 3
+
+[node name="Health" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+layout_mode = 2
+current_icon = 2
+
+[node name="Shield" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+layout_mode = 2
+current_icon = 4
+
+[node name="Speed" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+layout_mode = 2
+current_icon = 5
+
+[node name="right_panel" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 540)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 3
+color = Color(0.411765, 0.415686, 0.415686, 0.6)
+
+[node name="MarginContainer" type="MarginContainer" parent="right_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ship_info" type="VBoxContainer" parent="right_panel/MarginContainer"]
+layout_mode = 2
+
+[node name="closeMenuButton" type="Button" parent="right_panel/MarginContainer/ship_info"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X"
+
+[node name="stats_banner" type="Label" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 25
+text = "ship Stats:"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="right_panel/MarginContainer/ship_info"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="ship_name" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_ir0yc")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Ship Name: "
+fit_content = true
+scroll_active = false
+
+[node name="faction" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_ir0yc")
+theme_override_font_sizes/normal_font_size = 19
+bbcode_enabled = true
+text = "Current Faction: "
+fit_content = true
+scroll_active = false
+
+[node name="weapon" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_ir0yc")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "Weapon: "
+fit_content = true
+scroll_active = false
+
+[node name="speed_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_ir0yc")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "Max Speed: "
+fit_content = true
+scroll_active = false
+
+[node name="maneuver_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_ir0yc")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "Maneuverability: "
+fit_content = true
+scroll_active = false
+
+[node name="warp_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_ir0yc")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "Warp Range:"
+fit_content = true
+scroll_active = false
+
+[node name="ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_3ib4j")
+volume_db = -15.634
+
+[connection signal="pressed" from="right_panel/MarginContainer/ship_info/closeMenuButton" to="." method="_on_close_menu_button_pressed"]

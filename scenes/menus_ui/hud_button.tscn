@@ -269,7 +269,7 @@ offset_bottom = 2.28882e-05
 
 [node name="Polygon2D" parent="Center/Center/PolygonMouseDetector" index="0"]
 color = Color(1, 1, 1, 0)
-polygon = PackedVector2Array(81, -69.7083, 102, -67.7083, 126, -60.7083, 150, -47.7083, 168, -28.7083, 184, -3.7083, 192, 19.2917, 194, 45.2917, 190, 78.2917, 173, 109.292, 146, 135.292, 116, 150.292, 89, 155.292, 66, 154.292, 38, 147.292, 14, 133.292, -3, 117.292, -17, 97.2917, -27, 75.2917, -32, 46.2917, -29, 18.2917, -17, -12.7083, 2, -37.7083, 24, -53.7083, 49, -64.7083, 68, -69.7083)
+polygon = PackedVector2Array(89, -69.7083, 106, -66.7083, 126, -60.7083, 150, -47.7083, 168, -28.7083, 184, -3.7083, 192, 19.2917, 194, 45.2917, 190, 78.2917, 173, 109.292, 146, 135.292, 116, 150.292, 89, 155.292, 66, 154.292, 38, 147.292, 14, 133.292, -3, 117.292, -17, 97.2917, -27, 75.2917, -32, 46.2917, -29, 18.2917, -17, -12.7083, 2, -37.7083, 24, -53.7083, 46, -64.7083, 67, -69.7083)
 
 [node name="TopLeft" type="TextureButton" parent="." groups=["texture_buttons"]]
 layout_mode = 1
@@ -285,6 +285,7 @@ offset_bottom = -256.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(244, 244)
+mouse_filter = 2
 texture_normal = ExtResource("2_40wxk")
 ignore_texture_size = true
 stretch_mode = 4
@@ -323,6 +324,7 @@ offset_bottom = -256.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(0, 244)
+mouse_filter = 2
 texture_normal = ExtResource("5_41du8")
 ignore_texture_size = true
 stretch_mode = 4
@@ -360,6 +362,7 @@ offset_right = 2.0
 offset_bottom = 2.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 2
 texture_normal = ExtResource("7_ot80n")
 ignore_texture_size = true
 stretch_mode = 4
@@ -398,6 +401,7 @@ offset_bottom = 2.0
 grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(244, 0)
+mouse_filter = 2
 texture_normal = ExtResource("6_n5omj")
 ignore_texture_size = true
 stretch_mode = 4

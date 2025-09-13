@@ -1,11 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene load_steps=8 format=3 uid="uid://c5vnannn3r6y1"]
 
 [ext_resource type="Script" uid="uid://kgsd2ge22qph" path="res://scripts/menus_ui/ship_selection_menu.gd" id="1_3djgo"]
 [ext_resource type="Texture2D" uid="uid://digj0ww7e6iir" path="res://assets/textures/UI/starbase_background.png" id="6_pmy4k"]
 [ext_resource type="Texture2D" uid="uid://cn6hk6q2vqimy" path="res://assets/textures/UI/gray_background.png" id="7_6y24t"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="12_lf3ul"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="13_cq87e"]
-[ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_frame.tscn" id="13_y5r6i"]
+[ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_selector.tscn" id="13_y5r6i"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="14_5cpsl"]
 
 [node name="ShipSelectionMenu" type="Control"]
@@ -92,8 +92,8 @@ theme_override_constants/separation = 30
 [node name="Control" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 54
-grayed_out = false
 ship_faction = 0
+grayed_out = false
 
 [node name="Control2" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
 layout_mode = 2

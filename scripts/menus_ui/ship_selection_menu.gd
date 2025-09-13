@@ -2,7 +2,7 @@ extends Control
  
 @onready var ambience:AudioStreamPlayer = $ambience
 @onready var warp_stat: RichTextLabel = %warp_stat
-@onready var frames:Array[Node] = get_tree().get_nodes_in_group("selection_frame")
+@onready var frames:Array[ShipSelector] = []
 
 var FederationRep:float = 0.0
 var KlingonRep:float = 0.0
@@ -48,9 +48,12 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.reputationChanged.connect(_update_faction_reputations)
 	
+	for child in get_tree().get_nodes_in_group("selection_frame"):
+		if child is ShipSelector:
+			frames.append(child)
 	for frame:ShipSelector in frames:
-		frame.ship_selected.connect(_on_close_menu_button_pressed)
-		frame.ship_hovered.connect(update_ship_stats)
+		frame.icon_selected.connect(_on_close_menu_button_pressed)
+		frame.icon_hovered.connect(update_ship_stats)
 
 
 func _update_faction_reputations(faction:Utility.FACTION, new_score:float) -> void:

@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://djjxdvhjd147f"]
+
+[ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scripts/menus_ui/icon_selector.tscn" id="1_fuk3m"]
+[ext_resource type="Script" uid="uid://drrpthed6v3fy" path="res://scripts/menus_ui/ship_selector.gd" id="2_k7jjm"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_n336a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s3b2"]
+atlas = ExtResource("3_n336a")
+region = Rect2(0, 0, 48, 48)
+filter_clip = true
+
+[node name="ShipSelector" instance=ExtResource("1_fuk3m")]
+script = ExtResource("2_k7jjm")
+
+[node name="icon" parent="background" index="0"]
+texture = SubResource("AtlasTexture_3s3b2")

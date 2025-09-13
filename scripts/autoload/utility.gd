@@ -283,3 +283,8 @@ func get_distance_to_polygon(to_point: Vector2, area: Area2D) -> float:
 			min_distance = distance
 	
 	return min_distance
+
+
+func get_faction_from_ship(ship_index: SHIP_TYPES) -> FACTION:
+	var faction:Utility.FACTION = SHIP_DATA.values()[ship_index].get("FACTION")
+	return faction

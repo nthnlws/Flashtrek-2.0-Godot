@@ -1,25 +1,25 @@
 extends ColorRect
 
-@export var max_SP: float = 100.0:
+@export var SP_max: float = 100.0:
 	set(value):
-		max_SP = value
+		SP_max = value
 		update_shield_display()
 var current_SP: float = 100.0:
 	set(value):
 		if current_SP == value: return
-		current_SP = clampf(value, 0.0, max_SP)
+		current_SP = clampf(value, 0.0, SP_max)
 		update_shield_display()
 
 func _ready() -> void:
 	SignalBus.playerShieldOff.connect(handle_player_shield_state.bind("OFF"))
 	SignalBus.playerShieldOn.connect(handle_player_shield_state.bind("ON"))
-	current_SP = max_SP
+	current_SP = SP_max
 
 
 func update_shield_display() -> void:
 	var ratio = 0.0
-	if max_SP > 0.0:
-		ratio = current_SP / max_SP
+	if SP_max > 0.0:
+		ratio = current_SP / SP_max
 	material.set_shader_parameter("health_ratio", ratio)
 
 

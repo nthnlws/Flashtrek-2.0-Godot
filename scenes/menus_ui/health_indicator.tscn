@@ -33,43 +33,44 @@ atlas = ExtResource("1_vpj4s")
 region = Rect2(48, 96, 48, 48)
 filter_clip = true
 
-[node name="health_indicator" type="Control"]
+[node name="health_indicator" type="AspectRatioContainer"]
 modulate = Color(1, 1, 0, 1)
-layout_mode = 3
-anchors_preset = 0
-offset_right = 80.0
-offset_bottom = 60.0
+custom_minimum_size = Vector2(80, 60)
+anchors_preset = -1
+anchor_right = 0.083
+anchor_bottom = 0.111
+offset_right = 0.319992
+offset_bottom = 0.0599937
 script = ExtResource("1_41b34")
 
 [node name="shield_icon" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_bmthh")
 custom_minimum_size = Vector2(80, 60)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 script = ExtResource("2_bmthh")
 
-[node name="ReferenceRect" type="ReferenceRect" parent="shield_icon"]
+[node name="MarginContainer" type="MarginContainer" parent="shield_icon"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="hull_icon" type="TextureRect" parent="." node_paths=PackedStringArray("shield_node")]
+[node name="hull_icon" type="TextureRect" parent="shield_icon/MarginContainer" node_paths=PackedStringArray("shield_node")]
 material = SubResource("ShaderMaterial_tnw4a")
-layout_mode = 0
-offset_left = 16.0
-offset_top = 6.0
-offset_right = 64.0
-offset_bottom = 54.0
+custom_minimum_size = Vector2(70, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = SubResource("AtlasTexture_b2c71")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 5
 script = ExtResource("1_ddvhb")
-shield_node = NodePath("../shield_icon")
+shield_node = NodePath("../..")
 fill_color = Color(0, 0.7187, 0.290697, 1)
 health_fill_direction = 2

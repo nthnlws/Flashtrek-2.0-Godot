@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=27 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
@@ -20,7 +20,8 @@
 [ext_resource type="PackedScene" uid="uid://dfehj0ebpawa0" path="res://scenes/menus_ui/HUD.tscn" id="16_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
-[ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
+[ext_resource type="PackedScene" uid="uid://c5vnannn3r6y1" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
+[ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_upgrade_menu.tscn" id="23_546po"]
 [ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="23_bt5mj"]
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
@@ -92,16 +93,18 @@ visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
-visible = false
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="LoadingScreen" parent="Menus" instance=ExtResource("20_qnb83")]
 unique_name_in_owner = true
 visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
+visible = false
+
+[node name="ShipUpgradeMenu" parent="Menus" instance=ExtResource("23_546po")]
+visible = false
+mouse_filter = 2
 
 [node name="TunnelEffect" parent="Menus" instance=ExtResource("23_g86nl")]
 unique_name_in_owner = true
@@ -123,4 +126,3 @@ script = ExtResource("25_dx7lr")
 enabled = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="menu_closed" from="Menus/ShipSelectionMenu" to="Menus" method="_handle_ship_menu_closed"]

@@ -2,7 +2,7 @@ extends Control
 class_name HealthIndicator
 
 @onready var shield_icon: ColorRect = $shield_icon
-@onready var hull_icon: TextureRect = $hull_icon
+@onready var hull_icon: TextureRect = $shield_icon/MarginContainer/hull_icon
 
 
 func _ready() -> void:
@@ -38,8 +38,8 @@ func fade_indicator(state) -> void:
 		tween.tween_property(self, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)
 
 
-func update_shield_max(new_max_HP:float) -> void:
-	shield_icon.max_SP = new_max_HP
+func update_shield_max(new_max_SP:float) -> void:
+	shield_icon.SP_max = new_max_SP
 
 
 func update_shield_health(new_SP:float) -> void:
@@ -51,4 +51,4 @@ func update_hitbox_health(new_HP:float) -> void:
 
 
 func update_hitbox_max(new_max_HP:float) -> void:
-	hull_icon.max_HP = new_max_HP
+	hull_icon.HP_max = new_max_HP

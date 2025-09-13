@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://8g4cwvp7exv5"]
+
+[ext_resource type="StyleBox" uid="uid://c78jn582dwlye" path="res://resources/tooltip_style.tres" id="1_bl13t"]
+[ext_resource type="Script" uid="uid://cdhvettg8k4ey" path="res://scripts/menus_ui/hover_tooltip.gd" id="1_errlg"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_iyx0m"]
+
+[node name="Control" type="PanelContainer"]
+custom_minimum_size = Vector2(110, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -633.0
+offset_bottom = -501.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = ExtResource("1_bl13t")
+script = ExtResource("1_errlg")
+
+[node name="TooltipText" type="RichTextLabel" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("3_iyx0m")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Test Increases fire rate of all weapons by 10%"
+horizontal_alignment = 1
+vertical_alignment = 1

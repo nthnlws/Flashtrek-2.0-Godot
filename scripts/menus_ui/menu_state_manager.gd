@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 # Enum for menu states
-enum MenuState { NONE, PAUSE_MENU, GALAXY_MAP, SHIP_SELECTION }
+enum MenuState { NONE, PAUSE_MENU, GALAXY_MAP, SHIP_SELECTION, SHIP_UPGRADE }
 
 # Variable to keep track of the current menu state
 var current_state: MenuState = MenuState.NONE
@@ -13,6 +13,7 @@ func _ready() -> void:
 	SignalBus.playerDied.connect(_handle_player_death)
 	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
 	SignalBus.BottomRight_clicked.connect(toggle_ship_selection)
+	SignalBus.Center_clicked.connect(toggle_upgrade_menu)
 
 
 # Input handling
@@ -38,8 +39,11 @@ func handle_escape_press() -> void:
 			# Galaxy map is open, close it
 			toggle_menu($GalaxyMap, MenuState.NONE)
 		MenuState.SHIP_SELECTION:
-			# Starbse comms are open, close it
+			# Starbase comms are open, close it
 			toggle_menu($ShipSelectionMenu, MenuState.NONE)
+		MenuState.SHIP_UPGRADE:
+			# Ship upgrade menu is open, close it
+			toggle_menu($ShipUpgradeMenu, MenuState.NONE)
 
 
 # Handle M key press (for the Galaxy Map)
@@ -69,7 +73,14 @@ func toggle_ship_selection():
 		$ShipSelectionMenu.mouse_filter = Control.MOUSE_FILTER_STOP
 		$ShipSelectionMenu.start_ambience()
 		current_state = MenuState.SHIP_SELECTION
-	
+
+
+func toggle_upgrade_menu():
+	$ShipUpgradeMenu.visible = true
+	$ShipUpgradeMenu.mouse_filter = Control.MOUSE_FILTER_STOP
+	current_state = MenuState.SHIP_UPGRADE
+
+
 # Toggle the menu visibility and update the state
 func toggle_menu(menu: Control, new_state: MenuState) -> void:
 	if menu.visible == false:
