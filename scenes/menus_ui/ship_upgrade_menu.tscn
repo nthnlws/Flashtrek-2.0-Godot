@@ -87,25 +87,31 @@ size_flags_horizontal = 4
 columns = 3
 
 [node name="Damage" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="FireRate" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+unique_name_in_owner = true
 layout_mode = 2
 current_icon = 1
 
 [node name="Rotation" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+unique_name_in_owner = true
 layout_mode = 2
 current_icon = 3
 
 [node name="Health" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+unique_name_in_owner = true
 layout_mode = 2
 current_icon = 2
 
 [node name="Shield" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+unique_name_in_owner = true
 layout_mode = 2
 current_icon = 4
 
 [node name="Speed" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+unique_name_in_owner = true
 layout_mode = 2
 current_icon = 5
 

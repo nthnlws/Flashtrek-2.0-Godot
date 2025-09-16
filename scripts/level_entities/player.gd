@@ -614,6 +614,7 @@ func _recalculate_current_faction() -> Utility.FACTION:
 
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
+	SignalBus.playerUpgradeApplied.emit(pickup.upgrade_type)
 	var mult_step:float = 0.05 # 5% increase to stat
 	
 	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type
@@ -631,7 +632,7 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 		UpgradePickup.MODULE_TYPES.SHIELD:
 			HealthComponent.Stats.ShieldMult = HealthComponent.Stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
-				HealthComponent.sp_max = HealthComponent.sp_max
+				HealthComponent.SP_max = HealthComponent.SP_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			Stats.DamageMult = Stats.DamageMult + mult_step
 

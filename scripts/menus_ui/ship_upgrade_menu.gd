@@ -12,6 +12,8 @@ const SHIP_DATA = preload("res://assets/data/ShipData.json")
 
 func _ready() -> void:
 	SignalBus.player_type_changed.connect(set_background)
+	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
+	
 	set_background(Utility.starting_ship)
 
 
@@ -31,3 +33,19 @@ func set_background(ship_index: Utility.SHIP_TYPES) -> void:
 			background.texture = CORRIDOR_KLINGON_EDITED
 		Utility.FACTION.NEUTRAL:
 			background.texture = CORRIDOR_NEUTRAL_EDITED
+
+
+func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:
+	match upgrade_type:
+		UpgradePickup.MODULE_TYPES.SPEED:
+			%Speed.upgrade_number += 1
+		UpgradePickup.MODULE_TYPES.ROTATION:
+			%Rotation.upgrade_number += 1
+		UpgradePickup.MODULE_TYPES.FIRE_RATE:
+			%FireRate.upgrade_number += 1
+		UpgradePickup.MODULE_TYPES.HEALTH:
+			%Health.upgrade_number += 1
+		UpgradePickup.MODULE_TYPES.SHIELD:
+			%Shield.upgrade_number += 1
+		UpgradePickup.MODULE_TYPES.DAMAGE:
+			%Damage.upgrade_number += 1

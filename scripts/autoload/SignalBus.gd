@@ -3,6 +3,7 @@ extends Node
 
 func _init() -> void:
 	@warning_ignore_start("UNUSED_SIGNAL")
+	pass
 
 signal factionShipDied(enemy:FactionCharacter)
 signal spawnLoot(type:UpgradePickup.MODULE_TYPES, postition:Vector2)
@@ -31,6 +32,7 @@ signal playerShieldChanged(sp_current:float)
 signal playerEnergyChanged(energy_current:float)
 signal playerMaxEnergyChanged(energy_max:float)
 
+signal playerUpgradeApplied(pickup_type:UpgradePickup.MODULE_TYPES)
 signal playerShieldOff
 signal playerShieldOn
 

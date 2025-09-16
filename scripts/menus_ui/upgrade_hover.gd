@@ -46,17 +46,17 @@ func set_icon(new_texture:Type) -> void:
 	icon.texture = upgrade_icons[new_texture]
 	match new_texture:
 		Type.DAMAGE:
-			tooltip.text = "Increases damage dealt by your ship's weapons by 10%"
+			tooltip.text = "Increases weapon damage by 10%"
 		Type.FIRE_RATE:
-			tooltip.text = "Increases your ship's weapon fire rate by 10%"
+			tooltip.text = "Increases weapon fire rate by 10%"
 		Type.HEALTH:
-			tooltip.text = "Increases your ship's max health by 10%"
+			tooltip.text = "Increases max health by 10%"
 		Type.ROTATION:
-			tooltip.text = "Increases your ship's rotation speed by 10%"
+			tooltip.text = "Increases rotation speed by 10%"
 		Type.SHIELD:
-			tooltip.text = "Increases your ship's shield capacity by 10%"
+			tooltip.text = "Increases shield capacity by 10%"
 		Type.SPEED:
-			tooltip.text = "Increases your ship's max speed by 10%"
+			tooltip.text = "Increases max speed by 10%"
 
 
 func set_gray_out(state:bool) -> void:

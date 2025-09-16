@@ -9,6 +9,7 @@ const OFFSET: Vector2 = Vector2(6, 0)
 		text = new_text
 		if TooltipText:
 			TooltipText.text = new_text
+			size = TooltipText.get_minimum_size()
 
 
 func _input(event: InputEvent) -> void:

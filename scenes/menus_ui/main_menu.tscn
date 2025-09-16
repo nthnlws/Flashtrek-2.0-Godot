@@ -20,6 +20,7 @@ font = ExtResource("4_7rxst")
 font_size = 35
 
 [sub_resource type="LabelSettings" id="LabelSettings_j785f"]
+font = ExtResource("4_7rxst")
 font_size = 15
 font_color = Color(0, 0, 0, 1)
 
