@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbypet2yfve00"]
+
+[ext_resource type="Script" uid="uid://cadtj6pukd0ci" path="res://scripts/level_entities/tractor_beam.gd" id="1_fnnpl"]
+[ext_resource type="Shader" uid="uid://dtphrsivpjmra" path="res://resources/Materials_Shaders/tractor_beam.gdshader" id="2_vwgry"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vwgry"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vwgry"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_vwgry")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vwgry"]
+shader = ExtResource("2_vwgry")
+shader_parameter/u_rect_size = Vector2(0, 0)
+shader_parameter/u_vertex_a = Vector2(0, 0)
+shader_parameter/u_vertex_b = Vector2(0, 0)
+shader_parameter/u_vertex_c = Vector2(0, 0)
+shader_parameter/beam_color = Color(0.19966345, 0.60038817, 1, 0.1)
+shader_parameter/pulse_speed = 3.0
+shader_parameter/noise_strength = 0.4710000223725
+shader_parameter/edge_fade_width = 26.83200122702
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_vwgry")
+shader_parameter/min_alpha_floor = 0.0
+
+[node name="TractorBeam" type="Area2D"]
+top_level = true
+script = ExtResource("1_fnnpl")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(287, 102, 287, -102, 0, 0)
+
+[node name="ColorRect" type="ColorRect" parent="CollisionShape2D"]
+material = SubResource("ShaderMaterial_vwgry")
+
+[node name="Camera2D" type="Camera2D" parent="."]

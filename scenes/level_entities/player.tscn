@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene load_steps=51 format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/level_entities/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://dj5rx83i8si03" path="res://scenes/level_entities/homing_missile.tscn" id="3_7pmes"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://dl1t2pm0xwqsn" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
 [ext_resource type="AudioStream" uid="uid://dq11kuumua3bu" path="res://assets/audio/galaxy_warp_UP.ogg" id="16_hjmq1"]
 [ext_resource type="AudioStream" uid="uid://w1mbhrv11vbo" path="res://assets/audio/warp_boom.ogg" id="17_e8fxd"]
+[ext_resource type="PackedScene" uid="uid://dbypet2yfve00" path="res://scenes/level_entities/tractor_beam.tscn" id="21_rue2e"]
 
 [sub_resource type="Curve" id="Curve_p5fwl"]
 _data = [Vector2(0, 0.78022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -312,6 +313,9 @@ libraries = {
 
 [node name="Laser" parent="." instance=ExtResource("15_ke2ow")]
 show_behind_parent = true
+
+[node name="TractorBeam" parent="." instance=ExtResource("21_rue2e")]
+position = Vector2(12, -0.66666675)
 
 [node name="regen_timer" type="Timer" parent="."]
 

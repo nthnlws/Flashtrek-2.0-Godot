@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://lpc7nsfqbs77"]
+
+[ext_resource type="Texture2D" uid="uid://cmx6mdrgaqev6" path="res://assets/textures/UI/crosshair/crosshair.png" id="1_4opqp"]
+[ext_resource type="Script" uid="uid://dkqg1b08an5xg" path="res://scripts/menus_ui/crosshair.gd" id="1_23ifk"]
+[ext_resource type="Texture2D" uid="uid://b7bbhouxu2548" path="res://assets/textures/UI/crosshair/Progress.png" id="3_2awl7"]
+
+[node name="Crosshair" type="Node2D"]
+scale = Vector2(0.05, 0.05)
+script = ExtResource("1_23ifk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4opqp")
+region_rect = Rect2(0, 0, 65, 65)
+region_filter_clip_enabled = true
+
+[node name="ProgressBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 128.0
+offset_top = 128.0
+offset_right = 384.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.1415927
+mouse_filter = 2
+value = 70.0
+fill_mode = 8
+texture_progress = ExtResource("3_2awl7")
+tint_progress = Color(0.22658296, 0.5137611, 0.810629, 1)
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

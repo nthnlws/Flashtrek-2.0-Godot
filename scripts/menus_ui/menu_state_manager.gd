@@ -4,7 +4,15 @@ extends CanvasLayer
 enum MenuState { NONE, PAUSE_MENU, GALAXY_MAP, SHIP_SELECTION, SHIP_UPGRADE }
 
 # Variable to keep track of the current menu state
-var current_state: MenuState = MenuState.NONE
+var current_state: MenuState = MenuState.NONE:
+	set(new_state):
+		current_state = new_state
+		if new_state == MenuState.NONE:
+			print('state None, show aimer')
+			$Crosshair.visible = true
+		else:
+			print("menu state, hide aimer")
+			$Crosshair.visible = false
 
 @onready var loading_screen: Control = %LoadingScreen
 

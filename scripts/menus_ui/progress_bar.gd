@@ -175,11 +175,6 @@ func increase_bar_value(amount: float) -> void:
 	_change_value(amount)
 
 func set_bar_value(new_value: float, trigger_effects: bool = true) -> void:
-	if new_value < 0:
-		push_warning("Progress bar: Negative values not supported, clamping to 0")
-	if new_value > max_value:
-		push_warning("Progress bar: Value exceeds max_value, clamping to " + str(max_value))
-		
 	var old_value:float = current_value
 	current_value = clamp(new_value, 0.0, max_value)
 	
