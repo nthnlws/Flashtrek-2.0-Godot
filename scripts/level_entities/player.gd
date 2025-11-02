@@ -216,9 +216,6 @@ func _process(delta: float) -> void:
 		idle_sound(false)
 	
 	regenerate_energy(delta)
-	
-	if tractor_beam.beam_active:
-		tractor_beam.update_tractor_beam(global_position, global_rotation, get_global_mouse_position())
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -229,11 +226,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		shooting_button_held = false
 	
 	if event.is_action_pressed("right_click"):
-		shoot_missile(get_global_mouse_position())
-		tractor_beam.activate_tractor_beam(global_position, global_rotation, get_global_mouse_position())
+		#shoot_missile(get_global_mouse_position())
+		tractor_beam.try_activate_beam()
 	
 	if event.is_action_released("right_click"):
-		tractor_beam.deactivate_tractor_beam()
+		tractor_beam.deactivate_beam()
 	# Secondary weapon firing
 	#if event.is_action_pressed("right_click"):
 		#if _can_fire_weapons(laser.energy_drain):

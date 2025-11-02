@@ -1,4 +1,5 @@
 extends Node2D
+class_name DebugMarkerScene
 
 @onready var color_rect: ColorRect = $ColorRect
 

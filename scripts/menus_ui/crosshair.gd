@@ -3,7 +3,9 @@ extends Node2D
 @onready var energy_bar: TextureProgressBar = $ProgressBar
 
 func  _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	if visible:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	
 	SignalBus.playerEnergyChanged.connect(update_energy_value)
 	SignalBus.playerMaxEnergyChanged.connect(update_energy_max)
 
