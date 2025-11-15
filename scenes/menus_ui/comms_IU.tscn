@@ -87,8 +87,8 @@ pressed_color = Color(0.4, 0.6, 0.8, 1)
 [node name="Polygon2D" parent="CloseButton/PolygonMouseDetector" index="0"]
 polygon = PackedVector2Array(-0.5, 0, 118.25, 0, 118.25, 30, -0.5, 30)
 
-[connection signal="button_pressed" from="RerollButton" to="." method="_handle_reroll_pressed"]
-[connection signal="button_pressed" from="CloseButton" to="." method="_handle_close_ui_pressed"]
+[connection signal="button_pressed" from="RerollButton" to="." method="_on_reroll_pressed"]
+[connection signal="button_pressed" from="CloseButton" to="." method="_on_close_ui_pressed"]
 
 [editable path="RerollButton"]
 [editable path="RerollButton/PolygonMouseDetector"]

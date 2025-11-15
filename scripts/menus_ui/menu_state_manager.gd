@@ -8,10 +8,10 @@ var current_state: MenuState = MenuState.NONE:
 	set(new_state):
 		current_state = new_state
 		if new_state == MenuState.NONE:
-			print('state None, show aimer')
+			#print('state None, show aimer')
 			$Crosshair.visible = true
 		else:
-			print("menu state, hide aimer")
+			#print("menu state, hide aimer")
 			$Crosshair.visible = false
 
 @onready var loading_screen: Control = %LoadingScreen

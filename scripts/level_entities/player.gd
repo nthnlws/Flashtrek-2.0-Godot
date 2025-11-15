@@ -136,6 +136,8 @@ func _connect_signals() -> void:
 	SignalBus.playerDied.connect(clear_mission)
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out.unbind(1))
+	
+	tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
 func initialize_hud_values() -> void:
@@ -639,6 +641,13 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 				HealthComponent.SP_max = HealthComponent.SP_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			Stats.DamageMult = Stats.DamageMult + mult_step
+
+
+func _handle_container_pickup(data:ContainerData) -> void:
+	print('picked up container')
+	if data.is_mission_goal == true:
+		print('attempting mission finish')
+		mission_finish()
 
 
 func cloak_ship(length:float, show_shadow:bool = false) -> void:

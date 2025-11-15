@@ -5,6 +5,7 @@ signal beam_activated(active: bool)
 signal object_tractored(object: Node2D)
 signal object_released(object: Node2D)
 signal energy_drain(amount: float)
+signal object_captured(container_data:ContainerData)
 
 @export var debug_mode:bool = false
 
@@ -16,6 +17,8 @@ var debug_marker: Node2D = null
 
 var beam_active: bool = false
 var is_input_active: bool = false # Tracks if the right-click is held down
+@export var tractor_speed: float = 250.0 # Speed in pixels/sec
+var tractored_container: Area2D = null
 
 var parent_node: Node2D # Store a reference to the parent (the player)
 
@@ -39,6 +42,24 @@ func _ready() -> void:
 		debug_marker.scale = Vector2(3, 3)
 	
 	_setup_tractor_beam_pulse_visuals()
+
+
+func _physics_process(delta: float) -> void:
+	if is_instance_valid(tractored_container) and beam_active:
+		# The target is the beam's origin, which is the player's position
+		var target_position: Vector2 = global_position
+		
+		# Use move_toward for smooth, consistent movement that stops at the target
+		tractored_container.global_position = tractored_container.global_position.move_toward(
+			target_position, 
+			tractor_speed * delta
+		)
+		
+		# Capture container if within 5 pixels
+		if tractored_container.global_position.distance_to(target_position) < 5.0:
+			object_captured.emit(tractored_container.container_data)
+			tractored_container.queue_free()
+			tractored_container = null
 
 
 func _process(delta: float) -> void:
@@ -65,6 +86,8 @@ func _process(delta: float) -> void:
 		hitbox_polygon.disabled = true
 		visuals.visible = false
 		beam_activated.emit(false)
+		#object_released.emit(tractored_container)
+		#tractored_container = null
 
 	# If the beam is currently active, update its position and shape.
 	if beam_active:
@@ -78,8 +101,7 @@ func _process(delta: float) -> void:
 		debug_marker.set_validity_color(is_currently_valid)
 
 
-# --- Public API for the Player Script ---
-
+#region Public API
 # Called when the tractor beam button is pressed.
 func try_activate_beam() -> void:
 	is_input_active = true
@@ -95,8 +117,11 @@ func deactivate_beam() -> void:
 		beam_activated.emit(false)
 		# object_released.emit(tractored_object)
 
-# --- Internal Logic ---
 
+#endregion
+
+
+#region Internal Logic
 func is_aim_valid(parent_rotation_rad: float, target_position: Vector2) -> bool:
 	var origin_position = parent_node.global_position
 	
@@ -174,3 +199,27 @@ func _setup_tractor_beam_pulse_visuals() -> void:
 	beam_shader.set_shader_parameter("u_vertex_a", points_in_rect_space[0])
 	beam_shader.set_shader_parameter("u_vertex_b", points_in_rect_space[1])
 	beam_shader.set_shader_parameter("u_vertex_c", points_in_rect_space[2])
+
+
+#endregion
+
+
+func _on_area_entered(area: Area2D) -> void:
+	# Do nothing if we're already tractoring something
+	if tractored_container:
+		return
+
+	# Check if the area is a container we can tractor
+	if area is ContainerPickup: # A more direct and safe way to check the class
+		tractored_container = area
+		
+		object_tractored.emit(tractored_container.container_data) 
+		#print("Tractor beam latched onto container: ", area.name)
+
+
+func _on_area_exited(area: Area2D) -> void:
+	# If the specific container we were tractoring has left, release our lock
+	if area == tractored_container:
+		object_released.emit(tractored_container.container_data)
+		#print("Container left tractor beam range: ", area.name)
+		tractored_container = null

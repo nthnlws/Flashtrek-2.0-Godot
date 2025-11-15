@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=30 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://gqgsthrsg8ka" path="res://scripts/level_entities/hitmarker_manager.gd" id="12_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
+[ext_resource type="Resource" uid="uid://ccai2qie4uxf0" path="res://assets/data/mission_container.tres" id="14_ubb7l"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://dfehj0ebpawa0" path="res://scenes/menus_ui/HUD.tscn" id="16_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
@@ -27,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
+[ext_resource type="PackedScene" uid="uid://dess4qrmx6vve" path="res://scenes/level_entities/container.tscn" id="26_5qv3h"]
 
 [node name="Game" type="Node2D"]
 process_mode = 3
@@ -57,6 +59,10 @@ script = ExtResource("12_ijd2y")
 [node name="UpgradeArea" parent="Level/item_pickups" instance=ExtResource("10_b4di1")]
 position = Vector2(2118, 494)
 upgrade_type = 5
+
+[node name="Container" parent="Level/item_pickups" instance=ExtResource("26_5qv3h")]
+position = Vector2(2442, 233)
+container_data = ExtResource("14_ubb7l")
 
 [node name="ScrollingBackground" parent="Level" instance=ExtResource("12_ia24r")]
 

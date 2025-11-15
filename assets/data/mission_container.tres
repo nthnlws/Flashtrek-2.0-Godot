@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ContainerData" load_steps=2 format=3 uid="uid://ccai2qie4uxf0"]
+
+[ext_resource type="Script" uid="uid://c53l8fgax4plp" path="res://assets/data/container_data.gd" id="1_4ia3u"]
+
+[resource]
+script = ExtResource("1_4ia3u")
+container_name = "MissionFinish"
+is_mission_goal = true
+metadata/_custom_type_script = "uid://c53l8fgax4plp"

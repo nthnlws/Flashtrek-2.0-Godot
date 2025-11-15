@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://dess4qrmx6vve"]
+
+[ext_resource type="Script" uid="uid://ovb20v66e1aw" path="res://scripts/level_entities/container_pickup.gd" id="1_tbdv3"]
+[ext_resource type="Texture2D" uid="uid://d240v8gsorgc2" path="res://assets/textures/system/federation_container.png" id="2_tbdv3"]
+[ext_resource type="Texture2D" uid="uid://cy10bpd8cbjjs" path="res://assets/textures/system/klingon_container.png" id="3_3eqcd"]
+[ext_resource type="Texture2D" uid="uid://dxtd3jubun25p" path="res://assets/textures/system/romulan_container.png" id="4_3v6lj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aeovm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tbdv3")
+}],
+"loop": true,
+"name": &"federation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3eqcd")
+}],
+"loop": true,
+"name": &"klingon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3v6lj")
+}],
+"loop": true,
+"name": &"romulan",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xkpu"]
+size = Vector2(128, 74)
+
+[node name="Container" type="Area2D"]
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("1_tbdv3")
+
+[node name="SpriteFrames" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_aeovm")
+animation = &"romulan"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.33333397)
+shape = SubResource("RectangleShape2D_3xkpu")

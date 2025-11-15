@@ -16,7 +16,7 @@ shader_parameter/u_rect_size = Vector2(0, 0)
 shader_parameter/u_vertex_a = Vector2(0, 0)
 shader_parameter/u_vertex_b = Vector2(0, 0)
 shader_parameter/u_vertex_c = Vector2(0, 0)
-shader_parameter/beam_color = Color(0.19966345, 0.60038817, 1, 0.1)
+shader_parameter/beam_color = Color(0.19966345, 0.60038817, 1, 0.25)
 shader_parameter/pulse_speed = 3.0
 shader_parameter/noise_strength = 0.4710000223725
 shader_parameter/edge_fade_width = 26.83200122702
@@ -25,6 +25,8 @@ shader_parameter/min_alpha_floor = 0.0
 
 [node name="TractorBeam" type="Area2D"]
 top_level = true
+collision_layer = 256
+collision_mask = 644
 script = ExtResource("1_fnnpl")
 
 [node name="Visuals" type="Node2D" parent="."]
@@ -36,3 +38,6 @@ polygon = PackedVector2Array(287, 102, 287, -102, 0, 0)
 material = SubResource("ShaderMaterial_vwgry")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

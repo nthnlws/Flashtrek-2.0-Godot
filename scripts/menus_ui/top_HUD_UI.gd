@@ -15,9 +15,9 @@ const SHIP_VALUE:int = 100
 @onready var rom_score: Label = %RomScore
 
 func _ready() -> void:
-	SignalBus.missionAccepted.connect(_update_mission_text)
+	MissionManager.mission_started.connect(_update_mission_text)
 	SignalBus.reputationChanged.connect(_update_faction_score)
-	SignalBus.finishMission.connect(_clear_mission_text)
+	MissionManager.mission_completed.connect(_clear_mission_text.unbind(1))
 	SignalBus.factionShipDied.connect(_on_enemy_ship_died)
 	
 	if showing == false:
@@ -69,10 +69,10 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 			fed_score.text = str(new_fed)
 
 
-func _update_mission_text(mission_data:Dictionary) -> void:
+func _update_mission_text(mission_data:MissionData) -> void:
 	var fill_dict:Dictionary = {
-		"planet": mission_data.planet,
-		"system": mission_data.system,
+		"planet": mission_data.targetPlanet,
+		"system": mission_data.targetSystem,
 	}
 	var template_text: String = "Mission: [color=#6699CC]{planet}[/color] in [color=#FFCC66]{system}[/color] "
 	var formatted_text: String = template_text.format(fill_dict)

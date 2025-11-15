@@ -16,6 +16,7 @@ shader_parameter/sine_speed = Vector2(0, 2.5)
 size = Vector2(128, 128)
 
 [node name="UpgradeArea" type="Area2D"]
+collision_layer = 512
 collision_mask = 2
 script = ExtResource("1_nm2sa")
 upgrade_type = 1

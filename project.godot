@@ -30,6 +30,7 @@ LevelData="*res://scripts/autoload/level_data.gd"
 Utility="*res://scripts/autoload/utility.gd"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 DiscordManager="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
+MissionManager="*res://scenes/autoload/mission_manager.tscn"
 
 [debug]
 
@@ -78,6 +79,7 @@ folder_colors={
 
 secondary_weapon=""
 primary_weapon=""
+shield=""
 
 [gui]
 
@@ -251,6 +253,7 @@ tool_script={
 2d_physics/layer_7="player_damage_areas"
 2d_physics/layer_8="enemy_damage_areas"
 2d_physics/layer_9="projectile"
+2d_physics/layer_10="interactable"
 
 [rendering]
 

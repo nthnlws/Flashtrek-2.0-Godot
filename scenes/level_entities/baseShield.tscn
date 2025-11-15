@@ -11,7 +11,7 @@ shader_parameter/color = Color(0.36, 0.527, 0.837, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
 radius = 18.0
 
-[node name="Shield" type="Node2D"]
+[node name="Shield" type="Node2D" groups=["shield"]]
 script = ExtResource("3_7v2r8")
 
 [node name="ColorRect" type="ColorRect" parent="."]
