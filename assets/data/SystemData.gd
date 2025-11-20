@@ -2,6 +2,177 @@
 extends Resource
 class_name SystemData
 
-@export var system_name: String
-@export var position: Vector2
-@export var neighbors: Array = []
+var planet_names: Array[String]
+const planet_name_file: String = "res://assets/data/planet_names.txt"
+
+# System info
+var system_name: String
+var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
+var system_index: int = 0
+var system_size:int = 20000
+
+# System contents
+var planet_data: Array[PlanetData]
+var sun_data: SunData
+var enemy_list: Array[EnemyData]
+var defeated_enemies: Array[EnemyData] = []
+var neutral_list: Array[NeutralData]
+var defeated_neutrals: Array[NeutralData] = []
+
+# System logic
+var enemies_defeated: bool = false
+var neutrals_defeated: bool = false
+var system_difficulty_mult:float = 1.0
+
+# Galaxy map info
+var global_map_position: Vector2
+var warp_neighbors: Array[SystemData]
+
+func _init() -> void:
+	_reload_text_file()
+
+
+func _reload_text_file() -> void:
+	planet_names.clear()
+	planet_names = load_text_file(planet_name_file)
+	planet_names.shuffle()
+
+
+static func generate_system_data(sys_index:int, system_name:String) -> SystemData:
+	var new_system_data:SystemData = SystemData.new()
+	var faction = get_system_faction(sys_index)
+	
+	new_system_data.system_name = system_name
+	new_system_data.system_index = sys_index
+	new_system_data.faction = faction
+	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, new_system_data.faction)
+	
+	# Planetary body setup
+	var planet_count: int = randi_range(3, 6)
+	new_system_data.sun_data = generate_sun_data(planet_count)
+	var spawn_positions: Array = get_planet_spawn_positions(planet_count)
+	for valid_position:Vector2 in spawn_positions:
+		var planet_name:String = new_system_data.planet_names.pop_front()
+		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, faction))
+
+	# NPC Ship Data
+	for planet:PlanetData in new_system_data.planet_data:
+		var new_enemy:EnemyData = EnemyData.generate_enemy_ship_data(planet, new_system_data.faction, new_system_data.system_difficulty_mult)
+		new_system_data.enemy_list.append(new_enemy)
+		var new_neutral:NeutralData = NeutralData.generate_neutral_ship_data(planet, new_system_data.faction, new_system_data.system_difficulty_mult)
+		new_system_data.neutral_list.append(new_neutral)
+	
+	return new_system_data
+
+
+static func get_planet_spawn_positions(PLANET_COUNT: int) -> Array:
+	#var min_dist_between: float = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
+	var max_dist_origin: float = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
+	var min_dist_origin: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0)
+	
+	var all_possible_points:PackedVector2Array = PoissonDiscSampling.generate_points_for_circle(
+		Vector2.ZERO,
+		max_dist_origin,
+		min_dist_origin,
+		30
+	)
+	
+	# Filter the points to be within the spawn ring
+	var valid_spawn_points: Array[Vector2]
+	for point in all_possible_points:
+		# Check if the point is outside the inner "no-spawn" zone
+		if point.distance_to(Vector2.ZERO) >= min_dist_origin:
+			valid_spawn_points.append(point)
+	
+	# Shuffle the list to get a random selection
+	valid_spawn_points.shuffle()
+	# Get number of spawn points needed
+	var final_planet_positions = valid_spawn_points.slice(0, PLANET_COUNT)
+	return final_planet_positions
+
+
+static func generate_planet_data(valid_spawn:Vector2, planet_name:String, faction:Utility.FACTION) -> PlanetData:
+	var new_planet_data:PlanetData = PlanetData.new()
+	
+	var random_frame: int = randi() % 220 # 220 = sprite sheet size
+	new_planet_data.name = planet_name
+	
+	new_planet_data.name = planet_name
+	new_planet_data.frame = random_frame
+	new_planet_data.world_position = valid_spawn
+	new_planet_data.faction = faction
+	
+	return new_planet_data #PlanetData
+
+
+static func generate_sun_data(PLANET_COUNT:int)-> SunData:
+	# Generate random angle and radius for spawn position
+	var max_spawn_distance: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0) - 2000
+	var min_spawn_distance: float = 4000
+	var random_angle: float = randf_range(0, TAU)
+	var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
+	
+	var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
+	var sprite_index: int = randi_range(0, 5)
+	
+	var new_sun_data:SunData = SunData.new()
+	new_sun_data.frame = sprite_index
+	new_sun_data.world_position = spawn_position
+	
+	return new_sun_data #SunData
+
+
+static func get_system_faction(sys_index:int) -> Utility.FACTION:
+	if sys_index <= 19:
+		return Utility.FACTION.FEDERATION
+	elif sys_index < 39:
+		return Utility.FACTION.ROMULAN
+	elif sys_index < 59:
+		return Utility.FACTION.KLINGON
+	else:
+		match sys_index:
+			GalaxyData.SPECIAL_SYSTEMS.Solarus:
+				return Utility.FACTION.FEDERATION
+			GalaxyData.SPECIAL_SYSTEMS.Kronos:
+				return Utility.FACTION.KLINGON
+			GalaxyData.SPECIAL_SYSTEMS.Romulus:
+				return Utility.FACTION.ROMULAN
+			GalaxyData.SPECIAL_SYSTEMS.Risa:
+				return Utility.FACTION.NEUTRAL
+			_: return Utility.FACTION.NEUTRAL # No matching value
+
+
+static func get_system_difficulty(sys_index:int, faction:Utility.FACTION) -> float:
+	match sys_index: # Special systems special scaling
+		GalaxyData.SPECIAL_SYSTEMS.Solarus:
+			return 1.0
+		GalaxyData.SPECIAL_SYSTEMS.Romulus:
+			return 2.0
+		GalaxyData.SPECIAL_SYSTEMS.Kronos:
+			return 3.0
+		GalaxyData.SPECIAL_SYSTEMS.Risa:
+			return 1.0
+		_: # Calculate difficulty scaling for non-special systems
+			match faction:
+				Utility.FACTION.FEDERATION:
+					return lerp(1.0, 2.0, float(sys_index) / GalaxyData.NUM_FED_SYSTEMS)
+				Utility.FACTION.ROMULAN:
+					return lerp(2.0, 2.75, float(sys_index) / GalaxyData.NUM_ROM_SYSTEMS)
+				Utility.FACTION.KLINGON:
+					return lerp(3.0, 4.0, float(sys_index) / GalaxyData.NUM_KLING_SYSTEMS)
+				_: return 100.0 # No matching value
+
+
+func load_text_file(file_path:String) -> Array[String]:
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		push_error("Failed to open planet names file at %s" % file_path)
+		return []
+
+	var names: Array[String] = []
+	while not file.eof_reached():
+		var line: String = file.get_line().strip_edges()
+		if line != "":
+			names.append(line)
+	file.close()
+	return names

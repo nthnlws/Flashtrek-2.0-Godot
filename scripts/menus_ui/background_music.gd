@@ -19,19 +19,24 @@ func _ready() -> void:
 
 
 func start_music() -> void:
-	match Navigation.current_system_faction:
-		Utility.FACTION.FEDERATION:
-			fed_music.volume_db = fed_volume
-			fed_music.play()
-		Utility.FACTION.KLINGON:
-			klingon_music.volume_db = klingon_volume
-			klingon_music.play()
-		Utility.FACTION.ROMULAN:
-			rom_music.volume_db = rom_volume
-			rom_music.play()
-		_:
-			fed_music.volume_db = fed_volume
-			fed_music.play()
+	if LevelManager.current_system_data:
+		match LevelManager.current_system_data.faction:
+			Utility.FACTION.FEDERATION:
+				fed_music.volume_db = fed_volume
+				fed_music.play()
+			Utility.FACTION.KLINGON:
+				klingon_music.volume_db = klingon_volume
+				klingon_music.play()
+			Utility.FACTION.ROMULAN:
+				rom_music.volume_db = rom_volume
+				rom_music.play()
+			_:
+				fed_music.volume_db = fed_volume
+				fed_music.play()
+	else:
+		fed_music.volume_db = fed_volume
+		fed_music.play()
+
 
 func fade_music_out() -> void:
 	if fed_music.is_playing():

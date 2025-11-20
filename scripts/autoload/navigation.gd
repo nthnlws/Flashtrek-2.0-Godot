@@ -3,12 +3,9 @@ extends Node
 var galaxyMapData: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
 var in_galaxy_warp:bool = false
-var currentSystem: String = "Solarus"
-var targetSystem: String = "" # Currently selected system on galaxy map
+var currentSystem: SystemData
+var targetSystem: SystemData # Currently selected system on galaxy map
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
-
-var systems: Array = []
-var planet_names:Array[String] = load_planet_names()
 
 var entry_coords: Vector2
 
@@ -25,57 +22,7 @@ var kling_max: int = SYSTEM_RANGES["Klingon"]["range"]["max"]
 var rom_min: int = SYSTEM_RANGES["Romulan"]["range"]["min"]
 
 
-func _ready() -> void:
-	SignalBus.TopLeft_clicked.connect(trigger_warp)
-	SignalBus.entering_galaxy_warp.connect(set_current_system)
-	SignalBus.levelReset.connect(load_planet_names)
-
-
-func set_current_system(system:String = Navigation.targetSystem) -> void:
-	currentSystem = system
-	current_system_faction = get_faction_for_system(system)
-
-
-func get_faction_for_system(system) -> Utility.FACTION:
-	match system:
-		"Solarus":
-			return Utility.FACTION.FEDERATION
-		"Kronos":
-			return Utility.FACTION.KLINGON
-		"Romulus":
-			return Utility.FACTION.ROMULAN
-		"Neutral":
-			return Utility.FACTION.NEUTRAL
-		"Risa":
-			return Utility.FACTION.NEUTRAL
-		_:
-			system = int(system)
-			if system <= fed_max:
-				return Utility.FACTION.FEDERATION
-			elif system >= kling_min and system <= kling_max:
-				return Utility.FACTION.KLINGON
-			elif system >= rom_min:
-				return Utility.FACTION.ROMULAN
-	return Utility.FACTION.NEUTRAL
-
-
-func load_planet_names(file_path:String = "res://assets/data/planet_names.txt") -> Array[String]:
-	planet_names.clear()
-	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
-	if file == null:
-		push_error("Failed to open planet names file at %s" % file_path)
-		return []
-
-	var names: Array[String] = []
-	while not file.eof_reached():
-		var line: String = file.get_line().strip_edges()
-		if line != "":
-			names.append(line)
-	file.close()
-	return names
-
-
-func get_entry_point(angle_rad: float) -> Vector2:
+static func get_entry_point(angle_rad: float) -> Vector2:
 	var coords: Vector2 = Vector2.ZERO
 	angle_rad = (angle_rad) - PI # Flips angle 180 degrees
 	var border_coords: int = 20000
@@ -121,88 +68,3 @@ func get_entry_point(angle_rad: float) -> Vector2:
 			best_intersection = Vector2(x, square_min.y)
 	
 	return best_intersection.move_toward(Vector2.ZERO, 2000)
-
-
-func trigger_warp() -> void:
-	#print("current: %s, target: %s" % [currentSystem, targetSystem ])
-	var warp_distance:int = get_system_distance(currentSystem, targetSystem)
-	if  warp_distance > LevelData.player.warp_range:
-		var error_message: String = "Max warp range of %s systems" % LevelData.player.warp_range
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	if !LevelData.player.velocity_check():
-		var error_message: String = "Must be stationary and in impulse to warp"
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	if warp_distance == -1:
-		var error_message: String = "You must select a destination system"
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	elif warp_distance == -2:
-		var error_message: String = "Warp destination must not be same as current system"
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	else:
-		SignalBus.triggerGalaxyWarp.emit(targetSystem)
-
-
-func get_system_distance(origin: String, target: String) -> int:
-	if target == "":
-		return -1
-	if origin == target:
-		return -2
-
-	var visited:Dictionary = {}
-	var queue: Array = []
-	queue.append({ "name": origin, "depth": 0 })
-	visited[origin] = true
-
-	while not queue.is_empty():
-		var current: Dictionary = queue.pop_front()
-		var current_name = current["name"]
-		var depth: int = current["depth"]
-
-		var current_system: SystemData = galaxyMapData.get_system(current_name)
-		if current_system == null:
-			continue
-
-		for neighbor_name in current_system.neighbors:
-			if neighbor_name == target:
-				return depth + 1
-			if not visited.has(neighbor_name):
-				visited[neighbor_name] = true
-				queue.append({ "name": neighbor_name, "depth": depth + 1 })
-	
-	push_error("No system path found between %s and %s" % ["origin", "target"])
-	return -1  # Target not reachable
-
-
-func get_reachable_systems(start_name: String, max_range: int) -> Array:
-	var visited:Dictionary = {}
-	var queue: Array = []
-	var reachable: Array = []
-
-	queue.append({ "name": start_name, "depth": 0 })
-	visited[start_name] = true
-
-	while not queue.is_empty():
-		var current:Dictionary = queue.pop_front()
-		var current_name = current["name"]
-		var depth: int = current["depth"]
-
-		if depth > 0:
-			reachable.append(current_name)
-
-		if depth >= max_range:
-			continue
-
-		var current_system:SystemData = galaxyMapData.get_system(current_name)
-		if current_system == null:
-			continue
-
-		for neighbor_name in current_system.neighbors:
-			if not visited.has(neighbor_name):
-				visited[neighbor_name] = true
-				queue.append({ "name": neighbor_name, "depth": depth + 1 })
-	
-	return reachable

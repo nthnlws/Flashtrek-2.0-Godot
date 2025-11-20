@@ -8,7 +8,7 @@ extends Control
 @export var systemMarker: PackedScene
 
 var selected_system: String
-var system_array = []
+var system_array: Array = []
 
 const HIGH:float = 4
 const LOW:float = 0
@@ -22,7 +22,7 @@ func _ready() -> void:
 	SignalBus.missionAccepted.connect(_update_mission)
 	SignalBus.playerDied.connect(selectCurrentSystem.bind("Solarus"))
 
-	selectCurrentSystem(Navigation.currentSystem)
+	selectCurrentSystem(LevelManager.current_system_data.system_name)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -35,13 +35,12 @@ func _gui_input(event: InputEvent) -> void:
 			var area_child = area.get_child(0)
 			if is_point_in_collision_shape(clicked_position, area_child):
 				get_viewport().set_input_as_handled()
-				SignalBus.galaxy_map_clicked.emit(area.name)
-				update_map_destination(area, area.name)
+				update_map_destination(area, area.system_data)
 				SignalBus.UIclickSound.emit()
 				return
 
 
-func selectCurrentSystem(system) -> void:
+func selectCurrentSystem(system_name:String) -> void:
 	# Clear old marker
 	for ind in get_tree().get_nodes_in_group("current_indicator"):
 		ind.queue_free()
@@ -50,7 +49,7 @@ func selectCurrentSystem(system) -> void:
 	var selected_system: int = -1
 	for i in range(system_array.size()):
 		var node = system_array[i]
-		if node.name == system:
+		if node.name == system_name:
 			selected_system = i
 	
 	var indicator: Node2D = systemMarker.instantiate()
@@ -59,27 +58,24 @@ func selectCurrentSystem(system) -> void:
 	system_array[selected_system].add_child(indicator)
 	
 	# Set text message
-	match system:
+	match system_name:
 		"Kronos":
-			var current_system_text: String = "Current system: " + Utility.klin_red + system + "[/color]"
+			var current_system_text: String = "Current system: " + Utility.klin_red + system_name + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 		"Solarus":
-			var current_system_text: String = "Current system: " + Utility.fed_blue + system + "[/color]"
+			var current_system_text: String = "Current system: " + Utility.fed_blue + system_name + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 		"Romulus":
-			var current_system_text: String = "Current system: " + Utility.rom_green + system + "[/color]"
+			var current_system_text: String = "Current system: " + Utility.rom_green + system_name + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 		_:
-			var current_system_text: String = "Current system: [color=#FFCC66]" + system + "[/color]"
+			var current_system_text: String = "Current system: [color=#FFCC66]" + system_name + "[/color]"
 			current_system_message.bbcode_text = current_system_text
 	
-func update_map_destination(system:Area2D, system_name:String) -> void:
+func update_map_destination(system:Area2D, clicked_sys_data:SystemData) -> void:
 	# Delete old selection indicator
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
-	
-	selected_system = system_name
-	Navigation.targetSystem = system_name
 	
 	# Create new indicator
 	var indicator: Node2D = selection_marker.instantiate()

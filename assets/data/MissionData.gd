@@ -20,18 +20,16 @@ var romulan_thankYou: Array[String] = ["Your task is complete. Efficiency is... 
 
 func generate_mission_offer(origin_planet_name: String) -> MissionData:
 	# Get random system
-	var system_keys: Array = Navigation.systems
-	var random_system = system_keys.pick_random()
-	while random_system == Navigation.currentSystem:
-		random_system = system_keys.pick_random()
+	var random_system = LevelManager.galaxy_data.systems.pick_random()
+	while random_system == LevelManager.current_system_data: # Repeat pick if chose current system
+		random_system = LevelManager.galaxy_data.systems.pick_random()
 	
 	# Get random planet from picked system
-	var planet_list: Array = LevelData.all_systems_data[str(random_system)].planet_data
-	var random_planet: String = str(planet_list.pick_random().name)
+	var random_planet: String = random_system.planet_data.pick_random().name
 	
 	var item_name: String = cargo_types.pick_random()
 	var random_confirm_query: String = confirmation_accept_prompts.pick_random()
-	var mission_reward: int = Navigation.get_system_distance(Navigation.currentSystem, random_system) * 1000
+	var mission_reward: int = GalaxyData.get_jump_distance(LevelManager.current_system_data.system_index, random_system.system_index) * 1000
 	
 	# UUID Generation
 	var item_info: String = item_name.to_snake_case()

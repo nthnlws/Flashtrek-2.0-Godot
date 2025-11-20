@@ -1,13 +1,11 @@
 extends Area2D
+class_name PlayerSpawnArea
 
 
 @export var MIN_DISTANCE_FROM_ORIGIN: int = 1000
 @export var MAX_DISTANCE_FROM_ORIGIN: int = 1500
 
-func _init() -> void:
-	LevelData.spawn_options.append(self)
-	
-	
+
 func _ready() -> void:
 	global_position = get_random_position()
 

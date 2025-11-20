@@ -97,7 +97,7 @@ var current_cargo:int = 0
 @export var warp_range: int = 20:
 	set(value):
 		warp_range = value
-		Navigation.player_range = value
+		LevelManager.player_range = value
 	get:
 		return warp_range + Stats.WarpRangeAdd
 
@@ -110,8 +110,6 @@ func _ready() -> void:
 	_connect_signals()
 	
 	z_index = Utility.Z["Player"]
-	var spawn_options: Array = get_tree().get_nodes_in_group("player_spawn_area")
-	self.global_position = spawn_options[0].global_position
 	
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	$warp_anim.z_index = Utility.Z["Effects"]
@@ -135,7 +133,8 @@ func _connect_signals() -> void:
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.playerDied.connect(clear_mission)
 	SignalBus.teleport_player.connect(teleport)
-	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out.unbind(1))
+	SignalBus.TopLeft_clicked.connect(trigger_warp)
+	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
 	
 	tractor_beam.object_captured.connect(_handle_container_pickup)
 
@@ -508,6 +507,28 @@ func velocity_check() -> bool:
 	else: return true
 
 
+func trigger_warp(start_sys_id: int, end_sys_id: int) -> void:
+	var warp_distance:int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
+	if  warp_distance > warp_range:
+		var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	if !velocity_check():
+		var error_message: String = "Must be stationary and in impulse to warp"
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	if warp_distance == -1:
+		var error_message: String = "You must select a destination system"
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	elif warp_distance == -2:
+		var error_message: String = "Warp destination must not be same as current system"
+		SignalBus.changePopMessage.emit(error_message)
+		return
+	else:
+		galaxy_warp_out()
+		SignalBus.triggerGalaxyWarp.emit()
+
 func galaxy_warp_out() -> void:
 	SignalBus.entering_galaxy_warp.emit()
 	Navigation.in_galaxy_warp = true
@@ -586,7 +607,7 @@ func clear_mission() -> void:
 func mission_finish() -> void:
 	if !current_mission.is_empty():
 		var points:int = current_mission["reward"]
-		var mission_faction:Utility.FACTION = Navigation.get_faction_for_system(current_mission.system)
+		var mission_faction:Utility.FACTION = LevelManager.current_system_data.faction
 		SignalBus.updateScore.emit(points)
 		match mission_faction:
 			Utility.FACTION.FEDERATION:

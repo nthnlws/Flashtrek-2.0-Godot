@@ -26,11 +26,11 @@ Console="*res://addons/console/console.gd"
 SignalBus="*res://scripts/autoload/SignalBus.gd"
 Navigation="*res://scripts/autoload/navigation.gd"
 CheatsMenu="*res://scripts/autoload/cheats_menu.gd"
-LevelData="*res://scripts/autoload/level_data.gd"
 Utility="*res://scripts/autoload/utility.gd"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 DiscordManager="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 MissionManager="*res://scenes/autoload/mission_manager.tscn"
+LevelManager="*res://scripts/level_entities/LevelManager.gd"
 
 [debug]
 

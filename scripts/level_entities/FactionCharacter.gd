@@ -8,7 +8,7 @@ class_name FactionCharacter
 # Variables for handling dynamic behavior
 var fire_rate: float = 1.0
 var shoot_randomness: float = 3.0
-var damage_mult: float = 1.0
+var difficulty_multiplier: float = 1.0
 
 @export var torpedo: PackedScene
 
@@ -151,7 +151,7 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 		bullet.exceptions.append($hitbox_area)
 		bullet.exceptions.append(shield.get_node("shield_area"))
 		bullet.shooterObject = self
-		bullet.damage = bullet.damage * damage_mult
+		bullet.damage = bullet.damage * difficulty_multiplier
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = angle  # Direction
 		bullet.faction = self.faction
@@ -194,7 +194,7 @@ func explode() -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
 	
-	remove_data_reference()
+	SignalBus.factionShipDied.emit(self)
 	
 	var random_pickup_type:int = randi_range(0, UpgradePickup.MODULE_TYPES.keys().size())
 	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position, 1)
@@ -207,18 +207,3 @@ func explode() -> void:
 	await animation.animation_finished
 	
 	queue_free()
-
-
-func remove_data_reference() -> void:
-	if LevelData.factionShips.has(self):
-		LevelData.factionShips.erase(self)
-	else: printerr('Ship not found in LevelData list, cannot remove from dict')
-	
-	SignalBus.factionShipDied.emit(self)
-	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
-	var enemy_list:Dictionary = system_data["enemies"]
-	if enemy_list.has(self.name):
-		enemy_list.erase(self.name)
-		if enemy_list.is_empty():
-			system_data["enemies_defeated"] = true
-	else: push_error("%s not found in dict" % self.name)

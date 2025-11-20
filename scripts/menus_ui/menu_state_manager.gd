@@ -75,7 +75,7 @@ func _handle_player_death() -> void:
 
 
 func toggle_ship_selection():
-	var starbase: Node2D = LevelData.starbase[0]
+	var starbase: Node2D = LevelManager.starbases[0]
 	if starbase.player_in_range == true:
 		$ShipSelectionMenu.visible = true
 		$ShipSelectionMenu.mouse_filter = Control.MOUSE_FILTER_STOP

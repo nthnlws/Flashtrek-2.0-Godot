@@ -30,13 +30,11 @@ func _ready() -> void:
 	_sync_data_to_resource(ship_type)
 	_sync_stats_to_resource(ship_type)
 	
-	# Initialize AI-related data
-	if AI_enabled:
-		starbase = LevelData.starbase[0]
-	
 	# Set initial movement state target
 	call_deferred("selectRandomPlanet")
 	z_index = Utility.Z["NeutralShips"]
+	
+	starbase = LevelManager.starbases[0]
 
 
 func _create_unique_texture_atlas() -> void:
@@ -129,7 +127,7 @@ func setMovementState(delta:float) -> void:
 
 
 func selectRandomPlanet() -> void:
-	endPoint = LevelData.planets.pick_random().global_position
+	endPoint = LevelManager.planets.pick_random().global_position
 
 
 func starbaseMovement(delta:float) -> void:
@@ -148,7 +146,7 @@ func planetMovement(delta:float) -> void:
 
 
 func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> void:
-	velocity = (targetPos - self.global_position).normalized()*move_speed
+	velocity = (targetPos - self.global_position).normalized() * move_speed
 	var angle_diff:float = calc_angle(targetPos, delta)
 	look_at_target(targetPos, angle_diff, delta)
 	move_and_slide()
@@ -172,7 +170,7 @@ func explode() -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
 	
-	remove_data_reference()
+	SignalBus.neutralShipDied.emit(self)
 	
 	collision_shape.set_deferred("disabled", true)
 	hitbox.set_deferred("disabled", true)
@@ -183,21 +181,6 @@ func explode() -> void:
 	await animation.animation_finished
 	
 	queue_free()
-
-
-func remove_data_reference() -> void:
-	if LevelData.neutralShips.has(self):
-		LevelData.neutralShips.erase(self)
-	else: printerr('Ship not found in LevelData list, cannot remove from dict')
-	
-	SignalBus.neutralShipDied.emit(self)
-	var system_data:Dictionary = LevelData.all_systems_data[Navigation.currentSystem]
-	var neutral_list:Dictionary = system_data["neutrals"]
-	if neutral_list.has(self.name):
-		neutral_list.erase(self.name)
-		if neutral_list.is_empty():
-			system_data["neutrals_defeated"] = true
-	else: push_error("%s not found in dict" % self.name)
 
 
 func cloak_ship(length:float) -> void:

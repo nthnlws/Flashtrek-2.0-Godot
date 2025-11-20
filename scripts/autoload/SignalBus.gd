@@ -8,7 +8,7 @@ func _init() -> void:
 signal factionShipDied(enemy:FactionCharacter)
 signal spawnLoot(type:UpgradePickup.MODULE_TYPES, postition:Vector2)
 signal neutralShipDied(enemy:NeutralCharacter)
-signal updateLevelData(all_system_data:Dictionary)
+signal updateLevelData(galaxy_data:GalaxyData)
 
 # Missions
 signal missionAccepted(current_mission:Dictionary)
@@ -37,12 +37,12 @@ signal playerShieldOff
 signal playerShieldOn
 
 #World navigation
-signal galaxy_map_clicked(system_clicked:String)
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade
 signal galaxy_warp_finished(target_system)
 signal entering_new_system
+signal system_changed
 
 #HUD
 signal Center_clicked # Declared in HUD_Button script by string name

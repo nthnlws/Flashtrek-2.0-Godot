@@ -165,7 +165,7 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
-func store_level_data(save_data: Dictionary) -> void:
+func store_level_data(save_data: GalaxyData) -> void: #TODO fix saving logic for new GalaxyData structure
 	var file_path: String = "user://level_data.json"
 	
 	# Save to file

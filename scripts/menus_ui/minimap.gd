@@ -10,7 +10,6 @@ var neutralShips: Array = []
 var levelObjects: Array = []
 var sunObjects: Array = []
 var ship_to_object: Dictionary = {}  # Dictionary to map enemies to TextureRects
-var player: Player
 
 # Minimap scale values
 var scale_values: Array[float] = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
@@ -25,15 +24,9 @@ func _ready() -> void:
 	SignalBus.neutralShipDied.connect(remove_minimap_object)
 	SignalBus.spawnShip.connect(spawn_ship.unbind(1))
 	grid_scale = get_viewport().get_visible_rect().size / 2 # Var to center minimap objects
-	
-	player = LevelData.player
-	
-	create_minimap_objects()
 
 
 func _process(delta: float) -> void:
-	if !player: return
-	
 	if Navigation.in_galaxy_warp == false:
 		update_minimap()
 
@@ -68,8 +61,10 @@ func add_minimap_object() -> TextureRect:
 
 
 func create_minimap_objects() -> void:
+	print("creating minimap objects")
 	clear_objects()
-	for enemy:FactionCharacter in LevelData.factionShips:
+	print(LevelManager.factionShips)
+	for enemy:FactionCharacter in LevelManager.factionShips:
 		if enemy:
 			var new_obj:TextureRect = add_minimap_object()
 			
@@ -77,9 +72,9 @@ func create_minimap_objects() -> void:
 			new_obj.modulate = Color.RED # Red
 			ship_to_object[enemy] = new_obj  # Map enemy to TextureRect
 			count += 1
-			
-	for NPC:NeutralCharacter in LevelData.neutralShips:
-		if NPC:
+	
+	print(LevelManager.neutralShips)
+	for NPC:NeutralCharacter in LevelManager.neutralShips:
 			var new_obj:TextureRect = add_minimap_object()
 			
 			neutralShips.append(new_obj)
@@ -87,7 +82,7 @@ func create_minimap_objects() -> void:
 			ship_to_object[NPC] = new_obj  # Map enemy to TextureRect
 			count += 1
 			
-	for starbase:Node2D in LevelData.starbase:
+	for starbase:Starbase in LevelManager.starbases:
 		if starbase:
 			var new_obj:TextureRect = add_minimap_object()
 			
@@ -95,7 +90,7 @@ func create_minimap_objects() -> void:
 			starbaseObjects.append(new_obj)
 			count += 1
 
-	for planet:Node2D in LevelData.planets:
+	for planet:Planet in LevelManager.planets:
 		if planet:
 			var new_obj:TextureRect = add_minimap_object()
 			
@@ -103,56 +98,54 @@ func create_minimap_objects() -> void:
 			levelObjects.append(new_obj)
 			count += 1
 			
-	for sun:Node2D in LevelData.suns:
-		if sun:
-			var new_obj:TextureRect = add_minimap_object()
-			
-			new_obj.modulate = Color.YELLOW
-			sunObjects.append(new_obj)
-			count += 1
+	if LevelManager.sun:
+		print('spawning sun minimap obj')
+		var new_obj:TextureRect = add_minimap_object()
+		
+		new_obj.modulate = Color.YELLOW
+		sunObjects.append(new_obj)
+		count += 1
 
 
 func update_minimap() -> void:
+	print('updating minimap frame')
 	if factionShips:
 		count = 0
-		for character:FactionCharacter in LevelData.factionShips:
-			var globalDistance:Vector2 = character.global_position - player.global_position
+		for character:FactionCharacter in LevelManager.factionShips:
+			var globalDistance:Vector2 = character.global_position - LevelManager.player.global_position
 			factionShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == LevelData.factionShips.size():
+			if count == LevelManager.factionShips.size():
 				count = 0
 	
 	if neutralShips:
 		count = 0
-		for character:NeutralCharacter in LevelData.neutralShips:
-			var globalDistance:Vector2 = character.global_position - player.global_position
+		for character:NeutralCharacter in LevelManager.neutralShips:
+			var globalDistance:Vector2 = character.global_position - LevelManager.player.global_position
 			neutralShips[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == LevelData.neutralShips.size():
+			if count == LevelManager.neutralShips.size():
 				count = 0
 	
 	if starbaseObjects:
 		count = 0
-		for starbase:Node2D in LevelData.starbase:
-			var globalDistance:Vector2 = starbase.global_position - player.global_position
+		for starbase:Node2D in LevelManager.starbases:
+			var globalDistance:Vector2 = starbase.global_position - LevelManager.player.global_position
 			starbaseObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
-			if count == LevelData.starbase.size():
+			if count == LevelManager.starbases.size():
 				count = 0
 
 	if levelObjects:
 		count = 0
-		for planet:Node2D in LevelData.planets:
-			var globalDistance:Vector2 = planet.global_position - player.global_position
+		for planet:Node2D in LevelManager.planets:
+			var globalDistance:Vector2 = planet.global_position - LevelManager.player.global_position
 			levelObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
 			count += 1
 
 	if sunObjects:
-		count = 0
-		for sun:Node2D in LevelData.suns:
-			var globalDistance:Vector2 = sun.global_position - player.global_position
-			sunObjects[count].position = (globalDistance/30 * minimapScale) + grid_scale
-			count += 1
+		var globalDistance:Vector2 = LevelManager.sun.global_position - LevelManager.player.global_position
+		sunObjects[0].position = (globalDistance / 30 * minimapScale) + grid_scale
 
 
 func remove_minimap_object(ship) -> void:
@@ -160,11 +153,11 @@ func remove_minimap_object(ship) -> void:
 		var texture_rect: TextureRect = ship_to_object[ship]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
 		texture_rect.queue_free()  # Free the TextureRect
-		factionShips.erase(texture_rect)  # Remove from factionShips array (if present)
-		neutralShips.erase(texture_rect) # Remove from neutralShips array (if present)
+		factionShips.erase(texture_rect)  # Remove from factionShips array
+		neutralShips.erase(texture_rect) # Remove from neutralShips array
 		ship_to_object.erase(ship)  # Remove from the dictionary
 	else:
-		print("Ship not found in minimap objects")
+		printerr("Could not remove ship from minimap objects, not found")
 
 
 func clear_objects() -> void:

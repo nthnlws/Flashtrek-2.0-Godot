@@ -1,20 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=21 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
-[ext_resource type="Script" uid="uid://bgwbjkup06c0j" path="res://scripts/level_entities/level_generation.gd" id="2_nfpiu"]
-[ext_resource type="PackedScene" uid="uid://bk5rb0wdhnfkm" path="res://scenes/level_entities/level_borders.tscn" id="2_ufmu8"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
-[ext_resource type="PackedScene" uid="uid://1wnfmblulhx0" path="res://scenes/level_entities/player.tscn" id="4_s6h4r"]
-[ext_resource type="PackedScene" uid="uid://bxpqhkwbma8la" path="res://scenes/level_entities/player_spawn_area.tscn" id="6_qnb83"]
-[ext_resource type="PackedScene" uid="uid://c8tsyg40o4m7h" path="res://scenes/level_entities/FactionCharacter.tscn" id="8_l5jjv"]
-[ext_resource type="PackedScene" uid="uid://be1sbec7mtn51" path="res://scenes/level_entities/sun.tscn" id="9_2srcp"]
 [ext_resource type="Script" uid="uid://5ubg1s4kiduk" path="res://scripts/menus_ui/hud_layer.gd" id="9_bhx41"]
-[ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="9_ia24r"]
-[ext_resource type="PackedScene" uid="uid://oexei8cmm0yk" path="res://scenes/level_entities/starbase.tscn" id="9_y1jbs"]
 [ext_resource type="PackedScene" uid="uid://berjp6uasq671" path="res://scenes/menus_ui/upgrade_area.tscn" id="10_b4di1"]
 [ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="12_ia24r"]
 [ext_resource type="Script" uid="uid://gqgsthrsg8ka" path="res://scripts/level_entities/hitmarker_manager.gd" id="12_ijd2y"]
-[ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/mini_map.tscn" id="13_pwbrs"]
+[ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="Resource" uid="uid://ccai2qie4uxf0" path="res://assets/data/mission_container.tres" id="14_ubb7l"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
@@ -24,7 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
 [ext_resource type="PackedScene" uid="uid://c5vnannn3r6y1" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_upgrade_menu.tscn" id="23_546po"]
-[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="23_bt5mj"]
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
@@ -36,16 +27,6 @@ script = ExtResource("1_ci0lx")
 
 [node name="Level" type="Node" parent="."]
 process_mode = 1
-script = ExtResource("2_nfpiu")
-levelBorders = ExtResource("2_ufmu8")
-Planet = ExtResource("23_bt5mj")
-Starbase = ExtResource("9_y1jbs")
-PlayerSpawnArea = ExtResource("6_qnb83")
-Sun = ExtResource("9_2srcp")
-FactionShip = ExtResource("8_l5jjv")
-NeutralShip = ExtResource("9_ia24r")
-Player = ExtResource("4_s6h4r")
-item_pickup = ExtResource("10_b4di1")
 
 [node name="level_objects" type="Node" parent="Level"]
 

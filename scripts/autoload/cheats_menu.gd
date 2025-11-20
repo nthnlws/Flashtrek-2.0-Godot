@@ -74,10 +74,11 @@ func add_score(faction: String, number: String) -> void:
 	else:
 		print("Unknown faction '%s' for score command." % faction)
 
+
 func spawn_loot_command(type_str: String, number:String = "1") -> void:
 	type_str = type_str.to_upper()
 	var type:int = UpgradePickup.MODULE_TYPES[type_str]
-	var position: Vector2 = LevelData.player.global_position
+	var position: Vector2 = LevelManager.player.global_position
 	SignalBus.spawnLoot.emit(type, position, int(number))
 
 
@@ -89,17 +90,17 @@ func teleport_command(x_coord:String, y_coord: String) -> void:
 func kill_command(ship_type:String, number:String = "1") -> void:
 	if number == "all":
 		if ship_type == "neutral" or ship_type == "neutrals":
-			while not LevelData.neutralShips.is_empty():
-				var ship_to_explode:NeutralCharacter = LevelData.neutralShips.pop_front()
+			while not LevelManager.neutralShips.is_empty():
+				var ship_to_explode:NeutralCharacter = LevelManager.neutralShips.pop_front()
 				ship_to_explode.explode()
 		elif ship_type == "faction":
-			while not LevelData.factionShips.is_empty():
-				var ship_to_explode:NeutralCharacter = LevelData.factionShips.pop_front()
+			while not LevelManager.factionShips.is_empty():
+				var ship_to_explode:NeutralCharacter = LevelManager.factionShips.pop_front()
 				ship_to_explode.explode()
 	else:
 		var num:int = int(number)
 		if ship_type == "neutral" or ship_type == "neutrals":
-			var neutral_ships:Array[NeutralCharacter] = LevelData.neutralShips
+			var neutral_ships:Array[NeutralCharacter] = LevelManager.neutralShips
 			for i:int in range(num):
 				if neutral_ships.size() > 0:
 					var ship:NeutralCharacter = neutral_ships[randi_range(0, neutral_ships.size() - 1)]
@@ -107,7 +108,7 @@ func kill_command(ship_type:String, number:String = "1") -> void:
 				else:
 					print("No ships of type '%s' to kill" % ship_type)
 		elif ship_type == "faction":
-			var factionShips:Array[FactionCharacter] = LevelData.factionShips
+			var factionShips:Array[FactionCharacter] = LevelManager.factionShips
 			for i:int in range(num):
 				if factionShips.size() > 0:
 					var ship:FactionCharacter = factionShips[randi_range(0, factionShips.size() - 1)]

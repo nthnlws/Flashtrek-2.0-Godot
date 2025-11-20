@@ -1,4 +1,5 @@
 extends Node2D
+class_name Planet
 
 @onready var node: Node2D = $Node
 @onready var label: RichTextLabel = $Node/Label
@@ -17,8 +18,9 @@ func _ready() -> void:
 	var random_index: int = randi_range(0, 220)
 	sprite.frame = random_index
 	z_index = Utility.Z["Planets"]
-	
-	LevelData.planets.append(self)
+
+func set_frame(index:int) -> void:
+	sprite.frame = index
 
 
 func _physics_process(delta: float) -> void:

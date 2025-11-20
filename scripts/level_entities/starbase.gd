@@ -1,4 +1,5 @@
 extends Node2D
+class_name Starbase
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var comm_distance: float = $Area2D/CollisionShape2D.shape.radius
@@ -17,7 +18,7 @@ func _physics_process(delta: float) -> void:
 
 
 func check_distance_to_planets() -> bool:
-	var player_position: Vector2 = LevelData.player.global_position
+	var player_position: Vector2 = LevelManager.player.global_position
 
 	var starbase_position: Vector2 = self.global_position
 	var distance: float = player_position.distance_to(starbase_position)

@@ -2,6 +2,7 @@ extends Node2D
 
 @export var defaultBorderCoords:int = 20000
 var borderCoords:int = defaultBorderCoords
+var active_borders: Array[StaticBody2D] = []
 
 var wall_positions: Array = [
 	Vector2(0, borderCoords),
@@ -29,7 +30,6 @@ func _ready() -> void:
 	SignalBus.entering_new_system.connect(toggle_world_borders)
 	
 	z_index = Utility.Z["WorldBorders"]
-	LevelData.levelWalls.clear()
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)
 	SignalBus.collisionChanged.connect(_on_collision_changed)
@@ -40,8 +40,9 @@ func _ready() -> void:
 		_on_border_coords_moved()
 	
 	var i: int = 0
-	var borders: Array = get_tree().get_nodes_in_group("borders")
-	for wall:StaticBody2D in borders:
+	for node in get_tree().get_nodes_in_group("borders"):
+		active_borders.append(node)
+	for wall:StaticBody2D in active_borders:
 		wall.position = wall_positions[i]
 		wall.rotation = wall_rotations[i]
 		wall.scale = wall_scales[i]
@@ -50,7 +51,7 @@ func _ready() -> void:
 		
 		# Create a label for the wall
 		var label: Label = Label.new()
-		label.text = borders[i].name
+		label.text = active_borders[i].name
 		label.add_to_group("Labels")
 		add_child(label)
 
@@ -75,30 +76,29 @@ func _on_border_coords_moved() -> void:
 		Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
 	]
 	
-	for i:int in range(LevelData.levelWalls.size()):
-		var wall: StaticBody2D  = LevelData.levelWalls[i]
+	for i:int in range(active_borders.size()):
+		var wall: StaticBody2D  = active_borders[i]
 		if is_instance_valid(wall):
 			wall.position = wall_positions[i]
 			wall.scale = wall_scales[i]
 
 func _on_collision_changed(toggle_status: bool) -> void:
-	for i:int in range(LevelData.levelWalls.size()):
-		var wall: StaticBody2D = LevelData.levelWalls[i]
+	for wall:StaticBody2D in active_borders:
 		if is_instance_valid(wall):
 			wall.get_node("WorldBoundary").disabled = toggle_status
 
 
 func toggle_world_borders() -> void:
-	for bord in get_tree().get_nodes_in_group("borders"):
-		if bord.get_node("WorldBoundary").disabled == false:
-			bord.get_node("WorldBoundary").disabled = true
+	for border:StaticBody2D in active_borders:
+		if border.get_node("WorldBoundary").disabled == false:
+			border.get_node("WorldBoundary").disabled = true
 			await get_tree().create_timer(0.3).timeout
 			if Navigation.in_galaxy_warp == true:
-				create_tween().tween_property(bord, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
+				create_tween().tween_property(border, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
 			await get_tree().create_timer(Utility.fadeLength).timeout
 		else: 
-			bord.get_node("WorldBoundary").disabled = false
-			bord.modulate = Color(1, 1, 1, 1)
+			border.get_node("WorldBoundary").disabled = false
+			border.modulate = Color(1, 1, 1, 1)
 	for label:Label in get_tree().get_nodes_in_group("Labels"):
 		if label.visible:
 			label.visible = false

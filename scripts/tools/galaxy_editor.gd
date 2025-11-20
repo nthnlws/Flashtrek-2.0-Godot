@@ -60,8 +60,6 @@ func _input(event: InputEvent) -> void:
 
 
 func generate_galaxy_map() -> void:
-	var GalaxyMap := preload("res://assets/data/GalaxyMap.gd")
-	var SystemData := preload("res://assets/data/SystemData.gd")
 	var new_map = GalaxyMap.new()
 	
 	# First pass: collect all systems and store by name for easy lookup
@@ -69,7 +67,7 @@ func generate_galaxy_map() -> void:
 	
 	for child in get_children():
 		if not child is Marker2D:
-			continue
+			continue 
 	
 		var data = SystemData.new()
 		data.system_name = child.name

@@ -27,7 +27,7 @@ func main_menu() -> void:
 	
 	
 func single_player_game() -> void:
-	DiscordRPC.details = "In " + Navigation.currentSystem + " system"
+	DiscordRPC.details = "In " + LevelManager.current_system_data.system_name + " system"
 	#DiscordRPC.state = 
 	DiscordRPC.large_image = "icon"
 	DiscordRPC.large_image_text = "FlashTrek 2.0"
