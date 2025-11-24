@@ -61,9 +61,8 @@ func add_minimap_object() -> TextureRect:
 
 
 func create_minimap_objects() -> void:
-	print("creating minimap objects")
+	#print("creating minimap objects")
 	clear_objects()
-	print(LevelManager.factionShips)
 	for enemy:FactionCharacter in LevelManager.factionShips:
 		if enemy:
 			var new_obj:TextureRect = add_minimap_object()
@@ -73,7 +72,6 @@ func create_minimap_objects() -> void:
 			ship_to_object[enemy] = new_obj  # Map enemy to TextureRect
 			count += 1
 	
-	print(LevelManager.neutralShips)
 	for NPC:NeutralCharacter in LevelManager.neutralShips:
 			var new_obj:TextureRect = add_minimap_object()
 			
@@ -99,7 +97,6 @@ func create_minimap_objects() -> void:
 			count += 1
 			
 	if LevelManager.sun:
-		print('spawning sun minimap obj')
 		var new_obj:TextureRect = add_minimap_object()
 		
 		new_obj.modulate = Color.YELLOW
@@ -108,7 +105,6 @@ func create_minimap_objects() -> void:
 
 
 func update_minimap() -> void:
-	print('updating minimap frame')
 	if factionShips:
 		count = 0
 		for character:FactionCharacter in LevelManager.factionShips:

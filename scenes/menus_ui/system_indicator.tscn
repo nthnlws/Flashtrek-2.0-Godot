@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://3crojikwy3xa"]
+[gd_scene load_steps=6 format=3 uid="uid://3crojikwy3xa"]
 
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="1_n83qf"]
 [ext_resource type="Script" uid="uid://deojdnm8g38id" path="res://scripts/menus_ui/system_indicator.gd" id="1_oy537"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="3_0o0v8"]
+[ext_resource type="Script" uid="uid://da212y407emuk" path="res://scripts/menus_ui/system_label.gd" id="4_71dg2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
 
@@ -14,3 +16,29 @@ shape = SubResource("CircleShape2D_ays83")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.431373, 1, 1, 1)
 texture = ExtResource("1_n83qf")
+
+[node name="SystemLabel" type="RichTextLabel" parent="."]
+modulate = Color(1, 1, 0, 0)
+clip_contents = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -25.0
+offset_right = 28.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("3_0o0v8")
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
+text = "Risa"
+fit_content = true
+autowrap_mode = 0
+shortcut_keys_enabled = false
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_71dg2")
+metadata/_edit_use_anchors_ = true

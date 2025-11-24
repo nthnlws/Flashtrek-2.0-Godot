@@ -1,13 +1,11 @@
 Adarak
 Alastria
-Aldebaran
 Andevian
 Angosia
 Ardana
 Arkaria
 Axanar
 Azati
-Balancar
 Banean
 Benzar
 Boreth
@@ -22,7 +20,6 @@ Elas
 Erilon
 Farius
 Galorda
-Galorndon
 Gault
 Gideon
 Golana
@@ -38,9 +35,7 @@ Ligon
 Loracus
 Majalis
 Mazar
-Meridian
 Mintaka
-Narendra
 Orias
 Parada
 Qualor

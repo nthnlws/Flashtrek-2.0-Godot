@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://berjp6uasq671" path="res://scenes/menus_ui/upgrade_area.tscn" id="10_b4di1"]
 [ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="12_ia24r"]
 [ext_resource type="Script" uid="uid://gqgsthrsg8ka" path="res://scripts/level_entities/hitmarker_manager.gd" id="12_ijd2y"]
-[ext_resource type="PackedScene" uid="uid://bjyudwfkjlxe5" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
+[ext_resource type="PackedScene" uid="uid://d0dea6kwmmylo" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="Resource" uid="uid://ccai2qie4uxf0" path="res://assets/data/mission_container.tres" id="14_ubb7l"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]

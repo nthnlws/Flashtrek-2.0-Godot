@@ -37,12 +37,19 @@ func _ready() -> void:
 	_connect_signals()
 
 
+func _connect_signals() -> void:
+	SignalBus.galaxy_warp_finished.connect(_change_system)
+	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
+	SignalBus.spawnLoot.connect(spawn_loot)
+	SignalBus.triggerGalaxyWarp.connect(save_ship_data)
+	SignalBus.spawnShip.connect(spawn_faction_ship)
+
+
 func on_level_loaded() -> void:
 	pickups = get_node("/root/Game/Level/item_pickups") 
 	ship_folder = get_node("/root/Game/Level/ship_folder")
 	level_folder = get_node("/root/Game/Level/level_objects")
 	minimap = get_node("/root/Game/HUD_layer/MiniMap")
-	
 	
 	instantiate_new_system_nodes() # Initial creation of all level nodes
 	_change_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
@@ -50,14 +57,8 @@ func on_level_loaded() -> void:
 	instantiate_NPC_ships(current_system_data)
 	save_ship_data(galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus))
 	minimap.create_minimap_objects() # Refresh minimap objects
-
-
-func _connect_signals() -> void:
-	SignalBus.galaxy_warp_finished.connect(_change_system)
-	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
-	SignalBus.spawnLoot.connect(spawn_loot)
-	SignalBus.triggerGalaxyWarp.connect(save_ship_data)
-	SignalBus.spawnShip.connect(spawn_faction_ship)
+	
+	SignalBus.galaxyDataUpdated.emit(galaxy_data)
 
 
 func spawn_faction_ship(ship_type:Utility.SHIP_TYPES) -> void:

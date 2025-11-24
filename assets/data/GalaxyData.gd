@@ -15,7 +15,6 @@ var system_id_map: Dictionary = {}
 var system_names: Array[String]
 
 const NEIGHBOR_MAP: Dictionary = {
-	# Special Systems (Using Enum Values as Keys/Values)
 	SPECIAL_SYSTEMS.Solarus: [6, 7, 8, 10],
 	SPECIAL_SYSTEMS.Kronos:  [16, 17, SPECIAL_SYSTEMS.Risa, 20, 21],
 	SPECIAL_SYSTEMS.Romulus: [26, 29, 30, 31],
@@ -168,3 +167,38 @@ static func get_jump_distance(start_id: int, target_id: int) -> int:
 	
 	# 4. Queue emptied without finding target
 	return -1
+
+# Returns an Array of System IDs (ints) representing a warp path.
+# Returns an empty array if no path is found.
+static func get_shortest_path(start_id: int, target_id: int) -> Array[int]:
+	if start_id == target_id:
+		return [start_id]
+	
+	# BFS Queue: Stores current_id
+	var queue: Array[int] = [start_id]
+	
+	# Parent Map: Keeps track of where we came from { child_id: parent_id }
+	# Used to reconstruct the path later.
+	var parents: Dictionary = { start_id: null }
+	
+	while not queue.is_empty():
+		var current_id = queue.pop_front()
+		
+		if current_id == target_id:
+			# Target found! Reconstruct path backwards.
+			var path: Array[int] = []
+			var curr = target_id
+			while curr != null:
+				path.append(curr)
+				curr = parents[curr]
+			path.reverse()
+			return path
+		
+		# Add neighbors
+		if NEIGHBOR_MAP.has(current_id):
+			for neighbor in NEIGHBOR_MAP[current_id]:
+				if not parents.has(neighbor):
+					parents[neighbor] = current_id
+					queue.append(neighbor)
+					
+	return [] # No path found

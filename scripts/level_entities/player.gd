@@ -529,6 +529,7 @@ func trigger_warp(start_sys_id: int, end_sys_id: int) -> void:
 		galaxy_warp_out()
 		SignalBus.triggerGalaxyWarp.emit()
 
+
 func galaxy_warp_out() -> void:
 	SignalBus.entering_galaxy_warp.emit()
 	Navigation.in_galaxy_warp = true

@@ -1,6 +1,5 @@
 extends Node
 
-var galaxyMapData: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
 var in_galaxy_warp:bool = false
 var currentSystem: SystemData
@@ -8,18 +7,6 @@ var targetSystem: SystemData # Currently selected system on galaxy map
 var current_system_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
 var entry_coords: Vector2
-
-const SYSTEM_RANGES:Dictionary = {
-	"Federation": {"range": {"min": 1, "max": 16}},
-	"Klingon": {"range": {"min": 17, "max": 24}},
-	"Romulan": {"range": {"min": 25, "max": 31}},
-}
-
-var fed_min: int = SYSTEM_RANGES["Federation"]["range"]["min"]
-var fed_max: int = SYSTEM_RANGES["Federation"]["range"]["max"]
-var kling_min: int = SYSTEM_RANGES["Klingon"]["range"]["min"]
-var kling_max: int = SYSTEM_RANGES["Klingon"]["range"]["max"]
-var rom_min: int = SYSTEM_RANGES["Romulan"]["range"]["min"]
 
 
 static func get_entry_point(angle_rad: float) -> Vector2:

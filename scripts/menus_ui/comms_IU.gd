@@ -43,6 +43,7 @@ func open_comms() -> void:
 			var text:String = messsage_strings.cargo_full_messages.pick_random()
 			update_comms_message(text)
 
+
 func close_comms() -> void:
 	visible = false
 	MissionManager.clear_missions()
@@ -69,7 +70,7 @@ func _on_cargo_beam_pressed() -> void:
 	if MissionManager.current_state == MissionManager.STATE.pending_mission:
 		MissionManager.accept_pending_mission()
 		var mission:MissionData = MissionManager.active_mission
-		var text:String = "Mission accepted! Head to %s in the %s system." % [mission.targetPlanet, mission.targetSystem]
+		var text:String = "Mission accepted! Head to [color=#6699CC]%s[/color] in the [color=#FFCC66]%s[/color] system." % [mission.targetPlanet, mission.targetSystem.system_name]
 		update_comms_message(text)
 	elif (MissionManager.current_state == MissionManager.STATE.active_mission
 		and MissionManager.active_mission.targetPlanet == current_planet.name):
@@ -83,7 +84,7 @@ func _on_new_mission_generated(mission_data: MissionData) -> String:
 		"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
 		"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
 		"target_planet": "[color=#FFCC66]" + mission_data.targetPlanet + "[/color]",
-		"target_system": "[color=#FFCC66]" + mission_data.targetSystem + "[/color]",
+		"target_system": "[color=#FFCC66]" + mission_data.targetSystem.system_name + "[/color]",
 		"item_name": "[color=#1DCC4B]" + mission_data.cargo + "[/color]",
 		"random_confirm_query": mission_data.message,
 	}
