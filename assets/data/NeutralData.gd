@@ -4,6 +4,7 @@ class_name NeutralData
 const BASE_HP:float = 100.0
 const BASE_SP:float = 50.0
 
+var ship_index:int
 var world_position: Vector2 = Vector2.ZERO
 var shield_state: bool = true
 var movement_target: String
@@ -20,9 +21,10 @@ func check_alive() -> bool:
 	return is_destroyed
 
 
-static func generate_neutral_ship_data(host_planet:PlanetData, faction:Utility.FACTION, difficulty:float) -> NeutralData:
+static func generate_neutral_ship_data(host_planet:PlanetData, faction:Utility.FACTION, difficulty:float, index:int) -> NeutralData:
 	var new_neutral_data = NeutralData.new()
 	
+	new_neutral_data.ship_index = index
 	new_neutral_data.world_position = _generate_spawn_position(host_planet)
 	new_neutral_data.HP_max = BASE_HP * difficulty
 	new_neutral_data.current_hp = new_neutral_data.HP_max

@@ -28,6 +28,8 @@ var player_name: String = "USS Enterprise"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
+enum GAMESTATE { SYSTEM, WARPING, MENU }
+var current_gamestate:GAMESTATE = GAMESTATE.SYSTEM
 
 # Used for global references to dict ship data JSON
 enum SHIP_TYPES {

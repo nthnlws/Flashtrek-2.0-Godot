@@ -12,7 +12,7 @@ signal updateLevelData(galaxy_data:GalaxyData)
 signal galaxyDataUpdated(galaxy_data:GalaxyData)
 
 # Missions
-signal missionAccepted(current_mission:Dictionary)
+signal missionAccepted(current_mission:MissionData)
 signal finishMission
 signal changePopMessage(text:String)
 signal updateScore(score:int)
@@ -41,10 +41,9 @@ signal playerShieldOn
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade
-signal galaxy_warp_finished(target_system)
+signal galaxy_warp_finished(target_system:SystemData)
 signal entering_new_system
 signal system_changed
-signal destinationChanged(new_system_data:SystemData)
 
 #HUD
 signal Center_clicked # Declared in HUD_Button script by string name

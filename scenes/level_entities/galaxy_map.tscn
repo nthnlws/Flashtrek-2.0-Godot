@@ -318,7 +318,7 @@ autowrap_mode = 2
 shortcut_keys_enabled = false
 drag_and_drop_selection_enabled = false
 
-[node name="current_system_message" type="RichTextLabel" parent="."]
+[node name="currentSys_message" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 12.0

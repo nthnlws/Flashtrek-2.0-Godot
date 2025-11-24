@@ -29,6 +29,9 @@ var minimap: Control
 
 var galaxy_data: GalaxyData 
 var current_system_data: SystemData
+var target_system_data: SystemData # Set by galaxy map scene upon system selection
+
+var entry_coords:Vector2 # Position to spawn player after exiting warp
 
 
 func _ready() -> void:
@@ -38,11 +41,13 @@ func _ready() -> void:
 
 
 func _connect_signals() -> void:
-	SignalBus.galaxy_warp_finished.connect(_change_system)
-	SignalBus.playerDied.connect(_change_system.bind("Solarus"))
+	SignalBus.galaxy_warp_finished.connect(change_system)
+	SignalBus.playerDied.connect(change_system.bind(GalaxyData.SPECIAL_SYSTEMS.Solarus))
 	SignalBus.spawnLoot.connect(spawn_loot)
 	SignalBus.triggerGalaxyWarp.connect(save_ship_data)
 	SignalBus.spawnShip.connect(spawn_faction_ship)
+	SignalBus.factionShipDied.connect(remove_faction_ship_data)
+	SignalBus.neutralShipDied.connect(remove_neutral_ship_data)
 
 
 func on_level_loaded() -> void:
@@ -52,7 +57,7 @@ func on_level_loaded() -> void:
 	minimap = get_node("/root/Game/HUD_layer/MiniMap")
 	
 	instantiate_new_system_nodes() # Initial creation of all level nodes
-	_change_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	change_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 	
 	instantiate_NPC_ships(current_system_data)
 	save_ship_data(galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus))
@@ -84,7 +89,7 @@ func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -
 		pickups.call_deferred("add_child",new_drop)
 
 
-func _change_system(system_index:int) -> void:
+func change_system(system_index:int) -> void:
 	cleanup_old_system()
 	
 	var system_data:SystemData = galaxy_data.get_system(system_index)
@@ -99,7 +104,7 @@ func _change_system(system_index:int) -> void:
 	SignalBus.system_changed.emit(system_data)
 
 
-func instantiate_neutral_ship(ship_data:NeutralData) -> NeutralCharacter:
+func instantiate_neutral_ship(ship_data:NeutralData, index:int) -> NeutralCharacter:
 	var new_neutral:NeutralCharacter = NEUTRAL_CHARACTER.instantiate()
 	new_neutral.add_to_group("neutral_ships")
 	
@@ -111,11 +116,12 @@ func instantiate_neutral_ship(ship_data:NeutralData) -> NeutralCharacter:
 	new_neutral.global_position = ship_data.world_position
 	new_neutral.get_node("Shield").shieldActive = ship_data.shield_state
 	new_neutral.ship_type = ship_data.ship_type
+	new_neutral.ship_index = index
 	
 	return new_neutral
 
 
-func instantiate_faction_ship(ship_data:EnemyData) -> FactionCharacter:
+func instantiate_faction_ship(ship_data:FactionShipData, index:int) -> FactionCharacter:
 	var new_faction:FactionCharacter = FACTION_CHARACTER.instantiate()
 	new_faction.add_to_group("neutral_ships")
 	
@@ -128,20 +134,25 @@ func instantiate_faction_ship(ship_data:EnemyData) -> FactionCharacter:
 	new_faction.get_node("Shield").shieldActive = ship_data.shield_state
 	new_faction.ship_type = ship_data.ship_type
 	new_faction.difficulty_multiplier = ship_data.difficulty_multiplier
+	new_faction.ship_index = index
 	
 	return new_faction
 
 
 func instantiate_NPC_ships(system_data:SystemData) -> void:
-	for ship_data:EnemyData in system_data.enemy_list:
-		var new_faction:FactionCharacter = instantiate_faction_ship(ship_data)
+	var index:int = 0
+	for ship_data:FactionShipData in system_data.enemy_list:
+		var new_faction:FactionCharacter = instantiate_faction_ship(ship_data, index)
 		ship_folder.add_child(new_faction)
 		factionShips.append(new_faction)
+		index += 1
 	
+	index = 0
 	for ship_data:NeutralData in system_data.neutral_list:
-		var new_neutral:NeutralCharacter = instantiate_neutral_ship(ship_data)
+		var new_neutral:NeutralCharacter = instantiate_neutral_ship(ship_data, index)
 		ship_folder.add_child(new_neutral)
 		neutralShips.append(new_neutral)
+		index += 1
 
 
 func sync_ships_to_data(system_data:SystemData) -> void:
@@ -168,10 +179,10 @@ func sync_planets_to_data(planet_data:Array[PlanetData]) -> void:
 
 func save_ship_data(current_sys_data:SystemData) -> void:
 	var neutral_data:Array[NeutralData] = current_sys_data.neutral_list
-	var enemy_data:Array[EnemyData] = current_sys_data.enemy_list
+	var enemy_data:Array[FactionShipData] = current_sys_data.enemy_list
 	if (neutral_data.size() != neutralShips.size()
 	or enemy_data.size() != factionShips.size()):
-		print("NeutralData: %s, LM.neutral: %s, EnemyData: %s, LM.faction: %s" % [neutral_data.size(), neutralShips.size(), enemy_data.size(), factionShips.size()])
+		print("NeutralData: %s, LM.neutral: %s, FactionShipData: %s, LM.faction: %s" % [neutral_data.size(), neutralShips.size(), enemy_data.size(), factionShips.size()])
 		printerr("Array size mismatch between SystemData and current LevelManager ship arrays, exiting")
 		return
 	
@@ -186,7 +197,7 @@ func save_ship_data(current_sys_data:SystemData) -> void:
 	
 	# Update FactionCharacter data
 	for ship:FactionCharacter in factionShips:
-		var ship_data:EnemyData = enemy_data[i]
+		var ship_data:FactionShipData = enemy_data[i]
 		ship_data.world_position = ship.global_position
 		ship_data.current_hp = ship.HealthComponent.hp_current
 		ship_data.current_sp = ship.HealthComponent.sp_current
@@ -242,3 +253,13 @@ func instantiate_new_system_nodes() -> void:
 
 func get_spawn_position() -> Vector2:
 	return spawn_options.pick_random().global_position
+
+
+func remove_faction_ship_data(ship:FactionCharacter) -> void:
+	factionShips.erase(ship)
+	current_system_data.remove_faction_ship_data(ship.ship_index)
+
+
+func remove_neutral_ship_data(ship:NeutralCharacter) -> void:
+	neutralShips.erase(ship)
+	current_system_data.remove_neutral_ship_data(ship.ship_index)

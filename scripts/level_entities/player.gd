@@ -23,7 +23,7 @@ var overdrivem_r:float = 1.0
 var overdrivem_v:float = 1.0
 
 var has_mission: bool = false
-var current_mission: Dictionary = {}
+var current_mission: MissionData
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 
 const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
@@ -211,7 +211,7 @@ func _process(delta: float) -> void:
 	if !HealthComponent.alive: return
 
 	# Movement check for idle audio
-	if abs(velocity.x)+abs(velocity.y) > 100 and Navigation.in_galaxy_warp:
+	if abs(velocity.x)+abs(velocity.y) > 100 and Utility.current_gamestate == Utility.GAMESTATE.WARPING:
 		idle_sound(true)
 	else:
 		idle_sound(false)
@@ -245,7 +245,7 @@ func _physics_process(delta: float) -> void:
 	if !HealthComponent.alive or GameSettings.menuStatus == true: return
 	
 	if Input.is_action_just_pressed("overdrive"):
-		if Navigation.in_galaxy_warp == false:
+		if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 			overdrive_state_change("SMOOTH")
 
 	if shooting_button_held:
@@ -262,7 +262,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _handle_movement(delta: float) -> void:
-	if Navigation.in_galaxy_warp == false:
+	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
 			direction.x = Input.get_axis("move_backward", "move_forward")  # Forward/backward movement
@@ -388,7 +388,7 @@ func shoot_missile(clicked_pos:Vector2) -> void:
 
 func _can_fire_weapons(energy_drain:float) -> bool:
 	if energy_current > energy_drain and overdriveTime == false\
-		and Navigation.in_galaxy_warp == false and cloaked == false\
+		and Utility.current_gamestate != Utility.GAMESTATE.WARPING and cloaked == false\
 		and overdrive_active == false:
 		return true
 	else: return false
@@ -405,7 +405,7 @@ func regenerate_energy(delta:float) -> void:
 
 
 func killPlayer() -> void:
-	Navigation.in_galaxy_warp = false
+	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 	%PlayerDieSound.play()
 	self.visible = false
 	shield.fadeout_INSTANT()
@@ -496,7 +496,7 @@ func idle_sound(active: bool) -> void:
 func velocity_check() -> bool:
 	# Check velocity warp criteria
 	var base_check = (
-		!Navigation.in_galaxy_warp and
+		Utility.current_gamestate != Utility.GAMESTATE.WARPING and
 		velocity.x > -100 and velocity.x < 100 and
 		velocity.y > -100 and velocity.y < 100 and
 		!overdrive_active
@@ -507,7 +507,9 @@ func velocity_check() -> bool:
 	else: return true
 
 
-func trigger_warp(start_sys_id: int, end_sys_id: int) -> void:
+func trigger_warp() -> void:
+	var start_sys_id:int = LevelManager.current_system_data.system_index
+	var end_sys_id:int = LevelManager.target_system_data.system_index
 	var warp_distance:int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
 	if  warp_distance > warp_range:
 		var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
@@ -532,11 +534,11 @@ func trigger_warp(start_sys_id: int, end_sys_id: int) -> void:
 
 func galaxy_warp_out() -> void:
 	SignalBus.entering_galaxy_warp.emit()
-	Navigation.in_galaxy_warp = true
+	Utility.current_gamestate = Utility.GAMESTATE.WARPING
 	
 	self.velocity = Vector2.ZERO
 	
-	Navigation.entry_coords = Navigation.get_entry_point(self.global_rotation)
+	LevelManager.entry_coords = SystemData.get_entry_point(self.global_rotation)
 	
 	galaxy_warp_sound.play()
 	await get_tree().create_timer(1.5).timeout
@@ -593,7 +595,7 @@ func galaxy_warp_out() -> void:
 	tween3.stop()
 
 
-func mission_accept(mission_data:Dictionary) -> void:
+func mission_accept(mission_data:MissionData) -> void:
 	current_mission = mission_data
 	has_mission = true
 	current_cargo += 1

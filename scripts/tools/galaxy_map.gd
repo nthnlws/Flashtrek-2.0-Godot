@@ -2,7 +2,7 @@ extends Control
 class_name GalaxyMap
 
 @onready var mission_message: RichTextLabel = $mission_message
-@onready var current_system_message: RichTextLabel = $current_system_message
+@onready var current_system_message: RichTextLabel = $currentSys_message
 @onready var Menus: CanvasLayer = $".."
 @onready var system_array: Array = get_tree().get_nodes_in_group("map_node") as Array[Area2D]
 @onready var path_drawer: GalaxyPathDrawer = $WarpPathDrawer
@@ -20,10 +20,11 @@ const FADE_SPEED: float = 5.0
 
 func _ready() -> void:
 	SignalBus.finishMission.connect(clear_mission)
-	SignalBus.galaxy_warp_finished.connect(selectCurrentSystem)
-	SignalBus.missionAccepted.connect(_update_mission)
+	SignalBus.missionAccepted.connect(update_mission_text)
 	SignalBus.playerDied.connect(selectCurrentSystem.bind("Solarus"))
 	SignalBus.galaxyDataUpdated.connect(update_system_names)
+	
+	selectCurrentSystem(LevelManager.current_system_data.system_name)
 
 
 func _process(delta: float) -> void:
@@ -32,17 +33,20 @@ func _process(delta: float) -> void:
 	var mouse_pos: Vector2 = get_global_mouse_position()
 	
 	for area: Area2D in system_array:
-		# 1. Calculate distance logic
+		# Calculate distance from mouse
 		var dist: float = mouse_pos.distance_to(area.global_position)
 		var target_alpha: float = clampf(inverse_lerp(REVEAL_RADIUS, 0.0, dist), 0.0, 1.0)
 		
-		# 2. Always show current system and special systems
-		if (int(area.name) == LevelManager.current_system_data.system_index
-			or GalaxyData.SPECIAL_SYSTEMS.values().has(int(area.name))):
-				if area.name != "104": # Risa exception
+		# Force show special systems
+		if (int(area.name) == LevelManager.current_system_data.system_index # Current system
+			or GalaxyData.SPECIAL_SYSTEMS.values().has(int(area.name))): # Special system
+				if int(area.name) != GalaxyData.SPECIAL_SYSTEMS.Risa: # Risa exception
 					target_alpha = 1.0
+		if LevelManager.target_system_data: # Target system
+			if int(area.name) == LevelManager.target_system_data.system_index:
+				target_alpha = 1.0
 			
-		# 3. Apply the fade to the Label specifically
+		# Apply label fade
 		var label:RichTextLabel = area.system_label
 		if label:
 			# Smoothly interpolate the alpha
@@ -129,7 +133,7 @@ func update_map_destination(system:Area2D, target_data:SystemData) -> void:
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	tween.set_loops()
 	
-	SignalBus.destinationChanged.emit(target_data)
+	LevelManager.target_system_data = target_data
 	print('destination changed')
 
 
@@ -137,12 +141,12 @@ func clear_mission() -> void:
 	mission_message.bbcode_text = "Current Mission: None"
 
 
-func _update_mission(current_mission: Dictionary) -> void:
-	if current_mission.is_empty():
+func update_mission_text(current_mission: MissionData) -> void:
+	if current_mission == null:
 		clear_mission()
 	else:
-		var system_name:String = current_mission.system
-		var planet_name:String = current_mission.planet
+		var system_name:String = current_mission.targetSystem.system_name
+		var planet_name:String = current_mission.targetPlanet
 		var first_string: String = "Current mission: " + Utility.UI_blue + planet_name + "[/color] in "
 
 		var destination_text: String = first_string + "[color=#FFCC66]" + system_name + "[/color]"
@@ -176,7 +180,7 @@ func _on_close_menu_button_pressed() -> void:
 
 func _on_warp_button_pressed() -> void:
 	SignalBus.UIclickSound.emit()
-	Navigation.trigger_warp()
+	SignalBus.TopLeft_clicked.emit()
 	visible = false
 
 

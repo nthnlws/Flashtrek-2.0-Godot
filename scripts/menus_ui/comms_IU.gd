@@ -72,10 +72,10 @@ func _on_cargo_beam_pressed() -> void:
 		var mission:MissionData = MissionManager.active_mission
 		var text:String = "Mission accepted! Head to [color=#6699CC]%s[/color] in the [color=#FFCC66]%s[/color] system." % [mission.targetPlanet, mission.targetSystem.system_name]
 		update_comms_message(text)
+		SignalBus.missionAccepted.emit(mission)
 	elif (MissionManager.current_state == MissionManager.STATE.active_mission
 		and MissionManager.active_mission.targetPlanet == current_planet.name):
 		MissionManager.complete_mission()
-		
 
 
 func _on_new_mission_generated(mission_data: MissionData) -> String:

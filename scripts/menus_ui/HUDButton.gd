@@ -33,7 +33,7 @@ func _connect_signals() -> void:
 
 
 func _handle_button_click(button_name: String) -> void:
-	if Navigation.in_galaxy_warp == false:
+	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		SignalBus.UIclickSound.emit()
 		var signal_name: String = button_name + "_clicked"
 		if SignalBus.has_signal(signal_name):

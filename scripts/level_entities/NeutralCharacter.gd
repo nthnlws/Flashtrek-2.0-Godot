@@ -22,6 +22,7 @@ var moveTarget: String
 
 var AI_enabled:bool = true
 var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
+var ship_index: int # Used for tying ship to Data resource files
 
 
 func _ready() -> void:

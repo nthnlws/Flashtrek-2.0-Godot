@@ -26,7 +26,7 @@ func _ready() -> void:
 
 # Input handling
 func _input(event: InputEvent) -> void:
-	if Navigation.in_galaxy_warp == false:
+	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		if Input.is_action_just_pressed("escape"):
 			handle_escape_press()
 		elif Input.is_action_just_pressed("letter_m"):
@@ -38,7 +38,7 @@ func handle_escape_press() -> void:
 	match current_state:
 		MenuState.NONE:
 			# No menus are open, open the pause menu
-			if Navigation.in_galaxy_warp == false:
+			if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 				toggle_menu($PauseMenu, MenuState.PAUSE_MENU)
 		MenuState.PAUSE_MENU:
 			# Pause menu is open, close it

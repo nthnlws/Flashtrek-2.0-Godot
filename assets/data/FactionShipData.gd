@@ -1,9 +1,10 @@
 extends Resource
-class_name EnemyData
+class_name FactionShipData
 
 const BASE_HP:float = 100.0
 const BASE_SP:float = 50.0
 
+var ship_index:int # Used for adding and deleting from SystemData
 var world_position: Vector2 = Vector2.ZERO
 var shield_state: bool = true
 var movement_target: String
@@ -20,9 +21,10 @@ func check_alive() -> bool:
 	return is_destroyed
 
 
-static func generate_enemy_ship_data(host_planet:PlanetData, faction:Utility.FACTION, difficulty:float) -> EnemyData:
-	var new_enemy_data = EnemyData.new()
+static func generate_enemy_ship_data(host_planet:PlanetData, faction:Utility.FACTION, difficulty:float, index:int) -> FactionShipData:
+	var new_enemy_data = FactionShipData.new()
 	
+	new_enemy_data.ship_index = index
 	new_enemy_data.world_position = _generate_spawn_position(host_planet)
 	new_enemy_data.HP_max = BASE_HP * difficulty
 	new_enemy_data.current_hp = new_enemy_data.HP_max

@@ -2,6 +2,6 @@ extends TextureButton
 
 
 func _on_pressed() -> void:
-	if Navigation.in_galaxy_warp == false:
+	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		SignalBus.UIclickSound.emit()
 		SignalBus.pause_menu_clicked.emit()

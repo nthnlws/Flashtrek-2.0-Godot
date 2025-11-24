@@ -89,18 +89,21 @@ func _on_collision_changed(toggle_status: bool) -> void:
 
 
 func toggle_world_borders() -> void:
-	for border:StaticBody2D in active_borders:
-		if border.get_node("WorldBoundary").disabled == false:
-			border.get_node("WorldBoundary").disabled = true
-			await get_tree().create_timer(0.3).timeout
-			if Navigation.in_galaxy_warp == true:
-				create_tween().tween_property(border, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
-			await get_tree().create_timer(Utility.fadeLength).timeout
-		else: 
-			border.get_node("WorldBoundary").disabled = false
-			border.modulate = Color(1, 1, 1, 1)
+	# Update labels
 	for label:Label in get_tree().get_nodes_in_group("Labels"):
 		if label.visible:
 			label.visible = false
 		else:
 			label.visible = true
+	# Update border visibility
+	for border:StaticBody2D in active_borders:
+		if border.get_node("WorldBoundary").disabled == false:
+			border.get_node("WorldBoundary").disabled = true
+			await get_tree().create_timer(0.3).timeout
+			if Utility.current_gamestate == Utility.GAMESTATE.WARPING:
+				create_tween().tween_property(border, "modulate", Color(1, 1, 1, 0), Utility.fadeLength)
+			await get_tree().create_timer(Utility.fadeLength).timeout
+		else: 
+			border.get_node("WorldBoundary").disabled = false
+			border.modulate = Color(1, 1, 1, 1)
+	

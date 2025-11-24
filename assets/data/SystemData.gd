@@ -14,8 +14,8 @@ var system_size:int = 20000
 # System contents
 var planet_data: Array[PlanetData]
 var sun_data: SunData
-var enemy_list: Array[EnemyData]
-var defeated_enemies: Array[EnemyData] = []
+var enemy_list: Array[FactionShipData]
+var defeated_enemies: Array[FactionShipData] = []
 var neutral_list: Array[NeutralData]
 var defeated_neutrals: Array[NeutralData] = []
 
@@ -56,11 +56,13 @@ static func generate_system_data(sys_index:int, system_name:String) -> SystemDat
 		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, faction))
 
 	# NPC Ship Data
+	var index:int = 0
 	for planet:PlanetData in new_system_data.planet_data:
-		var new_enemy:EnemyData = EnemyData.generate_enemy_ship_data(planet, new_system_data.faction, new_system_data.system_difficulty_mult)
+		var new_enemy:FactionShipData = FactionShipData.generate_enemy_ship_data(planet, new_system_data.faction, new_system_data.system_difficulty_mult, index)
 		new_system_data.enemy_list.append(new_enemy)
-		var new_neutral:NeutralData = NeutralData.generate_neutral_ship_data(planet, new_system_data.faction, new_system_data.system_difficulty_mult)
+		var new_neutral:NeutralData = NeutralData.generate_neutral_ship_data(planet, new_system_data.faction, new_system_data.system_difficulty_mult, index)
 		new_system_data.neutral_list.append(new_neutral)
+		index += 1
 	
 	return new_system_data
 
@@ -176,3 +178,69 @@ func load_text_file(file_path:String) -> Array[String]:
 			names.append(line)
 	file.close()
 	return names
+
+
+func remove_faction_ship_data(ship_index:int) -> void:
+	var to_remove:FactionShipData
+	for ship:FactionShipData in enemy_list:
+		if ship.ship_index == ship_index:
+			to_remove = ship
+	enemy_list.erase(to_remove)
+	defeated_enemies.append(to_remove)
+
+
+func remove_neutral_ship_data(ship_index:int) -> void:
+	var to_remove:NeutralData
+	for ship:NeutralData in neutral_list:
+		if ship.ship_index == ship_index:
+			to_remove = ship
+	neutral_list.erase(to_remove)
+	defeated_neutrals.append(to_remove)
+
+
+static func get_entry_point(angle_rad: float) -> Vector2:
+	var coords: Vector2 = Vector2.ZERO
+	angle_rad = (angle_rad) - PI # Flips angle 180 degrees
+	var border_coords: int = 20000
+	var square_min: Vector2 = Vector2.ZERO - Vector2(border_coords, border_coords)
+	var square_max: Vector2 = Vector2.ZERO + Vector2(border_coords, border_coords)
+
+	var best_intersection: Vector2 = Vector2.INF
+	var best_t: float = INF
+
+	var cos_angle: float = cos(angle_rad)
+	var sin_angle: float = sin(angle_rad)
+
+	# Check right side
+	var t:float = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	if t > 0:
+		var y:float = coords.y + t * sin_angle
+		if y >= square_min.y and y <= square_max.y and t < best_t:
+			best_t = t
+			best_intersection = Vector2(square_max.x, y)
+
+	# Check left side
+	t = (square_min.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	if t > 0:
+		var y:float = coords.y + t * sin_angle
+		if y >= square_min.y and y <= square_max.y and t < best_t:
+			best_t = t
+			best_intersection = Vector2(square_min.x, y)
+
+	# Check top side
+	t = (square_max.y - coords.y) / sin_angle if sin_angle != 0 else INF
+	if t > 0:
+		var x:float = coords.x + t * cos_angle
+		if x >= square_min.x and x <= square_max.x and t < best_t:
+			best_t = t
+			best_intersection = Vector2(x, square_max.y)
+
+	# Check bottom side
+	t = (square_min.y - coords.y) / sin_angle if sin_angle != 0 else INF
+	if t > 0:
+		var x:float = coords.x + t * cos_angle
+		if x >= square_min.x and x <= square_max.x and t < best_t:
+			best_t = t
+			best_intersection = Vector2(x, square_min.y)
+	
+	return best_intersection.move_toward(Vector2.ZERO, 2000)

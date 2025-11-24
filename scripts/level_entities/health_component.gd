@@ -90,7 +90,7 @@ func initialize_hud() -> void:
 var _is_processing_scheduled: bool = false # Flag to prevent multiple deferred calls
 var frame_hit_events:Array[HitEvent] = []
 func collect_damage_events(hit_event:HitEvent) -> void:
-	if Navigation.in_galaxy_warp:
+	if Utility.current_gamestate == Utility.GAMESTATE.WARPING:
 		return
 	
 	frame_hit_events.append(hit_event)
