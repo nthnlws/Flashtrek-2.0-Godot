@@ -315,6 +315,7 @@ libraries = {
 show_behind_parent = true
 
 [node name="TractorBeam" parent="." instance=ExtResource("21_rue2e")]
+visible = false
 position = Vector2(12, -0.66666675)
 
 [node name="regen_timer" type="Timer" parent="."]

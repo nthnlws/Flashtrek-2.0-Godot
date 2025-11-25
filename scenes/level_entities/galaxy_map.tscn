@@ -328,7 +328,7 @@ mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("4_v4uvs")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "Current destination: [color=#FFCC66]None[/color]"
+text = "Current system: [color=#FFCC66]None[/color]"
 scroll_active = false
 autowrap_mode = 2
 shortcut_keys_enabled = false

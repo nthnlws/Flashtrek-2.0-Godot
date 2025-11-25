@@ -29,7 +29,8 @@ func galaxy_fade_out() -> void:
 	await get_tree().create_timer(4.0).timeout
 	
 	print("Warp finished with target system " + str(LevelManager.current_system_data.system_name))
-	SignalBus.galaxy_warp_finished.emit(LevelManager.current_system_data.system_index)
+
+	SignalBus.galaxy_warp_finished.emit(LevelManager.current_system_data)
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 
 
@@ -37,15 +38,13 @@ func handlePlayerDied() -> void:
 	SignalBus.toggleQ3HUD.emit("off")
 	SignalBus.toggleQ2HUD.emit("off")
 	%LoadingScreen.visible = true
-	if LevelManager.current_system_data.system_index != GalaxyData.SPECIAL_SYSTEMS.Solarus:
-		LevelManager.change_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 	LevelManager.player.camera._zoom = Vector2(0.4, 0.4)
 	await get_tree().create_timer(1.5).timeout
 	LevelManager.player.respawn(LevelManager.get_spawn_position())
 	%LoadingScreen.visible = false
 
 
-func _warp_into_new_system(system_index:int) -> void:
+func _warp_into_new_system(system_data:SystemData) -> void:
 	LevelManager.player.global_position = LevelManager.entry_coords
 	
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)

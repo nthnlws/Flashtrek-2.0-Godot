@@ -529,7 +529,6 @@ func trigger_warp() -> void:
 		return
 	else:
 		galaxy_warp_out()
-		SignalBus.triggerGalaxyWarp.emit()
 
 
 func galaxy_warp_out() -> void:

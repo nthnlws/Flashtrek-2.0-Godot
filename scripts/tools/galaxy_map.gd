@@ -21,10 +21,8 @@ const FADE_SPEED: float = 5.0
 func _ready() -> void:
 	SignalBus.finishMission.connect(clear_mission)
 	SignalBus.missionAccepted.connect(update_mission_text)
-	SignalBus.playerDied.connect(selectCurrentSystem.bind("Solarus"))
 	SignalBus.galaxyDataUpdated.connect(update_system_names)
-	
-	selectCurrentSystem(LevelManager.current_system_data.system_name)
+	SignalBus.system_changed.connect(update_current_system)
 
 
 func _process(delta: float) -> void:
@@ -71,24 +69,12 @@ func _gui_input(event: InputEvent) -> void:
 				return
 
 
-func selectCurrentSystem(system_name:String) -> void:
-	# Clear old marker
-	for ind in get_tree().get_nodes_in_group("current_indicator"):
-		ind.queue_free()
-		
-	# Add new indicator icon to map
-	# Find array position of correct node
-	var selected_system: int = -1
-	for i in range(system_array.size()):
-		var node:Area2D = system_array[i]
-		if node.name == system_name:
-			selected_system = i
-	
-	var indicator: Node2D = systemMarker.instantiate()
-	indicator.modulate = Color(0, 255, 0, 255)
-	indicator.add_to_group("current_indicator")
-	system_array[selected_system].add_child(indicator)
-	
+func update_current_system(system_data:SystemData) -> void:
+	# Update warp path
+	var current_id = system_data.system_index
+	var target_id = system_data.system_index
+	update_map_destination(_find_node_by_system_id(current_id), system_data) # Update path selection to current system
+	var system_name = system_data.system_name
 	# Set text message
 	match system_name:
 		"Kronos":
@@ -128,12 +114,15 @@ func update_map_destination(system:Area2D, target_data:SystemData) -> void:
 	indicator.add_to_group("indicator_mark")
 	system.add_child(indicator)
 	
-	var tween: Tween = create_tween()
-	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
-	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
+	var tween: Tween = indicator.create_tween()
 	tween.set_loops()
 	
+	# Add the steps (Sequential by default)
+	tween.tween_property(indicator, "scale", Vector2(1.45, 1.45), 1.0)
+	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
+	
 	LevelManager.target_system_data = target_data
+	print(LevelManager.target_system_data.system_name)
 	print('destination changed')
 
 

@@ -41,9 +41,9 @@ signal playerShieldOn
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade
-signal galaxy_warp_finished(target_system:SystemData)
+signal galaxy_warp_finished(system_data:SystemData)
 signal entering_new_system
-signal system_changed
+signal system_changed(system_data:SystemData)
 
 #HUD
 signal Center_clicked # Declared in HUD_Button script by string name
