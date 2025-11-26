@@ -96,7 +96,7 @@ func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -
 
 func change_system(system_data:SystemData) -> void:
 	current_system_data = system_data # Update current SystemData
-	print('Changing system to %s' % system_data.system_name)
+	#print('Changing system to %s' % system_data.system_name)
 	
 	cleanup_old_system()
 	
@@ -209,7 +209,7 @@ func save_ship_data(current_sys_data:SystemData) -> void:
 	var enemy_data:Array[FactionShipData] = current_sys_data.enemy_list
 	if (neutral_data.size() != neutralShips.size()
 	or enemy_data.size() != factionShips.size()):
-		print("NeutralData: %s, LM.neutral: %s, FactionShipData: %s, LM.faction: %s" % [neutral_data.size(), neutralShips.size(), enemy_data.size(), factionShips.size()])
+		#print("NeutralData: %s, LM.neutral: %s, FactionShipData: %s, LM.faction: %s" % [neutral_data.size(), neutralShips.size(), enemy_data.size(), factionShips.size()])
 		printerr("Array size mismatch between SystemData and current LevelManager ship arrays, exiting")
 		return
 	

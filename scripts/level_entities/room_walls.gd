@@ -59,7 +59,6 @@ func _ready() -> void:
 		label.position = wall_positions[i] + Vector2(10, 10) # Adjust this offset as needed
 		label.scale = Vector2(2, 2) # Makes the label larger and easier to see
 		
-		SignalBus.level_entity_added.emit(self, "Wall")
 		i += 1
 		
 func _on_border_coords_moved() -> void:

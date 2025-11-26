@@ -22,6 +22,7 @@ func _ready() -> void:
 	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
 	SignalBus.BottomRight_clicked.connect(toggle_ship_selection)
 	SignalBus.Center_clicked.connect(toggle_upgrade_menu)
+	SignalBus.entering_galaxy_warp.connect(func(): current_state = MenuState.NONE)
 
 
 # Input handling

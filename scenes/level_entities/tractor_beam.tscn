@@ -36,6 +36,7 @@ polygon = PackedVector2Array(287, 102, 287, -102, 0, 0)
 
 [node name="ColorRect" type="ColorRect" parent="CollisionShape2D"]
 material = SubResource("ShaderMaterial_vwgry")
+mouse_filter = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

@@ -7,12 +7,9 @@ class_name Starbase
 var player_in_range:bool = false
 
 func _ready() -> void:
-	SignalBus.level_entity_added.emit(self, "Starbase")
-	
-	
 	z_index = Utility.Z["Starbase"]
-	
-	
+
+
 func _physics_process(delta: float) -> void:
 	rotate(deg_to_rad(1.5)*delta)
 

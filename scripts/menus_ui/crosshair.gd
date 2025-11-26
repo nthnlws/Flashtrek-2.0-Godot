@@ -8,6 +8,7 @@ func  _ready() -> void:
 	
 	SignalBus.playerEnergyChanged.connect(update_energy_value)
 	SignalBus.playerMaxEnergyChanged.connect(update_energy_max)
+	SignalBus.entering_new_system.connect(func(): visible = true)
 
 
 func _process(delta: float) -> void:

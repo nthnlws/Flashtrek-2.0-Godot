@@ -72,7 +72,7 @@ func add_score(faction: String, number: String) -> void:
 	if faction.to_lower() == "neut" or faction.to_lower() == "neutral":
 		SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, score)
 	else:
-		print("Unknown faction '%s' for score command." % faction)
+		printerr("Unknown faction '%s' for score command." % faction)
 
 
 func spawn_loot_command(type_str: String, number:String = "1") -> void:

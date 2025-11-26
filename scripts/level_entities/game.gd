@@ -28,7 +28,7 @@ func galaxy_fade_out() -> void:
 	
 	await get_tree().create_timer(4.0).timeout
 	
-	print("Warp finished with target system " + str(LevelManager.current_system_data.system_name))
+	#print("Warp finished with target system " + str(LevelManager.current_system_data.system_name))
 
 	SignalBus.galaxy_warp_finished.emit(LevelManager.current_system_data)
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM

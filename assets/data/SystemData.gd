@@ -38,6 +38,14 @@ func _reload_text_file() -> void:
 	planet_names.shuffle()
 
 
+func get_planet_data(planet_name:String) -> PlanetData:
+	for planet:PlanetData in planet_data:
+		if planet.name == planet_name:
+			return planet
+	
+	return null # If PlanetData not found
+	
+
 static func generate_system_data(sys_index:int, system_name:String) -> SystemData:
 	var new_system_data:SystemData = SystemData.new()
 	var faction = get_system_faction(sys_index)

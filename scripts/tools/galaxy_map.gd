@@ -122,8 +122,6 @@ func update_map_destination(system:Area2D, target_data:SystemData) -> void:
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	
 	LevelManager.target_system_data = target_data
-	print(LevelManager.target_system_data.system_name)
-	print('destination changed')
 
 
 func clear_mission() -> void:

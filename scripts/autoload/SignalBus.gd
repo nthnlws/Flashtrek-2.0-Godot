@@ -13,7 +13,7 @@ signal galaxyDataUpdated(galaxy_data:GalaxyData)
 
 # Missions
 signal missionAccepted(current_mission:MissionData)
-signal finishMission
+signal missionFinished(finished_mission:MissionData)
 signal changePopMessage(text:String)
 signal updateScore(score:int)
 
@@ -74,7 +74,6 @@ signal enemy_type_changed(ENEMY_TYPE: Utility.SHIP_TYPES)
 signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES)
 
 # Level Creation
-signal level_entity_added(node:Node2D, type:String)
 signal levelReset
 
 # Audio

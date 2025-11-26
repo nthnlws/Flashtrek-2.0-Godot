@@ -12,13 +12,14 @@ var romulan_thankYou: Array[String] = ["Your task is complete. Efficiency is... 
 @export var missionID: String = ""
 @export var missionType: String = "Cargo Delivery"
 @export var targetSystem: SystemData
+@export var missionFaction: Utility.FACTION
 @export var targetPlanet: String
 @export var cargo: String
 @export var message: String
 @export var reward: int = 0
 
 
-func generate_mission_offer(origin_planet_name: String) -> MissionData:
+func generate_mission_offer() -> MissionData:
 	var new_mission:MissionData = MissionData.new()
 	# Get random system
 	var random_system = LevelManager.galaxy_data.systems.pick_random()
@@ -27,6 +28,7 @@ func generate_mission_offer(origin_planet_name: String) -> MissionData:
 	
 	# Get random planet from picked system
 	var planet_name: String = random_system.planet_data.pick_random().name
+	var faction: Utility.FACTION = random_system.faction
 	
 	var item_name: String = cargo_types.pick_random()
 	var random_confirm_query: String = confirmation_accept_prompts.pick_random()
@@ -42,6 +44,7 @@ func generate_mission_offer(origin_planet_name: String) -> MissionData:
 	targetSystem = random_system
 	targetPlanet = planet_name
 	cargo = item_name
+	missionFaction = faction
 	message = random_confirm_query
 	reward = mission_reward
 	

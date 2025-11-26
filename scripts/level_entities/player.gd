@@ -45,7 +45,6 @@ const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Material
 @export var torpedo_scene: PackedScene
 @export var missile_scene: PackedScene
 var Stats: PlayerUpgrades = PlayerUpgrades.new()
-var Reputation: PlayerReputation = PlayerReputation.new()
 @onready var HealthComponent: HealthComponent = $HealthComponent
 
 
@@ -128,10 +127,9 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.player_type_changed.connect(_sync_data_to_resource)
 	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
-	SignalBus.missionAccepted.connect(mission_accept)
-	SignalBus.finishMission.connect(mission_finish)
+	SignalBus.missionAccepted.connect(_handle_mission_pickup)
+	SignalBus.missionFinished.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.playerDied.connect(clear_mission)
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.TopLeft_clicked.connect(trigger_warp)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
@@ -228,9 +226,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("right_click"):
 		#shoot_missile(get_global_mouse_position())
+		tractor_beam.visible = true
 		tractor_beam.try_activate_beam()
 	
 	if event.is_action_released("right_click"):
+		print()
+		tractor_beam.visible = false
 		tractor_beam.deactivate_beam()
 	# Secondary weapon firing
 	#if event.is_action_pressed("right_click"):
@@ -594,52 +595,8 @@ func galaxy_warp_out() -> void:
 	tween3.stop()
 
 
-func mission_accept(mission_data:MissionData) -> void:
-	current_mission = mission_data
-	has_mission = true
+func _handle_mission_pickup(mission_data:MissionData) -> void:
 	current_cargo += 1
-
-
-func clear_mission() -> void:
-	current_mission.clear()
-	has_mission = false
-	current_cargo = max(0, current_cargo - 1)
-	
-	
-func mission_finish() -> void:
-	if !current_mission.is_empty():
-		var points:int = current_mission["reward"]
-		var mission_faction:Utility.FACTION = LevelManager.current_system_data.faction
-		SignalBus.updateScore.emit(points)
-		match mission_faction:
-			Utility.FACTION.FEDERATION:
-				SignalBus.reputationChanged.emit(Utility.FACTION.FEDERATION, Reputation.FederationRep + points)
-			Utility.FACTION.KLINGON:
-				SignalBus.reputationChanged.emit(Utility.FACTION.KLINGON, Reputation.KlingonRep + points)
-			Utility.FACTION.ROMULAN:
-				SignalBus.reputationChanged.emit(Utility.FACTION.ROMULAN, Reputation.RomulanRep + points)
-			Utility.FACTION.NEUTRAL:
-				SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, Reputation.NeutralRep + points)
-		current_mission.clear()
-		
-	has_mission = false
-	current_cargo = max(0, current_cargo - 1)
-	
-	faction = _recalculate_current_faction()
-
-
-func _recalculate_current_faction() -> Utility.FACTION:
-	if max(Reputation.FederationRep, Reputation.KlingonRep, Reputation.RomulanRep) <= 5000:
-		return Utility.FACTION.NEUTRAL
-	elif Reputation.FederationRep >= max(Reputation.KlingonRep, Reputation.RomulanRep):
-		return Utility.FACTION.FEDERATION
-	elif Reputation.KlingonRep >= max(Reputation.FederationRep, Reputation.RomulanRep):
-		return Utility.FACTION.KLINGON
-	elif Reputation.RomulanRep >= max(Reputation.FederationRep, Reputation.KlingonRep):
-		return Utility.FACTION.ROMULAN
-	else:
-		push_error("Current faction calculation failed, current faction unknown")
-		return Utility.FACTION.NEUTRAL
 
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
@@ -670,7 +627,7 @@ func _handle_container_pickup(data:ContainerData) -> void:
 	print('picked up container')
 	if data.is_mission_goal == true:
 		print('attempting mission finish')
-		mission_finish()
+		MissionManager.complete_mission()
 
 
 func cloak_ship(length:float, show_shadow:bool = false) -> void:
@@ -705,3 +662,8 @@ func uncloak_ship(length:float) -> void:
 	await cloak_anim.animation_finished
 	
 	cloaked = false
+
+
+func _handle_mission_finish(finished_data:MissionData) -> void:
+	current_cargo -= 1
+	current_cargo = clamp(current_cargo, 0, base_cargo_size)

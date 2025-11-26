@@ -33,7 +33,7 @@ func open_comms() -> void:
 	
 	if (MissionManager.current_state == MissionManager.STATE.no_mission
 		or MissionManager.current_state == MissionManager.STATE.pending_mission):
-			MissionManager.generate_mission(current_planet.name)
+			MissionManager.generate_mission()
 			update_comms_message(_on_new_mission_generated(MissionManager.pending_mission))
 	elif MissionManager.current_state == MissionManager.STATE.active_mission:
 		if MissionManager.active_mission.targetPlanet == current_planet.name:
@@ -46,14 +46,13 @@ func open_comms() -> void:
 
 func close_comms() -> void:
 	visible = false
-	MissionManager.clear_missions()
 
 
 # --- BUTTON PRESS HANDLERS ---
 func _on_reroll_pressed() -> void:
 	SignalBus.UIclickSound.emit()
 	if visible and current_planet and MissionManager.current_state != MissionManager.STATE.active_mission:
-		MissionManager.generate_mission(current_planet.name)
+		MissionManager.generate_mission()
 		update_comms_message(_on_new_mission_generated(MissionManager.pending_mission))
 
 

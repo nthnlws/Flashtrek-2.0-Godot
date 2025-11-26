@@ -116,8 +116,6 @@ func deactivate_beam() -> void:
 		visuals.visible = false
 		beam_activated.emit(false)
 		# object_released.emit(tractored_object)
-
-
 #endregion
 
 
