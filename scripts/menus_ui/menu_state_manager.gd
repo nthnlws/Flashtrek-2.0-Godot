@@ -71,7 +71,7 @@ func handle_m_press() -> void:
 func _handle_player_death() -> void:
 	var menus: Array[Node] = get_children()
 	for menu in menus:
-		if menu.visible:
+		if menu.visible and menu != $Crosshair:
 			toggle_menu(menu, MenuState.NONE)
 
 

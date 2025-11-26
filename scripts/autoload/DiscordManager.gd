@@ -1,7 +1,7 @@
 extends Node
 
 func _ready() -> void:
-	SignalBus.entering_new_system.connect(single_player_game)
+	SignalBus.system_changed.connect(single_player_game)
 	if OS.get_name() == "Windows":
 			DiscordManager.main_menu()
 
@@ -23,11 +23,11 @@ func main_menu() -> void:
 
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system()) # "mm:ss elapsed"
 
-	DiscordRPC.refresh() # Always refresh after changing the values!
+	DiscordRPC.refresh() # Always refresh after changing any values!
 	
 	
-func single_player_game() -> void:
-	DiscordRPC.details = "In " + LevelManager.current_system_data.system_name + " system"
+func single_player_game(new_system:SystemData) -> void:
+	DiscordRPC.details = "In " + new_system.system_name + " system"
 	#DiscordRPC.state = 
 	DiscordRPC.large_image = "icon"
 	DiscordRPC.large_image_text = "FlashTrek 2.0"

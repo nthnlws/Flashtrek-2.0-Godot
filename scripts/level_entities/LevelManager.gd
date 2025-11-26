@@ -43,12 +43,18 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.galaxy_warp_finished.connect(change_system)
 	SignalBus.entering_galaxy_warp.connect(update_system_data)
-	SignalBus.playerDied.connect(change_system.bind(GalaxyData.SPECIAL_SYSTEMS.Solarus))
+	SignalBus.playerDied.connect(_handle_player_death)
 	SignalBus.spawnLoot.connect(spawn_loot)
 	SignalBus.triggerGalaxyWarp.connect(save_ship_data)
 	SignalBus.spawnShip.connect(spawn_faction_ship)
 	SignalBus.factionShipDied.connect(remove_faction_ship_data)
 	SignalBus.neutralShipDied.connect(remove_neutral_ship_data)
+
+
+func _handle_player_death() -> void:
+	var home_system:SystemData = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	change_system(home_system)
+	minimap.create_minimap_objects()
 
 
 func on_level_loaded() -> void:

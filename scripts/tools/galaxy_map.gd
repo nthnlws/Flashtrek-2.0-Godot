@@ -19,7 +19,7 @@ const FADE_SPEED: float = 5.0
 
 
 func _ready() -> void:
-	SignalBus.finishMission.connect(clear_mission)
+	SignalBus.missionFinished.connect(clear_mission_text)
 	SignalBus.missionAccepted.connect(update_mission_text)
 	SignalBus.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)
@@ -124,13 +124,13 @@ func update_map_destination(system:Area2D, target_data:SystemData) -> void:
 	LevelManager.target_system_data = target_data
 
 
-func clear_mission() -> void:
+func clear_mission_text() -> void:
 	mission_message.bbcode_text = "Current Mission: None"
 
 
 func update_mission_text(current_mission: MissionData) -> void:
 	if current_mission == null:
-		clear_mission()
+		clear_mission_text()
 	else:
 		var system_name:String = current_mission.targetSystem.system_name
 		var planet_name:String = current_mission.targetPlanet
