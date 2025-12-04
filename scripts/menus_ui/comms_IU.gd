@@ -1,6 +1,7 @@
 extends Control
 
 @onready var comms_message: RichTextLabel = $Comms_message
+@onready var close_button: TextButton = $CloseButton
 
 var ship_name: String
 var current_planet: Node2D # Current planet with comms open
@@ -46,6 +47,8 @@ func open_comms() -> void:
 
 func close_comms() -> void:
 	visible = false
+	close_button.pressed = false
+	close_button._update_color()
 
 
 # --- BUTTON PRESS HANDLERS ---
@@ -64,29 +67,52 @@ func _on_open_comms_pressed() -> void:
 	open_comms()
 
 func _on_cargo_beam_pressed() -> void:
-	SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse
-	
-	if MissionManager.current_state == MissionManager.STATE.pending_mission:
-		MissionManager.accept_pending_mission()
-		var mission:MissionData = MissionManager.active_mission
-		var text:String = "Mission accepted! Head to [color=#6699CC]%s[/color] in the [color=#FFCC66]%s[/color] system." % [mission.targetPlanet, mission.targetSystem.system_name]
-		update_comms_message(text)
-		SignalBus.missionAccepted.emit(mission)
-	elif (MissionManager.current_state == MissionManager.STATE.active_mission
-		and MissionManager.active_mission.targetPlanet == current_planet.name):
-		MissionManager.complete_mission()
+	if self.visible:
+		SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse
+		
+		if MissionManager.current_state == MissionManager.STATE.pending_mission:
+			MissionManager.accept_pending_mission()
+			var mission_data:MissionData = MissionManager.active_mission
+			var formatted_system:String
+			var formatted_planet:String = Utility.UI_yellow + mission_data.targetPlanet + "[/color]"
+			match mission_data.targetSystem.faction:
+				Utility.FACTION.FEDERATION:
+					formatted_system = Utility.fed_blue + mission_data.targetSystem.system_name + "[/color]"
+				Utility.FACTION.ROMULAN:
+					formatted_system = Utility.rom_green + mission_data.targetSystem.system_name + "[/color]"
+				Utility.FACTION.KLINGON:
+					formatted_system = Utility.klin_red + mission_data.targetSystem.system_name + "[/color]"
+				Utility.FACTION.NEUTRAL:
+					formatted_system = Utility.UI_yellow + mission_data.targetSystem.system_name + "[/color]"
+			var text:String = "Mission accepted! Head to %s in the %s system." % [formatted_planet, formatted_system]
+			update_comms_message(text)
+			MissionManager.mission_started.emit(mission_data)
+		elif (MissionManager.current_state == MissionManager.STATE.active_mission
+			and MissionManager.active_mission.targetPlanet == current_planet.name):
+			MissionManager.complete_mission()
 
 
 func _on_new_mission_generated(mission_data: MissionData) -> String:
 	SignalBus.toggleQ2HUD.emit("on") # Turn on beam pulse
 	var data: Dictionary = {
-		"planet": "[color=#6699CC]" + current_planet.name + "[/color]",
+		"planet": "[color=#FFCC66]" + current_planet.name + "[/color]",
 		"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
 		"target_planet": "[color=#FFCC66]" + mission_data.targetPlanet + "[/color]",
 		"target_system": "[color=#FFCC66]" + mission_data.targetSystem.system_name + "[/color]",
 		"item_name": "[color=#1DCC4B]" + mission_data.cargo + "[/color]",
 		"random_confirm_query": mission_data.message,
 	}
+	
+	# Color target system to match faction
+	#print_debug(Utility.FACTION.keys()[mission_data.targetSystem.faction])
+	match mission_data.targetSystem.faction:
+		Utility.FACTION.FEDERATION:
+			data.target_system = Utility.fed_blue + mission_data.targetSystem.system_name + "[/color]"
+		Utility.FACTION.ROMULAN:
+			data.target_system = Utility.rom_green + mission_data.targetSystem.system_name + "[/color]"
+		Utility.FACTION.KLINGON:
+			data.target_system = Utility.klin_red + mission_data.targetSystem.system_name + "[/color]"
+		_: pass # Neutral system, keep default text color
 	var template_text = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
 	return template_text.format(data)
 
@@ -97,6 +123,7 @@ func _on_mission_delivery_point_reached(planet_name: String) -> void:
 
 
 func _on_mission_completed(mission_data: MissionData) -> void:
+	print('mission complete, sending thank you message')
 	var mission_strings:MissionData = MissionData.new()
 	var data: Dictionary = {
 		"planet": "[color=#6699CC]" + mission_data.targetPlanet + "[/color]",

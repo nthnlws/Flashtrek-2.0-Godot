@@ -12,8 +12,6 @@ signal updateLevelData(galaxy_data:GalaxyData)
 signal galaxyDataUpdated(galaxy_data:GalaxyData)
 
 # Missions
-signal missionAccepted(current_mission:MissionData)
-signal missionFinished(finished_mission:MissionData)
 signal changePopMessage(text:String)
 signal updateScore(score:int)
 

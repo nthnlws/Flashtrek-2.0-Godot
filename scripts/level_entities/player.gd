@@ -127,8 +127,8 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.player_type_changed.connect(_sync_data_to_resource)
 	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
-	SignalBus.missionAccepted.connect(_handle_mission_pickup)
-	SignalBus.missionFinished.connect(_handle_mission_finish)
+	MissionManager.mission_started.connect(_handle_mission_pickup)
+	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.TopLeft_clicked.connect(trigger_warp)

@@ -53,7 +53,7 @@ static func generate_system_data(sys_index:int, system_name:String) -> SystemDat
 	new_system_data.system_name = system_name
 	new_system_data.system_index = sys_index
 	new_system_data.faction = faction
-	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, new_system_data.faction)
+	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, faction)
 	
 	# Planetary body setup
 	var planet_count: int = randi_range(3, 6)
@@ -133,12 +133,12 @@ static func generate_sun_data(PLANET_COUNT:int)-> SunData:
 
 
 static func get_system_faction(sys_index:int) -> Utility.FACTION:
-	if sys_index <= 19:
+	if sys_index <= GalaxyData.NUM_FED_SYSTEMS:
 		return Utility.FACTION.FEDERATION
-	elif sys_index < 39:
-		return Utility.FACTION.ROMULAN
-	elif sys_index < 59:
+	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS + 1: # +1 for missing #18 system
 		return Utility.FACTION.KLINGON
+	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS + GalaxyData.NUM_ROM_SYSTEMS + 1:
+		return Utility.FACTION.ROMULAN
 	else:
 		match sys_index:
 			GalaxyData.SPECIAL_SYSTEMS.Solarus:

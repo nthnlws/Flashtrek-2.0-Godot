@@ -20,12 +20,12 @@ func main_menu() -> void:
 	DiscordRPC.state = ""
 	DiscordRPC.small_image = ""
 	DiscordRPC.small_image_text = ""
-
+	
 	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system()) # "mm:ss elapsed"
-
+	
 	DiscordRPC.refresh() # Always refresh after changing any values!
-	
-	
+
+
 func single_player_game(new_system:SystemData) -> void:
 	DiscordRPC.details = "In " + new_system.system_name + " system"
 	#DiscordRPC.state = 

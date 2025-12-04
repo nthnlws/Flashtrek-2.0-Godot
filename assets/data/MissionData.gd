@@ -23,12 +23,13 @@ func generate_mission_offer() -> MissionData:
 	var new_mission:MissionData = MissionData.new()
 	# Get random system
 	var random_system = LevelManager.galaxy_data.systems.pick_random()
-	while random_system == LevelManager.current_system_data: # Repeat pick if chose current system
+	while random_system == LevelManager.current_system_data or random_system.system_index == 18: # Repeat pick if chose current system or missing #18 system
 		random_system = LevelManager.galaxy_data.systems.pick_random()
 	
 	# Get random planet from picked system
 	var planet_name: String = random_system.planet_data.pick_random().name
 	var faction: Utility.FACTION = random_system.faction
+	#print_debug(Utility.FACTION.keys()[faction])
 	
 	var item_name: String = cargo_types.pick_random()
 	var random_confirm_query: String = confirmation_accept_prompts.pick_random()

@@ -39,9 +39,7 @@ func accept_pending_mission() -> void:
 func complete_mission() -> void:
 	if active_mission:
 		#print("Mission Completed at Planet: ", active_mission.targetPlanet)
-		SignalBus.missionFinished.emit(active_mission)
-		pending_mission = null
-		active_mission = null
+		mission_completed.emit(active_mission)
 		
 		current_state = STATE.no_mission
 		
@@ -58,6 +56,8 @@ func complete_mission() -> void:
 			Utility.FACTION.NEUTRAL:
 				SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, Reputation.NeutralRep + points)
 	
+		pending_mission = null
+		active_mission = null
 	else: printerr('No active mission to complete')
 
 

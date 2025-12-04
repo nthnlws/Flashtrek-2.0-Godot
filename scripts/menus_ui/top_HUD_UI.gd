@@ -70,11 +70,23 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 
 
 func _update_mission_text(mission_data:MissionData) -> void:
-	var fill_dict:Dictionary = {
-		"planet": mission_data.targetPlanet,
+	var fill_dict:Dictionary[String, String] = {
+		"planet": Utility.UI_yellow + mission_data.targetPlanet + "[/color]",
 		"system": mission_data.targetSystem.system_name,
 	}
-	var template_text: String = "Mission: [color=#6699CC]{planet}[/color] in [color=#FFCC66]{system}[/color] "
+	
+	# Color target system to match faction
+	match mission_data.targetSystem.faction:
+		Utility.FACTION.FEDERATION:
+			fill_dict.system = Utility.fed_blue + mission_data.targetSystem.system_name + "[/color]"
+		Utility.FACTION.ROMULAN:
+			fill_dict.system = Utility.rom_green + mission_data.targetSystem.system_name + "[/color]"
+		Utility.FACTION.KLINGON:
+			fill_dict.system = Utility.klin_red + mission_data.targetSystem.system_name + "[/color]"
+		Utility.FACTION.NEUTRAL:
+			fill_dict.system = Utility.UI_yellow + mission_data.targetSystem.system_name + "[/color]"
+	
+	var template_text: String = "Mission: {planet} in {system}"
 	var formatted_text: String = template_text.format(fill_dict)
 	mission_text.text = formatted_text
 

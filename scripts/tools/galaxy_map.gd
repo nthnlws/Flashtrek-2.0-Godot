@@ -19,8 +19,8 @@ const FADE_SPEED: float = 5.0
 
 
 func _ready() -> void:
-	SignalBus.missionFinished.connect(clear_mission_text)
-	SignalBus.missionAccepted.connect(update_mission_text)
+	MissionManager.mission_completed.connect(clear_mission_text.unbind(1))
+	MissionManager.mission_started.connect(update_mission_text)
 	SignalBus.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)
 
@@ -92,6 +92,7 @@ func update_current_system(system_data:SystemData) -> void:
 
 
 func update_map_destination(system:Area2D, target_data:SystemData) -> void:
+	#print_debug("Selected %s system, faction: %s, index: %s" % [target_data.system_name, Utility.FACTION.keys()[target_data.faction], target_data.system_index])
 	# Update warp path
 	var current_id = LevelManager.current_system_data.system_index
 	var target_id = target_data.system_index
@@ -134,9 +135,18 @@ func update_mission_text(current_mission: MissionData) -> void:
 	else:
 		var system_name:String = current_mission.targetSystem.system_name
 		var planet_name:String = current_mission.targetPlanet
-		var first_string: String = "Current mission: " + Utility.UI_blue + planet_name + "[/color] in "
-
+		var first_string: String = "Current mission: " + Utility.UI_yellow + planet_name + "[/color] in "
+		
 		var destination_text: String = first_string + "[color=#FFCC66]" + system_name + "[/color]"
+		# Color target system to match faction
+		match current_mission.targetSystem.faction:
+			Utility.FACTION.FEDERATION:
+				destination_text = first_string + Utility.fed_blue + system_name + "[/color]"
+			Utility.FACTION.ROMULAN:
+				destination_text = first_string + Utility.rom_green + system_name + "[/color]"
+			Utility.FACTION.KLINGON:
+				destination_text = first_string + Utility.klin_red + system_name + "[/color]"
+			_: pass
 		mission_message.bbcode_text = destination_text
 
 
