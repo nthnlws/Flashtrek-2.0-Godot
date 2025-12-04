@@ -104,7 +104,7 @@ offset_right = 151.0
 offset_bottom = -0.666687
 grow_vertical = 0
 size_flags_horizontal = 8
-text = "v0.0.09"
+text = "v0.0.10"
 label_settings = SubResource("LabelSettings_j785f")
 vertical_alignment = 1
 
