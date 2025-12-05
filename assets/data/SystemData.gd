@@ -26,7 +26,8 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 
 # Galaxy map info
 @export var global_map_position: Vector2
-@export var warp_neighbors: Array[SystemData]
+@export var neighbor_ids: Array[int] = []
+var warp_neighbors: Array[SystemData]
 
 func _init() -> void:
 	_reload_text_file()

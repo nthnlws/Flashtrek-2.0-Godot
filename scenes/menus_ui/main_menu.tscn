@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://okyqdm864inl"]
+[gd_scene load_steps=16 format=3 uid="uid://okyqdm864inl"]
 
 [ext_resource type="Script" uid="uid://dasdlanaqwebv" path="res://scripts/menus_ui/main_menu.gd" id="1_ci3rm"]
 [ext_resource type="Texture2D" uid="uid://d2en54x5q83bv" path="res://assets/textures/UI/main_menu/menu_layout.png" id="2_j785f"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c332wn3a0kl8i" path="res://scripts/menus_ui/stardate.gd" id="5_sii2t"]
 [ext_resource type="PackedScene" uid="uid://deoedsw3uxf5m" path="res://scenes/menus_ui/tabButton.tscn" id="6_sii2t"]
 [ext_resource type="PackedScene" uid="uid://bq60hxexkpcpi" path="res://scenes/menus_ui/3D_Scene.tscn" id="7_cauqe"]
+[ext_resource type="Script" uid="uid://dfasdktke8f6m" path="res://scripts/menus_ui/sliding_container.gd" id="8_7rxst"]
 [ext_resource type="PackedScene" uid="uid://cqst2wt0kvivm" path="res://scenes/menus_ui/credits.tscn" id="8_huiy3"]
 [ext_resource type="PackedScene" uid="uid://bf1ju8luknc17" path="res://scenes/menus_ui/settings.tscn" id="9_pw3bc"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="10_j785f"]
@@ -166,46 +167,53 @@ focus_neighbor_top = NodePath("../CreditsButton")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
 text = "Exit Game"
 
-[node name="SavesContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu"]
-layout_mode = 2
+[node name="SlidingContainer" type="Node2D" parent="MainMenu/MainMenu/LeftMenu"]
+unique_name_in_owner = true
+position = Vector2(-390, 0)
+script = ExtResource("8_7rxst")
+
+[node name="SavesContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer"]
+offset_top = 450.0
+offset_right = 425.0
+offset_bottom = 856.0
 size_flags_vertical = 3
 
-[node name="HSeparator" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SavesContainer"]
+[node name="HSeparator" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
 layout_mode = 2
 
-[node name="Saves" parent="MainMenu/MainMenu/LeftMenu/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Saves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
 layout_mode = 2
 enabled = false
 text = "Saves"
 button_color = Color(0.84705883, 0.64705884, 0.4392157, 1)
 
-[node name="HSeparator2" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SavesContainer"]
+[node name="HSeparator2" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
 layout_mode = 2
 theme_override_constants/margin_bottom = 5
 
-[node name="Slot1" parent="MainMenu/MainMenu/LeftMenu/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Slot1" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot1"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="HSeparator3" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SavesContainer"]
+[node name="HSeparator3" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
 layout_mode = 2
 theme_override_constants/margin_bottom = 5
 
-[node name="Slot2" parent="MainMenu/MainMenu/LeftMenu/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Slot2" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot2"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="HSeparator4" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SavesContainer"]
+[node name="HSeparator4" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
 layout_mode = 2
 theme_override_constants/margin_bottom = 5
 
-[node name="Slot3" parent="MainMenu/MainMenu/LeftMenu/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Slot3" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot3"

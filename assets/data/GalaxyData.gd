@@ -61,10 +61,20 @@ func _init() -> void:
 func post_load_setup() -> void:
 	system_id_map.clear()
 	
-	# Rebuild the dictionary from the saved Array
+	# 1. First pass: Rebuild the Map
 	for system: SystemData in systems:
 		if system:
 			system_id_map[system.system_index] = system
+			
+	# 2. Second pass: Reconnect Neighbors using the IDs
+	for system: SystemData in systems:
+		system.warp_neighbors.clear() # Clear old data to be safe
+		
+		for neighbor_id: int in system.neighbor_ids:
+			if system_id_map.has(neighbor_id):
+				system.warp_neighbors.append(system_id_map[neighbor_id])
+			else:
+				push_warning("System %d has missing neighbor ID %d" % [system.system_index, neighbor_id])
 
 
 func _reload_text_file() -> void:
@@ -114,16 +124,17 @@ func _establish_warp_connections() -> void:
 			continue
 			
 		var origin_system: SystemData = system_id_map[origin_id]
-		var neighbor_ids: Array = NEIGHBOR_MAP[origin_id]
-		
-		# Iterate through the integer values (Neighbor IDs)
-		for target_id: int in neighbor_ids:
+		for target_id: int in NEIGHBOR_MAP[origin_id]:
 			if system_id_map.has(target_id):
 				var target_system: SystemData = system_id_map[target_id]
-				if not origin_system.warp_neighbors.has(target_system): # Avoid duplicate if already existing
+				
+				# 1. Update Runtime Reference (for immediate use)
+				if not origin_system.warp_neighbors.has(target_system):
 					origin_system.warp_neighbors.append(target_system)
-			else:
-				push_warning("System %d tries to connect to missing ID %d" % [origin_id, target_id])
+				
+				# 2. Update Save Data (Integer IDs)
+				if not origin_system.neighbor_ids.has(target_id):
+					origin_system.neighbor_ids.append(target_id)
 
 
 static func load_text_file(file_path:String) -> Array[String]:

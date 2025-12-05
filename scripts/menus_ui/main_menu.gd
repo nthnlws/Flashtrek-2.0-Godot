@@ -26,9 +26,11 @@ func _on_save_slot_pressed(node_name:String) -> void:
 	
 
 func _on_single_player_button_pressed(node_name:String) -> void:
+	if %SlidingContainer.is_out:
+		%SlidingContainer.slide_saves_container_in()
+	else:
+		%SlidingContainer.slide_saves_container_out()
 	SignalBus.UIclickSound.emit()
-	%SinglePlayer.enabled = false
-	get_tree().change_scene_to_packed(mainGameScene)
 
 
 func _on_exit_button_pressed() -> void:
