@@ -30,6 +30,7 @@ SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 MissionManager="*res://scenes/autoload/mission_manager.tscn"
 LevelManager="*res://scripts/level_entities/LevelManager.gd"
 DiscordManager="*res://scripts/autoload/DiscordManager.gd"
+SaveManager="*res://scripts/autoload/save_manager.gd"
 
 [debug]
 

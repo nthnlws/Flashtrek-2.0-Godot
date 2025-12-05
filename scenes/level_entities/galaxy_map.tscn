@@ -225,63 +225,63 @@ offset_top = 12.645834
 offset_right = 14.5
 offset_bottom = 26.645834
 
-[node name="19" parent="Systems" instance=ExtResource("11_pdn8u")]
+[node name="18" parent="Systems" instance=ExtResource("11_pdn8u")]
 position = Vector2(204, 116)
+system_index = 18
+
+[node name="19" parent="Systems" instance=ExtResource("11_pdn8u")]
+position = Vector2(263, 83)
 system_index = 19
 
 [node name="20" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(263, 83)
+position = Vector2(372, 4)
 system_index = 20
 
 [node name="21" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(372, 4)
+position = Vector2(445, -73)
 system_index = 21
 
 [node name="22" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(445, -73)
+position = Vector2(504, 8)
 system_index = 22
 
 [node name="23" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(504, 8)
+position = Vector2(434, 83)
 system_index = 23
 
 [node name="24" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(434, 83)
+position = Vector2(490, 157)
 system_index = 24
 
 [node name="25" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(490, 157)
+position = Vector2(317, 204)
 system_index = 25
 
 [node name="26" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(317, 204)
+position = Vector2(201, 225)
 system_index = 26
 
 [node name="27" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(201, 225)
+position = Vector2(181, 303)
 system_index = 27
 
 [node name="28" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(181, 303)
+position = Vector2(258, 319)
 system_index = 28
 
 [node name="29" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(258, 319)
+position = Vector2(482, 295)
 system_index = 29
 
-[node name="30" parent="Systems" instance=ExtResource("11_pdn8u")]
-position = Vector2(482, 295)
-system_index = 30
-
-[node name="SystemLabel" parent="Systems/30" index="2"]
+[node name="SystemLabel" parent="Systems/29" index="2"]
 offset_left = -23.5
 offset_top = 12.645834
 offset_right = 14.5
 offset_bottom = 26.645834
 
-[node name="31" parent="Systems" instance=ExtResource("11_pdn8u")]
+[node name="30" parent="Systems" instance=ExtResource("11_pdn8u")]
 position = Vector2(474, 364)
-system_index = 31
+system_index = 30
 
 [node name="CloseContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -384,4 +384,4 @@ text = "[color=#000000] WARP"
 [editable path="Systems/11"]
 [editable path="Systems/14"]
 [editable path="Systems/17"]
-[editable path="Systems/30"]
+[editable path="Systems/29"]

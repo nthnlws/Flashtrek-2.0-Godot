@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://deoedsw3uxf5m"]
+
+[ext_resource type="Script" uid="uid://dcchkepmrp57v" path="res://scripts/menus_ui/tab_button.gd" id="1_de5w2"]
+[ext_resource type="Texture2D" uid="uid://bfihp00rslko2" path="res://assets/textures/UI/main_menu/menu_button.png" id="2_45b0o"]
+[ext_resource type="LabelSettings" uid="uid://bowwww6v386br" path="res://resources/main_menu_labels.tres" id="3_ewhk6"]
+
+[node name="TabButton" type="Control"]
+custom_minimum_size = Vector2(425, 72)
+layout_mode = 3
+anchor_right = 0.44300002
+anchor_bottom = 0.133
+offset_right = -0.2800293
+offset_bottom = 0.1800003
+script = ExtResource("1_de5w2")
+button_color = Color(0.4, 0.59607846, 0.79607844, 1)
+
+[node name="SlidingContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -36.0
+offset_right = -36.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="SlidingContainer"]
+modulate = Color(0.4, 0.59607846, 0.79607844, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_45b0o")
+
+[node name="Label" type="Label" parent="SlidingContainer"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "System"
+label_settings = ExtResource("3_ewhk6")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true

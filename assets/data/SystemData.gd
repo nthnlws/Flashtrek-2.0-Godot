@@ -6,27 +6,27 @@ var planet_names: Array[String]
 const planet_name_file: String = "res://assets/data/planet_names.txt"
 
 # System info
-var system_name: String
-var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
-var system_index: int = 0
-var system_size:int = 20000
+@export var system_name: String
+@export var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
+@export var system_index: int = 0
+@export var system_size:int = 20000
 
 # System contents
-var planet_data: Array[PlanetData]
-var sun_data: SunData
-var enemy_list: Array[FactionShipData]
-var defeated_enemies: Array[FactionShipData] = []
-var neutral_list: Array[NeutralData]
-var defeated_neutrals: Array[NeutralData] = []
+@export var planet_data: Array[PlanetData]
+@export var sun_data: SunData
+@export var enemy_list: Array[FactionShipData]
+@export var defeated_enemies: Array[FactionShipData] = []
+@export var neutral_list: Array[NeutralData]
+@export var defeated_neutrals: Array[NeutralData] = []
 
 # System logic
-var enemies_defeated: bool = false
-var neutrals_defeated: bool = false
-var system_difficulty_mult:float = 1.0
+@export var enemies_defeated: bool = false
+@export var neutrals_defeated: bool = false
+@export var system_difficulty_mult:float = 1.0
 
 # Galaxy map info
-var global_map_position: Vector2
-var warp_neighbors: Array[SystemData]
+@export var global_map_position: Vector2
+@export var warp_neighbors: Array[SystemData]
 
 func _init() -> void:
 	_reload_text_file()
@@ -135,9 +135,9 @@ static func generate_sun_data(PLANET_COUNT:int)-> SunData:
 static func get_system_faction(sys_index:int) -> Utility.FACTION:
 	if sys_index <= GalaxyData.NUM_FED_SYSTEMS:
 		return Utility.FACTION.FEDERATION
-	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS + 1: # +1 for missing #18 system
+	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS:
 		return Utility.FACTION.KLINGON
-	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS + GalaxyData.NUM_ROM_SYSTEMS + 1:
+	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS + GalaxyData.NUM_ROM_SYSTEMS:
 		return Utility.FACTION.ROMULAN
 	else:
 		match sys_index:

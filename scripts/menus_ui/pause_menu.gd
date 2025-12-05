@@ -258,4 +258,4 @@ func set_menu_to_savefile(resets: int) -> void:
 
 
 func _on_save_game_pressed() -> void:
-	SignalBus.updateLevelData.emit(LevelManager.galaxy_data)
+	SignalBus.updateGalaxyData.emit(LevelManager.galaxy_data)

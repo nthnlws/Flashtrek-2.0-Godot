@@ -154,10 +154,6 @@ func _init() -> void:
 	load_JSON_ship_data()
 
 
-func _ready() -> void:
-	SignalBus.updateLevelData.connect(store_level_data)
-
-
 func _input(event: InputEvent) -> void:
 	#Fullscreen management
 	if Input.is_action_just_pressed("f11"):
@@ -165,22 +161,6 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-
-
-func store_level_data(save_data: GalaxyData) -> void: #TODO fix saving logic for new GalaxyData structure
-	var file_path: String = "user://level_data.json"
-	
-	# Save to file
-	var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
-	file.store_string(JSON.stringify(save_data, "\t", false))
-	file.close()
-
-#func load_level_data()
-# Check if the file exists and load existing data if it does
-	#if FileAccess.file_exists(file_path):
-		#var file = FileAccess.open(file_path, FileAccess.READ)
-		#save_data = JSON.parse_string(file.get_as_text())
-		#file.close()
 
 
 func load_JSON_ship_data() -> void:
@@ -198,6 +178,7 @@ func load_JSON_ship_data() -> void:
 	SHIP_DATA = JSON_ship_data.get("ShipData")
 	PLAYER_SHIP_STATS = JSON_ship_data.get("PlayerStats")
 	ENEMY_SHIP_STATS = JSON_ship_data.get("EnemyStats")
+
 
 func create_custom_tween(node:Node, property:String, final_val, duration:float, curve:Curve) -> void:
 	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))

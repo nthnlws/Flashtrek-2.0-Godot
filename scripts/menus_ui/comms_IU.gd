@@ -21,7 +21,6 @@ func _connect_signals() -> void:
 
 	# --- MISSION MANAGER SIGNALS ---
 	MissionManager.mission_completed.connect(_on_mission_completed)
-	MissionManager.mission_delivery_point_reached.connect(_on_mission_delivery_point_reached)
 
 
 # --- UI VISIBILITY AND STATE ---
@@ -115,11 +114,6 @@ func _on_new_mission_generated(mission_data: MissionData) -> String:
 		_: pass # Neutral system, keep default text color
 	var template_text = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
 	return template_text.format(data)
-
-
-func _on_mission_delivery_point_reached(planet_name: String) -> void:
-	SignalBus.toggleQ2HUD.emit("on")
-	update_comms_message(MissionManager.confirmation_complete_prompts.pick_random())
 
 
 func _on_mission_completed(mission_data: MissionData) -> void:

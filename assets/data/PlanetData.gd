@@ -1,7 +1,7 @@
 extends Resource
 class_name PlanetData
 
-var name: String
-var frame: int = 0
-var world_position: Vector2 = Vector2.ZERO
-var faction: Utility.FACTION
+@export var name: String
+@export var frame: int = 0
+@export var world_position: Vector2 = Vector2.ZERO
+@export var faction: Utility.FACTION

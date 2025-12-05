@@ -2,25 +2,25 @@
 extends Resource
 class_name GalaxyData
 
+
 const system_name_file: String = "res://assets/data/system_names.txt"
 enum SPECIAL_SYSTEMS { Solarus = 101, Kronos = 102, Romulus = 103, Risa = 104 }
 
-const MAX_SYSTEM_NUMBER:int = 31  # Highest system level
+const MAX_SYSTEM_NUMBER:int = 30  # Highest system level, 1-30 = 30 systems
 const NUM_FED_SYSTEMS:int = 16
 const NUM_KLING_SYSTEMS:int = 7
 const NUM_ROM_SYSTEMS:int = 7
 
 @export var systems: Array[SystemData]
-var system_id_map: Dictionary = {} 
-var system_names: Array[String]
+@export var system_id_map: Dictionary = {} 
+@export var system_names: Array[String]
 
 const NEIGHBOR_MAP: Dictionary = {
 	SPECIAL_SYSTEMS.Solarus: [6, 7, 8, 10],
-	SPECIAL_SYSTEMS.Kronos:  [16, 17, SPECIAL_SYSTEMS.Risa, 20, 21],
-	SPECIAL_SYSTEMS.Romulus: [26, 29, 30, 31],
-	SPECIAL_SYSTEMS.Risa:    [14, SPECIAL_SYSTEMS.Kronos, 20, 19],
-
-	# Procedural Systems (Using Integers 1-31)
+	SPECIAL_SYSTEMS.Kronos:  [16, 17, SPECIAL_SYSTEMS.Risa, 19, 20],
+	SPECIAL_SYSTEMS.Romulus: [25, 28, 29, 30],
+	SPECIAL_SYSTEMS.Risa:    [14, SPECIAL_SYSTEMS.Kronos, 19, 18],
+	
 	1:  [2, 3],
 	2:  [1, 4],
 	3:  [1, 5],
@@ -32,30 +32,39 @@ const NEIGHBOR_MAP: Dictionary = {
 	9:  [8, 10],
 	10: [9, SPECIAL_SYSTEMS.Solarus, 11],
 	11: [6, 12, 10],
-	12: [11, 13, 19, 28],
+	12: [11, 13, 18, 27],
 	13: [14, 12],
 	14: [SPECIAL_SYSTEMS.Risa, 13],
 	15: [4, 16],
 	16: [15, 17, SPECIAL_SYSTEMS.Kronos],
 	17: [16, SPECIAL_SYSTEMS.Kronos],
-	19: [12, SPECIAL_SYSTEMS.Risa, 20, 27],
-	20: [19, SPECIAL_SYSTEMS.Risa, SPECIAL_SYSTEMS.Kronos, 28],
-	21: [SPECIAL_SYSTEMS.Kronos, 22, 24],
+	18: [12, SPECIAL_SYSTEMS.Risa, 19, 26],
+	19: [18, SPECIAL_SYSTEMS.Risa, SPECIAL_SYSTEMS.Kronos, 27],
+	20: [SPECIAL_SYSTEMS.Kronos, 21, 23],
+	21: [20, 22],
 	22: [21, 23],
-	23: [22, 24],
-	24: [21, 23, 25],
-	25: [24, 30],
-	26: [29, 27, 20, 24, SPECIAL_SYSTEMS.Romulus],
-	27: [19, 26, 28],
-	28: [27, 29],
-	29: [28, 26, SPECIAL_SYSTEMS.Romulus],
-	30: [SPECIAL_SYSTEMS.Romulus, 25, 31],
-	31: [SPECIAL_SYSTEMS.Romulus, 30],
+	23: [20, 22, 24],
+	24: [23, 29],
+	25: [28, 26, 19, 23, SPECIAL_SYSTEMS.Romulus],
+	26: [18, 25, 27],
+	27: [26, 28],
+	28: [27, 25, SPECIAL_SYSTEMS.Romulus],
+	29: [SPECIAL_SYSTEMS.Romulus, 24, 30],
+	30: [SPECIAL_SYSTEMS.Romulus, 29],
 }
 
 func _init() -> void:
 	if system_names.is_empty():
 		_reload_text_file()
+
+# Called by the SaveManager immediately after loading
+func post_load_setup() -> void:
+	system_id_map.clear()
+	
+	# Rebuild the dictionary from the saved Array
+	for system: SystemData in systems:
+		if system:
+			system_id_map[system.system_index] = system
 
 
 func _reload_text_file() -> void:
@@ -75,10 +84,11 @@ func get_system(system_id: int) -> SystemData:
 static func generate_galaxy_data() -> GalaxyData:
 	var new_galaxy:GalaxyData = GalaxyData.new()
 	for sys_index:int in range(MAX_SYSTEM_NUMBER):
+		var current_id: int = sys_index + 1
 		var rand_sys_name:String = new_galaxy.system_names.pop_front()
-		var system_data: SystemData = SystemData.generate_system_data(sys_index + 1, rand_sys_name) # +1 to have index values match GalaxyMap
+		var system_data: SystemData = SystemData.generate_system_data(current_id, rand_sys_name)
 		new_galaxy.systems.append(system_data)
-		new_galaxy.system_id_map[sys_index + 1] = system_data # +1 to have index values match GalaxyMap
+		new_galaxy.system_id_map[current_id] = system_data
 	
 	var special_keys = SPECIAL_SYSTEMS.keys()
 	for key_name in special_keys:
@@ -110,7 +120,8 @@ func _establish_warp_connections() -> void:
 		for target_id: int in neighbor_ids:
 			if system_id_map.has(target_id):
 				var target_system: SystemData = system_id_map[target_id]
-				origin_system.warp_neighbors.append(target_system)
+				if not origin_system.warp_neighbors.has(target_system): # Avoid duplicate if already existing
+					origin_system.warp_neighbors.append(target_system)
 			else:
 				push_warning("System %d tries to connect to missing ID %d" % [origin_id, target_id])
 

@@ -35,9 +35,19 @@ var entry_coords:Vector2 # Position to spawn player after exiting warp
 
 
 func _ready() -> void:
-	galaxy_data = GalaxyData.generate_galaxy_data()
-	current_system_data = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 	_connect_signals()
+
+
+func create_or_load_galaxy(slot:int) -> void:
+	# Create or load galaxy from save slot
+	if SaveManager.save_slot_exists(slot):
+		print('Loaded slot %s data' % slot)
+		galaxy_data = SaveManager.load_galaxy(slot)
+	else:
+		galaxy_data = GalaxyData.generate_galaxy_data()
+		SaveManager.save_galaxy(slot, galaxy_data)
+		print('Saved newly created galaxy data to slot %s' % slot)
+	current_system_data = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 
 
 func _connect_signals() -> void:
@@ -58,14 +68,15 @@ func _handle_player_death() -> void:
 
 
 func on_level_loaded() -> void:
+	# Node paths
 	pickups = get_node("/root/Game/Level/item_pickups") 
 	ship_folder = get_node("/root/Game/Level/ship_folder")
 	level_folder = get_node("/root/Game/Level/level_objects")
 	minimap = get_node("/root/Game/HUD_layer/MiniMap")
 	
+	# System setup
 	instantiate_new_system_nodes() # Initial creation of all level nodes
 	change_system(galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus))
-	
 	save_ship_data(galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus))
 	minimap.create_minimap_objects() # Refresh minimap objects
 	
@@ -136,7 +147,7 @@ func instantiate_neutral_ship(ship_data:NeutralData) -> NeutralCharacter:
 
 func instantiate_faction_ship(ship_data:FactionShipData) -> FactionCharacter:
 	var new_faction:FactionCharacter = FACTION_CHARACTER.instantiate()
-	new_faction.add_to_group("neutral_ships")
+	new_faction.add_to_group("faction_ships")
 	
 	new_faction.get_node("HealthComponent").hp_current = ship_data.current_hp
 	new_faction.get_node("HealthComponent").HP_max = ship_data.HP_max
@@ -235,7 +246,7 @@ func save_ship_data(current_sys_data:SystemData) -> void:
 		ship_data.current_hp = ship.HealthComponent.hp_current
 		ship_data.current_sp = ship.HealthComponent.sp_current
 		ship_data.shield_state = ship.shield.shieldActive
-	SignalBus.updateLevelData.emit(galaxy_data)
+	SignalBus.updateGalaxyData.emit(galaxy_data)
 
 
 func cleanup_old_system() -> void:

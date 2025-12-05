@@ -4,17 +4,17 @@ class_name NeutralData
 const BASE_HP:float = 100.0
 const BASE_SP:float = 50.0
 
-var ship_index:int
-var world_position: Vector2 = Vector2.ZERO
-var shield_state: bool = true
-var movement_target: String
-var HP_max: float = 100.0
-var SP_max: float = 50.0
-var current_hp: float
-var current_sp: float
-var ship_type: Utility.SHIP_TYPES = Utility.SHIP_TYPES.Merchantman
-var is_destroyed: bool = false
-var difficulty_multiplier: float = 1.0
+@export var ship_index:int
+@export var world_position: Vector2 = Vector2.ZERO
+@export var shield_state: bool = true
+@export var movement_target: String
+@export var HP_max: float = 100.0
+@export var SP_max: float = 50.0
+@export var current_hp: float
+@export var current_sp: float
+@export var ship_type: Utility.SHIP_TYPES = Utility.SHIP_TYPES.Merchantman
+@export var is_destroyed: bool = false
+@export var difficulty_multiplier: float = 1.0
 
 
 func check_alive() -> bool:

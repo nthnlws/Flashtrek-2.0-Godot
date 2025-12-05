@@ -5,7 +5,6 @@ signal new_mission_generated(mission_data: MissionData)
 signal mission_started(mission_data: MissionData)
 signal mission_completed(mission_data: MissionData)
 signal mission_rejected(reason: String)
-signal mission_delivery_point_reached(planet_name: String)
 
 var Reputation: PlayerReputation = PlayerReputation.new()
 

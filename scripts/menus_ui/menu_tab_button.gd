@@ -13,7 +13,8 @@ signal button_pressed
 
 
 func _on_button_pressed() -> void:
-	button_pressed.emit()
+	if text_label.enabled:
+		button_pressed.emit()
 
 
 func _release_focus() -> void:
