@@ -6,6 +6,11 @@ var current_save_slot:int = -1
 const SAVE_FOLDER: String = "user://saves/"
 const SAVE_FILE_TEMPLATE: String = "save_slot_%d.tres" # Can change to .res for smaller space
 
+
+func _ready() -> void:
+	SignalBus.entering_galaxy_warp.connect(func(): save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data))
+
+
 # Ensure the save directory exists
 func _verify_save_directory() -> void:
 	if not DirAccess.dir_exists_absolute(SAVE_FOLDER):
@@ -31,7 +36,7 @@ func save_galaxy(slot: int, data: GalaxyData) -> bool:
 		push_error("Failed to save game to slot %d. Error code: %s" % [slot, error])
 		return false
 		
-	print("Game successfully saved to slot %d" % slot)
+	#print("Game successfully saved to slot %d" % slot)
 	return true
 
 
@@ -52,7 +57,7 @@ func load_galaxy(slot: int) -> GalaxyData:
 		var galaxy: GalaxyData = data as GalaxyData
 		# CRITICAL: Rebuild the lookup map that wasn't saved
 		galaxy.post_load_setup()
-		print("Game successfully loaded from slot %d" % slot)
+		#print("Game successfully loaded from slot %d" % slot)
 		return galaxy
 	else:
 		push_error("Failed to cast resource to GalaxyData.")

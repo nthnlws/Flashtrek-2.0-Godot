@@ -49,12 +49,12 @@ func get_planet_data(planet_name:String) -> PlanetData:
 
 static func generate_system_data(sys_index:int, system_name:String) -> SystemData:
 	var new_system_data:SystemData = SystemData.new()
-	var faction = get_system_faction(sys_index)
+	var sys_faction = get_system_faction(sys_index)
 	
 	new_system_data.system_name = system_name
 	new_system_data.system_index = sys_index
-	new_system_data.faction = faction
-	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, faction)
+	new_system_data.faction = sys_faction
+	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, sys_faction)
 	
 	# Planetary body setup
 	var planet_count: int = randi_range(3, 6)
@@ -62,7 +62,7 @@ static func generate_system_data(sys_index:int, system_name:String) -> SystemDat
 	var spawn_positions: Array = get_planet_spawn_positions(planet_count)
 	for valid_position:Vector2 in spawn_positions:
 		var planet_name:String = new_system_data.planet_names.pop_front()
-		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, faction))
+		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, sys_faction))
 
 	# NPC Ship Data
 	var index:int = 0

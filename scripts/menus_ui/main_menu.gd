@@ -19,7 +19,7 @@ func _on_save_slot_pressed(node_name:String) -> void:
 		"Slot3":
 			SaveManager.current_save_slot = 3
 		_: printerr('No slot match found in main_menu.gd')
-	print('set saved slot to %s' % SaveManager.current_save_slot)
+	#print('set saved slot to %s' % SaveManager.current_save_slot)
 	
 	LevelManager.create_or_load_galaxy(SaveManager.current_save_slot)
 	get_tree().change_scene_to_packed(mainGameScene)

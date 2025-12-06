@@ -28,8 +28,9 @@ var player_name: String = "USS Enterprise"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
-enum GAMESTATE { SYSTEM, WARPING, MENU }
-var current_gamestate:GAMESTATE = GAMESTATE.SYSTEM
+enum GAMESTATE { SYSTEM, WARPING, MENU, MAINMENU }
+var current_gamestate:GAMESTATE = GAMESTATE.MAINMENU
+var _is_quitting: bool = false
 
 # Used for global references to dict ship data JSON
 enum SHIP_TYPES {
@@ -152,6 +153,24 @@ const neut_cyan: String = "[color=#78D9C2]"
 
 func _init() -> void:
 	load_JSON_ship_data()
+func _ready() -> void:
+	get_tree().set_auto_accept_quit(false)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_handle_quit_request()
+func _handle_quit_request() -> void:
+	if _is_quitting: return
+	_is_quitting = true
+	
+	print("Intercepted Quit Request. Saving data...")
+	
+	if LevelManager.galaxy_data and SaveManager.current_save_slot > 0:
+		SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
+		print("Emergency Save Complete.")
+	
+	get_tree().quit()
 
 
 func _input(event: InputEvent) -> void:

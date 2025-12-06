@@ -132,6 +132,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../ExitGame")
 focus_neighbor_bottom = NodePath("../SettingsButton")
+focus_mode = 2
 text = "Single Player"
 
 [node name="HSeparator2" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
@@ -143,6 +144,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../SinglePlayer")
 focus_neighbor_bottom = NodePath("../CreditsButton")
+focus_mode = 2
 text = "Settings"
 
 [node name="HSeparator3" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
@@ -154,6 +156,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../SettingsButton")
 focus_neighbor_bottom = NodePath("../ExitGame")
+focus_mode = 2
 text = "Credits"
 
 [node name="HSeparator4" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
@@ -165,6 +168,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../CreditsButton")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
+focus_mode = 2
 text = "Exit Game"
 
 [node name="SlidingContainer" type="Node2D" parent="MainMenu/MainMenu/LeftMenu"]
@@ -173,9 +177,9 @@ position = Vector2(-390, 0)
 script = ExtResource("8_7rxst")
 
 [node name="SavesContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer"]
-offset_top = 450.0
+offset_top = 380.0
 offset_right = 425.0
-offset_bottom = 856.0
+offset_bottom = 786.0
 size_flags_vertical = 3
 
 [node name="HSeparator" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]

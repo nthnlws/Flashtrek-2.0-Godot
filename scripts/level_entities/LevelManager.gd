@@ -41,12 +41,12 @@ func _ready() -> void:
 func create_or_load_galaxy(slot:int) -> void:
 	# Create or load galaxy from save slot
 	if SaveManager.save_slot_exists(slot):
-		print('Loaded slot %s data' % slot)
+		#print_debug('Loaded slot %s data' % slot)
 		galaxy_data = SaveManager.load_galaxy(slot)
 	else:
 		galaxy_data = GalaxyData.generate_galaxy_data()
 		SaveManager.save_galaxy(slot, galaxy_data)
-		print('Saved newly created galaxy data to slot %s' % slot)
+		#print_debug('Saved newly created galaxy data to slot %s' % slot)
 	current_system_data = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 
 
@@ -68,6 +68,8 @@ func _handle_player_death() -> void:
 
 
 func on_level_loaded() -> void:
+	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
+	
 	# Node paths
 	pickups = get_node("/root/Game/Level/item_pickups") 
 	ship_folder = get_node("/root/Game/Level/ship_folder")
@@ -93,15 +95,15 @@ func spawn_faction_ship(ship_type:Utility.SHIP_TYPES) -> void:
 	var faction_ship:FactionCharacter = FACTION_CHARACTER.instantiate()
 	faction_ship.add_to_group("faction_ships")
 	faction_ship.ship_type = ship_type
-	faction_ship.global_position = position
 	factionShips.append(faction_ship)
 	ship_folder.add_child(faction_ship)
-
+	
+	faction_ship.global_position = position
 	faction_ship.hp_max = faction_ship.hp_max * current_system_data.system_difficulty_mult
 	faction_ship.damage_mult = faction_ship.damage_mult * current_system_data.system_difficulty_mult
 	faction_ship.name = "ManualFactionShip"
-	
-	
+
+
 func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -> void:
 	for i in number:
 		var new_drop:UpgradePickup = upgrade_item.instantiate()
@@ -221,31 +223,32 @@ func sync_planets_to_data(planet_data:Array[PlanetData]) -> void:
 		planets.append(use_planet)
 
 
-func save_ship_data(current_sys_data:SystemData) -> void:
-	var neutral_data:Array[NeutralData] = current_sys_data.neutral_list
-	var enemy_data:Array[FactionShipData] = current_sys_data.enemy_list
-	if (neutral_data.size() != neutralShips.size()
-	or enemy_data.size() != factionShips.size()):
-		#print("NeutralData: %s, LM.neutral: %s, FactionShipData: %s, LM.faction: %s" % [neutral_data.size(), neutralShips.size(), enemy_data.size(), factionShips.size()])
-		printerr("Array size mismatch between SystemData and current LevelManager ship arrays, exiting")
+func save_ship_data(current_sys_data: SystemData) -> void:
+	var neutral_data: Array[NeutralData] = current_sys_data.neutral_list
+	var enemy_data: Array[FactionShipData] = current_sys_data.enemy_list
+	
+	if (neutral_data.size() != neutralShips.size() or enemy_data.size() != factionShips.size()):
+		printerr("Array size mismatch between SystemData and LevelManager ship arrays.")
 		return
-	
-	# Update NeutralCharacter data
-	var i:int = 0
-	for ship:NeutralCharacter in neutralShips:
-		var ship_data:NeutralData = neutral_data[i]
-		ship_data.world_position = ship.global_position
-		ship_data.current_hp = ship.HealthComponent.hp_current
-		ship_data.current_sp = ship.HealthComponent.sp_current
-		ship_data.shield_state = ship.shield.shieldActive
-	
-	# Update FactionCharacter data
-	for ship:FactionCharacter in factionShips:
-		var ship_data:FactionShipData = enemy_data[i]
-		ship_data.world_position = ship.global_position
-		ship_data.current_hp = ship.HealthComponent.hp_current
-		ship_data.current_sp = ship.HealthComponent.sp_current
-		ship_data.shield_state = ship.shield.shieldActive
+
+	for i: int in range(neutralShips.size()):
+		var ship: NeutralCharacter = neutralShips[i]
+		var data: NeutralData = neutral_data[i]
+
+		data.world_position = ship.global_position
+		data.current_hp = ship.HealthComponent.hp_current
+		data.current_sp = ship.HealthComponent.sp_current
+		data.shield_state = ship.shield.shieldActive
+
+	for i: int in range(factionShips.size()):
+		var ship: FactionCharacter = factionShips[i]
+		var data: FactionShipData = enemy_data[i]
+		
+		data.world_position = ship.global_position
+		data.current_hp = ship.HealthComponent.hp_current
+		data.current_sp = ship.HealthComponent.sp_current
+		data.shield_state = ship.shield.shieldActive
+		
 	SignalBus.updateGalaxyData.emit(galaxy_data)
 
 
@@ -255,10 +258,14 @@ func cleanup_old_system() -> void:
 		drop.queue_free()
 	
 	for ship:CharacterBody2D in neutralShips + factionShips:
-		ship.free() # Delete all old ships
+		ship.queue_free() # Delete all old ships
 	
 	for planet:Node2D in planets:
 		planet.global_position = Vector2(40000, 40000)
+	
+	for spawn:Area2D in spawn_options:
+		if spawn:
+			spawn.queue_free()
 	
 	unused_planets = unused_planets + planets # Move all planets to unused
 	factionShips.clear()
