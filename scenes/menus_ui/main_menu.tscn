@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://okyqdm864inl"]
+[gd_scene load_steps=17 format=3 uid="uid://okyqdm864inl"]
 
 [ext_resource type="Script" uid="uid://dasdlanaqwebv" path="res://scripts/menus_ui/main_menu.gd" id="1_ci3rm"]
 [ext_resource type="Texture2D" uid="uid://d2en54x5q83bv" path="res://assets/textures/UI/main_menu/menu_layout.png" id="2_j785f"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cqst2wt0kvivm" path="res://scenes/menus_ui/credits.tscn" id="8_huiy3"]
 [ext_resource type="PackedScene" uid="uid://bf1ju8luknc17" path="res://scenes/menus_ui/settings.tscn" id="9_pw3bc"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="10_j785f"]
+[ext_resource type="PackedScene" uid="uid://ckwiesp0r55hy" path="res://scenes/menus_ui/LCARS_popup.tscn" id="10_sii2t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k84q2"]
 font = ExtResource("4_7rxst")
@@ -122,10 +123,10 @@ theme_override_constants/separation = 45
 [node name="MainButtonContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 20
 
-[node name="HSeparator" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
 layout_mode = 2
-theme_override_constants/margin_bottom = 20
 
 [node name="SinglePlayer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
@@ -135,10 +136,6 @@ focus_neighbor_bottom = NodePath("../SettingsButton")
 focus_mode = 2
 text = "Single Player"
 
-[node name="HSeparator2" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 5
-
 [node name="SettingsButton" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -147,10 +144,6 @@ focus_neighbor_bottom = NodePath("../CreditsButton")
 focus_mode = 2
 text = "Settings"
 
-[node name="HSeparator3" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 5
-
 [node name="CreditsButton" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -158,10 +151,6 @@ focus_neighbor_top = NodePath("../SettingsButton")
 focus_neighbor_bottom = NodePath("../ExitGame")
 focus_mode = 2
 text = "Credits"
-
-[node name="HSeparator4" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 5
 
 [node name="ExitGame" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
@@ -179,11 +168,9 @@ script = ExtResource("8_7rxst")
 [node name="SavesContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer"]
 offset_top = 380.0
 offset_right = 425.0
-offset_bottom = 786.0
+offset_bottom = 852.0
 size_flags_vertical = 3
-
-[node name="HSeparator" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
-layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="Saves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
 layout_mode = 2
@@ -191,40 +178,35 @@ enabled = false
 text = "Saves"
 button_color = Color(0.84705883, 0.64705884, 0.4392157, 1)
 
-[node name="HSeparator2" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 5
-
-[node name="Slot1" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Slot1" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot1"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="HSeparator3" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 5
-
-[node name="Slot2" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Slot2" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot2"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="HSeparator4" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 5
-
-[node name="Slot3" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Slot3" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot3"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
+[node name="ManageSaves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
+layout_mode = 2
+text = "           Manage Saves"
+button_color = Color(1, 0.6, 0.6, 1)
+starting_position = Vector2(-108, 0)
+
 [node name="3D_Container" type="SubViewportContainer" parent="MainMenu"]
+z_index = -1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -248,6 +230,9 @@ render_target_update_mode = 4
 
 [node name="3D_Menu_Scene" parent="MainMenu/3D_Container/3D_Viewport" instance=ExtResource("7_cauqe")]
 
+[node name="PopupContainer" parent="MainMenu" instance=ExtResource("10_sii2t")]
+unique_name_in_owner = true
+
 [node name="Credits" parent="." instance=ExtResource("8_huiy3")]
 layer = 2
 visible = false
@@ -258,10 +243,22 @@ visible = false
 
 [node name="audio_manager" parent="." instance=ExtResource("10_j785f")]
 
-[connection signal="clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SinglePlayer" to="." method="_on_single_player_button_pressed"]
-[connection signal="clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/CreditsButton" to="." method="_on_credit_button_clicked"]
-[connection signal="clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/ExitGame" to="." method="_on_exit_button_pressed"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SinglePlayer" to="." method="_on_single_player_button_pressed"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/CreditsButton" to="." method="_on_credit_button_clicked"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/ExitGame" to="." method="_on_exit_button_pressed"]
+[connection signal="delete_slot_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot1" to="." method="_on_save_slot_deleted"]
+[connection signal="entered_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot1" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_entered_management_state"]
+[connection signal="exited_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot1" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_exited_management_state"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot1" to="." method="_on_save_slot_pressed"]
+[connection signal="delete_slot_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot2" to="." method="_on_save_slot_deleted"]
+[connection signal="entered_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot2" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_entered_management_state"]
+[connection signal="exited_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot2" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_exited_management_state"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot2" to="." method="_on_save_slot_pressed"]
+[connection signal="delete_slot_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot3" to="." method="_on_save_slot_deleted"]
+[connection signal="entered_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot3" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_entered_management_state"]
+[connection signal="exited_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot3" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_exited_management_state"]
+[connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot3" to="." method="_on_save_slot_pressed"]
 [connection signal="closed_credits" from="Credits" to="." method="_on_credits_closed"]
 [connection signal="close_button_pressed" from="Settings" to="." method="_on_settings_closed"]
 

@@ -3,9 +3,13 @@ class_name TabButton
 extends Control
 
 # Signals
-signal clicked
+signal tab_clicked(node_name:String)
+signal delete_slot_clicked(node_name:String)
 signal hover_started
 signal hover_ended
+signal entered_management_state
+signal exited_management_state
+
 
 # ------------------------------------------------------------------------------
 # Configuration
@@ -26,7 +30,7 @@ signal hover_ended
 			_update_size() 
 
 @export_group("Visuals")
-@export var button_color: Color = Color.from_rgba8(102, 152, 203, 255):
+@export var button_color: Color = Color.from_rgba8(212, 212, 119, 255):
 	set(value):
 		button_color = value
 		if is_node_ready(): 
@@ -47,12 +51,15 @@ signal hover_ended
 @onready var _sliding_container: Control = $SlidingContainer
 @onready var _background: CanvasItem = $SlidingContainer/Background
 @onready var _label: Label = $SlidingContainer/Label
+@onready var red_box: ColorRect = $SlidingContainer/RedBox
 
 var _is_hovered: bool = false
 var _is_pressed: bool = false
 var _active_tween: Tween
 
 func _ready() -> void:
+	if is_inside_tree(): # Turn red box on for in game
+		red_box.visible = true
 	if _label:
 		_label.text = text
 	
@@ -63,9 +70,45 @@ func _ready() -> void:
 	_update_size()
 	_update_visual_state()
 
+
+func _on_red_box_child_clicked() -> void:
+	delete_slot_clicked.emit(self.name)
+
 # ------------------------------------------------------------------------------
 # Visuals & Animation
 # ------------------------------------------------------------------------------
+
+func enter_management_state() -> void:
+	#print("entering management state")
+	enabled = false
+	var tween:Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	var box_target_pos: Vector2 = Vector2(36, 0)
+	
+	tween.tween_property(red_box, "position", box_target_pos, animation_duration)
+	
+	var button_target_pos:Vector2 = starting_position + slide_offset
+	var tween2:Tween = create_tween()
+	tween2.tween_property(_sliding_container, "position", button_target_pos, animation_duration)
+	
+	await tween.finished
+	entered_management_state.emit()
+
+
+func exit_management_state() -> void:
+	#print("exiting management state")
+	enabled = true
+	var tween:Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	var target_pos: Vector2 = Vector2(-72, 0)
+	
+	tween.tween_property(red_box, "position", target_pos, animation_duration)
+	
+	var button_target_pos:Vector2 = starting_position
+	var tween2:Tween = create_tween()
+	tween2.tween_property(_sliding_container, "position", button_target_pos, animation_duration)
+	
+	await tween.finished
+	exited_management_state.emit()
+
 
 func _update_visual_state() -> void:
 	if not _background or not _label:
@@ -135,6 +178,7 @@ func _has_point(point: Vector2) -> bool:
 	
 	return Rect2(Vector2.ZERO, size).has_point(point)
 
+
 func _gui_input(event: InputEvent) -> void:
 	if not enabled: 
 		return
@@ -147,22 +191,20 @@ func _gui_input(event: InputEvent) -> void:
 		elif _is_pressed:
 			_is_pressed = false
 			accept_event()
-			clicked.emit(self.name)
+			tab_clicked.emit(self.name)
 			_update_visual_state()
 
-func _notification(what: int) -> void:
-	match what:
-		NOTIFICATION_MOUSE_ENTER:
-			if not enabled: return
-			_is_hovered = true
-			hover_started.emit()
-			_animate_slide(true)
-			_update_visual_state()
-			
-		NOTIFICATION_MOUSE_EXIT:
-			if not enabled: return
-			_is_hovered = false
-			hover_ended.emit()
-			_animate_slide(false)
-			_is_pressed = false
-			_update_visual_state()
+func _on_mouse_entered() -> void:
+	if not enabled: return
+	_is_hovered = true
+	hover_started.emit()
+	_animate_slide(true)
+	_update_visual_state()
+
+func _on_mouse_exited() -> void:
+	if not enabled: return
+	_is_hovered = false
+	hover_ended.emit()
+	_animate_slide(false)
+	_is_pressed = false
+	_update_visual_state()

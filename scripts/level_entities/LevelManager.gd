@@ -85,6 +85,11 @@ func on_level_loaded() -> void:
 	SignalBus.galaxyDataUpdated.emit(galaxy_data)
 
 
+func on_level_unloaded() -> void:
+	for array in [factionShips, neutralShips, spawn_options, planets, unused_planets, starbases]:
+		array.clear()
+
+
 func update_system_data() -> void:
 	current_system_data = galaxy_data.get_system(target_system_data.system_index)
 	target_system_data = null
@@ -264,10 +269,10 @@ func cleanup_old_system() -> void:
 		planet.global_position = Vector2(40000, 40000)
 	
 	for spawn:Area2D in spawn_options:
-		if spawn:
-			spawn.queue_free()
+		spawn.queue_free()
 	
 	unused_planets = unused_planets + planets # Move all planets to unused
+	
 	factionShips.clear()
 	neutralShips.clear()
 

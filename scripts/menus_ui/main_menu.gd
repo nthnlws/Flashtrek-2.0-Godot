@@ -5,9 +5,6 @@ class_name MainMenu
 
 func _ready() -> void:
 	%SinglePlayer.grab_focus()
-	%Slot1.clicked.connect(_on_save_slot_pressed)
-	%Slot2.clicked.connect(_on_save_slot_pressed)
-	%Slot3.clicked.connect(_on_save_slot_pressed)
 
 
 func _on_save_slot_pressed(node_name:String) -> void:
@@ -18,22 +15,28 @@ func _on_save_slot_pressed(node_name:String) -> void:
 			SaveManager.current_save_slot = 2
 		"Slot3":
 			SaveManager.current_save_slot = 3
-		_: printerr('No slot match found in main_menu.gd')
+		_: printerr('No slot "%s" match found in main_menu.gd' % node_name)
 	#print('set saved slot to %s' % SaveManager.current_save_slot)
 	
 	LevelManager.create_or_load_galaxy(SaveManager.current_save_slot)
 	get_tree().change_scene_to_packed(mainGameScene)
-	
+
+
+func _on_save_slot_deleted(node_name:String) -> void:
+	%PopupContainer.open_popup(node_name)
+
 
 func _on_single_player_button_pressed(node_name:String) -> void:
 	if %SlidingContainer.is_out:
 		%SlidingContainer.slide_saves_container_in()
+		if %SlidingContainer.in_management_state: # Turn off management state if true
+			%SlidingContainer._toggle_management_state()
 	else:
 		%SlidingContainer.slide_saves_container_out()
 	SignalBus.UIclickSound.emit()
 
 
-func _on_exit_button_pressed() -> void:
+func _on_exit_button_pressed(node_name:String) -> void:
 	SignalBus.UIclickSound.emit()
 	get_tree().quit()
 

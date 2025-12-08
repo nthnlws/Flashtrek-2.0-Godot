@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://deoedsw3uxf5m"]
+[gd_scene load_steps=7 format=3 uid="uid://deoedsw3uxf5m"]
 
 [ext_resource type="Script" uid="uid://dcchkepmrp57v" path="res://scripts/menus_ui/tab_button.gd" id="1_de5w2"]
 [ext_resource type="Texture2D" uid="uid://bfihp00rslko2" path="res://assets/textures/UI/main_menu/menu_button.png" id="2_45b0o"]
 [ext_resource type="LabelSettings" uid="uid://bowwww6v386br" path="res://resources/main_menu_labels.tres" id="3_ewhk6"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="4_sbmhg"]
+[ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="5_ff5qr"]
+[ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="6_lgic5"]
 
 [node name="TabButton" type="Control"]
 custom_minimum_size = Vector2(425, 72)
@@ -13,6 +16,7 @@ offset_right = -0.2800293
 offset_bottom = 0.1800003
 script = ExtResource("1_de5w2")
 button_color = Color(0.4, 0.59607846, 0.79607844, 1)
+text_pressed_color = Color(0.83137256, 0.83137256, 0.46666667, 1)
 
 [node name="SlidingContainer" type="Control" parent="."]
 layout_mode = 1
@@ -36,6 +40,33 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_45b0o")
 
+[node name="RedBox" type="ColorRect" parent="SlidingContainer"]
+layout_mode = 0
+offset_left = -72.0
+offset_bottom = 72.0
+color = Color(0.97882015, 0, 0.19017196, 1)
+
+[node name="TextButton" type="Label" parent="SlidingContainer/RedBox"]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 72.0
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("4_sbmhg")
+theme_override_font_sizes/font_size = 35
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_ff5qr")
+pressed_color = Color(0.83137256, 0.83137256, 0.46666667, 1)
+
+[node name="PolygonMouseDetector" parent="SlidingContainer/RedBox/TextButton" instance=ExtResource("6_lgic5")]
+layout_mode = 1
+mouse_filter = 1
+
+[node name="Polygon2D" parent="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" index="0"]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(72, 0, 72, 72, 0, 72, 0, 0)
+
 [node name="Label" type="Label" parent="SlidingContainer"]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
@@ -49,3 +80,13 @@ label_settings = ExtResource("3_ewhk6")
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_pressed" from="SlidingContainer/RedBox/TextButton" to="." method="_on_red_box_child_clicked"]
+[connection signal="mouse_entered" from="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" to="SlidingContainer/RedBox/TextButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" to="SlidingContainer/RedBox/TextButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" to="SlidingContainer/RedBox/TextButton" method="_on_mouse_clicked"]
+[connection signal="released" from="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" to="SlidingContainer/RedBox/TextButton" method="_on_mouse_released"]
+
+[editable path="SlidingContainer/RedBox/TextButton/PolygonMouseDetector"]

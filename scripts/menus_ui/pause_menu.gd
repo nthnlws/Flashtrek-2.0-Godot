@@ -53,6 +53,7 @@ func _on_close_menu_button_pressed() -> void:
 func _on_main_menu_button_pressed() -> void:
 	SignalBus.UIclickSound.emit()
 	z_index = 0
+	LevelManager.on_level_unloaded()
 	get_tree().change_scene_to_file("res://scenes/menus_ui/main_menu.tscn")
 
 
