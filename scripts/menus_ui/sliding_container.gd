@@ -32,6 +32,8 @@ func _toggle_management_state() -> void:
 	#print('manage saves button clicked')
 	if in_management_state:
 		get_tree().call_group("slot_buttons", "exit_management_state")
+		if %PopupContainer.showing:
+			%PopupContainer.close_popup()
 	else:
 		get_tree().call_group("slot_buttons", "enter_management_state")
 

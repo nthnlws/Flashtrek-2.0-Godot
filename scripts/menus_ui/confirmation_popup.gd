@@ -11,12 +11,13 @@ const shown_position:Vector2 = Vector2(6, 269)
 const animation_duration:float = 0.45
 
 var selected_node:String
+var showing:bool = false
 
 func _ready() -> void:
 	panel.position = hidden_position
 
 func _on_confirm_clicked() -> void:
-	confirm_save_delete.emit()
+	confirm_save_delete.emit(selected_node)
 	match selected_node:
 		"Slot1":
 			SaveManager.delete_save(1)
@@ -32,6 +33,9 @@ func _on_abort_clicked() -> void:
 	close_popup()
 
 func open_popup(node_name:String) -> void:
+	selected_node = node_name
+	showing = true
+	
 	# Set popup text
 	var slot_num:int
 	match node_name:
@@ -47,6 +51,7 @@ func open_popup(node_name:String) -> void:
 	tween.tween_property(panel, "position", shown_position, animation_duration)
 
 func close_popup() -> void:
+	showing = false
 	var tween:Tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(panel, "position", hidden_position, animation_duration)
 	await tween.finished

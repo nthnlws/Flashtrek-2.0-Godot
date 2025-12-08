@@ -22,8 +22,19 @@ func _on_save_slot_pressed(node_name:String) -> void:
 	get_tree().change_scene_to_packed(mainGameScene)
 
 
-func _on_save_slot_deleted(node_name:String) -> void:
+func _on_save_slot_selected_for_delete(node_name:String) -> void:
 	%PopupContainer.open_popup(node_name)
+
+
+func _on_save_slot_deleted(node_name:String) -> void:
+	match node_name:
+		"Slot1":
+			SaveManager.delete_save(1)
+		"Slot2":
+			SaveManager.delete_save(2)
+		"Slot3":
+			SaveManager.delete_save(3)
+		_: printerr('No slot number "%s" found to delete' % node_name)
 
 
 func _on_single_player_button_pressed(node_name:String) -> void:

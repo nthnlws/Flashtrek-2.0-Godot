@@ -164,11 +164,12 @@ func _handle_quit_request() -> void:
 	if _is_quitting: return
 	_is_quitting = true
 	
-	print("Intercepted Quit Request. Saving data...")
-	
-	if LevelManager.galaxy_data and SaveManager.current_save_slot > 0:
-		SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
-		print("Emergency Save Complete.")
+	#print("Intercepted Quit Request")
+	if (LevelManager.galaxy_data
+		and SaveManager.current_save_slot > 0
+		and Utility.current_gamestate != Utility.GAMESTATE.MAINMENU):
+			SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
+			print("Emergency Save Complete.")
 	
 	get_tree().quit()
 
