@@ -269,7 +269,8 @@ func cleanup_old_system() -> void:
 		planet.global_position = Vector2(40000, 40000)
 	
 	for spawn:Area2D in spawn_options:
-		spawn.queue_free()
+		if spawn:
+			spawn.queue_free()
 	
 	unused_planets = unused_planets + planets # Move all planets to unused
 	

@@ -1,124 +1,80 @@
 extends CharacterBody2D
 class_name Player
 
+# --- Components ---
+@onready var energy: EnergyComponent = $EnergyComponent
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var stats: PlayerUpgrades = PlayerUpgrades.new()
 
+# --- Node References ---
+@onready var sprite: Sprite2D = $ShipSprite
 @onready var cloak_anim: AnimationPlayer = $ShipSprite/CloakAnim
-@onready var intersection_line: Line2D = $intersection_line
-
-var shoot_cd:bool = false
-var shooting_button_held:bool = false # Variable to check if fire button is currently clicked
-
-var cloaked: bool = false
-
-var overdrive_active:bool = false
-var energyTime:bool = false
-var overdriveTime:bool = false
-var energy_regen_speed:int = 10
-
-var trans_length:float = 0.8
-var base_scale:Vector2 = Vector2(1.0, 1.0)
-var direction:Vector2 = Vector2(0, 0)
-var overdrive_multiplier:float = 0.45
-var overdrivem_r:float = 1.0
-var overdrivem_v:float = 1.0
-
-var has_mission: bool = false
-var current_mission: MissionData
-var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
-
-const WHITE_FLASH_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/white_flash.tres")
-const TELEPORT_FADE_MATERIAL: ShaderMaterial = preload("res://resources/Materials_Shaders/cloak_material_VERTICAL.tres")
-
-@onready var sprite:Sprite2D = $ShipSprite
-@onready var shield:Shield = $Shield
-@onready var galaxy_particles:GPUParticles2D = $GalaxyParticles
-@onready var galaxy_warp_sound:AudioStreamPlayer = %Galaxy_warp
-
+@onready var shield: Shield = $Shield
+@onready var muzzle: Node2D = $Muzzle
 @onready var laser: Laser = $Laser
-@onready var muzzle:Node2D = $Muzzle
 @onready var tractor_beam: TractorBeam = $TractorBeam
+@onready var camera: Camera2D = $Camera2D
+@onready var galaxy_particles: GPUParticles2D = $GalaxyParticles
+@onready var galaxy_warp_sound: AudioStreamPlayer = %Galaxy_warp
 
-@onready var timer:Timer = $regen_timer
-@onready var camera:Camera2D = $Camera2D
-@onready var anim:AnimationPlayer = $AnimationPlayer
-
+# --- Exported Scenes ---
 @export var torpedo_scene: PackedScene
 @export var missile_scene: PackedScene
-var Stats: PlayerUpgrades = PlayerUpgrades.new()
-@onready var HealthComponent: HealthComponent = $HealthComponent
 
+# --- Movement Variables ---
+var direction: Vector2 = Vector2.ZERO
+var overdrive_active: bool = false
+var overdrive_multiplier: float = 0.45
+var overdrivem_r: float = 1.0
+var overdrivem_v: float = 1.0
+var trans_length: float = 0.8
+var base_scale: Vector2 = Vector2(1.5, 1.5)
 
-# Maneuverability variables
-var max_speed:float = 750.0:
-	get:
-		return max_speed * Stats.SpeedMult
+# --- State Variables ---
+var shoot_cd: bool = false
+var shooting_button_held: bool = false
+var cloaked: bool = false
+var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
+var current_cargo: int = 0
+var current_tweens: Array[Tween] = []
 
-var rotation_speed:float = 150.0:
-	get:
-		return rotation_speed * Stats.RotateMult
-
-var acceleration:float = 6.5:
-	get:
-		return acceleration * Stats.AccelMult
-
-
-# Energy system variables
-@export var max_energy: float = 150.0:
-	set(value):
-		max_energy = value
-		if energy_current > get_max_energy(max_energy): # Reduce current HP if max reduced
-			energy_current = value
-		SignalBus.playerMaxEnergyChanged.emit(get_max_energy(max_energy))
-	get:
-		return get_max_energy(max_energy)
-func get_max_energy(new_value:float) -> float:
-	if Stats:
-		return new_value * Stats.EnergyCapacityMult
-	else:
-		return new_value
-
-var energy_current:float = max_energy:
-	set(value):
-		if energy_current == value: return
-		energy_current = clamp(value, 0, max_energy)
-		SignalBus.playerEnergyChanged.emit(energy_current)
-
-var rate_of_fire:float = 5.0:
-	get:
-		return rate_of_fire * Stats.FireRateMult
+# --- Getters for Stat Application ---
+var max_speed: float:
+	get: return 750.0 * stats.SpeedMult
+var rotation_speed: float:
+	get: return 150.0 * stats.RotateMult
+var acceleration: float:
+	get: return 6.5 * stats.AccelMult
+var rate_of_fire: float:
+	get: return 5.0 * stats.FireRateMult
+var warp_range: int:
+	get: return 20 + stats.WarpRangeAdd
+var cargo_capacity: int:
+	get: return 1 + stats.CargoCapacityAdd
 
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
 	get:
-		return base_cargo_size + Stats.CargoCapacityAdd
-var current_cargo:int = 0
-
-@export var warp_range: int = 20:
-	set(value):
-		warp_range = value
-		LevelManager.player_range = value
-	get:
-		return warp_range + Stats.WarpRangeAdd
-
+		return base_cargo_size + stats.CargoCapacityAdd
 
 func set_player_direction(joystick_direction) -> void:
 	direction = joystick_direction
 
 
 func _ready() -> void:
-	_connect_signals()
-	
 	z_index = Utility.Z["Player"]
-	
+	$warp_anim.z_index = Utility.Z["Effects"] 
 	sprite.material.set("shader_parameter/flash_value", 0.0)
-	$warp_anim.z_index = Utility.Z["Effects"]
 	
+	_connect_signals()
 	_sync_data_to_resource(Utility.starting_ship)
 	_sync_stats_to_resource(Utility.starting_ship)
 	
-	_set_ship_scale(Vector2(1.5, 1.5))
+	energy.max_energy = energy.max_energy * stats.EnergyCapacityMult
+	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
+	energy.energy_changed.connect(func(val): SignalBus.playerEnergyChanged.emit(val))
 	
-	call_deferred("initialize_hud_values")
+	_set_ship_scale(Vector2(1.5, 1.5))
 	
 	for weapon in get_tree().get_nodes_in_group("secondary_weapon"):
 		weapon.faction = faction
@@ -135,12 +91,6 @@ func _connect_signals() -> void:
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
 	
 	tractor_beam.object_captured.connect(_handle_container_pickup)
-
-
-func initialize_hud_values() -> void:
-	SignalBus.playerMaxEnergyChanged.emit(max_energy)
-	SignalBus.playerEnergyChanged.emit(energy_current)
-	
 
 
 func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
@@ -167,8 +117,8 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	max_speed = ship_stats.SPEED
 	rotation_speed = ship_stats.ROTATION_SPEED
 	base_cargo_size = ship_stats.CARGO_SIZE
-	HealthComponent.HP_max = ship_stats.MAX_HP
-	HealthComponent.SP_max = ship_stats.MAX_SHIELD
+	health_component.HP_max = ship_stats.MAX_HP
+	health_component.SP_max = ship_stats.MAX_SHIELD
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -206,15 +156,14 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 
 func _process(delta: float) -> void:
-	if !HealthComponent.alive: return
-
-	# Movement check for idle audio
-	if abs(velocity.x)+abs(velocity.y) > 100 and Utility.current_gamestate == Utility.GAMESTATE.WARPING:
-		idle_sound(true)
-	else:
-		idle_sound(false)
+	if !health_component.alive: return
 	
-	regenerate_energy(delta)
+	# Handle Idle Audio
+	var is_moving: bool = velocity.length() > 100.0 and Utility.current_gamestate == Utility.GAMESTATE.WARPING
+	idle_sound(is_moving)
+	
+	if !laser.laser_on:
+		energy.regenerate(delta, 10.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -225,14 +174,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		shooting_button_held = false
 	
 	if event.is_action_pressed("right_click"):
-		#shoot_missile(get_global_mouse_position())
-		tractor_beam.visible = true
-		tractor_beam.try_activate_beam()
+		shoot_missile(get_global_mouse_position())
+		#tractor_beam.visible = true
+		#tractor_beam.try_activate_beam()
 	
 	if event.is_action_released("right_click"):
-		print()
-		tractor_beam.visible = false
-		tractor_beam.deactivate_beam()
+		pass
+		#tractor_beam.visible = false
+		#tractor_beam.deactivate_beam()
 	# Secondary weapon firing
 	#if event.is_action_pressed("right_click"):
 		#if _can_fire_weapons(laser.energy_drain):
@@ -243,23 +192,19 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if !HealthComponent.alive or GameSettings.menuStatus == true: return
+	if !health_component.alive or GameSettings.menuStatus: return
 	
-	if Input.is_action_just_pressed("overdrive"):
-		if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-			overdrive_state_change("SMOOTH")
-
-	if shooting_button_held:
-		if !shoot_cd:
-			if !overdrive_active:
-				shoot_cd = true
-				shoot_torpedo()
-				await get_tree().create_timer(1/rate_of_fire).timeout
-				shoot_cd = false
-				
+	_handle_input_actions()
 	_handle_movement(delta)
-	
 	move_and_slide()
+
+
+func _handle_input_actions() -> void:
+	if Input.is_action_just_pressed("overdrive") and Utility.current_gamestate != Utility.GAMESTATE.WARPING:
+		overdrive_state_change("SMOOTH")
+
+	if Input.is_action_pressed("left_click") and !shoot_cd and !overdrive_active:
+		shoot_torpedo()
 
 
 func _handle_movement(delta: float) -> void:
@@ -290,7 +235,6 @@ func _handle_movement(delta: float) -> void:
 				rotate(deg_to_rad(-rotation_speed * delta * overdrivem_r))
 
 
-var current_tweens: Array = []
 func overdrive_state_change(speed) -> void: # Reverses overdrive state
 	# Stop any ongoing tweens
 	for tween:Tween in current_tweens:
@@ -300,7 +244,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 	current_tweens.clear()  # Clear the list of running tweens
 	
 	if overdrive_active: # Transition to impulse
-		overdriveTimeout()
+		energy.lock_regeneration(trans_length / 2)
 		overdrive_active = false
 		if laser:
 			laser.force_enable()
@@ -354,55 +298,61 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 
 func shoot_torpedo() -> void:
 	var bullet: Torpedo = torpedo_scene.instantiate()
-	if _can_fire_weapons(bullet.energy_drain):
+	var cost: float = bullet.energy_drain
+
+	if _can_fire(cost):
+		energy.consume(cost)
+		energy.lock_regeneration(0.5)
+		shoot_cd = true
+		
 		bullet.position = muzzle.global_position
-		bullet.rotation = self.rotation
+		bullet.rotation = rotation
+		bullet.shooterObject = self
+		bullet.damage *= stats.DamageMult
+		bullet.faction = faction
+		
 		bullet.exceptions.append($hitbox_area)
 		bullet.exceptions.append(shield.get_node("shield_area"))
-		bullet.shooterObject = self
-		bullet.drain_energy.connect(energy_drain)
-		bullet.damage = bullet.damage * Stats.DamageMult
-		bullet.faction = self.faction
 		
+		$Projectiles.add_child(bullet)
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
-		$Projectiles.add_child(bullet)
+		
+		get_tree().create_timer(1.0 / rate_of_fire).timeout.connect(func(): shoot_cd = false)
+	else:
+		bullet.queue_free()
 
 
 func shoot_missile(clicked_pos:Vector2) -> void:
 	var missile: HomingMissile = missile_scene.instantiate()
-	if _can_fire_weapons(missile.energy_drain):
+	var cost: float = missile.energy_drain
+	
+	if _can_fire(cost):
 		missile.position = muzzle.global_position
 		missile.rotation = self.rotation
 		missile.exceptions.append($hitbox_area)
 		missile.exceptions.append(shield.get_node("shield_area"))
 		missile.shooterObject = self
-		missile.drain_energy.connect(energy_drain)
-		missile.max_damage = missile.max_damage * Stats.DamageMult
+		energy.consume(cost)
+		energy.lock_regeneration(1.0)
+		missile.max_damage = missile.max_damage * stats.DamageMult
 		missile.faction = self.faction
 		missile.target_position = clicked_pos
 		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
 		$Projectiles.add_child(missile)
+	else:
+		missile.queue_free()
 
 
-func _can_fire_weapons(energy_drain:float) -> bool:
-	if energy_current > energy_drain and overdriveTime == false\
-		and Utility.current_gamestate != Utility.GAMESTATE.WARPING and cloaked == false\
-		and overdrive_active == false:
-		return true
-	else: return false
-
-
-func energy_drain(energy: float) -> void:
-	energy_current -= energy
-
-
-func regenerate_energy(delta:float) -> void:
-	if !$Laser.laser_on and !energyTime:
-		if energy_current < max_energy:
-			energy_current += energy_regen_speed * delta
+func _can_fire(cost: float) -> bool:
+	return (
+		energy.current_energy >= cost and 
+		!overdrive_active and 
+		!cloaked and 
+		Utility.current_gamestate != Utility.GAMESTATE.WARPING
+	)
 
 
 func killPlayer() -> void:
@@ -415,15 +365,15 @@ func killPlayer() -> void:
 		overdrive_state_change("INSTANT")
 	
 	#Kill player stats
-	energy_current = 0
+	energy.energy_current = 0
 	
 	await get_tree().create_timer(1.5).timeout
 	SignalBus.playerDied.emit()
 
 
 func respawn(pos: Vector2) -> void:
-	if HealthComponent.alive == false:
-		HealthComponent.alive = true
+	if health_component.alive == false:
+		health_component.alive = true
 		SignalBus.playerRespawned.emit()
 		
 		global_position = pos
@@ -431,33 +381,14 @@ func respawn(pos: Vector2) -> void:
 		self.visible = true
 		
 		# Restores all HUD values to max
-		HealthComponent.hp_current = HealthComponent.HP_max #Resets HP to max
-		HealthComponent.sp_current = HealthComponent.SP_max #Resets Shield
-		energy_current = max_energy #Resets energy
+		health_component.hp_current = health_component.HP_max #Resets HP to max
+		health_component.sp_current = health_component.SP_max #Resets Shield
+		energy.energy_current = energy.max_energy #Resets energy
 		
 		rotation = deg_to_rad(-90.0) #Sets rotation to up
 		
 		shield.turnShieldOn()
-		HealthComponent.regenTimeout = false
-
-
-func energyTimeout() -> void: #Turns off energy regen for 1 second
-	energyTime = true
-	if timer.is_stopped() == false: # If timer is already running, restarts timer fresh
-		timer.stop()
-		timer.start()
-		await timer.timeout
-		energyTime = false
-	if timer.is_stopped() == true: # Starts timer if it is not already
-		timer.start()
-		await timer.timeout
-		energyTime = false
-
-
-func overdriveTimeout() -> void: #Turns off torpedo shooting for half of trans_length after leaving overdrive
-	overdriveTime = true
-	await get_tree().create_timer(trans_length/2).timeout
-	overdriveTime = false
+		health_component.regenTimeout = false
 
 
 func teleport(new_position:Vector2) -> void: # Uses coords from cheat menu to teleport player
@@ -608,19 +539,19 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 	
 	match type:
 		UpgradePickup.MODULE_TYPES.SPEED:
-			Stats.SpeedMult = Stats.SpeedMult + mult_step
+			stats.SpeedMult = stats.SpeedMult + mult_step
 		UpgradePickup.MODULE_TYPES.ROTATION:
-			Stats.RotateMult = Stats.RotateMult + mult_step
+			stats.RotateMult = stats.RotateMult + mult_step
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
-			Stats.FireRateMult = Stats.FireRateMult + mult_step
+			stats.FireRateMult = stats.FireRateMult + mult_step
 		UpgradePickup.MODULE_TYPES.HEALTH:
-			Stats.HullMult = HealthComponent.Stats.HullMult + mult_step
+			stats.HullMult = health_component.stats.HullMult + mult_step
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			HealthComponent.Stats.ShieldMult = HealthComponent.Stats.ShieldMult + mult_step
+			health_component.stats.ShieldMult = health_component.stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
-				HealthComponent.SP_max = HealthComponent.SP_max
+				health_component.SP_max = health_component.SP_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
-			Stats.DamageMult = Stats.DamageMult + mult_step
+			stats.DamageMult = stats.DamageMult + mult_step
 
 
 func _handle_container_pickup(data:ContainerData) -> void:

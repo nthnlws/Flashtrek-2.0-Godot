@@ -39,6 +39,7 @@ var hp_current:float = HP_max:
 			SignalBus.playerHealthChanged.emit(hp_current)
 #endregion
 
+
 #region Hull Functions
 var continuous_damage_accumulator: float = 0.0
 const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
