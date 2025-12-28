@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dfehj0ebpawa0"]
+[gd_scene load_steps=10 format=3 uid="uid://dfehj0ebpawa0"]
 
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
 [ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
 [ext_resource type="Script" uid="uid://c14ywbiqs8efn" path="res://scripts/menus_ui/HUD_settings_button.gd" id="8_tbbuv"]
 [ext_resource type="Texture2D" uid="uid://bt1p5jtm8aw1l" path="res://assets/textures/UI/new_HUD/HUD_bottomPanel.svg" id="9_07do6"]
+[ext_resource type="PackedScene" uid="uid://bfl6ircpc33v" path="res://scenes/menus_ui/faction_warning_popup.tscn" id="9_l28jr"]
 [ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/menus_ui/hud_button.tscn" id="10_ee1ns"]
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="11_sp3p0"]
 [ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
@@ -74,6 +75,20 @@ offset_right = 159.0
 offset_bottom = 553.0
 
 [node name="Comms_UI" parent="." instance=ExtResource("13_sk8fp")]
+visible = false
 layout_mode = 1
+
+[node name="Warning_Popup" parent="." instance=ExtResource("9_l28jr")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -292.0
+offset_top = -194.00003
+offset_right = 434.24988
+offset_bottom = -7.75
+grow_vertical = 0
 
 [connection signal="pressed" from="SettingsButton" to="SettingsButton" method="_on_pressed"]
