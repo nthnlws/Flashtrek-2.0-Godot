@@ -287,8 +287,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_o4ahg")
 }
 
-[node name="Shield" parent="." node_paths=PackedStringArray("HealthComponent") instance=ExtResource("8_scpag")]
-HealthComponent = NodePath("../HealthComponent")
+[node name="Shield" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("8_scpag")]
+health_component = NodePath("../HealthComponent")
 
 [node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["enemy"]]
 

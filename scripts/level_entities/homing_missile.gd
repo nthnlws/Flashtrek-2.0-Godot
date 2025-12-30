@@ -95,6 +95,8 @@ func create_hit_event() -> HitEvent:
 	hit_event.hit_position = self.global_position
 	if shooterObject:
 		hit_event.shooter_instance_id = shooterObject.get_instance_id()
+		if shooterObject.is_in_group("player"):
+			hit_event.is_from_player = true
 	
 	hit_event.is_critical_hit = false
 	hit_event.is_continuous_damage = false

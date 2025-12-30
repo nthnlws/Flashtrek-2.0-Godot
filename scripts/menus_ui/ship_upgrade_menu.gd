@@ -13,8 +13,41 @@ const SHIP_DATA = preload("res://assets/data/ShipData.json")
 func _ready() -> void:
 	SignalBus.player_type_changed.connect(set_background)
 	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
+	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
+	MissionManager.Reputation.player_faction_changed.connect(update_faction_colors)
 	
 	set_background(Utility.starting_ship)
+
+
+func update_faction_colors(new_faction:Utility.FACTION) -> void:
+	var faction_icons:Array = get_tree().get_nodes_in_group("faction_label_icon")
+	for icon:TextureRect in faction_icons:
+		icon.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	
+	if new_faction == Utility.FACTION.FEDERATION:
+		%federation_icon.modulate = Color("#3984BE")
+	elif new_faction == Utility.FACTION.KLINGON:
+		%klingon_icon.modulate = Color("#FF2A2A")
+	elif new_faction == Utility.FACTION.ROMULAN:
+		%romulan_icon.modulate = Color("#009301")
+
+
+func update_reputation(faction:Utility.FACTION, new_value:float) -> void:
+	print("updating %s faction value in ship upgrade menu to %s" % [Utility.FACTION.keys()[faction], new_value])
+	var label_text:String = str(roundi(new_value))
+	if is_zero_approx(new_value):
+		label_text = "0.0"
+		return
+	
+	match faction:
+		Utility.FACTION.FEDERATION:
+			%federation_rep.text = label_text
+		Utility.FACTION.KLINGON:
+			%klingon_rep.text = label_text
+		Utility.FACTION.ROMULAN:
+			%romulan_rep.text = label_text
+		_:
+			print("No faction %s found to update on ship stats screen" % Utility.FACTION.keys()[faction])
 
 
 func _on_close_menu_button_pressed() -> void:

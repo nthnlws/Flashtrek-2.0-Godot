@@ -12,15 +12,17 @@ var shooter_faction:Utility.FACTION
 #var weapon_type:WEAPON_TYPE
 #var firing_pos:Vector2
 var projectile_ID:int
-var hit_position:Vector2
+var hit_position:Vector2 = Vector2(0.0, 0.0)
 var hit_hull:bool = false
 var hit_shield:bool = false
 
+var damage_source: SOURCE
+var is_from_player: bool = false
+var is_critical_hit: bool = false
+var is_continuous_damage: bool
+var damage_amount: float = 0.0
 
-var is_critical_hit:bool
-var is_continuous_damage:bool
-var damage_amount:float
-
+enum SOURCE { PLAYER, KLINGON, ROMULAN, FEDERATION, NEUTRAL }
 
 func get_shooter_node() -> Node:
 	if shooter_instance_id != 0:

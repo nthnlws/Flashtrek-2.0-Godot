@@ -18,7 +18,7 @@ signal updateScore(score:int)
 signal enteredPlanetComm(planet:Node2D)
 signal exitedPlanetComm(planet:Node2D)
 
-signal reputationChanged(faction:Utility.FACTION, score:float)
+signal reputation_change_triggered(faction:Utility.FACTION, score:float)
 
 # Player
 signal playerDied

@@ -6,7 +6,7 @@ class_name Shield
 @onready var sprite: ColorRect = $ColorRect
 @onready var is_on_player:bool = get_parent() is Player
 
-@export var HealthComponent: HealthComponent
+@export var health_component: HealthComponent
 
 var shieldActive: bool = true:
 	set(value):
@@ -19,7 +19,7 @@ var fade_length: float = 0.8
 
 
 func _on_damage_received(hit_event:HitEvent):
-	HealthComponent.collect_damage_events(hit_event)
+	health_component.collect_damage_events(hit_event)
 
 
 # Fades shield to 0 Alpha

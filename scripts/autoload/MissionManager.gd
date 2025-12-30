@@ -1,10 +1,10 @@
 # MissionManager.gd
 extends Node
 
-signal new_mission_generated(mission_data: MissionData)
+#signal new_mission_generated(mission_data: MissionData)
 signal mission_started(mission_data: MissionData)
 signal mission_completed(mission_data: MissionData)
-signal mission_rejected(reason: String)
+#signal mission_rejected(reason: String)
 
 var Reputation: PlayerReputation = PlayerReputation.new()
 
@@ -47,28 +47,14 @@ func complete_mission() -> void:
 		SignalBus.updateScore.emit(points)
 		match mission_faction:
 			Utility.FACTION.FEDERATION:
-				SignalBus.reputationChanged.emit(Utility.FACTION.FEDERATION, Reputation.FederationRep + points)
+				SignalBus.reputation_change_triggered.emit(Utility.FACTION.FEDERATION, points)
 			Utility.FACTION.KLINGON:
-				SignalBus.reputationChanged.emit(Utility.FACTION.KLINGON, Reputation.KlingonRep + points)
+				SignalBus.reputation_change_triggered.emit(Utility.FACTION.KLINGON, points)
 			Utility.FACTION.ROMULAN:
-				SignalBus.reputationChanged.emit(Utility.FACTION.ROMULAN, Reputation.RomulanRep + points)
+				SignalBus.reputation_change_triggered.emit(Utility.FACTION.ROMULAN, points)
 			Utility.FACTION.NEUTRAL:
-				SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, Reputation.NeutralRep + points)
+				SignalBus.reputation_change_triggered.emit(Utility.FACTION.NEUTRAL, points)
 	
 		pending_mission = null
 		active_mission = null
 	else: printerr('No active mission to complete')
-
-
-func _recalculate_current_faction() -> Utility.FACTION:
-	if max(Reputation.FederationRep, Reputation.KlingonRep, Reputation.RomulanRep) <= 5000:
-		return Utility.FACTION.NEUTRAL
-	elif Reputation.FederationRep >= max(Reputation.KlingonRep, Reputation.RomulanRep):
-		return Utility.FACTION.FEDERATION
-	elif Reputation.KlingonRep >= max(Reputation.FederationRep, Reputation.RomulanRep):
-		return Utility.FACTION.KLINGON
-	elif Reputation.RomulanRep >= max(Reputation.FederationRep, Reputation.KlingonRep):
-		return Utility.FACTION.ROMULAN
-	else:
-		push_error("Current faction calculation failed, current faction unknown")
-		return Utility.FACTION.NEUTRAL

@@ -64,13 +64,13 @@ func spawn_ship(ship_type:String) -> void:
 func add_score(faction: String, number: String) -> void:
 	var score:int = int(number)
 	if faction.to_lower() == "fed" or faction.to_lower() == "federation":
-		SignalBus.reputationChanged.emit(Utility.FACTION.FEDERATION, score)
+		SignalBus.reputation_change_triggered.emit(Utility.FACTION.FEDERATION, score)
 	if faction.to_lower() == "kling" or faction.to_lower() == "klingon":
-		SignalBus.reputationChanged.emit(Utility.FACTION.KLINGON, score)
+		SignalBus.reputation_change_triggered.emit(Utility.FACTION.KLINGON, score)
 	if faction.to_lower() == "rom" or faction.to_lower() == "romulan":
-		SignalBus.reputationChanged.emit(Utility.FACTION.ROMULAN, score)
+		SignalBus.reputation_change_triggered.emit(Utility.FACTION.ROMULAN, score)
 	if faction.to_lower() == "neut" or faction.to_lower() == "neutral":
-		SignalBus.reputationChanged.emit(Utility.FACTION.NEUTRAL, score)
+		SignalBus.reputation_change_triggered.emit(Utility.FACTION.NEUTRAL, score)
 	else:
 		printerr("Unknown faction '%s' for score command." % faction)
 

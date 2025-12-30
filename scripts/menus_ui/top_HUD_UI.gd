@@ -7,16 +7,16 @@ const SHOWN_POS:Vector2 = Vector2.ZERO
 
 var tween: Tween
 var total_distance: float = 51
-const SHIP_VALUE:int = 100
 
 @onready var mission_text: RichTextLabel = %MissionText
 @onready var fed_score: Label = %FedScore
 @onready var klingon_score: Label = %KlingonScore
 @onready var rom_score: Label = %RomScore
 
+
 func _ready() -> void:
 	MissionManager.mission_started.connect(_update_mission_text)
-	SignalBus.reputationChanged.connect(_update_faction_score)
+	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_score)
 	MissionManager.mission_completed.connect(_clear_mission_text.unbind(1))
 	SignalBus.factionShipDied.connect(_on_enemy_ship_died)
 	
@@ -42,6 +42,7 @@ func _clear_mission_text() -> void:
 
 
 func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
+	var SHIP_VALUE = enemy.reputation_value # Get reputation from ship
 	match enemy.faction:
 		Utility.FACTION.FEDERATION:
 			var old_fed:int = int(fed_score.text)

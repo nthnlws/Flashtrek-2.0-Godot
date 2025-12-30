@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene load_steps=11 format=3 uid="uid://b3ruu3xegfccq"]
 
 [ext_resource type="Script" uid="uid://b10kpbvc80uj7" path="res://scripts/menus_ui/ship_upgrade_menu.gd" id="1_3ib4j"]
 [ext_resource type="Texture2D" uid="uid://cabdk1q27chx3" path="res://assets/textures/UI/ship_upgrade_menu/corridor_klingon_edited.png" id="1_k4fhh"]
@@ -7,6 +7,9 @@
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="3_ir0yc"]
 [ext_resource type="PackedScene" uid="uid://c5s0nigwpa515" path="res://scenes/menus_ui/upgrade_hover.tscn" id="3_x0k55"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="4_3ib4j"]
+[ext_resource type="Texture2D" uid="uid://byr1t4wk3r0yl" path="res://assets/textures/UI/new_HUD/federation_symbol.svg" id="5_gjb5m"]
+[ext_resource type="Texture2D" uid="uid://b6g254d043h22" path="res://assets/textures/UI/new_HUD/klingon_symbol.svg" id="6_syaga"]
+[ext_resource type="Texture2D" uid="uid://dhpxi3okw2mo0" path="res://assets/textures/UI/new_HUD/romulan_symbol.svg" id="7_bkik8"]
 
 [node name="ShipUpgradeMenu" type="Control"]
 layout_mode = 3
@@ -57,7 +60,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_x0k55")
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 text = "Ship Status:"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -69,14 +72,103 @@ ratio = 1.4895
 
 [node name="MarginContainer" type="MarginContainer" parent="left_panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_top = 200
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_bottom = 15
+
+[node name="FactionContainer" type="VBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="faction_label" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 20
+text = "Reputation:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="federation_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer" groups=["faction_label_icon"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+texture = ExtResource("5_gjb5m")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="federation_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 20
+text = "0.0"
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="klingon_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2" groups=["faction_label_icon"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+texture = ExtResource("6_syaga")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="klingon_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 20
+text = "0.0"
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="romulan_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3" groups=["faction_label_icon"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+texture = ExtResource("7_bkik8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="romulan_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_x0k55")
+theme_override_font_sizes/font_size = 20
+text = "0.0"
+vertical_alignment = 1
 
 [node name="stats_banner2" type="Label" parent="left_panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_x0k55")
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 text = "Upgrades:"
 horizontal_alignment = 1
 vertical_alignment = 1

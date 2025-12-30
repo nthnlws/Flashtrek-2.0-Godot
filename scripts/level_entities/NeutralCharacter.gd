@@ -3,6 +3,7 @@ class_name NeutralCharacter
 
 @export var ship_type:Utility.SHIP_TYPES = Utility.SHIP_TYPES.Merchantman
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
+@export var reputation_value: float = 100.0
 
 @onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
 @onready var hitbox: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
@@ -10,7 +11,7 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @onready var shield: Shield = $Shield
 @onready var animation: AnimatedSprite2D = $hull_explosion
 @onready var cloak_animation: AnimationPlayer = $Sprite2D/CloakAnimation
-@onready var HealthComponent: HealthComponent = $HealthComponent
+@onready var health_component: HealthComponent = $HealthComponent
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
@@ -67,8 +68,8 @@ func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	
 	move_speed = ship_stats.SPEED
 	rotation_rate = ship_stats.ROTATION_SPEED
-	HealthComponent.HP_max = ship_stats.MAX_HP
-	HealthComponent.SP_max = ship_stats.MAX_SHIELD
+	health_component.HP_max = ship_stats.MAX_HP
+	health_component.SP_max = ship_stats.MAX_SHIELD
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -104,7 +105,7 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	#TODO Sync Player and Enemy speed stats to be compatible
-	if not AI_enabled or not visible or not GameSettings.enemyMovement or HealthComponent.alive == false:
+	if not AI_enabled or not visible or not GameSettings.enemyMovement or health_component.alive == false:
 		return
 	
 	# Movement state setter
@@ -167,11 +168,15 @@ func look_at_target(targetPos:Vector2,angle_diff:float, delta:float) -> void:
 	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
 
 
-func explode() -> void:
+func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
 	
 	SignalBus.neutralShipDied.emit(self)
+	if hit_event.is_from_player: # Update reputation if died from player damage
+		#print('killed by player')
+		SignalBus.reputation_change_triggered.emit(self.faction, self.reputation_value)
+	#else: print('not player kill')
 	
 	collision_shape.set_deferred("disabled", true)
 	hitbox.set_deferred("disabled", true)

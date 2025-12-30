@@ -19,8 +19,7 @@ var romulan_thankYou: Array[String] = ["Your task is complete. Efficiency is... 
 @export var reward: int = 0
 
 
-func generate_mission_offer() -> MissionData:
-	var new_mission:MissionData = MissionData.new()
+func generate_mission_offer() -> MissionData: # New mission factory function
 	# Get random system
 	var random_system = LevelManager.galaxy_data.systems.pick_random()
 	while random_system == LevelManager.current_system_data or random_system.system_index == 18: # Repeat pick if chose current system or missing #18 system

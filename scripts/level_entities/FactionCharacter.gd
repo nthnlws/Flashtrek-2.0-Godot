@@ -190,11 +190,15 @@ func _set_aggression_to_shooter(shooter: Node) -> void:
 		stored_enemies.append(shooter)
 
 
-func explode() -> void:
+func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
 	
 	SignalBus.factionShipDied.emit(self)
+	if hit_event.is_from_player: # Update reputation if died from player damage
+		#print('killed by player')
+		SignalBus.reputation_change_triggered.emit(self.faction, self.reputation_value)
+	#else: print('not player kill')
 	
 	var random_pickup_type:int = randi_range(0, UpgradePickup.MODULE_TYPES.keys().size())
 	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position, 1)

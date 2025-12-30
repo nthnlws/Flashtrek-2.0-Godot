@@ -8,7 +8,7 @@ var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[Utility.starting_
 @onready var is_on_player:bool = get_parent() is Player
 var alive:bool = true
 
-signal ship_died
+signal ship_died(last_hit_event:HitEvent)
 signal shield_off
 signal shield_on
 
@@ -64,7 +64,7 @@ func take_hull_damage(hit_event: HitEvent):
 		sp_current = 0
 		alive = false
 		regenTimeout = true
-		ship_died.emit()
+		ship_died.emit(hit_event)
 #endregion
 
 
@@ -123,7 +123,7 @@ func handle_frame_hits() -> void:
 #endregion
 
 
-#region Shield Variables
+#region Shield Functions
 var regenTimeout:bool = false # Timeout
 var regen_speed:float = 2.5
 
@@ -134,9 +134,8 @@ var sp_current:float = SP_max:
 	set(value): 
 		if sp_current == value: return
 		sp_current = set_shield_value(value)
-#endregion
 
-#region Shield Functions
+
 func take_shield_damage(hit_event:HitEvent) -> void:
 	activate_regeneration_timeout()
 	shield_damage_received.emit(hit_event.get_shooter_node())
@@ -176,6 +175,7 @@ func set_shield_max(value:float) -> float:
 
 func regen_shield(delta: float) -> void:
 	sp_current += regen_speed * delta
+
 
 var active_timers:Array[Timer] = []
 func activate_regeneration_timeout() -> void: #Turns off shield regen for 1 second

@@ -27,7 +27,7 @@ var firing_button_held:bool = false
 func _ready() -> void:
 	z_index = Utility.Z["Weapons"]
 	
-	# Hacky way to invert any scale effects on owner ship
+	# Hacky way to invert any scale effects inherited from parent ship
 	scale_modifier = self.get_global_transform().get_scale()
 	self.scale  = scale/scale_modifier
 
@@ -126,6 +126,7 @@ func _state_logic_firing(delta:float) -> void:
 		
 		# Hit event creation
 		var hit_event:HitEvent = HitEvent.new()
+		hit_event.is_from_player = true
 		hit_event.shooter_instance_id = get_parent().get_instance_id()
 		hit_event.shooter_faction = faction
 		hit_event.projectile_ID = randi()

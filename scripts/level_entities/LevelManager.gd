@@ -191,10 +191,10 @@ func sync_ships_to_data(system_data:SystemData) -> void:
 		var data:NeutralData = system_data.neutral_list[i]
 		var ship:NeutralCharacter = neutralShips[i]
 		ship.global_position = data.world_position
-		ship.HealthComponent.hp_current = data.current_hp
-		ship.HealthComponent.sp_current = data.current_sp
-		ship.HealthComponent.SP_max = data.SP_max
-		ship.HealthComponent.HP_max = data.HP_max
+		ship.health_component.hp_current = data.current_hp
+		ship.health_component.sp_current = data.current_sp
+		ship.health_component.SP_max = data.SP_max
+		ship.health_component.HP_max = data.HP_max
 		ship.shield.shieldActive = data.shield_state
 		ship.ship_index = data.ship_index
 	
@@ -203,10 +203,10 @@ func sync_ships_to_data(system_data:SystemData) -> void:
 		var data:FactionShipData = system_data.enemy_list[i]
 		var ship:FactionCharacter = neutralShips[i]
 		ship.global_position = data.world_position
-		ship.HealthComponent.hp_current = data.current_hp
-		ship.HealthComponent.sp_current = data.current_sp
-		ship.HealthComponent.SP_max = data.SP_max
-		ship.HealthComponent.HP_max = data.HP_max
+		ship.health_component.hp_current = data.current_hp
+		ship.health_component.sp_current = data.current_sp
+		ship.health_component.SP_max = data.SP_max
+		ship.health_component.HP_max = data.HP_max
 		ship.shield.shieldActive = data.shield_state
 		ship.ship_index = data.ship_index
 
@@ -241,8 +241,8 @@ func save_ship_data(current_sys_data: SystemData) -> void:
 		var data: NeutralData = neutral_data[i]
 
 		data.world_position = ship.global_position
-		data.current_hp = ship.HealthComponent.hp_current
-		data.current_sp = ship.HealthComponent.sp_current
+		data.current_hp = ship.health_component.hp_current
+		data.current_sp = ship.health_component.sp_current
 		data.shield_state = ship.shield.shieldActive
 
 	for i: int in range(factionShips.size()):
@@ -250,8 +250,8 @@ func save_ship_data(current_sys_data: SystemData) -> void:
 		var data: FactionShipData = enemy_data[i]
 		
 		data.world_position = ship.global_position
-		data.current_hp = ship.HealthComponent.hp_current
-		data.current_sp = ship.HealthComponent.sp_current
+		data.current_hp = ship.health_component.hp_current
+		data.current_sp = ship.health_component.sp_current
 		data.shield_state = ship.shield.shieldActive
 		
 	SignalBus.updateGalaxyData.emit(galaxy_data)

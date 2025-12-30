@@ -46,7 +46,7 @@ func _ready() -> void:
 
 
 func _connect_signals() -> void:
-	SignalBus.reputationChanged.connect(_update_faction_reputations)
+	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_reputations)
 	
 	for child in get_tree().get_nodes_in_group("selection_frame"):
 		if child is ShipSelector:
