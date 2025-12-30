@@ -440,27 +440,28 @@ func velocity_check() -> bool:
 
 
 func trigger_warp() -> void:
-	var start_sys_id:int = LevelManager.current_system_data.system_index
-	var end_sys_id:int = LevelManager.target_system_data.system_index
-	var warp_distance:int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
-	if  warp_distance > warp_range:
-		var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	if !velocity_check():
-		var error_message: String = "Must be stationary and in impulse to warp"
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	if warp_distance == -1:
-		var error_message: String = "You must select a destination system"
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	elif warp_distance == -2:
-		var error_message: String = "Warp destination must not be same as current system"
-		SignalBus.changePopMessage.emit(error_message)
-		return
-	else:
-		galaxy_warp_out()
+	if LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name:
+		var start_sys_id:int = LevelManager.current_system_data.system_index
+		var end_sys_id:int = LevelManager.target_system_data.system_index
+		var warp_distance:int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
+		if  warp_distance > warp_range:
+			var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
+			SignalBus.changePopMessage.emit(error_message)
+			return
+		if !velocity_check():
+			var error_message: String = "Must be stationary and in impulse to warp"
+			SignalBus.changePopMessage.emit(error_message)
+			return
+		if warp_distance == -1:
+			var error_message: String = "You must select a destination system"
+			SignalBus.changePopMessage.emit(error_message)
+			return
+		elif warp_distance == -2:
+			var error_message: String = "Warp destination must not be same as current system"
+			SignalBus.changePopMessage.emit(error_message)
+			return
+		else:
+			galaxy_warp_out()
 
 
 func galaxy_warp_out() -> void:
@@ -482,28 +483,28 @@ func galaxy_warp_out() -> void:
 	tween.tween_property(self, "velocity", Vector2(2500, 0).rotated(rotation), 8.0)
 	
 	
-	await get_tree().create_timer(1.0).timeout #3.0 sec
+	await get_tree().create_timer(1.0).timeout # 3.0 sec
 	#Camera Zoom out
-	create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length/overdrive_multiplier*3)
+	create_tween().tween_property(camera, "zoom", Vector2(0.4, 0.4), trans_length / overdrive_multiplier * 3)
 	
-	await get_tree().create_timer(1.5).timeout #4.5 sec
+	await get_tree().create_timer(1.5).timeout # 4.5 sec
 	galaxy_particles.emitting = true
 	create_tween().tween_property(galaxy_particles, "amount_ratio", 1.0, 8.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	
-	await get_tree().create_timer(1.5).timeout #6.0 sec
+	await get_tree().create_timer(1.5).timeout # 6.0 sec
 	#print("flat, scale")
 	create_tween().tween_property(galaxy_particles.process_material, "flatness", 0.0, 5.0)
 	create_tween().tween_property(galaxy_particles.process_material, "scale_min", 1.0, 3.5)
 	create_tween().tween_property(galaxy_particles.process_material, "scale_max", 2.0, 3.5)
 	
-	await get_tree().create_timer(2.5).timeout #7.5 sec
+	await get_tree().create_timer(2.5).timeout # 8.5 sec
 	var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
 	
 	await get_tree().create_timer(2.5).timeout
 	cloak_ship(3.0, false)
 	
-	await get_tree().create_timer(1.0).timeout #11 sec, velocity tween ends
+	await get_tree().create_timer(1.0).timeout #11.5 sec, velocity tween ends
 	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
 	create_tween().tween_property(galaxy_particles, "amount_ratio", 0.0, 2.5)
 	

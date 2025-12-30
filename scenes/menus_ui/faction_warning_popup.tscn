@@ -28,8 +28,8 @@ pivot_offset = Vector2(0, 190)
 mouse_filter = 1
 script = ExtResource("1_1ophj")
 FederationHeads = Array[Texture2D]([ExtResource("2_jfy5c"), ExtResource("3_prejn")])
-RomulanHeads = Array[CompressedTexture2D]([ExtResource("4_8ifst")])
-KlingonHeads = Array[CompressedTexture2D]([ExtResource("5_ws4h5"), ExtResource("6_qdg4q")])
+RomulanHeads = Array[Texture2D]([ExtResource("4_8ifst")])
+KlingonHeads = Array[Texture2D]([ExtResource("5_ws4h5"), ExtResource("6_qdg4q")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -68,9 +68,9 @@ drag_and_drop_selection_enabled = false
 [node name="FactionHead" type="TextureRect" parent="."]
 z_index = -1
 layout_mode = 0
-offset_left = 587.5
+offset_left = 585.0
 offset_top = 22.499983
-offset_right = 687.49994
+offset_right = 684.99994
 offset_bottom = 153.74998
 texture = ExtResource("3_prejn")
 expand_mode = 3

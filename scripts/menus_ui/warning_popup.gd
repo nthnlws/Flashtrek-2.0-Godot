@@ -9,10 +9,26 @@ extends Control
 
 func _ready() -> void:
 	self.visible = false
+	SignalBus.galaxy_warp_finished.connect(_handle_entering_new_system)
+
+
+func _handle_entering_new_system(system_data:SystemData) -> void:
+	if _in_enemy_system(system_data):
+			await get_tree().create_timer(3.0).timeout
+			open_comms()
+
+
+func _in_enemy_system(system_data:SystemData):
+	if (system_data.faction != LevelManager.player.faction
+		and LevelManager.player.faction != Utility.FACTION.NEUTRAL
+		and LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name
+		and LevelManager.current_system_data.faction != Utility.FACTION.NEUTRAL):
+			return true
+	else: return false
 
 
 func open_comms() -> void:
-	var current_faction:Utility.FACTION = Utility.FACTION.ROMULAN #LevelManager.current_system_data.faction
+	var current_faction:Utility.FACTION = LevelManager.current_system_data.faction
 	match current_faction:
 		Utility.FACTION.FEDERATION:
 			$FactionHead.texture = FederationHeads.pick_random()
