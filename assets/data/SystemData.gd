@@ -18,6 +18,7 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 @export var defeated_enemies: Array[FactionShipData] = []
 @export var neutral_list: Array[NeutralData]
 @export var defeated_neutrals: Array[NeutralData] = []
+@export var mission_containers: Array[ContainerData] = []
 
 # System logic
 @export var enemies_defeated: bool = false
@@ -45,7 +46,13 @@ func get_planet_data(planet_name:String) -> PlanetData:
 			return planet
 	
 	return null # If PlanetData not found
-	
+
+func add_mission_container(container:ContainerData) -> void:
+	mission_containers.append(container)
+
+func remove_mission_container(container:ContainerData) -> void:
+	mission_containers.erase(container)
+
 
 static func generate_system_data(sys_index:int, system_name:String) -> SystemData:
 	var new_system_data:SystemData = SystemData.new()

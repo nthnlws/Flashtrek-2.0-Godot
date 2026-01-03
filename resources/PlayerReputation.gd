@@ -12,7 +12,7 @@ signal reputation_total_changed(effected_faction:Utility.FACTION, new_total:floa
 
 var current_player_faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 const NEUTRAL_THRESHOLD: int = 5000					# Any faction rep above this value is no longer neutral
-const ENEMY_FACTION_MULTIPLIER: float = 0.75		# Amount the opposite faction rep increases
+const ENEMY_FACTION_MULTIPLIER: float = 0.50		# Amount the opposite faction rep decreases
 
 func _init() -> void:
 	SignalBus.reputation_change_triggered.connect(_handle_reputation_change)

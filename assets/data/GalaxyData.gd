@@ -15,7 +15,7 @@ const NUM_ROM_SYSTEMS:int = 7
 @export var system_id_map: Dictionary = {} 
 @export var system_names: Array[String]
 
-const NEIGHBOR_MAP: Dictionary = {
+static var NEIGHBOR_MAP: Dictionary = {
 	SPECIAL_SYSTEMS.Solarus: [6, 7, 8, 10],
 	SPECIAL_SYSTEMS.Kronos:  [16, 17, SPECIAL_SYSTEMS.Risa, 19, 20],
 	SPECIAL_SYSTEMS.Romulus: [25, 28, 29, 30],

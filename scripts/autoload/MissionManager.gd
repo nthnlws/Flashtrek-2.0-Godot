@@ -17,11 +17,16 @@ var current_state:STATE = STATE.no_mission
 
 
 func generate_mission() -> void:
-	var mission:MissionData = MissionData.new()
-	var new_mission = mission.generate_mission_offer()
-	pending_mission = new_mission
+	var new_mission:MissionData = MissionGenerator.generate_random_mission(
+		LevelManager.current_system_data,
+		LevelManager.galaxy_data
+	)
 	
-	current_state = STATE.pending_mission # Update state
+	# Add container data to target system in order to trigger spawn when entering system
+	new_mission.target_system.add_mission_container(new_mission.container_target)
+	
+	pending_mission = new_mission
+	current_state = STATE.pending_mission 
 
 
 func accept_pending_mission() -> void:
@@ -37,7 +42,7 @@ func accept_pending_mission() -> void:
 
 func complete_mission() -> void:
 	if active_mission:
-		#print("Mission Completed at Planet: ", active_mission.targetPlanet)
+		#print("Mission Completed at Planet: ", active_mission.target_planet_name)
 		mission_completed.emit(active_mission)
 		
 		current_state = STATE.no_mission

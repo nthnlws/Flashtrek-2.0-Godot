@@ -11,11 +11,6 @@ var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
 var CanCommunicate: bool = false
 var player: Player
 
-# --- INTERNAL DATA ---
-# Helper for accessing string tables. 
-# We create it here so the UI doesn't have to manage it.
-var _message_data: MissionData = MissionData.new()
-
 func _ready() -> void:
 	SignalBus.entering_galaxy_warp.connect(fade_label.bind("off"))
 	SignalBus.entering_new_system.connect(fade_label.bind("on"))
@@ -35,12 +30,12 @@ func request_hail(player_ship_name: String) -> String:
 	
 	# 1. Active Mission Logic
 	if MissionManager.current_state == MissionManager.STATE.active_mission:
-		if MissionManager.active_mission.targetPlanet == self.name:
+		if MissionManager.active_mission.target_planet_name == self.name:
 			# We are the destination
-			return _message_data.confirmation_complete_prompts.pick_random()
+			return MissionGenerator.confirmation_complete_prompts.pick_random()
 		else:
 			# We are not the destination, and player has cargo
-			return _message_data.cargo_full_messages.pick_random()
+			return MissionGenerator.cargo_full_messages.pick_random()
 	
 	# 2. No Mission / Pending Logic
 	if (MissionManager.current_state == MissionManager.STATE.no_mission 
@@ -63,14 +58,13 @@ func attempt_interaction(player_ship_name: String) -> String:
 		
 		MissionManager.mission_started.emit(mission)
 		
-		var formatted_system: String = _get_faction_color_string(mission.targetSystem.faction, mission.targetSystem.system_name)
-		var formatted_planet: String = Utility.UI_yellow + mission.targetPlanet + "[/color]"
+		var formatted_system: String = _get_faction_color_string(mission.target_system.faction, mission.target_system.system_name)
 		
-		return "Mission accepted! Head to %s in the %s system." % [formatted_planet, formatted_system]
+		return "Mission accepted! Head to the %s system." % formatted_system
 
 	# B. Complete Active
 	elif (MissionManager.current_state == MissionManager.STATE.active_mission 
-		and MissionManager.active_mission.targetPlanet == self.name):
+		and MissionManager.active_mission.target_planet_name == self.name):
 		
 		var completed_mission: MissionData = MissionManager.active_mission
 		MissionManager.complete_mission()
@@ -80,24 +74,24 @@ func attempt_interaction(player_ship_name: String) -> String:
 
 
 # --- FORMATTING HELPERS (Private) ---
-
 func _format_mission_offer(mission: MissionData, ship_name: String) -> String:
 	var data: Dictionary = {
 		"planet": "[color=#FFCC66]" + self.name + "[/color]",
 		"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
-		"target_planet": "[color=#FFCC66]" + mission.targetPlanet + "[/color]",
-		"target_system": _get_faction_color_string(mission.targetSystem.faction, mission.targetSystem.system_name),
+		"target_planet": "[color=#FFCC66]" + mission.target_planet_name + "[/color]",
+		"target_system": _get_faction_color_string(mission.target_system.faction, mission.target_system.system_name),
 		"item_name": "[color=#1DCC4B]" + mission.cargo + "[/color]",
-		"random_confirm_query": mission.message,
+		"random_confirm_query": mission.confirm_message,
+		"mission_description": mission.description
 	}
 	
-	var template: String = "Welcome to {planet}, {ship_name}, {target_planet} in the {target_system} system needs a shipment of {item_name}. {random_confirm_query}"
+	var template: String = "Welcome to {planet}, {ship_name}, {mission_description}. {random_confirm_query}"
 	return template.format(data)
 
 
 func _format_completion_message(mission: MissionData, ship_name: String) -> String:
 	var data: Dictionary = {
-		"planet": "[color=#6699CC]" + mission.targetPlanet + "[/color]",
+		"planet": "[color=#6699CC]" + mission.target_planet_name + "[/color]",
 		"ship_name": "[color=#3bdb8b]" + ship_name + "[/color]",
 		"random_confirm": ""
 	}
@@ -105,11 +99,11 @@ func _format_completion_message(mission: MissionData, ship_name: String) -> Stri
 	# Pick thank you message based on this planet's faction
 	match self.planetFaction:
 		Utility.FACTION.FEDERATION:
-			data.random_confirm = _message_data.federation_thankYou.pick_random()
+			data.random_confirm = MissionGenerator.federation_thankYou.pick_random()
 		Utility.FACTION.KLINGON:
-			data.random_confirm = _message_data.klingon_thankYou.pick_random()
+			data.random_confirm = MissionGenerator.klingon_thankYou.pick_random()
 		Utility.FACTION.ROMULAN:
-			data.random_confirm = _message_data.romulan_thankYou.pick_random()
+			data.random_confirm = MissionGenerator.romulan_thankYou.pick_random()
 		_:
 			data.random_confirm = "Transaction complete."
 	

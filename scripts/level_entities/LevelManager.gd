@@ -9,6 +9,7 @@ var unused_planets: Array[Node2D]
 var sun: Sun
 var player: Player
 var starbases: Array[Node2D]
+var containers: Array[ContainerPickup]
 
 
 @export_category("Level Objects")
@@ -25,6 +26,7 @@ var upgrade_item: PackedScene = preload("uid://berjp6uasq671")
 var pickups: Node
 var ship_folder: Node
 var level_folder: Node
+var pickup_folder: Node
 var minimap: Control
 
 var galaxy_data: GalaxyData 
@@ -73,6 +75,7 @@ func on_level_loaded() -> void:
 	# Node paths
 	pickups = get_node("/root/Game/Level/item_pickups") 
 	ship_folder = get_node("/root/Game/Level/ship_folder")
+	pickup_folder = get_node("/root/Game/Level/item_pickups")
 	level_folder = get_node("/root/Game/Level/level_objects")
 	minimap = get_node("/root/Game/HUD_layer/MiniMap")
 	
@@ -131,6 +134,7 @@ func change_system(system_data:SystemData) -> void:
 	sync_sun_to_data(system_data.sun_data)
 	#sync_ships_to_data(system_data)
 	sync_planets_to_data(system_data.planet_data)
+	sync_containers_to_data(system_data.mission_containers)
 	
 	SignalBus.system_changed.emit(system_data)
 
@@ -228,6 +232,22 @@ func sync_planets_to_data(planet_data:Array[PlanetData]) -> void:
 		planets.append(use_planet)
 
 
+func sync_containers_to_data(mission_containers:Array[ContainerData]) -> void:
+	# Cleanup old containers
+	for container:ContainerPickup in containers:
+		if container:
+			container.queue_free()
+	
+	# Spawn new containers	
+	if !mission_containers.is_empty():
+		var CONTAINER_SCENE:PackedScene = preload("uid://dess4qrmx6vve")
+		for container:ContainerData in mission_containers:
+			var new_container:ContainerPickup = CONTAINER_SCENE.instantiate()
+			new_container.container_data = container
+			pickup_folder.add_child(new_container)
+			containers.append(new_container)
+
+
 func save_ship_data(current_sys_data: SystemData) -> void:
 	var neutral_data: Array[NeutralData] = current_sys_data.neutral_list
 	var enemy_data: Array[FactionShipData] = current_sys_data.enemy_list
@@ -239,12 +259,12 @@ func save_ship_data(current_sys_data: SystemData) -> void:
 	for i: int in range(neutralShips.size()):
 		var ship: NeutralCharacter = neutralShips[i]
 		var data: NeutralData = neutral_data[i]
-
+		
 		data.world_position = ship.global_position
 		data.current_hp = ship.health_component.hp_current
 		data.current_sp = ship.health_component.sp_current
 		data.shield_state = ship.shield.shieldActive
-
+		
 	for i: int in range(factionShips.size()):
 		var ship: FactionCharacter = factionShips[i]
 		var data: FactionShipData = enemy_data[i]
@@ -272,7 +292,12 @@ func cleanup_old_system() -> void:
 		if spawn:
 			spawn.queue_free()
 	
+	for container:ContainerPickup in containers:
+		if container:
+			container.queue_free()
+	
 	unused_planets = unused_planets + planets # Move all planets to unused
+	planets.clear()
 	
 	factionShips.clear()
 	neutralShips.clear()

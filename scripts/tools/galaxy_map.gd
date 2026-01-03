@@ -133,13 +133,17 @@ func update_mission_text(current_mission: MissionData) -> void:
 	if current_mission == null:
 		clear_mission_text()
 	else:
-		var system_name:String = current_mission.targetSystem.system_name
-		var planet_name:String = current_mission.targetPlanet
-		var first_string: String = "Current mission: " + Utility.UI_yellow + planet_name + "[/color] in "
+		var system_name:String = current_mission.target_system.system_name
+		var target:String = current_mission.target_planet_name
+		if !(current_mission.type == MissionData.MISSION_TYPE.DELIVERY
+			or current_mission.type == MissionData.MISSION_TYPE.ANALYSIS):
+				target = current_mission.title
+		 
+		var first_string: String = "Current mission: %s in " % Utility.color_string(Utility.UI_yellow, target)
 		
 		var destination_text: String = first_string + "[color=#FFCC66]" + system_name + "[/color]"
 		# Color target system to match faction
-		match current_mission.targetSystem.faction:
+		match current_mission.target_system.faction:
 			Utility.FACTION.FEDERATION:
 				destination_text = first_string + Utility.fed_blue + system_name + "[/color]"
 			Utility.FACTION.ROMULAN:

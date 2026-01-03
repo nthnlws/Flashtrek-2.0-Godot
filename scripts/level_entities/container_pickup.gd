@@ -8,15 +8,16 @@ class_name ContainerPickup
 func _ready() -> void:
 	if !container_data:
 		container_data = ContainerData.new()
+		printerr("No container data assigned to container")
 	
-	print(Utility.FACTION.keys()[container_data.faction])
-	match container_data.faction:
-		Utility.FACTION.FEDERATION:
-			sprite.set_animation("federation")
-		Utility.FACTION.ROMULAN:
-			sprite.set_animation("romulan")
-		Utility.FACTION.KLINGON:
-			sprite.set_animation("klingon")
-		_:
-			sprite.set_animation("federation")
+	# Set sprite
+	if container_data.faction == Utility.FACTION.FEDERATION:
+		sprite.set_animation("federation")
+	elif container_data.faction == Utility.FACTION.ROMULAN:
+		sprite.set_animation("romulan")
+	elif container_data.faction == Utility.FACTION.KLINGON:
+		sprite.set_animation("klingon")
 	sprite.play()
+	
+	# Set position
+	self.global_position = container_data.position

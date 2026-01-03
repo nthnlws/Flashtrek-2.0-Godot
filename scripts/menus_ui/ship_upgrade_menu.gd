@@ -56,7 +56,7 @@ func _on_close_menu_button_pressed() -> void:
 
 
 func set_background(ship_index: Utility.SHIP_TYPES) -> void:
-	var faction = Utility.get_faction_from_ship(ship_index)
+	var faction = Utility.get_faction_from_ship_type(ship_index)
 	match faction:
 		Utility.FACTION.FEDERATION:
 			background.texture = CORRIDOR_FEDERATION_EDITED

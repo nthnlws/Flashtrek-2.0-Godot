@@ -174,14 +174,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		shooting_button_held = false
 	
 	if event.is_action_pressed("right_click"):
-		shoot_missile(get_global_mouse_position())
-		#tractor_beam.visible = true
-		#tractor_beam.try_activate_beam()
+		#shoot_missile(get_global_mouse_position())
+		tractor_beam.visible = true
+		tractor_beam.try_activate_beam()
 	
 	if event.is_action_released("right_click"):
-		pass
-		#tractor_beam.visible = false
-		#tractor_beam.deactivate_beam()
+		tractor_beam.visible = false
+		tractor_beam.deactivate_beam()
 	# Secondary weapon firing
 	#if event.is_action_pressed("right_click"):
 		#if _can_fire_weapons(laser.energy_drain):
@@ -355,7 +354,7 @@ func _can_fire(cost: float) -> bool:
 	)
 
 
-func killPlayer() -> void:
+func killPlayer(hit_event:HitEvent) -> void:
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 	%PlayerDieSound.play()
 	self.visible = false

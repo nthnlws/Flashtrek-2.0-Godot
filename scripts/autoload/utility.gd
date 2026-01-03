@@ -288,6 +288,18 @@ func get_distance_to_polygon(to_point: Vector2, area: Area2D) -> float:
 	return min_distance
 
 
-func get_faction_from_ship(ship_index: SHIP_TYPES) -> FACTION:
+func get_faction_from_ship_type(ship_index: SHIP_TYPES) -> FACTION:
 	var faction:Utility.FACTION = SHIP_DATA.values()[ship_index].get("FACTION")
 	return faction
+
+func color_string(color:String, text: String) -> String:
+	return color + text + "[/color]"
+
+func get_enemy_faction(faction:Utility.FACTION) -> Utility.FACTION:
+	if faction == Utility.FACTION.FEDERATION:
+		return  Utility.FACTION.KLINGON
+	elif faction ==  Utility.FACTION.KLINGON:
+		return  Utility.FACTION.ROMULAN
+	elif faction ==  Utility.FACTION.ROMULAN:
+		return  Utility.FACTION.FEDERATION
+	else: return  Utility.FACTION.NEUTRAL
