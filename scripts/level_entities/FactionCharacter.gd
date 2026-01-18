@@ -33,17 +33,17 @@ func _ready() -> void:
 func setMovementState(delta:float) -> void:
 	if enemyAgro and enemy_target: # Movement toward target
 		targetMovement(delta)
-		moveTarget = "Enemy"
-	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase" and moveTarget != "Planet":
+		moveTarget = MOVE_STATE.Enemy
+	elif global_position.distance_to(starbase.global_position) < 1500 and moveTarget == MOVE_STATE.Starbase and moveTarget != MOVE_STATE.Planet:
 		returnToStarbaseBool = false
 		selectRandomPlanet()
-		moveTarget = "Planet"
+		moveTarget = MOVE_STATE.Planet
 	elif !enemyAgro and returnToStarbaseBool == false: # Movement toward picked planet
 		planetMovement(delta)
-		moveTarget = "Planet"
+		moveTarget = MOVE_STATE.Planet
 	elif !enemyAgro and returnToStarbaseBool == true: # Move toward starbase
 		starbaseMovement(delta)
-		moveTarget = "Starbase"
+		moveTarget = MOVE_STATE.Starbase
 	else: print("No matching movement status")
 
 
@@ -55,9 +55,9 @@ func targetMovement(delta: float) -> void:
 	look_at_target(predicted_position, angle_diff, delta)
 	if distance_to_target > 1000:
 		if typeof(predicted_position) == TYPE_INT:
-			moveToTarget("Enemy", enemy_target.global_position, delta)
+			moveToTarget(enemy_target.global_position, delta)
 		else:
-			moveToTarget("Enemy", predicted_position, delta)
+			moveToTarget(predicted_position, delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, 25 * delta)
 		

@@ -10,6 +10,7 @@ var sun: Sun
 var player: Player
 var starbases: Array[Node2D]
 var containers: Array[ContainerPickup]
+var mission_characters: Array[MissionCharacter]
 
 
 @export_category("Level Objects")

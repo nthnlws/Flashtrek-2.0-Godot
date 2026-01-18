@@ -10,6 +10,7 @@ var disabled: bool = false
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 
 var laser_on:bool = false
+var parent: Node
 
 @onready var visuals_controller: LaserVisualsController = $VisualsController
 @onready var raycast: RayCast2D = $RayCast2D
@@ -25,6 +26,12 @@ var firing_button_held:bool = false
 
 
 func _ready() -> void:
+	parent = get_parent()
+	if parent.has_signal("to_impulse_transition"):
+		parent.to_impulse_transition.connect(_handle_parent_impulse)
+	if parent.has_signal("to_overdrive_transition"):
+		parent.to_overdrive_transition.connect(_handle_parent_overdrive)
+	
 	z_index = Utility.Z["Weapons"]
 	
 	# Hacky way to invert any scale effects inherited from parent ship
@@ -32,8 +39,17 @@ func _ready() -> void:
 	self.scale  = scale/scale_modifier
 
 
+func _handle_parent_impulse() -> void:
+	print("force enable")
+	force_enable()
+
+func _handle_parent_overdrive() -> void:
+	print("force disable")
+	force_disable()
+
+
 func _physics_process(delta:float) -> void:
-	if !disabled:
+	if !disabled and current_state != State.DISABLED:
 		if firing_button_held:
 			_aim_at_mouse()
 			if can_fire():
@@ -122,12 +138,11 @@ func _state_logic_firing(delta:float) -> void:
 	if target_node == null:
 		_change_state(State.FIZZLING)
 	else: # Accumulate and deal damage
-		var parent = target_node.get_parent()
 		
 		# Hit event creation
 		var hit_event:HitEvent = HitEvent.new()
 		hit_event.is_from_player = true
-		hit_event.shooter_instance_id = get_parent().get_instance_id()
+		hit_event.shooter_instance_id = parent.get_instance_id()
 		hit_event.shooter_faction = faction
 		hit_event.projectile_ID = randi()
 		hit_event.hit_position = raycast.get_collision_point()

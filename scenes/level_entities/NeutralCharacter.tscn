@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://crsud8w51n07n"]
 
-[ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/NeutralCharacter.gd" id="1_h86cx"]
+[ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/NeutralCharacter.gd" id="1_scpag"]
 [ext_resource type="PackedScene" uid="uid://cox3jpjtaf204" path="res://scenes/components/health_component.tscn" id="2_a5e8g"]
 [ext_resource type="Material" uid="uid://c7htollnbbtij" path="res://resources/Materials_Shaders/cloak_material_CENTER.tres" id="3_a5e8g"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_l33it"]
@@ -273,7 +273,7 @@ animations = [{
 [node name="NeutralCharacter" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(2.475, 2.475)
 collision_layer = 4
-script = ExtResource("1_h86cx")
+script = ExtResource("1_scpag")
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("shield") instance=ExtResource("2_a5e8g")]
 shield = NodePath("../Shield")

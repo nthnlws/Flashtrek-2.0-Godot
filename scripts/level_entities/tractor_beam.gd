@@ -31,6 +31,8 @@ const MAX_ANGLE_DEVIATION_RAD = deg_to_rad(35)
 func _ready() -> void:
 	# Store the parent for easy access to its position and rotation
 	parent_node = get_parent() as Node2D
+	if parent_node.has_signal("to_overdrive_transition"):
+		parent_node.to_overdrive_transition.connect(_handle_parent_overdrive)
 	if not is_instance_valid(parent_node):
 		push_error("TractorBeam must be a child of a Node2D (like the Player).")
 		return
@@ -120,6 +122,10 @@ func deactivate_beam() -> void:
 
 
 #region Internal Logic
+func _handle_parent_overdrive() -> void:
+	deactivate_beam()
+
+
 func is_aim_valid(parent_rotation_rad: float, target_position: Vector2) -> bool:
 	var origin_position = parent_node.global_position
 	

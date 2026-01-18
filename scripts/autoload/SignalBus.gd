@@ -8,6 +8,7 @@ func _init() -> void:
 signal factionShipDied(enemy:FactionCharacter)
 signal spawnLoot(type:UpgradePickup.MODULE_TYPES, postition:Vector2)
 signal neutralShipDied(enemy:NeutralCharacter)
+signal missionCharacterDied(mission_ship:MissionCharacter)
 signal updateGalaxyData(galaxy_data:GalaxyData)
 signal galaxyDataUpdated(galaxy_data:GalaxyData)
 

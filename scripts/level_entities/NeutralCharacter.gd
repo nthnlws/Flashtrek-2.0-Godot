@@ -19,7 +19,8 @@ var rotation_rate: float = 1.5
 
 var endPoint: Vector2
 var returnToStarbaseBool: bool = false
-var moveTarget: String
+var moveTarget: MOVE_STATE
+enum MOVE_STATE { Starbase, Planet, Coordinates, Enemy }
 
 var AI_enabled:bool = true
 var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
@@ -115,16 +116,16 @@ func _physics_process(delta: float) -> void:
 
 
 func setMovementState(delta:float) -> void:
-	if global_position.distance_to(starbase.global_position) < 1500 and moveTarget == "Starbase":
+	if global_position.distance_to(starbase.global_position) < 1500 and moveTarget == MOVE_STATE.Starbase:
 		returnToStarbaseBool = false
 		selectRandomPlanet()
-		moveTarget = "Planet"
+		moveTarget = MOVE_STATE.Planet
 	elif returnToStarbaseBool == false: # Movement toward picked planet
 		planetMovement(delta)
-		moveTarget = "Planet"
+		moveTarget = MOVE_STATE.Planet
 	elif returnToStarbaseBool == true: # Move toward starbase
 		starbaseMovement(delta)
-		moveTarget = "Starbase"
+		moveTarget = MOVE_STATE.Starbase
 	else: print("No matching movement status")
 
 
@@ -135,19 +136,17 @@ func selectRandomPlanet() -> void:
 func starbaseMovement(delta:float) -> void:
 	if starbase:
 		var starbaseLocation: Vector2 = starbase.global_position
-		var direction:Vector2 = global_position.direction_to(starbase.position) # Sets movement direction to starbase
-		moveToTarget("Starbase", starbaseLocation, delta)
+		moveToTarget(starbaseLocation, delta)
 
 
 func planetMovement(delta:float) -> void: 
-	moveToTarget("Planet", endPoint, delta)
-	
+	moveToTarget(endPoint, delta)
 	
 	if self.global_position.distance_to(endPoint) < 5:
 		returnToStarbaseBool = true
 
 
-func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> void:
+func moveToTarget(targetPos:Vector2, delta: float) -> void:
 	velocity = (targetPos - self.global_position).normalized() * move_speed
 	var angle_diff:float = calc_angle(targetPos, delta)
 	look_at_target(targetPos, angle_diff, delta)
@@ -156,7 +155,6 @@ func moveToTarget(targetName:String, targetPos:Vector2, delta: float) -> void:
 
 func calc_angle(targetPos:Vector2, delta:float) -> float:
 	var angle: float = (targetPos - self.global_position).angle()
-	var rotation_speed: float = rotation_rate * delta
 	var angle_diff:float = wrapf(angle - self.global_rotation, -PI, PI)
 	
 	return angle_diff

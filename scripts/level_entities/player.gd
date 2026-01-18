@@ -1,6 +1,10 @@
 extends CharacterBody2D
 class_name Player
 
+signal to_impulse_transition
+signal to_overdrive_transition
+
+
 # --- Components ---
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
@@ -174,13 +178,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		shooting_button_held = false
 	
 	if event.is_action_pressed("right_click"):
-		#shoot_missile(get_global_mouse_position())
-		tractor_beam.visible = true
-		tractor_beam.try_activate_beam()
+		if _can_fire(0): # Try "can fire" with 0 energy cost
+			#shoot_missile(get_global_mouse_position())
+			tractor_beam.visible = true
+			tractor_beam.try_activate_beam()
 	
 	if event.is_action_released("right_click"):
 		tractor_beam.visible = false
 		tractor_beam.deactivate_beam()
+		
+	_handle_input_actions(event)
 	# Secondary weapon firing
 	#if event.is_action_pressed("right_click"):
 		#if _can_fire_weapons(laser.energy_drain):
@@ -190,20 +197,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		#laser.stop_firing()
 
 
+func _handle_input_actions(event: InputEvent) -> void:
+	if event.is_action_pressed("overdrive") and Utility.current_gamestate != Utility.GAMESTATE.WARPING:
+		overdrive_state_change("SMOOTH")
+
+
 func _physics_process(delta: float) -> void:
 	if !health_component.alive or GameSettings.menuStatus: return
 	
-	_handle_input_actions()
+	if Input.is_action_pressed("left_click") and !shoot_cd and !overdrive_active and shooting_button_held:
+		shoot_torpedo()
 	_handle_movement(delta)
 	move_and_slide()
-
-
-func _handle_input_actions() -> void:
-	if Input.is_action_just_pressed("overdrive") and Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-		overdrive_state_change("SMOOTH")
-
-	if Input.is_action_pressed("left_click") and !shoot_cd and !overdrive_active:
-		shoot_torpedo()
 
 
 func _handle_movement(delta: float) -> void:
@@ -234,7 +239,7 @@ func _handle_movement(delta: float) -> void:
 				rotate(deg_to_rad(-rotation_speed * delta * overdrivem_r))
 
 
-func overdrive_state_change(speed) -> void: # Reverses overdrive state
+func overdrive_state_change(speed) -> void: # Reverses overdrive state	
 	# Stop any ongoing tweens
 	for tween:Tween in current_tweens:
 		if tween.is_running():
@@ -243,6 +248,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 	current_tweens.clear()  # Clear the list of running tweens
 	
 	if overdrive_active: # Transition to impulse
+		to_impulse_transition.emit()
 		energy.lock_regeneration(trans_length / 2)
 		overdrive_active = false
 		if laser:
@@ -269,6 +275,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 				shield.fadein_SMOOTH()
 				overdrive_sound_off()
 	else: # Transition to overdrive
+		to_overdrive_transition.emit()
 		overdrive_active = true
 		overdrive_sound_on()
 		if laser:
