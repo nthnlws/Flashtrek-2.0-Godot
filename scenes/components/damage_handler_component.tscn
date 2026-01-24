@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b21k0tygx1d0h"]
+
+[ext_resource type="Script" uid="uid://bqnsd8a3nh1rc" path="res://scripts/components/damage_handler_component.gd" id="1_5f2lt"]
+
+[node name="DamageHandlerComponent" type="Node" node_paths=PackedStringArray("shield", "hull", "health_component")]
+script = ExtResource("1_5f2lt")
+shield = NodePath("")
+hull = NodePath("")
+health_component = NodePath("")

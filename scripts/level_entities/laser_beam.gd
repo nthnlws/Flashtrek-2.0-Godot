@@ -40,11 +40,9 @@ func _ready() -> void:
 
 
 func _handle_parent_impulse() -> void:
-	print("force enable")
 	force_enable()
 
 func _handle_parent_overdrive() -> void:
-	print("force disable")
 	force_disable()
 
 

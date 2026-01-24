@@ -20,7 +20,7 @@ func _connect_signals() -> void:
 	SignalBus.BottomLeft_clicked.connect(_on_open_comms_pressed)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 
-
+#region Player Comms
 # --- UI VISIBILITY AND STATE ---
 func open_comms() -> void:
 	if not current_planet: 
@@ -85,3 +85,7 @@ func _on_enter_comms_range(planet_node: Node2D) -> void:
 func _on_exit_comms(_planet: Node2D) -> void:
 	current_planet = null
 	close_comms()
+
+#endregion
+
+#region Survey Mission

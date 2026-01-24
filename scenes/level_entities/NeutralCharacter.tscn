@@ -1,9 +1,10 @@
-[gd_scene load_steps=30 format=3 uid="uid://crsud8w51n07n"]
+[gd_scene load_steps=31 format=3 uid="uid://crsud8w51n07n"]
 
 [ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/NeutralCharacter.gd" id="1_scpag"]
 [ext_resource type="PackedScene" uid="uid://cox3jpjtaf204" path="res://scenes/components/health_component.tscn" id="2_a5e8g"]
 [ext_resource type="Material" uid="uid://c7htollnbbtij" path="res://resources/Materials_Shaders/cloak_material_CENTER.tres" id="3_a5e8g"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_l33it"]
+[ext_resource type="PackedScene" uid="uid://b21k0tygx1d0h" path="res://scenes/components/damage_handler_component.tscn" id="3_o4ahg"]
 [ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="3_scpag"]
 [ext_resource type="Shader" uid="uid://bxs62v6ygtxwj" path="res://resources/Materials_Shaders/solid_fill.gdshader" id="4_scpag"]
 [ext_resource type="Texture2D" uid="uid://duvs6uixemkbt" path="res://assets/textures/ships/hull_explosion.png" id="5_scpag"]
@@ -275,8 +276,14 @@ scale = Vector2(2.475, 2.475)
 collision_layer = 4
 script = ExtResource("1_scpag")
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("shield") instance=ExtResource("2_a5e8g")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("2_a5e8g")]
 shield = NodePath("../Shield")
+hull_component = NodePath("../hitbox_area")
+
+[node name="DamageHandlerComponent" parent="." node_paths=PackedStringArray("shield", "hull", "health_component") instance=ExtResource("3_o4ahg")]
+shield = NodePath("../Shield")
+hull = NodePath("../hitbox_area")
+health_component = NodePath("../HealthComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_lot0p")
@@ -287,8 +294,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_o4ahg")
 }
 
-[node name="Shield" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("8_scpag")]
-health_component = NodePath("../HealthComponent")
+[node name="Shield" parent="." instance=ExtResource("8_scpag")]
 
 [node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["enemy"]]
 

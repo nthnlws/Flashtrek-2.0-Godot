@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7mdpkypvjy24"]
+
+[ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="1_mnabp"]
+
+[sub_resource type="GDScript" id="GDScript_b14l7"]
+script/source = "extends Node2D
+class_name PlanetOrbitScanner
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mnabp"]
+radius = 1500.0
+
+[node name="test_Planet" instance=ExtResource("1_mnabp")]
+script = SubResource("GDScript_b14l7")
+
+[node name="AnalysisOrbitRange" type="CollisionShape2D" parent="." index="3"]
+shape = SubResource("CircleShape2D_mnabp")

@@ -1,0 +1,146 @@
+[gd_scene load_steps=7 format=3 uid="uid://cj1a8ynj87xoc"]
+
+[ext_resource type="Texture2D" uid="uid://bq1hf64errt0k" path="res://assets/textures/UI/mission_point_indicator_HALF.png" id="1_7ytpe"]
+[ext_resource type="Script" uid="uid://d2v8bw5jct8eu" path="res://scripts/level_entities/mission_indicator.gd" id="1_8lnn5"]
+
+[sub_resource type="Animation" id="Animation_8lnn5"]
+resource_name = "active_indicator"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftIndicator:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1.1, 1),
+"update": 0,
+"values": [Vector2(-26, 0), Vector2(-20, 0), Vector2(-26, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftIndicator:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1.1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightIndicator:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1.1, 1),
+"update": 0,
+"values": [Vector2(26, 0), Vector2(20, 0), Vector2(26, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightIndicator:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1.1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_alt28"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftIndicator:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-26, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftIndicator:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightIndicator:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(26, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightIndicator:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_isbdv"]
+_data = {
+&"RESET": SubResource("Animation_alt28"),
+&"active_indicator": SubResource("Animation_8lnn5")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lnn5"]
+size = Vector2(73, 66)
+
+[node name="MissionIndicator" type="Node2D"]
+modulate = Color(0.538348, 0.6992328, 0.87613666, 1)
+script = ExtResource("1_8lnn5")
+
+[node name="LeftIndicator" type="Sprite2D" parent="."]
+position = Vector2(-26, 0)
+texture = ExtResource("1_7ytpe")
+region_filter_clip_enabled = true
+
+[node name="RightIndicator" type="Sprite2D" parent="."]
+position = Vector2(26, 0)
+texture = ExtResource("1_7ytpe")
+flip_h = true
+
+[node name="IndicatorAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_isbdv")
+}
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_8lnn5")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_mission_zone_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_mission_zone_exited"]

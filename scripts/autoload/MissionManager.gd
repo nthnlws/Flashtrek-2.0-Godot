@@ -8,7 +8,7 @@ signal mission_completed(mission_data: MissionData)
 
 var Reputation: PlayerReputation = PlayerReputation.new()
 
-# This will store the mission offered by a planet, before it's accepted.
+# Stores the mission offered by a planet, before it's accepted.
 var active_mission: MissionData = null
 var pending_mission: MissionData = null
 
@@ -22,11 +22,9 @@ func generate_mission() -> void:
 		LevelManager.galaxy_data
 	)
 	
-	# Add container data to target system in order to trigger spawn when entering system
-	new_mission.target_system.add_mission_container(new_mission.container_target)
-	
 	pending_mission = new_mission
-	current_state = STATE.pending_mission 
+	current_state = STATE.pending_mission
+
 
 
 func accept_pending_mission() -> void:
@@ -38,6 +36,9 @@ func accept_pending_mission() -> void:
 	mission_started.emit(active_mission)
 	
 	current_state = STATE.active_mission # Update state
+	
+	## Add container data to target system in order to trigger spawn when entering system
+		#new_mission.target_system.add_mission_container(new_mission.container_target)
 
 
 func complete_mission() -> void:

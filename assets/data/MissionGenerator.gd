@@ -29,7 +29,7 @@ static var confirmation_accept_prompts: Array[String] = ["Will you take on this 
 static var confirmation_complete_prompts: Array[String] = ["Ready to complete the assignment?", "Prepared to proceed with the task.", "All systems go, proceed with beam.", "Acknowledged. Moving to final phase.", "Cargo confirmed, beam it over.", "Orders understood, ready to receive cargo.", "Initiating final mission steps."]
 static var federation_thankYou: Array[String] = ["Your delivery has arrived. Starfleet commends your service.", "Shipment secured. We appreciate your reliability.", "Thank you. The Federation acknowledges your efforts.", "Mission complete. Your record has been updated.", "Excellent work. Cargo confirmed and logged."]
 static var klingon_thankYou: Array[String] = ["The cargo is delivered. You have done honor to this task.", "Your duty is fulfilled. Qapla’!", "Well fought. The shipment has arrived intact.", "You have earned your reward in glory and goods.", "Delivery made. Strength is proven through action."]
-static var romulan_thankYou: Array[String] = ["Your task is complete. Efficiency is... noted.", "Delivery received. The Empire is satisfied.", "You’ve served the mission well—for now.", "Shipment secured. Your discretion is appreciated.", "Another successful operation. You may continue."]
+static var romulan_thankYou: Array[String] = ["Your task is complete. Your efficiency has been noted.", "Delivery received. The Empire is satisfied.", "You’ve served the mission well—for now.", "Shipment secured. Your discretion is appreciated.", "Another successful operation. You may continue."]
 const PROMPTS: Array[String] = ["Will you take on this task?", "Do you agree to these terms?"]
 
 # --- Main Generation Function ---
@@ -81,6 +81,7 @@ static func _pick_weighted_type() -> MissionData.MISSION_TYPE:
 	printerr("No weight returned for mission type creation, defaulting to Delivery mission type")
 	return MissionData.MISSION_TYPE.DELIVERY # Fallback
 
+
 # --- Specific Setup Functions ---
 static func _setup_delivery(m: MissionData, current_sys: SystemData) -> void:
 	m.title = "Cargo Delivery"
@@ -105,7 +106,7 @@ static func _setup_delivery(m: MissionData, current_sys: SystemData) -> void:
 	var dist = GalaxyData.get_jump_distance(current_sys.system_index, m.target_system.system_index)
 	m.reward = dist * 1000
 	
-	if m.faction_owner == Utility.FACTION.FEDERATION:
+	if m.faction_owner == Utility.FACTION.FEDERATION: # String formatting for faction descriptions
 		m.description = "The %s requires %s delivered to %s in the %s system" % [
 		formatted_faction, 
 		formatted_cargo,

@@ -320,6 +320,9 @@ func instantiate_new_system_nodes() -> void:
 
 	var init_spawn: Area2D = PLAYER_SPAWN_AREA.instantiate()
 	level_folder.add_child(init_spawn)
+	for spawn:Area2D in spawn_options:
+		if spawn:
+			spawn.queue_free()
 	spawn_options.append(init_spawn)
 	
 	for i:int in range(6): # Spawn 6 planets

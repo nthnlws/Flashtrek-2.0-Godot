@@ -21,7 +21,7 @@ enum MISSION_TYPE { DELIVERY, CONTAINER, KILL_FACTION, ESCORT, ANALYSIS }
 @export var target_system: SystemData
 @export var target_planet_name: String # Optional
 
-# --- Specific Data (Can be used generically or subclassed) ---
+# --- Misison Type Specific Data ---
 @export_group("Mission Specifics")
 @export var container_target: ContainerData # Cargo name or Container item
 @export var enemy_target_count: int = 0 # For Kill missions

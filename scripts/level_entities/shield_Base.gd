@@ -1,12 +1,12 @@
 extends Node2D
 class_name Shield
 
+signal recieved_damage(hit_event:HitEvent)
+
 @onready var collision_shape: CollisionShape2D = %CollisionShape2D
 @onready var shield_area:Area2D = $shield_area
 @onready var sprite: ColorRect = $ColorRect
 @onready var is_on_player:bool = get_parent() is Player
-
-@export var health_component: HealthComponent
 
 var shieldActive: bool = true:
 	set(value):
@@ -19,7 +19,7 @@ var fade_length: float = 0.8
 
 
 func _on_damage_received(hit_event:HitEvent):
-	health_component.collect_damage_events(hit_event)
+	recieved_damage.emit(hit_event)
 
 
 # Fades shield to 0 Alpha

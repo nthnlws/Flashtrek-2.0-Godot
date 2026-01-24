@@ -28,7 +28,7 @@ var player_name: String = "USS Enterprise"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
-enum GAMESTATE { SYSTEM, WARPING, MENU, MAINMENU }
+enum GAMESTATE { SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE }
 var current_gamestate:GAMESTATE = GAMESTATE.MAINMENU
 var _is_quitting: bool = false
 
@@ -303,3 +303,6 @@ func get_enemy_faction(faction:Utility.FACTION) -> Utility.FACTION:
 	elif faction ==  Utility.FACTION.ROMULAN:
 		return  Utility.FACTION.FEDERATION
 	else: return  Utility.FACTION.NEUTRAL
+
+func get_random_point_on_circle(radius: float) -> Vector2:
+	return Vector2.from_angle(randf() * TAU) * radius

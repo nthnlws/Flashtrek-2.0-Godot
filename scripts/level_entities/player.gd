@@ -357,7 +357,8 @@ func _can_fire(cost: float) -> bool:
 		energy.current_energy >= cost and 
 		!overdrive_active and 
 		!cloaked and 
-		Utility.current_gamestate != Utility.GAMESTATE.WARPING
+		Utility.current_gamestate != Utility.GAMESTATE.WARPING and
+		Utility.current_gamestate != Utility.GAMESTATE.CUTSCENE
 	)
 
 
@@ -371,7 +372,7 @@ func killPlayer(hit_event:HitEvent) -> void:
 		overdrive_state_change("INSTANT")
 	
 	#Kill player stats
-	energy.energy_current = 0
+	energy.current_energy = 0.0
 	
 	await get_tree().create_timer(1.5).timeout
 	SignalBus.playerDied.emit()
@@ -389,7 +390,7 @@ func respawn(pos: Vector2) -> void:
 		# Restores all HUD values to max
 		health_component.hp_current = health_component.HP_max #Resets HP to max
 		health_component.sp_current = health_component.SP_max #Resets Shield
-		energy.energy_current = energy.max_energy #Resets energy
+		energy.current_energy = energy.max_energy #Resets energy
 		
 		rotation = deg_to_rad(-90.0) #Sets rotation to up
 		

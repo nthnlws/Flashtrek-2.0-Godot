@@ -1,16 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjwf6ulibdpvr"]
+[gd_scene load_steps=5 format=3 uid="uid://cjwf6ulibdpvr"]
 
 [ext_resource type="Script" uid="uid://owc1q1nlv3cr" path="res://scripts/level_entities/planet.gd" id="1_u3uqc"]
 [ext_resource type="Texture2D" uid="uid://csqm03cav5a3l" path="res://assets/textures/planets/planet_sprite_sheet.png" id="2_ayfns"]
+[ext_resource type="PackedScene" uid="uid://cj1a8ynj87xoc" path="res://scenes/level_entities/mission_indicator.tscn" id="3_iwvp7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_st7tq"]
-radius = 800.0
+radius = 2400.0
 
 [node name="Planet" type="Node2D"]
-scale = Vector2(3, 3)
 script = ExtResource("1_u3uqc")
 
+[node name="MissionIndicator" parent="." instance=ExtResource("3_iwvp7")]
+position = Vector2(-6, 1501)
+scale = Vector2(4, 4)
+
 [node name="PlanetTexture" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
 texture = ExtResource("2_ayfns")
 hframes = 15
 vframes = 15
@@ -22,17 +27,23 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CommArea"]
 shape = SubResource("CircleShape2D_st7tq")
 
-[node name="Node" type="Node2D" parent="."]
-
-[node name="Label" type="RichTextLabel" parent="Node"]
-offset_left = -248.333
-offset_top = -332.0
-offset_right = 249.667
-offset_bottom = -297.0
-theme_override_font_sizes/normal_font_size = 25
+[node name="Label" type="RichTextLabel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1032.0
+offset_top = -1205.0
+offset_right = 1032.0
+offset_bottom = -1014.6666
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 75
 bbcode_enabled = true
 text = "PLANET"
 horizontal_alignment = 1
 
+[connection signal="player_entered" from="MissionIndicator" to="." method="start_orbit_sequence"]
 [connection signal="body_entered" from="CommArea" to="." method="_on_comm_area_body_entered"]
 [connection signal="body_exited" from="CommArea" to="." method="_on_comm_area_body_exited"]
