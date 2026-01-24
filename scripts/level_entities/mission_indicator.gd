@@ -1,4 +1,5 @@
 extends Node2D
+class_name MissionIndicator
 
 @onready var indicator_animation: AnimationPlayer = $IndicatorAnimation
 

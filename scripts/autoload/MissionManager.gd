@@ -33,6 +33,11 @@ func accept_pending_mission() -> void:
 		return
 	
 	active_mission = pending_mission
+	
+	if active_mission.type == MissionData.MISSION_TYPE.ANALYSIS:
+		var planet_data: PlanetData = active_mission.target_system.get_planet_data(active_mission.target_planet_name)
+		planet_data.add_AnalyzeComponent()
+	
 	mission_started.emit(active_mission)
 	
 	current_state = STATE.active_mission # Update state

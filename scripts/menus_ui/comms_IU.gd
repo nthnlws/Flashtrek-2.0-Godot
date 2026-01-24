@@ -23,14 +23,14 @@ func _connect_signals() -> void:
 #region Player Comms
 # --- UI VISIBILITY AND STATE ---
 func open_comms() -> void:
-	if not current_planet: 
+	if not current_planet or !current_planet.communication_component:
 		return
 	
 	self.visible = true
 	SignalBus.toggleQ3HUD.emit("off") # Turn off Q3 pulse (Comm Available)
 	
 	# 1. Get the formatted text from the planet
-	var message: String = current_planet.request_hail(ship_name)
+	var message: String = current_planet.communication_component.request_hail(ship_name)
 	update_comms_message(message)
 	
 	# 2. Check resulting state to toggle UI elements
@@ -63,11 +63,11 @@ func _on_open_comms_pressed() -> void:
 
 
 func _on_cargo_beam_pressed() -> void:
-	if not self.visible or not current_planet: 
+	if not self.visible or not current_planet or !current_planet.communication_component: 
 		return
 		
 	# Attempt to interact (Accept Mission or Complete Mission)
-	var response: String = current_planet.attempt_interaction(ship_name)
+	var response: String = current_planet.communication_component.attempt_interaction(ship_name)
 	
 	if not response.is_empty():
 		SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse

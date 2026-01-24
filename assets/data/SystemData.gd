@@ -64,9 +64,9 @@ static func generate_system_data(sys_index:int, system_name:String) -> SystemDat
 	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, sys_faction)
 	
 	# Planetary body setup
-	var planet_count: int = randi_range(3, 6)
-	new_system_data.sun_data = generate_sun_data(planet_count)
-	var spawn_positions: Array = get_planet_spawn_positions(planet_count)
+	var new_planet_count: int = randi_range(3, 6)
+	new_system_data.sun_data = generate_sun_data(new_planet_count)
+	var spawn_positions: Array = get_planet_spawn_positions(new_planet_count)
 	for valid_position:Vector2 in spawn_positions:
 		var planet_name:String = new_system_data.planet_names.pop_front()
 		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, sys_faction))

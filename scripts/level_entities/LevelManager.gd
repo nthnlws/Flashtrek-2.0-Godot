@@ -5,7 +5,6 @@ var factionShips: Array[FactionCharacter]
 var neutralShips: Array[NeutralCharacter]
 var levelWalls: Node2D
 var planets: Array[Node2D]
-var unused_planets: Array[Node2D]
 var sun: Sun
 var player: Player
 var starbases: Array[Node2D]
@@ -67,10 +66,12 @@ func _connect_signals() -> void:
 func _handle_player_death() -> void:
 	var home_system:SystemData = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 	change_system(home_system)
+	player.global_position = get_spawn_position()
 	minimap.create_minimap_objects()
 
 
 func on_level_loaded() -> void:
+	var default_system: SystemData = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 	
 	# Node paths
@@ -81,16 +82,16 @@ func on_level_loaded() -> void:
 	minimap = get_node("/root/Game/HUD_layer/MiniMap")
 	
 	# System setup
-	instantiate_new_system_nodes() # Initial creation of all level nodes
-	change_system(galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus))
-	save_ship_data(galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus))
+	instantiate_new_system_nodes(default_system) # Initial creation of all level nodes
+	change_system(default_system)
+	save_ship_data(default_system)
 	minimap.create_minimap_objects() # Refresh minimap objects
 	
 	SignalBus.galaxyDataUpdated.emit(galaxy_data)
 
 
 func on_level_unloaded() -> void:
-	for array in [factionShips, neutralShips, spawn_options, planets, unused_planets, starbases]:
+	for array in [factionShips, neutralShips, spawn_options, planets, starbases]:
 		array.clear()
 
 
@@ -130,11 +131,10 @@ func change_system(system_data:SystemData) -> void:
 	
 	# Create new NPCs
 	instantiate_NPC_ships(system_data)
+	instantiate_planets(system_data)
 	
 	# Data sync functions
 	sync_sun_to_data(system_data.sun_data)
-	#sync_ships_to_data(system_data)
-	sync_planets_to_data(system_data.planet_data)
 	sync_containers_to_data(system_data.mission_containers)
 	
 	SignalBus.system_changed.emit(system_data)
@@ -221,18 +221,6 @@ func sync_sun_to_data(sun_data:SunData) -> void:
 	sun.set_frame(sun_data.frame)
 
 
-func sync_planets_to_data(planet_data:Array[PlanetData]) -> void:
-	for data:PlanetData in planet_data: # size = PLANET_COUNT for system
-		var use_planet:Node2D = unused_planets.pop_back() # Select an unused planet
-		use_planet.global_position = data.world_position
-		use_planet.set_frame(data.frame)
-		use_planet.name = data.name
-		use_planet.set_label(data.name)
-		use_planet.planetFaction = data.faction
-		
-		planets.append(use_planet)
-
-
 func sync_containers_to_data(mission_containers:Array[ContainerData]) -> void:
 	# Cleanup old containers
 	for container:ContainerPickup in containers:
@@ -286,25 +274,27 @@ func cleanup_old_system() -> void:
 	for ship:CharacterBody2D in neutralShips + factionShips:
 		ship.queue_free() # Delete all old ships
 	
-	for planet:Node2D in planets:
-		planet.global_position = Vector2(40000, 40000)
-	
-	for spawn:Area2D in spawn_options:
-		if spawn:
-			spawn.queue_free()
-	
 	for container:ContainerPickup in containers:
 		if container:
 			container.queue_free()
 	
-	unused_planets = unused_planets + planets # Move all planets to unused
-	planets.clear()
+	for planet:Planet in planets:
+		planet.queue_free()
 	
+	planets.clear()
 	factionShips.clear()
 	neutralShips.clear()
 
 
-func instantiate_new_system_nodes() -> void:
+func instantiate_planets(system_data:SystemData) -> void:
+	for i:int in system_data.planet_data.size(): # Spawn required planets
+		var init_planet: Node2D = PLANET.instantiate()
+		init_planet.planet_data = system_data.planet_data[i]
+		level_folder.add_child(init_planet)
+		planets.append(init_planet)
+
+
+func instantiate_new_system_nodes(system_data: SystemData) -> void:
 	var init_border: Node2D = LEVEL_BORDERS.instantiate()
 	level_folder.add_child(init_border)
 	levelWalls = init_border
@@ -317,20 +307,11 @@ func instantiate_new_system_nodes() -> void:
 	level_folder.add_child(init_starbase)
 	init_starbase.global_position = Vector2.ZERO
 	starbases.append(init_starbase)
-
+	
 	var init_spawn: Area2D = PLAYER_SPAWN_AREA.instantiate()
 	level_folder.add_child(init_spawn)
-	for spawn:Area2D in spawn_options:
-		if spawn:
-			spawn.queue_free()
 	spawn_options.append(init_spawn)
 	
-	for i:int in range(6): # Spawn 6 planets
-		var init_planet: Node2D = PLANET.instantiate()
-		level_folder.add_child(init_planet)
-		init_planet.global_position = Vector2(40000, 40000) # Moves planets outside of level borders
-		unused_planets.append(init_planet)
-
 	var init_player: Player = PLAYER.instantiate()
 	level_folder.add_child(init_player)
 	init_player.global_position = get_spawn_position()

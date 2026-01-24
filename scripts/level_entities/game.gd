@@ -40,7 +40,7 @@ func handlePlayerDied() -> void:
 	%LoadingScreen.visible = true
 	LevelManager.player.camera._zoom = Vector2(0.4, 0.4)
 	await get_tree().create_timer(1.5).timeout
-	LevelManager.player.respawn(LevelManager.get_spawn_position())
+	LevelManager.player.respawn()
 	%LoadingScreen.visible = false
 
 

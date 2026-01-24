@@ -239,7 +239,10 @@ func _handle_movement(delta: float) -> void:
 				rotate(deg_to_rad(-rotation_speed * delta * overdrivem_r))
 
 
-func overdrive_state_change(speed) -> void: # Reverses overdrive state	
+func overdrive_state_change(speed) -> void: # Reverses overdrive state
+	if Utility.current_gamestate == Utility.GAMESTATE.CUTSCENE:
+		return
+	
 	# Stop any ongoing tweens
 	for tween:Tween in current_tweens:
 		if tween.is_running():
@@ -378,12 +381,11 @@ func killPlayer(hit_event:HitEvent) -> void:
 	SignalBus.playerDied.emit()
 
 
-func respawn(pos: Vector2) -> void:
+func respawn() -> void:
 	if health_component.alive == false:
 		health_component.alive = true
 		SignalBus.playerRespawned.emit()
 		
-		global_position = pos
 		velocity = Vector2.ZERO
 		self.visible = true
 		
