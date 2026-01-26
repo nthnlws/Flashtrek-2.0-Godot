@@ -3,6 +3,8 @@ extends Node2D
 @onready var loading_screen: Control = %LoadingScreen
 @onready var tunnel_effect: SubViewportContainer = %TunnelEffect
 @onready var hud: Control = $HUD_layer/New_HUD
+@onready var level: Node = $Level
+@onready var minimap: Control = %MiniMap
 
 var galaxy_map: Resource = preload("res://assets/data/galaxy_map_data.tres")
 
@@ -18,7 +20,10 @@ func _ready() -> void:
 	SignalBus.playerDied.connect(handlePlayerDied)
 	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
 	
-	LevelManager.on_level_loaded()
+	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
+	minimap.create_minimap_objects()
+	
+	SignalBus.galaxyDataUpdated.emit(LevelManager.galaxy_data)
 
 
 func galaxy_fade_out() -> void:
@@ -42,6 +47,7 @@ func handlePlayerDied() -> void:
 	await get_tree().create_timer(1.5).timeout
 	LevelManager.player.respawn()
 	%LoadingScreen.visible = false
+	minimap.create_minimap_objects()
 
 
 func _warp_into_new_system(system_data:SystemData) -> void:
@@ -65,3 +71,8 @@ func _warp_into_new_system(system_data:SystemData) -> void:
 	
 	LevelManager.player.camera._zoom = Vector2(0.5, 0.5)
 	LevelManager.player.overdrive_state_change("SMOOTH")
+
+
+func _on_level_system_changed() -> void:
+	if minimap:
+		minimap.create_minimap_objects()

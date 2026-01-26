@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cq5kxvmajgng5"]
 
-[ext_resource type="Script" uid="uid://bmt7prtd1070f" path="res://scripts/components/analyze_planet_component.gd" id="1_l0drc"]
+[ext_resource type="Script" uid="uid://bmt7prtd1070f" path="res://scripts/components/planet/analyze_planet_component.gd" id="1_l0drc"]
 
 [node name="AnalyzePlanetComponent" type="Node2D"]
 script = ExtResource("1_l0drc")

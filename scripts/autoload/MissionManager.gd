@@ -37,6 +37,8 @@ func accept_pending_mission() -> void:
 	if active_mission.type == MissionData.MISSION_TYPE.ANALYSIS:
 		var planet_data: PlanetData = active_mission.target_system.get_planet_data(active_mission.target_planet_name)
 		planet_data.add_AnalyzeComponent()
+	if active_mission.type == MissionData.MISSION_TYPE.KILL_FACTION:
+		active_mission.target_system.add_KillEnemiesComponent()
 	
 	mission_started.emit(active_mission)
 	

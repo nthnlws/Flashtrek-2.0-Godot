@@ -1,17 +1,15 @@
-[gd_scene load_steps=21 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene load_steps=18 format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
+[ext_resource type="PackedScene" uid="uid://bfitp1ynqfei8" path="res://scenes/level_entities/level.tscn" id="2_ab70e"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
 [ext_resource type="Script" uid="uid://5ubg1s4kiduk" path="res://scripts/menus_ui/hud_layer.gd" id="9_bhx41"]
-[ext_resource type="PackedScene" uid="uid://berjp6uasq671" path="res://scenes/menus_ui/upgrade_area.tscn" id="10_b4di1"]
-[ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="12_ia24r"]
-[ext_resource type="Script" uid="uid://gqgsthrsg8ka" path="res://scripts/level_entities/hitmarker_manager.gd" id="12_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://d0dea6kwmmylo" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
-[ext_resource type="Resource" uid="uid://ccai2qie4uxf0" path="res://assets/data/mission_container.tres" id="14_ubb7l"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
 [ext_resource type="PackedScene" uid="uid://dfehj0ebpawa0" path="res://scenes/menus_ui/HUD.tscn" id="16_ijd2y"]
 [ext_resource type="PackedScene" uid="uid://cx1bafifkl17x" path="res://scenes/level_entities/galaxy_map.tscn" id="16_wq6qh"]
+[ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="17_a7ete"]
 [ext_resource type="PackedScene" uid="uid://lpc7nsfqbs77" path="res://scenes/menus_ui/crosshair.tscn" id="18_wcaow"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
 [ext_resource type="PackedScene" uid="uid://c5vnannn3r6y1" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
@@ -19,33 +17,12 @@
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
-[ext_resource type="PackedScene" uid="uid://dess4qrmx6vve" path="res://scenes/level_entities/container.tscn" id="26_5qv3h"]
 
 [node name="Game" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_ci0lx")
 
-[node name="Level" type="Node" parent="."]
-process_mode = 1
-
-[node name="level_objects" type="Node" parent="Level"]
-
-[node name="ship_folder" type="Node" parent="Level"]
-
-[node name="hitmarker_manager" type="Node" parent="Level"]
-script = ExtResource("12_ijd2y")
-
-[node name="item_pickups" type="Node" parent="Level"]
-
-[node name="UpgradeArea" parent="Level/item_pickups" instance=ExtResource("10_b4di1")]
-position = Vector2(2118, 494)
-upgrade_type = 5
-
-[node name="Container" parent="Level/item_pickups" instance=ExtResource("26_5qv3h")]
-position = Vector2(2442, 233)
-container_data = ExtResource("14_ubb7l")
-
-[node name="ScrollingBackground" parent="Level" instance=ExtResource("12_ia24r")]
+[node name="Level" parent="." instance=ExtResource("2_ab70e")]
 
 [node name="HUD_layer" type="CanvasLayer" parent="."]
 process_mode = 1
@@ -115,6 +92,9 @@ offset_bottom = 0.0
 script = ExtResource("25_dx7lr")
 enabled = false
 
+[node name="ScrollingBackground" parent="." instance=ExtResource("17_a7ete")]
+
 [connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="system_changed" from="Level" to="." method="_on_level_system_changed"]
 [connection signal="menu_closed" from="Menus/ShipSelectionMenu" to="Menus" method="_handle_ship_menu_closed"]
 [connection signal="menu_closed" from="Menus/ShipUpgradeMenu" to="Menus" method="_handle_ship_menu_closed"]
