@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://0te6qaj7jgnk"]
+[gd_resource type="Theme" format=3 uid="uid://0te6qaj7jgnk"]
 
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="1_35usr"]
 [ext_resource type="StyleBox" uid="uid://4j4adb40orud" path="res://resources/red_button_flat.tres" id="2_35usr"]

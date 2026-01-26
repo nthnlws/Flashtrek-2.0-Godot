@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="GalaxyData" load_steps=41 format=3 uid="uid://dcey0x6vhhtbq"]
+[gd_resource type="Resource" script_class="GalaxyData" format=3 uid="uid://dcey0x6vhhtbq"]
 
 [ext_resource type="Script" uid="uid://ce5tkw2njick7" path="res://assets/data/GalaxyData.gd" id="1_rkjmv"]
 [ext_resource type="Script" uid="uid://crmapxuysvfyo" path="res://assets/data/SystemData.gd" id="2_5kh3e"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://okyqdm864inl"]
+[gd_scene format=3 uid="uid://okyqdm864inl"]
 
 [ext_resource type="Script" uid="uid://dasdlanaqwebv" path="res://scripts/menus_ui/main_menu.gd" id="1_ci3rm"]
 [ext_resource type="Texture2D" uid="uid://d2en54x5q83bv" path="res://assets/textures/UI/main_menu/menu_layout.png" id="2_j785f"]
@@ -27,7 +27,7 @@ font = ExtResource("4_7rxst")
 font_size = 15
 font_color = Color(0, 0, 0, 1)
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1309851875]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,9 +37,9 @@ grow_vertical = 2
 script = ExtResource("1_ci3rm")
 mainGameScene = ExtResource("2_jsvya")
 
-[node name="MainMenu" type="CanvasLayer" parent="."]
+[node name="MainMenu" type="CanvasLayer" parent="." unique_id=346130519]
 
-[node name="MainMenu" type="TextureRect" parent="MainMenu"]
+[node name="MainMenu" type="TextureRect" parent="MainMenu" unique_id=1689933426]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -50,7 +50,7 @@ texture = ExtResource("2_j785f")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="SystemsReady" parent="MainMenu/MainMenu" instance=ExtResource("3_jsvya")]
+[node name="SystemsReady" parent="MainMenu/MainMenu" unique_id=1071807222 instance=ExtResource("3_jsvya")]
 layout_mode = 0
 offset_right = 339.0
 offset_bottom = 69.0
@@ -63,7 +63,7 @@ pressed_color = Color(1, 1, 1, 1)
 [node name="Polygon2D" parent="MainMenu/MainMenu/SystemsReady/PolygonMouseDetector" index="0"]
 polygon = PackedVector2Array(56, 13, 284, 13, 284, 48, 56, 48)
 
-[node name="Stardate" parent="MainMenu/MainMenu" instance=ExtResource("3_jsvya")]
+[node name="Stardate" parent="MainMenu/MainMenu" unique_id=256975287 instance=ExtResource("3_jsvya")]
 layout_mode = 0
 offset_left = 724.0
 offset_top = 498.0
@@ -79,7 +79,7 @@ pressed_color = Color(1, 1, 1, 1)
 [node name="Polygon2D" parent="MainMenu/MainMenu/Stardate/PolygonMouseDetector" index="0"]
 polygon = PackedVector2Array(0, 5, 193, 5, 193, 32, 0, 32)
 
-[node name="Copyright" type="Label" parent="MainMenu/MainMenu"]
+[node name="Copyright" type="Label" parent="MainMenu/MainMenu" unique_id=581351153]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -97,7 +97,7 @@ text = "© n8thegreat 2025"
 label_settings = SubResource("LabelSettings_j785f")
 vertical_alignment = 1
 
-[node name="Version" type="Label" parent="MainMenu/MainMenu"]
+[node name="Version" type="Label" parent="MainMenu/MainMenu" unique_id=930955380]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -112,7 +112,7 @@ text = "v0.0.10"
 label_settings = SubResource("LabelSettings_j785f")
 vertical_alignment = 1
 
-[node name="LeftMenu" type="VBoxContainer" parent="MainMenu/MainMenu"]
+[node name="LeftMenu" type="VBoxContainer" parent="MainMenu/MainMenu" unique_id=1100641802]
 layout_mode = 0
 offset_top = 65.0
 offset_right = 388.0
@@ -120,15 +120,15 @@ offset_bottom = 921.0
 scale = Vector2(0.5, 0.5)
 theme_override_constants/separation = 45
 
-[node name="MainButtonContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu"]
+[node name="MainButtonContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu" unique_id=106955857]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" unique_id=509518389]
 layout_mode = 2
 
-[node name="SinglePlayer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
+[node name="SinglePlayer" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" unique_id=1264249440 instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../ExitGame")
@@ -136,7 +136,7 @@ focus_neighbor_bottom = NodePath("../SettingsButton")
 focus_mode = 2
 text = "Single Player"
 
-[node name="SettingsButton" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
+[node name="SettingsButton" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" unique_id=1844524064 instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../SinglePlayer")
@@ -144,7 +144,7 @@ focus_neighbor_bottom = NodePath("../CreditsButton")
 focus_mode = 2
 text = "Settings"
 
-[node name="CreditsButton" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
+[node name="CreditsButton" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" unique_id=728005001 instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../SettingsButton")
@@ -152,7 +152,7 @@ focus_neighbor_bottom = NodePath("../ExitGame")
 focus_mode = 2
 text = "Credits"
 
-[node name="ExitGame" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" instance=ExtResource("6_sii2t")]
+[node name="ExitGame" parent="MainMenu/MainMenu/LeftMenu/MainButtonContainer" unique_id=675809720 instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../CreditsButton")
@@ -160,52 +160,52 @@ focus_neighbor_bottom = NodePath("../SinglePlayer")
 focus_mode = 2
 text = "Exit Game"
 
-[node name="SlidingContainer" type="Node2D" parent="MainMenu/MainMenu/LeftMenu"]
+[node name="SlidingContainer" type="Node2D" parent="MainMenu/MainMenu/LeftMenu" unique_id=334715862]
 unique_name_in_owner = true
 position = Vector2(-390, 0)
 script = ExtResource("8_7rxst")
 
-[node name="SavesContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer"]
+[node name="SavesContainer" type="VBoxContainer" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer" unique_id=1750939325]
 offset_top = 380.0
 offset_right = 425.0
 offset_bottom = 852.0
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="Saves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="Saves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" unique_id=317596892 instance=ExtResource("6_sii2t")]
 layout_mode = 2
 enabled = false
 text = "Saves"
 button_color = Color(0.84705883, 0.64705884, 0.4392157, 1)
 
-[node name="Slot1" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
+[node name="Slot1" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" unique_id=1441811208 groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot1"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="Slot2" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
+[node name="Slot2" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" unique_id=727154058 groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot2"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="Slot3" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
+[node name="Slot3" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" unique_id=465254382 groups=["slot_buttons"] instance=ExtResource("6_sii2t")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Slot3"
 button_color = Color(0.6117647, 0.6117647, 1, 1)
 starting_position = Vector2(-72, 0)
 
-[node name="ManageSaves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" instance=ExtResource("6_sii2t")]
+[node name="ManageSaves" parent="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer" unique_id=1520393146 instance=ExtResource("6_sii2t")]
 layout_mode = 2
 text = "           Manage Saves"
 button_color = Color(1, 0.6, 0.6, 1)
 starting_position = Vector2(-108, 0)
 
-[node name="3D_Container" type="SubViewportContainer" parent="MainMenu"]
+[node name="3D_Container" type="SubViewportContainer" parent="MainMenu" unique_id=1353497550]
 z_index = -1
 anchors_preset = 15
 anchor_right = 1.0
@@ -219,7 +219,7 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="3D_Viewport" type="SubViewport" parent="MainMenu/3D_Container"]
+[node name="3D_Viewport" type="SubViewport" parent="MainMenu/3D_Container" unique_id=1080368974]
 handle_input_locally = false
 msaa_3d = 2
 use_debanding = true
@@ -228,20 +228,20 @@ fsr_sharpness = 1.0
 size = Vector2i(670, 370)
 render_target_update_mode = 4
 
-[node name="3D_Menu_Scene" parent="MainMenu/3D_Container/3D_Viewport" instance=ExtResource("7_cauqe")]
+[node name="3D_Menu_Scene" parent="MainMenu/3D_Container/3D_Viewport" unique_id=1264843213 instance=ExtResource("7_cauqe")]
 
-[node name="PopupContainer" parent="MainMenu" instance=ExtResource("10_sii2t")]
+[node name="PopupContainer" parent="MainMenu" unique_id=2013281891 instance=ExtResource("10_sii2t")]
 unique_name_in_owner = true
 
-[node name="Credits" parent="." instance=ExtResource("8_huiy3")]
+[node name="Credits" parent="." unique_id=51123155 instance=ExtResource("8_huiy3")]
 layer = 2
 visible = false
 
-[node name="Settings" parent="." instance=ExtResource("9_pw3bc")]
+[node name="Settings" parent="." unique_id=2140357949 instance=ExtResource("9_pw3bc")]
 layer = 3
 visible = false
 
-[node name="audio_manager" parent="." instance=ExtResource("10_j785f")]
+[node name="audio_manager" parent="." unique_id=1452542254 instance=ExtResource("10_j785f")]
 
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SinglePlayer" to="." method="_on_single_player_button_pressed"]
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

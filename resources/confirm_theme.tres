@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=5 format=4 uid="uid://cwqgoxiyyisjp"]
+[gd_resource type="Theme" format=4 uid="uid://cwqgoxiyyisjp"]
 
 [ext_resource type="StyleBox" uid="uid://c1ly4vdmejr40" path="res://resources/green_button_flat.tres" id="2_tk1dw"]
 
@@ -19,6 +19,15 @@ style_name = "Regular"
 multichannel_signed_distance_field = true
 msdf_pixel_range = 8
 msdf_size = 96
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/96/0/ascent = 87.0
 cache/0/96/0/descent = 29.0
 cache/0/96/0/underline_position = 7.6875
