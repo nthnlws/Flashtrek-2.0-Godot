@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwa6ay3fwkgf5"]
+[gd_scene format=3 uid="uid://dwa6ay3fwkgf5"]
 
 [ext_resource type="Script" uid="uid://jygtqx11kug4" path="res://scripts/autoload/MissionManager.gd" id="1_vxcml"]
 
-[node name="MissionManager" type="Node"]
+[node name="MissionManager" type="Node" unique_id=194121892]
 script = ExtResource("1_vxcml")
