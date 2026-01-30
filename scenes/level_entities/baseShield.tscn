@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bextl4yltypag"]
+[gd_scene format=3 uid="uid://bextl4yltypag"]
 
 [ext_resource type="Shader" uid="uid://4tscqvcb6xm3" path="res://resources/Materials_Shaders/shield.gdshader" id="1_7v2r8"]
 [ext_resource type="Script" uid="uid://y3ogflhdxqcw" path="res://scripts/level_entities/shield_Base.gd" id="3_7v2r8"]
@@ -11,10 +11,10 @@ shader_parameter/color = Color(0.36, 0.527, 0.837, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nxll"]
 radius = 18.0
 
-[node name="Shield" type="Node2D" groups=["shield"]]
+[node name="Shield" type="Node2D" unique_id=1716507449 groups=["shield"]]
 script = ExtResource("3_7v2r8")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1642773942]
 material = SubResource("ShaderMaterial_k87u5")
 custom_minimum_size = Vector2(180, 92.5)
 anchors_preset = 8
@@ -30,19 +30,19 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="shield_area" type="Area2D" parent="."]
+[node name="shield_area" type="Area2D" parent="." unique_id=1605527124]
 scale = Vector2(2.5, 2.5)
 collision_layer = 128
 collision_mask = 8
 script = ExtResource("3_k87u5")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="shield_area" unique_id=2106917641]
 unique_name_in_owner = true
 scale = Vector2(1.95, 1)
 shape = SubResource("CircleShape2D_5nxll")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1098890709]
 
-[node name="Hitmarkers" type="Node" parent="."]
+[node name="Hitmarkers" type="Node" parent="." unique_id=143460230]
 
 [connection signal="recieved_damage" from="shield_area" to="." method="_on_damage_received"]

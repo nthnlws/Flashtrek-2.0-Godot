@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://gyt62irwkmr"]
+[gd_scene format=3 uid="uid://gyt62irwkmr"]
 
 [ext_resource type="Script" uid="uid://gc8yuqd15420" path="res://scripts/tools/debug_marker.gd" id="1_toky1"]
 
-[node name="DebugMarker" type="Node2D"]
+[node name="DebugMarker" type="Node2D" unique_id=167032954]
 script = ExtResource("1_toky1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1437553551]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

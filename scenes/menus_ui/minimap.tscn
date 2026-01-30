@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://d0dea6kwmmylo"]
+[gd_scene format=3 uid="uid://d0dea6kwmmylo"]
 
 [ext_resource type="Script" uid="uid://d2ec82t4i223h" path="res://scripts/menus_ui/minimap.gd" id="1_66fet"]
 
-[node name="MiniMap" type="Control"]
+[node name="MiniMap" type="Control" unique_id=1739468534]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3d0qkwoxcu2y"]
+[gd_scene format=3 uid="uid://d3d0qkwoxcu2y"]
 
 [ext_resource type="Texture2D" uid="uid://bj8ch4hkfuo5u" path="res://assets/textures/UI/destination_aimer.png" id="1_0s4rm"]
 
-[node name="Destination_indicator" type="Node2D"]
+[node name="Destination_indicator" type="Node2D" unique_id=284623050]
 modulate = Color(0, 1, 0, 1)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1208852325]
 scale = Vector2(0.09, 0.09)
 texture = ExtResource("1_0s4rm")

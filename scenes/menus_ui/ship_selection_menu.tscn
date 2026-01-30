@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5vnannn3r6y1"]
+[gd_scene format=3 uid="uid://c5vnannn3r6y1"]
 
 [ext_resource type="Script" uid="uid://kgsd2ge22qph" path="res://scripts/menus_ui/ship_selection_menu.gd" id="1_3djgo"]
 [ext_resource type="Texture2D" uid="uid://digj0ww7e6iir" path="res://assets/textures/UI/starbase_background.png" id="6_pmy4k"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_selector.tscn" id="13_y5r6i"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="14_5cpsl"]
 
-[node name="ShipSelectionMenu" type="Control"]
+[node name="ShipSelectionMenu" type="Control" unique_id=1560661285]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_3djgo")
 
-[node name="starbase_back" type="TextureRect" parent="."]
+[node name="starbase_back" type="TextureRect" parent="." unique_id=2007563163]
 z_index = -2
 layout_mode = 1
 anchors_preset = 15
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_pmy4k")
 
-[node name="stats_banner" type="Label" parent="."]
+[node name="stats_banner" type="Label" parent="." unique_id=1970683516]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,7 +41,7 @@ theme_override_font_sizes/font_size = 25
 text = "ship Stats:"
 horizontal_alignment = 1
 
-[node name="ship_selection_area" type="Control" parent="."]
+[node name="ship_selection_area" type="Control" parent="." unique_id=1911181069]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,7 +51,7 @@ offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="horizon_gray" type="TextureRect" parent="ship_selection_area"]
+[node name="horizon_gray" type="TextureRect" parent="ship_selection_area" unique_id=503747838]
 modulate = Color(1, 1, 1, 0.470588)
 z_index = -1
 layout_mode = 1
@@ -64,7 +64,7 @@ pivot_offset = Vector2(480, 270)
 texture = ExtResource("7_6y24t")
 expand_mode = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ship_selection_area"]
+[node name="MarginContainer" type="MarginContainer" parent="ship_selection_area" unique_id=1171203272]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,143 +77,143 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="Grid" type="VBoxContainer" parent="ship_selection_area/MarginContainer"]
+[node name="Grid" type="VBoxContainer" parent="ship_selection_area/MarginContainer" unique_id=2102486246]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 25
 alignment = 1
 
-[node name="FederationGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
+[node name="FederationGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid" unique_id=2038174135]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" unique_id=48221289 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 54
 ship_faction = 0
 grayed_out = false
 
-[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" unique_id=297098072 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 38
 ship_faction = 0
 
-[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" unique_id=2081618805 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 5
 ship_faction = 0
 
-[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" unique_id=1458967539 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 47
 ship_faction = 0
 
-[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" unique_id=1941164054 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 63
 ship_faction = 0
 
-[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/FederationGrid" unique_id=2146875993 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 51
 ship_faction = 0
 
-[node name="KlingonGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
+[node name="KlingonGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid" unique_id=160619607]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" unique_id=1531992208 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 83
 ship_faction = 1
 
-[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" unique_id=1472687069 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 42
 ship_faction = 1
 
-[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" unique_id=428729236 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 55
 ship_faction = 1
 
-[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" unique_id=1863587334 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 ship_faction = 1
 
-[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" unique_id=777498773 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 ship_faction = 1
 
-[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/KlingonGrid" unique_id=1451668552 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 ship_faction = 1
 
-[node name="RomulanGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
+[node name="RomulanGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid" unique_id=1752421537]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" unique_id=1373276634 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 57
 ship_faction = 2
 
-[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" unique_id=1123304378 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 84
 ship_faction = 2
 
-[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" unique_id=881024413 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 31
 ship_faction = 2
 
-[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" unique_id=1633772895 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 ship_faction = 2
 
-[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" unique_id=844242278 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 ship_faction = 2
 
-[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/RomulanGrid" unique_id=1139082787 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 ship_faction = 2
 
-[node name="NeutralGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid"]
+[node name="NeutralGrid" type="HBoxContainer" parent="ship_selection_area/MarginContainer/Grid" unique_id=146769391]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" unique_id=771689858 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 80
 
-[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control2" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" unique_id=1387043770 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 68
 
-[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control3" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" unique_id=2131514086 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 14
 
-[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control4" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" unique_id=329592402 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 26
 
-[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control5" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" unique_id=646685079 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 43
 
-[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" instance=ExtResource("13_y5r6i")]
+[node name="Control6" parent="ship_selection_area/MarginContainer/Grid/NeutralGrid" unique_id=1312601418 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 current_ship_type = 81
 
-[node name="vert_gray" type="ColorRect" parent="."]
+[node name="vert_gray" type="ColorRect" parent="." unique_id=1418520609]
 modulate = Color(1, 1, 1, 0.470588)
 z_index = -1
 custom_minimum_size = Vector2(0, 540)
@@ -224,13 +224,13 @@ offset_bottom = 540.0
 size_flags_horizontal = 3
 color = Color(0.415686, 0.415686, 0.415686, 1)
 
-[node name="Stats_Container" type="Control" parent="."]
+[node name="Stats_Container" type="Control" parent="." unique_id=432006885]
 anchors_preset = 0
 offset_left = 635.0
 offset_right = 960.0
 offset_bottom = 540.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Stats_Container"]
+[node name="MarginContainer" type="MarginContainer" parent="Stats_Container" unique_id=901595803]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -242,22 +242,22 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ship_info" type="VBoxContainer" parent="Stats_Container/MarginContainer"]
+[node name="ship_info" type="VBoxContainer" parent="Stats_Container/MarginContainer" unique_id=1133613660]
 layout_mode = 2
 
-[node name="closeMenuButton" type="Button" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="closeMenuButton" type="Button" parent="Stats_Container/MarginContainer/ship_info" unique_id=789691870]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "X"
 
-[node name="MarginContainer" type="MarginContainer" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="MarginContainer" type="MarginContainer" parent="Stats_Container/MarginContainer/ship_info" unique_id=70941356]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_top = 20
 
-[node name="stats_banner" type="Label" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="stats_banner" type="Label" parent="Stats_Container/MarginContainer/ship_info" unique_id=1129368809]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -267,11 +267,11 @@ text = "ship Stats:"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="MarginContainer2" type="MarginContainer" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="MarginContainer2" type="MarginContainer" parent="Stats_Container/MarginContainer/ship_info" unique_id=1901200505]
 layout_mode = 2
 theme_override_constants/margin_bottom = 20
 
-[node name="ship_name" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="ship_name" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=58329186]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -281,7 +281,7 @@ text = "Ship Name: "
 fit_content = true
 scroll_active = false
 
-[node name="faction" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="faction" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=1015615718]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -291,7 +291,7 @@ text = "Faction: "
 fit_content = true
 scroll_active = false
 
-[node name="health_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="health_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=95824097]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -301,7 +301,7 @@ text = "Health: "
 fit_content = true
 scroll_active = false
 
-[node name="shield_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="shield_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=649601274]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -311,7 +311,7 @@ text = "Shield: "
 fit_content = true
 scroll_active = false
 
-[node name="weapon" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="weapon" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=965878867]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -321,7 +321,7 @@ text = "Default Weapon: "
 fit_content = true
 scroll_active = false
 
-[node name="speed_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="speed_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=1529841136]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -331,7 +331,7 @@ text = "Max Speed: "
 fit_content = true
 scroll_active = false
 
-[node name="maneuver_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="maneuver_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=1516627515]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -341,7 +341,7 @@ text = "Maneuverability: "
 fit_content = true
 scroll_active = false
 
-[node name="warp_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info"]
+[node name="warp_stat" type="RichTextLabel" parent="Stats_Container/MarginContainer/ship_info" unique_id=1624617996]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("13_cq87e")
@@ -351,7 +351,7 @@ text = "Antimatter:"
 fit_content = true
 scroll_active = false
 
-[node name="ambience" type="AudioStreamPlayer" parent="."]
+[node name="ambience" type="AudioStreamPlayer" parent="." unique_id=1882359279]
 stream = ExtResource("14_5cpsl")
 volume_db = -15.634
 

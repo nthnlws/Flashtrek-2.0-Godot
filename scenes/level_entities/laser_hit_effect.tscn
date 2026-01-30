@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dglsm5u65wcm6"]
+[gd_scene format=3 uid="uid://dglsm5u65wcm6"]
 
 [ext_resource type="Shader" uid="uid://mqyfa2elop7g" path="res://resources/Materials_Shaders/laser_hit_effect.gdshader" id="1_brpuv"]
 
@@ -15,9 +15,9 @@ shader_parameter/glow = 0.0
 shader_parameter/outline_glow = 0.0
 shader_parameter/progress = 1.0
 
-[node name="LaserHitEffect" type="Node2D"]
+[node name="LaserHitEffect" type="Node2D" unique_id=1370944183]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1491645799]
 material = SubResource("ShaderMaterial_aklf2")
 anchors_preset = 8
 anchor_left = 0.5

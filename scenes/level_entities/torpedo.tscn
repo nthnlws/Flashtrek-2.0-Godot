@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dkwrosj64i8ur"]
+[gd_scene format=3 uid="uid://dkwrosj64i8ur"]
 
 [ext_resource type="Script" uid="uid://bf1gm1tl0pg8v" path="res://scripts/level_entities/torpedo.gd" id="1_uf70w"]
 [ext_resource type="Texture2D" uid="uid://ejr6p7q5rwbx" path="res://assets/textures/TorpedoBlue.png" id="2_m13ix"]
@@ -137,28 +137,28 @@ animations = [{
 "speed": 20.0
 }]
 
-[node name="Torpedo" type="Area2D" groups=["primary_weapon", "projectile"]]
+[node name="Torpedo" type="Area2D" unique_id=436493640 groups=["primary_weapon", "projectile"]]
 collision_layer = 256
 collision_mask = 192
 script = ExtResource("1_uf70w")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=391438286]
 position = Vector2(16, -1)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_m13ix")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1565801778]
 position = Vector2(16, 0)
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_hsjqf")
 
-[node name="explosion_animation" type="AnimatedSprite2D" parent="."]
+[node name="explosion_animation" type="AnimatedSprite2D" parent="." unique_id=1885120710]
 position = Vector2(16, -1)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_sq830")
 animation = &"explode_hull"
 
-[node name="torpedo_hit" type="AudioStreamPlayer2D" parent="."]
+[node name="torpedo_hit" type="AudioStreamPlayer2D" parent="." unique_id=245299510]
 stream = ExtResource("5_3x835")
 volume_db = -20.0
 pitch_scale = 2.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://1wnfmblulhx0"]
+[gd_scene format=3 uid="uid://1wnfmblulhx0"]
 
 [ext_resource type="Script" uid="uid://yhhjyldyui35" path="res://scripts/level_entities/player.gd" id="1_w51pe"]
 [ext_resource type="PackedScene" uid="uid://dj5rx83i8si03" path="res://scenes/level_entities/homing_missile.tscn" id="3_7pmes"]
@@ -271,7 +271,7 @@ _data = {
 &"flash_anim": SubResource("Animation_27up3")
 }
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=585641317 groups=["player"]]
 z_index = 1
 scale = Vector2(1.5, 1.5)
 collision_layer = 2
@@ -283,63 +283,61 @@ script = ExtResource("1_w51pe")
 torpedo_scene = ExtResource("3_newiu")
 missile_scene = ExtResource("3_7pmes")
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("4_7pmes")]
+[node name="HealthComponent" parent="." unique_id=341020749 node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("4_7pmes")]
 shield = NodePath("../Shield")
 hull_component = NodePath("../hitbox_area")
 
-[node name="DamageHandlerComponent" parent="." node_paths=PackedStringArray("shield", "hull", "health_component") instance=ExtResource("5_vaax2")]
+[node name="DamageHandlerComponent" parent="." unique_id=965277636 node_paths=PackedStringArray("shield", "hull", "health_component") instance=ExtResource("5_vaax2")]
 shield = NodePath("../Shield")
 hull = NodePath("../hitbox_area")
 health_component = NodePath("../HealthComponent")
 
-[node name="EnergyComponent" type="Node" parent="."]
+[node name="EnergyComponent" type="Node" parent="." unique_id=480543882]
 script = ExtResource("5_wda1y")
 
-[node name="GalaxyParticles" type="GPUParticles2D" parent="."]
+[node name="GalaxyParticles" type="GPUParticles2D" parent="." unique_id=1824920944]
 emitting = false
 amount = 500
 amount_ratio = 0.01
 texture = ExtResource("4_mse3f")
 process_material = SubResource("ParticleProcessMaterial_ai1hp")
 
-[node name="Muzzle" type="Node2D" parent="."]
+[node name="Muzzle" type="Node2D" parent="." unique_id=937372676]
 position = Vector2(12, 0)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=684663344]
 limit_smoothed = true
 script = ExtResource("3_fns5h")
 
-[node name="Shield" parent="." instance=ExtResource("7_7pmes")]
+[node name="Shield" parent="." unique_id=1232561556 instance=ExtResource("7_7pmes")]
 
-[node name="ShipSprite" type="Sprite2D" parent="."]
+[node name="ShipSprite" type="Sprite2D" parent="." unique_id=503438551]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_2mpn1")
 texture = SubResource("AtlasTexture_wg5l6")
 
-[node name="CloakAnim" type="AnimationPlayer" parent="ShipSprite"]
-libraries = {
-&"": SubResource("AnimationLibrary_vaax2")
-}
+[node name="CloakAnim" type="AnimationPlayer" parent="ShipSprite" unique_id=402463764]
+libraries/ = SubResource("AnimationLibrary_vaax2")
 
-[node name="Laser" parent="." instance=ExtResource("15_ke2ow")]
+[node name="Laser" parent="." unique_id=998248818 instance=ExtResource("15_ke2ow")]
 show_behind_parent = true
 
-[node name="TractorBeam" parent="." instance=ExtResource("21_rue2e")]
+[node name="TractorBeam" parent="." unique_id=1715823975 instance=ExtResource("21_rue2e")]
 visible = false
 position = Vector2(12, -0.66666675)
 
-[node name="regen_timer" type="Timer" parent="."]
+[node name="regen_timer" type="Timer" parent="." unique_id=2024973739]
 
-[node name="hitbox_area" type="Area2D" parent="." groups=["player"]]
+[node name="hitbox_area" type="Area2D" parent="." unique_id=64513893 groups=["player"]]
 collision_layer = 64
 collision_mask = 0
 script = ExtResource("11_2mpn1")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area" groups=["player"]]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area" unique_id=1980636740 groups=["player"]]
 
-[node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["player"]]
+[node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." unique_id=1905049821 groups=["player"]]
 
-[node name="warp_anim" type="AnimatedSprite2D" parent="."]
+[node name="warp_anim" type="AnimatedSprite2D" parent="." unique_id=1652379318]
 visible = false
 modulate = Color(1, 1, 1, 0.517647)
 position = Vector2(0, 3)
@@ -347,57 +345,55 @@ scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_88nc2")
 animation = &"warp_collapse"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=362262643]
 root_node = NodePath("../Audio")
-libraries = {
-&"": SubResource("AnimationLibrary_gd61k")
-}
+libraries/ = SubResource("AnimationLibrary_gd61k")
 
-[node name="Audio" type="Node2D" parent="."]
+[node name="Audio" type="Node2D" parent="." unique_id=1110794252]
 
-[node name="overdrive_on" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="overdrive_on" type="AudioStreamPlayer2D" parent="Audio" unique_id=1517922782]
 unique_name_in_owner = true
 stream = ExtResource("6_ihea4")
 volume_db = -14.0
 pitch_scale = 0.7
 
-[node name="overdrive_off" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="overdrive_off" type="AudioStreamPlayer2D" parent="Audio" unique_id=1725671711]
 unique_name_in_owner = true
 stream = ExtResource("6_c035k")
 volume_db = -15.0
 
-[node name="ship_idle" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="ship_idle" type="AudioStreamPlayer2D" parent="Audio" unique_id=1541820591]
 unique_name_in_owner = true
 stream = ExtResource("7_8rbfi")
 volume_db = -25.0
 
-[node name="PlayerDieSound" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="PlayerDieSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=505424860]
 unique_name_in_owner = true
 stream = ExtResource("13_klvb2")
 
-[node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Audio" unique_id=828448753]
 unique_name_in_owner = true
 stream = ExtResource("12_4w7or")
 volume_db = -10.0
 
-[node name="HeavyTorpedo" type="AudioStreamPlayer" parent="Audio"]
+[node name="HeavyTorpedo" type="AudioStreamPlayer" parent="Audio" unique_id=963446286]
 unique_name_in_owner = true
 stream = ExtResource("13_b4xtu")
 volume_db = -16.0
 pitch_scale = 1.09
 
-[node name="Galaxy_warp" type="AudioStreamPlayer" parent="Audio"]
+[node name="Galaxy_warp" type="AudioStreamPlayer" parent="Audio" unique_id=2118782552]
 unique_name_in_owner = true
 stream = ExtResource("16_hjmq1")
 
-[node name="warp_boom" type="AudioStreamPlayer" parent="Audio"]
+[node name="warp_boom" type="AudioStreamPlayer" parent="Audio" unique_id=92084462]
 unique_name_in_owner = true
 stream = ExtResource("17_e8fxd")
 volume_db = -7.0
 
-[node name="Projectiles" type="Node" parent="."]
+[node name="Projectiles" type="Node" parent="." unique_id=2124802535]
 
-[node name="intersection_line" type="Line2D" parent="."]
+[node name="intersection_line" type="Line2D" parent="." unique_id=153905444]
 width = 15.0
 
 [connection signal="shield_off" from="HealthComponent" to="Shield" method="turnShieldOff"]

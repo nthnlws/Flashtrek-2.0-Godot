@@ -1,50 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://bf1ju8luknc17"]
+[gd_scene format=3 uid="uid://bf1ju8luknc17"]
 
 [ext_resource type="Script" uid="uid://bcmgkke5kh5pw" path="res://scripts/menus_ui/settings_menu.gd" id="1_siuq7"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_4ay5r"]
 
-[node name="Settings" type="CanvasLayer" node_paths=PackedStringArray("closeButton")]
+[node name="Settings" type="CanvasLayer" unique_id=764171357 node_paths=PackedStringArray("closeButton")]
 script = ExtResource("1_siuq7")
 closeButton = NodePath("ColorRect/HeaderArea/XbuttonArea/closeMenuButton")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1751460578]
 offset_right = 960.0
 offset_bottom = 540.0
 color = Color(0.152941, 0.152941, 0.152941, 1)
 
-[node name="HeaderArea" type="VBoxContainer" parent="ColorRect"]
+[node name="HeaderArea" type="VBoxContainer" parent="ColorRect" unique_id=696623740]
 layout_mode = 1
 offset_right = 960.0
 offset_bottom = 84.0
 
-[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/HeaderArea"]
+[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/HeaderArea" unique_id=1094922006]
 layout_mode = 2
 theme_override_constants/margin_top = 8
 
-[node name="XbuttonArea" type="HBoxContainer" parent="ColorRect/HeaderArea"]
+[node name="XbuttonArea" type="HBoxContainer" parent="ColorRect/HeaderArea" unique_id=1198742324]
 layout_mode = 2
 
-[node name="closeMenuButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea"]
+[node name="closeMenuButton" type="Button" parent="ColorRect/HeaderArea/XbuttonArea" unique_id=954194036]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_horizontal = 10
 text = "X"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/HeaderArea/XbuttonArea"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/HeaderArea/XbuttonArea" unique_id=613951958]
 layout_mode = 2
 theme_override_constants/margin_right = 8
 
-[node name="HeaderNames" type="HBoxContainer" parent="ColorRect/HeaderArea"]
+[node name="HeaderNames" type="HBoxContainer" parent="ColorRect/HeaderArea" unique_id=551110909]
 layout_mode = 2
 mouse_filter = 0
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames" unique_id=362745036]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="Cheats" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer"]
+[node name="Cheats" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer" unique_id=187724470]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_4ay5r")
@@ -52,12 +52,12 @@ theme_override_font_sizes/font_size = 30
 text = "Cheats"
 horizontal_alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames" unique_id=1382722864]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="Player" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer2"]
+[node name="Player" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer2" unique_id=244950089]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_4ay5r")
@@ -65,12 +65,12 @@ theme_override_font_sizes/font_size = 30
 text = "Player"
 horizontal_alignment = 1
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames" unique_id=1480162199]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="Enemy" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer3"]
+[node name="Enemy" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer3" unique_id=370041978]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_4ay5r")
@@ -78,12 +78,12 @@ theme_override_font_sizes/font_size = 30
 text = "Enemy"
 horizontal_alignment = 1
 
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames"]
+[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/HeaderArea/HeaderNames" unique_id=1948444687]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="World" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer4"]
+[node name="World" type="Label" parent="ColorRect/HeaderArea/HeaderNames/MarginContainer4" unique_id=596114875]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_4ay5r")
@@ -91,7 +91,7 @@ theme_override_font_sizes/font_size = 30
 text = "World"
 horizontal_alignment = 1
 
-[node name="CheatsVBox" type="VBoxContainer" parent="ColorRect"]
+[node name="CheatsVBox" type="VBoxContainer" parent="ColorRect" unique_id=1617282689]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -102,106 +102,106 @@ offset_bottom = -4.0
 grow_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="energyContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
+[node name="energyContainer" type="MarginContainer" parent="ColorRect/CheatsVBox" unique_id=555182668]
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/energyContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/energyContainer" unique_id=1873313194]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="energyCheat" type="Label" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer"]
+[node name="energyCheat" type="Label" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer" unique_id=365706046]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Unlimited Energy"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer" unique_id=1521666097]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="unlimitedEnergy" type="CheckButton" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer"]
+[node name="unlimitedEnergy" type="CheckButton" parent="ColorRect/CheatsVBox/energyContainer/HBoxContainer" unique_id=1791451924]
 layout_mode = 2
 
-[node name="healthContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
+[node name="healthContainer" type="MarginContainer" parent="ColorRect/CheatsVBox" unique_id=176852222]
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/healthContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/healthContainer" unique_id=1077562121]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="healthCheat" type="Label" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer"]
+[node name="healthCheat" type="Label" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer" unique_id=328339495]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Unlimited Health"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer" unique_id=1438257507]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="unlimitedHealth" type="CheckButton" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer"]
+[node name="unlimitedHealth" type="CheckButton" parent="ColorRect/CheatsVBox/healthContainer/HBoxContainer" unique_id=464186432]
 layout_mode = 2
 
-[node name="shieldContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
+[node name="shieldContainer" type="MarginContainer" parent="ColorRect/CheatsVBox" unique_id=1580085071]
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/shieldContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/shieldContainer" unique_id=1320610776]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="shieldCheat" type="Label" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
+[node name="shieldCheat" type="Label" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer" unique_id=562612572]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Unlimited Shield"
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer" unique_id=1644886722]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="unlimitedShield" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer"]
+[node name="unlimitedShield" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer" unique_id=1359126091]
 layout_mode = 2
 
-[node name="collisionContainer" type="MarginContainer" parent="ColorRect/CheatsVBox"]
+[node name="collisionContainer" type="MarginContainer" parent="ColorRect/CheatsVBox" unique_id=911253585]
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/collisionContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/collisionContainer" unique_id=1899452877]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="collisionCheat" type="Label" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer"]
+[node name="collisionCheat" type="Label" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer" unique_id=1524784349]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "No Collision"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer" unique_id=1463641740]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="noCollision" type="CheckButton" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer"]
+[node name="noCollision" type="CheckButton" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer" unique_id=1970721390]
 layout_mode = 2
 
-[node name="PlayerVBox" type="VBoxContainer" parent="ColorRect"]
+[node name="PlayerVBox" type="VBoxContainer" parent="ColorRect" unique_id=1672057509]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -213,58 +213,58 @@ offset_bottom = -4.0
 grow_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="ShieldContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
+[node name="ShieldContainer" type="MarginContainer" parent="ColorRect/PlayerVBox" unique_id=1357949284]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/ShieldContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/ShieldContainer" unique_id=2081499124]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="playerShieldLabel" type="Label" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
+[node name="playerShieldLabel" type="Label" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer" unique_id=505315159]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Player Shield"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer" unique_id=502431663]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="playerShield" type="CheckButton" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer"]
+[node name="playerShield" type="CheckButton" parent="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer" unique_id=461477879]
 layout_mode = 2
 button_pressed = true
 
-[node name="LaserRangeContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
+[node name="LaserRangeContainer" type="MarginContainer" parent="ColorRect/PlayerVBox" unique_id=1169998516]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer" unique_id=430662606]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer" unique_id=759572398]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="LaserRangeLabel" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
+[node name="LaserRangeLabel" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer" unique_id=916859563]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Max Laser Range"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer" unique_id=390149544]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="laserRangeOverride" type="CheckButton" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer"]
+[node name="laserRangeOverride" type="CheckButton" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer" unique_id=648396256]
 layout_mode = 2
 
-[node name="laserRange" type="HSlider" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
+[node name="laserRange" type="HSlider" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer" unique_id=422090220]
 layout_mode = 2
 min_value = 400.0
 max_value = 3600.0
@@ -273,204 +273,204 @@ value = 1200.0
 tick_count = 11
 ticks_on_borders = true
 
-[node name="laserTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer"]
+[node name="laserTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer" unique_id=1451332473]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks" unique_id=626326194]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer" unique_id=973378927]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "400"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks" unique_id=958114368]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 16
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer2"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer2" unique_id=1455579819]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "1k"
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks" unique_id=1442061481]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 11
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer3"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer3" unique_id=1552320484]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "1.7k"
 
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
+[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks" unique_id=729220778]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/margin_left = 14
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer4"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer4" unique_id=666952637]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "2.3k"
 
-[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
+[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks" unique_id=314990698]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 19
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer5"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer5" unique_id=1278507255]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "3k"
 
-[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks"]
+[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks" unique_id=703602191]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 9
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer6"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserTickMarks/MarginContainer6" unique_id=100191281]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "3.6k"
 
-[node name="DamageContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
+[node name="DamageContainer" type="MarginContainer" parent="ColorRect/PlayerVBox" unique_id=239101662]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer" unique_id=813546203]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer" unique_id=1813801021]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="playerDamage" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer"]
+[node name="playerDamage" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer" unique_id=976623986]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Laser Damage"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer" unique_id=229860853]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="laserDamageOverride" type="CheckButton" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer"]
+[node name="laserDamageOverride" type="CheckButton" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer" unique_id=1852005551]
 layout_mode = 2
 
-[node name="laserDamage" type="HSlider" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
+[node name="laserDamage" type="HSlider" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer" unique_id=1209324869]
 layout_mode = 2
 step = 5.0
 value = 20.0
 tick_count = 11
 ticks_on_borders = true
 
-[node name="damageTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer"]
+[node name="damageTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer" unique_id=1734026291]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=1062266687]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 5
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer" unique_id=2089234189]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=332131956]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 6
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer2"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer2" unique_id=1652176148]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "20"
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=362031803]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 8
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer3"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer3" unique_id=558908298]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "40"
 
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
+[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=1343790418]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 11
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer4"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer4" unique_id=1229897082]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "60"
 
-[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
+[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=90994474]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 16
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer5"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer5" unique_id=545552285]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "80"
 
-[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks"]
+[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=1964921576]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 11
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer6"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer6" unique_id=83869446]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "100"
 
-[node name="SpeedContainer" type="MarginContainer" parent="ColorRect/PlayerVBox"]
+[node name="SpeedContainer" type="MarginContainer" parent="ColorRect/PlayerVBox" unique_id=1360089440]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer" unique_id=851958136]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer" unique_id=72953164]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="maxSpeed" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer"]
+[node name="maxSpeed" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer" unique_id=721690229]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Max Speed"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer" unique_id=957246028]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="speedOverride" type="CheckButton" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer"]
+[node name="speedOverride" type="CheckButton" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer" unique_id=251660454]
 layout_mode = 2
 
-[node name="maxSpeed" type="HSlider" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
+[node name="maxSpeed" type="HSlider" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer" unique_id=1951907724]
 layout_mode = 2
 max_value = 1000.0
 step = 50.0
@@ -478,82 +478,82 @@ value = 400.0
 tick_count = 11
 ticks_on_borders = true
 
-[node name="speedTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer"]
+[node name="speedTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer" unique_id=1108381405]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks" unique_id=1957088651]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_constants/margin_left = 5
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer" unique_id=527830446]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks" unique_id=346728349]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 2
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer2"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer2" unique_id=1917318737]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "200"
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks" unique_id=1298661860]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 5
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer3"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer3" unique_id=627855569]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "400"
 
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
+[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks" unique_id=1277685507]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 8
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer4"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer4" unique_id=1621945931]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "600"
 
-[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
+[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks" unique_id=2127890739]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 12
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer5"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer5" unique_id=1431672257]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "800"
 
-[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks"]
+[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks" unique_id=1584176384]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 18
 
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer6"]
+[node name="Label" type="Label" parent="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/speedTickMarks/MarginContainer6" unique_id=1507031060]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "1k"
 
-[node name="EnemyVBox" type="VBoxContainer" parent="ColorRect"]
+[node name="EnemyVBox" type="VBoxContainer" parent="ColorRect" unique_id=1254009309]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -568,55 +568,55 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="shieldContainer" type="MarginContainer" parent="ColorRect/EnemyVBox"]
+[node name="shieldContainer" type="MarginContainer" parent="ColorRect/EnemyVBox" unique_id=1174616666]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/EnemyVBox/shieldContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/EnemyVBox/shieldContainer" unique_id=1694431117]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="enemyShieldLabel" type="Label" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
+[node name="enemyShieldLabel" type="Label" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer" unique_id=1197156452]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Enemy Shield"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer" unique_id=1944635998]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="enemyShield" type="CheckButton" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer"]
+[node name="enemyShield" type="CheckButton" parent="ColorRect/EnemyVBox/shieldContainer/HBoxContainer" unique_id=1793885185]
 layout_mode = 2
 button_pressed = true
 
-[node name="movementContainer" type="MarginContainer" parent="ColorRect/EnemyVBox"]
+[node name="movementContainer" type="MarginContainer" parent="ColorRect/EnemyVBox" unique_id=1373190484]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/EnemyVBox/movementContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/EnemyVBox/movementContainer" unique_id=2036033838]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="enemyMovementLabel" type="Label" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
+[node name="enemyMovementLabel" type="Label" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer" unique_id=1499745429]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Enemy Move"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer" unique_id=339920090]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="enemyMovement" type="CheckButton" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer"]
+[node name="enemyMovement" type="CheckButton" parent="ColorRect/EnemyVBox/movementContainer/HBoxContainer" unique_id=1697807478]
 layout_mode = 2
 button_pressed = true
 
-[node name="WorldVBox" type="VBoxContainer" parent="ColorRect"]
+[node name="WorldVBox" type="VBoxContainer" parent="ColorRect" unique_id=554568834]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -631,35 +631,35 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="WorldBorderContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
+[node name="WorldBorderContainer" type="MarginContainer" parent="ColorRect/WorldVBox" unique_id=1072147598]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer" unique_id=110965847]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer" unique_id=1023913154]
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 0
 
-[node name="WorldBorder" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer"]
+[node name="WorldBorder" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer" unique_id=1495400333]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Border Coords"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer" unique_id=149125924]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="borderToggle" type="CheckButton" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer"]
+[node name="borderToggle" type="CheckButton" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/HBoxContainer" unique_id=803039071]
 layout_mode = 2
 
-[node name="borderValue" type="HSlider" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
+[node name="borderValue" type="HSlider" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer" unique_id=300237341]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 100000.0
@@ -668,102 +668,102 @@ value = 40000.0
 tick_count = 11
 ticks_on_borders = true
 
-[node name="borderTickMarks" type="HBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer"]
+[node name="borderTickMarks" type="HBoxContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer" unique_id=538049448]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks" unique_id=1255325061]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_constants/margin_left = 5
 
-[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer"]
+[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer" unique_id=428784293]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks" unique_id=313800450]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 0
 
-[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer2"]
+[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer2" unique_id=1440525753]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "20k"
 
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
+[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks" unique_id=270861912]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_constants/margin_left = 3
 
-[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer3"]
+[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer3" unique_id=232186014]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "40k"
 
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
+[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks" unique_id=1324210493]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 theme_override_constants/margin_left = 6
 
-[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer4"]
+[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer4" unique_id=175590921]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "60k"
 
-[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
+[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks" unique_id=596549283]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 9
 
-[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer5"]
+[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer5" unique_id=781344258]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "80k"
 
-[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks"]
+[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks" unique_id=185419174]
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 1
 
-[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer6"]
+[node name="Label" type="Label" parent="ColorRect/WorldVBox/WorldBorderContainer/VBoxContainer/borderTickMarks/MarginContainer6" unique_id=1251561942]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 12
 text = "0.1m"
 
-[node name="vSyncContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
+[node name="vSyncContainer" type="MarginContainer" parent="ColorRect/WorldVBox" unique_id=639958674]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/vSyncContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/vSyncContainer" unique_id=1292485285]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="vSync" type="Label" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
+[node name="vSync" type="Label" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer" unique_id=1068576183]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "vSync:"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer" unique_id=2063178530]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="vSyncSetting" type="OptionButton" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
+[node name="vSyncSetting" type="OptionButton" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer" unique_id=2081964916]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
@@ -776,33 +776,33 @@ popup/item_1/id = 1
 popup/item_2/text = "Disabled"
 popup/item_2/id = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/vSyncContainer/HBoxContainer" unique_id=1900403073]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
 
-[node name="VolumeContainer" type="MarginContainer" parent="ColorRect/WorldVBox"]
+[node name="VolumeContainer" type="MarginContainer" parent="ColorRect/WorldVBox" unique_id=157068330]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/VolumeContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/VolumeContainer" unique_id=2034300557]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="Volume" type="Label" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
+[node name="Volume" type="Label" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer" unique_id=788257468]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "Volume:"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer" unique_id=597523738]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="gameVolume" type="HSlider" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer"]
+[node name="gameVolume" type="HSlider" parent="ColorRect/WorldVBox/VolumeContainer/HBoxContainer" unique_id=1565501663]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

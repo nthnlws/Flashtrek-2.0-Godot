@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dj5rx83i8si03"]
+[gd_scene format=3 uid="uid://dj5rx83i8si03"]
 
 [ext_resource type="Script" uid="uid://s4vl05dusmfn" path="res://scripts/level_entities/homing_missile.gd" id="1_50fve"]
 [ext_resource type="Texture2D" uid="uid://bjxfaemlhrswx" path="res://assets/textures/ships/HomingMissile.png" id="1_eoqnr"]
@@ -124,29 +124,29 @@ animations = [{
 "speed": 30.0
 }]
 
-[node name="HomeMissile" type="Area2D" groups=["secondary_weapon"]]
+[node name="HomeMissile" type="Area2D" unique_id=1842421177 groups=["secondary_weapon"]]
 collision_layer = 256
 collision_mask = 132
 script = ExtResource("1_50fve")
 damage_curve = SubResource("Curve_50fve")
 speed = 1200.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=234197253]
 position = Vector2(-33, 1)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_eoqnr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=509048550]
 shape = SubResource("CircleShape2D_eoqnr")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=626927842]
 emitting = false
 amount = 1000
 lifetime = 0.75
 trail_lifetime = 0.92
 process_material = SubResource("ParticleProcessMaterial_2q6st")
 
-[node name="explosion_anim" type="AnimatedSprite2D" parent="."]
+[node name="explosion_anim" type="AnimatedSprite2D" parent="." unique_id=458787690]
 visible = false
 modulate = Color(0.804, 0.36847, 0.231521, 1)
 position = Vector2(0, 2.38419e-07)

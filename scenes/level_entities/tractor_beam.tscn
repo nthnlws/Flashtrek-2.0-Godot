@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbypet2yfve00"]
+[gd_scene format=3 uid="uid://dbypet2yfve00"]
 
 [ext_resource type="Script" uid="uid://cadtj6pukd0ci" path="res://scripts/level_entities/tractor_beam.gd" id="1_fnnpl"]
 [ext_resource type="Shader" uid="uid://dtphrsivpjmra" path="res://resources/Materials_Shaders/tractor_beam.gdshader" id="2_vwgry"]
@@ -23,22 +23,22 @@ shader_parameter/edge_fade_width = 26.83200122702
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_vwgry")
 shader_parameter/min_alpha_floor = 0.0
 
-[node name="TractorBeam" type="Area2D"]
+[node name="TractorBeam" type="Area2D" unique_id=1757544994]
 top_level = true
 collision_layer = 256
 collision_mask = 644
 script = ExtResource("1_fnnpl")
 
-[node name="Visuals" type="Node2D" parent="."]
+[node name="Visuals" type="Node2D" parent="." unique_id=1132091049]
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="." unique_id=1215025409]
 polygon = PackedVector2Array(287, 102, 287, -102, 0, 0)
 
-[node name="ColorRect" type="ColorRect" parent="CollisionShape2D"]
+[node name="ColorRect" type="ColorRect" parent="CollisionShape2D" unique_id=1774110104]
 material = SubResource("ShaderMaterial_vwgry")
 mouse_filter = 2
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1774463158]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

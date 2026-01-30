@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://djjxdvhjd147f"]
+[gd_scene format=3 uid="uid://djjxdvhjd147f"]
 
 [ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scripts/menus_ui/icon_selector.tscn" id="1_fuk3m"]
 [ext_resource type="Script" uid="uid://drrpthed6v3fy" path="res://scripts/menus_ui/ship_selector.gd" id="2_k7jjm"]
@@ -9,7 +9,7 @@ atlas = ExtResource("3_n336a")
 region = Rect2(0, 0, 48, 48)
 filter_clip = true
 
-[node name="ShipSelector" instance=ExtResource("1_fuk3m")]
+[node name="ShipSelector" unique_id=1674243145 instance=ExtResource("1_fuk3m")]
 script = ExtResource("2_k7jjm")
 
 [node name="icon" parent="background" index="0"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bq60hxexkpcpi"]
+[gd_scene format=3 uid="uid://bq60hxexkpcpi"]
 
 [ext_resource type="Texture2D" uid="uid://b5ym1d2uysiu0" path="res://assets/textures/earthlike_planet_close.hdr" id="1_wjt7e"]
 [ext_resource type="Script" uid="uid://dgb84lbkion2g" path="res://scripts/menus_ui/menu_camera.gd" id="2_jqed3"]
@@ -27,12 +27,12 @@ _data = {
 }
 point_count = 11
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" unique_id=1646570691]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=856287231]
 environment = SubResource("Environment_un3uy")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1194275395]
 transform = Transform3D(-6.43225e-09, -0.573576, 0.819152, 7.16125e-08, 0.819152, 0.573576, -1, 6.2351e-08, 3.58063e-08, 582.849, 4.89233, 354.265)
 light_color = Color(0.85, 0.89, 1, 1)
 light_energy = 0.6
@@ -40,27 +40,27 @@ directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 8000.0
 sky_mode = 1
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1135209410]
 unique_name_in_owner = true
 transform = Transform3D(-0.880265, 0.0112513, -0.474348, 0.0521958, 0.995948, -0.0732383, 0.471602, -0.0892281, -0.877286, -91, -4, -343)
 fov = 70.0
 far = 20000.0
 script = ExtResource("2_jqed3")
 
-[node name="Path3D" type="Path3D" parent="."]
+[node name="Path3D" type="Path3D" parent="." unique_id=995944369]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 curve = SubResource("Curve3D_t25wy")
 
-[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.105228, -0.010558, -0.994384, 0.0998332, 0.995, -5.58789e-09, 0.989422, -0.0992731, 0.105756, 1.716, 0, -2.617)
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1255719048]
+transform = Transform3D(0.10522824, -0.010558026, -0.994384, 0.099833205, 0.99499995, -5.58789e-09, 0.98942196, -0.099273145, 0.10575596, 1.716, 0, -2.617)
 script = ExtResource("3_vjixd")
 path = 1
 
-[node name="Ent_Kelvin" parent="Path3D/PathFollow3D" instance=ExtResource("4_voq5a")]
+[node name="Ent_Kelvin" parent="Path3D/PathFollow3D" unique_id=1493520529 instance=ExtResource("4_voq5a")]
 unique_name_in_owner = true
 transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622, -0.999992, 7.31051e-05, -0.00523541, 4.61299, -0.462843, -12.1905)
 
-[node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D"]
+[node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D" unique_id=548099029]
 unique_name_in_owner = true
 stream = ExtResource("5_sixrc")
 volume_db = -20.0

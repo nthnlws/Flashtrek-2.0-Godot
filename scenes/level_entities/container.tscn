@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dess4qrmx6vve"]
+[gd_scene format=3 uid="uid://dess4qrmx6vve"]
 
 [ext_resource type="Script" uid="uid://ovb20v66e1aw" path="res://scripts/level_entities/container_pickup.gd" id="1_tbdv3"]
 [ext_resource type="Texture2D" uid="uid://d240v8gsorgc2" path="res://assets/textures/system/federation_container.png" id="2_tbdv3"]
@@ -35,15 +35,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xkpu"]
 size = Vector2(128, 74)
 
-[node name="Container" type="Area2D"]
+[node name="Container" type="Area2D" unique_id=1320438041]
 collision_layer = 512
 collision_mask = 0
 script = ExtResource("1_tbdv3")
 
-[node name="SpriteFrames" type="AnimatedSprite2D" parent="."]
+[node name="SpriteFrames" type="AnimatedSprite2D" parent="." unique_id=1974740447]
 sprite_frames = SubResource("SpriteFrames_aeovm")
 animation = &"romulan"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1741155398]
 position = Vector2(0, -0.33333397)
 shape = SubResource("RectangleShape2D_3xkpu")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dfehj0ebpawa0"]
+[gd_scene format=3 uid="uid://dfehj0ebpawa0"]
 
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
 [ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
 [ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_IU.tscn" id="13_sk8fp"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=2147361872]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,10 +19,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopPanel" parent="." instance=ExtResource("2_l28jr")]
+[node name="TopPanel" parent="." unique_id=2143030798 instance=ExtResource("2_l28jr")]
 layout_mode = 0
 
-[node name="SettingsButton" type="TextureButton" parent="."]
+[node name="SettingsButton" type="TextureButton" parent="." unique_id=99652348]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -38,7 +38,7 @@ ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("8_tbbuv")
 
-[node name="BottomPanel" type="TextureRect" parent="."]
+[node name="BottomPanel" type="TextureRect" parent="." unique_id=135925779]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -51,7 +51,7 @@ scale = Vector2(0.5, 0.5)
 mouse_filter = 2
 texture = ExtResource("9_07do6")
 
-[node name="HUD_button" parent="." instance=ExtResource("10_ee1ns")]
+[node name="HUD_button" parent="." unique_id=531591405 instance=ExtResource("10_ee1ns")]
 layout_mode = 0
 offset_left = 456.0
 offset_top = 36.0
@@ -59,14 +59,14 @@ offset_right = 956.0
 offset_bottom = 536.0
 scale = Vector2(0.2, 0.2)
 
-[node name="health_indicator" parent="." instance=ExtResource("11_sp3p0")]
+[node name="health_indicator" parent="." unique_id=574128593 instance=ExtResource("11_sp3p0")]
 layout_mode = 1
 offset_left = 11.0
 offset_top = 473.0
 offset_right = 11.32
 offset_bottom = 473.06
 
-[node name="energy_bar" parent="." instance=ExtResource("12_lmyut")]
+[node name="energy_bar" parent="." unique_id=324788892 instance=ExtResource("12_lmyut")]
 visible = false
 layout_mode = 0
 offset_left = 99.0
@@ -74,11 +74,11 @@ offset_top = 533.0
 offset_right = 159.0
 offset_bottom = 553.0
 
-[node name="Comms_UI" parent="." instance=ExtResource("13_sk8fp")]
+[node name="Comms_UI" parent="." unique_id=300701307 instance=ExtResource("13_sk8fp")]
 visible = false
 layout_mode = 1
 
-[node name="Warning_Popup" parent="." instance=ExtResource("9_l28jr")]
+[node name="Warning_Popup" parent="." unique_id=806105503 instance=ExtResource("9_l28jr")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

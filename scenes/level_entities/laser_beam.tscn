@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dl1t2pm0xwqsn"]
+[gd_scene format=3 uid="uid://dl1t2pm0xwqsn"]
 
 [ext_resource type="Script" uid="uid://dndnc1mgs6mf6" path="res://scripts/level_entities/laser_beam.gd" id="1_at5dv"]
 [ext_resource type="Script" uid="uid://bk1wg6cxmimat" path="res://scripts/level_entities/visuals_controller.gd" id="2_jcd4p"]
@@ -77,11 +77,11 @@ gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_84q1s")
 color = Color(0.5, 3, 6, 1)
 
-[node name="Laser" type="Node2D" groups=["secondary_weapon"]]
+[node name="Laser" type="Node2D" unique_id=1033846701 groups=["secondary_weapon"]]
 z_as_relative = false
 script = ExtResource("1_at5dv")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=286910024]
 enabled = false
 target_position = Vector2(1200, 0)
 collision_mask = 132
@@ -89,10 +89,10 @@ hit_from_inside = true
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="VisualsController" type="Node2D" parent="."]
+[node name="VisualsController" type="Node2D" parent="." unique_id=478392676]
 script = ExtResource("2_jcd4p")
 
-[node name="laser_beam" type="ColorRect" parent="VisualsController"]
+[node name="laser_beam" type="ColorRect" parent="VisualsController" unique_id=1667997676]
 material = SubResource("ShaderMaterial_7mbro")
 anchors_preset = 8
 anchor_left = 0.5
@@ -106,18 +106,18 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="LaserHitEffect" parent="VisualsController/laser_beam" instance=ExtResource("4_uacia")]
+[node name="LaserHitEffect" parent="VisualsController/laser_beam" unique_id=877701383 instance=ExtResource("4_uacia")]
 visible = false
 position = Vector2(0, 300)
 
-[node name="DebugTargetMarker" type="Sprite2D" parent="VisualsController/laser_beam"]
+[node name="DebugTargetMarker" type="Sprite2D" parent="VisualsController/laser_beam" unique_id=402497745]
 position = Vector2(1200, 300)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("5_yk7ts")
 
-[node name="Particles" type="Node2D" parent="VisualsController"]
+[node name="Particles" type="Node2D" parent="VisualsController" unique_id=677098383]
 
-[node name="origin_particles" type="GPUParticles2D" parent="VisualsController/Particles"]
+[node name="origin_particles" type="GPUParticles2D" parent="VisualsController/Particles" unique_id=1091734867]
 scale = Vector2(0.5, 0.5)
 emitting = false
 amount = 3
@@ -125,7 +125,7 @@ texture = ExtResource("4_yk7ts")
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_0s161")
 
-[node name="path_particles" type="GPUParticles2D" parent="VisualsController/Particles"]
+[node name="path_particles" type="GPUParticles2D" parent="VisualsController/Particles" unique_id=1223338466]
 position = Vector2(600, 0)
 emitting = false
 amount = 4
@@ -133,7 +133,7 @@ texture = ExtResource("4_yk7ts")
 lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_fju22")
 
-[node name="target_particles" type="GPUParticles2D" parent="VisualsController/Particles"]
+[node name="target_particles" type="GPUParticles2D" parent="VisualsController/Particles" unique_id=170503836]
 position = Vector2(1200, 0)
 scale = Vector2(0.5, 0.5)
 emitting = false
@@ -142,23 +142,23 @@ texture = ExtResource("4_yk7ts")
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_qyhl5")
 
-[node name="Audio" type="Node" parent="VisualsController"]
+[node name="Audio" type="Node" parent="VisualsController" unique_id=1058753583]
 
-[node name="laserSound" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+[node name="laserSound" type="AudioStreamPlayer" parent="VisualsController/Audio" unique_id=2087412484]
 stream = ExtResource("5_ajshl")
 volume_db = -10.0
 
-[node name="laserFizzle" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+[node name="laserFizzle" type="AudioStreamPlayer" parent="VisualsController/Audio" unique_id=2116641093]
 stream = ExtResource("6_ghpyy")
 volume_db = -25.0
 pitch_scale = 1.6
 
-[node name="laserBass" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+[node name="laserBass" type="AudioStreamPlayer" parent="VisualsController/Audio" unique_id=1377945665]
 stream = ExtResource("7_44saj")
 volume_db = -30.0
 pitch_scale = 0.7
 
-[node name="laserBass2" type="AudioStreamPlayer" parent="VisualsController/Audio"]
+[node name="laserBass2" type="AudioStreamPlayer" parent="VisualsController/Audio" unique_id=1652194567]
 stream = ExtResource("7_44saj")
 volume_db = -30.0
 pitch_scale = 0.6

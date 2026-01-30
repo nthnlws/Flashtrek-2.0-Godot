@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8tsyg40o4m7h"]
+[gd_scene format=3 uid="uid://c8tsyg40o4m7h"]
 
 [ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="1_pewyh"]
 [ext_resource type="Script" uid="uid://b2270c41mmjk1" path="res://scripts/level_entities/FactionCharacter.gd" id="2_owcls"]
@@ -13,21 +13,21 @@ atlas = ExtResource("3_ph44v")
 region = Rect2(96, 0, 48, 48)
 filter_clip = true
 
-[node name="FactionCharacter" instance=ExtResource("1_pewyh")]
+[node name="FactionCharacter" unique_id=616497605 instance=ExtResource("1_pewyh")]
 script = ExtResource("2_owcls")
 torpedo = ExtResource("3_owcls")
 
-[node name="Muzzle" type="Node2D" parent="." index="0"]
+[node name="Muzzle" type="Node2D" parent="." index="0" unique_id=768224536]
 position = Vector2(0, -12)
 
-[node name="AgroBox" type="Area2D" parent="." index="1"]
+[node name="AgroBox" type="Area2D" parent="." index="1" unique_id=678687225]
 collision_layer = 8
 collision_mask = 70
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox" index="0" unique_id=1894494548]
 shape = SubResource("CircleShape2D_uivqo")
 
-[node name="Sprite2D" parent="." index="3"]
+[node name="Sprite2D" parent="." index="4"]
 texture = SubResource("AtlasTexture_ytmji")
 
 [connection signal="hull_damage_received" from="HealthComponent" to="." method="_set_aggression_to_shooter"]

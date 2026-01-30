@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bps1tpcpa1fj2"]
+[gd_scene format=3 uid="uid://bps1tpcpa1fj2"]
 
 [ext_resource type="Script" uid="uid://dpn0ev0370mga" path="res://addons/signal_lens/editor/logger/logger.gd" id="1_16bi3"]
 
@@ -56,7 +56,7 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_tqw23"]
 image = SubResource("Image_16bi3")
 
-[sub_resource type="Image" id="Image_5voln"]
+[sub_resource type="Image" id="Image_tqw23"]
 data = {
 "data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 184, 224, 224, 224, 181, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 75, 224, 224, 224, 228, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 227, 224, 224, 224, 73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 228, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 226, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 243, 224, 224, 224, 217, 224, 224, 224, 191, 224, 224, 224, 166, 224, 224, 224, 140, 224, 224, 224, 114, 224, 224, 224, 89, 227, 227, 227, 63, 229, 229, 229, 38, 234, 234, 234, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 "format": "RGBA8",
@@ -66,12 +66,12 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_4kas2"]
-image = SubResource("Image_5voln")
+image = SubResource("Image_tqw23")
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_v6bl3"]
 color = Color(0.244776, 0.244776, 0.244776, 1)
 
-[node name="Logger" type="MarginContainer" node_paths=PackedStringArray("log_container", "copy_button", "clear_button", "v_split_container", "h_split_container", "log_scroll", "counter_label")]
+[node name="Logger" type="MarginContainer" unique_id=191722024 node_paths=PackedStringArray("log_container", "copy_button", "clear_button", "v_split_container", "h_split_container", "log_scroll", "counter_label")]
 custom_minimum_size = Vector2(400, 0)
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -91,11 +91,11 @@ h_split_container = NodePath("VSplitContainer/HSplitContainer")
 log_scroll = NodePath("VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer")
 counter_label = NodePath("VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CounterLabel")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=951155067]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="VSeparator" type="VSeparator" parent="Control"]
+[node name="VSeparator" type="VSeparator" parent="Control" unique_id=1761949318]
 layout_mode = 0
 offset_left = 50.0
 offset_top = -16.0
@@ -104,18 +104,19 @@ offset_bottom = 4.0
 mouse_filter = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_16bi3")
 
-[node name="VSplitContainer" type="VSplitContainer" parent="."]
+[node name="VSplitContainer" type="VSplitContainer" parent="." unique_id=1820655138]
 layout_mode = 2
 mouse_filter = 2
 drag_area_margin_end = 130
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VSplitContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="VSplitContainer" unique_id=644893361]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
+split_offsets = PackedInt32Array(-130)
 split_offset = -130
 
-[node name="Panel" type="MarginContainer" parent="VSplitContainer/HSplitContainer"]
+[node name="Panel" type="MarginContainer" parent="VSplitContainer/HSplitContainer" unique_id=1006428893]
 custom_minimum_size = Vector2(260, 80)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -125,30 +126,30 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="VSplitContainer/HSplitContainer/Panel"]
+[node name="PanelContainer" type="PanelContainer" parent="VSplitContainer/HSplitContainer/Panel" unique_id=792990269]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_v6bl3")
 
-[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer" unique_id=1613458702]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer" unique_id=687554973]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1882168030]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TitleLabel" type="Label" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=240884063]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Signal Log"
 label_settings = SubResource("LabelSettings_v6bl3")
 
-[node name="PanelContainer" type="PanelContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1067398052]
 custom_minimum_size = Vector2(10, 9)
 layout_mode = 2
 size_flags_vertical = 4
@@ -163,21 +164,21 @@ The log consists of:
 - Signal Name: The signal being emitted."
 theme_override_styles/panel = SubResource("StyleBoxFlat_16bi3")
 
-[node name="Button" type="Label" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+[node name="Button" type="Label" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer" unique_id=1178718234]
 layout_mode = 2
 text = "?"
 label_settings = SubResource("LabelSettings_tqw23")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CounterLabel" type="Label" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CounterLabel" type="Label" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=855196766]
 modulate = Color(0.501407, 0.501406, 0.501406, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 label_settings = SubResource("LabelSettings_16bi3")
 horizontal_alignment = 2
 
-[node name="CopyButton" type="Button" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CopyButton" type="Button" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1081965375]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -186,7 +187,7 @@ Copies all the logs to the clipboard."
 icon = SubResource("ImageTexture_tqw23")
 flat = true
 
-[node name="ClearButton" type="Button" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ClearButton" type="Button" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=305726730]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -195,25 +196,25 @@ Clears all the logs."
 icon = SubResource("ImageTexture_4kas2")
 flat = true
 
-[node name="HSeparator" type="HSeparator" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1622200607]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_v6bl3")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=825534637]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LogContainer" type="VBoxContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="LogContainer" type="VBoxContainer" parent="VSplitContainer/HSplitContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=129891927]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 13
 
-[node name="Control" type="Control" parent="VSplitContainer/HSplitContainer"]
+[node name="Control" type="Control" parent="VSplitContainer/HSplitContainer" unique_id=663452276]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Control" type="Control" parent="VSplitContainer"]
+[node name="Control" type="Control" parent="VSplitContainer" unique_id=1060981020]
 layout_mode = 2
 mouse_filter = 2
 

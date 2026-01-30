@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://crsud8w51n07n"]
+[gd_scene format=3 uid="uid://crsud8w51n07n"]
 
 [ext_resource type="Script" uid="uid://clmu40irhh5w0" path="res://scripts/level_entities/NeutralCharacter.gd" id="1_scpag"]
 [ext_resource type="PackedScene" uid="uid://cox3jpjtaf204" path="res://scenes/components/health_component.tscn" id="2_a5e8g"]
@@ -271,49 +271,47 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="NeutralCharacter" type="CharacterBody2D" groups=["enemy"]]
+[node name="NeutralCharacter" type="CharacterBody2D" unique_id=1154910754 groups=["enemy"]]
 scale = Vector2(2.475, 2.475)
 collision_layer = 4
 script = ExtResource("1_scpag")
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("2_a5e8g")]
+[node name="HealthComponent" parent="." unique_id=2119456622 node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("2_a5e8g")]
 shield = NodePath("../Shield")
 hull_component = NodePath("../hitbox_area")
 
-[node name="DamageHandlerComponent" parent="." node_paths=PackedStringArray("shield", "hull", "health_component") instance=ExtResource("3_o4ahg")]
+[node name="DamageHandlerComponent" parent="." unique_id=1662470684 node_paths=PackedStringArray("shield", "hull", "health_component") instance=ExtResource("3_o4ahg")]
 shield = NodePath("../Shield")
 hull = NodePath("../hitbox_area")
 health_component = NodePath("../HealthComponent")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=828422874]
 texture = SubResource("AtlasTexture_lot0p")
 region_rect = Rect2(144, 144, 144, 144)
 
-[node name="CloakAnimation" type="AnimationPlayer" parent="Sprite2D"]
-libraries = {
-&"": SubResource("AnimationLibrary_o4ahg")
-}
+[node name="CloakAnimation" type="AnimationPlayer" parent="Sprite2D" unique_id=1646411861]
+libraries/ = SubResource("AnimationLibrary_o4ahg")
 
-[node name="Shield" parent="." instance=ExtResource("8_scpag")]
+[node name="Shield" parent="." unique_id=1855636050 instance=ExtResource("8_scpag")]
 
-[node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." groups=["enemy"]]
+[node name="WorldCollisionShape" type="CollisionPolygon2D" parent="." unique_id=996823150 groups=["enemy"]]
 
-[node name="hitbox_area" type="Area2D" parent="." groups=["enemy_hitbox"]]
+[node name="hitbox_area" type="Area2D" parent="." unique_id=315554802 groups=["enemy_hitbox"]]
 collision_layer = 128
 collision_mask = 256
 script = ExtResource("7_scpag")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox_area" unique_id=1941569296]
 
-[node name="hull_explosion" type="AnimatedSprite2D" parent="."]
+[node name="hull_explosion" type="AnimatedSprite2D" parent="." unique_id=1147552971]
 visible = false
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_mwxxd")
 animation = &"explode"
 
-[node name="Sounds" type="Node" parent="."]
+[node name="Sounds" type="Node" parent="." unique_id=34890582]
 
-[node name="TorpedoHit" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="TorpedoHit" type="AudioStreamPlayer2D" parent="Sounds" unique_id=468469207]
 unique_name_in_owner = true
 stream = ExtResource("6_o4ahg")
 volume_db = -18.0
@@ -321,21 +319,21 @@ pitch_scale = 2.0
 max_distance = 3000.0
 attenuation = 0.615573
 
-[node name="ship_idle" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="ship_idle" type="AudioStreamPlayer2D" parent="Sounds" unique_id=895809947]
 unique_name_in_owner = true
 stream = ExtResource("7_ljjbr")
 volume_db = -25.0
 max_distance = 3000.0
 attenuation = 0.615573
 
-[node name="ship_explosion" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="ship_explosion" type="AudioStreamPlayer2D" parent="Sounds" unique_id=187376916]
 unique_name_in_owner = true
 stream = ExtResource("6_o4ahg")
 volume_db = -4.0
 max_distance = 3000.0
 attenuation = 0.615573
 
-[node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1120588609]
 unique_name_in_owner = true
 stream = ExtResource("8_71til")
 volume_db = -20.0
@@ -343,7 +341,7 @@ max_distance = 3000.0
 attenuation = 0.615573
 panning_strength = 2.0
 
-[node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1155490170]
 unique_name_in_owner = true
 stream = ExtResource("9_8sljv")
 volume_db = -10.0

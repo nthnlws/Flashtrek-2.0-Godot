@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7mdpkypvjy24"]
+[gd_scene format=3 uid="uid://c7mdpkypvjy24"]
 
 [ext_resource type="PackedScene" uid="uid://cjwf6ulibdpvr" path="res://scenes/level_entities/planet.tscn" id="1_mnabp"]
 
@@ -10,8 +10,8 @@ class_name PlanetOrbitScanner
 [sub_resource type="CircleShape2D" id="CircleShape2D_mnabp"]
 radius = 1500.0
 
-[node name="test_Planet" instance=ExtResource("1_mnabp")]
+[node name="test_Planet" unique_id=174185860 instance=ExtResource("1_mnabp")]
 script = SubResource("GDScript_b14l7")
 
-[node name="AnalysisOrbitRange" type="CollisionShape2D" parent="." index="3"]
+[node name="AnalysisOrbitRange" type="CollisionShape2D" parent="." index="3" unique_id=2082882097]
 shape = SubResource("CircleShape2D_mnabp")

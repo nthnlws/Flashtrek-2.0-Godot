@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b250bg1ysk5dk"]
+[gd_scene format=3 uid="uid://b250bg1ysk5dk"]
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://bfitp1ynqfei8" path="res://scenes/level_entities/level.tscn" id="2_ab70e"]
@@ -18,62 +18,62 @@
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" unique_id=1659597695]
 process_mode = 3
 script = ExtResource("1_ci0lx")
 
-[node name="Level" parent="." instance=ExtResource("2_ab70e")]
+[node name="Level" parent="." unique_id=2008744208 instance=ExtResource("2_ab70e")]
 
-[node name="HUD_layer" type="CanvasLayer" parent="."]
+[node name="HUD_layer" type="CanvasLayer" parent="." unique_id=1137769502]
 process_mode = 1
 script = ExtResource("9_bhx41")
 
-[node name="MiniMap" parent="HUD_layer" instance=ExtResource("13_pwbrs")]
+[node name="MiniMap" parent="HUD_layer" unique_id=1457974435 instance=ExtResource("13_pwbrs")]
 unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="New_HUD" parent="HUD_layer" instance=ExtResource("16_ijd2y")]
+[node name="New_HUD" parent="HUD_layer" unique_id=1487023706 instance=ExtResource("16_ijd2y")]
 
-[node name="Joystick" parent="HUD_layer" instance=ExtResource("16_cqedu")]
+[node name="Joystick" parent="HUD_layer" unique_id=496764395 instance=ExtResource("16_cqedu")]
 visible = false
 offset_left = 89.0
 offset_top = 469.0
 offset_right = 89.0
 offset_bottom = 469.0
 
-[node name="CanvasModulate" type="CanvasModulate" parent="HUD_layer"]
+[node name="CanvasModulate" type="CanvasModulate" parent="HUD_layer" unique_id=602915732]
 
-[node name="Menus" type="CanvasLayer" parent="."]
+[node name="Menus" type="CanvasLayer" parent="." unique_id=1140577372]
 process_mode = 1
 script = ExtResource("14_nkpvs")
 
-[node name="Crosshair" parent="Menus" instance=ExtResource("18_wcaow")]
+[node name="Crosshair" parent="Menus" unique_id=2034824301 instance=ExtResource("18_wcaow")]
 
-[node name="PauseMenu" parent="Menus" instance=ExtResource("4_kawko")]
+[node name="PauseMenu" parent="Menus" unique_id=1020353618 instance=ExtResource("4_kawko")]
 visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="GalaxyMap" parent="Menus" instance=ExtResource("16_wq6qh")]
+[node name="GalaxyMap" parent="Menus" unique_id=13688601 instance=ExtResource("16_wq6qh")]
 visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LoadingScreen" parent="Menus" instance=ExtResource("20_qnb83")]
+[node name="LoadingScreen" parent="Menus" unique_id=1354078416 instance=ExtResource("20_qnb83")]
 unique_name_in_owner = true
 visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ShipSelectionMenu" parent="Menus" instance=ExtResource("21_hxbij")]
+[node name="ShipSelectionMenu" parent="Menus" unique_id=1805239786 instance=ExtResource("21_hxbij")]
 visible = false
 
-[node name="ShipUpgradeMenu" parent="Menus" instance=ExtResource("23_546po")]
+[node name="ShipUpgradeMenu" parent="Menus" unique_id=1666973142 instance=ExtResource("23_546po")]
 visible = false
 mouse_filter = 2
 
-[node name="TunnelEffect" parent="Menus" instance=ExtResource("23_g86nl")]
+[node name="TunnelEffect" parent="Menus" unique_id=643784188 instance=ExtResource("23_g86nl")]
 unique_name_in_owner = true
 visible = false
 anchors_preset = 15
@@ -86,13 +86,13 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="audio_manager" parent="." instance=ExtResource("23_l5jjv")]
+[node name="audio_manager" parent="." unique_id=992938628 instance=ExtResource("23_l5jjv")]
 
-[node name="SignalPrinter" type="Node" parent="."]
+[node name="SignalPrinter" type="Node" parent="." unique_id=1379261948]
 script = ExtResource("25_dx7lr")
 enabled = false
 
-[node name="ScrollingBackground" parent="." instance=ExtResource("17_a7ete")]
+[node name="ScrollingBackground" parent="." unique_id=26839956 instance=ExtResource("17_a7ete")]
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="system_changed" from="Level" to="." method="_on_level_system_changed"]

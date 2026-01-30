@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://oexei8cmm0yk"]
+[gd_scene format=3 uid="uid://oexei8cmm0yk"]
 
 [ext_resource type="Script" uid="uid://b02s82d23ssv0" path="res://scripts/level_entities/starbase.gd" id="1_1b8td"]
 [ext_resource type="Texture2D" uid="uid://dwegjlw112b31" path="res://assets/textures/ships/starbase.png" id="2_opdfu"]
@@ -6,18 +6,18 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kshu"]
 radius = 2500.0
 
-[node name="Starbase" type="Node2D"]
+[node name="Starbase" type="Node2D" unique_id=140364990]
 script = ExtResource("1_1b8td")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1846341479]
 scale = Vector2(2, 2)
 texture = ExtResource("2_opdfu")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1639515253]
 collision_mask = 2
 gravity_space_override = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1586561209]
 shape = SubResource("CircleShape2D_0kshu")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_starbase_area_entered"]

@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://dc8qriv88auro"]
+[gd_scene format=3 uid="uid://dc8qriv88auro"]
 
 [ext_resource type="Texture2D" uid="uid://bwvy44piwu4xt" path="res://assets/textures/UI/white_frame.png" id="1_725ag"]
 [ext_resource type="Texture2D" uid="uid://ca0stn4vihtpd" path="res://assets/textures/UI/speed_upgrade_icon.png" id="2_tsr40"]
 [ext_resource type="Texture2D" uid="uid://cgdf5crtmhk6y" path="res://assets/textures/UI/ship_upgrade_menu/locked_symbol.png" id="3_uvwdm"]
 
-[node name="IconSelector" type="TextureButton" groups=["selection_frame"]]
+[node name="IconSelector" type="TextureButton" unique_id=470759407 groups=["selection_frame"]]
 offset_right = 64.0
 offset_bottom = 64.0
 keep_pressed_outside = true
 texture_normal = ExtResource("1_725ag")
 stretch_mode = 4
 
-[node name="background" type="ColorRect" parent="."]
+[node name="background" type="ColorRect" parent="." unique_id=180082468]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 6.0
@@ -20,7 +20,7 @@ offset_bottom = 58.0
 mouse_filter = 1
 color = Color(0.364706, 0.364706, 0.364706, 1)
 
-[node name="icon" type="TextureRect" parent="background"]
+[node name="icon" type="TextureRect" parent="background" unique_id=1041974235]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ texture = ExtResource("2_tsr40")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="gray_out" type="ColorRect" parent="."]
+[node name="gray_out" type="ColorRect" parent="." unique_id=348304217]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,7 +48,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.439216, 0.439216, 0.439216, 0.752941)
 
-[node name="lock_symbol" type="TextureRect" parent="."]
+[node name="lock_symbol" type="TextureRect" parent="." unique_id=1087790095]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

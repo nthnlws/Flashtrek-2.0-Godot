@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bxitu8urgi62p"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bxitu8urgi62p"]
 
 [ext_resource type="Shader" uid="uid://bpojcvni0h7lk" path="res://resources/Materials_Shaders/white_flash.gdshader" id="1_x2412"]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8hmvc0qqsew1"]
+[gd_scene format=3 uid="uid://8hmvc0qqsew1"]
 
 [ext_resource type="Texture2D" uid="uid://b20en8nmq4c7x" path="res://assets/textures/UI/new_HUD/HUD_topPanel.svg" id="1_wfts6"]
 [ext_resource type="Script" uid="uid://7y7ofpana70q" path="res://scripts/menus_ui/top_HUD_UI.gd" id="2_krb6w"]
@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b6g254d043h22" path="res://assets/textures/UI/new_HUD/klingon_symbol.svg" id="5_wmi6d"]
 [ext_resource type="Texture2D" uid="uid://dhpxi3okw2mo0" path="res://assets/textures/UI/new_HUD/romulan_symbol.svg" id="6_jfvsq"]
 
-[node name="TopPanel" type="TextureRect"]
+[node name="TopPanel" type="TextureRect" unique_id=1619777380]
 offset_right = 1920.0
 offset_bottom = 101.0
 scale = Vector2(0.5, 0.5)
@@ -16,7 +16,7 @@ mouse_filter = 2
 texture = ExtResource("1_wfts6")
 script = ExtResource("2_krb6w")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1122345986]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ size_flags_horizontal = 3
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_right = 100
 
-[node name="MissionText" type="RichTextLabel" parent="MarginContainer"]
+[node name="MissionText" type="RichTextLabel" parent="MarginContainer" unique_id=1575115031]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(550, 0)
 layout_mode = 2
@@ -40,64 +40,64 @@ text = "Mission: [color=#6699CC]Planet[/color] in [color=#FFCC66]System[/color] 
 scroll_active = false
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=104515015]
 layout_mode = 2
 alignment = 1
 
-[node name="FedContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="FedContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=719763133]
 layout_mode = 2
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 10
 
-[node name="Fed" type="TextureRect" parent="MarginContainer/HBoxContainer/FedContainer"]
+[node name="Fed" type="TextureRect" parent="MarginContainer/HBoxContainer/FedContainer" unique_id=1814272264]
 modulate = Color(0.453633, 0.584588, 0.933372, 1)
 layout_mode = 2
 texture = ExtResource("4_dosv1")
 expand_mode = 3
 
-[node name="FedScore" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="FedScore" type="Label" parent="MarginContainer/HBoxContainer" unique_id=854514985]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0.00"
 label_settings = ExtResource("3_ad1hx")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=1016423581]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 
-[node name="KlinContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="KlinContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=1496385224]
 layout_mode = 2
 theme_override_constants/margin_top = 7
 theme_override_constants/margin_bottom = 10
 
-[node name="Klingon" type="TextureRect" parent="MarginContainer/HBoxContainer/KlinContainer"]
+[node name="Klingon" type="TextureRect" parent="MarginContainer/HBoxContainer/KlinContainer" unique_id=398810234]
 modulate = Color(0.880395, 0.210751, 0.256262, 1)
 layout_mode = 2
 texture = ExtResource("5_wmi6d")
 expand_mode = 3
 
-[node name="KlingonScore" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="KlingonScore" type="Label" parent="MarginContainer/HBoxContainer" unique_id=105127245]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0.00"
 label_settings = ExtResource("3_ad1hx")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=1710254761]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 
-[node name="RomContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="RomContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=1773920576]
 layout_mode = 2
 theme_override_constants/margin_top = 7
 theme_override_constants/margin_bottom = 10
 
-[node name="Romulan" type="TextureRect" parent="MarginContainer/HBoxContainer/RomContainer"]
+[node name="Romulan" type="TextureRect" parent="MarginContainer/HBoxContainer/RomContainer" unique_id=517707261]
 modulate = Color(0.104224, 0.597945, 0.305314, 1)
 layout_mode = 2
 texture = ExtResource("6_jfvsq")
 expand_mode = 3
 
-[node name="RomScore" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="RomScore" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1401234669]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0.00"

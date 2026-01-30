@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://coo2wawx2fvq2"]
+[gd_scene format=3 uid="uid://coo2wawx2fvq2"]
 
 [ext_resource type="Script" uid="uid://dbdtxpx47wa8f" path="res://scripts/level_entities/particle_drawer.gd" id="1_ociux"]
 [ext_resource type="Shader" uid="uid://c3kino6wdh5on" path="res://resources/Materials_Shaders/blur.gdshader" id="1_rb5du"]
@@ -19,7 +19,7 @@ use_colors = true
 mesh = SubResource("QuadMesh_g86nl")
 physics_interpolation_quality = 1
 
-[node name="TunnelEffect" type="SubViewportContainer"]
+[node name="TunnelEffect" type="SubViewportContainer" unique_id=848984463]
 material = SubResource("ShaderMaterial_rb5du")
 anchors_preset = 8
 anchor_left = 0.5
@@ -35,15 +35,15 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ParticleViewport" type="SubViewport" parent="."]
+[node name="ParticleViewport" type="SubViewport" parent="." unique_id=2139873184]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="ParticleDrawer" type="MultiMeshInstance2D" parent="ParticleViewport"]
+[node name="ParticleDrawer" type="MultiMeshInstance2D" parent="ParticleViewport" unique_id=1597043838]
 multimesh = SubResource("MultiMesh_rb5du")
 script = ExtResource("1_ociux")
 centerArea = 200.0
 
-[node name="Camera2D" type="Camera2D" parent="ParticleViewport"]
+[node name="Camera2D" type="Camera2D" parent="ParticleViewport" unique_id=1766450241]

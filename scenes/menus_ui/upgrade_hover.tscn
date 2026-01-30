@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5s0nigwpa515"]
+[gd_scene format=3 uid="uid://c5s0nigwpa515"]
 
 [ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scripts/menus_ui/icon_selector.tscn" id="1_h2gxt"]
 [ext_resource type="Script" uid="uid://bpyos2wlpbqb5" path="res://scripts/menus_ui/upgrade_hover.gd" id="2_0x6h4"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://daibe5xomtf60" path="res://scenes/menus_ui/hover_tooltip.tscn" id="9_ktc16"]
 [ext_resource type="FontFile" uid="uid://bxro7d3j74u0w" path="res://assets/font/ethnocentric rg it.ttf" id="9_q6uxx"]
 
-[node name="UpgradeHover" instance=ExtResource("1_h2gxt")]
+[node name="UpgradeHover" unique_id=165350808 instance=ExtResource("1_h2gxt")]
 script = ExtResource("2_0x6h4")
 upgrade_icons = Dictionary[int, Texture2D]({
 0: ExtResource("3_3qika"),
@@ -22,12 +22,12 @@ upgrade_icons = Dictionary[int, Texture2D]({
 5: ExtResource("7_3qika")
 })
 
-[node name="HoverTooltip" parent="background" index="1" instance=ExtResource("9_ktc16")]
+[node name="HoverTooltip" parent="background" index="1" unique_id=1658331268 instance=ExtResource("9_ktc16")]
 visible = false
 z_index = 1
 layout_mode = 0
 
-[node name="UpgradeCount" type="RichTextLabel" parent="." index="3"]
+[node name="UpgradeCount" type="RichTextLabel" parent="." index="3" unique_id=1816684810]
 visible = false
 layout_mode = 1
 anchors_preset = 3

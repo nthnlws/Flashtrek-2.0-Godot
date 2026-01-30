@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://nr3ksi6mj4h8"]
+[gd_scene format=3 uid="uid://nr3ksi6mj4h8"]
 
 [ext_resource type="Script" uid="uid://cm2dhgcj48fob" path="res://scripts/menus_ui/comms_IU.gd" id="1_u5bv0"]
 [ext_resource type="Texture2D" uid="uid://byijyrt55o6ps" path="res://assets/textures/UI/communication_popup/Bottom UI Message.png" id="2_08d4c"]
@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="5_1daiq"]
 [ext_resource type="LabelSettings" uid="uid://dryvfp2n7djov" path="res://resources/UI_popup_theme.tres" id="5_08d4c"]
 
-[node name="Comms_UI" type="Control"]
+[node name="Comms_UI" type="Control" unique_id=1232296412]
 layout_mode = 3
 anchor_left = 0.527
 anchor_top = 0.998
@@ -23,7 +23,7 @@ pivot_offset = Vector2(0, 190)
 mouse_filter = 1
 script = ExtResource("1_u5bv0")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1833139421]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ texture = ExtResource("2_08d4c")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="Comms_message" type="RichTextLabel" parent="."]
+[node name="Comms_message" type="RichTextLabel" parent="." unique_id=1314825331]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,7 +57,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 drag_and_drop_selection_enabled = false
 
-[node name="RerollButton" parent="." instance=ExtResource("4_hki4h")]
+[node name="RerollButton" parent="." unique_id=109293386 instance=ExtResource("4_hki4h")]
 layout_mode = 0
 offset_left = 363.0
 offset_top = 148.0
@@ -72,7 +72,7 @@ pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 [node name="Polygon2D" parent="RerollButton/PolygonMouseDetector" index="0"]
 polygon = PackedVector2Array(-1.74997, 0, 70.75, 0, 70.75, 30, -1.74997, 30)
 
-[node name="CloseButton" parent="." instance=ExtResource("4_hki4h")]
+[node name="CloseButton" parent="." unique_id=732361288 instance=ExtResource("4_hki4h")]
 layout_mode = 0
 offset_left = 440.0
 offset_top = 149.0

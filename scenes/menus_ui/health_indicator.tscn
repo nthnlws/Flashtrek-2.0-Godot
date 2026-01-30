@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://chbr28imsjgnv"]
+[gd_scene format=3 uid="uid://chbr28imsjgnv"]
 
 [ext_resource type="Script" uid="uid://d05d2u5krdsbn" path="res://scripts/menus_ui/health_indicator.gd" id="1_41b34"]
 [ext_resource type="Shader" uid="uid://b7m3owcdweg44" path="res://resources/Materials_Shaders/hull_health_shader.gdshader" id="1_b2c71"]
@@ -33,7 +33,7 @@ atlas = ExtResource("1_vpj4s")
 region = Rect2(48, 96, 48, 48)
 filter_clip = true
 
-[node name="health_indicator" type="AspectRatioContainer"]
+[node name="health_indicator" type="AspectRatioContainer" unique_id=1925785389]
 modulate = Color(1, 1, 0, 1)
 custom_minimum_size = Vector2(80, 60)
 anchors_preset = -1
@@ -43,13 +43,13 @@ offset_right = 0.319992
 offset_bottom = 0.0599937
 script = ExtResource("1_41b34")
 
-[node name="shield_icon" type="ColorRect" parent="."]
+[node name="shield_icon" type="ColorRect" parent="." unique_id=81064647]
 material = SubResource("ShaderMaterial_bmthh")
 custom_minimum_size = Vector2(80, 60)
 layout_mode = 2
 script = ExtResource("2_bmthh")
 
-[node name="MarginContainer" type="MarginContainer" parent="shield_icon"]
+[node name="MarginContainer" type="MarginContainer" parent="shield_icon" unique_id=1659175204]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,7 +61,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="hull_icon" type="TextureRect" parent="shield_icon/MarginContainer" node_paths=PackedStringArray("shield_node")]
+[node name="hull_icon" type="TextureRect" parent="shield_icon/MarginContainer" unique_id=1015308486 node_paths=PackedStringArray("shield_node")]
 material = SubResource("ShaderMaterial_tnw4a")
 custom_minimum_size = Vector2(70, 50)
 layout_mode = 2

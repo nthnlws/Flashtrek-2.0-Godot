@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3ruu3xegfccq"]
+[gd_scene format=3 uid="uid://b3ruu3xegfccq"]
 
 [ext_resource type="Script" uid="uid://b10kpbvc80uj7" path="res://scripts/menus_ui/ship_upgrade_menu.gd" id="1_3ib4j"]
 [ext_resource type="Texture2D" uid="uid://cabdk1q27chx3" path="res://assets/textures/UI/ship_upgrade_menu/corridor_klingon_edited.png" id="1_k4fhh"]
@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://b6g254d043h22" path="res://assets/textures/UI/new_HUD/klingon_symbol.svg" id="6_syaga"]
 [ext_resource type="Texture2D" uid="uid://dhpxi3okw2mo0" path="res://assets/textures/UI/new_HUD/romulan_symbol.svg" id="7_bkik8"]
 
-[node name="ShipUpgradeMenu" type="Control"]
+[node name="ShipUpgradeMenu" type="Control" unique_id=1595576710]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_3ib4j")
 
-[node name="corridor_background" type="TextureRect" parent="."]
+[node name="corridor_background" type="TextureRect" parent="." unique_id=954209527]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,7 +31,7 @@ grow_vertical = 2
 texture = ExtResource("1_k4fhh")
 expand_mode = 1
 
-[node name="left_panel" type="ColorRect" parent="."]
+[node name="left_panel" type="ColorRect" parent="." unique_id=41861352]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -40,7 +40,7 @@ grow_vertical = 2
 pivot_offset = Vector2(480, 270)
 color = Color(0.412, 0.416, 0.416, 0.6)
 
-[node name="MarginContainer" type="MarginContainer" parent="left_panel"]
+[node name="MarginContainer" type="MarginContainer" parent="left_panel" unique_id=1804922387]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,10 +52,10 @@ theme_override_constants/margin_top = 43
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="left_panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="left_panel/MarginContainer" unique_id=110278633]
 layout_mode = 2
 
-[node name="stats_banner" type="Label" parent="left_panel/MarginContainer/VBoxContainer"]
+[node name="stats_banner" type="Label" parent="left_panel/MarginContainer/VBoxContainer" unique_id=1042859456]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -65,23 +65,23 @@ text = "Ship Status:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="health_indicator" parent="left_panel/MarginContainer/VBoxContainer" instance=ExtResource("3_3ib4j")]
+[node name="health_indicator" parent="left_panel/MarginContainer/VBoxContainer" unique_id=1002917129 instance=ExtResource("3_3ib4j")]
 layout_mode = 2
 size_flags_vertical = 3
 ratio = 1.4895
 
-[node name="MarginContainer" type="MarginContainer" parent="left_panel/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="left_panel/MarginContainer/VBoxContainer" unique_id=518087082]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 35
 theme_override_constants/margin_bottom = 15
 
-[node name="FactionContainer" type="VBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="FactionContainer" type="VBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer" unique_id=6093282]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="faction_label" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+[node name="faction_label" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer" unique_id=1010506960]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -91,11 +91,11 @@ text = "Reputation:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer" unique_id=976356765]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="federation_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer" groups=["faction_label_icon"]]
+[node name="federation_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer" unique_id=1100254448 groups=["faction_label_icon"]]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -103,10 +103,10 @@ texture = ExtResource("5_gjb5m")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer" unique_id=971938539]
 layout_mode = 2
 
-[node name="federation_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer"]
+[node name="federation_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer" unique_id=1692151642]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -115,11 +115,11 @@ theme_override_font_sizes/font_size = 20
 text = "0.0"
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer" unique_id=1453877342]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="klingon_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2" groups=["faction_label_icon"]]
+[node name="klingon_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2" unique_id=1106178548 groups=["faction_label_icon"]]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -127,10 +127,10 @@ texture = ExtResource("6_syaga")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2"]
+[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2" unique_id=240069040]
 layout_mode = 2
 
-[node name="klingon_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2"]
+[node name="klingon_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer2" unique_id=1818102645]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -139,11 +139,11 @@ theme_override_font_sizes/font_size = 20
 text = "0.0"
 vertical_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer" unique_id=325230487]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="romulan_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3" groups=["faction_label_icon"]]
+[node name="romulan_icon" type="TextureRect" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3" unique_id=1538214492 groups=["faction_label_icon"]]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -151,10 +151,10 @@ texture = ExtResource("7_bkik8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3"]
+[node name="VSeparator" type="VSeparator" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3" unique_id=2135840799]
 layout_mode = 2
 
-[node name="romulan_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3"]
+[node name="romulan_rep" type="Label" parent="left_panel/MarginContainer/VBoxContainer/MarginContainer/FactionContainer/HBoxContainer3" unique_id=2121991203]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -163,7 +163,7 @@ theme_override_font_sizes/font_size = 20
 text = "0.0"
 vertical_alignment = 1
 
-[node name="stats_banner2" type="Label" parent="left_panel/MarginContainer/VBoxContainer"]
+[node name="stats_banner2" type="Label" parent="left_panel/MarginContainer/VBoxContainer" unique_id=1460874930]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -173,41 +173,41 @@ text = "Upgrades:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Upgrade Frames" type="GridContainer" parent="left_panel/MarginContainer/VBoxContainer"]
+[node name="Upgrade Frames" type="GridContainer" parent="left_panel/MarginContainer/VBoxContainer" unique_id=1387559558]
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 3
 
-[node name="Damage" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+[node name="Damage" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" unique_id=1942526435 instance=ExtResource("3_x0k55")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="FireRate" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+[node name="FireRate" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" unique_id=807509202 instance=ExtResource("3_x0k55")]
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 1
 
-[node name="Rotation" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+[node name="Rotation" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" unique_id=1069480555 instance=ExtResource("3_x0k55")]
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 3
 
-[node name="Health" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+[node name="Health" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" unique_id=1748791088 instance=ExtResource("3_x0k55")]
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 2
 
-[node name="Shield" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+[node name="Shield" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" unique_id=879028227 instance=ExtResource("3_x0k55")]
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 4
 
-[node name="Speed" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" instance=ExtResource("3_x0k55")]
+[node name="Speed" parent="left_panel/MarginContainer/VBoxContainer/Upgrade Frames" unique_id=264699596 instance=ExtResource("3_x0k55")]
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 5
 
-[node name="right_panel" type="ColorRect" parent="."]
+[node name="right_panel" type="ColorRect" parent="." unique_id=2122807949]
 custom_minimum_size = Vector2(0, 540)
 layout_mode = 1
 anchors_preset = 11
@@ -220,7 +220,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 color = Color(0.411765, 0.415686, 0.415686, 0.6)
 
-[node name="MarginContainer" type="MarginContainer" parent="right_panel"]
+[node name="MarginContainer" type="MarginContainer" parent="right_panel" unique_id=539414479]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,17 +232,17 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ship_info" type="VBoxContainer" parent="right_panel/MarginContainer"]
+[node name="ship_info" type="VBoxContainer" parent="right_panel/MarginContainer" unique_id=1476626788]
 layout_mode = 2
 
-[node name="closeMenuButton" type="Button" parent="right_panel/MarginContainer/ship_info"]
+[node name="closeMenuButton" type="Button" parent="right_panel/MarginContainer/ship_info" unique_id=400185829]
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "X"
 
-[node name="stats_banner" type="Label" parent="right_panel/MarginContainer/ship_info"]
+[node name="stats_banner" type="Label" parent="right_panel/MarginContainer/ship_info" unique_id=1649691741]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -252,11 +252,11 @@ text = "ship Stats:"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="MarginContainer2" type="MarginContainer" parent="right_panel/MarginContainer/ship_info"]
+[node name="MarginContainer2" type="MarginContainer" parent="right_panel/MarginContainer/ship_info" unique_id=892299165]
 layout_mode = 2
 theme_override_constants/margin_bottom = 20
 
-[node name="ship_name" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+[node name="ship_name" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=1960968251]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
@@ -266,7 +266,7 @@ text = "Ship Name: "
 fit_content = true
 scroll_active = false
 
-[node name="faction" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+[node name="faction" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=890491215]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
@@ -276,7 +276,7 @@ text = "Current Faction: "
 fit_content = true
 scroll_active = false
 
-[node name="weapon" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+[node name="weapon" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=1008567968]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
@@ -286,7 +286,7 @@ text = "Weapon: "
 fit_content = true
 scroll_active = false
 
-[node name="speed_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+[node name="speed_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=1849521888]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
@@ -296,7 +296,7 @@ text = "Max Speed: "
 fit_content = true
 scroll_active = false
 
-[node name="maneuver_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+[node name="maneuver_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=579819713]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
@@ -306,7 +306,7 @@ text = "Maneuverability: "
 fit_content = true
 scroll_active = false
 
-[node name="warp_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info"]
+[node name="warp_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=907581046]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
@@ -316,7 +316,7 @@ text = "Warp Range:"
 fit_content = true
 scroll_active = false
 
-[node name="ambience" type="AudioStreamPlayer" parent="."]
+[node name="ambience" type="AudioStreamPlayer" parent="." unique_id=222311078]
 stream = ExtResource("4_3ib4j")
 volume_db = -15.634
 

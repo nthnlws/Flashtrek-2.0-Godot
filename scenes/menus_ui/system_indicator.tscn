@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://3crojikwy3xa"]
+[gd_scene format=3 uid="uid://3crojikwy3xa"]
 
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="1_n83qf"]
 [ext_resource type="Script" uid="uid://deojdnm8g38id" path="res://scripts/menus_ui/system_indicator.gd" id="1_oy537"]
@@ -7,17 +7,17 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ays83"]
 
-[node name="Indicator" type="Area2D" groups=["map_node"]]
+[node name="Indicator" type="Area2D" unique_id=1633453693 groups=["map_node"]]
 script = ExtResource("1_oy537")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=503557193]
 shape = SubResource("CircleShape2D_ays83")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=214284223]
 modulate = Color(0.431373, 1, 1, 1)
 texture = ExtResource("1_n83qf")
 
-[node name="SystemLabel" type="RichTextLabel" parent="."]
+[node name="SystemLabel" type="RichTextLabel" parent="." unique_id=1889627152]
 modulate = Color(1, 1, 0, 0)
 clip_contents = false
 anchors_preset = 8
@@ -27,7 +27,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -22.0
 offset_top = -25.0
-offset_right = 28.0
+offset_right = 16.0
 offset_bottom = -11.0
 grow_horizontal = 2
 grow_vertical = 2

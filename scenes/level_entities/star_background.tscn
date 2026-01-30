@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bv6xjhovoan8e"]
+[gd_scene format=3 uid="uid://bv6xjhovoan8e"]
 
 [ext_resource type="Texture2D" uid="uid://d2meqtk7mbkf0" path="res://assets/textures/Star Background2.png" id="1_gsiyt"]
 
@@ -12,17 +12,17 @@ tile_size = Vector2i(1024, 1024)
 terrain_set_0/mode = 0
 sources/0 = SubResource("TileSetAtlasSource_4vb1t")
 
-[node name="StarBackground" type="CanvasLayer"]
+[node name="StarBackground" type="CanvasLayer" unique_id=488942590]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1172954273]
 layer = -1
 scroll_base_scale = Vector2(2, 2)
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=531738673]
 scale = Vector2(4, 4)
 motion_mirroring = Vector2(4096, 4096)
 
-[node name="TileMap" type="TileMap" parent="ParallaxBackground/ParallaxLayer"]
+[node name="TileMap" type="TileMap" parent="ParallaxBackground/ParallaxLayer" unique_id=310539869]
 tile_set = SubResource("TileSet_7tasg")
 format = 2
 layer_0/name = "Background"

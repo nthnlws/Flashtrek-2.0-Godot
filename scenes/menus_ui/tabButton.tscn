@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://deoedsw3uxf5m"]
+[gd_scene format=3 uid="uid://deoedsw3uxf5m"]
 
 [ext_resource type="Script" uid="uid://dcchkepmrp57v" path="res://scripts/menus_ui/tab_button.gd" id="1_de5w2"]
 [ext_resource type="Texture2D" uid="uid://bfihp00rslko2" path="res://assets/textures/UI/main_menu/menu_button.png" id="2_45b0o"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="5_ff5qr"]
 [ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="6_lgic5"]
 
-[node name="TabButton" type="Control"]
+[node name="TabButton" type="Control" unique_id=1516241429]
 custom_minimum_size = Vector2(425, 72)
 layout_mode = 3
 anchor_right = 0.44300002
@@ -18,7 +18,7 @@ script = ExtResource("1_de5w2")
 button_color = Color(0.4, 0.59607846, 0.79607844, 1)
 text_pressed_color = Color(0.83137256, 0.83137256, 0.46666667, 1)
 
-[node name="SlidingContainer" type="Control" parent="."]
+[node name="SlidingContainer" type="Control" parent="." unique_id=1752771654]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Background" type="TextureRect" parent="SlidingContainer"]
+[node name="Background" type="TextureRect" parent="SlidingContainer" unique_id=908442608]
 modulate = Color(0.4, 0.59607846, 0.79607844, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -40,13 +40,13 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_45b0o")
 
-[node name="RedBox" type="ColorRect" parent="SlidingContainer"]
+[node name="RedBox" type="ColorRect" parent="SlidingContainer" unique_id=835679821]
 layout_mode = 0
 offset_left = -72.0
 offset_bottom = 72.0
 color = Color(0.97882015, 0, 0.19017196, 1)
 
-[node name="TextButton" type="Label" parent="SlidingContainer/RedBox"]
+[node name="TextButton" type="Label" parent="SlidingContainer/RedBox" unique_id=2024383008]
 layout_mode = 0
 offset_right = 72.0
 offset_bottom = 72.0
@@ -59,7 +59,7 @@ vertical_alignment = 1
 script = ExtResource("5_ff5qr")
 pressed_color = Color(0.83137256, 0.83137256, 0.46666667, 1)
 
-[node name="PolygonMouseDetector" parent="SlidingContainer/RedBox/TextButton" instance=ExtResource("6_lgic5")]
+[node name="PolygonMouseDetector" parent="SlidingContainer/RedBox/TextButton" unique_id=562553027 instance=ExtResource("6_lgic5")]
 layout_mode = 1
 mouse_filter = 1
 
@@ -67,7 +67,7 @@ mouse_filter = 1
 color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(72, 0, 72, 72, 0, 72, 0, 0)
 
-[node name="Label" type="Label" parent="SlidingContainer"]
+[node name="Label" type="Label" parent="SlidingContainer" unique_id=885004098]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15

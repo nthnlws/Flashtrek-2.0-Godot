@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cup0hh5dv0n1n"]
+[gd_scene format=3 uid="uid://cup0hh5dv0n1n"]
 
 [ext_resource type="Shader" uid="uid://8fi6r1et5itn" path="res://resources/Materials_Shaders/progress_bar.gdshader" id="1_rvg74"]
 [ext_resource type="Texture2D" uid="uid://dr4s5824otkpw" path="res://assets/textures/UI/energy_indicator_WO_BARS.png" id="2_cu6tr"]
@@ -67,7 +67,7 @@ shader_parameter/scale = -0.16
 shader_parameter/x_offset = 0.0
 shader_parameter/slant_clip_margin = 0.0
 
-[node name="energy_bar" type="ColorRect"]
+[node name="energy_bar" type="ColorRect" unique_id=853528956]
 material = SubResource("ShaderMaterial_kllqa")
 custom_minimum_size = Vector2(60, 20)
 offset_right = 60.0

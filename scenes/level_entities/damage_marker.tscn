@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bax7dybiuk6w3"]
+[gd_scene format=3 uid="uid://bax7dybiuk6w3"]
 
 [sub_resource type="Animation" id="Animation_1ytle"]
 length = 0.001
@@ -98,12 +98,12 @@ _data = {
 &"pop": SubResource("Animation_nk3jg")
 }
 
-[node name="FloatingText" type="Marker2D"]
+[node name="FloatingText" type="Marker2D" unique_id=191689181]
 z_index = 60
 z_as_relative = false
 scale = Vector2(2, 2)
 
-[node name="Label" type="RichTextLabel" parent="."]
+[node name="Label" type="RichTextLabel" parent="." unique_id=1862337235]
 custom_minimum_size = Vector2(100, 24)
 anchors_preset = 8
 anchor_left = 0.5
@@ -125,8 +125,6 @@ shortcut_keys_enabled = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_kx4dx")
-}
-autoplay = "pop"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=733155035]
+libraries/ = SubResource("AnimationLibrary_kx4dx")
+autoplay = &"pop"

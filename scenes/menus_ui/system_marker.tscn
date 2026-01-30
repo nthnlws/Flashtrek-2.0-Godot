@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2ffdiw7qy7v0"]
+[gd_scene format=3 uid="uid://c2ffdiw7qy7v0"]
 
 [ext_resource type="Texture2D" uid="uid://d4ilsl7aajui2" path="res://assets/textures/UI/white_dot.png" id="1_o0cp8"]
 
-[node name="Destination_indicator" type="Node2D"]
+[node name="Destination_indicator" type="Node2D" unique_id=1330186491]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1369615722]
 scale = Vector2(0.13, 0.13)
 texture = ExtResource("1_o0cp8")

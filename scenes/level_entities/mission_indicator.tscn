@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj1a8ynj87xoc"]
+[gd_scene format=3 uid="uid://cj1a8ynj87xoc"]
 
 [ext_resource type="Texture2D" uid="uid://bq1hf64errt0k" path="res://assets/textures/UI/mission_point_indicator_HALF.png" id="1_7ytpe"]
 [ext_resource type="Script" uid="uid://d2v8bw5jct8eu" path="res://scripts/level_entities/mission_indicator.gd" id="1_8lnn5"]
@@ -116,29 +116,27 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8lnn5"]
 size = Vector2(73, 66)
 
-[node name="MissionIndicator" type="Node2D"]
+[node name="MissionIndicator" type="Node2D" unique_id=1026235066]
 modulate = Color(0.538348, 0.6992328, 0.87613666, 1)
 script = ExtResource("1_8lnn5")
 
-[node name="LeftIndicator" type="Sprite2D" parent="."]
+[node name="LeftIndicator" type="Sprite2D" parent="." unique_id=1794548256]
 position = Vector2(-26, 0)
 texture = ExtResource("1_7ytpe")
 region_filter_clip_enabled = true
 
-[node name="RightIndicator" type="Sprite2D" parent="."]
+[node name="RightIndicator" type="Sprite2D" parent="." unique_id=1252820152]
 position = Vector2(26, 0)
 texture = ExtResource("1_7ytpe")
 flip_h = true
 
-[node name="IndicatorAnimation" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_isbdv")
-}
+[node name="IndicatorAnimation" type="AnimationPlayer" parent="." unique_id=860711975]
+libraries/ = SubResource("AnimationLibrary_isbdv")
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=745568457]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1851468485]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_8lnn5")
 
