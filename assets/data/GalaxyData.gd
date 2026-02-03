@@ -4,32 +4,32 @@ class_name GalaxyData
 
 
 const system_name_file: String = "res://assets/data/system_names.txt"
-enum SPECIAL_SYSTEMS { Solarus = 101, Kronos = 102, Romulus = 103, Risa = 104 }
+enum SPECIAL_SYSTEMS {Solarus = 101, Kronos = 102, Romulus = 103, Risa = 104}
 
-const MAX_SYSTEM_NUMBER:int = 30  # Highest system level, 1-30 = 30 systems
-const NUM_FED_SYSTEMS:int = 16
-const NUM_KLING_SYSTEMS:int = 7
-const NUM_ROM_SYSTEMS:int = 7
+const MAX_SYSTEM_NUMBER: int = 30 # Highest system level, 1-30 = 30 systems
+const NUM_FED_SYSTEMS: int = 16
+const NUM_KLING_SYSTEMS: int = 7
+const NUM_ROM_SYSTEMS: int = 7
 
 @export var systems: Array[SystemData]
-@export var system_id_map: Dictionary = {} 
+@export var system_id_map: Dictionary = {}
 @export var system_names: Array[String]
 
 static var NEIGHBOR_MAP: Dictionary = {
 	SPECIAL_SYSTEMS.Solarus: [6, 7, 8, 10],
-	SPECIAL_SYSTEMS.Kronos:  [16, 17, SPECIAL_SYSTEMS.Risa, 19, 20],
+	SPECIAL_SYSTEMS.Kronos: [16, 17, SPECIAL_SYSTEMS.Risa, 19, 20],
 	SPECIAL_SYSTEMS.Romulus: [25, 28, 29, 30],
-	SPECIAL_SYSTEMS.Risa:    [14, SPECIAL_SYSTEMS.Kronos, 19, 18],
+	SPECIAL_SYSTEMS.Risa: [14, SPECIAL_SYSTEMS.Kronos, 19, 18],
 	
-	1:  [2, 3],
-	2:  [1, 4],
-	3:  [1, 5],
-	4:  [2, 15, 6],
-	5:  [3, 6, 7],
-	6:  [4, 11, SPECIAL_SYSTEMS.Solarus, 5],
-	7:  [5, SPECIAL_SYSTEMS.Solarus, 8],
-	8:  [7, SPECIAL_SYSTEMS.Solarus, 9],
-	9:  [8, 10],
+	1: [2, 3],
+	2: [1, 4],
+	3: [1, 5],
+	4: [2, 15, 6],
+	5: [3, 6, 7],
+	6: [4, 11, SPECIAL_SYSTEMS.Solarus, 5],
+	7: [5, SPECIAL_SYSTEMS.Solarus, 8],
+	8: [7, SPECIAL_SYSTEMS.Solarus, 9],
+	9: [8, 10],
 	10: [9, SPECIAL_SYSTEMS.Solarus, 11],
 	11: [6, 12, 10],
 	12: [11, 13, 18, 27],
@@ -91,11 +91,20 @@ func get_system(system_id: int) -> SystemData:
 	return null
 
 
+func get_system_by_name(system_name: String) -> SystemData:
+	for system: SystemData in systems:
+		if system.system_name == system_name:
+			return system
+	
+	push_error("System name %s not found in GalaxyData." % system_name)
+	return null
+
+
 static func generate_galaxy_data() -> GalaxyData:
-	var new_galaxy:GalaxyData = GalaxyData.new()
-	for sys_index:int in range(MAX_SYSTEM_NUMBER):
+	var new_galaxy: GalaxyData = GalaxyData.new()
+	for sys_index: int in range(MAX_SYSTEM_NUMBER):
 		var current_id: int = sys_index + 1
-		var rand_sys_name:String = new_galaxy.system_names.pop_front()
+		var rand_sys_name: String = new_galaxy.system_names.pop_front()
 		var system_data: SystemData = SystemData.generate_system_data(current_id, rand_sys_name)
 		new_galaxy.systems.append(system_data)
 		new_galaxy.system_id_map[current_id] = system_data
@@ -137,7 +146,7 @@ func _establish_warp_connections() -> void:
 					origin_system.neighbor_ids.append(target_id)
 
 
-static func load_text_file(file_path:String) -> Array[String]:
+static func load_text_file(file_path: String) -> Array[String]:
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
 	if file == null:
 		push_error("Failed to open planet names file at %s" % file_path)
@@ -161,7 +170,7 @@ static func get_jump_distance(start_id: int, target_id: int) -> int:
 	
 	# 2. Setup for Breadth-First Search (BFS)
 	# Queue stores arrays of [current_system_id, current_distance]
-	var queue: Array = [] 
+	var queue: Array = []
 	queue.append([start_id, 0])
 	
 	# Visited set to prevent loops (Dictionary used as Set for O(1) lookup)
@@ -177,7 +186,6 @@ static func get_jump_distance(start_id: int, target_id: int) -> int:
 		# Check immediate neighbors
 		if NEIGHBOR_MAP.has(current_id):
 			for neighbor_id: int in NEIGHBOR_MAP[current_id]:
-				
 				# Found the target!
 				if neighbor_id == target_id:
 					return current_dist + 1
@@ -201,7 +209,7 @@ static func get_shortest_path(start_id: int, target_id: int) -> Array[int]:
 	
 	# Parent Map: Keeps track of where we came from { child_id: parent_id }
 	# Used to reconstruct the path later.
-	var parents: Dictionary = { start_id: null }
+	var parents: Dictionary = {start_id: null}
 	
 	while not queue.is_empty():
 		var current_id = queue.pop_front()

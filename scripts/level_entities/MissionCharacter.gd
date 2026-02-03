@@ -2,6 +2,7 @@ extends NeutralCharacter
 class_name MissionCharacter
 
 var movement_target_position: Vector2 = Vector2.ZERO
+var is_hostile: bool = false
 
 
 func explode(hit_event:HitEvent = HitEvent.new()) -> void:

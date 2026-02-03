@@ -7,15 +7,17 @@ var target_system_data: SystemData
 var spawn_options: Array[Area2D]
 var factionShips: Array[FactionCharacter]
 var neutralShips: Array[NeutralCharacter]
+var missionShips: Array[MissionCharacter]
 var levelWalls: Node2D
 var planets: Array[Node2D]
 var sun: Sun
 var player: Player
 var starbases: Array[Node2D]
 var containers: Array[ContainerPickup]
-var mission_characters: Array[MissionCharacter]
 
-
+const FACTION_CHARACTER: PackedScene = preload("uid://c8tsyg40o4m7h")
+const NEUTRAL_CHARACTER: PackedScene = preload("uid://crsud8w51n07n")
+const MISSION_CHARACTER: PackedScene = preload("uid://c0vl8rhh5rl22")
 const LEVEL: PackedScene = preload("uid://bfitp1ynqfei8")
 var current_level_scene: Node
 var entry_coords:Vector2 # Position to spawn player after exiting warp

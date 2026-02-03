@@ -45,7 +45,7 @@ func _process(delta: float) -> void:
 				target_alpha = 1.0
 			
 		# Apply label fade
-		var label:RichTextLabel = area.system_label
+		var label: RichTextLabel = area.system_label
 		if label:
 			# Smoothly interpolate the alpha
 			label.modulate.a = lerp(label.modulate.a, target_alpha, FADE_SPEED * delta)
@@ -60,7 +60,7 @@ func _gui_input(event: InputEvent) -> void:
 		var clicked_position: Vector2 = get_screen_position() + event.position
 
 		# Handle mouse clicks based on click coordinates
-		for area:Area2D in system_array:
+		for area: Area2D in system_array:
 			var area_child = area.get_child(0)
 			if is_point_in_collision_shape(clicked_position, area_child):
 				get_viewport().set_input_as_handled()
@@ -69,7 +69,7 @@ func _gui_input(event: InputEvent) -> void:
 				return
 
 
-func update_current_system(system_data:SystemData) -> void:
+func update_current_system(system_data: SystemData) -> void:
 	# Update warp path
 	var current_id = system_data.system_index
 	var target_id = system_data.system_index
@@ -91,7 +91,7 @@ func update_current_system(system_data:SystemData) -> void:
 			current_system_message.bbcode_text = current_system_text
 
 
-func update_map_destination(system:Area2D, target_data:SystemData) -> void:
+func update_map_destination(system: Area2D, target_data: SystemData) -> void:
 	#print_debug("Selected %s system, faction: %s, index: %s" % [target_data.system_name, Utility.FACTION.keys()[target_data.faction], target_data.system_index])
 	# Update warp path
 	var current_id = LevelManager.current_system_data.system_index
@@ -133,10 +133,10 @@ func update_mission_text(current_mission: MissionData) -> void:
 	if current_mission == null:
 		clear_mission_text()
 	else:
-		var system_name:String = current_mission.target_system.system_name
-		var target:String = current_mission.target_planet_name
+		var system_name: String = current_mission.target_system.system_name
+		var target: String = current_mission.target_planet_name
 		if !(current_mission.type == MissionData.MISSION_TYPE.DELIVERY
-			or current_mission.type == MissionData.MISSION_TYPE.ANALYSIS):
+			or current_mission.type == MissionData.MISSION_TYPE.ANALYZE):
 				target = current_mission.title
 		 
 		var first_string: String = "Current mission: %s in " % Utility.color_string(Utility.UI_yellow, target)
@@ -160,7 +160,7 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 	var radius: float = shape.radius
 
 	# Get the global transformation of the CollisionShape2D
-	var global_transform:Transform2D = collision_shape.get_global_transform()
+	var global_transform: Transform2D = collision_shape.get_global_transform()
 
 	# Get the global center of the circle by using the origin of the global transform
 	var global_center: Vector2 = global_transform.origin
@@ -174,7 +174,7 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 func _on_close_menu_button_pressed() -> void:
 	SignalBus.UIclickSound.emit()
-	Menus.toggle_menu(self, 0)
+	Menus.toggle_menu(self , 0)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 
@@ -185,19 +185,19 @@ func _on_warp_button_pressed() -> void:
 	visible = false
 
 
-func update_system_names(galaxy_data:GalaxyData) -> void:
-	for system:Area2D in system_array:
+func update_system_names(galaxy_data: GalaxyData) -> void:
+	for system: Area2D in system_array:
 		var sys_data = galaxy_data.get_system(int(system.name))
-		var system_string:String
+		var system_string: String
 		match sys_data.system_index: # Special system label coloring
 			GalaxyData.SPECIAL_SYSTEMS.Solarus:
-				system_string = Utility.fed_blue + sys_data.system_name.to_upper()  + "[/color]"
+				system_string = Utility.fed_blue + sys_data.system_name.to_upper() + "[/color]"
 			GalaxyData.SPECIAL_SYSTEMS.Romulus:
-				system_string = Utility.rom_green + sys_data.system_name.to_upper()  + "[/color]"
+				system_string = Utility.rom_green + sys_data.system_name.to_upper() + "[/color]"
 			GalaxyData.SPECIAL_SYSTEMS.Risa:
 				system_string = Utility.fed_blue + sys_data.system_name.to_upper() + "[/color]"
 			GalaxyData.SPECIAL_SYSTEMS.Kronos:
-				system_string = Utility.klin_red + sys_data.system_name.to_upper()  + "[/color]"
+				system_string = Utility.klin_red + sys_data.system_name.to_upper() + "[/color]"
 			_: system_string = sys_data.system_name # All other systems
 		
 		system.change_system_label(system_string)

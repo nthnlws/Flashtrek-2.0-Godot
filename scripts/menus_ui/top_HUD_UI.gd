@@ -73,7 +73,7 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 func _update_mission_text(mission_data:MissionData) -> void:
 	var fill_dict:Dictionary[String, String]
 	if (mission_data.type == MissionData.MISSION_TYPE.DELIVERY
-		or mission_data.type == MissionData.MISSION_TYPE.ANALYSIS):
+		or mission_data.type == MissionData.MISSION_TYPE.ANALYZE):
 			fill_dict = {
 				"target": Utility.UI_yellow + mission_data.target_planet_name + "[/color]",
 				"system": mission_data.target_system.system_name,

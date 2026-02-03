@@ -2,7 +2,7 @@
 class_name MissionData
 extends Resource
 
-enum MISSION_TYPE { DELIVERY, CONTAINER, KILL_FACTION, ESCORT, ANALYSIS }
+enum MISSION_TYPE { DELIVERY, CONTAINER, KILL_FACTION, ESCORT, ANALYZE }
 
 @export var confirm_message:String
 

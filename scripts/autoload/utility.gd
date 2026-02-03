@@ -2,7 +2,7 @@ extends Node
 class_name game_data
 
 
-var Z: Dictionary[String, int] =  { # Z Indexes for level objects
+var Z: Dictionary[String, int] = { # Z Indexes for level objects
 	# -- GAME WORLD STATIC OBJECTS --
 	"Suns": 0,
 	"Planets": 0,
@@ -18,7 +18,7 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 	
 	# -- GAME WORLD EFFECTS --
 	"Effects": 50, # Explosions, shield hits, etc.
-	"Hitmarker": 60, 
+	"Hitmarker": 60,
 	
 	# -- LEVEL STATIC OBJECTS --
 	"WorldBorders": 60,
@@ -27,14 +27,14 @@ var Z: Dictionary[String, int] =  { # Z Indexes for level objects
 var player_name: String = "USS Enterprise"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
-enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
-enum GAMESTATE { SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE }
-var current_gamestate:GAMESTATE = GAMESTATE.MAINMENU
+enum FACTION {FEDERATION, KLINGON, ROMULAN, NEUTRAL}
+enum GAMESTATE {SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE}
+var current_gamestate: GAMESTATE = GAMESTATE.MAINMENU
 var _is_quitting: bool = false
 
 # Used for global references to dict ship data JSON
 enum SHIP_TYPES {
-	Merchantman,				#0
+	Merchantman, # 0
 	Keldon_Class,
 	batlh_Class,
 	JemHadar,
@@ -44,7 +44,7 @@ enum SHIP_TYPES {
 	Soyuz_Class,
 	Miranda_Class,
 	Nimitz_Class,
-	Freedom_Class,				#10
+	Freedom_Class, # 10
 	Intrepid_Class,
 	Niagara_Class,
 	Talarian_Freighter,
@@ -54,7 +54,7 @@ enum SHIP_TYPES {
 	Klingon_Bird_of_Prey,
 	Walker_Class,
 	Sovereign_Class,
-	Malachowski_Class,			#20
+	Malachowski_Class, # 20
 	Miranda_Class_Lantree_variant,
 	Nova_Class,
 	Constitution_Class_Strange_New_Worlds,
@@ -64,7 +64,7 @@ enum SHIP_TYPES {
 	Hideki_Class,
 	Qugh_Class,
 	Hiawatha_Class,
-	Mars_Synth_Defense_Ship,	 #30
+	Mars_Synth_Defense_Ship, # 30
 	Mogai_Class,
 	Intrepid_Class_Aeroshuttle,
 	Gagarin_Class,
@@ -74,7 +74,7 @@ enum SHIP_TYPES {
 	Georgiou_Class,
 	Defiant_Class,
 	Cheyenne_Class,
-	Peregrine_Class,			 #40
+	Peregrine_Class, # 40
 	Odyssey_Class,
 	D5_Class,
 	Risian_Corvette,
@@ -84,7 +84,7 @@ enum SHIP_TYPES {
 	Cardenas_Class,
 	Vesta_Class,
 	Miranda_Class_Antares_variant,
-	Challenger_Class,			 #50
+	Challenger_Class, # 50
 	Constitution_II_Class,
 	Constitution_III_Class,
 	Galaxy_Class,
@@ -94,7 +94,7 @@ enum SHIP_TYPES {
 	Dhailkhina_Class,
 	Sampson_Class,
 	Excelsior_Class,
-	Class_III_Neutronic_Fuel_Carrier_Kobayashi_Maru, #60
+	Class_III_Neutronic_Fuel_Carrier_Kobayashi_Maru, # 60
 	Shepard_Class,
 	Norway_Class,
 	California_Class,
@@ -104,7 +104,7 @@ enum SHIP_TYPES {
 	Groumall_Freighter,
 	Tellarite_Cruiser,
 	Magee_Class,
-	bortaS_bIr_Class,			#70
+	bortaS_bIr_Class, # 70
 	Dia_Vectau_Class,
 	Hernandez_Class,
 	Excelsior_Class_Refit,
@@ -114,7 +114,7 @@ enum SHIP_TYPES {
 	Sagan_Class,
 	Sutherland_Class,
 	Nebula_Class_Phoenix_variant,
-	La_Sirena,					#80
+	La_Sirena, # 80
 	Monaveen,
 	Risian_Luxury_Cruiser,
 	Brel_Class,
@@ -124,7 +124,7 @@ enum SHIP_TYPES {
 	Ross_Class,
 	Akira_Class,
 	Ambassador_Class,
-	Excelsior_II_Class,			#90
+	Excelsior_II_Class, # 90
 	Hoover_Class,
 	Nebula_Class,
 }
@@ -184,8 +184,8 @@ func _input(event: InputEvent) -> void:
 
 
 func load_JSON_ship_data() -> void:
-	var JSON_path:String = "res://assets/data/ShipData.json"
-	var file_string:String = FileAccess.get_file_as_string(JSON_path)
+	var JSON_path: String = "res://assets/data/ShipData.json"
+	var file_string: String = FileAccess.get_file_as_string(JSON_path)
 	var JSON_ship_data: Dictionary
 	if file_string != null:
 		JSON_ship_data = JSON.parse_string(file_string)
@@ -200,7 +200,7 @@ func load_JSON_ship_data() -> void:
 	ENEMY_SHIP_STATS = JSON_ship_data.get("EnemyStats")
 
 
-func create_custom_tween(node:Node, property:String, final_val, duration:float, curve:Curve) -> void:
+func create_custom_tween(node: Node, property: String, final_val, duration: float, curve: Curve) -> void:
 	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))
 
 
@@ -224,25 +224,25 @@ static func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:
 	# 1. Define all points in LOCAL space (relative to the area's origin)
 	var local_points: Array[Vector2] = [
 		# Corners
-		shape_rect.position,                                            # Top Left
-		Vector2(shape_rect.end.x, shape_rect.position.y),               # Top Right
-		Vector2(shape_rect.position.x, shape_rect.end.y),               # Bottom Left
-		shape_rect.end,                                                 # Bottom Right
+		shape_rect.position, # Top Left
+		Vector2(shape_rect.end.x, shape_rect.position.y), # Top Right
+		Vector2(shape_rect.position.x, shape_rect.end.y), # Bottom Left
+		shape_rect.end, # Bottom Right
 
 		# Midpoints of edges
-		shape_rect.position + Vector2(shape_rect.size.x / 2.0, 0),      # Top Mid
-		shape_rect.end - Vector2(shape_rect.size.x / 2.0, 0),           # Bottom Mid
-		shape_rect.position + Vector2(0, shape_rect.size.y / 2.0),      # Left Mid
-		shape_rect.end - Vector2(0, shape_rect.size.y / 2.0),           # Right Mid
+		shape_rect.position + Vector2(shape_rect.size.x / 2.0, 0), # Top Mid
+		shape_rect.end - Vector2(shape_rect.size.x / 2.0, 0), # Bottom Mid
+		shape_rect.position + Vector2(0, shape_rect.size.y / 2.0), # Left Mid
+		shape_rect.end - Vector2(0, shape_rect.size.y / 2.0), # Right Mid
 
 		# Center of the Area2D's transform (its local origin)
 		Vector2.ZERO,
 
 		# Your other custom points (calculated locally)
 		shape_rect.position / 2.0,
-		Vector2(shape_rect.position.x/2.0 + shape_rect.size.x/2.0, shape_rect.position.y/2.0),
-		Vector2(shape_rect.position.x/2.0, shape_rect.position.y/2.0 + shape_rect.size.y/2.0),
-		Vector2(shape_rect.position.x/2.0 + shape_rect.size.x/2.0, shape_rect.position.y/2.0 + shape_rect.size.y/2.0)
+		Vector2(shape_rect.position.x / 2.0 + shape_rect.size.x / 2.0, shape_rect.position.y / 2.0),
+		Vector2(shape_rect.position.x / 2.0, shape_rect.position.y / 2.0 + shape_rect.size.y / 2.0),
+		Vector2(shape_rect.position.x / 2.0 + shape_rect.size.x / 2.0, shape_rect.position.y / 2.0 + shape_rect.size.y / 2.0)
 	]
 	
 	var points: Array[Vector2] = []
@@ -251,9 +251,9 @@ static func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:
 		var global_point: Vector2 = rotated_point + area_pos
 		points.append(global_point)
 	
-	var distance_array:Array[float] = []
-	for point:Vector2 in points:
-		var distance_to_corner:float = to_point.distance_to(point)
+	var distance_array: Array[float] = []
+	for point: Vector2 in points:
+		var distance_to_corner: float = to_point.distance_to(point)
 		distance_array.append(distance_to_corner)
 	distance_array.sort() # Sort by value
 	
@@ -289,20 +289,20 @@ func get_distance_to_polygon(to_point: Vector2, area: Area2D) -> float:
 
 
 func get_faction_from_ship_type(ship_index: SHIP_TYPES) -> FACTION:
-	var faction:Utility.FACTION = SHIP_DATA.values()[ship_index].get("FACTION")
+	var faction: Utility.FACTION = SHIP_DATA.values()[ship_index].get("FACTION")
 	return faction
 
-func color_string(color:String, text: String) -> String:
+func color_string(color: String, text: String) -> String:
 	return color + text + "[/color]"
 
-func get_enemy_faction(faction:Utility.FACTION) -> Utility.FACTION:
+func get_enemy_faction(faction: Utility.FACTION) -> Utility.FACTION:
 	if faction == Utility.FACTION.FEDERATION:
-		return  Utility.FACTION.KLINGON
-	elif faction ==  Utility.FACTION.KLINGON:
-		return  Utility.FACTION.ROMULAN
-	elif faction ==  Utility.FACTION.ROMULAN:
-		return  Utility.FACTION.FEDERATION
-	else: return  Utility.FACTION.NEUTRAL
+		return Utility.FACTION.KLINGON
+	elif faction == Utility.FACTION.KLINGON:
+		return Utility.FACTION.ROMULAN
+	elif faction == Utility.FACTION.ROMULAN:
+		return Utility.FACTION.FEDERATION
+	else: return Utility.FACTION.NEUTRAL
 
 func get_random_point_on_circle(radius: float) -> Vector2:
 	return Vector2.from_angle(randf() * TAU) * radius

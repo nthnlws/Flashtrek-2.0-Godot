@@ -1,4 +1,4 @@
-extends Node2D
+extends PlanetComponent
 class_name AnalyzePlanetComponent
 
 signal sequence_started
@@ -45,10 +45,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("F9") and LevelManager.player:
 		start_orbit_sequence(LevelManager.player)
 
-func _draw() -> void:
-	if Engine.is_editor_hint() or _is_active:
-		draw_arc(Vector2.ZERO, orbit_radius, 0, TAU, 64, orbit_color, 2.0)
-
 
 # Call this to start the cutscene
 var previous_gamestate:int
@@ -62,7 +58,6 @@ func start_orbit_sequence(player: Node2D) -> void:
 	_is_active = true
 	_target_player = player
 	sequence_started.emit()
-	queue_redraw()
 
 	# 1. Disable Player
 	if _target_player.has_method("set_physics_process"):
@@ -71,11 +66,11 @@ func start_orbit_sequence(player: Node2D) -> void:
 			_target_player.velocity = Vector2.ZERO
 
 	# 2. Calculate Geometry
-	var vector_to_player: Vector2 = _target_player.global_position - global_position
+	var vector_to_player: Vector2 = _target_player.global_position - parent_planet.global_position
 	_orbit_start_angle = vector_to_player.angle()
 	
 	# Entry point on the circle
-	var entry_pos: Vector2 = global_position + Vector2(cos(_orbit_start_angle), sin(_orbit_start_angle)) * orbit_radius
+	var entry_pos: Vector2 = parent_planet.global_position + Vector2(cos(_orbit_start_angle), sin(_orbit_start_angle)) * orbit_radius
 	
 	# Target rotation (Tangent)
 	var target_rot: float = _orbit_start_angle + (PI / 2.0)
@@ -85,7 +80,6 @@ func start_orbit_sequence(player: Node2D) -> void:
 
 	# 3. Calculate Duration
 	# Circumference = 2 * PI * r
-	var path_length: float = TAU * orbit_radius
 	var duration: float = 4.0
 
 	# 4. Tween Sequence
@@ -118,7 +112,7 @@ func _process_custom_orbit(t: float) -> void:
 
 	# 3. Update Position
 	var offset: Vector2 = Vector2(cos(current_angle), sin(current_angle)) * orbit_radius
-	_target_player.global_position = global_position + offset
+	_target_player.global_position = parent_planet.global_position + offset
 
 	# 4. Update Rotation (Always Tangent)
 	_target_player.rotation = current_angle + (PI / 2.0)
@@ -152,7 +146,6 @@ func _get_trapezoidal_progress(t: float, a: float) -> float:
 
 func _on_sequence_complete() -> void:
 	_is_active = false
-	queue_redraw()
 	sequence_finished.emit()
 	if is_instance_valid(_target_player) and _target_player.has_method("set_physics_process"):
 		_target_player.set_physics_process(true)
@@ -163,7 +156,7 @@ func _process_orbit_step(current_angle_rad: float) -> void:
 
 	# 1. Update Position (Polar to Cartesian)
 	var offset: Vector2 = Vector2(cos(current_angle_rad), sin(current_angle_rad)) * orbit_radius
-	_target_player.global_position = global_position + offset
+	_target_player.global_position = parent_planet.global_position + offset
 
 	# 2. Update Rotation (Tangential)
 	# This keeps the player facing the direction of travel during the orbit loop

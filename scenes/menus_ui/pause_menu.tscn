@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bjaexlnkl8cj8" path="res://scripts/menus_ui/pause_menu.gd" id="1_trih8"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_ut74y"]
 [ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="3_pbw0g"]
+[ext_resource type="PackedScene" uid="uid://c360q55j764ul" path="res://scenes/menus_ui/cheat_menu_footer.tscn" id="4_8wins"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7be28"]
 
@@ -24,7 +25,7 @@ color = Color(0.152941, 0.152941, 0.152941, 1)
 [node name="HeaderArea" type="VBoxContainer" parent="ColorRect" unique_id=975388548]
 layout_mode = 1
 offset_right = 960.0
-offset_bottom = 132.0
+offset_bottom = 89.0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/HeaderArea" unique_id=654753634]
 layout_mode = 2
@@ -198,31 +199,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="unlimitedShield" type="CheckButton" parent="ColorRect/CheatsVBox/shieldContainer/HBoxContainer" unique_id=2092128738]
-layout_mode = 2
-
-[node name="collisionContainer" type="MarginContainer" parent="ColorRect/CheatsVBox" unique_id=1605630388]
-layout_mode = 2
-size_flags_vertical = 8
-mouse_filter = 0
-theme_override_constants/margin_left = 15
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CheatsVBox/collisionContainer" unique_id=1180677863]
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 0
-
-[node name="collisionCheat" type="Label" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer" unique_id=1333757607]
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 0
-theme_override_font_sizes/font_size = 20
-text = "No Collision"
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer" unique_id=119101407]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="noCollision" type="CheckButton" parent="ColorRect/CheatsVBox/collisionContainer/HBoxContainer" unique_id=608085080]
 layout_mode = 2
 
 [node name="TeleportContainer" type="MarginContainer" parent="ColorRect/CheatsVBox" unique_id=1823520246]
@@ -410,110 +386,6 @@ theme_override_constants/margin_left = 9
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "3.6k"
-
-[node name="DamageContainer" type="MarginContainer" parent="ColorRect/PlayerVBox" unique_id=877141186]
-layout_mode = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer" unique_id=1962266170]
-layout_mode = 2
-mouse_filter = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer" unique_id=981221546]
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 0
-
-[node name="playerDamage" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer" unique_id=2113204696]
-layout_mode = 2
-mouse_filter = 0
-theme_override_font_sizes/font_size = 20
-text = "Laser Damage"
-
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer" unique_id=2003722491]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="laserDamageOverride" type="CheckButton" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer" unique_id=1530569555]
-layout_mode = 2
-
-[node name="laserDamage" type="HSlider" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer" unique_id=430805102]
-layout_mode = 2
-step = 5.0
-value = 20.0
-tick_count = 11
-ticks_on_borders = true
-
-[node name="damageTickMarks" type="HBoxContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer" unique_id=1880676633]
-layout_mode = 2
-mouse_filter = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=1154526891]
-layout_mode = 2
-size_flags_horizontal = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 5
-
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer" unique_id=337401891]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "0"
-
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=592720127]
-layout_mode = 2
-size_flags_horizontal = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 6
-
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer2" unique_id=875080302]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "20"
-
-[node name="MarginContainer3" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=1660143287]
-layout_mode = 2
-size_flags_horizontal = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 8
-
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer3" unique_id=1465645548]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "40"
-
-[node name="MarginContainer4" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=701610240]
-layout_mode = 2
-size_flags_horizontal = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 11
-
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer4" unique_id=6947704]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "60"
-
-[node name="MarginContainer5" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=2018649252]
-layout_mode = 2
-size_flags_horizontal = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 16
-
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer5" unique_id=248653736]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "80"
-
-[node name="MarginContainer6" type="MarginContainer" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks" unique_id=1672274675]
-layout_mode = 2
-size_flags_horizontal = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 11
-
-[node name="Label" type="Label" parent="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/damageTickMarks/MarginContainer6" unique_id=1515548526]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "100"
 
 [node name="SpeedContainer" type="MarginContainer" parent="ColorRect/PlayerVBox" unique_id=1028386002]
 layout_mode = 2
@@ -948,72 +820,6 @@ layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
 
-[node name="EnemyTypeContainer" type="MarginContainer" parent="ColorRect/WorldVBox" unique_id=1652427342]
-layout_mode = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 15
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer" unique_id=275612603]
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 0
-
-[node name="EnemyType" type="Label" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer" unique_id=1628984598]
-layout_mode = 2
-mouse_filter = 0
-theme_override_font_sizes/font_size = 20
-text = "Enem Type:"
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer" unique_id=579331916]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-
-[node name="EnemyTypeList" type="OptionButton" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer" unique_id=278354610]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-fit_to_longest_item = false
-
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer" unique_id=376004478]
-layout_mode = 2
-mouse_filter = 0
-theme_override_constants/margin_right = 15
-
-[node name="PlayerTypeContainer" type="MarginContainer" parent="ColorRect/WorldVBox" unique_id=2113853093]
-layout_mode = 2
-mouse_filter = 0
-theme_override_constants/margin_left = 15
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/WorldVBox/PlayerTypeContainer" unique_id=512717941]
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 0
-
-[node name="PlayerType" type="Label" parent="ColorRect/WorldVBox/PlayerTypeContainer/HBoxContainer" unique_id=717327845]
-layout_mode = 2
-mouse_filter = 0
-theme_override_font_sizes/font_size = 20
-text = "Player Type:"
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/WorldVBox/PlayerTypeContainer/HBoxContainer" unique_id=1024649668]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-
-[node name="PlayerTypeList" type="OptionButton" parent="ColorRect/WorldVBox/PlayerTypeContainer/HBoxContainer" unique_id=1973007789]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-fit_to_longest_item = false
-
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/WorldVBox/PlayerTypeContainer/HBoxContainer" unique_id=1146455242]
-layout_mode = 2
-mouse_filter = 0
-theme_override_constants/margin_right = 15
-
 [node name="SaveGameContainer" type="MarginContainer" parent="ColorRect/WorldVBox" unique_id=1107060446]
 layout_mode = 2
 size_flags_vertical = 8
@@ -1026,13 +832,16 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "Save System"
 
+[node name="Footer" parent="ColorRect" unique_id=1458896543 instance=ExtResource("4_8wins")]
+layout_mode = 1
+offset_top = -176.0
+
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="ColorRect/HeaderArea/XbuttonArea/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/energyContainer/HBoxContainer/unlimitedEnergy" to="." method="_on_energy_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/healthContainer/HBoxContainer/unlimitedHealth" to="." method="_on_health_button_toggled"]
 [connection signal="toggled" from="ColorRect/CheatsVBox/shieldContainer/HBoxContainer/unlimitedShield" to="." method="_on_shield_button_toggled"]
-[connection signal="toggled" from="ColorRect/CheatsVBox/collisionContainer/HBoxContainer/noCollision" to="." method="_on_no_collision_toggled"]
 [connection signal="focus_entered" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_focus_entered"]
 [connection signal="text_changed" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_changed"]
 [connection signal="text_submitted" from="ColorRect/CheatsVBox/TeleportContainer/VBoxContainer/HBoxContainer/xCoordInput" to="." method="_on_x_coord_input_text_submitted"]
@@ -1042,8 +851,6 @@ text = "Save System"
 [connection signal="toggled" from="ColorRect/PlayerVBox/ShieldContainer/HBoxContainer/playerShield" to="." method="_on_player_shield_button_toggled"]
 [connection signal="toggled" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/HBoxContainer/laserRangeOverride" to="." method="_on_laser_damage_enabled_toggled"]
 [connection signal="value_changed" from="ColorRect/PlayerVBox/LaserRangeContainer/VBoxContainer/laserRange" to="." method="_on_laser_slider_value_changed"]
-[connection signal="toggled" from="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/HBoxContainer/laserDamageOverride" to="." method="_on_damage_enabled_toggled"]
-[connection signal="value_changed" from="ColorRect/PlayerVBox/DamageContainer/VBoxContainer/laserDamage" to="." method="_on_damage_slider_value_changed"]
 [connection signal="toggled" from="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/HBoxContainer/speedOverride" to="." method="_on_speed_enabled_toggled"]
 [connection signal="value_changed" from="ColorRect/PlayerVBox/SpeedContainer/VBoxContainer/maxSpeed" to="." method="_on_speed_slider_value_changed"]
 [connection signal="toggled" from="ColorRect/EnemyVBox/shieldContainer/HBoxContainer/enemyShield" to="." method="_on_enemy_shield_button_toggled"]
@@ -1054,6 +861,5 @@ text = "Save System"
 [connection signal="item_selected" from="ColorRect/WorldVBox/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_select_item_selected"]
 [connection signal="value_changed" from="ColorRect/WorldVBox/VolumeContainer/HBoxContainer/gameVolume" to="." method="_on_volume_slider_value_changed"]
 [connection signal="item_selected" from="ColorRect/WorldVBox/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
-[connection signal="item_selected" from="ColorRect/WorldVBox/EnemyTypeContainer/HBoxContainer/EnemyTypeList" to="." method="_on_new_enemy_type_selected"]
-[connection signal="item_selected" from="ColorRect/WorldVBox/PlayerTypeContainer/HBoxContainer/PlayerTypeList" to="." method="_on_player_type_changed"]
 [connection signal="pressed" from="ColorRect/WorldVBox/SaveGameContainer/SaveGame" to="." method="_on_save_game_pressed"]
+[connection signal="button_clicked" from="ColorRect/Footer" to="." method="_on_footer_button_clicked"]

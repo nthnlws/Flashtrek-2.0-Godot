@@ -60,7 +60,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 pressed_color = Color(1, 1, 1, 1)
 
-[node name="Polygon2D" parent="MainMenu/MainMenu/SystemsReady/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="MainMenu/MainMenu/SystemsReady/PolygonMouseDetector" parent_id_path=PackedInt32Array(1071807222, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(56, 13, 284, 13, 284, 48, 56, 48)
 
 [node name="Stardate" parent="MainMenu/MainMenu" unique_id=256975287 instance=ExtResource("3_jsvya")]
@@ -76,7 +76,7 @@ vertical_alignment = 1
 script = ExtResource("5_sii2t")
 pressed_color = Color(1, 1, 1, 1)
 
-[node name="Polygon2D" parent="MainMenu/MainMenu/Stardate/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="MainMenu/MainMenu/Stardate/PolygonMouseDetector" parent_id_path=PackedInt32Array(256975287, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(0, 5, 193, 5, 193, 32, 0, 32)
 
 [node name="Copyright" type="Label" parent="MainMenu/MainMenu" unique_id=581351153]

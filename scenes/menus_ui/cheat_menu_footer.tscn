@@ -1,0 +1,249 @@
+[gd_scene format=3 uid="uid://c360q55j764ul"]
+
+[ext_resource type="Script" uid="uid://b86k6bercs8dl" path="res://scripts/menus_ui/cheat_menu_footer.gd" id="1_fq5ke"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_us2nk"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_w4ckv"]
+color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8wins"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_8wins"]
+color = Color(1, 1, 1, 1)
+vertical = true
+
+[node name="Footer" type="VBoxContainer" unique_id=1458896543]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -174.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_fq5ke")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1056592736]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2141979591]
+layout_mode = 2
+
+[node name="CommandsTitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1171067494]
+layout_mode = 2
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("2_us2nk")
+theme_override_font_sizes/font_size = 30
+text = "COMMANDS"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1765518909]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_w4ckv")
+
+[node name="OptionsLine1" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=432104072]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SystemPanel2" type="Panel" parent="MarginContainer/VBoxContainer/OptionsLine1" unique_id=2120704756]
+custom_minimum_size = Vector2(296.63, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel2" unique_id=127515690]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel2/MarginContainer" unique_id=1881719127]
+layout_mode = 2
+alignment = 1
+
+[node name="PlanetTPButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel2/MarginContainer/HBoxContainer" unique_id=1994965029]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Nearest Planet TP"
+
+[node name="NextPlanetTPButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel2/MarginContainer/HBoxContainer" unique_id=221729458]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Next Planet TP"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine1" unique_id=1669550914]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
+
+[node name="SystemPanel" type="Panel" parent="MarginContainer/VBoxContainer/OptionsLine1" unique_id=519340544]
+custom_minimum_size = Vector2(296.63, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel" unique_id=1761107282]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer" unique_id=1917145397]
+layout_mode = 2
+alignment = 1
+
+[node name="ChangeSystemButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer" unique_id=1836906119]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Change System:"
+
+[node name="SystemName" type="LineEdit" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer" unique_id=1953652912]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Solarus"
+context_menu_enabled = false
+emoji_menu_enabled = false
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine1" unique_id=494078054]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
+
+[node name="MissionPanel" type="Panel" parent="MarginContainer/VBoxContainer/OptionsLine1" unique_id=1063848555]
+custom_minimum_size = Vector2(281.86, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel" unique_id=558685629]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer" unique_id=425460543]
+layout_mode = 2
+alignment = 1
+
+[node name="StartMissionButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer" unique_id=1262854973]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Mission:"
+
+[node name="MissionType" type="OptionButton" parent="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer" unique_id=1063263153]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+selected = 0
+item_count = 5
+popup/item_0/text = "Delivery"
+popup/item_0/id = 0
+popup/item_1/text = "Container"
+popup/item_1/id = 1
+popup/item_2/text = "Kill Faction"
+popup/item_2/id = 2
+popup/item_3/text = "Escort"
+popup/item_3/id = 3
+popup/item_4/text = "Analyze"
+popup/item_4/id = 4
+
+[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine1" unique_id=1681529852]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
+
+[node name="OptionsLine2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1003462331]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SpawnNeutralButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1840163085]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Spawn Neutral"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=33409341]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
+
+[node name="FactionPanel" type="Panel" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=956376761]
+custom_minimum_size = Vector2(287.49, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel" unique_id=26195200]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer" unique_id=1030599481]
+layout_mode = 2
+alignment = 1
+
+[node name="SpawnFactionButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer" unique_id=1433642720]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Spawn Faction"
+
+[node name="Factions" type="OptionButton" parent="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer" unique_id=994002513]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Federation"
+popup/item_0/id = 0
+popup/item_1/text = "Klingon"
+popup/item_1/id = 1
+popup/item_2/text = "Romulan"
+popup/item_2/id = 2
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1599471273]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1105975881]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1379649025]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel2/MarginContainer/HBoxContainer/PlanetTPButton" to="." method="_on_planet_tp_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel2/MarginContainer/HBoxContainer/NextPlanetTPButton" to="." method="_on_next_planet_tp_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer/ChangeSystemButton" to="." method="_on_change_system_button_pressed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer/SystemName" to="." method="_on_system_name_text_changed"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer/SystemName" to="." method="_on_change_system_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer/StartMissionButton" to="." method="_on_start_mission_button_pressed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer/MissionType" to="." method="_on_mission_type_item_selected"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine2/SpawnNeutralButton" to="." method="_on_spawn_neutral_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer/SpawnFactionButton" to="." method="_on_spawn_faction_button_pressed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer/Factions" to="." method="_on_factions_item_selected"]

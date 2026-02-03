@@ -4,11 +4,11 @@ extends RefCounted
 # --- Configuration & Weights ---
 # Adjust these integers to change the rarity of missions
 const TYPE_WEIGHTS: Dictionary = {
-	MissionData.MISSION_TYPE.DELIVERY: 		50,		# 50% chance
-	MissionData.MISSION_TYPE.CONTAINER: 	15,		# 15% chance
-	MissionData.MISSION_TYPE.KILL_FACTION:	20,		# 20% chance
-	MissionData.MISSION_TYPE.ESCORT: 		5,		# 5% chance
-	MissionData.MISSION_TYPE.ANALYSIS: 		10,		# 10% chance
+	MissionData.MISSION_TYPE.DELIVERY: 50, # 50% chance
+	MissionData.MISSION_TYPE.CONTAINER: 15, # 15% chance
+	MissionData.MISSION_TYPE.KILL_FACTION: 20, # 20% chance
+	MissionData.MISSION_TYPE.ESCORT: 5, # 5% chance
+	MissionData.MISSION_TYPE.ANALYZE: 10, # 10% chance
 }
 
 const CARGO_TYPES: Array[String] = [
@@ -19,12 +19,12 @@ const CARGO_TYPES: Array[String] = [
 	"Engineering Tools", "Warp Coils", "Diplomatic Documents", "Starfleet Uniforms",
 	"Holodeck Matrix Components", "Rare Minerals", "Subspace Relay Components",
 	"Vaccines", "Graviton Stabilizers", "Tritanium", "Biomimetic Gel", "Sensor Arrays",
-	"Temporal Artifacts", "Borg Debris", "Rare Spices or Foods", "Alien Animal Specimens","
+	"Temporal Artifacts", "Borg Debris", "Rare Spices or Foods", "Alien Animal Specimens", "
 	Subspace Dampeners", "Energy Shields", "Repair Drones", "Navigational Charts",
 	"Cryogenic Pods", "Experimental Technology", "Klingon Bloodwine", "Xenobiological Samples"
 	]
 
-static var cargo_full_messages:  Array[String] = ["[color=#f06c82]Cargo hold is already full.[/color] Return when you've delivered the goods.", "[color=#f06c82]Mission queue is full.[/color] Complete your current objectives first.", "[color=#f06c82]No room for more cargo.[/color] Clear your hold before accepting another mission.", "[color=#f06c82]You’re already assigned a mission.[/color] Finish it before taking on more.", "[color=#f06c82]Your current mission needs completion first.[/color] Come back later.", "[color=#f06c82]Ship’s storage is maxed out.[/color] Offload before taking another task.", "[color=#f06c82]No additional cargo can be loaded.[/color] Finish your delivery first.", "[color=#f06c82]One task at a time![/color] Complete your current mission before returning."]
+static var cargo_full_messages: Array[String] = ["[color=#f06c82]Cargo hold is already full.[/color] Return when you've delivered the goods.", "[color=#f06c82]Mission queue is full.[/color] Complete your current objectives first.", "[color=#f06c82]No room for more cargo.[/color] Clear your hold before accepting another mission.", "[color=#f06c82]You’re already assigned a mission.[/color] Finish it before taking on more.", "[color=#f06c82]Your current mission needs completion first.[/color] Come back later.", "[color=#f06c82]Ship’s storage is maxed out.[/color] Offload before taking another task.", "[color=#f06c82]No additional cargo can be loaded.[/color] Finish your delivery first.", "[color=#f06c82]One task at a time![/color] Complete your current mission before returning."]
 static var confirmation_accept_prompts: Array[String] = ["Will you take on this task?", "Do you agree to these terms?", "Are you ready to proceed?", "Shall we begin the mission?", "Is this assignment acceptable?", "Can we count on your assistance?", "Do you confirm your participation?"]
 static var confirmation_complete_prompts: Array[String] = ["Ready to complete the assignment?", "Prepared to proceed with the task.", "All systems go, proceed with beam.", "Acknowledged. Moving to final phase.", "Cargo confirmed, beam it over.", "Orders understood, ready to receive cargo.", "Initiating final mission steps."]
 static var federation_thankYou: Array[String] = ["Your delivery has arrived. Starfleet commends your service.", "Shipment secured. We appreciate your reliability.", "Thank you. The Federation acknowledges your efforts.", "Mission complete. Your record has been updated.", "Excellent work. Cargo confirmed and logged."]
@@ -33,8 +33,10 @@ static var romulan_thankYou: Array[String] = ["Your task is complete. Your effic
 const PROMPTS: Array[String] = ["Will you take on this task?", "Do you agree to these terms?"]
 
 # --- Main Generation Function ---
-static func generate_random_mission(current_system: SystemData, galaxy_data: GalaxyData) -> MissionData:
-	var selected_type: MissionData.MISSION_TYPE = _pick_weighted_type()
+static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData, random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE) -> MissionData:
+	var selected_type: MissionData.MISSION_TYPE = type
+	if random:
+		selected_type = _pick_weighted_type()
 	
 	# Pick a random target system (logic from your original script)
 	var target_system: SystemData = galaxy_data.systems.pick_random()
@@ -59,7 +61,7 @@ static func generate_random_mission(current_system: SystemData, galaxy_data: Gal
 			_setup_kill_faction(mission)
 		MissionData.MISSION_TYPE.ESCORT:
 			_setup_escort(mission)
-		MissionData.MISSION_TYPE.ANALYSIS:
+		MissionData.MISSION_TYPE.ANALYZE:
 			_setup_analysis(mission)
 			
 	return mission
@@ -86,10 +88,10 @@ static func _pick_weighted_type() -> MissionData.MISSION_TYPE:
 static func _setup_delivery(m: MissionData, current_sys: SystemData) -> void:
 	m.title = "Cargo Delivery"
 	m.cargo = CARGO_TYPES.pick_random()
-	var formatted_cargo:String = Utility.color_string(Utility.UI_yellow, m.cargo)
+	var formatted_cargo: String = Utility.color_string(Utility.UI_yellow, m.cargo)
 	
 	# Format faction
-	var faction:String = Utility.FACTION.keys()[m.faction_owner]
+	var faction: String = Utility.FACTION.keys()[m.faction_owner]
 	var formatted_faction: String = faction.to_pascal_case()
 	if formatted_faction == "Klingon":
 		formatted_faction = Utility.color_string(Utility.klin_red, "Klingons")
@@ -99,8 +101,8 @@ static func _setup_delivery(m: MissionData, current_sys: SystemData) -> void:
 		formatted_faction = Utility.color_string(Utility.fed_blue, "Federation")
 	
 	m.target_planet_name = m.target_system.planet_data.pick_random().name
-	var formatted_planet:String = Utility.color_string(Utility.UI_blue, m.target_planet_name)
-	var formatted_system:String = Utility.color_string(Utility.UI_yellow, m.target_system.system_name)
+	var formatted_planet: String = Utility.color_string(Utility.UI_blue, m.target_planet_name)
+	var formatted_system: String = Utility.color_string(Utility.UI_yellow, m.target_system.system_name)
 	
 	# Calculate Reward
 	var dist = GalaxyData.get_jump_distance(current_sys.system_index, m.target_system.system_index)
@@ -108,14 +110,14 @@ static func _setup_delivery(m: MissionData, current_sys: SystemData) -> void:
 	
 	if m.faction_owner == Utility.FACTION.FEDERATION: # String formatting for faction descriptions
 		m.description = "The %s requires %s delivered to %s in the %s system" % [
-		formatted_faction, 
+		formatted_faction,
 		formatted_cargo,
 		formatted_planet,
 		formatted_system,
 	]
 	else:
 		m.description = "The %s require %s delivered to %s in the %s system" % [
-		formatted_faction, 
+		formatted_faction,
 		formatted_cargo,
 		formatted_planet,
 		formatted_system,
@@ -127,12 +129,12 @@ static func _setup_kill_faction(m: MissionData) -> void:
 	m.enemy_faction = Utility.get_enemy_faction(m.faction_owner)
 	m.enemy_target_count = randi_range(2, 5)
 	
-	var formatted_system:String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
+	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	
 	# Format faction
-	var faction:String = Utility.FACTION.keys()[m.faction_owner]
+	var faction: String = Utility.FACTION.keys()[m.faction_owner]
 	var formatted_faction: String = faction.to_pascal_case()
-	var formatted_kills:String
+	var formatted_kills: String
 	if formatted_faction == "Klingon":
 		formatted_faction = Utility.color_string(Utility.klin_red, "Klingon")
 		formatted_kills = Utility.color_string(Utility.klin_red, str(m.enemy_target_count))
@@ -153,8 +155,8 @@ static func _setup_kill_faction(m: MissionData) -> void:
 static func _setup_container(m: MissionData) -> void:
 	m.title = "Container"
 	m.cargo = CARGO_TYPES.pick_random()
-	var formatted_cargo:String = Utility.color_string(Utility.UI_yellow, m.cargo)
-	var formatted_system:String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
+	var formatted_cargo: String = Utility.color_string(Utility.UI_yellow, m.cargo)
+	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	m.container_target = ContainerData.create_container_data(m.cargo, m.faction_owner)
 	m.reward = randi_range(500, 2000)
 	m.description = "scanners detected a %s container drifting in the %s system. Retrieve it" % [
@@ -163,15 +165,15 @@ static func _setup_container(m: MissionData) -> void:
 
 static func _setup_escort(m: MissionData) -> void:
 	m.title = "VIP Transport"
-	var formatted_system:String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
+	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	m.description = "escort a high-value transport to %s. Expect resistance" % formatted_system
 	m.reward = 5000
 
 static func _setup_analysis(m: MissionData) -> void:
 	m.title = "Scientific Survey"
 	m.target_planet_name = m.target_system.planet_data.pick_random().name
-	var formatted_planet:String = Utility.color_string(Utility.UI_yellow, m.target_planet_name)
-	var formatted_system:String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
+	var formatted_planet: String = Utility.color_string(Utility.UI_yellow, m.target_planet_name)
+	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	m.description = "orbit %s in the %s system and perform a full planetary scan" % [
 		formatted_planet, formatted_system
 	]

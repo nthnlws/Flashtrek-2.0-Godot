@@ -20,23 +20,27 @@ func _connect_signals() -> void:
 	SignalBus.BottomLeft_clicked.connect(_on_open_comms_pressed)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 
+
 #region Player Comms
 # --- UI VISIBILITY AND STATE ---
 func open_comms() -> void:
-	if not current_planet or !current_planet.communication_component:
+	if not current_planet:
+		return
+	var comms_component: PlanetCommunicationComponent = current_planet.get_node_or_null("ComponentSpawner/CommunicationComponent")
+	if not comms_component:
 		return
 	
 	self.visible = true
 	SignalBus.toggleQ3HUD.emit("off") # Turn off Q3 pulse (Comm Available)
 	
 	# 1. Get the formatted text from the planet
-	var message: String = current_planet.communication_component.request_hail(ship_name)
+	var message: String = comms_component.request_hail(ship_name)
 	update_comms_message(message)
 	
 	# 2. Check resulting state to toggle UI elements
 	# If the planet just generated a pending mission, we need the "Beam/Accept" button to pulse
 	if MissionManager.current_state == MissionManager.STATE.pending_mission:
-		SignalBus.toggleQ2HUD.emit("on") 
+		SignalBus.toggleQ2HUD.emit("on")
 
 func close_comms() -> void:
 	visible = false
@@ -63,11 +67,12 @@ func _on_open_comms_pressed() -> void:
 
 
 func _on_cargo_beam_pressed() -> void:
-	if not self.visible or not current_planet or !current_planet.communication_component: 
+	var comms_component: PlanetCommunicationComponent = current_planet.get_node_or_null("ComponentSpawner/CommunicationComponent")
+	if not self.visible or not current_planet or not comms_component:
 		return
 		
 	# Attempt to interact (Accept Mission or Complete Mission)
-	var response: String = current_planet.communication_component.attempt_interaction(ship_name)
+	var response: String = comms_component.attempt_interaction(ship_name)
 	
 	if not response.is_empty():
 		SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dd0uqe0hng5gy"]
+
+[ext_resource type="Script" uid="uid://byqcekbycbt3h" path="res://scripts/components/system/killFactionComponent.gd" id="1_ct23s"]
+
+[node name="KillFactionComponent" type="Node" unique_id=1698833674]
+script = ExtResource("1_ct23s")

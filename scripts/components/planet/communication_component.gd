@@ -1,10 +1,15 @@
-extends Node
+extends PlanetComponent
 class_name PlanetCommunicationComponent
+
+var planet_data: PlanetData
+
+
+func initialize_component(new_planet_data: PlanetData) -> void:
+	planet_data = new_planet_data
 
 
 # Called by CommsUI when opening the menu. Returns the greeting/mission text.
 func request_hail(player_ship_name: String) -> String:
-	
 	# 1. Active Mission Logic
 	if MissionManager.current_state == MissionManager.STATE.active_mission:
 		if MissionManager.active_mission.target_planet_name == self.name:
@@ -15,9 +20,8 @@ func request_hail(player_ship_name: String) -> String:
 			return MissionGenerator.cargo_full_messages.pick_random()
 	
 	# 2. No Mission / Pending Logic
-	if (MissionManager.current_state == MissionManager.STATE.no_mission 
+	if (MissionManager.current_state == MissionManager.STATE.no_mission
 		or MissionManager.current_state == MissionManager.STATE.pending_mission):
-		
 		# If we don't have a pending mission yet, or we are rerolling, generate one
 		# (Logic assumes we want to refresh if the UI calls this in pending state)
 		MissionManager.generate_mission()
@@ -39,9 +43,8 @@ func attempt_interaction(player_ship_name: String) -> String:
 		return "Mission accepted! Head to the %s system." % formatted_system
 
 	# B. Complete Active
-	elif (MissionManager.current_state == MissionManager.STATE.active_mission 
+	elif (MissionManager.current_state == MissionManager.STATE.active_mission
 		and MissionManager.active_mission.target_planet_name == self.name):
-		
 		var completed_mission: MissionData = MissionManager.active_mission
 		MissionManager.complete_mission()
 		return _format_completion_message(completed_mission, player_ship_name)
@@ -73,7 +76,7 @@ func _format_completion_message(mission: MissionData, ship_name: String) -> Stri
 	}
 	
 	# Pick thank you message based on this planet's faction
-	match self.planetFaction:
+	match planet_data.faction:
 		Utility.FACTION.FEDERATION:
 			data.random_confirm = MissionGenerator.federation_thankYou.pick_random()
 		Utility.FACTION.KLINGON:
@@ -90,7 +93,7 @@ func _get_faction_color_string(faction: int, text: String) -> String:
 	var color_code: String = Utility.UI_yellow # Default
 	match faction:
 		Utility.FACTION.FEDERATION: color_code = Utility.fed_blue
-		Utility.FACTION.ROMULAN:    color_code = Utility.rom_green
-		Utility.FACTION.KLINGON:    color_code = Utility.klin_red
+		Utility.FACTION.ROMULAN: color_code = Utility.rom_green
+		Utility.FACTION.KLINGON: color_code = Utility.klin_red
 	
 	return color_code + text + "[/color]"

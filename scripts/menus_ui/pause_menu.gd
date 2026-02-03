@@ -32,16 +32,6 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	GameSettings.menuStatus = false
 	visible = false
-	
-	populate_type_button()
-
-
-func populate_type_button() -> void:
-	var EnemyTypeList: OptionButton = %EnemyTypeList
-	var PlayerTypeList: OptionButton = %PlayerTypeList
-	for ship in Utility.SHIP_TYPES.keys():
-		EnemyTypeList.add_item(ship)
-		PlayerTypeList.add_item(ship)
 
 
 #Header buttons
@@ -119,14 +109,6 @@ func _on_laser_damage_enabled_toggled(toggled_on: bool) -> void:
 	GameSettings.laserRangeOverride = toggled_on
 
 
-func _on_damage_enabled_toggled(toggled_on: bool) -> void:
-	GameSettings.laserDamageOverride = toggled_on
-
-
-func _on_damage_slider_value_changed(value: int) -> void:
-	GameSettings.laserDamage = value
-
-
 func _on_speed_enabled_toggled(toggled_on: bool) -> void:
 	GameSettings.speedOverride = toggled_on
 
@@ -201,16 +183,6 @@ func _on_scale_setting_item_selected(index: int) -> void:
 			SignalBus.HUDchanged.emit(0.5)
 
 
-func _on_new_enemy_type_selected(index:int) -> void:
-	SignalBus.enemy_type_changed.emit(index)
-	Menus.toggle_menu(self, 0)
-
-
-func _on_player_type_changed(index:int) -> void:
-	SignalBus.player_type_changed.emit(index)
-	Menus.toggle_menu(self, 0)
-
-
 # Called functions
 func teleportPlayer() -> void:
 	#GameSettings.teleportCoords = Vector2(xCoord, yCoord)
@@ -259,3 +231,7 @@ func set_menu_to_savefile(resets: int) -> void:
 
 func _on_save_game_pressed() -> void:
 	SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
+
+
+func _on_footer_button_clicked() -> void:
+	_on_close_menu_button_pressed()

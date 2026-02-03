@@ -20,7 +20,7 @@ font = pygame.Font("font.ttf", 32)
 small_font = pygame.Font("font.ttf", 20)
 
 files = []
-ignore_folders = ["addons"]
+ignore_folders = ["addons", ".godot", ".vscode", "assets", "python_helpers"]  
 
 extensions = {}
 

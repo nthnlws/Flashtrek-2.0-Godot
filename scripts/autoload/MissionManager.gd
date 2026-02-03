@@ -12,19 +12,21 @@ var Reputation: PlayerReputation = PlayerReputation.new()
 var active_mission: MissionData = null
 var pending_mission: MissionData = null
 
-enum STATE { active_mission, pending_mission, no_mission }
-var current_state:STATE = STATE.no_mission
+enum STATE {active_mission, pending_mission, no_mission}
+var current_state: STATE = STATE.no_mission
 
 
-func generate_mission() -> void:
-	var new_mission:MissionData = MissionGenerator.generate_random_mission(
+# Leave arguments blank to generate a random mission
+func generate_mission(random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE) -> void:
+	var new_mission: MissionData = MissionGenerator.generate_mission(
 		LevelManager.current_system_data,
-		LevelManager.galaxy_data
+		LevelManager.galaxy_data,
+		random,
+		type
 	)
 	
 	pending_mission = new_mission
 	current_state = STATE.pending_mission
-
 
 
 func accept_pending_mission() -> void:
@@ -34,11 +36,18 @@ func accept_pending_mission() -> void:
 	
 	active_mission = pending_mission
 	
-	if active_mission.type == MissionData.MISSION_TYPE.ANALYSIS:
-		var planet_data: PlanetData = active_mission.target_system.get_planet_data(active_mission.target_planet_name)
-		planet_data.add_AnalyzeComponent()
-	if active_mission.type == MissionData.MISSION_TYPE.KILL_FACTION:
-		active_mission.target_system.add_KillEnemiesComponent()
+	# Spawn Planet/System components as needed
+	var system_data: SystemData = active_mission.target_system
+	var planet_data: PlanetData = system_data.get_planet_data(active_mission.target_planet_name)
+	
+	if active_mission.type == MissionData.MISSION_TYPE.ANALYZE:
+		planet_data.add_component(PlanetData.PlanetComponentTypes.ANALYZE)
+	# elif active_mission.type == MissionData.MISSION_TYPE.DELIVERY:
+	# 	planet_data.add_component(PlanetData.PlanetComponentTypes.DELIVER)
+	elif active_mission.type == MissionData.MISSION_TYPE.KILL_FACTION:
+		system_data.add_component(SystemData.SystemComponentTypes.KILL_FACTION)
+	# elif active_mission.type == MissionData.MISSION_TYPE.CONTAINER:
+	# 	system_data.add_component(SystemData.SystemComponentTypes.CONTAINER)
 	
 	mission_started.emit(active_mission)
 	
@@ -55,8 +64,8 @@ func complete_mission() -> void:
 		
 		current_state = STATE.no_mission
 		
-		var points:int = active_mission.reward
-		var mission_faction:Utility.FACTION = LevelManager.current_system_data.faction
+		var points: int = active_mission.reward
+		var mission_faction: Utility.FACTION = LevelManager.current_system_data.faction
 		SignalBus.updateScore.emit(points)
 		match mission_faction:
 			Utility.FACTION.FEDERATION:

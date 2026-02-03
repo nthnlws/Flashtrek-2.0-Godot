@@ -2,7 +2,7 @@ extends Node
 
 signal level_loaded
 signal system_changed
-signal system_data_updated(system_data:SystemData)
+signal system_data_updated(system_data: SystemData)
 
 @export_category("Level Objects")
 const LEVEL_BORDERS: PackedScene = preload("uid://bk5rb0wdhnfkm")
@@ -12,6 +12,7 @@ const PLAYER_SPAWN_AREA: PackedScene = preload("uid://bxpqhkwbma8la")
 const SUN: PackedScene = preload("uid://be1sbec7mtn51")
 const FACTION_CHARACTER: PackedScene = preload("uid://c8tsyg40o4m7h")
 const NEUTRAL_CHARACTER: PackedScene = preload("uid://crsud8w51n07n")
+const MISSION_CHARACTER: PackedScene = preload("uid://c0vl8rhh5rl22")
 const PLAYER: PackedScene = preload("uid://1wnfmblulhx0")
 const upgrade_item: PackedScene = preload("uid://berjp6uasq671")
 
@@ -23,6 +24,10 @@ var target_system_data: SystemData # Set by galaxy map scene upon system selecti
 @onready var ship_folder: Node = $ship_folder
 
 func _ready() -> void:
+	#TODO: Remove force volume mute
+	var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(0.0))
+
 	_connect_signals()
 	
 	var default_system: SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
@@ -50,7 +55,8 @@ func spawn_player() -> void:
 	LevelManager.player = init_player
 
 
-func change_system(new_system_data:SystemData) -> void:
+func change_system(new_system_data: SystemData) -> void:
+	$ComponentSpawner.cleanup_system_components()
 	cleanup_old_system()
 	
 	instantiate_new_system_nodes()
@@ -58,6 +64,9 @@ func change_system(new_system_data:SystemData) -> void:
 	sync_sun_to_data()
 	save_ship_data()
 	
+	print("changing to system: %s" % new_system_data.system_name)
+	$ComponentSpawner.sync_components(new_system_data)
+
 	system_changed.emit()
 
 
@@ -77,8 +86,19 @@ func cleanup_old_system() -> void:
 			obj.free()
 
 
-func instantiate_neutral_ship(ship_data:NeutralData) -> NeutralCharacter:
-	var new_neutral:NeutralCharacter = NEUTRAL_CHARACTER.instantiate()
+func spawn_mission_ship(ship_type: Utility.SHIP_TYPES, position: Vector2, is_hostile: bool = false) -> MissionCharacter:
+	var mission_faction: MissionCharacter = MISSION_CHARACTER.instantiate()
+	mission_faction.add_to_group("mission_ships")
+	mission_faction.ship_type = ship_type
+	mission_faction.global_position = position
+	ship_folder.add_child(mission_faction)
+	LevelManager.missionShips.append(mission_faction)
+
+	return mission_faction
+
+
+func instantiate_neutral_ship(ship_data: NeutralShipData) -> NeutralCharacter:
+	var new_neutral: NeutralCharacter = NEUTRAL_CHARACTER.instantiate()
 	new_neutral.add_to_group("neutral_ships")
 	
 	new_neutral.get_node("HealthComponent").hp_current = ship_data.current_hp
@@ -94,8 +114,8 @@ func instantiate_neutral_ship(ship_data:NeutralData) -> NeutralCharacter:
 	return new_neutral
 
 
-func instantiate_faction_ship(ship_data:FactionShipData) -> FactionCharacter:
-	var new_faction:FactionCharacter = FACTION_CHARACTER.instantiate()
+func instantiate_faction_ship(ship_data: FactionShipData) -> FactionCharacter:
+	var new_faction: FactionCharacter = FACTION_CHARACTER.instantiate()
 	new_faction.add_to_group("faction_ships")
 	
 	new_faction.get_node("HealthComponent").hp_current = ship_data.current_hp
@@ -113,13 +133,13 @@ func instantiate_faction_ship(ship_data:FactionShipData) -> FactionCharacter:
 
 
 func instantiate_NPC_ships() -> void:
-	for i:int in range(system_data.enemy_list.size()):
-		var new_faction:FactionCharacter = instantiate_faction_ship(system_data.enemy_list[i])
+	for i: int in range(system_data.enemy_list.size()):
+		var new_faction: FactionCharacter = instantiate_faction_ship(system_data.enemy_list[i])
 		ship_folder.add_child(new_faction)
 		LevelManager.factionShips.append(new_faction)
 	
-	for i:int in range(system_data.neutral_list.size()):
-		var new_neutral:NeutralCharacter = instantiate_neutral_ship(system_data.neutral_list[i])
+	for i: int in range(system_data.neutral_list.size()):
+		var new_neutral: NeutralCharacter = instantiate_neutral_ship(system_data.neutral_list[i])
 		ship_folder.add_child(new_neutral)
 		LevelManager.neutralShips.append(new_neutral)
 
@@ -129,9 +149,9 @@ func sync_ships_to_data() -> void:
 		or LevelManager.factionShips.size() != system_data.enemy_list.size()):
 			printerr("Data size and spawned ship size mismatch, check LevelManager data")
 	# Neutral Ships
-	for i:int in range(LevelManager.neutralShips.size()):
-		var data:NeutralData = system_data.neutral_list[i]
-		var ship:NeutralCharacter = LevelManager.neutralShips[i]
+	for i: int in range(LevelManager.neutralShips.size()):
+		var data: NeutralShipData = system_data.neutral_list[i]
+		var ship: NeutralCharacter = LevelManager.neutralShips[i]
 		ship.global_position = data.world_position
 		ship.health_component.hp_current = data.current_hp
 		ship.health_component.sp_current = data.current_sp
@@ -141,9 +161,9 @@ func sync_ships_to_data() -> void:
 		ship.ship_index = data.ship_index
 	
 	# Faction Ships
-	for i:int in range(LevelManager.factionShips.size()):
-		var data:FactionShipData = system_data.enemy_list[i]
-		var ship:FactionCharacter = LevelManager.factionShips[i]
+	for i: int in range(LevelManager.factionShips.size()):
+		var data: FactionShipData = system_data.enemy_list[i]
+		var ship: FactionCharacter = LevelManager.factionShips[i]
 		ship.global_position = data.world_position
 		ship.health_component.hp_current = data.current_hp
 		ship.health_component.sp_current = data.current_sp
@@ -158,24 +178,24 @@ func sync_sun_to_data() -> void:
 	LevelManager.sun.set_frame(system_data.sun_data.frame)
 
 
-func sync_containers_to_data(mission_containers:Array[ContainerData]) -> void:
+func sync_containers_to_data(mission_containers: Array[ContainerData]) -> void:
 	# Cleanup old containers
-	for container:ContainerPickup in LevelManager.containers:
+	for container: ContainerPickup in LevelManager.containers:
 		if container:
 			container.queue_free()
 	
 	# Spawn new containers	
 	if !mission_containers.is_empty():
-		var CONTAINER_SCENE:PackedScene = preload("uid://dess4qrmx6vve")
-		for container:ContainerData in mission_containers:
-			var new_container:ContainerPickup = CONTAINER_SCENE.instantiate()
+		var CONTAINER_SCENE: PackedScene = preload("uid://dess4qrmx6vve")
+		for container: ContainerData in mission_containers:
+			var new_container: ContainerPickup = CONTAINER_SCENE.instantiate()
 			new_container.container_data = container
 			pickup_folder.add_child(new_container)
 			LevelManager.containers.append(new_container)
 
 
 func save_ship_data() -> void:
-	var neutral_data: Array[NeutralData] = system_data.neutral_list
+	var neutral_data: Array[NeutralShipData] = system_data.neutral_list
 	var enemy_data: Array[FactionShipData] = system_data.enemy_list
 	
 	if (neutral_data.size() != LevelManager.neutralShips.size() or enemy_data.size() != LevelManager.factionShips.size()):
@@ -184,7 +204,7 @@ func save_ship_data() -> void:
 
 	for i: int in range(LevelManager.neutralShips.size()):
 		var ship: NeutralCharacter = LevelManager.neutralShips[i]
-		var data: NeutralData = neutral_data[i]
+		var data: NeutralShipData = neutral_data[i]
 		
 		data.world_position = ship.global_position
 		data.current_hp = ship.health_component.hp_current
@@ -221,7 +241,7 @@ func instantiate_new_system_nodes() -> void:
 	level_folder.add_child(init_spawn)
 	LevelManager.spawn_options.append(init_spawn)
 	
-	for i:int in system_data.planet_data.size(): # Spawn required planets
+	for i: int in system_data.planet_data.size(): # Spawn required planets
 		var init_planet: Node2D = PLANET.instantiate()
 		init_planet.planet_data = system_data.planet_data[i]
 		level_folder.add_child(init_planet)
@@ -234,18 +254,18 @@ func get_spawn_position() -> Vector2:
 	return LevelManager.spawn_options.pick_random().global_position
 
 
-func remove_faction_ship_data(ship:FactionCharacter) -> void:
+func remove_faction_ship_data(ship: FactionCharacter) -> void:
 	LevelManager.factionShips.erase(ship)
 	system_data.remove_faction_ship_data(ship.ship_index)
 
-func remove_neutral_ship_data(ship:NeutralCharacter) -> void:
+func remove_neutral_ship_data(ship: NeutralCharacter) -> void:
 	LevelManager.neutralShips.erase(ship)
 	system_data.remove_neutral_ship_data(ship.ship_index)
 
 
-func spawn_faction_ship(ship_type:Utility.SHIP_TYPES) -> void:
+func spawn_faction_ship(ship_type: Utility.SHIP_TYPES) -> void:
 	var position: Vector2 = LevelManager.player.global_position
-	var faction_ship:FactionCharacter = FACTION_CHARACTER.instantiate()
+	var faction_ship: FactionCharacter = FACTION_CHARACTER.instantiate()
 	faction_ship.add_to_group("faction_ships")
 	faction_ship.ship_type = ship_type
 	LevelManager.ship_folder.add_child(faction_ship)
@@ -256,9 +276,9 @@ func spawn_faction_ship(ship_type:Utility.SHIP_TYPES) -> void:
 	faction_ship.name = "ManualFactionShip"
 
 
-func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -> void:
+func spawn_loot(type: UpgradePickup.MODULE_TYPES, position: Vector2, number: int) -> void:
 	for i in number:
-		var new_drop:UpgradePickup = upgrade_item.instantiate()
+		var new_drop: UpgradePickup = upgrade_item.instantiate()
 		new_drop.global_position = position
 		new_drop.scale = Vector2(1.25, 1.25)
 		new_drop.upgrade_type = type
@@ -266,6 +286,6 @@ func spawn_loot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int) -
 
 
 func _handle_player_death() -> void:
-	var home_system:SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	var home_system: SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
 	change_system(home_system)
 	LevelManager.player.global_position = get_spawn_position()

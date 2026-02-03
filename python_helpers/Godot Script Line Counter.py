@@ -22,5 +22,5 @@ def count_lines_in_gd_files(directory):
 
 if __name__ == "__main__":
     # Specify the folder containing the .gd files
-    folder_path = r"C:\Users\nthnl\Desktop\Code\Flashtrek-2.0-Godot\scripts"
+    folder_path = r"C:\Users\nthnl\Desktop\Code\Flashtrek-2.0-Godot-4.4\scripts"
     count_lines_in_gd_files(folder_path)
