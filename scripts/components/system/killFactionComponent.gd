@@ -26,7 +26,7 @@ func cleanup_component() -> void:
 	spawned_ships.clear()
 
 
-func initialize_component(system_data: SystemData) -> void:
+func _on_ready_logic() -> void:
 	# Set component-specific properties from system_data
 	number_to_kill = randi_range(1, 4)
 	faction = system_data.faction

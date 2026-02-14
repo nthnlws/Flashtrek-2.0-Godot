@@ -79,10 +79,10 @@ func _build_components() -> void:
 			component_folder.add_child(component_instance)
 			
 			# Initialize with data and planet reference
-			component_instance.initialize(planet_data, self)
+			component_instance.initialize_component(planet_data, self)
 			_components[type] = component_instance
 			
-			print("Planet %s: Spawned component %s" % [planet_data.name, PlanetData.PlanetComponentType.keys()[type]])
+			#print("Planet %s: Spawned component %s" % [planet_data.name, PlanetData.PlanetComponentType.keys()[type]])
 		else: printerr("No component type %s found in PlanetData component_map dict" % PlanetData.PlanetComponentType.keys()[type])
 
 
