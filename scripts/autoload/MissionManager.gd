@@ -41,20 +41,17 @@ func accept_pending_mission() -> void:
 	var planet_data: PlanetData = system_data.get_planet_data(active_mission.target_planet_name)
 	
 	if active_mission.type == MissionData.MISSION_TYPE.ANALYZE:
-		planet_data.add_component(PlanetData.PlanetComponentTypes.ANALYZE)
+		planet_data.add_component(PlanetData.PlanetComponentType.ANALYZE)
 	# elif active_mission.type == MissionData.MISSION_TYPE.DELIVERY:
-	# 	planet_data.add_component(PlanetData.PlanetComponentTypes.DELIVER)
+	# 	planet_data.add_component(PlanetData.PlanetComponentType.DELIVER)
 	elif active_mission.type == MissionData.MISSION_TYPE.KILL_FACTION:
-		system_data.add_component(SystemData.SystemComponentTypes.KILL_FACTION)
-	# elif active_mission.type == MissionData.MISSION_TYPE.CONTAINER:
-	# 	system_data.add_component(SystemData.SystemComponentTypes.CONTAINER)
+		system_data.add_component(SystemData.SystemComponentType.KILL_FACTION)
+	elif active_mission.type == MissionData.MISSION_TYPE.CONTAINER:
+		system_data.add_component(SystemData.SystemComponentType.CONTAINER)
 	
 	mission_started.emit(active_mission)
 	
 	current_state = STATE.active_mission # Update state
-	
-	## Add container data to target system in order to trigger spawn when entering system
-		#new_mission.target_system.add_mission_container(new_mission.container_target)
 
 
 func complete_mission() -> void:

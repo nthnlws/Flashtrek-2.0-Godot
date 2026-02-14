@@ -22,6 +22,7 @@ var target_system_data: SystemData # Set by galaxy map scene upon system selecti
 @onready var pickup_folder: Node = $item_pickups
 @onready var level_folder: Node = $level_objects
 @onready var ship_folder: Node = $ship_folder
+@onready var component_folder: Node = $ComponentFolder
 
 func _ready() -> void:
 	#TODO: Remove force volume mute
@@ -48,6 +49,22 @@ func _connect_signals() -> void:
 	SignalBus.neutralShipDied.connect(remove_neutral_ship_data)
 
 
+func _build_components() -> void:
+	for type:SystemData.SystemComponentType in system_data.active_components:
+		if system_data.component_map.has(type):
+			var component_scene: PackedScene = system_data.component_map[type]
+			var component_instance: SystemComponent = component_scene.instantiate() as SystemComponent
+			
+			# Component life cycle follows parent planet
+			component_folder.add_child(component_instance)
+			
+			# Initialize with data and planet reference
+			component_instance.initialize(system_data)
+			
+			print("Planet %s: Spawned component %s" % [system_data.planet_name, type])
+		else: printerr("No component type %s found in PlanetData component_map dict" % SystemData.SystemComponentType.keys()[type])
+
+
 func spawn_player() -> void:
 	var init_player: Player = PLAYER.instantiate()
 	level_folder.add_child(init_player)
@@ -56,16 +73,16 @@ func spawn_player() -> void:
 
 
 func change_system(new_system_data: SystemData) -> void:
-	$ComponentSpawner.cleanup_system_components()
 	cleanup_old_system()
 	
 	instantiate_new_system_nodes()
 	sync_ships_to_data()
 	sync_sun_to_data()
+	
+	_build_components()
 	save_ship_data()
 	
 	print("changing to system: %s" % new_system_data.system_name)
-	$ComponentSpawner.sync_components(new_system_data)
 
 	system_changed.emit()
 
@@ -176,22 +193,6 @@ func sync_ships_to_data() -> void:
 func sync_sun_to_data() -> void:
 	LevelManager.sun.global_position = system_data.sun_data.world_position
 	LevelManager.sun.set_frame(system_data.sun_data.frame)
-
-
-func sync_containers_to_data(mission_containers: Array[ContainerData]) -> void:
-	# Cleanup old containers
-	for container: ContainerPickup in LevelManager.containers:
-		if container:
-			container.queue_free()
-	
-	# Spawn new containers	
-	if !mission_containers.is_empty():
-		var CONTAINER_SCENE: PackedScene = preload("uid://dess4qrmx6vve")
-		for container: ContainerData in mission_containers:
-			var new_container: ContainerPickup = CONTAINER_SCENE.instantiate()
-			new_container.container_data = container
-			pickup_folder.add_child(new_container)
-			LevelManager.containers.append(new_container)
 
 
 func save_ship_data() -> void:

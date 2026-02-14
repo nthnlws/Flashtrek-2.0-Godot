@@ -26,7 +26,7 @@ func _connect_signals() -> void:
 func open_comms() -> void:
 	if not current_planet:
 		return
-	var comms_component: PlanetCommunicationComponent = current_planet.get_node_or_null("ComponentSpawner/CommunicationComponent")
+	var comms_component: PlanetCommunicationComponent = current_planet.get_node_or_null("ComponentFolder/CommunicationComponent")
 	if not comms_component:
 		return
 	
@@ -67,12 +67,12 @@ func _on_open_comms_pressed() -> void:
 
 
 func _on_cargo_beam_pressed() -> void:
-	var comms_component: PlanetCommunicationComponent = current_planet.get_node_or_null("ComponentSpawner/CommunicationComponent")
-	if not self.visible or not current_planet or not comms_component:
-		return
-		
+	var comm_component: PlanetData.PlanetComponentType = PlanetData.PlanetComponentType.COMMUNICATION
+	if not self.visible or not current_planet or not current_planet.has_component(comm_component):
+			return
+	
 	# Attempt to interact (Accept Mission or Complete Mission)
-	var response: String = comms_component.attempt_interaction(ship_name)
+	var response: String = current_planet.get_component(comm_component).attempt_interaction(ship_name)
 	
 	if not response.is_empty():
 		SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse

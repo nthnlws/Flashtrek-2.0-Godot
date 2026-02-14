@@ -3,6 +3,7 @@ class_name Planet
 
 @onready var label: RichTextLabel = $Label
 @onready var sprite: Sprite2D = $PlanetTexture
+@onready var component_folder: Node = $ComponentFolder
 
 var planet_data: PlanetData
 var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
@@ -16,11 +17,12 @@ func _ready() -> void:
 	SignalBus.entering_new_system.connect(fade_label.bind("on"))
 	
 	sync_planet_to_data()
-	$ComponentSpawner.sync_components(planet_data)
+	_build_components()
 	
 	var random_index: int = randi_range(0, 220)
 	sprite.frame = random_index
 	z_index = Utility.Z["Planets"]
+
 
 func sync_planet_to_data() -> void:
 	self.global_position = planet_data.world_position
@@ -63,3 +65,31 @@ func fade_label(state: String) -> void:
 	elif state == "on":
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(label, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)
+
+
+# Internal map to store active component instances by their Enum type
+var _components: Dictionary[PlanetData.PlanetComponentType, PlanetComponent] = {}
+func _build_components() -> void:
+	for type:PlanetData.PlanetComponentType in planet_data.active_components:
+		if planet_data.component_map.has(type):
+			var component_scene: PackedScene = planet_data.component_map[type]
+			var component_instance: PlanetComponent = component_scene.instantiate() as PlanetComponent
+			
+			# Component life cycle follows parent planet
+			component_folder.add_child(component_instance)
+			
+			# Initialize with data and planet reference
+			component_instance.initialize(planet_data, self)
+			_components[type] = component_instance
+			
+			print("Planet %s: Spawned component %s" % [planet_data.name, PlanetData.PlanetComponentType.keys()[type]])
+		else: printerr("No component type %s found in PlanetData component_map dict" % PlanetData.PlanetComponentType.keys()[type])
+
+
+## Public API to safely retrieve a component from the planet
+func get_component(type: PlanetData.PlanetComponentType) -> PlanetComponent:
+	return _components.get(type)
+
+## Helper to check if a component exists without needing the instance
+func has_component(type: PlanetData.PlanetComponentType) -> bool:
+	return _components.has(type)

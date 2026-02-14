@@ -16,6 +16,7 @@ func on_mission_ship_died(ship: MissionCharacter) -> void:
 		spawned_ships.erase(ship)
 		if spawned_ships.is_empty(): # All mission ships destroyed
 			MissionManager.complete_mission()
+			cleanup_component()
 
 
 func cleanup_component() -> void:

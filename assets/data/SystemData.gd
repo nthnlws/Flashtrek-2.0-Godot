@@ -32,17 +32,18 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 var warp_neighbors: Array[SystemData]
 
 # Components
-enum SystemComponentTypes {KILL_FACTION, ESCORT, CONTAINER, }
-@export var component_map: Dictionary[SystemComponentTypes, PackedScene] = {
-	SystemComponentTypes.KILL_FACTION: preload("res://scenes/components/kill_faction_component.tscn"),
-	SystemComponentTypes.ESCORT: preload("res://scenes/components/planet_communication_component.tscn"),
-	SystemComponentTypes.CONTAINER: preload("res://scenes/components/planet_communication_component.tscn")
+enum SystemComponentType {KILL_FACTION, ESCORT, CONTAINER, }
+@export var component_map: Dictionary[SystemComponentType, PackedScene] = {
+	SystemComponentType.KILL_FACTION: preload("res://scenes/components/kill_faction_component.tscn"),
+	#SystemComponentType.ESCORT: preload("res://scenes/components/planet_communication_component.tscn"),
+	#SystemComponentType.CONTAINER: preload("res://scenes/components/planet_communication_component.tscn")
 }
-@export var active_components: Array[SystemComponentTypes] = []
+@export var active_components: Array[SystemComponentType] = []
 
-func add_component(component_type: SystemComponentTypes) -> void:
-	print("added component: %s to system: %s" % [SystemComponentTypes.keys()[component_type], system_name])
+func add_component(component_type: SystemComponentType) -> void:
+	print("added component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
 	if component_type in active_components:
+		# Component already added to data
 		return
 	
 	active_components.append(component_type)
@@ -64,12 +65,6 @@ func get_planet_data(planet_name: String) -> PlanetData:
 			return planet
 	
 	return null # If PlanetData not found
-
-func add_mission_container(container: ContainerData) -> void:
-	mission_containers.append(container)
-
-func remove_mission_container(container: ContainerData) -> void:
-	mission_containers.erase(container)
 
 
 static func generate_system_data(sys_index: int, new_system_name: String) -> SystemData:
@@ -155,7 +150,7 @@ static func generate_planet_data(valid_spawn: Vector2, planet_name: String, fact
 	new_planet_data.frame = random_frame
 	new_planet_data.world_position = valid_spawn
 	new_planet_data.faction = faction
-	new_planet_data.add_component(PlanetData.PlanetComponentTypes.COMMUNICATION)
+	new_planet_data.add_component(PlanetData.PlanetComponentType.COMMUNICATION)
 	
 	return new_planet_data # PlanetData
 

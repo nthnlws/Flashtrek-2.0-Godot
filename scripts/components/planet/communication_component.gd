@@ -1,8 +1,6 @@
 extends PlanetComponent
 class_name PlanetCommunicationComponent
 
-var planet_data: PlanetData
-
 
 func initialize_component(new_planet_data: PlanetData) -> void:
 	planet_data = new_planet_data
@@ -28,6 +26,7 @@ func request_hail(player_ship_name: String) -> String:
 		return _format_mission_offer(MissionManager.pending_mission, player_ship_name)
 
 	return "Channel open. No data available."
+
 
 # Called by CommsUI when the action button (Beam/Accept) is pressed.
 func attempt_interaction(player_ship_name: String) -> String:
