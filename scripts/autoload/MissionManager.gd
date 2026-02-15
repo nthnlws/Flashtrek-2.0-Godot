@@ -41,13 +41,13 @@ func accept_pending_mission() -> void:
 	var planet_data: PlanetData = system_data.get_planet_data(active_mission.target_planet_name)
 	
 	if active_mission.type == MissionData.MISSION_TYPE.ANALYZE:
-		planet_data.add_component(PlanetData.PlanetComponentType.ANALYZE)
+		planet_data.add_component(PlanetData.PlanetComponentType.ANALYZE, active_mission)
 	# elif active_mission.type == MissionData.MISSION_TYPE.DELIVERY:
-	# 	planet_data.add_component(PlanetData.PlanetComponentType.DELIVER)
+	# 	planet_data.add_component(PlanetData.PlanetComponentType.DELIVER, active_mission)
 	elif active_mission.type == MissionData.MISSION_TYPE.KILL_FACTION:
-		system_data.add_component(SystemData.SystemComponentType.KILL_FACTION)
+		system_data.add_component(SystemData.SystemComponentType.KILL_FACTION, active_mission)
 	elif active_mission.type == MissionData.MISSION_TYPE.CONTAINER:
-		system_data.add_component(SystemData.SystemComponentType.CONTAINER)
+		system_data.add_component(SystemData.SystemComponentType.CONTAINER, active_mission)
 	
 	mission_started.emit(active_mission)
 	

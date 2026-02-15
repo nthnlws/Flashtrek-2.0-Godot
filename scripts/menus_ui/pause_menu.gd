@@ -186,7 +186,7 @@ func _on_scale_setting_item_selected(index: int) -> void:
 # Called functions
 func teleportPlayer() -> void:
 	#GameSettings.teleportCoords = Vector2(xCoord, yCoord)
-	SignalBus.teleport_player.emit(xCoord, yCoord)
+	LevelManager.player.global_position = Vector2(xCoord, yCoord)
 
 
 func store_menu_state(resets: int) -> void:

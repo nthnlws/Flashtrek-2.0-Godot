@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dl2fd0i1t51gh"]
+
+[ext_resource type="Script" uid="uid://sbgonbrco314" path="res://scripts/components/menus_UI/shaker_component.gd" id="1_8n7qo"]
+
+[node name="ShakerComponent" type="Node" unique_id=200271685]
+script = ExtResource("1_8n7qo")

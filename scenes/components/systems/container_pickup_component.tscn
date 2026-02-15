@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cgljy0cnyeb7f"]
+
+[ext_resource type="Script" uid="uid://nac5ghwbhwa5" path="res://scripts/components/system/container_pickup_component.gd" id="1_fptfj"]
+
+[node name="ContainerPickupComponent" type="Node" unique_id=232287133]
+script = ExtResource("1_fptfj")

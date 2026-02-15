@@ -27,4 +27,4 @@ upgrade_type = 5
 position = Vector2(2429, 851)
 container_data = ExtResource("4_dxm1t")
 
-[node name="ComponentFolder" type="Node" parent="." unique_id=1884484774]
+[node name="ComponentFolder" type="Node" parent="." unique_id=1549498849]

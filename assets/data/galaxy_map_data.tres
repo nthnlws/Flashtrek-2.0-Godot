@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ce5tkw2njick7" path="res://assets/data/GalaxyData.gd" id="1_rkjmv"]
 [ext_resource type="Script" uid="uid://crmapxuysvfyo" path="res://assets/data/SystemData.gd" id="2_5kh3e"]
-[ext_resource type="PackedScene" uid="uid://dd0uqe0hng5gy" path="res://scenes/components/kill_faction_component.tscn" id="3_m6x7m"]
+[ext_resource type="PackedScene" uid="uid://dd0uqe0hng5gy" path="res://scenes/components/systems/kill_faction_component.tscn" id="3_m6x7m"]
+[ext_resource type="Script" uid="uid://beb56lv3jstfv" path="res://assets/data/MissionData.gd" id="3_o4lku"]
 [ext_resource type="Script" uid="uid://bktaqvosfrawh" path="res://assets/data/FactionShipData.gd" id="3_rgw12"]
 [ext_resource type="Script" uid="uid://gabdv0wsngai" path="res://assets/data/NeutralShipData.gd" id="4_sk3sv"]
 [ext_resource type="Script" uid="uid://c8etv4xdg5hur" path="res://assets/data/PlanetData.gd" id="5_3slc2"]
