@@ -37,6 +37,7 @@ signal playerShieldOff
 signal playerShieldOn
 
 #World navigation
+signal teleport_player(new_coords:Vector2)
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade

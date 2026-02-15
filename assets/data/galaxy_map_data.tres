@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bktaqvosfrawh" path="res://assets/data/FactionShipData.gd" id="3_rgw12"]
 [ext_resource type="Script" uid="uid://gabdv0wsngai" path="res://assets/data/NeutralShipData.gd" id="4_sk3sv"]
 [ext_resource type="Script" uid="uid://c8etv4xdg5hur" path="res://assets/data/PlanetData.gd" id="5_3slc2"]
+[ext_resource type="PackedScene" uid="uid://cgljy0cnyeb7f" path="res://scenes/components/systems/container_pickup_component.tscn" id="5_4ygmp"]
 [ext_resource type="Script" uid="uid://c53l8fgax4plp" path="res://assets/data/container_data.gd" id="5_sk3sv"]
 [ext_resource type="Script" uid="uid://n6pwghn7ctt6" path="res://assets/data/MissionShipData.gd" id="8_o4lku"]
 

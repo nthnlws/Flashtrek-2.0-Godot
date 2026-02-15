@@ -79,3 +79,8 @@ func _on_mission_type_item_selected(index: int) -> void:
 
 func _on_system_name_text_changed(new_text: String) -> void:
 	current_system = new_text
+
+
+func _on_complete_mission_button_pressed() -> void:
+	MissionManager.complete_mission()
+	button_clicked.emit()

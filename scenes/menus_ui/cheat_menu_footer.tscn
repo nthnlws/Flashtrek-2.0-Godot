@@ -109,12 +109,14 @@ alignment = 1
 [node name="ChangeSystemButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer" unique_id=1836906119]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Change System:"
 
 [node name="SystemName" type="LineEdit" parent="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer" unique_id=1953652912]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Solarus"
 context_menu_enabled = false
 emoji_menu_enabled = false
@@ -148,12 +150,14 @@ alignment = 1
 [node name="StartMissionButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer" unique_id=1262854973]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Start Mission:"
 
 [node name="MissionType" type="OptionButton" parent="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer" unique_id=1063263153]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 selected = 0
 item_count = 5
 popup/item_0/text = "Delivery"
@@ -175,7 +179,25 @@ theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SpawnNeutralButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1840163085]
+[node name="MissionPanel3" type="Panel" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1375484363]
+custom_minimum_size = Vector2(281.86, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine2/MissionPanel3" unique_id=1674905769]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="SpawnNeutralButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine2/MissionPanel3/MarginContainer" unique_id=1840163085]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -210,12 +232,14 @@ alignment = 1
 [node name="SpawnFactionButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer" unique_id=1433642720]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Spawn Faction"
 
 [node name="Factions" type="OptionButton" parent="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer" unique_id=994002513]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 selected = 0
 item_count = 3
 popup/item_0/text = "Federation"
@@ -229,9 +253,27 @@ popup/item_2/id = 2
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1105975881]
+[node name="MissionPanel2" type="Panel" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=771514835]
+custom_minimum_size = Vector2(281.86, 50)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8wins")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/OptionsLine2/MissionPanel2" unique_id=1015356236]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CompleteMissionButton" type="Button" parent="MarginContainer/VBoxContainer/OptionsLine2/MissionPanel2/MarginContainer" unique_id=1596233830]
+layout_mode = 2
+text = "Complete Current Mission"
 
 [node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/OptionsLine2" unique_id=1379649025]
 layout_mode = 2
@@ -244,6 +286,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_8wins")
 [connection signal="text_submitted" from="MarginContainer/VBoxContainer/OptionsLine1/SystemPanel/MarginContainer/HBoxContainer/SystemName" to="." method="_on_change_system_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer/StartMissionButton" to="." method="_on_start_mission_button_pressed"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer/MissionType" to="." method="_on_mission_type_item_selected"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine2/SpawnNeutralButton" to="." method="_on_spawn_neutral_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine2/MissionPanel3/MarginContainer/SpawnNeutralButton" to="." method="_on_spawn_neutral_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer/SpawnFactionButton" to="." method="_on_spawn_faction_button_pressed"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/OptionsLine2/FactionPanel/MarginContainer/HBoxContainer/Factions" to="." method="_on_factions_item_selected"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/OptionsLine2/MissionPanel2/MarginContainer/CompleteMissionButton" to="." method="_on_complete_mission_button_pressed"]
