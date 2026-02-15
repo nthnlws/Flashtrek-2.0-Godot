@@ -85,12 +85,12 @@ func _ready() -> void:
 
 
 func _connect_signals() -> void:
+	SignalBus.teleport_player.connect(teleport)
 	SignalBus.player_type_changed.connect(_sync_data_to_resource)
 	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
 	MissionManager.mission_started.connect(_handle_mission_pickup)
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.teleport_player.connect(teleport)
 	SignalBus.TopLeft_clicked.connect(trigger_warp)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
 	
@@ -557,7 +557,7 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 		UpgradePickup.MODULE_TYPES.HEALTH:
 			stats.HullMult = health_component.stats.HullMult + mult_step
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			health_component.stats.ShieldMult = health_component.stats.ShieldMult + mult_step
+			health_component.Stats.ShieldMult = health_component.Stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
 				health_component.SP_max = health_component.SP_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:

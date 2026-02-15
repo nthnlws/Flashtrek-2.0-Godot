@@ -50,7 +50,7 @@ func _connect_signals() -> void:
 
 
 func _build_components() -> void:
-	for type:SystemData.SystemComponentType in system_data.active_components:
+	for type:SystemData.SystemComponentType in system_data.active_components.keys():
 		if system_data.component_map.has(type):
 			var component_scene: PackedScene = system_data.component_map[type]
 			var component_instance: SystemComponent = component_scene.instantiate() as SystemComponent
@@ -59,10 +59,11 @@ func _build_components() -> void:
 			component_folder.add_child(component_instance)
 			
 			# Initialize with data and planet reference
-			component_instance.initialize(system_data)
+			var mission_data:MissionData = system_data.active_components.get(type)
+			component_instance.initialize_component(system_data, mission_data)
 			
-			print("Planet %s: Spawned component %s" % [system_data.planet_name, type])
-		else: printerr("No component type %s found in PlanetData component_map dict" % SystemData.SystemComponentType.keys()[type])
+			print("System %s: Spawned component %s" % [system_data.system_name, SystemData.SystemComponentType.keys()[type]])
+		else: printerr("No component type %s found in SystemData component_map dict" % SystemData.SystemComponentType.keys()[type])
 
 
 func spawn_player() -> void:
@@ -73,6 +74,7 @@ func spawn_player() -> void:
 
 
 func change_system(new_system_data: SystemData) -> void:
+	system_data = new_system_data
 	cleanup_old_system()
 	
 	instantiate_new_system_nodes()

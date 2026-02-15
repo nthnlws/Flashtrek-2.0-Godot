@@ -34,19 +34,31 @@ var warp_neighbors: Array[SystemData]
 # Components
 enum SystemComponentType {KILL_FACTION, ESCORT, CONTAINER, }
 @export var component_map: Dictionary[SystemComponentType, PackedScene] = {
-	SystemComponentType.KILL_FACTION: preload("res://scenes/components/kill_faction_component.tscn"),
+	SystemComponentType.KILL_FACTION: preload("uid://dd0uqe0hng5gy"),
 	#SystemComponentType.ESCORT: preload("res://scenes/components/planet_communication_component.tscn"),
-	#SystemComponentType.CONTAINER: preload("res://scenes/components/planet_communication_component.tscn")
+	SystemComponentType.CONTAINER: preload("uid://cgljy0cnyeb7f")
 }
-@export var active_components: Array[SystemComponentType] = []
+@export var active_components: Dictionary[SystemComponentType, MissionData]
 
-func add_component(component_type: SystemComponentType) -> void:
+func add_component(component_type: SystemComponentType, mission_data: MissionData = MissionData.new()) -> void:
 	print("added component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
 	if component_type in active_components:
 		# Component already added to data
 		return
 	
-	active_components.append(component_type)
+	active_components.set(component_type, mission_data)
+
+
+func get_containers() -> Array[ContainerData]:
+	return mission_containers
+
+func add_container(container_data:ContainerData) -> void:
+	mission_containers.append(container_data)
+
+func remove_container(to_remove: ContainerData) -> void:
+	if mission_containers.has(to_remove):
+		mission_containers.erase(to_remove)
+	else: printerr("ContainerData does not exist in SystemData, cannot remove")
 
 
 func _init() -> void:

@@ -37,6 +37,7 @@ signal playerShieldOff
 signal playerShieldOn
 
 #World navigation
+signal teleport_player(new_coords:Vector2)
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade
@@ -65,7 +66,6 @@ signal pause_menu_clicked
 signal border_size_moved
 signal world_reset
 signal collisionChanged
-signal teleport_player(position:Vector2)
 signal spawnShip(ship_type:Utility.SHIP_TYPES)
 
 signal enemy_shield_cheat_state(shield_state)

@@ -39,7 +39,7 @@ bbcode_enabled = true
 text = "PLANET"
 horizontal_alignment = 1
 
-[node name="ComponentFolder" type="Node" parent="." unique_id=130992644]
+[node name="ComponentFolder" type="Node2D" parent="." unique_id=1581020651]
 
 [connection signal="body_entered" from="CommArea" to="." method="_on_comm_area_body_entered"]
 [connection signal="body_exited" from="CommArea" to="." method="_on_comm_area_body_exited"]

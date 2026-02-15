@@ -51,7 +51,9 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 			var new_fed:int = old_fed - SHIP_VALUE
 			var new_klingon:int = old_klingon + (SHIP_VALUE * 0.75)
 			fed_score.text = str(new_fed)
+			fed_score.get_child(0).trigger_shake(false)
 			klingon_score.text = str(new_klingon)
+			klingon_score.get_child(0).trigger_shake(true)
 		Utility.FACTION.KLINGON:
 			var old_klingon:int = int(klingon_score.text)
 			var old_rom:int = int(rom_score.text)
@@ -59,7 +61,9 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 			var new_klingon:int = old_klingon - SHIP_VALUE
 			var new_rom:int = old_rom + (SHIP_VALUE * 0.75)
 			klingon_score.text = str(new_klingon)
+			klingon_score.get_child(0).trigger_shake(false)
 			rom_score.text = str(new_rom)
+			rom_score.get_child(0).trigger_shake(true)
 		Utility.FACTION.ROMULAN:
 			var old_rom:int = int(rom_score.text)
 			var old_fed:int = int(fed_score.text)
@@ -67,7 +71,9 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 			var new_rom:int = old_rom - SHIP_VALUE
 			var new_fed:int = old_fed + (SHIP_VALUE * 0.75)
 			rom_score.text = str(new_rom)
+			rom_score.get_child(0).trigger_shake(false)
 			fed_score.text = str(new_fed)
+			fed_score.get_child(0).trigger_shake(true)
 
 
 func _update_mission_text(mission_data:MissionData) -> void:
@@ -104,10 +110,13 @@ func _update_faction_score(faction:Utility.FACTION, score:int) -> void:
 	match faction:
 		Utility.FACTION.FEDERATION:
 			fed_score.text = str(score)
+			fed_score.get_child(0).trigger_shake(true if score > 0 else false)
 		Utility.FACTION.KLINGON:
 			klingon_score.text = str(score)
+			klingon_score.get_child(0).trigger_shake(true if score > 0 else false)
 		Utility.FACTION.ROMULAN:
 			rom_score.text = str(score)
+			rom_score.get_child(0).trigger_shake(true if score > 0 else false)
 
 
 func tween_menu(target_position:Vector2) -> void: # Collapse mission menu

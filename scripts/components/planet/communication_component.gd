@@ -2,10 +2,6 @@ extends PlanetComponent
 class_name PlanetCommunicationComponent
 
 
-func initialize_component(new_planet_data: PlanetData) -> void:
-	planet_data = new_planet_data
-
-
 # Called by CommsUI when opening the menu. Returns the greeting/mission text.
 func request_hail(player_ship_name: String) -> String:
 	# 1. Active Mission Logic

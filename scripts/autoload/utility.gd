@@ -169,7 +169,7 @@ func _handle_quit_request() -> void:
 		and SaveManager.current_save_slot > 0
 		and Utility.current_gamestate != Utility.GAMESTATE.MAINMENU):
 			SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
-			print("Emergency Save Complete.")
+			#print("Emergency Save Complete.")
 	
 	get_tree().quit()
 

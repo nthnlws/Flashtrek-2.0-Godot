@@ -4,7 +4,7 @@ extends Node
 var current_save_slot:int = -1
 
 const SAVE_FOLDER: String = "user://saves/"
-const SAVE_FILE_TEMPLATE: String = "save_slot_%d.tres" # Can change to .res for smaller space
+const SAVE_FILE_TEMPLATE: String = "save_slot_%d.res"
 
 
 func _ready() -> void:
@@ -30,7 +30,8 @@ func save_galaxy(slot: int, data: GalaxyData) -> bool:
 	_verify_save_directory()
 	
 	var path: String = get_save_path(slot)
-	var error: Error = ResourceSaver.save(data, path)
+	var data_to_save: GalaxyData = data.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
+	var error: Error = ResourceSaver.save(data_to_save, path)
 	
 	if error != OK:
 		push_error("Failed to save game to slot %d. Error code: %s" % [slot, error])

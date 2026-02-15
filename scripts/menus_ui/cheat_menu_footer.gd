@@ -49,7 +49,7 @@ func _on_next_planet_tp_button_pressed() -> void:
 	button_clicked.emit()
 
 
-func _on_change_system_button_pressed() -> void:
+func _on_change_system_button_pressed(system:String = "Solarus") -> void:
 	var selected_system: SystemData = LevelManager.galaxy_data.get_system_by_name(current_system)
 	SignalBus.galaxy_warp_finished.emit(selected_system)
 	button_clicked.emit()
@@ -79,3 +79,8 @@ func _on_mission_type_item_selected(index: int) -> void:
 
 func _on_system_name_text_changed(new_text: String) -> void:
 	current_system = new_text
+
+
+func _on_complete_mission_button_pressed() -> void:
+	MissionManager.complete_mission()
+	button_clicked.emit()
