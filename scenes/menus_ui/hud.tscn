@@ -6,9 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://bt1p5jtm8aw1l" path="res://assets/textures/UI/new_HUD/HUD_bottomPanel.svg" id="9_07do6"]
 [ext_resource type="PackedScene" uid="uid://bfl6ircpc33v" path="res://scenes/menus_ui/faction_warning_popup.tscn" id="9_l28jr"]
 [ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/menus_ui/hud_button.tscn" id="10_ee1ns"]
+[ext_resource type="Script" uid="uid://bmtgssvplxaao" path="res://scripts/menus_ui/componentDebugView.gd" id="10_hxir5"]
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="11_sp3p0"]
 [ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
 [ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_IU.tscn" id="13_sk8fp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h6ca5"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.186)
 
 [node name="Control" type="Control" unique_id=2147361872]
 layout_mode = 3
@@ -90,5 +94,29 @@ offset_top = -194.00003
 offset_right = 434.24988
 offset_bottom = -7.75
 grow_vertical = 0
+
+[node name="DebugPanel" type="Panel" parent="." unique_id=110746639]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 83.0
+offset_right = 111.0
+offset_bottom = 106.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h6ca5")
+script = ExtResource("10_hxir5")
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugPanel" unique_id=1009341851]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel/MarginContainer" unique_id=1555789346]
+layout_mode = 2
 
 [connection signal="pressed" from="SettingsButton" to="SettingsButton" method="_on_pressed"]

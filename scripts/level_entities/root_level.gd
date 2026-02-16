@@ -1,7 +1,6 @@
 extends Node
 
 signal level_loaded
-signal system_changed
 signal system_data_updated(system_data: SystemData)
 
 @export_category("Level Objects")
@@ -84,14 +83,14 @@ func change_system(new_system_data: SystemData) -> void:
 	_build_components()
 	save_ship_data()
 	
-	print("changing to system: %s" % new_system_data.system_name)
+	#print("changing to system: %s" % new_system_data.system_name)
 
-	system_changed.emit()
+	SignalBus.system_changed.emit(new_system_data)
 
 
 func cleanup_old_system() -> void:
 	# Cleanup Arrays
-	for array in [LevelManager.factionShips, LevelManager.neutralShips, LevelManager.spawn_options, LevelManager.planets, LevelManager.starbases]:
+	for array in [LevelManager.factionShips, LevelManager.missionShips, LevelManager.neutralShips, LevelManager.spawn_options, LevelManager.planets, LevelManager.starbases]:
 		array.clear()
 	
 	# Cleanup Objects

@@ -32,7 +32,7 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 var warp_neighbors: Array[SystemData]
 
 # Components
-enum SystemComponentType {KILL_FACTION, ESCORT, CONTAINER, }
+enum SystemComponentType { KILL_FACTION, ESCORT, CONTAINER, }
 @export var component_map: Dictionary[SystemComponentType, PackedScene] = {
 	SystemComponentType.KILL_FACTION: preload("uid://dd0uqe0hng5gy"),
 	#SystemComponentType.ESCORT: preload("res://scenes/components/planet_communication_component.tscn"),
@@ -41,13 +41,15 @@ enum SystemComponentType {KILL_FACTION, ESCORT, CONTAINER, }
 @export var active_components: Dictionary[SystemComponentType, MissionData]
 
 func add_component(component_type: SystemComponentType, mission_data: MissionData = MissionData.new()) -> void:
-	print("added component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
+	#print("added component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
 	if component_type in active_components:
 		# Component already added to data
 		return
 	
 	active_components.set(component_type, mission_data)
 
+func get_components() -> Dictionary[SystemComponentType, MissionData]:
+	return active_components
 
 func get_containers() -> Array[ContainerData]:
 	return mission_containers

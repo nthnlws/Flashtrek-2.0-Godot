@@ -16,6 +16,7 @@ var score:int = 0:
 
 func _ready() -> void:
 	# Signal Connections
+	SignalBus.system_changed.connect(_on_level_system_changed)
 	SignalBus.galaxy_warp_finished.connect(_warp_into_new_system)
 	SignalBus.playerDied.connect(handlePlayerDied)
 	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
@@ -73,6 +74,6 @@ func _warp_into_new_system(system_data:SystemData) -> void:
 	LevelManager.player.overdrive_state_change("SMOOTH")
 
 
-func _on_level_system_changed() -> void:
+func _on_level_system_changed(system_data: SystemData) -> void:
 	if minimap:
 		minimap.create_minimap_objects()

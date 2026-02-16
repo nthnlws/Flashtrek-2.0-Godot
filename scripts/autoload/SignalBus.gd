@@ -37,13 +37,13 @@ signal playerShieldOff
 signal playerShieldOn
 
 #World navigation
-signal teleport_player(new_coords:Vector2)
+signal teleport_player(new_coords: Vector2)
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
 signal galaxy_warp_screen_fade
-signal galaxy_warp_finished(system_data:SystemData)
+signal galaxy_warp_finished(system_data: SystemData)
 signal entering_new_system
-signal system_changed(system_data:SystemData)
+signal system_changed(system_data: SystemData)
 
 #HUD
 signal Center_clicked # Declared in HUD_Button script by string name

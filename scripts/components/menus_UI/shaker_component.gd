@@ -15,11 +15,11 @@ func _ready() -> void:
 	parent.pivot_offset_ratio = Vector2(0.5, 0.5)
 
 
-# Debug test for animation
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if event.is_action_pressed("F9"):
-			trigger_shake([true, false].pick_random())
+## Debug test for animation
+#func _input(event: InputEvent) -> void:
+	#if event is InputEventKey:
+		#if event.is_action_pressed("F9"):
+			#trigger_shake([true, false].pick_random())
 
 
 func reset_tween() -> void:

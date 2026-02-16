@@ -23,3 +23,6 @@ func add_component(component_type: PlanetComponentType, mission_data: MissionDat
 		return
 	
 	active_components.set(component_type, mission_data)
+
+func get_components() -> Dictionary[PlanetComponentType, MissionData]:
+	return active_components

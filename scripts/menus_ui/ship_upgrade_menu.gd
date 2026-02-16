@@ -42,10 +42,13 @@ func update_reputation(faction:Utility.FACTION, new_value:float) -> void:
 	match faction:
 		Utility.FACTION.FEDERATION:
 			%federation_rep.text = label_text
+			%federation_rep.modulate = Color("009301") if new_value > 0 else Color("f04d40ff")
 		Utility.FACTION.KLINGON:
 			%klingon_rep.text = label_text
+			%klingon_rep.modulate = Color("009301") if new_value > 0 else Color("f04d40ff")
 		Utility.FACTION.ROMULAN:
 			%romulan_rep.text = label_text
+			%romulan_rep.modulate = Color("009301") if new_value > 0 else Color("f04d40ff")
 		_:
 			print("No faction %s found to update on ship stats screen" % Utility.FACTION.keys()[faction])
 

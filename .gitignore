@@ -10,6 +10,13 @@ script_templates/
 images/
 test/
 
+# Coding helpers
+*.repomixignore
+godot_core_knowledge.txt
+sanitize_LLM_context.py
+package*.json
+repomix-output.md
+
 # Imported translations (automatically generated from CSV files)
 *.translation
 

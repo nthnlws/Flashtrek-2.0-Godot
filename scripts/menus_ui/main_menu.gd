@@ -69,3 +69,10 @@ func _on_credits_closed() -> void:
 func _on_settings_closed() -> void:
 	$Settings.visible = false
 	%SinglePlayer.grab_focus()
+
+
+func _on_delete_all_saves_tab_clicked(node_name: String) -> void:
+	SaveManager.delete_save(1)
+	SaveManager.delete_save(2)
+	SaveManager.delete_save(3)
+	#print("all saves deleted")

@@ -94,7 +94,11 @@ enabled = false
 
 [node name="ScrollingBackground" parent="." unique_id=26839956 instance=ExtResource("17_a7ete")]
 
+[node name="SignalPrinter2" type="Node" parent="." unique_id=536089876]
+script = ExtResource("25_dx7lr")
+enabled = false
+metadata/_custom_type_script = "uid://dmdedm3kpsdji"
+
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="system_changed" from="Level" to="." method="_on_level_system_changed"]
 [connection signal="menu_closed" from="Menus/ShipSelectionMenu" to="Menus" method="_handle_ship_menu_closed"]
 [connection signal="menu_closed" from="Menus/ShipUpgradeMenu" to="Menus" method="_handle_ship_menu_closed"]
