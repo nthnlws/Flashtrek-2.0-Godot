@@ -20,4 +20,4 @@ func _ready() -> void:
 	sprite.play()
 	
 	# Set position
-	self.global_position = container_data.position
+	self.global_position = container_data.spawn_position

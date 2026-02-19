@@ -565,9 +565,9 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 
 
 func _handle_container_pickup(data:ContainerData) -> void:
-	print('picked up container')
+	#print('picked up container')
 	if data.is_mission_goal == true:
-		print('attempting mission finish')
+		#print('attempting mission finish')
 		MissionManager.complete_mission()
 
 

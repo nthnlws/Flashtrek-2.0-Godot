@@ -9,8 +9,10 @@ var neutralShips: Array = []
 var missionShips: Array = []
 var planetObjects: Array = []
 var starbaseObjects: Array = []
+var containerObjects: Array = []
 var sunObjects: Array = []
-var ship_to_object: Dictionary = {}  # Dictionary to map enemies to TextureRects
+var ship_to_object: Dictionary = {}  # Maps ships to minimap objects
+var container_to_object: Dictionary = {} # Maps containers to minimap objects
 
 # Minimap scale values
 var scale_values: Array[float] = [0.35, 0.5, 0.75, 1.0, 1.25, 1.5]
@@ -23,6 +25,7 @@ var grid_scale: Vector2
 func _ready() -> void:
 	SignalBus.factionShipDied.connect(remove_minimap_object)
 	SignalBus.neutralShipDied.connect(remove_minimap_object)
+	SignalBus.containerPickedUp.connect(remove_minimap_object)
 	SignalBus.missionCharacterDied.connect(remove_minimap_object)
 	SignalBus.spawnShip.connect(spawn_ship.unbind(1))
 	SignalBus.galaxy_warp_finished.connect(create_minimap_objects.unbind(1))
@@ -85,7 +88,7 @@ func create_minimap_objects() -> void:
 		
 		missionShips.append(new_obj)
 		new_obj.modulate = Color.MAGENTA
-		ship_to_object[missions] = new_obj  # Map enemy to TextureRect
+		ship_to_object[missions] = new_obj  # Map ship to minimap object
 			
 	for starbase:Starbase in LevelManager.starbases:
 		if starbase:
@@ -105,12 +108,20 @@ func create_minimap_objects() -> void:
 		
 		new_obj.modulate = Color.YELLOW
 		sunObjects.append(new_obj)
+	
+	for container:ContainerPickup in LevelManager.containers:
+		if container:
+			var new_obj:TextureRect = add_minimap_object()
+			
+			containerObjects.append(new_obj)
+			new_obj.modulate = Color("#902d9c")
+			container_to_object[container] = new_obj  # Map container to minimap object
 
 
 func update_minimap() -> void:
 	if factionShips:
 		for i: int in range(factionShips.size()):
-			var visual_marker:TextureRect = factionShips[i] # Assuming the markers are Node2D/Control
+			var visual_marker:TextureRect = factionShips[i]
 			
 			# Check if a corresponding real ship exists for this index
 			if i < LevelManager.factionShips.size():
@@ -166,24 +177,34 @@ func update_minimap() -> void:
 	if sunObjects:
 		var globalDistance:Vector2 = LevelManager.sun.global_position - LevelManager.player.global_position
 		sunObjects[0].position = (globalDistance / 30 * minimapScale) + grid_scale
+	
+	if containerObjects:
+		for i:int in range(LevelManager.containers.size()):
+			var globalDistance:Vector2 = LevelManager.containers[i].global_position - LevelManager.player.global_position
+			containerObjects[i].position = (globalDistance/30 * minimapScale) + grid_scale
 
 
-func remove_minimap_object(ship) -> void:
-	print("removing %s from minimap" % ship.name)
-	if ship in ship_to_object:
-		var texture_rect: TextureRect = ship_to_object[ship]
+func remove_minimap_object(object) -> void:
+	if object in ship_to_object:
+		var texture_rect: TextureRect = ship_to_object[object]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
-		texture_rect.queue_free()  # Free the TextureRect
+		texture_rect.queue_free()  # Free the minimap object
 		factionShips.erase(texture_rect)  # Remove from factionShips array
 		neutralShips.erase(texture_rect) # Remove from neutralShips array
 		missionShips.erase(texture_rect) # Remove from missionShips array
-		ship_to_object.erase(ship)  # Remove from the dictionary
+		ship_to_object.erase(object)  # Remove from the mapping dictionary
+	if object in container_to_object:
+		var texture_rect: TextureRect = container_to_object[object]
+		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
+		texture_rect.queue_free()  # Free the minimap object
+		containerObjects.erase(texture_rect)
+		ship_to_object.erase(object)  # Remove from the mapping dictionary
 	else:
-		printerr("Could not remove ship from minimap objects, not found")
+		printerr("Could not find object in minimap mapping dictionaries")
 
 
 func clear_objects() -> void:
-	var old_objects: Array = factionShips + neutralShips + starbaseObjects + planetObjects + sunObjects + missionShips
+	var old_objects: Array = factionShips + neutralShips + starbaseObjects + planetObjects + sunObjects + missionShips + containerObjects
 	
 	for obj in old_objects:
 		if obj:
@@ -195,3 +216,4 @@ func clear_objects() -> void:
 	starbaseObjects.clear()
 	planetObjects.clear()
 	sunObjects.clear()
+	containerObjects.clear()

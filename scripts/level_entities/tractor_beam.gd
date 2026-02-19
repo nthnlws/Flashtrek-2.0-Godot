@@ -60,6 +60,7 @@ func _physics_process(delta: float) -> void:
 		# Capture container if within 5 pixels
 		if tractored_container.global_position.distance_to(target_position) < 5.0:
 			object_captured.emit(tractored_container.container_data)
+			SignalBus.containerPickedUp.emit(tractored_container)
 			tractored_container.queue_free()
 			tractored_container = null
 

@@ -47,7 +47,7 @@ func attempt_interaction(player_ship_name: String) -> String:
 	return ""
 
 
-# --- FORMATTING HELPERS (Private) ---
+# --- FORMATTING HELPERS ---
 func _format_mission_offer(mission: MissionData, ship_name: String) -> String:
 	var data: Dictionary = {
 		"planet": "[color=#FFCC66]" + get_node("../..").name + "[/color]",

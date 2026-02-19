@@ -22,5 +22,6 @@ func spawn_containers() -> void:
 	for data:ContainerData in system_containers:
 		var new_container:ContainerPickup = CONTAINER.instantiate()
 		new_container.container_data = data
-		new_container.global_position = data.position
+		new_container.global_position = data.spawn_position
 		spawn_folder.add_child(new_container)
+		LevelManager.containers.append(new_container)
