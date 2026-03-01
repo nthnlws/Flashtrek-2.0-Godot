@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://broy1rurxqfwa"]
+
+[ext_resource type="PackedScene" uid="uid://bq60hxexkpcpi" path="res://scenes/menus_ui/3D_Scene.tscn" id="1_11jl4"]
+[ext_resource type="Texture2D" uid="uid://dbgy0q2ria75e" path="res://assets/textures/UI/main_menu/LCARS_frame_border_9Rect.svg" id="1_dqmei"]
+
+[node name="NinePatchRect" type="NinePatchRect" unique_id=672554029]
+self_modulate = Color(0.9843137, 0.58431375, 0.6039216, 1)
+texture_filter = 1
+custom_minimum_size = Vector2(700, 400)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -260.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_dqmei")
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+
+[node name="3D_Viewport" type="SubViewportContainer" parent="." unique_id=517160549]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 655.0
+offset_bottom = 355.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+stretch = true
+
+[node name="3D_Viewport" type="SubViewport" parent="3D_Viewport" unique_id=294773264]
+handle_input_locally = false
+msaa_3d = 2
+use_taa = true
+scaling_3d_scale = 2.0
+fsr_sharpness = 1.0
+size = Vector2i(1340, 740)
+size_2d_override = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="3D_Menu_Scene" parent="3D_Viewport/3D_Viewport" unique_id=1646570691 instance=ExtResource("1_11jl4")]
