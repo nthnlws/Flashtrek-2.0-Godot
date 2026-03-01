@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://byw6waphlkgng"]
+
+[ext_resource type="Script" uid="uid://cywoaumluo7ek" path="res://scripts/menus_ui/input_button.gd" id="1_a8cde"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8hjfi"]
+bg_color = Color(0, 0, 0, 0.48200002)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8cde"]
+bg_color = Color(1, 1, 1, 0.39215687)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="InputButton" type="Button" unique_id=1042375938 node_paths=PackedStringArray("action_label", "input_label") groups=["InputButton"]]
+custom_minimum_size = Vector2(0, 30)
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_8hjfi")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_a8cde")
+theme_override_styles/hover = SubResource("StyleBoxFlat_a8cde")
+script = ExtResource("1_a8cde")
+action_label = NodePath("MarginContainer/HBoxContainer/LabelAction")
+input_label = NodePath("MarginContainer/HBoxContainer/LabelInput")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=917709619]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1378400069]
+layout_mode = 2
+
+[node name="LabelAction" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1386224482]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 18
+text = "Action Name"
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=374109017]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="LabelInput" type="Label" parent="MarginContainer/HBoxContainer" unique_id=324704098]
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 18
+text = "Input Key"
+vertical_alignment = 1

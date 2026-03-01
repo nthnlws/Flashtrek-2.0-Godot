@@ -5,10 +5,25 @@
 [ext_resource type="PackedScene" uid="uid://c360q55j764ul" path="res://scenes/menus_ui/cheat_menu_footer.tscn" id="3_61nsc"]
 [ext_resource type="Texture2D" uid="uid://diyryl57m0e1x" path="res://assets/textures/UI/slider_grabber.png" id="3_xwvpo"]
 [ext_resource type="StyleBox" uid="uid://cgrosihah7hfm" path="res://resources/slider_theme.tres" id="4_rjb82"]
+[ext_resource type="Script" uid="uid://l1myrfp1sxl1" path="res://scripts/menus_ui/keybind_column.gd" id="5_6l5ap"]
 [ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="6_xwvpo"]
 [ext_resource type="AudioStream" uid="uid://fhaou6mjhc3s" path="res://assets/audio/music/MAIN_TITLE - Ether.ogg" id="7_rjb82"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7be28"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kqbds"]
+bg_color = Color(0, 0, 0, 0.48200002)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6l5ap"]
+bg_color = Color(1, 1, 1, 0.39215687)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="SettingsMenu" type="Control" unique_id=1061105902 groups=["menu"]]
 layout_mode = 3
@@ -135,6 +150,67 @@ popup/item_2/text = "Disabled"
 popup/item_2/id = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer" unique_id=1551527737]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
+[node name="TopSpacer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=1969443227]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 15
+
+[node name="GameTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=339487094]
+layout_mode = 2
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("2_etbwm")
+theme_override_font_sizes/font_size = 30
+text = "Game"
+horizontal_alignment = 1
+
+[node name="HUDScaleContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=1923053148]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer" unique_id=1708532821]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="HUDscale" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=1146588693]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "HUD Scale:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=857904551]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="ScaleSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=1957580201]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+selected = 3
+item_count = 6
+popup/item_0/text = "100%"
+popup/item_0/id = 0
+popup/item_1/text = "90%"
+popup/item_1/id = 1
+popup/item_2/text = "80%"
+popup/item_2/icon = SubResource("PortableCompressedTexture2D_7be28")
+popup/item_2/id = 2
+popup/item_3/text = "70%"
+popup/item_3/id = 3
+popup/item_4/text = "60%"
+popup/item_4/id = 4
+popup/item_5/text = "50%"
+popup/item_5/id = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=867551546]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
@@ -294,70 +370,60 @@ max_value = 1.0
 step = 0.01
 value = 0.8
 
-[node name="GameColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=48488046]
+[node name="KeybindColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=48488046]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
+script = ExtResource("5_6l5ap")
 
-[node name="TopSpacer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn" unique_id=1009702588]
+[node name="TopSpacer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn" unique_id=752385160]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="GameTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn" unique_id=1596020155]
+[node name="KeybindTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn" unique_id=1547831986]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_etbwm")
 theme_override_font_sizes/font_size = 30
-text = "Game"
+text = "Keybinds"
 horizontal_alignment = 1
 
-[node name="HUDScaleContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn" unique_id=180841698]
+[node name="BottomSpacer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn" unique_id=951239326]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn/HUDScaleContainer" unique_id=1138188572]
-layout_mode = 2
-size_flags_vertical = 0
-mouse_filter = 0
-
-[node name="HUDscale" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn/HUDScaleContainer/HBoxContainer" unique_id=2078095392]
-layout_mode = 2
-mouse_filter = 0
-theme_override_font_sizes/font_size = 20
-text = "HUD Scale:"
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn/HUDScaleContainer/HBoxContainer" unique_id=1615855598]
+[node name="ResetButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn" unique_id=1506092314]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_kqbds")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6l5ap")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6l5ap")
 
-[node name="ScaleSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn/HUDScaleContainer/HBoxContainer" unique_id=626110806]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-selected = 3
-item_count = 6
-popup/item_0/text = "100%"
-popup/item_0/id = 0
-popup/item_1/text = "90%"
-popup/item_1/id = 1
-popup/item_2/text = "80%"
-popup/item_2/icon = SubResource("PortableCompressedTexture2D_7be28")
-popup/item_2/id = 2
-popup/item_3/text = "70%"
-popup/item_3/id = 3
-popup/item_4/text = "60%"
-popup/item_4/id = 4
-popup/item_5/text = "50%"
-popup/item_5/id = 5
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn/ResetButton" unique_id=439910501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 0
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/GameColumn/HUDScaleContainer/HBoxContainer" unique_id=1793849620]
+[node name="LabelAction" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn/ResetButton/MarginContainer" unique_id=1683472065]
 layout_mode = 2
-mouse_filter = 0
-theme_override_constants/margin_right = 15
+mouse_filter = 1
+theme_override_font_sizes/font_size = 18
+text = "Reset Keybinds"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CheatsFooter" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=1458896543 instance=ExtResource("3_61nsc")]
 visible = false
@@ -383,3 +449,4 @@ parameters/looping = true
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MusicContainer/HBoxContainer/musicSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/EffectsContainer/HBoxContainer/effectsSlider" to="." method="_on_effects_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MenusContainer/HBoxContainer/menusSlider" to="." method="_on_menu_volume_changed"]
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn/ResetButton" to="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn" method="_on_reset_button_pressed"]
