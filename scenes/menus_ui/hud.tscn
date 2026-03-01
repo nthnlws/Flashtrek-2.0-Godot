@@ -14,7 +14,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h6ca5"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.186)
 
-[node name="Control" type="Control" unique_id=2147361872]
+[node name="HUD" type="Control" unique_id=2147361872]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

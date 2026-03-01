@@ -21,7 +21,6 @@ config/windows_native_icon="res://assets/icons/icon_256.ico"
 
 [autoload]
 
-GameSettings="*res://scripts/menus_ui/gameSettings.gd"
 Console="*uid://ouiu5xh1cs8n"
 SignalBus="*res://scripts/autoload/SignalBus.gd"
 CheatsMenu="*res://scripts/autoload/cheats_menu.gd"

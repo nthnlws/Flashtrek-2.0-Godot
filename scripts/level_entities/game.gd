@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var loading_screen: Control = %LoadingScreen
 @onready var tunnel_effect: SubViewportContainer = %TunnelEffect
-@onready var hud: Control = $HUD_layer/New_HUD
+@onready var hud: Control = $HUD_layer/HUD
 @onready var level: Node = $Level
 @onready var minimap: Control = %MiniMap
 

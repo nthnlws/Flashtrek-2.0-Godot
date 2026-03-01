@@ -206,25 +206,31 @@ static func get_system_faction(sys_index: int) -> Utility.FACTION:
 			_: return Utility.FACTION.NEUTRAL # No matching value
 
 
+static func get_normalized_progress(sys_index: int, faction: Utility.FACTION) -> float:
+	match faction:
+		Utility.FACTION.FEDERATION:
+			return float(sys_index) / GalaxyData.NUM_FED_SYSTEMS * 0.333
+		Utility.FACTION.ROMULAN:
+			return 0.333 + float(sys_index) / GalaxyData.NUM_ROM_SYSTEMS * 0.333
+		Utility.FACTION.KLINGON:
+			return 0.666 + float(sys_index) / GalaxyData.NUM_KLING_SYSTEMS * 0.334
+		_: return 1.0
+
+const MIN_DIFFICULTY:float = 1.0
+const MAX_DIFFICULTY:float = 4.0
+const EXPONENTIAL_RATE: float = 1.5
 static func get_system_difficulty(sys_index: int, faction: Utility.FACTION) -> float:
-	match sys_index: # Special systems special scaling
-		GalaxyData.SPECIAL_SYSTEMS.Solarus:
-			return 1.0
-		GalaxyData.SPECIAL_SYSTEMS.Romulus:
-			return 2.0
-		GalaxyData.SPECIAL_SYSTEMS.Kronos:
-			return 3.0
-		GalaxyData.SPECIAL_SYSTEMS.Risa:
-			return 1.0
-		_: # Calculate difficulty scaling for non-special systems
-			match faction:
-				Utility.FACTION.FEDERATION:
-					return lerp(1.0, 2.0, float(sys_index) / GalaxyData.NUM_FED_SYSTEMS)
-				Utility.FACTION.ROMULAN:
-					return lerp(2.0, 2.75, float(sys_index) / GalaxyData.NUM_ROM_SYSTEMS)
-				Utility.FACTION.KLINGON:
-					return lerp(3.0, 4.0, float(sys_index) / GalaxyData.NUM_KLING_SYSTEMS)
-				_: return 100.0 # No matching value
+	match sys_index:
+		GalaxyData.SPECIAL_SYSTEMS.Solarus: return 1.0
+		GalaxyData.SPECIAL_SYSTEMS.Romulus: return 2.0  # or derive from curve
+		GalaxyData.SPECIAL_SYSTEMS.Kronos:  return 3.0
+		GalaxyData.SPECIAL_SYSTEMS.Risa:    return 1.0
+		_:
+			var t := get_normalized_progress(sys_index, faction)
+			return _power_curve(t, MIN_DIFFICULTY, MAX_DIFFICULTY, EXPONENTIAL_RATE)
+
+static func _power_curve(t: float, min_val: float, max_val: float, exp: float) -> float:
+	return min_val + (max_val - min_val) * pow(t, exp)
 
 
 func load_text_file(file_path: String) -> Array[String]:

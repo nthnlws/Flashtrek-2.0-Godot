@@ -6,7 +6,6 @@ const CORRIDOR_KLINGON_EDITED = preload("res://assets/textures/UI/ship_upgrade_m
 const CORRIDOR_ROMULAN_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_romulan_edited.png")
 const CORRIDOR_FEDERATION_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_federation_edited.png")
 const CORRIDOR_NEUTRAL_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_neutral_edited.png")
-const SHIP_DATA = preload("res://assets/data/ShipData.json")
 
 @onready var background: TextureRect = $corridor_background
 

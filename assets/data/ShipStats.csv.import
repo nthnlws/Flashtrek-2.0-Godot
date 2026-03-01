@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ht3l16vuhjll"
+
+[deps]
+
+files=["res://assets/data/ShipStats.SHIP.translation", "res://assets/data/ShipStats.SPEED.translation", "res://assets/data/ShipStats.SHOOT.translation", "res://assets/data/ShipStats.ROTATION.translation", "res://assets/data/ShipStats.MAX_HP.translation", "res://assets/data/ShipStats.MAX.translation", "res://assets/data/ShipStats.DETECTION.translation", "res://assets/data/ShipStats.SHOOT.translation", "res://assets/data/ShipStats.SHOOT.translation", "res://assets/data/ShipStats.PLAYER.translation", "res://assets/data/ShipStats.PLAYER.translation", "res://assets/data/ShipStats.en.translation", "res://assets/data/ShipStats.CARGO.translation", "res://assets/data/ShipStats.en.translation"]
+
+source_file="res://assets/data/ShipStats.csv"
+dest_files=["res://assets/data/ShipStats.SHIP.translation", "res://assets/data/ShipStats.SPEED.translation", "res://assets/data/ShipStats.SHOOT.translation", "res://assets/data/ShipStats.ROTATION.translation", "res://assets/data/ShipStats.MAX_HP.translation", "res://assets/data/ShipStats.MAX.translation", "res://assets/data/ShipStats.DETECTION.translation", "res://assets/data/ShipStats.SHOOT.translation", "res://assets/data/ShipStats.SHOOT.translation", "res://assets/data/ShipStats.PLAYER.translation", "res://assets/data/ShipStats.PLAYER.translation", "res://assets/data/ShipStats.en.translation", "res://assets/data/ShipStats.CARGO.translation", "res://assets/data/ShipStats.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -43,8 +43,8 @@ func _ready() -> void:
 	alive = true
 	particles.emitting = true
 	
-	if GameSettings.unlimitedEnergy == false:
-		drain_energy.emit(energy_drain)
+	#TODO Add cheat for no energy drain
+	drain_energy.emit(energy_drain)
 
 
 func _physics_process(delta: float):

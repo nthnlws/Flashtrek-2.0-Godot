@@ -13,7 +13,7 @@ var difficulty_multiplier: float = 1.0
 @export var torpedo: PackedScene
 
 var enemyAgro: bool = false
-var shoot_cd: float = false
+var shoot_cd: bool = false
 
 var enemy_target: Node = null
 
@@ -48,21 +48,22 @@ func setMovementState(delta:float) -> void:
 
 
 func targetMovement(delta: float) -> void:
-	var predicted_position:Vector2 = predict_ship_position()
+	var predicted_position: Vector2 = predict_ship_position()
 	var randomized_position: Vector2 = randomize_position(predicted_position)
-	var distance_to_target: float = self.global_position.distance_to(predicted_position)
-	var angle_diff:float = calc_angle(predicted_position, delta)
-	look_at_target(predicted_position, angle_diff, delta)
+	var to_target: Vector2 = predicted_position - global_position
+	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
+
+	_rotate_toward_target(angle_diff, delta)
+
+	var distance_to_target: float = to_target.length()
 	if distance_to_target > 1000:
-		if typeof(predicted_position) == TYPE_INT:
-			moveToTarget(enemy_target.global_position, delta)
-		else:
-			moveToTarget(predicted_position, delta)
+		velocity = to_target.normalized() * move_speed
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, 25 * delta)
-		
-	
-	if abs(angle_diff) < TAU/12:
+		velocity = velocity.move_toward(Vector2.ZERO, 25.0 * delta)
+
+	move_and_slide()
+
+	if absf(angle_diff) < TAU / 12.0:
 		shoot_bullet(predicted_position, randomized_position)
 
 
@@ -125,19 +126,12 @@ func randomize_position(predicted_position: Vector2) -> Vector2:
 	return random_predicted_position
 
 
-func calculate_shooting_angle(predicted_position:Vector2, randomized_position:Vector2) -> float:
-	if typeof(predicted_position) == TYPE_INT or typeof(predicted_position) == TYPE_NIL:
-		return -1.0 # No valid firing solution
-	if typeof(randomized_position) == TYPE_NIL:
-		return -1.0 # No valid firing solution
-	else:
-		var delta_x: float = randomized_position.x - self.global_position.x
-		var delta_y: float = randomized_position.y - self.global_position.y
-
-		# Calculate the angle using atan2
-		var shooting_angle: float = atan2(delta_y, delta_x)
-
-		return shooting_angle
+func calculate_shooting_angle(predicted_position: Vector2, randomized_position: Vector2) -> float:
+	if predicted_position == Vector2.ZERO or randomized_position == Vector2.ZERO:
+		return -1.0
+	var delta_x: float = randomized_position.x - global_position.x
+	var delta_y: float = randomized_position.y - global_position.y
+	return atan2(delta_y, delta_x)
 
 
 func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> void:# Instantiate and configure bullet

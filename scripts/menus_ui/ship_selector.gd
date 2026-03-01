@@ -1,9 +1,10 @@
 extends IconSelector
 class_name ShipSelector
 
-@export var current_ship_type:Utility.SHIP_TYPES = 0 as Utility.SHIP_TYPES
 
+@export var current_ship_type:Utility.SHIP_TYPES = 0 as Utility.SHIP_TYPES
 @export var ship_faction:Utility.FACTION = Utility.FACTION.NEUTRAL
+@export var unlock_price: int = 0
 
 func _ready() -> void:
 	_create_unique_atlas()
@@ -15,7 +16,7 @@ func _ready() -> void:
 
 func _on_hovered() -> void:
 	background.color = PRESSED_GREY
-	icon_hovered.emit(current_ship_type)
+	icon_hovered.emit(self)
 
 
 func _create_unique_atlas() -> void:
@@ -38,15 +39,14 @@ func set_faction(faction) -> void:
 			self_modulate = Color(1.0, 1.0, 1.0)
 
 
-func set_ship_type(i: Utility.SHIP_TYPES) -> void:
+func set_ship_type(type: Utility.SHIP_TYPES) -> void:
 	#print(Utility.SHIP_TYPES.keys()[i] + " " + str(i))
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[i]
+	var ship_data:Dictionary = Utility.SHIP_DATA[type]
 	icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-
 
 
 func _on_button_down() -> void:
 	icon.scale = Vector2(0.8, 0.8)
 	if !grayed_out:
 		SignalBus.player_type_changed.emit(current_ship_type)
-		icon_selected.emit()
+		icon_selected.emit(current_ship_type)

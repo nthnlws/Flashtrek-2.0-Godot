@@ -10,9 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bq60hxexkpcpi" path="res://scenes/menus_ui/3D_Scene.tscn" id="7_cauqe"]
 [ext_resource type="Script" uid="uid://dfasdktke8f6m" path="res://scripts/menus_ui/sliding_container.gd" id="8_7rxst"]
 [ext_resource type="PackedScene" uid="uid://cqst2wt0kvivm" path="res://scenes/menus_ui/credits.tscn" id="8_huiy3"]
-[ext_resource type="PackedScene" uid="uid://bf1ju8luknc17" path="res://scenes/menus_ui/settings.tscn" id="9_pw3bc"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="10_j785f"]
 [ext_resource type="PackedScene" uid="uid://ckwiesp0r55hy" path="res://scenes/menus_ui/LCARS_popup.tscn" id="10_sii2t"]
+[ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/settings_menu.tscn" id="12_sii2t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k84q2"]
 font = ExtResource("4_7rxst")
@@ -27,7 +27,7 @@ font = ExtResource("4_7rxst")
 font_size = 15
 font_color = Color(0, 0, 0, 1)
 
-[node name="Control" type="Control" unique_id=1309851875]
+[node name="MainMenu" type="Control" unique_id=1309851875 node_paths=PackedStringArray("settings", "credits")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,10 +36,29 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ci3rm")
 mainGameScene = ExtResource("2_jsvya")
+settings = NodePath("SettingsMenu")
+credits = NodePath("Credits")
+metadata/_edit_horizontal_guides_ = [463.0, 463.0]
+metadata/_edit_vertical_guides_ = [244.0]
 
-[node name="MainMenu" type="CanvasLayer" parent="." unique_id=346130519]
+[node name="MainMenu" type="Control" parent="." unique_id=204320885]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PopupContainer" parent="MainMenu" unique_id=2013281891 instance=ExtResource("10_sii2t")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 244.0
+offset_top = 367.0
+offset_right = 491.0
+offset_bottom = 463.0
 
 [node name="MainMenu" type="TextureRect" parent="MainMenu" unique_id=1689933426]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -213,6 +232,7 @@ starting_position = Vector2(-108, 0)
 
 [node name="3D_Container" type="SubViewportContainer" parent="MainMenu" unique_id=1353497550]
 z_index = -1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -236,19 +256,22 @@ render_target_update_mode = 4
 
 [node name="3D_Menu_Scene" parent="MainMenu/3D_Container/3D_Viewport" unique_id=1264843213 instance=ExtResource("7_cauqe")]
 
-[node name="PopupContainer" parent="MainMenu" unique_id=2013281891 instance=ExtResource("10_sii2t")]
-unique_name_in_owner = true
-
 [node name="Credits" parent="." unique_id=51123155 instance=ExtResource("8_huiy3")]
-layer = 2
 visible = false
+layout_mode = 1
 
-[node name="Settings" parent="." unique_id=2140357949 instance=ExtResource("9_pw3bc")]
-layer = 3
+[node name="SettingsMenu" parent="." unique_id=413159616 instance=ExtResource("12_sii2t")]
 visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="audio_manager" parent="." unique_id=1452542254 instance=ExtResource("10_j785f")]
 
+[connection signal="confirm_save_delete" from="MainMenu/PopupContainer" to="." method="_on_save_slot_deleted"]
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SinglePlayer" to="." method="_on_single_player_button_pressed"]
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/MainButtonContainer/CreditsButton" to="." method="_on_credit_button_clicked"]
@@ -266,9 +289,8 @@ visible = false
 [connection signal="exited_management_state" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot3" to="MainMenu/MainMenu/LeftMenu/SlidingContainer" method="_exited_management_state"]
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/Slot3" to="." method="_on_save_slot_pressed"]
 [connection signal="tab_clicked" from="MainMenu/MainMenu/LeftMenu/SlidingContainer/SavesContainer/DeleteAllSaves" to="." method="_on_delete_all_saves_tab_clicked"]
-[connection signal="confirm_save_delete" from="MainMenu/PopupContainer" to="." method="_on_save_slot_deleted"]
 [connection signal="closed_credits" from="Credits" to="." method="_on_credits_closed"]
-[connection signal="close_button_pressed" from="Settings" to="." method="_on_settings_closed"]
+[connection signal="close_settings" from="SettingsMenu" to="." method="_on_settings_closed"]
 
 [editable path="MainMenu/MainMenu/SystemsReady"]
 [editable path="MainMenu/MainMenu/SystemsReady/PolygonMouseDetector"]

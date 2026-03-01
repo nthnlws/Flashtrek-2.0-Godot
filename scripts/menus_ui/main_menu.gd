@@ -2,6 +2,8 @@ extends Control
 class_name MainMenu
 
 @export var mainGameScene:PackedScene
+@export var settings: Control
+@export var credits: Control
 
 func _ready() -> void:
 	%SinglePlayer.grab_focus()
@@ -54,20 +56,20 @@ func _on_exit_button_pressed(node_name:String) -> void:
 
 func _on_credit_button_clicked(node_name:String) -> void:
 	SignalBus.UIclickSound.emit()
-	$Credits.visible = true
-	$Credits.closeButton.grab_focus()
+	credits.closeButton.grab_focus()
+	credits.visible = true
 
 func _on_settings_button_pressed(node_name:String) -> void:
 	SignalBus.UIclickSound.emit()
-	$Settings.visible = true
-	$Settings.closeButton.grab_focus()
+	settings.visible = true
+	settings.closeButton.grab_focus()
 
 func _on_credits_closed() -> void:
-	$Credits.visible = false
+	credits.visible = false
 	%SinglePlayer.grab_focus()
 
 func _on_settings_closed() -> void:
-	$Settings.visible = false
+	settings.visible = false
 	%SinglePlayer.grab_focus()
 
 

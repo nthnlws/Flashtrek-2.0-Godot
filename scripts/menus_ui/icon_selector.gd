@@ -5,7 +5,7 @@ signal icon_selected
 signal icon_hovered
 
 @onready var background: ColorRect = $background
-@onready var icon: TextureRect = $background/icon
+@onready var icon: TextureRect = %icon
 @onready var gray_out: ColorRect = $gray_out
 @onready var lock_symbol: TextureRect = $lock_symbol
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://6p3jqne3f03d" path="res://scripts/level_entities/game.gd" id="1_ci0lx"]
 [ext_resource type="PackedScene" uid="uid://bfitp1ynqfei8" path="res://scenes/level_entities/level.tscn" id="2_ab70e"]
-[ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/pause_menu.tscn" id="4_kawko"]
+[ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/settings_menu.tscn" id="4_kawko"]
 [ext_resource type="Script" uid="uid://5ubg1s4kiduk" path="res://scripts/menus_ui/hud_layer.gd" id="9_bhx41"]
 [ext_resource type="PackedScene" uid="uid://d0dea6kwmmylo" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
@@ -16,7 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_upgrade_menu.tscn" id="23_546po"]
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
-[ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="25_dx7lr"]
 
 [node name="Game" type="Node2D" unique_id=1659597695]
 process_mode = 3
@@ -33,7 +32,7 @@ unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="New_HUD" parent="HUD_layer" unique_id=1487023706 instance=ExtResource("16_ijd2y")]
+[node name="HUD" parent="HUD_layer" unique_id=1487023706 instance=ExtResource("16_ijd2y")]
 
 [node name="Joystick" parent="HUD_layer" unique_id=496764395 instance=ExtResource("16_cqedu")]
 visible = false
@@ -50,10 +49,8 @@ script = ExtResource("14_nkpvs")
 
 [node name="Crosshair" parent="Menus" unique_id=2034824301 instance=ExtResource("18_wcaow")]
 
-[node name="PauseMenu" parent="Menus" unique_id=1020353618 instance=ExtResource("4_kawko")]
+[node name="SettingsMenu" parent="Menus" unique_id=1020353618 instance=ExtResource("4_kawko")]
 visible = false
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="GalaxyMap" parent="Menus" unique_id=13688601 instance=ExtResource("16_wq6qh")]
 visible = false
@@ -88,16 +85,7 @@ offset_bottom = 0.0
 
 [node name="audio_manager" parent="." unique_id=992938628 instance=ExtResource("23_l5jjv")]
 
-[node name="SignalPrinter" type="Node" parent="." unique_id=1379261948]
-script = ExtResource("25_dx7lr")
-enabled = false
-
 [node name="ScrollingBackground" parent="." unique_id=26839956 instance=ExtResource("17_a7ete")]
-
-[node name="SignalPrinter2" type="Node" parent="." unique_id=536089876]
-script = ExtResource("25_dx7lr")
-enabled = false
-metadata/_custom_type_script = "uid://dmdedm3kpsdji"
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="menu_closed" from="Menus/ShipSelectionMenu" to="Menus" method="_handle_ship_menu_closed"]

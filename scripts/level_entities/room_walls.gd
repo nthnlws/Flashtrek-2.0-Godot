@@ -1,21 +1,21 @@
 extends Node2D
 
 @export var defaultBorderCoords:int = 20000
-var borderCoords:int = defaultBorderCoords
+var world_size:int = 20000
 var active_borders: Array[StaticBody2D] = []
 
 var wall_positions: Array = [
-	Vector2(0, borderCoords),
-	Vector2(0, -borderCoords),
-	Vector2(borderCoords, 0),
-	Vector2(-borderCoords, 0)
+	Vector2(0, world_size),
+	Vector2(0, -world_size),
+	Vector2(world_size, 0),
+	Vector2(-world_size, 0)
 ]
 
 var wall_scales: Array = [
-	Vector2(((borderCoords+23.5)/233*2), 1),
-	Vector2(((borderCoords+23.5)/233*2), 1),
-	Vector2(((borderCoords-23.5)/233*2), 1),
-	Vector2(((borderCoords-23.5)/233*2), 1),
+	Vector2(((world_size+23.5)/233*2), 1),
+	Vector2(((world_size+23.5)/233*2), 1),
+	Vector2(((world_size-23.5)/233*2), 1),
+	Vector2(((world_size-23.5)/233*2), 1),
 ]
 
 var wall_rotations: Array = [
@@ -30,14 +30,10 @@ func _ready() -> void:
 	SignalBus.entering_new_system.connect(toggle_world_borders)
 	
 	z_index = Utility.Z["WorldBorders"]
+	world_size = LevelManager.current_system_data.system_size
 
 	SignalBus.border_size_moved.connect(_on_border_coords_moved)
 	SignalBus.collisionChanged.connect(_on_collision_changed)
-	
-	if GameSettings.loadNumber == 0:
-		GameSettings.borderValue = borderCoords
-	elif GameSettings.loadNumber > 0:
-		_on_border_coords_moved()
 	
 	var i: int = 0
 	for node in get_tree().get_nodes_in_group("borders"):
@@ -46,8 +42,6 @@ func _ready() -> void:
 		wall.position = wall_positions[i]
 		wall.rotation = wall_rotations[i]
 		wall.scale = wall_scales[i]
-		if GameSettings.noCollision == true:
-				wall.get_node("WorldBoundary").disabled = true
 		
 		# Create a label for the wall
 		var label: Label = Label.new()
@@ -63,16 +57,16 @@ func _ready() -> void:
 		
 func _on_border_coords_moved() -> void:
 	wall_positions = [
-		Vector2(0, GameSettings.borderValue),
-		Vector2(0, -GameSettings.borderValue),
-		Vector2(GameSettings.borderValue, 0),
-		Vector2(-GameSettings.borderValue, 0)
+		Vector2(0, world_size),
+		Vector2(0, -world_size),
+		Vector2(world_size, 0),
+		Vector2(-world_size, 0)
 	]
 	wall_scales = [
-		Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
-		Vector2(((GameSettings.borderValue+23.5)/233*2), 1),
-		Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
-		Vector2(((GameSettings.borderValue-23.5)/233*2), 1),
+		Vector2(((world_size+23.5)/233*2), 1),
+		Vector2(((world_size+23.5)/233*2), 1),
+		Vector2(((world_size-23.5)/233*2), 1),
+		Vector2(((world_size-23.5)/233*2), 1),
 	]
 	
 	for i:int in range(active_borders.size()):

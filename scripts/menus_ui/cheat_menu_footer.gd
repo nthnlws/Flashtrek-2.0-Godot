@@ -6,6 +6,10 @@ var current_system: String = "Solarus"
 var current_mission_type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.KILL_FACTION
 var current_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
+func _ready() -> void:
+	if Utility.dev_mode_enabled:
+		self.visible = true
+
 
 func _on_planet_tp_button_pressed() -> void:
 	var current_player_pos: Vector2 = LevelManager.player.global_position

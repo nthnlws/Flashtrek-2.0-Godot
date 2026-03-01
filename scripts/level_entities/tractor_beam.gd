@@ -5,15 +5,11 @@ signal beam_activated(active: bool)
 signal object_tractored(object: Node2D)
 signal object_released(object: Node2D)
 signal energy_drain(amount: float)
-signal object_captured(container_data:ContainerData)
+signal object_captured(container_data: ContainerData)
 
-@export var debug_mode:bool = false
-
+	
 @onready var visuals: ColorRect = $CollisionShape2D/ColorRect
 @onready var hitbox_polygon: CollisionPolygon2D = $CollisionShape2D
-
-const DebugMarkerScene = preload("res://scenes/tools/debug_marker.tscn")
-var debug_marker: Node2D = null
 
 var beam_active: bool = false
 var is_input_active: bool = false # Tracks if the right-click is held down
@@ -22,10 +18,10 @@ var tractored_container: Area2D = null
 
 var parent_node: Node2D # Store a reference to the parent (the player)
 
-const DEFAULT_SIZE:int = 288
-const MAX_BEAM_LENGTH:int = 1400
+const DEFAULT_SIZE: int = 288
+const MAX_BEAM_LENGTH: int = 1400
 const MAX_ANGLE_DEVIATION_RAD = deg_to_rad(35)
-@export var energy_drain_rate:float = 10.0
+@export var energy_drain_rate: float = 10.0
 
 
 func _ready() -> void:
@@ -36,13 +32,7 @@ func _ready() -> void:
 	if not is_instance_valid(parent_node):
 		push_error("TractorBeam must be a child of a Node2D (like the Player).")
 		return
-
-	if debug_mode:
-		debug_marker = DebugMarkerScene.instantiate()
-		get_tree().current_scene.call_deferred("add_child", debug_marker)
-		debug_marker.visible = false
-		debug_marker.scale = Vector2(3, 3)
-	
+		
 	_setup_tractor_beam_pulse_visuals()
 
 
@@ -53,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		
 		# Use move_toward for smooth, consistent movement that stops at the target
 		tractored_container.global_position = tractored_container.global_position.move_toward(
-			target_position, 
+			target_position,
 			tractor_speed * delta
 		)
 		
@@ -68,8 +58,6 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	# If the player isn't holding the button, do nothing.
 	if not is_input_active:
-		if debug_mode and is_instance_valid(debug_marker):
-			debug_marker.visible = false
 		return
 
 	# If we are holding the button, continuously check the aim.
@@ -96,12 +84,6 @@ func _process(delta: float) -> void:
 	if beam_active:
 		update_tractor_beam(target_position)
 		energy_drain.emit(energy_drain_rate)
-	
-	# The debug marker should always update its position and color while aiming.
-	if debug_mode and is_instance_valid(debug_marker):
-		debug_marker.visible = true
-		debug_marker.global_position = target_position
-		debug_marker.set_validity_color(is_currently_valid)
 
 
 #region Public API
@@ -218,7 +200,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if area is ContainerPickup: # A more direct and safe way to check the class
 		tractored_container = area
 		
-		object_tractored.emit(tractored_container.container_data) 
+		object_tractored.emit(tractored_container.container_data)
 		#print("Tractor beam latched onto container: ", area.name)
 
 

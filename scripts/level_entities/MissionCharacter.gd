@@ -26,11 +26,12 @@ func setMovementState(delta:float) -> void:
 
 
 func VectorMovement(delta:float) -> void:
-	moveToTarget(movement_target_position, delta)
+	move_to_target(movement_target_position, delta)
 
 
-func moveToTarget(targetPos:Vector2, delta: float) -> void:
-	velocity = (targetPos - self.global_position).normalized() * move_speed
-	var angle_diff:float = calc_angle(targetPos, delta)
-	look_at_target(targetPos, angle_diff, delta)
+func move_to_target(target_pos: Vector2, delta: float) -> void:
+	var to_target: Vector2 = target_pos - global_position
+	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
+	_rotate_toward_target(angle_diff, delta)
+	velocity = to_target.normalized() * move_speed
 	move_and_slide()

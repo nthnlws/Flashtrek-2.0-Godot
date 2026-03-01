@@ -1,14 +1,42 @@
 # SaveManager.gd
 extends Node
 
-var current_save_slot:int = -1
+var current_save_slot: int = -1
 
 const SAVE_FOLDER: String = "user://saves/"
 const SAVE_FILE_TEMPLATE: String = "save_slot_%d.res"
 
 
+const SETTINGS_PATH: String = "user://settings.tres"
+var current_settings: SettingsResource
+
 func _ready() -> void:
-	SignalBus.entering_galaxy_warp.connect(func(): save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data))
+	_load_menu_settings()
+	_apply_menu_settings()
+
+	SignalBus.entering_galaxy_warp.connect(func(): save_galaxy(current_save_slot, LevelManager.galaxy_data))
+
+
+func _apply_menu_settings() -> void:
+	# Apply Video
+	DisplayServer.window_set_vsync_mode(current_settings.vsync_setting)
+	
+	# Apply Audio
+	Utility.update_bus_volume(Utility.AUDIO_BUS.MASTER, current_settings.master_volume)
+	Utility.update_bus_volume(Utility.AUDIO_BUS.MUSIC, current_settings.music_volume)
+	Utility.update_bus_volume(Utility.AUDIO_BUS.EFFECTS, current_settings.effects_volume)
+	Utility.update_bus_volume(Utility.AUDIO_BUS.MENUS, current_settings.menus_volume)
+
+
+func _load_menu_settings() -> void:
+	if ResourceLoader.exists(SETTINGS_PATH):
+		current_settings = load(SETTINGS_PATH) as SettingsResource
+	
+	if not current_settings:
+		current_settings = SettingsResource.new()
+
+func save_settings() -> void:
+	ResourceSaver.save(current_settings, SETTINGS_PATH)
 
 
 # Ensure the save directory exists
@@ -37,6 +65,11 @@ func save_galaxy(slot: int, data: GalaxyData) -> bool:
 		push_error("Failed to save game to slot %d. Error code: %s" % [slot, error])
 		return false
 		
+	var rep_path: String = SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
+	var rep_error: Error = ResourceSaver.save(MissionManager.Reputation, rep_path)
+	if rep_error != OK:
+		push_error("Failed to save player reputation to slot %d. Error code: %s" % [slot, rep_error])
+		
 	#print("Game successfully saved to slot %d" % slot)
 	return true
 
@@ -58,7 +91,13 @@ func load_galaxy(slot: int) -> GalaxyData:
 		var galaxy: GalaxyData = data as GalaxyData
 		# CRITICAL: Rebuild the lookup map that wasn't saved
 		galaxy.post_load_setup()
-		#print("Game successfully loaded from slot %d" % slot)
+		var rep_path: String = SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
+		if FileAccess.file_exists(rep_path):
+			var rep_data: Resource = ResourceLoader.load(rep_path)
+			if rep_data is PlayerReputation:
+				MissionManager.Reputation = rep_data as PlayerReputation
+				MissionManager.Reputation.player_faction_changed.emit(MissionManager.Reputation.current_player_faction)
+
 		return galaxy
 	else:
 		push_error("Failed to cast resource to GalaxyData.")
@@ -75,3 +114,6 @@ func delete_save(slot: int) -> void:
 	var path: String = get_save_path(slot)
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(path)
+	var rep_path: String = SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
+	if FileAccess.file_exists(rep_path):
+		DirAccess.remove_absolute(rep_path)

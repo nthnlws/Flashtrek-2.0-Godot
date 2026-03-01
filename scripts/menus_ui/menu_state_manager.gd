@@ -19,7 +19,7 @@ var current_state: MenuState = MenuState.NONE:
 
 func _ready() -> void:
 	SignalBus.playerDied.connect(_handle_player_death)
-	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$PauseMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
+	SignalBus.pause_menu_clicked.connect(toggle_menu.bindv([$SettingsMenu, MenuState.PAUSE_MENU])) #Connect HUD menu button to toggle=
 	SignalBus.BottomRight_clicked.connect(toggle_ship_selection)
 	SignalBus.Center_clicked.connect(toggle_upgrade_menu)
 	SignalBus.entering_galaxy_warp.connect(func(): current_state = MenuState.NONE)
@@ -40,10 +40,10 @@ func handle_escape_press() -> void:
 		MenuState.NONE:
 			# No menus are open, open the pause menu
 			if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-				toggle_menu($PauseMenu, MenuState.PAUSE_MENU)
+				toggle_menu($SettingsMenu, MenuState.PAUSE_MENU)
 		MenuState.PAUSE_MENU:
 			# Pause menu is open, close it
-			toggle_menu($PauseMenu, MenuState.NONE)
+			toggle_menu($SettingsMenu, MenuState.NONE)
 		MenuState.GALAXY_MAP:
 			# Galaxy map is open, close it
 			toggle_menu($GalaxyMap, MenuState.NONE)
@@ -102,6 +102,7 @@ func toggle_menu(menu: Control, new_state: MenuState) -> void:
 		menu.visible = false
 		menu.mouse_filter = Control.MOUSE_FILTER_PASS
 		current_state = MenuState.NONE
+
 
 func _handle_ship_menu_closed() -> void:
 	current_state = MenuState.NONE

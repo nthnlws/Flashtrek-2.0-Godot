@@ -24,13 +24,54 @@ const CARGO_TYPES: Array[String] = [
 	"Cryogenic Pods", "Experimental Technology", "Klingon Bloodwine", "Xenobiological Samples"
 	]
 
-static var cargo_full_messages: Array[String] = ["[color=#f06c82]Cargo hold is already full.[/color] Return when you've delivered the goods.", "[color=#f06c82]Mission queue is full.[/color] Complete your current objectives first.", "[color=#f06c82]No room for more cargo.[/color] Clear your hold before accepting another mission.", "[color=#f06c82]You’re already assigned a mission.[/color] Finish it before taking on more.", "[color=#f06c82]Your current mission needs completion first.[/color] Come back later.", "[color=#f06c82]Ship’s storage is maxed out.[/color] Offload before taking another task.", "[color=#f06c82]No additional cargo can be loaded.[/color] Finish your delivery first.", "[color=#f06c82]One task at a time![/color] Complete your current mission before returning."]
-static var confirmation_accept_prompts: Array[String] = ["Will you take on this task?", "Do you agree to these terms?", "Are you ready to proceed?", "Shall we begin the mission?", "Is this assignment acceptable?", "Can we count on your assistance?", "Do you confirm your participation?"]
-static var confirmation_complete_prompts: Array[String] = ["Ready to complete the assignment?", "Prepared to proceed with the task.", "All systems go, proceed with beam.", "Acknowledged. Moving to final phase.", "Cargo confirmed, beam it over.", "Orders understood, ready to receive cargo.", "Initiating final mission steps."]
-static var federation_thankYou: Array[String] = ["Your delivery has arrived. Starfleet commends your service.", "Shipment secured. We appreciate your reliability.", "Thank you. The Federation acknowledges your efforts.", "Mission complete. Your record has been updated.", "Excellent work. Cargo confirmed and logged."]
-static var klingon_thankYou: Array[String] = ["The cargo is delivered. You have done honor to this task.", "Your duty is fulfilled. Qapla’!", "Well fought. The shipment has arrived intact.", "You have earned your reward in glory and goods.", "Delivery made. Strength is proven through action."]
-static var romulan_thankYou: Array[String] = ["Your task is complete. Your efficiency has been noted.", "Delivery received. The Empire is satisfied.", "You’ve served the mission well—for now.", "Shipment secured. Your discretion is appreciated.", "Another successful operation. You may continue."]
-const PROMPTS: Array[String] = ["Will you take on this task?", "Do you agree to these terms?"]
+static var cargo_full_messages: Array[String] = [
+	"[color=#f06c82]Cargo hold is already full.[/color] Return when you've delivered the goods.",
+	"[color=#f06c82]Mission queue is full.[/color] Complete your current objectives first.",
+	"[color=#f06c82]No room for more cargo.[/color] Clear your hold before accepting another mission.",
+	"[color=#f06c82]You’re already assigned a mission.[/color] Finish it before taking on more.",
+	"[color=#f06c82]Your current mission needs completion first.[/color] Come back later.",
+	"[color=#f06c82]Ship’s storage is maxed out.[/color] Offload before taking another task.",
+	"[color=#f06c82]No additional cargo can be loaded.[/color] Finish your delivery first.",
+	"[color=#f06c82]One task at a time![/color] Complete your current mission before returning.",
+	"[color=#f06c82]Insufficient cargo space.[/color] We cannot load these supplies until you make room.",
+	"[color=#f06c82]Logistics error.[/color] The quartermaster reports your hold is at maximum capacity."
+]
+static var confirmation_accept_prompts: Array[String] = [
+	"Will you take on this task?", "Do you agree to these terms?", "Are you ready to proceed?",
+	"Shall we begin the mission?", "Is this assignment acceptable?", "Can we count on your assistance?",
+	"Do you confirm your participation?", "Stand by for mission parameters. Do you accept?",
+	"We need a reliable captain for this. Are you in?", "Awaiting your confirmation to authorize launch.",
+	"This is a priority request. Can you handle the assignment?"
+]
+static var confirmation_complete_prompts: Array[String] = [
+	"Ready to complete the assignment?", "Prepared to proceed with the task.",
+	"All systems go, proceed with beam.", "Acknowledged. Moving to final phase.",
+	"Cargo confirmed, beam it over.", "Orders understood, ready to receive cargo.",
+	"Initiating final mission steps.", "We're standing by to receive your manifest.",
+	"Transporters locked. Ready when you are, Captain.", "Please confirm final objective completion."
+]
+static var federation_thankYou: Array[String] = [
+	"Your delivery has arrived. Starfleet commends your service.", "Shipment secured. We appreciate your reliability.",
+	"Thank you. The Federation acknowledges your efforts.", "Mission complete. Your record has been updated.",
+	"Excellent work. Cargo confirmed and logged.", "Live long and prosper. The supplies are safe.",
+	"Starfleet Command sends their regards for a job well done.", "Your assistance has been invaluable to our sector."
+]
+static var klingon_thankYou: Array[String] = [
+	"The cargo is delivered. You have done honor to this task.", "Your duty is fulfilled. Qapla’!",
+	"Well fought. The shipment has arrived intact.", "You have earned your reward in glory and goods.",
+	"Delivery made. Strength is proven through action.", "Today is a good day to deliver! Qapla’!",
+	"The High Council acknowledges your worth.", "A warrior's task, completed with honor."
+]
+static var romulan_thankYou: Array[String] = [
+	"Your task is complete. Your efficiency has been noted.", "Delivery received. The Empire is satisfied.",
+	"You’ve served the mission well—for now.", "Shipment secured. Your discretion is appreciated.",
+	"Another successful operation. You may continue.", "The Tal Shiar commends your silence on this matter.",
+	"Do not let success breed arrogance. The Praetor thanks you.", "A profitable exchange. Jolan tru."
+]
+const PROMPTS: Array[String] = [
+	"Will you take on this task?", "Do you agree to these terms?", "Is this assignment acceptable?",
+	"Are you ready to proceed?", "Do you confirm your participation?"
+]
 
 # --- Main Generation Function ---
 static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData, random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE) -> MissionData:

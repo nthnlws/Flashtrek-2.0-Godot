@@ -67,7 +67,7 @@ func set_player_direction(joystick_direction) -> void:
 
 func _ready() -> void:
 	z_index = Utility.Z["Player"]
-	$warp_anim.z_index = Utility.Z["Effects"] 
+	$warp_anim.z_index = Utility.Z["Effects"]
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
 	_connect_signals()
@@ -97,8 +97,8 @@ func _connect_signals() -> void:
 	tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
-func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
+func _sync_data_to_resource(ship: Utility.SHIP_TYPES) -> void:
+	var ship_data: Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
 	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
@@ -115,8 +115,8 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	$WorldCollisionShape.polygon = PV2Array
 
 
-func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
-	var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[ship]
+func _sync_stats_to_resource(ship: Utility.SHIP_TYPES) -> void:
+	var ship_stats: Dictionary = Utility.SHIP_STATS[ship]
 	
 	max_speed = ship_stats.SPEED
 	rotation_speed = ship_stats.ROTATION_SPEED
@@ -203,7 +203,7 @@ func _handle_input_actions(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if !health_component.alive or GameSettings.menuStatus: return
+	if !health_component.alive: return
 	
 	if Input.is_action_pressed("left_click") and !shoot_cd and !overdrive_active and shooting_button_held:
 		shoot_torpedo()
@@ -215,7 +215,7 @@ func _handle_movement(delta: float) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
-			direction.x = Input.get_axis("move_backward", "move_forward")  # Forward/backward movement
+			direction.x = Input.get_axis("move_backward", "move_forward") # Forward/backward movement
 
 		# Add joystick direction for Android or hybrid control
 		#direction += direction
@@ -223,12 +223,12 @@ func _handle_movement(delta: float) -> void:
 		# Apply forward/backward thrust logic
 		if direction.x != 0:
 			velocity += Vector2(direction.x, 0).rotated(rotation) * acceleration / overdrivem_v
-			velocity = velocity.limit_length(max_speed/overdrivem_v)
+			velocity = velocity.limit_length(max_speed / overdrivem_v)
 		else:
 			# Gradually slow down when no input
 			velocity = velocity.move_toward(Vector2.ZERO, 3)
 			
-		if direction.y !=0:
+		if direction.y != 0:
 			rotate(deg_to_rad(direction.y * rotation_speed * delta * overdrivem_v))
 		
 		# Handle rotation for keyboard input
@@ -244,11 +244,11 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 		return
 	
 	# Stop any ongoing tweens
-	for tween:Tween in current_tweens:
+	for tween: Tween in current_tweens:
 		if tween.is_running():
 			tween.stop()
 
-	current_tweens.clear()  # Clear the list of running tweens
+	current_tweens.clear() # Clear the list of running tweens
 	
 	if overdrive_active: # Transition to impulse
 		to_impulse_transition.emit()
@@ -268,7 +268,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 				current_tweens.append(tween_scale)
 				
 				var tween_v: Object = create_tween() # Max Velocity
-				tween_v.tween_property(self, "overdrivem_v", 1.0, trans_length*4)
+				tween_v.tween_property(self, "overdrivem_v", 1.0, trans_length * 4)
 				current_tweens.append(tween_v)
 				
 				var tween_r: Object = create_tween() # Rotation speed
@@ -332,7 +332,7 @@ func shoot_torpedo() -> void:
 		bullet.queue_free()
 
 
-func shoot_missile(clicked_pos:Vector2) -> void:
+func shoot_missile(clicked_pos: Vector2) -> void:
 	var missile: HomingMissile = missile_scene.instantiate()
 	var cost: float = missile.energy_drain
 	
@@ -357,15 +357,15 @@ func shoot_missile(clicked_pos:Vector2) -> void:
 
 func _can_fire(cost: float) -> bool:
 	return (
-		energy.current_energy >= cost and 
-		!overdrive_active and 
-		!cloaked and 
+		energy.current_energy >= cost and
+		!overdrive_active and
+		!cloaked and
 		Utility.current_gamestate != Utility.GAMESTATE.WARPING and
 		Utility.current_gamestate != Utility.GAMESTATE.CUTSCENE
 	)
 
 
-func killPlayer(hit_event:HitEvent) -> void:
+func killPlayer(hit_event: HitEvent) -> void:
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 	%PlayerDieSound.play()
 	self.visible = false
@@ -390,17 +390,17 @@ func respawn() -> void:
 		self.visible = true
 		
 		# Restores all HUD values to max
-		health_component.hp_current = health_component.HP_max #Resets HP to max
-		health_component.sp_current = health_component.SP_max #Resets Shield
-		energy.current_energy = energy.max_energy #Resets energy
+		health_component.hp_current = health_component.HP_max # Resets HP to max
+		health_component.sp_current = health_component.SP_max # Resets Shield
+		energy.current_energy = energy.max_energy # Resets energy
 		
-		rotation = deg_to_rad(-90.0) #Sets rotation to up
+		rotation = deg_to_rad(-90.0) # Sets rotation to up
 		
 		shield.turnShieldOn()
 		health_component.regenTimeout = false
 
 
-func teleport(new_position:Vector2) -> void: # Uses coords from cheat menu to teleport player
+func teleport(new_position: Vector2) -> void: # Uses coords from cheat menu to teleport player
 	global_position = new_position
 	velocity = Vector2(0, 0)
 	if overdrive_active == true:
@@ -450,10 +450,10 @@ func velocity_check() -> bool:
 
 func trigger_warp() -> void:
 	if LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name:
-		var start_sys_id:int = LevelManager.current_system_data.system_index
-		var end_sys_id:int = LevelManager.target_system_data.system_index
-		var warp_distance:int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
-		if  warp_distance > warp_range:
+		var start_sys_id: int = LevelManager.current_system_data.system_index
+		var end_sys_id: int = LevelManager.target_system_data.system_index
+		var warp_distance: int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
+		if warp_distance > warp_range:
 			var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
 			SignalBus.changePopMessage.emit(error_message)
 			return
@@ -513,7 +513,7 @@ func galaxy_warp_out() -> void:
 	await get_tree().create_timer(2.5).timeout
 	cloak_ship(3.0, false)
 	
-	await get_tree().create_timer(1.0).timeout #11.5 sec, velocity tween ends
+	await get_tree().create_timer(1.0).timeout # 11.5 sec, velocity tween ends
 	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
 	create_tween().tween_property(galaxy_particles, "amount_ratio", 0.0, 2.5)
 	
@@ -536,13 +536,13 @@ func galaxy_warp_out() -> void:
 	tween3.stop()
 
 
-func _handle_mission_pickup(mission_data:MissionData) -> void:
+func _handle_mission_pickup(mission_data: MissionData) -> void:
 	current_cargo += 1
 
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
 	SignalBus.playerUpgradeApplied.emit(pickup.upgrade_type)
-	var mult_step:float = 0.05 # 5% increase to stat
+	var mult_step: float = 0.05 # 5% increase to stat
 	
 	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type
 	var modifier: UpgradePickup.MODIFIER = pickup.modifier_type
@@ -564,14 +564,14 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 			stats.DamageMult = stats.DamageMult + mult_step
 
 
-func _handle_container_pickup(data:ContainerData) -> void:
+func _handle_container_pickup(data: ContainerData) -> void:
 	#print('picked up container')
 	if data.is_mission_goal == true:
 		#print('attempting mission finish')
 		MissionManager.complete_mission()
 
 
-func cloak_ship(length:float, show_shadow:bool = false) -> void:
+func cloak_ship(length: float, show_shadow: bool = false) -> void:
 	cloaked = true
 	
 	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
@@ -580,31 +580,31 @@ func cloak_ship(length:float, show_shadow:bool = false) -> void:
 	new_mat.resource_local_to_scene = true
 	sprite.material = new_mat
 	
-	cloak_anim.speed_scale = 2/length
+	cloak_anim.speed_scale = 2 / length
 	cloak_anim.play("cloak")
 	await cloak_anim.animation_finished
 	
 	if show_shadow:
-		var cloak_fill:ShaderMaterial = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
+		var cloak_fill: ShaderMaterial = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
 		var new_mat2 = cloak_fill
 		new_mat2.resource_local_to_scene = true
 		sprite.material = new_mat2
 
 
-func uncloak_ship(length:float) -> void:
+func uncloak_ship(length: float) -> void:
 	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
 	var new_mat = ShaderMaterial.new()
 	new_mat.shader = cloak_shader
 	new_mat.resource_local_to_scene = true
 	sprite.material = new_mat
 	
-	cloak_anim.speed_scale = 2/length
+	cloak_anim.speed_scale = 2 / length
 	cloak_anim.play("uncloak")
 	await cloak_anim.animation_finished
 	
 	cloaked = false
 
 
-func _handle_mission_finish(finished_data:MissionData) -> void:
+func _handle_mission_finish(finished_data: MissionData) -> void:
 	current_cargo -= 1
 	current_cargo = clamp(current_cargo, 0, base_cargo_size)

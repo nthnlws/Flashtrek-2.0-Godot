@@ -31,6 +31,7 @@ enum FACTION {FEDERATION, KLINGON, ROMULAN, NEUTRAL}
 enum GAMESTATE {SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE}
 var current_gamestate: GAMESTATE = GAMESTATE.MAINMENU
 var _is_quitting: bool = false
+var dev_mode_enabled: bool = false
 
 # Used for global references to dict ship data JSON
 enum SHIP_TYPES {
@@ -129,10 +130,10 @@ enum SHIP_TYPES {
 	Nebula_Class,
 }
 
-#Accessed by Utility.SHIP_DATA.values()[Utility.SHIP_TYPES.ship_name]
-var SHIP_DATA: Dictionary # Loaded from ShipData.JSON file
-var PLAYER_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
-var ENEMY_SHIP_STATS: Dictionary # Loaded from ShipData.JSON file
+## Accessed by Utility.SHIP_DATA[Utility.SHIP_TYPES.ship_name].variable
+var SHIP_DATA: Dictionary  # Loaded from ShipData.csv  — sprite, collision, faction etc.
+## Accessed by Utility.SHIP_STATS[Utility.SHIP_TYPES.ship_name].variable
+var SHIP_STATS: Dictionary # Loaded from ShipStats.csv — movement, health, combat stats
 
 var is_initial_load: bool = true
 var fadeLength: float = 2.0 # Used for fade in/out on Galaxy Warp
@@ -150,9 +151,17 @@ const rom_green: String = "[color=#009301]"
 const klin_red: String = "[color=#FF2A2A]"
 const neut_cyan: String = "[color=#78D9C2]"
 
+# Audio
+enum AUDIO_BUS {
+	MASTER,
+	MUSIC,
+	EFFECTS,
+	MENUS
+}
+
 
 func _init() -> void:
-	load_JSON_ship_data()
+	load_ship_data()
 func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)
 
@@ -182,26 +191,56 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
+func load_ship_data() -> void:
+	_load_csv("res://assets/data/ShipData.csv", SHIP_DATA)
+	_load_csv("res://assets/data/ShipStats.csv", SHIP_STATS)
 
-func load_JSON_ship_data() -> void:
-	var JSON_path: String = "res://assets/data/ShipData.json"
-	var file_string: String = FileAccess.get_file_as_string(JSON_path)
-	var JSON_ship_data: Dictionary
-	if file_string != null:
-		JSON_ship_data = JSON.parse_string(file_string)
-	else:
-		push_warning("JSON loading from ShipData failed at " + JSON_path)
-	
-	if JSON_ship_data == null:
-		push_error("ShipData JSON file parsing failed at " + JSON_path)
-	
-	SHIP_DATA = JSON_ship_data.get("ShipData")
-	PLAYER_SHIP_STATS = JSON_ship_data.get("PlayerStats")
-	ENEMY_SHIP_STATS = JSON_ship_data.get("EnemyStats")
+func _load_csv(path: String, target: Dictionary) -> void:
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		push_error("CSV loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
+		return
+
+	var headers: PackedStringArray = file.get_csv_line()
+
+	while not file.eof_reached():
+		var row: PackedStringArray = file.get_csv_line()
+		if row.size() < headers.size() or (row.size() == 1 and row[0] == ""):
+			continue
+
+		var entry: Dictionary = {}
+		for i: int in range(headers.size()):
+			entry[headers[i]] = _parse_csv_value(row[i])
+
+		var key = entry.get("INDEX")
+		if key != null:
+			target[key] = entry
+
+
+func _parse_csv_value(value: String) -> Variant:
+	# Empty string
+	if value == "":
+		return null
+	# Bool
+	if value.to_lower() == "true":  return true
+	if value.to_lower() == "false": return false
+	# Integer
+	if value.is_valid_int():        return value.to_int()
+	# Float
+	if value.is_valid_float():      return value.to_float()
+	# Fallback to string
+	return value
 
 
 func create_custom_tween(node: Node, property: String, final_val, duration: float, curve: Curve) -> void:
 	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))
+
+
+func update_bus_volume(bus_idx: int, value: float) -> void:
+	# Convert linear slider to Decibels
+	var db_val: float = linear_to_db(value)
+	AudioServer.set_bus_volume_db(bus_idx, db_val)
+
 
 
 # This function finds the closest point on the surface of a body's shapes to a given global point.

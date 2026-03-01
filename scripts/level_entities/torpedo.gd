@@ -23,20 +23,22 @@ var age: float = 0.0
 var faction: Utility.FACTION
 
 var damage:float = 15.0
+var world_border:int = 20000
 
 func _ready() -> void:
 	area_entered.connect(_on_torpedo_collision)
 	z_index = Utility.Z["Weapons"]
+	
+	world_border = LevelManager.current_system_data.system_size
 
-	if GameSettings.unlimitedEnergy == false:
-		drain_energy.emit(energy_drain)
+	drain_energy.emit(energy_drain)
 
 
 func _process(delta: float) -> void:
 	if alive:
 		age += delta
-		if (self.global_position.x >= GameSettings.borderValue or self.global_position.x < -GameSettings.borderValue or 
-			self.global_position.y >= GameSettings.borderValue or self.global_position.y < -GameSettings.borderValue):
+		if (self.global_position.x >= world_border or self.global_position.x < -world_border or 
+			self.global_position.y >= world_border or self.global_position.y < -world_border):
 				queue_free()
 				
 		if age > lifetime_seconds:

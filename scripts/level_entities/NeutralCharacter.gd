@@ -65,7 +65,7 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 
 
 func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
-	var ship_stats:Dictionary = Utility.ENEMY_SHIP_STATS.values()[ship]
+	var ship_stats:Dictionary = Utility.SHIP_STATS[ship]
 	
 	move_speed = ship_stats.SPEED
 	rotation_rate = ship_stats.ROTATION_SPEED
@@ -106,7 +106,7 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	#TODO Sync Player and Enemy speed stats to be compatible
-	if not AI_enabled or not visible or not GameSettings.enemyMovement or health_component.alive == false:
+	if not AI_enabled or not visible or health_component.alive == false:
 		return
 	
 	# Movement state setter
@@ -136,34 +136,31 @@ func selectRandomPlanet() -> void:
 func starbaseMovement(delta:float) -> void:
 	if starbase:
 		var starbaseLocation: Vector2 = starbase.global_position
-		moveToTarget(starbaseLocation, delta)
+		move_to_target(starbaseLocation, delta)
 
 
 func planetMovement(delta:float) -> void: 
-	moveToTarget(endPoint, delta)
+	move_to_target(endPoint, delta)
 	
 	if self.global_position.distance_to(endPoint) < 5:
 		returnToStarbaseBool = true
 
 
-func moveToTarget(targetPos:Vector2, delta: float) -> void:
-	velocity = (targetPos - self.global_position).normalized() * move_speed
-	var angle_diff:float = calc_angle(targetPos, delta)
-	look_at_target(targetPos, angle_diff, delta)
+func move_to_target(target_pos: Vector2, delta: float) -> void:
+	var to_target: Vector2 = target_pos - global_position
+	var target_angle: float = to_target.angle()
+	var angle_diff: float = wrapf(target_angle - global_rotation, -PI, PI)
+	
+	_rotate_toward_target(angle_diff, delta)
+	velocity = to_target.normalized() * move_speed
 	move_and_slide()
 
 
-func calc_angle(targetPos:Vector2, delta:float) -> float:
-	var angle: float = (targetPos - self.global_position).angle()
-	var angle_diff:float = wrapf(angle - self.global_rotation, -PI, PI)
-	
-	return angle_diff
-
-
-func look_at_target(targetPos:Vector2,angle_diff:float, delta:float) -> void:
-	var angle: float = (targetPos - self.global_position).angle()
-	var rotation_speed: float = rotation_rate * delta
-	rotation = lerp_angle(self.global_rotation, angle, min(rotation_speed / abs(angle_diff), 1))
+func _rotate_toward_target(angle_diff: float, delta: float) -> void:
+	var max_turn: float = deg_to_rad(rotation_rate * delta)
+	# Ease off when within 15 degrees of target
+	var ease_factor: float = clampf(absf(angle_diff) / deg_to_rad(15.0), 0.0, 1.0)
+	rotation += clampf(angle_diff, -max_turn, max_turn) * ease_factor
 
 
 func explode(hit_event:HitEvent = HitEvent.new()) -> void:

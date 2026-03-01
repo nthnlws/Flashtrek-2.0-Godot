@@ -2,7 +2,7 @@ extends Node
 class_name HealthComponent
 
 var Stats: PlayerUpgrades = PlayerUpgrades.new()
-var ship_stats:Dictionary = Utility.PLAYER_SHIP_STATS.values()[Utility.starting_ship]
+var ship_stats:Dictionary = Utility.SHIP_STATS[Utility.starting_ship]
 
 @export var shield: Shield
 @export var hull_component: HullDamageReceiver

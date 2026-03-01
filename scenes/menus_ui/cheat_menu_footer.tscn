@@ -33,12 +33,12 @@ theme_override_constants/margin_bottom = 12
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2141979591]
 layout_mode = 2
 
-[node name="CommandsTitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1171067494]
+[node name="CheatsTitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1171067494]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_us2nk")
 theme_override_font_sizes/font_size = 30
-text = "COMMANDS"
+text = "CHEATS"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1765518909]
 layout_mode = 2

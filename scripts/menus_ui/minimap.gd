@@ -114,7 +114,7 @@ func create_minimap_objects() -> void:
 			var new_obj:TextureRect = add_minimap_object()
 			
 			containerObjects.append(new_obj)
-			new_obj.modulate = Color("#902d9c")
+			new_obj.modulate = Color.MAGENTA
 			container_to_object[container] = new_obj  # Map container to minimap object
 
 
