@@ -3,8 +3,8 @@
 
 <svg
    width="1920"
-   height="1080"
-   viewBox="0 0 508 285.75001"
+   height="100.79549"
+   viewBox="0 0 508 26.668808"
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
@@ -28,18 +28,18 @@
      inkscape:document-units="px"
      inkscape:zoom="0.5"
      inkscape:cx="983"
-     inkscape:cy="-19"
+     inkscape:cy="781"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
-     inkscape:window-x="-8"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3"
+     inkscape:current-layer="svg1"
      showgrid="true"><inkscape:grid
        id="grid1"
        units="px"
        originx="0"
-       originy="0"
+       originy="0.21047395"
        spacingx="0.26458334"
        spacingy="0.26458334"
        empcolor="#0099e5"
@@ -66,7 +66,7 @@
          y="26.458334" /></symbol></defs><g
      id="g3"
      inkscape:label="Top Panel"
-     transform="scale(1,0.80000003)"><rect
+     transform="matrix(1,0,0,0.80000003,0,0.21047396)"><rect
        style="display:none;fill:#000000;fill-opacity:1;stroke-width:3.17224"
        id="rect5"
        width="481.54166"
@@ -102,7 +102,7 @@
        y="24.804688" /><path
        id="path5"
        style="fill:#9abce3;stroke-width:2.57917"
-       d="M 0,-0.14714982 0.00517,25.078464 c 0.052805,7.248271 5.9338275,7.726615 18.809146,7.994453 h 61.936789 l -0.0041,-3.18843 -0.04908,-5.0798 c -7.744008,-0.02806 -15.455284,0.09786 -23.200672,0.121328 l -26.998353,0.05445 c -5.04583,-0.01743 -9.278818,-2.225982 -9.284705,-5.076636 l -0.08685,-20.16692144 z"
+       d="M 0,-0.14714982 0.00517,25.078464 c 0.052805,7.248271 5.9338275,7.726615 18.809146,7.994453 h 61.936789 l -0.0041,-3.18843 -0.04908,-5.0798 c -7.744008,-0.02806 -15.455284,0.09786 -23.200672,0.121328 L 30.4989,24.980465 c -5.04583,-0.01743 -9.278818,-2.225982 -9.284705,-5.076636 l -0.08685,-20.16692144 z"
        sodipodi:nodetypes="ccccccccccc" /><rect
        style="fill:#9abce3;stroke-width:3.13489"
        id="rect7"
@@ -112,7 +112,7 @@
        y="24.804688" /></g><g
      id="g1"
      inkscape:label="HUD Button"
-     transform="translate(-2.7310004,21.686453)"
+     transform="translate(-2.7310004,21.896927)"
      style="display:none"><path
        id="path41"
        style="fill:#d8a56f;fill-opacity:1;stroke-width:0.249894"
@@ -191,16 +191,5 @@
          y="248.57018">DOCK</tspan></text></g><g
      inkscape:groupmode="layer"
      id="layer1"
-     inkscape:label="Buttom Panel"><path
-       d="m 478.89585,227.54168 c -16.07355,-1e-5 -29.10417,13.03061 -29.10416,29.10416 V 285.75 h 29.10416 29.10416 v -21.12746 -7.9767 -29.10416 z"
-       style="fill:#cb6666;stroke-width:1.81901"
-       id="path2" /><rect
-       style="fill:#9abce3;stroke-width:5.09297;fill-opacity:0"
-       id="rect8"
-       width="508.00006"
-       height="58.20834"
-       x="0"
-       y="227.54167"
-       inkscape:export-filename="..\..\..\..\..\Game Asset Editing\InkScape files\HUD_bottomPanel.svg"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" /></g></svg>
+     inkscape:label="Buttom Panel"
+     transform="translate(0,0.21047396)" /></svg>

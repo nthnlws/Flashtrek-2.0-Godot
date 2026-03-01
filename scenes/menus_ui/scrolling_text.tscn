@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://1bhxgiy8k5tl"]
+
+[ext_resource type="Script" uid="uid://dar7dbt30m7wb" path="res://scripts/menus_ui/scrolling_text.gd" id="1_xhhim"]
+
+[node name="ScrollingText" type="ColorRect" unique_id=1245754231]
+offset_right = 200.0
+offset_bottom = 23.0
+color = Color(1, 1, 1, 0)
+script = ExtResource("1_xhhim")

@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c332wn3a0kl8i" path="res://scripts/menus_ui/stardate.gd" id="5_sii2t"]
 [ext_resource type="PackedScene" uid="uid://deoedsw3uxf5m" path="res://scenes/menus_ui/tabButton.tscn" id="6_sii2t"]
 [ext_resource type="Script" uid="uid://dfasdktke8f6m" path="res://scripts/menus_ui/sliding_container.gd" id="8_7rxst"]
+[ext_resource type="PackedScene" uid="uid://1bhxgiy8k5tl" path="res://scenes/menus_ui/scrolling_text.tscn" id="8_86ijy"]
 [ext_resource type="PackedScene" uid="uid://cqst2wt0kvivm" path="res://scenes/menus_ui/credits.tscn" id="8_huiy3"]
 [ext_resource type="PackedScene" uid="uid://broy1rurxqfwa" path="res://scenes/menus_ui/3D_main_menu_viewport.tscn" id="10_86ijy"]
 [ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="10_j785f"]
@@ -105,6 +106,13 @@ pressed_color = Color(1, 1, 1, 1)
 [node name="Polygon2D" parent="MainMenu/MainMenu/Stardate/PolygonMouseDetector" parent_id_path=PackedInt32Array(256975287, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(0, 5, 193, 5, 193, 32, 0, 32)
 
+[node name="ScrollingText" parent="MainMenu/MainMenu" unique_id=1245754231 instance=ExtResource("8_86ijy")]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 506.0
+offset_right = 705.0
+offset_bottom = 529.0
+
 [node name="Copyright" type="Label" parent="MainMenu/MainMenu" unique_id=581351153]
 layout_mode = 1
 anchors_preset = 7
@@ -112,29 +120,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -233.0
-offset_top = -23.0
-offset_right = -89.0
-offset_bottom = -2.0625
+offset_left = -475.0
+offset_top = -18.0
+offset_right = -327.0
+offset_bottom = 2.9375
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 8
-text = "© n8thegreat 2025"
-label_settings = SubResource("LabelSettings_j785f")
-vertical_alignment = 1
-
-[node name="Version" type="Label" parent="MainMenu/MainMenu" unique_id=930955380]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = -23.0
-offset_right = 151.0
-offset_bottom = -0.666687
-grow_vertical = 0
-size_flags_horizontal = 8
-text = "v0.0.10"
+text = "© n8thegreat 2026      V0.0.10"
 label_settings = SubResource("LabelSettings_j785f")
 vertical_alignment = 1
 
@@ -242,10 +235,10 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 234.0
-offset_top = 79.0
-offset_right = 934.0
-offset_bottom = 479.0
+offset_left = 257.0
+offset_top = 69.0
+offset_right = 957.0
+offset_bottom = 469.0
 grow_horizontal = 1
 grow_vertical = 1
 
