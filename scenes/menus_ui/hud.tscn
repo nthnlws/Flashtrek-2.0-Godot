@@ -95,7 +95,8 @@ offset_right = 434.24988
 offset_bottom = -7.75
 grow_vertical = 0
 
-[node name="DebugPanel" type="Panel" parent="." unique_id=110746639]
+[node name="ComponentDebugPanel" type="Panel" parent="." unique_id=110746639]
+visible = false
 layout_mode = 0
 offset_left = 9.0
 offset_top = 83.0
@@ -104,7 +105,7 @@ offset_bottom = 106.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_h6ca5")
 script = ExtResource("10_hxir5")
 
-[node name="MarginContainer" type="MarginContainer" parent="DebugPanel" unique_id=1009341851]
+[node name="MarginContainer" type="MarginContainer" parent="ComponentDebugPanel" unique_id=1009341851]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,7 +117,7 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel/MarginContainer" unique_id=1555789346]
+[node name="VBoxContainer" type="VBoxContainer" parent="ComponentDebugPanel/MarginContainer" unique_id=1555789346]
 layout_mode = 2
 
 [connection signal="pressed" from="SettingsButton" to="SettingsButton" method="_on_pressed"]

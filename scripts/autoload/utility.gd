@@ -192,14 +192,17 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func load_ship_data() -> void:
-	_load_csv("res://assets/data/ShipData.csv", SHIP_DATA)
-	_load_csv("res://assets/data/ShipStats.csv", SHIP_STATS)
+	_load_csv("res://assets/data/ShipData.txt", SHIP_DATA)
+	_load_csv("res://assets/data/ShipStats.txt", SHIP_STATS)
 
 func _load_csv(path: String, target: Dictionary) -> void:
-	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	var absolute_path: String = ProjectSettings.globalize_path(path)
+	var file: FileAccess = FileAccess.open(absolute_path, FileAccess.READ)
 	if file == null:
 		push_error("CSV loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
+		file = FileAccess.open(path, FileAccess.READ)
 		return
+	else: print('loading file path %s: ' % path)
 
 	var headers: PackedStringArray = file.get_csv_line()
 
