@@ -22,7 +22,7 @@ const upgrade_item: PackedScene = preload("uid://berjp6uasq671")
 
 func _ready() -> void:
 	#TODO: Remove force volume mute
-	var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
+	#var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
 	#AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(0.0))
 
 	_connect_signals()

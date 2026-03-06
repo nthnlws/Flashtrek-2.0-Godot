@@ -83,6 +83,7 @@ visible = false
 layout_mode = 1
 
 [node name="Warning_Popup" parent="." unique_id=806105503 instance=ExtResource("9_l28jr")]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

@@ -13,18 +13,10 @@
 
 [node name="Warning_Popup" type="Control" unique_id=535273968]
 layout_mode = 3
-anchor_left = 0.587
-anchor_top = 0.998
-anchor_right = 0.587
-anchor_bottom = 0.998
-offset_left = -292.52002
-offset_top = -170.92004
-offset_right = 392.47986
-offset_bottom = -4.670044
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 684.9999
+offset_bottom = 166.25
 scale = Vector2(0.8, 0.8)
-pivot_offset = Vector2(0, 190)
 mouse_filter = 1
 script = ExtResource("1_1ophj")
 FederationHeads = Array[Texture2D]([ExtResource("2_jfy5c"), ExtResource("3_prejn")])
@@ -68,27 +60,27 @@ drag_and_drop_selection_enabled = false
 [node name="FactionHead" type="TextureRect" parent="." unique_id=1790827834]
 z_index = -1
 layout_mode = 0
-offset_left = 585.0
-offset_top = 22.499983
-offset_right = 684.99994
-offset_bottom = 153.74998
+offset_left = 550.0
+offset_top = 8.75
+offset_right = 649.99994
+offset_bottom = 140.0
 texture = ExtResource("3_prejn")
 expand_mode = 3
 stretch_mode = 4
 
 [node name="CloseButton" parent="." unique_id=1360183028 instance=ExtResource("5_6p7o8")]
 layout_mode = 0
-offset_left = 572.5
-offset_top = 152.49998
-offset_right = 692.49994
-offset_bottom = 183.74998
+offset_left = 541.25
+offset_top = 138.75
+offset_right = 651.25
+offset_bottom = 167.5
 text = "acknowledge"
 label_settings = ExtResource("6_jfy5c")
 horizontal_alignment = 1
 vertical_alignment = 1
 pressed_color = Color(0.4, 0.6, 0.8, 1)
 
-[node name="Polygon2D" parent="CloseButton/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="CloseButton/PolygonMouseDetector" parent_id_path=PackedInt32Array(1360183028, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(-0.5, 0, 118.25, 0, 118.25, 30, -0.5, 30)
 
 [connection signal="button_pressed" from="CloseButton" to="." method="close_comms"]

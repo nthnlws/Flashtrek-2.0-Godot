@@ -52,17 +52,21 @@ func targetMovement(delta: float) -> void:
 	var randomized_position: Vector2 = randomize_position(predicted_position)
 	var to_target: Vector2 = predicted_position - global_position
 	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
-
-	_rotate_toward_target(angle_diff, delta)
-
 	var distance_to_target: float = to_target.length()
-	if distance_to_target > 1000:
-		velocity = to_target.normalized() * move_speed
+	
+	if absf(angle_diff) > PI / 6.0:
+		# Angle diff > 30 degrees: rotate only, kill velocity immediately
+		_rotate_toward_target(angle_diff, delta)
+		velocity = Vector2.ZERO
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, 25.0 * delta)
-
+		# Facing close enough to target: rotate and move
+		_rotate_toward_target(angle_diff, delta)
+		if distance_to_target > 1000:
+			velocity = to_target.normalized() * move_speed
+		else:
+			velocity = velocity.move_toward(Vector2.ZERO, 25.0 * delta)
+	
 	move_and_slide()
-
 	if absf(angle_diff) < TAU / 12.0:
 		shoot_bullet(predicted_position, randomized_position)
 

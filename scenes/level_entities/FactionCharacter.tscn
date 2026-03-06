@@ -27,7 +27,7 @@ collision_mask = 70
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox" index="0" unique_id=1894494548]
 shape = SubResource("CircleShape2D_uivqo")
 
-[node name="Sprite2D" parent="." index="4"]
+[node name="Sprite2D" parent="." index="4" unique_id=828422874]
 texture = SubResource("AtlasTexture_ytmji")
 
 [connection signal="hull_damage_received" from="HealthComponent" to="." method="_set_aggression_to_shooter"]

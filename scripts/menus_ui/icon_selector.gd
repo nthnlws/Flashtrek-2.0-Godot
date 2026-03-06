@@ -10,7 +10,7 @@ signal icon_hovered
 @onready var lock_symbol: TextureRect = $lock_symbol
 
 const DEFAULT_GREY:Color = Color("5d5d5d")
-const PRESSED_GREY:Color = Color("707070")
+const PRESSED_GREY:Color = Color("929292ff")
 
 @export var grayed_out:bool = true
 @export var current_icon: Texture2D

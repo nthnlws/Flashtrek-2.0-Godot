@@ -27,15 +27,15 @@ func _create_unique_atlas() -> void:
 	icon.texture = atlas_texture
 
 
-func set_faction(faction) -> void:
+func set_faction(faction: Utility.FACTION) -> void:
 	match faction:
-		"Federation":
-			self_modulate = Color(0.393, 0.501, 0.831)
-		"Romulan":
-			self_modulate = Color(0.248, 0.436, 0.22)
-		"Klingon":
-			self_modulate = Color(0.631, 0.255, 0.258)
-		"Neutral":
+		Utility.FACTION.FEDERATION:
+			self_modulate = Color(0.457, 0.562, 0.869, 1.0)
+		Utility.FACTION.ROMULAN:
+			self_modulate = Color(0.302, 0.522, 0.27, 1.0)
+		Utility.FACTION.KLINGON:
+			self_modulate = Color(0.743, 0.32, 0.321, 1.0)
+		Utility.FACTION.NEUTRAL:
 			self_modulate = Color(1.0, 1.0, 1.0)
 
 

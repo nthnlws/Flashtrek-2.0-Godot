@@ -14,3 +14,6 @@ script = ExtResource("2_k7jjm")
 
 [node name="icon" parent="background" parent_id_path=PackedInt32Array(180082468) index="0" unique_id=1041974235]
 texture = SubResource("AtlasTexture_3s3b2")
+
+[node name="lock_symbol" parent="." index="2" unique_id=1087790095]
+mouse_filter = 2

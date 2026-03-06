@@ -88,7 +88,7 @@ static func generate_system_data(sys_index: int, new_system_name: String) -> Sys
 	new_system_data.system_name = new_system_name
 	new_system_data.system_index = sys_index
 	new_system_data.faction = sys_faction
-	new_system_data.system_difficulty_mult = get_system_difficulty(sys_index, sys_faction)
+	new_system_data.system_difficulty_mult = Scaling.get_system_difficulty(sys_index, sys_faction)
 	
 	# Planetary body setup
 	var new_planet_count: int = randi_range(3, 6)
@@ -204,33 +204,6 @@ static func get_system_faction(sys_index: int) -> Utility.FACTION:
 			GalaxyData.SPECIAL_SYSTEMS.Risa:
 				return Utility.FACTION.NEUTRAL
 			_: return Utility.FACTION.NEUTRAL # No matching value
-
-
-static func get_normalized_progress(sys_index: int, faction: Utility.FACTION) -> float:
-	match faction:
-		Utility.FACTION.FEDERATION:
-			return float(sys_index) / GalaxyData.NUM_FED_SYSTEMS * 0.333
-		Utility.FACTION.ROMULAN:
-			return 0.333 + float(sys_index) / GalaxyData.NUM_ROM_SYSTEMS * 0.333
-		Utility.FACTION.KLINGON:
-			return 0.666 + float(sys_index) / GalaxyData.NUM_KLING_SYSTEMS * 0.334
-		_: return 1.0
-
-const MIN_DIFFICULTY:float = 1.0
-const MAX_DIFFICULTY:float = 4.0
-const EXPONENTIAL_RATE: float = 1.5
-static func get_system_difficulty(sys_index: int, faction: Utility.FACTION) -> float:
-	match sys_index:
-		GalaxyData.SPECIAL_SYSTEMS.Solarus: return 1.0
-		GalaxyData.SPECIAL_SYSTEMS.Romulus: return 2.0  # or derive from curve
-		GalaxyData.SPECIAL_SYSTEMS.Kronos:  return 3.0
-		GalaxyData.SPECIAL_SYSTEMS.Risa:    return 1.0
-		_:
-			var t := get_normalized_progress(sys_index, faction)
-			return _power_curve(t, MIN_DIFFICULTY, MAX_DIFFICULTY, EXPONENTIAL_RATE)
-
-static func _power_curve(t: float, min_val: float, max_val: float, exponent: float) -> float:
-	return min_val + (max_val - min_val) * pow(t, exponent)
 
 
 func load_text_file(file_path: String) -> Array[String]:

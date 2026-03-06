@@ -148,12 +148,17 @@ func planetMovement(delta:float) -> void:
 
 func move_to_target(target_pos: Vector2, delta: float) -> void:
 	var to_target: Vector2 = target_pos - global_position
-	var target_angle: float = to_target.angle()
-	var angle_diff: float = wrapf(target_angle - global_rotation, -PI, PI)
-	
-	_rotate_toward_target(angle_diff, delta)
-	velocity = to_target.normalized() * move_speed
-	move_and_slide()
+	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
+	var angle_abs: float = absf(angle_diff)
+	var alignment_threshold: float = deg_to_rad(30.0)
+	if angle_abs > alignment_threshold:
+		# Not yet facing target — rotate only, kill velocity immediately
+		_rotate_toward_target(angle_diff, delta)
+		velocity = Vector2.ZERO
+	else:
+		# Within 30 degrees — rotate and thrust
+		_rotate_toward_target(angle_diff, delta)
+		velocity = transform.x * move_speed
 
 
 func _rotate_toward_target(angle_diff: float, delta: float) -> void:

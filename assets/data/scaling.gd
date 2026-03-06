@@ -21,14 +21,22 @@ const UNLOCK_COST_EXP: float = 2.0
 static func get_system_difficulty(sys_index: int, faction: Utility.FACTION) -> float:
 	match sys_index:
 		GalaxyData.SPECIAL_SYSTEMS.Solarus: return 1.0
-		GalaxyData.SPECIAL_SYSTEMS.Romulus: return 2.8
-		GalaxyData.SPECIAL_SYSTEMS.Kronos: return 5.0
+		GalaxyData.SPECIAL_SYSTEMS.Kronos: return 2.8
+		GalaxyData.SPECIAL_SYSTEMS.Romulus: return 5.0
 		GalaxyData.SPECIAL_SYSTEMS.Risa: return 1.0
 		_:
 			return _enemy_curve(_galaxy_progress(sys_index, faction))
 
-static func get_player_stat_scale(sys_index: int, faction: Utility.FACTION) -> float:
-	return _player_curve(_galaxy_progress(sys_index, faction))
+static func get_player_stat_scale(tier_index: int, total_ships: int) -> float:
+	var t: float = float(tier_index) / float(max(total_ships - 1, 1))
+	return _player_curve(t)
+
+
+const PLAYER_MOVE_SCALE_MAX: float = 1.3  # 30% max improvement
+static func get_player_move_scale(tier_index: int, total_ships: int) -> float:
+	var t: float = float(tier_index) / float(max(total_ships - 1, 1))
+	return 1.0 + (PLAYER_MOVE_SCALE_MAX - 1.0) * clampf(t, 0.0, 1.0)
+
 
 static func get_unlock_cost_scale(tier_index: int, total_ships: int) -> float:
 	var t: float = float(tier_index) / float(max(total_ships - 1, 1))
@@ -41,9 +49,9 @@ static func _galaxy_progress(sys_index: int, faction: Utility.FACTION) -> float:
 	match faction:
 		Utility.FACTION.FEDERATION:
 			return (float(sys_index) / GalaxyData.NUM_FED_SYSTEMS) * 0.333
-		Utility.FACTION.ROMULAN:
-			return 0.333 + (float(sys_index) / GalaxyData.NUM_ROM_SYSTEMS) * 0.333
 		Utility.FACTION.KLINGON:
+			return 0.333 + (float(sys_index) / GalaxyData.NUM_ROM_SYSTEMS) * 0.333
+		Utility.FACTION.ROMULAN:
 			return 0.666 + (float(sys_index) / GalaxyData.NUM_KLING_SYSTEMS) * 0.334
 		_: return 1.0
 

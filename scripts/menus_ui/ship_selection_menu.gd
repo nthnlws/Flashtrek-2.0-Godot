@@ -17,6 +17,7 @@ signal menu_closed
 
 const SHIP_SELECTOR = preload("uid://djjxdvhjd147f")
 
+var _scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, Dictionary] = {}
 
 func _ready() -> void:
 	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_reputations)
@@ -38,23 +39,77 @@ func update_selection_grid() -> void:
 	for i: int in range(federation_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = federation_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, federation_unlocks.size())
+		var stats_multiplier: float = Scaling.get_player_stat_scale(i, federation_unlocks.size())
+		var move_multiplier: float = Scaling.get_player_move_scale(i, federation_unlocks.size())
+		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.FEDERATION, unlock_cost)
 		%FederationGrid.add_child(frame)
 	for i: int in range(klingon_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = klingon_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, klingon_unlocks.size())
+		var stats_multiplier: float = Scaling.get_player_stat_scale(i, klingon_unlocks.size())
+		var move_multiplier: float = Scaling.get_player_move_scale(i, klingon_unlocks.size())
+		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.KLINGON, unlock_cost)
 		%KlingonGrid.add_child(frame)
 	for i: int in range(romulan_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = romulan_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, romulan_unlocks.size())
+		var stats_multiplier: float = Scaling.get_player_stat_scale(i, romulan_unlocks.size())
+		var move_multiplier: float = Scaling.get_player_move_scale(i, romulan_unlocks.size())
+		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.ROMULAN, unlock_cost)
 		%RomulanGrid.add_child(frame)
 	for i: int in range(neutral_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = neutral_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, neutral_unlocks.size())
+		var stats_multiplier: float = Scaling.get_player_stat_scale(i, neutral_unlocks.size())
+		var move_multiplier: float = Scaling.get_player_move_scale(i, neutral_unlocks.size())
+		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.NEUTRAL, unlock_cost)
 		%NeutralGrid.add_child(frame)
+
+
+func update_ship_stats(selected_ship: ShipSelector) -> void:
+	var faction: Utility.FACTION = selected_ship.ship_faction
+	var ship_stats: Dictionary = _scaled_ship_stats[selected_ship.current_ship_type]
+
+	%ship_name.text = "Ship Name: " + Utility.UI_ship_lime + ship_stats.SHIP_NAME.replace("_", " ")
+	%health_stat.text = "Health: %s" % ship_stats.MAX_HP
+	%shield_stat.text = "Shield: %s" % ship_stats.MAX_SHIELD
+	%weapon.text = "Default Weapon: Torpedo"
+	%speed_stat.text = "Max Speed: %s" % ship_stats.PLAYER_SPEED_OVERRIDE
+	%maneuver_stat.text = "Maneuverability: %s" % ship_stats.PLAYER_ROTATION_OVERRIDE
+
+	var faction_color: String
+	match faction:
+		Utility.FACTION.FEDERATION: faction_color = Utility.fed_blue
+		Utility.FACTION.KLINGON:    faction_color = Utility.klin_red
+		Utility.FACTION.ROMULAN:    faction_color = Utility.rom_green
+		Utility.FACTION.NEUTRAL:    faction_color = Utility.neut_cyan
+		_:                          faction_color = Utility.UI_ship_lime
+	%faction.text = "Faction: " + faction_color + str(Utility.FACTION.keys()[faction]).to_pascal_case()
+
+	var my_rep: float = _get_reputation(faction)
+	var req_rep: int = selected_ship.unlock_price
+
+	if req_rep == 0:
+		%price_banner.text = "Unlocked: %sDefault" % Utility.UI_cargo_green
+	elif my_rep >= req_rep:
+		%price_banner.text = "Reputation Required: %s%s" % [Utility.UI_cargo_green, req_rep]
+	else:
+		%price_banner.text = "Reputation Required: %s%s" % [Utility.damage_red, req_rep]
+
+
+func add_ship_stats(ship_type: Utility.SHIP_TYPES, stats_multiplier: float, move_multiplier: float) -> void:
+	var base: Dictionary = Utility.SHIP_STATS[ship_type]
+	_scaled_ship_stats[ship_type] = {
+		"SHIP_NAME":                base.SHIP_NAME,
+		"MAX_HP":                   snapped(base.MAX_HP * stats_multiplier, 10),
+		"MAX_SHIELD":               snapped(base.MAX_SHIELD * stats_multiplier, 10),
+		"PLAYER_SPEED_OVERRIDE":    snapped(base.PLAYER_SPEED_OVERRIDE * move_multiplier, 10),
+		"PLAYER_ROTATION_OVERRIDE": snapped(base.PLAYER_ROTATION_OVERRIDE * move_multiplier, 10),
+	}
 
 
 func create_frame(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unlock_cost: int) -> ShipSelector:
@@ -147,42 +202,13 @@ func _handle_menu_closed(type: Utility.SHIP_TYPES) -> void:
 	clear_stats()
 
 
-func update_ship_stats(selected_ship: ShipSelector) -> void:
-	var faction: Utility.FACTION = selected_ship.ship_faction
-	var ship_stats: Dictionary = Utility.SHIP_STATS[selected_ship.current_ship_type]
-	
-
-	%ship_name.text = "Ship Name: " + Utility.UI_ship_lime + ship_stats.SHIP_NAME.replace("_", " ")
-	%health_stat.text = "Health: %s" % ship_stats.MAX_HP
-	%shield_stat.text = "Shield: %s" % ship_stats.MAX_SHIELD
-	%weapon.text = "Default Weapon: Torpedo"
-	%speed_stat.text = "Max Speed: %s" % ship_stats.PLAYER_SPEED_OVERRIDE
-	%maneuver_stat.text = "Maneuverability: %s" % ship_stats.PLAYER_ROTATION_OVERRIDE
-	
+func _get_reputation(faction: Utility.FACTION) -> float:
 	match faction:
-		Utility.FACTION.FEDERATION:
-			%faction.text = "Faction: " + Utility.fed_blue + str(Utility.FACTION.keys()[faction]).to_pascal_case()
-		Utility.FACTION.KLINGON:
-			%faction.text = "Faction: " + Utility.klin_red + str(Utility.FACTION.keys()[faction]).to_pascal_case()
-		Utility.FACTION.ROMULAN:
-			%faction.text = "Faction: " + Utility.rom_green + str(Utility.FACTION.keys()[faction]).to_pascal_case()
-		Utility.FACTION.NEUTRAL:
-			%faction.text = "Faction: " + Utility.neut_cyan + str(Utility.FACTION.keys()[faction]).to_pascal_case()
-		
-	var req_rep: int = selected_ship.unlock_price
-	var my_rep: float = 0.0
-	if faction == Utility.FACTION.FEDERATION: my_rep = FederationRep
-	elif faction == Utility.FACTION.KLINGON: my_rep = KlingonRep
-	elif faction == Utility.FACTION.ROMULAN: my_rep = RomulanRep
-	elif faction == Utility.FACTION.NEUTRAL: my_rep = NeutralRep
-			
-	if req_rep == 0: # Default unlock ship
-		%price_banner.text = "Unlocked: %sDefault" % Utility.UI_cargo_green
-	else:
-		if my_rep >= req_rep:
-			%price_banner.text = "Reputation Required: %s%s" % [Utility.UI_cargo_green, req_rep]
-		else:
-			%price_banner.text = "Reputation Required: %s%s" % [Utility.damage_red, req_rep]
+		Utility.FACTION.FEDERATION: return FederationRep
+		Utility.FACTION.KLINGON:    return KlingonRep
+		Utility.FACTION.ROMULAN:    return RomulanRep
+		Utility.FACTION.NEUTRAL:    return NeutralRep
+		_:                          return 0.0
 
 func _on_close_menu_button_pressed() -> void:
 	self.visible = false

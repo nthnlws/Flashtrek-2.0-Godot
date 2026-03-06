@@ -202,7 +202,7 @@ func _load_csv(path: String, target: Dictionary) -> void:
 		push_error("CSV loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
 		file = FileAccess.open(path, FileAccess.READ)
 		return
-	else: print('loading file path %s: ' % path)
+	#else: print('loading file path %s: ' % path)
 
 	var headers: PackedStringArray = file.get_csv_line()
 
