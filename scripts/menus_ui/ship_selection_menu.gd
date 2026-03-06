@@ -23,10 +23,6 @@ func _ready() -> void:
 	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_reputations)
 	
 	update_selection_grid()
-	#TODO Connect signals in FRAME CREATION
-	#for frame: ShipSelector in frames:
-		#frame.icon_selected.connect(_on_close_menu_button_pressed)
-		#frame.icon_hovered.connect(update_ship_stats)
 
 
 func update_selection_grid() -> void:
@@ -78,8 +74,8 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 	%health_stat.text = "Health: %s" % ship_stats.MAX_HP
 	%shield_stat.text = "Shield: %s" % ship_stats.MAX_SHIELD
 	%weapon.text = "Default Weapon: Torpedo"
-	%speed_stat.text = "Max Speed: %s" % ship_stats.PLAYER_SPEED_OVERRIDE
-	%maneuver_stat.text = "Maneuverability: %s" % ship_stats.PLAYER_ROTATION_OVERRIDE
+	%speed_stat.text = "Max Speed: %s" % ship_stats.SPEED
+	%maneuver_stat.text = "Maneuverability: %s" % ship_stats.ROTATION_SPEED
 
 	var faction_color: String
 	match faction:
@@ -104,11 +100,11 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 func add_ship_stats(ship_type: Utility.SHIP_TYPES, stats_multiplier: float, move_multiplier: float) -> void:
 	var base: Dictionary = Utility.SHIP_STATS[ship_type]
 	_scaled_ship_stats[ship_type] = {
-		"SHIP_NAME":                base.SHIP_NAME,
-		"MAX_HP":                   snapped(base.MAX_HP * stats_multiplier, 10),
-		"MAX_SHIELD":               snapped(base.MAX_SHIELD * stats_multiplier, 10),
-		"PLAYER_SPEED_OVERRIDE":    snapped(base.PLAYER_SPEED_OVERRIDE * move_multiplier, 10),
-		"PLAYER_ROTATION_OVERRIDE": snapped(base.PLAYER_ROTATION_OVERRIDE * move_multiplier, 10),
+		"SHIP_NAME": 		Utility.SHIP_TYPES.keys()[ship_type],
+		"MAX_HP": 			snapped(base.MAX_HP * stats_multiplier, 10),
+		"MAX_SHIELD": 		snapped(base.MAX_SHIELD * stats_multiplier, 10),
+		"SPEED": 			snapped(base.PLAYER_SPEED_OVERRIDE * move_multiplier, 10),
+		"ROTATION_SPEED":	snapped(base.PLAYER_ROTATION_OVERRIDE * move_multiplier, 10),
 	}
 
 
@@ -120,7 +116,7 @@ func create_frame(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unloc
 	if ship_type == Utility.starting_ship:
 		frame.unlock_price = 0
 		frame.grayed_out = false
-	frame.icon_selected.connect(_on_close_menu_button_pressed)
+	frame.icon_selected.connect(_on_ship_selected)
 	frame.icon_hovered.connect(update_ship_stats)
 	return frame
 
@@ -210,6 +206,12 @@ func _get_reputation(faction: Utility.FACTION) -> float:
 		Utility.FACTION.NEUTRAL:    return NeutralRep
 		_:                          return 0.0
 
-func _on_close_menu_button_pressed() -> void:
+
+func _on_ship_selected(ship_type: Utility.SHIP_TYPES) -> void:
+	SignalBus.player_type_changed.emit(ship_type, _scaled_ship_stats.get(ship_type))
+	close_menu()
+
+
+func close_menu() -> void:
 	self.visible = false
 	menu_closed.emit()

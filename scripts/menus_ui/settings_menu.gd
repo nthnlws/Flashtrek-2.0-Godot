@@ -7,8 +7,9 @@ signal close_settings
 
 func _input(event: InputEvent) -> void:
 	if not visible: return
-	if Input.is_action_just_pressed("escape"):
-			close_settings_menu()
+	if not event is InputEventKey: return
+	if get_tree().get_current_scene().name == "MainMenu" and Input.is_action_just_pressed("escape"):
+		close_settings.emit()
 
 
 func _on_master_slider_value_changed(value: float) -> void:

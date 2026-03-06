@@ -91,5 +91,6 @@ enabled = false
 metadata/_custom_type_script = "uid://dmdedm3kpsdji"
 
 [connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="close_settings" from="Menus/SettingsMenu" to="Menus" method="_handle_settings_closed"]
 [connection signal="menu_closed" from="Menus/ShipSelectionMenu" to="Menus" method="_handle_ship_menu_closed"]
 [connection signal="menu_closed" from="Menus/ShipUpgradeMenu" to="Menus" method="_handle_ship_menu_closed"]

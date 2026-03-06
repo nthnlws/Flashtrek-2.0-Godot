@@ -99,7 +99,7 @@ static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData
 		MissionData.MISSION_TYPE.CONTAINER:
 			_setup_container(mission)
 		MissionData.MISSION_TYPE.KILL_FACTION:
-			_setup_kill_faction(mission)
+			_setup_kill_faction(mission, current_system)
 		MissionData.MISSION_TYPE.ESCORT:
 			_setup_escort(mission)
 		MissionData.MISSION_TYPE.ANALYZE:
@@ -165,10 +165,14 @@ static func _setup_delivery(m: MissionData, current_sys: SystemData) -> void:
 	]
 	
 
-static func _setup_kill_faction(m: MissionData) -> void:
+static func _setup_kill_faction(m: MissionData, current_system: SystemData) -> void:
 	m.title = "Sector Patrol"
 	m.enemy_faction = Utility.get_enemy_faction(m.faction_owner)
 	m.enemy_target_count = randi_range(2, 5)
+	
+	# Ensure that faction for mission is not the same faction as current system
+	while m.faction_owner == current_system.faction:
+		m.faction_owner = Utility.FACTION.keys().pick_random()
 	
 	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	

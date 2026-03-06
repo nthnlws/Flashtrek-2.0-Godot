@@ -14,7 +14,7 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.entering_galaxy_warp.connect(fade_indicator.bind("off"))
 	SignalBus.entering_new_system.connect(fade_indicator.bind("on"))
-	SignalBus.player_type_changed.connect(change_health_sprite)
+	SignalBus.player_type_changed.connect(change_health_sprite.unbind(1))
 	
 	SignalBus.playerHealthChanged.connect(update_hitbox_health)
 	SignalBus.playerMaxHealthChanged.connect(update_hitbox_max)

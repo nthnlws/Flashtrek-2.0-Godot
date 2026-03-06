@@ -48,5 +48,4 @@ func set_ship_type(type: Utility.SHIP_TYPES) -> void:
 func _on_button_down() -> void:
 	icon.scale = Vector2(0.8, 0.8)
 	if !grayed_out:
-		SignalBus.player_type_changed.emit(current_ship_type)
 		icon_selected.emit(current_ship_type)

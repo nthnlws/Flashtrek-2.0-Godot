@@ -45,26 +45,26 @@ func play_music(is_main_menu:bool = false, faction: Utility.FACTION = Utility.FA
 	# Stop any existing music
 	if current_music_player:
 		current_music_player.stop()
-		print("%s stopped" % current_music_player.name)
+		#print("%s stopped" % current_music_player.name)
 	
 	if is_main_menu:
 		main_menu_music.play()
 		current_music_player = main_menu_music
-		print('main menu playing')
+		#print('main menu playing')
 		return
 	
 	if faction == Utility.FACTION.FEDERATION:
 		fed_music.play()
 		current_music_player = fed_music
-		print('fed playing')
+		#print('fed playing')
 	elif faction == Utility.FACTION.KLINGON:
 		klingon_music.play()
 		current_music_player = klingon_music
-		print('klingon playing')
+		#print('klingon playing')
 	elif faction == Utility.FACTION.ROMULAN:
 		romulan_music.play()
 		current_music_player = romulan_music
-		print('romulan playing')
+		#print('romulan playing')
 
 
 func fade_music_out() -> void:

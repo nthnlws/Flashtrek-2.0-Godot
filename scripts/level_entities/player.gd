@@ -97,7 +97,7 @@ func _connect_signals() -> void:
 	tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
-func _sync_data_to_resource(ship: Utility.SHIP_TYPES) -> void:
+func _sync_data_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
 	var ship_data: Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
@@ -115,12 +115,14 @@ func _sync_data_to_resource(ship: Utility.SHIP_TYPES) -> void:
 	$WorldCollisionShape.polygon = PV2Array
 
 
-func _sync_stats_to_resource(ship: Utility.SHIP_TYPES) -> void:
+func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
 	var ship_stats: Dictionary = Utility.SHIP_STATS[ship]
+	if !stats_override.is_empty():
+		ship_stats = stats_override
 	
 	max_speed = ship_stats.SPEED
 	rotation_speed = ship_stats.ROTATION_SPEED
-	base_cargo_size = ship_stats.CARGO_SIZE
+	base_cargo_size = ship_stats.get_or_add("CARGO_SIZE", 1)
 	health_component.HP_max = ship_stats.MAX_HP
 	health_component.SP_max = ship_stats.MAX_SHIELD
 

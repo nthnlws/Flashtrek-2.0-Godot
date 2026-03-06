@@ -316,4 +316,4 @@ stream = ExtResource("14_5cpsl")
 volume_db = -15.634
 bus = &"Effects"
 
-[connection signal="pressed" from="Stats_Container/MarginContainer/ship_info/closeMenuButton" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="Stats_Container/MarginContainer/ship_info/closeMenuButton" to="." method="close_menu"]

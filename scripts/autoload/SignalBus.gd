@@ -71,7 +71,7 @@ signal spawnShip(ship_type:Utility.SHIP_TYPES)
 
 signal enemy_shield_cheat_state(shield_state)
 signal enemy_type_changed(ENEMY_TYPE: Utility.SHIP_TYPES)
-signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES)
+signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES, ship_stats: Dictionary)
 
 # Level Creation
 signal levelReset

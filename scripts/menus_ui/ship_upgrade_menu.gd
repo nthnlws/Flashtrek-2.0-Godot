@@ -10,7 +10,7 @@ signal menu_closed
 @onready var background: TextureRect = $corridor_background
 
 func _ready() -> void:
-	SignalBus.player_type_changed.connect(set_background)
+	SignalBus.player_type_changed.connect(_handle_ship_change)
 	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
 	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
 	MissionManager.Reputation.player_faction_changed.connect(update_faction_colors)
@@ -57,9 +57,20 @@ func _on_close_menu_button_pressed() -> void:
 	menu_closed.emit()
 
 
+func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: Dictionary) -> void:
+	set_background(ship_type)
+	
+	%ship_name.text = "Ship Name: %s" % Utility.SHIP_TYPES.keys()[ship_type].replace("_", " ")
+	%faction.text = "Current Faction: %s" % Utility.FACTION.keys()[Utility.get_faction_from_ship_type(ship_type)].to_pascal_case()
+	%health_stat.text = "Health: %s" % new_stats.MAX_HP
+	%shield_stat.text = "Shield: %s" % new_stats.MAX_SHIELD
+	%speed_stat.text = "Max Speed: %s" % new_stats.SPEED
+	%maneuver_stat.text = "Maneuverability: %s" % new_stats.ROTATION_SPEED
+	%weapon.text = "Weapon: Torpedo"
+
+
 func set_background(ship_index: Utility.SHIP_TYPES) -> void:
 	var faction = Utility.get_faction_from_ship_type(ship_index)
-	print(Utility.FACTION.keys()[faction])
 	match faction:
 		Utility.FACTION.FEDERATION:
 			background.texture = CORRIDOR_FEDERATION
