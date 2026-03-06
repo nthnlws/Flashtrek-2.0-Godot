@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="3_3ib4j"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="3_ir0yc"]
 [ext_resource type="PackedScene" uid="uid://c5s0nigwpa515" path="res://scenes/menus_ui/upgrade_hover.tscn" id="3_x0k55"]
-[ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="4_3ib4j"]
+[ext_resource type="AudioStream" uid="uid://c83cajmhoop7t" path="res://assets/audio/ambience/engine_ambience_loud.ogg" id="4_3ib4j"]
 [ext_resource type="Texture2D" uid="uid://byr1t4wk3r0yl" path="res://assets/textures/UI/new_HUD/federation_symbol.svg" id="5_gjb5m"]
 [ext_resource type="Texture2D" uid="uid://b6g254d043h22" path="res://assets/textures/UI/new_HUD/klingon_symbol.svg" id="6_syaga"]
 [ext_resource type="Texture2D" uid="uid://dhpxi3okw2mo0" path="res://assets/textures/UI/new_HUD/romulan_symbol.svg" id="7_bkik8"]

@@ -5,10 +5,10 @@
 [ext_resource type="Shader" uid="uid://b44fiir3u62ar" path="res://resources/Materials_Shaders/laser_beam.gdshader" id="3_uacia"]
 [ext_resource type="PackedScene" uid="uid://dglsm5u65wcm6" path="res://scenes/level_entities/laser_hit_effect.tscn" id="4_uacia"]
 [ext_resource type="Texture2D" uid="uid://b8r2p6xdy6rsg" path="res://assets/textures/circle25.png" id="4_yk7ts"]
-[ext_resource type="AudioStream" uid="uid://bdxta7lwtdrew" path="res://assets/audio/weapons/tos_ship_phaser.ogg" id="5_ajshl"]
+[ext_resource type="AudioStream" uid="uid://c5e2a6paiijuy" path="res://assets/audio/effects/tos_ship_phaser.ogg" id="5_ajshl"]
 [ext_resource type="Texture2D" uid="uid://dtc6ckladq0td" path="res://addons/discord-rpc-gd/nodes/assets/circle.svg" id="5_yk7ts"]
-[ext_resource type="AudioStream" uid="uid://cbpachnemcxrh" path="res://assets/audio/weapons/laser_fizzle.ogg" id="6_ghpyy"]
-[ext_resource type="AudioStream" uid="uid://bsmdrnha1bbpp" path="res://assets/audio/weapons/laser_bass.ogg" id="7_44saj"]
+[ext_resource type="AudioStream" uid="uid://cua2fc8jliyhe" path="res://assets/audio/effects/laser_fizzle.ogg" id="6_ghpyy"]
+[ext_resource type="AudioStream" uid="uid://bqd7j18ys41u" path="res://assets/audio/effects/laser_bass.ogg" id="7_44saj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7mbro"]
 shader = ExtResource("3_uacia")

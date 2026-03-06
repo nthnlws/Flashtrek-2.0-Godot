@@ -30,6 +30,7 @@ MissionManager="*res://scenes/autoload/MissionManager.tscn"
 LevelManager="*res://scripts/level_entities/LevelManager.gd"
 DiscordManager="*res://scripts/autoload/DiscordManager.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
+AudioManager="*uid://3sl8g3mtc08a"
 
 [debug]
 

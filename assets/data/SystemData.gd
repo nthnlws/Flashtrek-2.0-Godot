@@ -229,8 +229,8 @@ static func get_system_difficulty(sys_index: int, faction: Utility.FACTION) -> f
 			var t := get_normalized_progress(sys_index, faction)
 			return _power_curve(t, MIN_DIFFICULTY, MAX_DIFFICULTY, EXPONENTIAL_RATE)
 
-static func _power_curve(t: float, min_val: float, max_val: float, exp: float) -> float:
-	return min_val + (max_val - min_val) * pow(t, exp)
+static func _power_curve(t: float, min_val: float, max_val: float, exponent: float) -> float:
+	return min_val + (max_val - min_val) * pow(t, exponent)
 
 
 func load_text_file(file_path: String) -> Array[String]:

@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="12_lf3ul"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="13_cq87e"]
 [ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_selector.tscn" id="13_y5r6i"]
-[ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="14_5cpsl"]
+[ext_resource type="AudioStream" uid="uid://c83cajmhoop7t" path="res://assets/audio/ambience/engine_ambience_loud.ogg" id="14_5cpsl"]
 
 [node name="ShipSelectionMenu" type="Control" unique_id=1560661285]
 layout_mode = 3

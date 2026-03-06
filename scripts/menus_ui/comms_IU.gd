@@ -50,7 +50,7 @@ func close_comms() -> void:
 
 # --- BUTTON PRESS HANDLERS ---
 func _on_reroll_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	# If we are pending, re-opening comms triggers request_hail again,
 	# which triggers a new generation inside the Planet script logic.
 	if visible and current_planet and MissionManager.current_state != MissionManager.STATE.active_mission:
@@ -58,7 +58,7 @@ func _on_reroll_pressed() -> void:
 
 
 func _on_close_ui_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	close_comms()
 
 

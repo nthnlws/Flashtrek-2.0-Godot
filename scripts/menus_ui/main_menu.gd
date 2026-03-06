@@ -7,6 +7,8 @@ class_name MainMenu
 
 func _ready() -> void:
 	%SinglePlayer.grab_focus()
+	
+	AudioManager.play_music(true)
 
 
 func _on_save_slot_pressed(node_name:String) -> void:
@@ -46,21 +48,21 @@ func _on_single_player_button_pressed(node_name:String) -> void:
 			%SlidingContainer._toggle_management_state()
 	else:
 		%SlidingContainer.slide_saves_container_out()
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 
 
 func _on_exit_button_pressed(node_name:String) -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	get_tree().quit()
 
 
 func _on_credit_button_clicked(node_name:String) -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	credits.closeButton.grab_focus()
 	credits.visible = true
 
 func _on_settings_button_pressed(node_name:String) -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	settings.visible = true
 	settings.closeButton.grab_focus()
 

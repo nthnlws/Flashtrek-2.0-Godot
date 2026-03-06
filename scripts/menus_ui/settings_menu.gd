@@ -1,7 +1,6 @@
 extends Control
 class_name SettingsMenu
 
-#@onready var menus_layer: Control = get_node_or_null("..")
 @onready var closeButton: Button = %closeMenuButton
 
 signal close_settings
@@ -35,7 +34,7 @@ func close_settings_menu() -> void:
 
 
 func _on_main_menu_button_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	if get_parent().name != "MainMenu":
 		get_tree().change_scene_to_file("res://scenes/menus_ui/main_menu.tscn")
 	else:
@@ -43,7 +42,7 @@ func _on_main_menu_button_pressed() -> void:
 
 
 func _on_close_game_button_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	get_tree().quit()
 
 # World Column

@@ -8,12 +8,10 @@
 [ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="3_scpag"]
 [ext_resource type="Shader" uid="uid://bxs62v6ygtxwj" path="res://resources/Materials_Shaders/solid_fill.gdshader" id="4_scpag"]
 [ext_resource type="Texture2D" uid="uid://duvs6uixemkbt" path="res://assets/textures/ships/hull_explosion.png" id="5_scpag"]
-[ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="6_o4ahg"]
-[ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_ljjbr"]
+[ext_resource type="AudioStream" uid="uid://8q5c25ij7dt0" path="res://assets/audio/effects/smallexplosion3.ogg" id="6_o4ahg"]
+[ext_resource type="AudioStream" uid="uid://dy23em8ausssl" path="res://assets/audio/ambience/ship_idle.ogg" id="7_ljjbr"]
 [ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/characters/hull_damage_receiver.gd" id="7_scpag"]
-[ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="8_71til"]
 [ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="8_scpag"]
-[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="9_8sljv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
 atlas = ExtResource("3_l33it")
@@ -314,7 +312,6 @@ animation = &"explode"
 [node name="TorpedoHit" type="AudioStreamPlayer2D" parent="Sounds" unique_id=468469207]
 unique_name_in_owner = true
 stream = ExtResource("6_o4ahg")
-volume_db = -18.0
 pitch_scale = 2.0
 max_distance = 3000.0
 attenuation = 0.615573
@@ -322,29 +319,12 @@ attenuation = 0.615573
 [node name="ship_idle" type="AudioStreamPlayer2D" parent="Sounds" unique_id=895809947]
 unique_name_in_owner = true
 stream = ExtResource("7_ljjbr")
-volume_db = -25.0
 max_distance = 3000.0
 attenuation = 0.615573
 
 [node name="ship_explosion" type="AudioStreamPlayer2D" parent="Sounds" unique_id=187376916]
 unique_name_in_owner = true
 stream = ExtResource("6_o4ahg")
-volume_db = -4.0
-max_distance = 3000.0
-attenuation = 0.615573
-
-[node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1120588609]
-unique_name_in_owner = true
-stream = ExtResource("8_71til")
-volume_db = -20.0
-max_distance = 3000.0
-attenuation = 0.615573
-panning_strength = 2.0
-
-[node name="HeavyTorpedo" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1155490170]
-unique_name_in_owner = true
-stream = ExtResource("9_8sljv")
-volume_db = -10.0
 max_distance = 3000.0
 attenuation = 0.615573
 

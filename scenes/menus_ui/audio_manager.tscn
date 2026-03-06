@@ -1,17 +1,33 @@
 [gd_scene format=3 uid="uid://3sl8g3mtc08a"]
 
 [ext_resource type="Script" uid="uid://b65kp1wcpepeb" path="res://scripts/audio/audio_manager.gd" id="1_gyoyt"]
-[ext_resource type="AudioStream" uid="uid://cfxbnu633tts8" path="res://assets/audio/UI/computerbeep_01.ogg" id="2_wkjui"]
-[ext_resource type="AudioStream" uid="uid://cysx5glse4juw" path="res://assets/audio/UI/computerbeep_02.ogg" id="3_ijpkw"]
-[ext_resource type="AudioStream" uid="uid://e83vek1b24w3" path="res://assets/audio/UI/computerbeep_03.ogg" id="4_04okh"]
-[ext_resource type="AudioStream" uid="uid://bypekt52tpuh4" path="res://assets/audio/UI/menu_navigate.ogg" id="5_csb3k"]
-[ext_resource type="AudioStream" uid="uid://d1bp1vl6tiyrf" path="res://assets/audio/music/FEDERATION - Mesa.ogg" id="7_ddeio"]
-[ext_resource type="AudioStream" uid="uid://utcuo4fw5fto" path="res://assets/audio/music/Klingon - Subterranean.ogg" id="8_tyipu"]
+[ext_resource type="AudioStream" uid="uid://bjg2aj5rms07k" path="res://assets/audio/UI/computerbeep_01.ogg" id="2_wkjui"]
+[ext_resource type="AudioStream" uid="uid://bd4uesq5ueau1" path="res://assets/audio/UI/computerbeep_02.ogg" id="3_ijpkw"]
+[ext_resource type="AudioStream" uid="uid://dindme8eyhekn" path="res://assets/audio/UI/computerbeep_03.ogg" id="4_04okh"]
+[ext_resource type="AudioStream" uid="uid://bn4ybjggqnyx6" path="res://assets/audio/UI/menu_navigate.ogg" id="5_csb3k"]
+[ext_resource type="AudioStream" uid="uid://4n80vbn0cpnp" path="res://assets/audio/music/FEDERATION - Mesa.ogg" id="7_ddeio"]
+[ext_resource type="AudioStream" uid="uid://o1s02pgvqvyw" path="res://assets/audio/music/Romulan-The-Rising-Dawn-Bellows-Like-Thunder.ogg" id="8_8tcqa"]
+[ext_resource type="AudioStream" uid="uid://c7ry7bi02pwx3" path="res://assets/audio/music/Klingon - Subterranean.ogg" id="8_tyipu"]
+[ext_resource type="AudioStream" uid="uid://dpfpd4vxuak3r" path="res://assets/audio/music/MAIN_TITLE - Ether.ogg" id="9_gyoyt"]
 
 [node name="audio_manager" type="Node" unique_id=1348574743]
 process_mode = 1
 script = ExtResource("1_gyoyt")
 click_sounds = Array[AudioStreamOggVorbis]([ExtResource("2_wkjui"), ExtResource("3_ijpkw"), ExtResource("4_04okh")])
 button_select = ExtResource("5_csb3k")
-federation_music = ExtResource("7_ddeio")
-klingon_music = ExtResource("8_tyipu")
+
+[node name="FedMusic" type="AudioStreamPlayer" parent="." unique_id=758880092]
+stream = ExtResource("7_ddeio")
+bus = &"Music"
+
+[node name="KlingonMusic" type="AudioStreamPlayer" parent="." unique_id=198240230]
+stream = ExtResource("8_tyipu")
+bus = &"Music"
+
+[node name="RomulanMusic" type="AudioStreamPlayer" parent="." unique_id=1682432931]
+stream = ExtResource("8_8tcqa")
+bus = &"Music"
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="." unique_id=1380009090]
+stream = ExtResource("9_gyoyt")
+bus = &"Music"

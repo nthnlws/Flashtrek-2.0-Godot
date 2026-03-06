@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dgb84lbkion2g" path="res://scripts/menus_ui/menu_camera.gd" id="2_jqed3"]
 [ext_resource type="Script" uid="uid://cdh20w1m0r32q" path="res://scripts/menus_ui/3DMenuShip.gd" id="3_vjixd"]
 [ext_resource type="PackedScene" uid="uid://clgsyftwivlyl" path="res://assets/Blender/Enterprise3D.glb" id="4_voq5a"]
-[ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="5_sixrc"]
+[ext_resource type="AudioStream" uid="uid://c83cajmhoop7t" path="res://assets/audio/ambience/engine_ambience_loud.ogg" id="5_sixrc"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpd4v"]
 panorama = ExtResource("1_wjt7e")

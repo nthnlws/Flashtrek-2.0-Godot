@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://c5vnannn3r6y1" path="res://scenes/menus_ui/ship_selection_menu.tscn" id="21_hxbij"]
 [ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_upgrade_menu.tscn" id="23_546po"]
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
-[ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="23_l5jjv"]
 
 [node name="Game" type="Node2D" unique_id=1659597695]
 process_mode = 3
@@ -82,8 +81,6 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
-
-[node name="audio_manager" parent="." unique_id=992938628 instance=ExtResource("23_l5jjv")]
 
 [node name="ScrollingBackground" parent="." unique_id=26839956 instance=ExtResource("17_a7ete")]
 

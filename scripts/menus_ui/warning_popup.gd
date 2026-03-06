@@ -49,7 +49,7 @@ func close_comms() -> void:
 
 
 func _on_close_ui_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	close_comms()
 
 

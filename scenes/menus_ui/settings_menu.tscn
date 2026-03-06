@@ -6,8 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://diyryl57m0e1x" path="res://assets/textures/UI/slider_grabber.png" id="3_xwvpo"]
 [ext_resource type="StyleBox" uid="uid://cgrosihah7hfm" path="res://resources/slider_theme.tres" id="4_rjb82"]
 [ext_resource type="Script" uid="uid://l1myrfp1sxl1" path="res://scripts/menus_ui/keybind_column.gd" id="5_6l5ap"]
-[ext_resource type="AudioStream" uid="uid://303say1uvlnl" path="res://assets/audio/engine_ambience_loud.ogg" id="6_xwvpo"]
-[ext_resource type="AudioStream" uid="uid://fhaou6mjhc3s" path="res://assets/audio/music/MAIN_TITLE - Ether.ogg" id="7_rjb82"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7be28"]
 
@@ -429,18 +427,6 @@ vertical_alignment = 1
 visible = false
 layout_mode = 2
 size_flags_vertical = 10
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=773565912]
-stream = ExtResource("6_xwvpo")
-autoplay = true
-bus = &"Effects"
-parameters/looping = true
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="." unique_id=808065114]
-stream = ExtResource("7_rjb82")
-autoplay = true
-bus = &"Music"
-parameters/looping = true
 
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]

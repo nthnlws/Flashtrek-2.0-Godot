@@ -63,7 +63,7 @@ func _create_action_list():
 
 
 func _on_input_button_selected(button: InputButton, action: String) -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	if !is_remapping:
 		is_remapping = true
 		action_to_remap = action
@@ -72,5 +72,5 @@ func _on_input_button_selected(button: InputButton, action: String) -> void:
 
 
 func _on_reset_button_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	_create_action_list()

@@ -324,8 +324,6 @@ func shoot_torpedo() -> void:
 		bullet.exceptions.append(shield.get_node("shield_area"))
 		
 		$Projectiles.add_child(bullet)
-		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
-		%HeavyTorpedo.play()
 		
 		get_tree().create_timer(1.0 / rate_of_fire).timeout.connect(func(): shoot_cd = false)
 	else:
@@ -449,28 +447,30 @@ func velocity_check() -> bool:
 
 
 func trigger_warp() -> void:
-	if LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name:
-		var start_sys_id: int = LevelManager.current_system_data.system_index
-		var end_sys_id: int = LevelManager.target_system_data.system_index
-		var warp_distance: int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
-		if warp_distance > warp_range:
-			var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
-			SignalBus.changePopMessage.emit(error_message)
-			return
-		if !velocity_check():
-			var error_message: String = "Must be stationary and in impulse to warp"
-			SignalBus.changePopMessage.emit(error_message)
-			return
-		if warp_distance == -1:
-			var error_message: String = "You must select a destination system"
-			SignalBus.changePopMessage.emit(error_message)
-			return
-		elif warp_distance == -2:
-			var error_message: String = "Warp destination must not be same as current system"
-			SignalBus.changePopMessage.emit(error_message)
-			return
-		else:
-			galaxy_warp_out()
+	if LevelManager.target_system_data:
+		if LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name:
+			var start_sys_id: int = LevelManager.current_system_data.system_index
+			var end_sys_id: int = LevelManager.target_system_data.system_index
+			var warp_distance: int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
+			if warp_distance > warp_range:
+				var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
+				SignalBus.changePopMessage.emit(error_message)
+				return
+			if !velocity_check():
+				var error_message: String = "Must be stationary and in impulse to warp"
+				SignalBus.changePopMessage.emit(error_message)
+				return
+			if warp_distance == -1:
+				var error_message: String = "You must select a destination system"
+				SignalBus.changePopMessage.emit(error_message)
+				return
+			elif warp_distance == -2:
+				var error_message: String = "Warp destination must not be same as current system"
+				SignalBus.changePopMessage.emit(error_message)
+				return
+			else:
+				galaxy_warp_out()
+	else: print("No target system selected")
 
 
 func galaxy_warp_out() -> void:

@@ -26,7 +26,7 @@ var target_system_data: SystemData # Set by galaxy map scene upon system selecti
 func _ready() -> void:
 	#TODO: Remove force volume mute
 	var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
-	AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(0.0))
+	#AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(0.0))
 
 	_connect_signals()
 	
@@ -86,6 +86,7 @@ func change_system(new_system_data: SystemData) -> void:
 	#print("changing to system: %s" % new_system_data.system_name)
 
 	SignalBus.system_changed.emit(new_system_data)
+	AudioManager.play_music(false, new_system_data.faction)
 
 
 func cleanup_old_system() -> void:

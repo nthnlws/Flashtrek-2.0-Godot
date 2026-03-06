@@ -65,14 +65,13 @@ func _gui_input(event: InputEvent) -> void:
 			if is_point_in_collision_shape(clicked_position, area_child):
 				get_viewport().set_input_as_handled()
 				update_map_destination(area, area.system_data)
-				SignalBus.UIclickSound.emit()
+				AudioManager.play_UI_click_sound()
 				return
 
 
 func update_current_system(system_data: SystemData) -> void:
 	# Update warp path
 	var current_id = system_data.system_index
-	var target_id = system_data.system_index
 	update_map_destination(_find_node_by_system_id(current_id), system_data) # Update path selection to current system
 	var system_name = system_data.system_name
 	# Set text message
@@ -173,14 +172,14 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 
 func _on_close_menu_button_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	Menus.toggle_menu(self , 0)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 
 
 func _on_warp_button_pressed() -> void:
-	SignalBus.UIclickSound.emit()
+	AudioManager.play_UI_click_sound()
 	SignalBus.TopLeft_clicked.emit()
 	visible = false
 

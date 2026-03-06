@@ -34,7 +34,7 @@ func _connect_signals() -> void:
 
 func _handle_button_click(button_name: String) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-		SignalBus.UIclickSound.emit()
+		AudioManager.play_UI_click_sound()
 		var signal_name: String = button_name + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)

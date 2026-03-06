@@ -6,6 +6,7 @@ signal drain_energy(amount:float)
 @onready var animation: AnimatedSprite2D = $explosion_animation
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var hit_sound: AudioStreamPlayer2D = $torpedo_hit
+@onready var torpedo_fire: AudioStreamPlayer2D = $torpedo_fire
 
 @export var speed:int = 1000
 @export var energy_drain:float = 10.0
@@ -26,6 +27,9 @@ var damage:float = 15.0
 var world_border:int = 20000
 
 func _ready() -> void:
+	torpedo_fire.pitch_scale = randf_range(0.95, 1.05)
+	torpedo_fire.play()
+	
 	area_entered.connect(_on_torpedo_collision)
 	z_index = Utility.Z["Weapons"]
 	

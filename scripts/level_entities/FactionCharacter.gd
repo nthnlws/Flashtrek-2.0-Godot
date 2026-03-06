@@ -155,7 +155,6 @@ func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> vo
 
 func instantiate_bullet(bullet: Area2D) -> void:
 		get_parent().add_child(bullet)
-		%LightTorpedo.play()
 		await get_tree().create_timer(fire_rate).timeout
 		shoot_cd = false
 

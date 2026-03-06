@@ -9,19 +9,18 @@
 [ext_resource type="PackedScene" uid="uid://b21k0tygx1d0h" path="res://scenes/components/entities/damage_handler_component.tscn" id="5_vaax2"]
 [ext_resource type="Script" uid="uid://bs5wcpkvhwkeq" path="res://scripts/level_entities/energy_component.gd" id="5_wda1y"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
-[ext_resource type="AudioStream" uid="uid://bpgj4l0ja8ua" path="res://assets/audio/warp_off.ogg" id="6_c035k"]
-[ext_resource type="AudioStream" uid="uid://n4xp0acsyiaj" path="res://assets/audio/warp_on.ogg" id="6_ihea4"]
+[ext_resource type="AudioStream" uid="uid://bxs2xyh6g2vnb" path="res://assets/audio/effects/warp_off.ogg" id="6_c035k"]
+[ext_resource type="AudioStream" uid="uid://106cq4nsaxy8" path="res://assets/audio/effects/warp_on.ogg" id="6_ihea4"]
 [ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="7_7pmes"]
-[ext_resource type="AudioStream" uid="uid://dbmkhj2s41sr2" path="res://assets/audio/ship_idle.ogg" id="7_8rbfi"]
+[ext_resource type="AudioStream" uid="uid://dy23em8ausssl" path="res://assets/audio/ambience/ship_idle.ogg" id="7_8rbfi"]
 [ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="10_rue2e"]
 [ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/characters/hull_damage_receiver.gd" id="11_2mpn1"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
-[ext_resource type="AudioStream" uid="uid://ckky6ej2wn5oc" path="res://assets/audio/weapons/torpedo_light.ogg" id="12_4w7or"]
-[ext_resource type="AudioStream" uid="uid://0oa411kw2o1a" path="res://assets/audio/weapons/torpedo_heavy.ogg" id="13_b4xtu"]
-[ext_resource type="AudioStream" uid="uid://ns0cjj8n37hn" path="res://assets/audio/smallexplosion3.ogg" id="13_klvb2"]
+[ext_resource type="AudioStream" uid="uid://7rrkoi7lyhl8" path="res://assets/audio/effects/torpedo_light.ogg" id="12_4w7or"]
+[ext_resource type="AudioStream" uid="uid://8q5c25ij7dt0" path="res://assets/audio/effects/smallexplosion3.ogg" id="13_klvb2"]
 [ext_resource type="PackedScene" uid="uid://dl1t2pm0xwqsn" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
-[ext_resource type="AudioStream" uid="uid://dq11kuumua3bu" path="res://assets/audio/galaxy_warp_UP.ogg" id="16_hjmq1"]
-[ext_resource type="AudioStream" uid="uid://w1mbhrv11vbo" path="res://assets/audio/warp_boom.ogg" id="17_e8fxd"]
+[ext_resource type="AudioStream" uid="uid://yrcvjrhot45k" path="res://assets/audio/effects/galaxy_warp_UP.ogg" id="16_hjmq1"]
+[ext_resource type="AudioStream" uid="uid://x7f3bcrhvsvq" path="res://assets/audio/effects/warp_boom.ogg" id="17_e8fxd"]
 [ext_resource type="PackedScene" uid="uid://dbypet2yfve00" path="res://scenes/level_entities/tractor_beam.tscn" id="21_rue2e"]
 
 [sub_resource type="Curve" id="Curve_p5fwl"]
@@ -354,18 +353,15 @@ libraries/ = SubResource("AnimationLibrary_gd61k")
 [node name="overdrive_on" type="AudioStreamPlayer2D" parent="Audio" unique_id=1517922782]
 unique_name_in_owner = true
 stream = ExtResource("6_ihea4")
-volume_db = -14.0
 pitch_scale = 0.7
 
 [node name="overdrive_off" type="AudioStreamPlayer2D" parent="Audio" unique_id=1725671711]
 unique_name_in_owner = true
 stream = ExtResource("6_c035k")
-volume_db = -15.0
 
 [node name="ship_idle" type="AudioStreamPlayer2D" parent="Audio" unique_id=1541820591]
 unique_name_in_owner = true
 stream = ExtResource("7_8rbfi")
-volume_db = -25.0
 
 [node name="PlayerDieSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=505424860]
 unique_name_in_owner = true
@@ -374,13 +370,6 @@ stream = ExtResource("13_klvb2")
 [node name="LightTorpedo" type="AudioStreamPlayer2D" parent="Audio" unique_id=828448753]
 unique_name_in_owner = true
 stream = ExtResource("12_4w7or")
-volume_db = -10.0
-
-[node name="HeavyTorpedo" type="AudioStreamPlayer" parent="Audio" unique_id=963446286]
-unique_name_in_owner = true
-stream = ExtResource("13_b4xtu")
-volume_db = -16.0
-pitch_scale = 1.09
 
 [node name="Galaxy_warp" type="AudioStreamPlayer" parent="Audio" unique_id=2118782552]
 unique_name_in_owner = true
@@ -389,7 +378,6 @@ stream = ExtResource("16_hjmq1")
 [node name="warp_boom" type="AudioStreamPlayer" parent="Audio" unique_id=92084462]
 unique_name_in_owner = true
 stream = ExtResource("17_e8fxd")
-volume_db = -7.0
 
 [node name="Projectiles" type="Node" parent="." unique_id=2124802535]
 

@@ -27,8 +27,8 @@ var Z: Dictionary[String, int] = { # Z Indexes for level objects
 var player_name: String = "USS Enterprise"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
-enum FACTION {FEDERATION, KLINGON, ROMULAN, NEUTRAL}
-enum GAMESTATE {SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE}
+enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
+enum GAMESTATE { SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE }
 var current_gamestate: GAMESTATE = GAMESTATE.MAINMENU
 var _is_quitting: bool = false
 var dev_mode_enabled: bool = false
