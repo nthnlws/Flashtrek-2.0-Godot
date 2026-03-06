@@ -394,15 +394,16 @@ func respawn() -> void:
 		
 		rotation = deg_to_rad(-90.0) # Sets rotation to up
 		
-		shield.turnShieldOn()
+		if shield:
+			shield.turnShieldOn()
 		health_component.regenTimeout = false
 
 
 func teleport(new_position: Vector2) -> void: # Uses coords from cheat menu to teleport player
-	global_position = new_position
-	velocity = Vector2(0, 0)
 	if overdrive_active == true:
 		overdrive_state_change("INSTANT")
+	global_position = new_position
+	velocity = Vector2(0, 0)
 
 
 #Audio functions

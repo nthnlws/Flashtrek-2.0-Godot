@@ -137,7 +137,7 @@ system_index = 101
 position = Vector2(-289, -77)
 system_index = 1
 
-[node name="SystemLabel" parent="Systems/1" index="2"]
+[node name="SystemLabel" parent="Systems/1" index="2" unique_id=1889627152]
 offset_left = -24.0
 offset_top = 9.999998
 offset_right = 14.0
@@ -183,7 +183,7 @@ system_index = 10
 position = Vector2(9, 176)
 system_index = 11
 
-[node name="SystemLabel" parent="Systems/11" index="2"]
+[node name="SystemLabel" parent="Systems/11" index="2" unique_id=1889627152]
 offset_left = -23.5
 offset_top = 11.645834
 offset_right = 14.5
@@ -201,7 +201,7 @@ system_index = 13
 position = Vector2(84, 60)
 system_index = 14
 
-[node name="SystemLabel" parent="Systems/14" index="2"]
+[node name="SystemLabel" parent="Systems/14" index="2" unique_id=1889627152]
 offset_left = -23.5
 offset_top = 11.645834
 offset_right = 14.5
@@ -219,7 +219,7 @@ system_index = 16
 position = Vector2(159, -108)
 system_index = 17
 
-[node name="SystemLabel" parent="Systems/17" index="2"]
+[node name="SystemLabel" parent="Systems/17" index="2" unique_id=1889627152]
 offset_left = -23.5
 offset_top = 12.645834
 offset_right = 14.5
@@ -273,7 +273,7 @@ system_index = 28
 position = Vector2(482, 295)
 system_index = 29
 
-[node name="SystemLabel" parent="Systems/29" index="2"]
+[node name="SystemLabel" parent="Systems/29" index="2" unique_id=1889627152]
 offset_left = -23.5
 offset_top = 12.645834
 offset_right = 14.5

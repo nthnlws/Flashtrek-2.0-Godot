@@ -15,9 +15,6 @@ const MISSION_CHARACTER: PackedScene = preload("uid://c0vl8rhh5rl22")
 const PLAYER: PackedScene = preload("uid://1wnfmblulhx0")
 const upgrade_item: PackedScene = preload("uid://berjp6uasq671")
 
-var system_data: SystemData
-var target_system_data: SystemData # Set by galaxy map scene upon system selection
-
 @onready var pickup_folder: Node = $item_pickups
 @onready var level_folder: Node = $level_objects
 @onready var ship_folder: Node = $ship_folder
@@ -31,7 +28,7 @@ func _ready() -> void:
 	_connect_signals()
 	
 	var default_system: SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
-	system_data = default_system
+	LevelManager.current_system_data = default_system
 	change_system(default_system)
 	spawn_player()
 	
@@ -49,19 +46,19 @@ func _connect_signals() -> void:
 
 
 func _build_components() -> void:
-	for type:SystemData.SystemComponentType in system_data.active_components.keys():
-		if system_data.component_map.has(type):
-			var component_scene: PackedScene = system_data.component_map[type]
+	for type:SystemData.SystemComponentType in LevelManager.current_system_data.active_components.keys():
+		if LevelManager.current_system_data.component_map.has(type):
+			var component_scene: PackedScene = LevelManager.current_system_data.component_map[type]
 			var component_instance: SystemComponent = component_scene.instantiate() as SystemComponent
 			
 			# Component life cycle follows parent planet
 			component_folder.add_child(component_instance)
 			
 			# Initialize with data and planet reference
-			var mission_data:MissionData = system_data.active_components.get(type)
-			component_instance.initialize_component(system_data, mission_data)
+			var mission_data:MissionData = LevelManager.current_system_data.active_components.get(type)
+			component_instance.initialize_component(LevelManager.current_system_data, mission_data)
 			
-			print("System %s: Spawned component %s" % [system_data.system_name, SystemData.SystemComponentType.keys()[type]])
+			print("System %s: Spawned component %s" % [LevelManager.current_system_data.system_name, SystemData.SystemComponentType.keys()[type]])
 		else: printerr("No component type %s found in SystemData component_map dict" % SystemData.SystemComponentType.keys()[type])
 
 
@@ -73,7 +70,7 @@ func spawn_player() -> void:
 
 
 func change_system(new_system_data: SystemData) -> void:
-	system_data = new_system_data
+	LevelManager.current_system_data = new_system_data
 	cleanup_old_system()
 	
 	instantiate_new_system_nodes()
@@ -152,24 +149,24 @@ func instantiate_faction_ship(ship_data: FactionShipData) -> FactionCharacter:
 
 
 func instantiate_NPC_ships() -> void:
-	for i: int in range(system_data.enemy_list.size()):
-		var new_faction: FactionCharacter = instantiate_faction_ship(system_data.enemy_list[i])
+	for i: int in range(LevelManager.current_system_data.enemy_list.size()):
+		var new_faction: FactionCharacter = instantiate_faction_ship(LevelManager.current_system_data.enemy_list[i])
 		ship_folder.add_child(new_faction)
 		LevelManager.factionShips.append(new_faction)
 	
-	for i: int in range(system_data.neutral_list.size()):
-		var new_neutral: NeutralCharacter = instantiate_neutral_ship(system_data.neutral_list[i])
+	for i: int in range(LevelManager.current_system_data.neutral_list.size()):
+		var new_neutral: NeutralCharacter = instantiate_neutral_ship(LevelManager.current_system_data.neutral_list[i])
 		ship_folder.add_child(new_neutral)
 		LevelManager.neutralShips.append(new_neutral)
 
 
 func sync_ships_to_data() -> void:
-	if (LevelManager.neutralShips.size() != system_data.neutral_list.size()
-		or LevelManager.factionShips.size() != system_data.enemy_list.size()):
+	if (LevelManager.neutralShips.size() != LevelManager.current_system_data.neutral_list.size()
+		or LevelManager.factionShips.size() != LevelManager.current_system_data.enemy_list.size()):
 			printerr("Data size and spawned ship size mismatch, check LevelManager data")
 	# Neutral Ships
 	for i: int in range(LevelManager.neutralShips.size()):
-		var data: NeutralShipData = system_data.neutral_list[i]
+		var data: NeutralShipData = LevelManager.current_system_data.neutral_list[i]
 		var ship: NeutralCharacter = LevelManager.neutralShips[i]
 		ship.global_position = data.world_position
 		ship.health_component.hp_current = data.current_hp
@@ -181,7 +178,7 @@ func sync_ships_to_data() -> void:
 	
 	# Faction Ships
 	for i: int in range(LevelManager.factionShips.size()):
-		var data: FactionShipData = system_data.enemy_list[i]
+		var data: FactionShipData = LevelManager.current_system_data.enemy_list[i]
 		var ship: FactionCharacter = LevelManager.factionShips[i]
 		ship.global_position = data.world_position
 		ship.health_component.hp_current = data.current_hp
@@ -193,13 +190,13 @@ func sync_ships_to_data() -> void:
 
 
 func sync_sun_to_data() -> void:
-	LevelManager.sun.global_position = system_data.sun_data.world_position
-	LevelManager.sun.set_frame(system_data.sun_data.frame)
+	LevelManager.sun.global_position = LevelManager.current_system_data.sun_data.world_position
+	LevelManager.sun.set_frame(LevelManager.current_system_data.sun_data.frame)
 
 
 func save_ship_data() -> void:
-	var neutral_data: Array[NeutralShipData] = system_data.neutral_list
-	var enemy_data: Array[FactionShipData] = system_data.enemy_list
+	var neutral_data: Array[NeutralShipData] = LevelManager.current_system_data.neutral_list
+	var enemy_data: Array[FactionShipData] = LevelManager.current_system_data.enemy_list
 	
 	if (neutral_data.size() != LevelManager.neutralShips.size() or enemy_data.size() != LevelManager.factionShips.size()):
 		printerr("Array size mismatch between SystemData and LevelManager ship arrays.")
@@ -223,7 +220,7 @@ func save_ship_data() -> void:
 		data.current_sp = ship.health_component.sp_current
 		data.shield_state = ship.shield.shieldActive
 		
-	system_data_updated.emit(system_data)
+	system_data_updated.emit(LevelManager.current_system_data)
 
 
 func instantiate_new_system_nodes() -> void:
@@ -244,9 +241,9 @@ func instantiate_new_system_nodes() -> void:
 	level_folder.add_child(init_spawn)
 	LevelManager.spawn_options.append(init_spawn)
 	
-	for i: int in system_data.planet_data.size(): # Spawn required planets
+	for i: int in LevelManager.current_system_data.planet_data.size(): # Spawn required planets
 		var init_planet: Node2D = PLANET.instantiate()
-		init_planet.planet_data = system_data.planet_data[i]
+		init_planet.planet_data = LevelManager.current_system_data.planet_data[i]
 		level_folder.add_child(init_planet)
 		LevelManager.planets.append(init_planet)
 	
@@ -259,11 +256,11 @@ func get_spawn_position() -> Vector2:
 
 func remove_faction_ship_data(ship: FactionCharacter) -> void:
 	LevelManager.factionShips.erase(ship)
-	system_data.remove_faction_ship_data(ship.ship_index)
+	LevelManager.current_system_data.remove_faction_ship_data(ship.ship_index)
 
 func remove_neutral_ship_data(ship: NeutralCharacter) -> void:
 	LevelManager.neutralShips.erase(ship)
-	system_data.remove_neutral_ship_data(ship.ship_index)
+	LevelManager.current_system_data.remove_neutral_ship_data(ship.ship_index)
 
 
 func spawn_faction_ship(ship_type: Utility.SHIP_TYPES) -> void:
@@ -274,12 +271,12 @@ func spawn_faction_ship(ship_type: Utility.SHIP_TYPES) -> void:
 	LevelManager.ship_folder.add_child(faction_ship)
 	
 	faction_ship.global_position = position
-	faction_ship.hp_max = faction_ship.hp_max * system_data.system_difficulty_mult
-	faction_ship.damage_mult = faction_ship.damage_mult * system_data.system_difficulty_mult
+	faction_ship.hp_max = faction_ship.hp_max * LevelManager.current_system_data.system_difficulty_mult
+	faction_ship.damage_mult = faction_ship.damage_mult * LevelManager.current_system_data.system_difficulty_mult
 	faction_ship.name = "ManualFactionShip"
 
 
-func spawn_loot(type: UpgradePickup.MODULE_TYPES, position: Vector2, number: int) -> void:
+func spawn_loot(type: UpgradePickup.MODULE_TYPES, position: Vector2, number: int = 1) -> void:
 	for i in number:
 		var new_drop: UpgradePickup = upgrade_item.instantiate()
 		new_drop.global_position = position

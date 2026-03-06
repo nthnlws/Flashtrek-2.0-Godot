@@ -2,10 +2,10 @@ extends Control
 
 signal menu_closed
 
-const CORRIDOR_KLINGON_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_klingon_edited.png")
-const CORRIDOR_ROMULAN_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_romulan_edited.png")
-const CORRIDOR_FEDERATION_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_federation_edited.png")
-const CORRIDOR_NEUTRAL_EDITED = preload("res://assets/textures/UI/ship_upgrade_menu/corridor_neutral_edited.png")
+@export var CORRIDOR_KLINGON: Texture2D = preload("uid://cabdk1q27chx3")
+@export var CORRIDOR_ROMULAN = preload("uid://j3fi53qkphtu")
+@export var CORRIDOR_FEDERATION = preload("uid://cxp0gxn468sms")
+@export var CORRIDOR_NEUTRAL = preload("uid://d0ps0nwg5gyfd")
 
 @onready var background: TextureRect = $corridor_background
 
@@ -59,15 +59,16 @@ func _on_close_menu_button_pressed() -> void:
 
 func set_background(ship_index: Utility.SHIP_TYPES) -> void:
 	var faction = Utility.get_faction_from_ship_type(ship_index)
+	print(Utility.FACTION.keys()[faction])
 	match faction:
 		Utility.FACTION.FEDERATION:
-			background.texture = CORRIDOR_FEDERATION_EDITED
+			background.texture = CORRIDOR_FEDERATION
 		Utility.FACTION.ROMULAN:
-			background.texture = CORRIDOR_ROMULAN_EDITED
+			background.texture = CORRIDOR_ROMULAN
 		Utility.FACTION.KLINGON:
-			background.texture = CORRIDOR_KLINGON_EDITED
+			background.texture = CORRIDOR_KLINGON
 		Utility.FACTION.NEUTRAL:
-			background.texture = CORRIDOR_NEUTRAL_EDITED
+			background.texture = CORRIDOR_NEUTRAL
 
 
 func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b3ruu3xegfccq"]
 
 [ext_resource type="Script" uid="uid://b10kpbvc80uj7" path="res://scripts/menus_ui/ship_upgrade_menu.gd" id="1_3ib4j"]
-[ext_resource type="Texture2D" uid="uid://cabdk1q27chx3" path="res://assets/textures/UI/ship_upgrade_menu/corridor_klingon_edited.png" id="1_k4fhh"]
+[ext_resource type="Texture2D" uid="uid://d0ps0nwg5gyfd" path="res://assets/textures/UI/ship_upgrade_menu/corridor_neutral_edited.png" id="2_gjb5m"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="2_x0k55"]
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="3_3ib4j"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="3_ir0yc"]
@@ -28,7 +28,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_k4fhh")
+texture = ExtResource("2_gjb5m")
 expand_mode = 1
 
 [node name="left_panel" type="ColorRect" parent="." unique_id=41861352]

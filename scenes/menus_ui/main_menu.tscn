@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://1bhxgiy8k5tl" path="res://scenes/menus_ui/scrolling_text.tscn" id="8_86ijy"]
 [ext_resource type="PackedScene" uid="uid://cqst2wt0kvivm" path="res://scenes/menus_ui/credits.tscn" id="8_huiy3"]
 [ext_resource type="PackedScene" uid="uid://broy1rurxqfwa" path="res://scenes/menus_ui/3D_main_menu_viewport.tscn" id="10_86ijy"]
-[ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/menus_ui/audio_manager.tscn" id="10_j785f"]
+[ext_resource type="PackedScene" uid="uid://3sl8g3mtc08a" path="res://scenes/autoload/audio_manager.tscn" id="10_j785f"]
 [ext_resource type="PackedScene" uid="uid://ckwiesp0r55hy" path="res://scenes/menus_ui/LCARS_popup.tscn" id="10_sii2t"]
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/settings_menu.tscn" id="12_sii2t"]
 

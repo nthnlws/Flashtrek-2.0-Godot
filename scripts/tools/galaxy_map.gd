@@ -70,6 +70,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func update_current_system(system_data: SystemData) -> void:
+	#print('updating galaxy map current system to %s' % system_data.system_name)
 	# Update warp path
 	var current_id = system_data.system_index
 	update_map_destination(_find_node_by_system_id(current_id), system_data) # Update path selection to current system
