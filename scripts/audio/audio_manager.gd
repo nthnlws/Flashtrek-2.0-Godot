@@ -79,3 +79,9 @@ func fade_music_out() -> void:
 func stop_music() -> void:
 	if current_music_player.is_playing():
 		current_music_player.stop()
+
+
+func update_bus_volume(bus_idx: int, value: float) -> void:
+	# Convert linear slider to Decibels
+	var db_val: float = linear_to_db(value)
+	AudioServer.set_bus_volume_db(bus_idx, db_val)

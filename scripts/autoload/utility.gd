@@ -236,12 +236,6 @@ func create_custom_tween(node: Node, property: String, final_val, duration: floa
 	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))
 
 
-func update_bus_volume(bus_idx: int, value: float) -> void:
-	# Convert linear slider to Decibels
-	var db_val: float = linear_to_db(value)
-	AudioServer.set_bus_volume_db(bus_idx, db_val)
-
-
 
 # This function finds the closest point on the surface of a body's shapes to a given global point.
 static func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:

@@ -22,10 +22,10 @@ func _apply_menu_settings() -> void:
 	DisplayServer.window_set_vsync_mode(current_settings.vsync_setting)
 	
 	# Apply Audio
-	Utility.update_bus_volume(Utility.AUDIO_BUS.MASTER, current_settings.master_volume)
-	Utility.update_bus_volume(Utility.AUDIO_BUS.MUSIC, current_settings.music_volume)
-	Utility.update_bus_volume(Utility.AUDIO_BUS.EFFECTS, current_settings.effects_volume)
-	Utility.update_bus_volume(Utility.AUDIO_BUS.MENUS, current_settings.menus_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, current_settings.master_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MUSIC, current_settings.music_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.EFFECTS, current_settings.effects_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MENUS, current_settings.menus_volume)
 
 
 func _load_menu_settings() -> void:

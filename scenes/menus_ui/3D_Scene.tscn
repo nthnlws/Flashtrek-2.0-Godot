@@ -58,13 +58,13 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 curve = SubResource("Curve3D_t25wy")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1255719048]
-transform = Transform3D(0.10522824, -0.010558025, -0.994384, 0.099833205, 0.9949998, -5.58789e-09, 0.98942196, -0.09927313, 0.10575596, 1.716, 0, -2.617)
+transform = Transform3D(0.10522824, -0.010558024, -0.994384, 0.099833205, 0.99499977, -5.58789e-09, 0.98942196, -0.09927312, 0.10575596, 1.716, 0, -2.617)
 script = ExtResource("3_vjixd")
 path = 1
 
 [node name="Ent_Kelvin" parent="Path3D/PathFollow3D" unique_id=1493520529 instance=ExtResource("4_voq5a")]
 unique_name_in_owner = true
-transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622, -0.999992, 7.31051e-05, -0.00523541, 4.61299, -0.462843, -12.1905)
+transform = Transform3D(-0.00523596, -0.013962, 0.999887, 0, 0.999904, 0.0139622, -0.999992, 7.31051e-05, -0.00523541, 4.613, -200, -12.191)
 
 [node name="engineSound" type="AudioStreamPlayer" parent="Path3D/PathFollow3D" unique_id=548099029]
 unique_name_in_owner = true

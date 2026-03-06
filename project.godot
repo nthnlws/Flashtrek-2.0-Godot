@@ -19,6 +19,10 @@ boot_splash/show_image=false
 config/icon="res://assets/icons/icon_256.png"
 config/windows_native_icon="res://assets/icons/icon_256.ico"
 
+[audio]
+
+buses/default_bus_layout="uid://5ks7wglc8ka3"
+
 [autoload]
 
 Console="*uid://ouiu5xh1cs8n"

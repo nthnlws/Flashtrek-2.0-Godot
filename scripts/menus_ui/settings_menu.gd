@@ -12,19 +12,19 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_master_slider_value_changed(value: float) -> void:
-	Utility.update_bus_volume(Utility.AUDIO_BUS.MASTER, value)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, value)
 	SaveManager.current_settings.master_volume = value
 
 func _on_effects_volume_changed(value: float) -> void:
-	Utility.update_bus_volume(Utility.AUDIO_BUS.EFFECTS, value)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.EFFECTS, value)
 	SaveManager.current_settings.effects_volume = value
 
 func _on_music_volume_changed(value: float) -> void:
-	Utility.update_bus_volume(Utility.AUDIO_BUS.MUSIC, value)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MUSIC, value)
 	SaveManager.current_settings.music_volume = value
 
 func _on_menu_volume_changed(value: float) -> void:
-	Utility.update_bus_volume(Utility.AUDIO_BUS.MENUS, value)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MENUS, value)
 	SaveManager.current_settings.menus_volume = value
 
 
