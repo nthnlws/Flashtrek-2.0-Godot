@@ -32,7 +32,6 @@ func update_faction_colors(new_faction:Utility.FACTION) -> void:
 
 
 func update_reputation(faction:Utility.FACTION, new_value:float) -> void:
-	print("updating %s faction value in ship upgrade menu to %s" % [Utility.FACTION.keys()[faction], new_value])
 	var label_text:String = str(roundi(new_value))
 	if is_zero_approx(new_value):
 		label_text = "0.0"
@@ -58,6 +57,7 @@ func _on_close_menu_button_pressed() -> void:
 
 
 func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: Dictionary) -> void:
+	#print("ship type set to %s in upgrade menu" % Utility.SHIP_TYPES.keys()[ship_type])
 	set_background(ship_type)
 	
 	%ship_name.text = "Ship Name: %s" % Utility.SHIP_TYPES.keys()[ship_type].replace("_", " ")

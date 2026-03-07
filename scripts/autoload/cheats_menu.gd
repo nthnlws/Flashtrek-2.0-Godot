@@ -65,7 +65,7 @@ func add_score(faction: String, number: String) -> void:
 	var score:int = int(number)
 	if faction.to_lower() == "fed" or faction.to_lower() == "federation":
 		SignalBus.reputation_change_triggered.emit(Utility.FACTION.FEDERATION, score)
-	if faction.to_lower() == "kling" or faction.to_lower() == "klingon":
+	if faction.to_lower() == "kling" or faction.to_lower() == "klingon" or faction.to_lower() == "klin":
 		SignalBus.reputation_change_triggered.emit(Utility.FACTION.KLINGON, score)
 	if faction.to_lower() == "rom" or faction.to_lower() == "romulan":
 		SignalBus.reputation_change_triggered.emit(Utility.FACTION.ROMULAN, score)

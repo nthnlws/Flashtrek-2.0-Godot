@@ -18,8 +18,24 @@ func _init() -> void:
 	SignalBus.reputation_change_triggered.connect(_handle_reputation_change)
 
 
+func get_reputation(faction: Utility.FACTION) -> float:
+		if faction == Utility.FACTION.FEDERATION:
+			return FederationRep
+		elif faction == Utility.FACTION.KLINGON:
+			return KlingonRep
+		elif faction == Utility.FACTION.ROMULAN:
+			return RomulanRep
+		else: return NeutralRep
+
+
+func update_all_scores() -> void:
+	reputation_total_changed.emit(Utility.FACTION.FEDERATION, FederationRep)
+	reputation_total_changed.emit(Utility.FACTION.KLINGON, KlingonRep)
+	reputation_total_changed.emit(Utility.FACTION.ROMULAN, RomulanRep)
+
+
 func _handle_reputation_change(faction: Utility.FACTION, changed_amount: float) -> void:
-	print("new rep: %s for faction %s" % [changed_amount, faction])
+	#print("new rep: %s for faction %s" % [changed_amount, faction])
 	match faction:
 		Utility.FACTION.FEDERATION:
 			FederationRep = FederationRep + changed_amount

@@ -94,6 +94,7 @@ offset_left = -292.0
 offset_top = -194.00003
 offset_right = 434.24988
 offset_bottom = -7.75
+grow_horizontal = 2
 grow_vertical = 0
 
 [node name="ComponentDebugPanel" type="Panel" parent="." unique_id=110746639]

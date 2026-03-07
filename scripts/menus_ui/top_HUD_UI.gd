@@ -24,6 +24,8 @@ func _ready() -> void:
 		position = HIDDEN_POS
 	
 	mission_text.text = "Mission:"
+	
+	sync_faction_scores()
 
 
 func _input(event: InputEvent) -> void:
@@ -35,6 +37,11 @@ func _input(event: InputEvent) -> void:
 			else:
 				showing = true
 				tween_menu(SHOWN_POS)
+
+func sync_faction_scores() -> void:
+	_update_faction_score(Utility.FACTION.FEDERATION, MissionManager.Reputation.FederationRep, false)
+	_update_faction_score(Utility.FACTION.KLINGON, MissionManager.Reputation.KlingonRep, false)
+	_update_faction_score(Utility.FACTION.ROMULAN, MissionManager.Reputation.RomulanRep, false)
 
 
 func _clear_mission_text() -> void:
@@ -106,17 +113,22 @@ func _update_mission_text(mission_data:MissionData) -> void:
 	mission_text.text = formatted_text
 
 
-func _update_faction_score(faction:Utility.FACTION, score:int) -> void:
+func _update_faction_score(faction:Utility.FACTION, score:int, shake:bool = true) -> void:
+	if score == 0: return
+	#print("updating HUD score - %s - %s" % [Utility.FACTION.keys()[faction], str(score)])
 	match faction:
 		Utility.FACTION.FEDERATION:
 			fed_score.text = str(score)
-			fed_score.get_child(0).trigger_shake(true if score > 0 else false)
+			if shake:
+				fed_score.get_child(0).trigger_shake(true if score > 0 else false)
 		Utility.FACTION.KLINGON:
 			klingon_score.text = str(score)
-			klingon_score.get_child(0).trigger_shake(true if score > 0 else false)
+			if shake:
+				klingon_score.get_child(0).trigger_shake(true if score > 0 else false)
 		Utility.FACTION.ROMULAN:
 			rom_score.text = str(score)
-			rom_score.get_child(0).trigger_shake(true if score > 0 else false)
+			if shake:
+				rom_score.get_child(0).trigger_shake(true if score > 0 else false)
 
 
 func tween_menu(target_position:Vector2) -> void: # Collapse mission menu

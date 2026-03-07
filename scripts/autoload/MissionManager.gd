@@ -15,6 +15,9 @@ var pending_mission: MissionData = null
 enum STATE {active_mission, pending_mission, no_mission}
 var current_state: STATE = STATE.no_mission
 
+func replace_reputation_resource(new_rep: PlayerReputation) -> void:
+	Reputation = new_rep
+
 
 # Leave arguments blank to generate a random mission
 func generate_mission(random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE) -> void:

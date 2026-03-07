@@ -3,11 +3,6 @@ extends Control
 @onready var ambience: AudioStreamPlayer = $ambience
 @onready var frames: Array[ShipSelector] = []
 
-var FederationRep: float = 0.0
-var KlingonRep: float = 0.0
-var RomulanRep: float = 0.0
-var NeutralRep: float = 0.0
-
 signal menu_closed
 
 @export var federation_unlocks: Array[Utility.SHIP_TYPES]
@@ -15,14 +10,25 @@ signal menu_closed
 @export var romulan_unlocks: Array[Utility.SHIP_TYPES]
 @export var neutral_unlocks: Array[Utility.SHIP_TYPES]
 
-const SHIP_SELECTOR = preload("uid://djjxdvhjd147f")
+const SHIP_SELECTOR: PackedScene = preload("uid://djjxdvhjd147f")
 
 var _scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, Dictionary] = {}
 
 func _ready() -> void:
-	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_reputations)
+	MissionManager.Reputation.reputation_total_changed.connect(_update_ship_unlocks)
 	
 	update_selection_grid()
+	update_all_faction_unlocks()
+	call_deferred("emit_deferred") # Update starting ship type after Upgrade Menu is ready
+
+func emit_deferred() -> void:
+	SignalBus.player_type_changed.emit(Utility.starting_ship, _scaled_ship_stats.get(Utility.starting_ship))
+
+func update_all_faction_unlocks() -> void:
+	_update_ship_unlocks(Utility.FACTION.FEDERATION, MissionManager.Reputation.FederationRep)
+	_update_ship_unlocks(Utility.FACTION.KLINGON, MissionManager.Reputation.KlingonRep)
+	_update_ship_unlocks(Utility.FACTION.ROMULAN, MissionManager.Reputation.RomulanRep)
+	_update_ship_unlocks(Utility.FACTION.NEUTRAL, MissionManager.Reputation.NeutralRep)
 
 
 func update_selection_grid() -> void:
@@ -40,6 +46,7 @@ func update_selection_grid() -> void:
 		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.FEDERATION, unlock_cost)
 		%FederationGrid.add_child(frame)
+		frames.append(frame)
 	for i: int in range(klingon_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = klingon_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, klingon_unlocks.size())
@@ -48,6 +55,7 @@ func update_selection_grid() -> void:
 		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.KLINGON, unlock_cost)
 		%KlingonGrid.add_child(frame)
+		frames.append(frame)
 	for i: int in range(romulan_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = romulan_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, romulan_unlocks.size())
@@ -56,6 +64,7 @@ func update_selection_grid() -> void:
 		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.ROMULAN, unlock_cost)
 		%RomulanGrid.add_child(frame)
+		frames.append(frame)
 	for i: int in range(neutral_unlocks.size()):
 		var ship_type: Utility.SHIP_TYPES = neutral_unlocks[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, neutral_unlocks.size())
@@ -64,6 +73,7 @@ func update_selection_grid() -> void:
 		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.NEUTRAL, unlock_cost)
 		%NeutralGrid.add_child(frame)
+		frames.append(frame)
 
 
 func update_ship_stats(selected_ship: ShipSelector) -> void:
@@ -86,7 +96,7 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 		_:                          faction_color = Utility.UI_ship_lime
 	%faction.text = "Faction: " + faction_color + str(Utility.FACTION.keys()[faction]).to_pascal_case()
 
-	var my_rep: float = _get_reputation(faction)
+	var my_rep: float = MissionManager.Reputation.get_reputation(faction)
 	var req_rep: int = selected_ship.unlock_price
 
 	if req_rep == 0:
@@ -120,57 +130,12 @@ func create_frame(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unloc
 	frame.icon_hovered.connect(update_ship_stats)
 	return frame
 
-func _update_faction_reputations(faction: Utility.FACTION, new_score: float) -> void:
-	match faction:
-		Utility.FACTION.FEDERATION:
-			FederationRep = new_score
-			_update_ship_unlocks(Utility.FACTION.FEDERATION, FederationRep)
-		Utility.FACTION.KLINGON:
-			KlingonRep = new_score
-			_update_ship_unlocks(Utility.FACTION.KLINGON, KlingonRep)
-		Utility.FACTION.ROMULAN:
-			RomulanRep = new_score
-			_update_ship_unlocks(Utility.FACTION.ROMULAN, RomulanRep)
-		Utility.FACTION.NEUTRAL:
-			NeutralRep = new_score
-			_update_ship_unlocks(Utility.FACTION.NEUTRAL, NeutralRep)
-		_:
-			push_error("Trying to update unknown faction in ship selection menu")
 
-
-func _update_ship_unlocks(faction: Utility.FACTION, _new_score: float) -> void:
-	#print("new rep: %s for faction %s" % [_new_score, faction])
-	match faction:
-		Utility.FACTION.FEDERATION:
-			for frame: ShipSelector in frames:
-				if frame.ship_faction == Utility.FACTION.FEDERATION and federation_unlocks.has(frame.current_ship_type):
-					if FederationRep >= federation_unlocks[frame.current_ship_type]:
-						#print('ungreying fed frame: %s' % frame.name)
-						frame.set_gray_out(false)
-					else:
-						#print('greying fed frame: %s' % frame.name)
-						frame.set_gray_out(true)
-		Utility.FACTION.KLINGON:
-			for frame: ShipSelector in frames:
-				if frame.ship_faction == Utility.FACTION.KLINGON and klingon_unlocks.has(frame.current_ship_type):
-					if KlingonRep >= klingon_unlocks[frame.current_ship_type]:
-						frame.set_gray_out(false)
-					else:
-						frame.set_gray_out(true)
-		Utility.FACTION.ROMULAN:
-			for frame: ShipSelector in frames:
-				if frame.ship_faction == Utility.FACTION.ROMULAN and romulan_unlocks.has(frame.current_ship_type):
-					if RomulanRep >= romulan_unlocks[frame.current_ship_type]:
-						frame.set_gray_out(false)
-					else:
-						frame.set_gray_out(true)
-		Utility.FACTION.NEUTRAL:
-			for frame: ShipSelector in frames:
-				if frame.ship_faction == Utility.FACTION.NEUTRAL and neutral_unlocks.has(frame.current_ship_type):
-					if NeutralRep >= neutral_unlocks[frame.current_ship_type]:
-						frame.set_gray_out(false)
-					else:
-						frame.set_gray_out(true)
+func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
+	#print('updating ship unlocks for %s' % Utility.FACTION.keys()[faction])
+	for frame: ShipSelector in frames:
+		if frame.ship_faction == faction:
+			frame.set_gray_out(new_score <= frame.unlock_price)
 
 
 func clear_stats() -> void:
@@ -188,23 +153,6 @@ func start_ambience() -> void:
 	ambience.play()
 	var tween: Tween = create_tween()
 	tween.tween_property(ambience, "volume_db", -20, 4.0)
-
-
-func _handle_menu_closed(type: Utility.SHIP_TYPES) -> void:
-	SignalBus.player_type_changed.emit(type)
-	self.visible = false
-	menu_closed.emit()
-	ambience.stop()
-	clear_stats()
-
-
-func _get_reputation(faction: Utility.FACTION) -> float:
-	match faction:
-		Utility.FACTION.FEDERATION: return FederationRep
-		Utility.FACTION.KLINGON:    return KlingonRep
-		Utility.FACTION.ROMULAN:    return RomulanRep
-		Utility.FACTION.NEUTRAL:    return NeutralRep
-		_:                          return 0.0
 
 
 func _on_ship_selected(ship_type: Utility.SHIP_TYPES) -> void:

@@ -64,14 +64,26 @@ func save_galaxy(slot: int, data: GalaxyData) -> bool:
 	if error != OK:
 		push_error("Failed to save game to slot %d. Error code: %s" % [slot, error])
 		return false
-		
-	var rep_path: String = SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
-	var rep_error: Error = ResourceSaver.save(MissionManager.Reputation, rep_path)
+	
+	var rep_error: Error = ResourceSaver.save(MissionManager.Reputation, get_rep_save_path(slot))
 	if rep_error != OK:
 		push_error("Failed to save player reputation to slot %d. Error code: %s" % [slot, rep_error])
 		
 	#print("Game successfully saved to slot %d" % slot)
 	return true
+
+func get_rep_save_path(slot: int) -> String:
+	return SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
+
+func load_reputation(slot: int) -> void:
+	var rep_path: String = get_rep_save_path(slot)
+	if not FileAccess.file_exists(rep_path):
+		return
+	var rep_data: Resource = ResourceLoader.load(rep_path)
+	if rep_data is PlayerReputation:
+		MissionManager.replace_reputation_resource(rep_data)
+	else:
+		push_error("Failed to cast resource to PlayerReputation for slot %d." % slot)
 
 
 func load_galaxy(slot: int) -> GalaxyData:
@@ -80,6 +92,7 @@ func load_galaxy(slot: int) -> GalaxyData:
 		return null
 		
 	var path: String = get_save_path(slot)
+	load_reputation(slot)
 	
 	if not FileAccess.file_exists(path):
 		push_warning("No save file found for slot %d" % slot)
@@ -114,6 +127,6 @@ func delete_save(slot: int) -> void:
 	var path: String = get_save_path(slot)
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(path)
-	var rep_path: String = SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
+	var rep_path: String = get_rep_save_path(slot)
 	if FileAccess.file_exists(rep_path):
 		DirAccess.remove_absolute(rep_path)
