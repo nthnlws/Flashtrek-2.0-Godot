@@ -4,11 +4,6 @@ extends Control
 @onready var texture_button_array: Array[Node] = get_tree().get_nodes_in_group("texture_buttons")
 @onready var animation_players: Array[Node] = get_tree().get_nodes_in_group("anims")
 
-var sound_array:Array[Node] = [] # Contains all nodes in group "click_sound"
-var sound_array_location:int = 0
-
-const HIGH:float = 2.0
-const LOW:float = 0.5
 
 func _input(event: InputEvent) -> void:
 	if get_tree().get_current_scene().name == "HUD_button" and event is InputEventKey:
@@ -17,16 +12,13 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	_connect_signals()
-	
-	sound_array = get_tree().get_nodes_in_group("click_sound")
-	sound_array.shuffle()
 
 
 func _connect_signals() -> void:
 	SignalBus.toggleQ2HUD.connect(_handle_beam_animation)
 	SignalBus.toggleQ3HUD.connect(_handle_hail_animation)
 	SignalBus.toggleQ4HUD.connect(_handle_dock_animation)
-	SignalBus.HUDchanged.connect(manual_scale)
+	SignalBus.HUDchanged.connect(change_scale)
 	
 	for button:TextButton in label_button_array:
 		button.button_pressed.connect(_handle_button_click.bind(button.name))
@@ -42,9 +34,9 @@ func _handle_button_click(button_name: String) -> void:
 		else: print("%s not found in SignalBus" % signal_name)
 
 
-func manual_scale(new_scale: float) -> void:
+func change_scale(new_scale: float) -> void:
 	var use: Vector2 = Vector2(new_scale, new_scale)
-	scale = use * Vector2(0.4, 0.4)
+	scale = use * Vector2(0.2, 0.2)
 
 
 func scale_HUD_button(new_scale: float) -> void: # Scales entire Control node, not used

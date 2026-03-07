@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
 [ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/HUD_button/Top Left.png" id="2_40wxk"]
 [ext_resource type="Texture2D" uid="uid://o5r7l0pyeqla" path="res://assets/textures/UI/HUD_button/Center.png" id="2_i1l8v"]
+[ext_resource type="Texture2D" uid="uid://bt1p5jtm8aw1l" path="res://assets/textures/UI/new_HUD/HUD_bottomPanel.svg" id="2_luur1"]
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="4_4n70s"]
 [ext_resource type="PackedScene" uid="uid://tnebb72tf6h1" path="res://scenes/menus_ui/text_button.tscn" id="4_luur1"]
 [ext_resource type="LabelSettings" uid="uid://dq77lfk3mfiye" path="res://resources/HUD_button_theme.tres" id="5_07d7y"]
@@ -17,7 +18,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Center:scale")
+tracks/0/path = NodePath("../Center:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -35,7 +36,7 @@ step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Center:scale")
+tracks/0/path = NodePath("../Center:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -207,13 +208,14 @@ _data = {
 &"pulse_BottomLeft": SubResource("Animation_4mst5")
 }
 
-[node name="HUD_button" type="Control" unique_id=1408436328]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 500.0
-offset_bottom = 500.0
-pivot_offset = Vector2(500, 500)
-mouse_filter = 1
+[node name="HUD_Button" type="TextureRect" unique_id=1861936504]
+offset_right = 550.0
+offset_bottom = 550.0
+pivot_offset_ratio = Vector2(1, 1)
+mouse_filter = 2
+texture = ExtResource("2_luur1")
+expand_mode = 1
+stretch_mode = 4
 script = ExtResource("1_6dfc7")
 
 [node name="Center" type="TextureButton" parent="." unique_id=42668341 groups=["texture_buttons"]]
@@ -223,19 +225,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -112.5
-offset_top = -112.5
-offset_right = 112.5
-offset_bottom = 112.5
+offset_left = -114.0
+offset_top = -115.0
+offset_right = 111.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(112.5, 112.5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
 texture_normal = ExtResource("2_i1l8v")
 ignore_texture_size = true
 stretch_mode = 4
 
 [node name="CenterAnim" type="AnimationPlayer" parent="Center" unique_id=26178606 groups=["anims"]]
-root_node = NodePath("../..")
+root_node = NodePath("")
 libraries/ = SubResource("AnimationLibrary_2eq81")
 
 [node name="Center" type="Label" parent="Center" unique_id=28252019 groups=["label_buttons"]]
@@ -265,24 +267,17 @@ pressed_color = Color(0.4, 0.6, 0.8, 1)
 layout_mode = 1
 offset_bottom = 2.28882e-05
 
-[node name="Polygon2D" parent="Center/Center/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="Center/Center/PolygonMouseDetector" index="0" unique_id=810687960]
 color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(89, -69.7083, 106, -66.7083, 126, -60.7083, 150, -47.7083, 168, -28.7083, 184, -3.7083, 192, 19.2917, 194, 45.2917, 190, 78.2917, 173, 109.292, 146, 135.292, 116, 150.292, 89, 155.292, 66, 154.292, 38, 147.292, 14, 133.292, -3, 117.292, -17, 97.2917, -27, 75.2917, -32, 46.2917, -29, 18.2917, -17, -12.7083, 2, -37.7083, 24, -53.7083, 46, -64.7083, 67, -69.7083)
 
 [node name="TopLeft" type="TextureButton" parent="." unique_id=1207812986 groups=["texture_buttons"]]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -500.0
-offset_top = -500.0
-offset_right = -256.0
-offset_bottom = -256.0
-grow_horizontal = 0
-grow_vertical = 0
-pivot_offset = Vector2(244, 244)
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 269.0
+offset_bottom = 269.0
+pivot_offset = Vector2(250, 250)
 mouse_filter = 2
 texture_normal = ExtResource("2_40wxk")
 ignore_texture_size = true
@@ -303,23 +298,20 @@ horizontal_alignment = 1
 vertical_alignment = 1
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="Polygon2D" parent="TopLeft/TopLeft/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="TopLeft/TopLeft/PolygonMouseDetector" parent_id_path=PackedInt32Array(888166352, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(-64, 166, 60, 166, 62, 152, 70, 127, 87, 96, 111, 73, 137, 57, 161, 49, 180, 46, 180, -78, 158, -77, 119, -70, 78, -56, 44, -37, 11, -11, -13, 17, -36, 53, -52, 89, -60, 126)
 
 [node name="TopRight" type="TextureButton" parent="." unique_id=1551168807 groups=["texture_buttons"]]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -242.0
-offset_top = -500.0
-offset_right = 2.0
-offset_bottom = -256.0
+offset_left = -275.0
+offset_top = 25.0
+offset_right = -31.0
+offset_bottom = 269.0
 grow_horizontal = 0
-grow_vertical = 0
-pivot_offset = Vector2(0, 244)
+pivot_offset = Vector2(0, 250)
 mouse_filter = 2
 texture_normal = ExtResource("5_41du8")
 ignore_texture_size = true
@@ -340,7 +332,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="Polygon2D" parent="TopRight/TopRight/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="TopRight/TopRight/PolygonMouseDetector" parent_id_path=PackedInt32Array(610118565, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(-64, -78, -64, 47, -39, 52, -9, 65, 15, 82, 35, 105, 47, 130, 53, 149, 56, 167, 181, 167, 179, 137, 169, 93, 152, 52, 128, 15, 89, -24, 49, -50, 8, -66, -30, -75)
 
 [node name="BottomRight" type="TextureButton" parent="." unique_id=877717320 groups=["texture_buttons"]]
@@ -350,10 +342,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -242.0
-offset_top = -242.0
-offset_right = 2.0
-offset_bottom = 2.0
+offset_left = -275.0
+offset_top = -275.0
+offset_right = -31.0
+offset_bottom = -31.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
@@ -376,23 +368,20 @@ horizontal_alignment = 1
 vertical_alignment = 1
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="Polygon2D" parent="BottomRight/BottomRight/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="BottomRight/BottomRight/PolygonMouseDetector" parent_id_path=PackedInt32Array(1407038107, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(34, -73, 159, -73, 158, -44, 150, -7, 137, 29, 114, 69, 75, 112, 31, 142, -23, 163, -62, 170, -85, 171, -85, 46, -65, 44, -36, 33, -5, 10, 13, -12, 28, -40)
 
 [node name="BottomLeft" type="TextureButton" parent="." unique_id=1078053069 groups=["texture_buttons"]]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -500.0
-offset_top = -242.0
-offset_right = -256.0
-offset_bottom = 2.0
-grow_horizontal = 0
+offset_left = 25.0
+offset_top = -275.0
+offset_right = 269.0
+offset_bottom = -31.0
 grow_vertical = 0
-pivot_offset = Vector2(244, 0)
+pivot_offset = Vector2(250, 0)
 mouse_filter = 2
 texture_normal = ExtResource("6_n5omj")
 ignore_texture_size = true
@@ -413,7 +402,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 pressed_color = Color(0.972549, 0.776471, 0.388235, 1)
 
-[node name="Polygon2D" parent="BottomLeft/BottomLeft/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="BottomLeft/BottomLeft/PolygonMouseDetector" parent_id_path=PackedInt32Array(559215740, 2000010716) index="0" unique_id=810687960]
 polygon = PackedVector2Array(61, -75, -63, -75, -62, -52, -59, -27, -48, 10, -32, 43, -9, 78, 20, 109, 59, 136, 98, 155, 137, 165, 181, 169, 181, 45, 154, 39, 124, 26, 98, 6, 79, -21, 67, -47)
 
 [connection signal="mouse_entered" from="Center/Center/PolygonMouseDetector" to="Center/Center" method="_on_mouse_entered"]

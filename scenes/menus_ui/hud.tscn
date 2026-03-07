@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
 [ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
 [ext_resource type="Script" uid="uid://c14ywbiqs8efn" path="res://scripts/menus_ui/HUD_settings_button.gd" id="8_tbbuv"]
-[ext_resource type="Texture2D" uid="uid://bt1p5jtm8aw1l" path="res://assets/textures/UI/new_HUD/HUD_bottomPanel.svg" id="9_07do6"]
 [ext_resource type="PackedScene" uid="uid://bfl6ircpc33v" path="res://scenes/menus_ui/faction_warning_popup.tscn" id="9_l28jr"]
 [ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/menus_ui/hud_button.tscn" id="10_ee1ns"]
 [ext_resource type="Script" uid="uid://bmtgssvplxaao" path="res://scripts/menus_ui/componentDebugView.gd" id="10_hxir5"]
@@ -24,7 +23,14 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="TopPanel" parent="." unique_id=2143030798 instance=ExtResource("2_l28jr")]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -960.0
+offset_right = 960.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0.5, 0)
 
 [node name="SettingsButton" type="TextureButton" parent="." unique_id=99652348]
 layout_mode = 1
@@ -42,33 +48,23 @@ ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("8_tbbuv")
 
-[node name="BottomPanel" type="TextureRect" parent="." unique_id=135925779]
+[node name="HUD_button" parent="." unique_id=1861936504 instance=ExtResource("10_ee1ns")]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -110.0
-offset_right = 1920.0
-offset_bottom = 110.0
+offset_left = -550.0
+offset_top = -550.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(0.5, 0.5)
-mouse_filter = 2
-texture = ExtResource("9_07do6")
-
-[node name="HUD_button" parent="." unique_id=531591405 instance=ExtResource("10_ee1ns")]
-layout_mode = 0
-offset_left = 456.0
-offset_top = 36.0
-offset_right = 956.0
-offset_bottom = 536.0
 scale = Vector2(0.2, 0.2)
 
 [node name="health_indicator" parent="." unique_id=574128593 instance=ExtResource("11_sp3p0")]
 layout_mode = 1
-offset_left = 11.0
-offset_top = 473.0
-offset_right = 11.32
-offset_bottom = 473.06
 
 [node name="energy_bar" parent="." unique_id=324788892 instance=ExtResource("12_lmyut")]
 visible = false

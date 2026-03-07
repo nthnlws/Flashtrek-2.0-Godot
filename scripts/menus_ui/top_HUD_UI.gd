@@ -19,6 +19,7 @@ func _ready() -> void:
 	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_score)
 	MissionManager.mission_completed.connect(_clear_mission_text.unbind(1))
 	SignalBus.factionShipDied.connect(_on_enemy_ship_died)
+	#SignalBus.HUDchanged.connect(change_scale)
 	
 	if showing == false:
 		position = HIDDEN_POS
@@ -144,3 +145,7 @@ func tween_menu(target_position:Vector2) -> void: # Collapse mission menu
 	
 	tween = create_tween()
 	tween.tween_property(self, "position", target_position, dynamic_duration)
+
+#func change_scale(new_scale: float) -> void:
+	#var use: Vector2 = Vector2(new_scale, new_scale)
+	#scale = use * Vector2(0.5, 0.5)

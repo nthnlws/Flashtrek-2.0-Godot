@@ -20,6 +20,8 @@ func _connect_signals() -> void:
 	SignalBus.playerMaxHealthChanged.connect(update_hitbox_max)
 	SignalBus.playerMaxShieldChanged.connect(update_shield_max)
 	SignalBus.playerShieldChanged.connect(update_shield_health)
+	
+	SignalBus.HUDchanged.connect(change_scale)
 
 
 func change_health_sprite(ship:Utility.SHIP_TYPES):
@@ -52,3 +54,6 @@ func update_hitbox_health(new_HP:float) -> void:
 
 func update_hitbox_max(new_max_HP:float) -> void:
 	hull_icon.HP_max = new_max_HP
+
+func change_scale(new_scale: float) -> void:
+	scale = Vector2(new_scale, new_scale)

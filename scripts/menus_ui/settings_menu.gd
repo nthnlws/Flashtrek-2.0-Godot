@@ -61,18 +61,16 @@ func _on_vsync_setting_changed(index: int) -> void:
 
 func _on_scale_setting_item_selected(index: int) -> void:
 	match index:
-		0: # 100% HUD Scale
+		0: # 140% HUD Scale
+			SignalBus.HUDchanged.emit(1.4)
+		1: # 120% HUD Scale
+			SignalBus.HUDchanged.emit(1.2)
+		2: # 100% HUD Scale
 			SignalBus.HUDchanged.emit(1.0)
-		1: # 90% HUD Scale
-			SignalBus.HUDchanged.emit(0.9)
-		2: # 80% HUD Scale
+		3: # 80% HUD Scale
 			SignalBus.HUDchanged.emit(0.8)
-		3: # 70% HUD Scale
-			SignalBus.HUDchanged.emit(0.7)
 		4: # 60% HUD Scale
 			SignalBus.HUDchanged.emit(0.6)
-		5: # 50% HUD Scale
-			SignalBus.HUDchanged.emit(0.5)
 
 
 func _on_save_game_pressed() -> void:
