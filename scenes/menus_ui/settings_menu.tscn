@@ -429,6 +429,7 @@ size_flags_vertical = 10
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/closeMenuButton" to="." method="close_settings_menu"]
+[connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_setting_changed"]
 [connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MasterContainer/HBoxContainer/masterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MusicContainer/HBoxContainer/musicSlider" to="." method="_on_music_volume_changed"]

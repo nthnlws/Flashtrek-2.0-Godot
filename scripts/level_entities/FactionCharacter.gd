@@ -140,10 +140,11 @@ func calculate_shooting_angle(predicted_position: Vector2, randomized_position: 
 
 func shoot_bullet(predicted_position:Vector2, randomized_position:Vector2) -> void:# Instantiate and configure bullet
 	if shoot_cd: return
-	shoot_cd = true
 	
 	var angle: float = calculate_shooting_angle(predicted_position, randomized_position)
 	if angle != -1.0:
+		shoot_cd = true
+		
 		# Prep torpedo to shoot
 		var bullet: Torpedo = torpedo.instantiate()
 		bullet.exceptions.append($hitbox_area)

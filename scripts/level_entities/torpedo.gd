@@ -12,7 +12,9 @@ signal drain_energy(amount:float)
 @export var energy_drain:float = 10.0
 
 var animation_finished: bool = false
-var sound_finished: bool = false
+var hit_sound_finished: bool = false
+var fire_sound_finished: bool = false
+
 
 var alive: bool = true
 var exceptions: Array = []
@@ -48,7 +50,7 @@ func _process(delta: float) -> void:
 		if age > lifetime_seconds:
 			queue_free()
 		
-	elif animation_finished and sound_finished:
+	elif animation_finished and hit_sound_finished and fire_sound_finished:
 			queue_free()
 
 
@@ -64,7 +66,6 @@ func kill_projectile(target) -> void: # Creates explosion animation and kills se
 	elif target == "hitbox_area":
 		animation.play("explode_hull")
 	hit_sound.play()
-	#await hit_sound.finished
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
@@ -102,7 +103,12 @@ func hit_success(area:Area2D) -> void:
 
 func _on_animation_finished() -> void:
 	animation_finished = true
+	animation.visible = false
 
 
 func _on_torpedo_hit_finished() -> void:
-	sound_finished = true
+	hit_sound_finished = true
+
+
+func _on_torpedo_fire_finished() -> void:
+	fire_sound_finished = true

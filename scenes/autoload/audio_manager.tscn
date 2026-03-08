@@ -18,16 +18,20 @@ button_select = ExtResource("5_csb3k")
 
 [node name="FedMusic" type="AudioStreamPlayer" parent="." unique_id=758880092]
 stream = ExtResource("7_ddeio")
+volume_db = -15.0
 bus = &"Music"
 
 [node name="KlingonMusic" type="AudioStreamPlayer" parent="." unique_id=198240230]
 stream = ExtResource("8_tyipu")
+volume_db = -15.0
 bus = &"Music"
 
 [node name="RomulanMusic" type="AudioStreamPlayer" parent="." unique_id=1682432931]
 stream = ExtResource("8_8tcqa")
+volume_db = -15.0
 bus = &"Music"
 
 [node name="MainMenuMusic" type="AudioStreamPlayer" parent="." unique_id=1380009090]
 stream = ExtResource("9_gyoyt")
+volume_db = -10.0
 bus = &"Music"

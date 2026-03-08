@@ -408,7 +408,6 @@ func teleport(new_position: Vector2) -> void: # Uses coords from cheat menu to t
 	velocity = Vector2(0, 0)
 
 
-#Audio functions
 # Movement
 func overdrive_sound_on() -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
