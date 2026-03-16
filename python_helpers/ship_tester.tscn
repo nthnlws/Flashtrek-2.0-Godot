@@ -13,7 +13,8 @@ shader_parameter/color = Color(0, 1.02, 1.2, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6qu20"]
 atlas = ExtResource("3_hqeld")
-region = Rect2(336, 0, 48, 48)
+region = Rect2(96, 192, 48, 48)
+filter_clip = true
 
 [node name="ShipTester" type="Control" unique_id=2001322972]
 layout_mode = 3
@@ -53,3 +54,5 @@ texture = SubResource("AtlasTexture_6qu20")
 position = Vector2(432, 269)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=2029337909]
+unique_name_in_owner = true
+polygon = PackedVector2Array(-24, -14, 24, -5, 24, 3, -24, 12)

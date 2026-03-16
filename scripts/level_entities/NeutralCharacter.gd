@@ -37,7 +37,7 @@ func _ready() -> void:
 	call_deferred("selectRandomPlanet")
 	z_index = Utility.Z["NeutralShips"]
 	
-	starbase = LevelManager.starbases[0]
+	starbase = LevelManager.starbases.front()
 
 
 func _create_unique_texture_atlas() -> void:

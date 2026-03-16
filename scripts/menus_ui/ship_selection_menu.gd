@@ -19,10 +19,9 @@ func _ready() -> void:
 	
 	update_selection_grid()
 	update_all_faction_unlocks()
-	call_deferred("emit_deferred") # Update starting ship type after Upgrade Menu is ready
-
-func emit_deferred() -> void:
-	SignalBus.player_type_changed.emit(Utility.starting_ship, _scaled_ship_stats.get(Utility.starting_ship))
+	
+	# Update starting ship type after Upgrade Menu is ready
+	SignalBus.player_type_changed.emit.call_deferred(Utility.starting_ship, _scaled_ship_stats.get(Utility.starting_ship))
 
 func update_all_faction_unlocks() -> void:
 	_update_ship_unlocks(Utility.FACTION.FEDERATION, MissionManager.Reputation.FederationRep)
@@ -135,7 +134,8 @@ func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
 	#print('updating ship unlocks for %s' % Utility.FACTION.keys()[faction])
 	for frame: ShipSelector in frames:
 		if frame.ship_faction == faction:
-			frame.set_gray_out(new_score <= frame.unlock_price)
+			if frame.unlock_price != 0: # If not default ship
+				frame.set_gray_out(new_score <= frame.unlock_price)
 
 
 func clear_stats() -> void:

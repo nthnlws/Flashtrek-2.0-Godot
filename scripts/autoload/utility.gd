@@ -24,7 +24,7 @@ var Z: Dictionary[String, int] = { # Z Indexes for level objects
 	"WorldBorders": 60,
 }
 
-var player_name: String = "USS Enterprise"
+var player_name: String = "Runabout"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
@@ -35,87 +35,8 @@ var dev_mode_enabled: bool = false
 
 # Used for global references to dict ship data JSON
 enum SHIP_TYPES {
-	Merchantman, # 0
-	Keldon_Class,
-	batlh_Class,
-	JemHadar,
-	sech_Class,
-	Pathfinder_Class,
-	Steamrunner_Class,
-	Soyuz_Class,
-	Miranda_Class,
-	Nimitz_Class,
-	Freedom_Class, # 10
-	Intrepid_Class,
-	Niagara_Class,
-	Talarian_Freighter,
-	Galor_Class,
-	Bajoran_Freighter,
-	daSpu_Class,
-	Klingon_Bird_of_Prey,
-	Walker_Class,
-	Sovereign_Class,
-	Malachowski_Class, # 20
-	Miranda_Class_Lantree_variant,
-	Nova_Class,
-	Constitution_Class_Strange_New_Worlds,
-	Nova_Class_Rhode_Island_variant,
-	New_Orleans_Class,
-	DKora_Marauder,
-	Hideki_Class,
-	Qugh_Class,
-	Hiawatha_Class,
-	Mars_Synth_Defense_Ship, # 30
-	Mogai_Class,
-	Intrepid_Class_Aeroshuttle,
-	Gagarin_Class,
-	Saber_Class,
-	Miranda_Class_Saratoga_variant,
-	Parliament_Class,
-	Georgiou_Class,
-	Defiant_Class,
-	Cheyenne_Class,
-	Peregrine_Class, # 40
-	Odyssey_Class,
-	D5_Class,
-	Risian_Corvette,
-	Breen_Interceptor,
-	Bajoran_Interceptor,
-	Oberth_Class,
-	Cardenas_Class,
-	Vesta_Class,
-	Miranda_Class_Antares_variant,
-	Challenger_Class, # 50
-	Constitution_II_Class,
-	Constitution_III_Class,
-	Galaxy_Class,
-	Maquis_Raider,
-	chargh_Class,
-	Wallenberg_Class,
-	Dhailkhina_Class,
-	Sampson_Class,
-	Excelsior_Class,
-	Class_III_Neutronic_Fuel_Carrier_Kobayashi_Maru, # 60
-	Shepard_Class,
-	Norway_Class,
-	California_Class,
-	Galaxy_Class_Venture_variant,
-	Springfield_Class,
-	Theta_Class,
+	La_Sirena,
 	Groumall_Freighter,
-	Tellarite_Cruiser,
-	Magee_Class,
-	bortaS_bIr_Class, # 70
-	Dia_Vectau_Class,
-	Hernandez_Class,
-	Excelsior_Class_Refit,
-	Luna_Class,
-	Edison_Class,
-	Constellation_Class,
-	Sagan_Class,
-	Sutherland_Class,
-	Nebula_Class_Phoenix_variant,
-	La_Sirena, # 80
 	Monaveen,
 	Risian_Luxury_Cruiser,
 	Brel_Class,
@@ -125,15 +46,97 @@ enum SHIP_TYPES {
 	Ross_Class,
 	Akira_Class,
 	Ambassador_Class,
-	Excelsior_II_Class, # 90
+	Excelsior_II_Class,
 	Hoover_Class,
 	Nebula_Class,
+	Theta_Class,
+	Tellarite_Cruiser,
+	Magee_Class,
+	bortaS_bIr_Class,
+	Dia_Vectau_Class,
+	Hernandez_Class,
+	Excelsior_Class_Refit,
+	Luna_Class,
+	Edison_Class,
+	Constellation_Class,
+	Sagan_Class,
+	Sutherland_Class,
+	Nebula_Class_Phoenix_variant,
+	Maquis_Raider,
+	Odyssey_Class,
+	chargh_Class,
+	Wallenberg_Class,
+	Tvaro_Class,
+	Dhailkhina_Class,
+	Sampson_Class,
+	Excelsior_Class,
+	Kobayashi_Maru,
+	Shepard_Class,
+	Norway_Class,
+	California_Class,
+	Galaxy_Class_Venture_variant,
+	Springfield_Class,
+	Peregrine_Class,
+	D5_Class,
+	Risian_Corvette,
+	Breen_Interceptor,
+	Bajoran_Interceptor,
+	Oberth_Class,
+	Cardenas_Class,
+	Vesta_Class,
+	Miranda_Class_Antares_variant,
+	Challenger_Class,
+	Constitution_II_Class,
+	Constitution_III_Class,
+	Galaxy_Class,
+	DKora_Marauder,
+	Hideki_Class,
+	Qugh_Class,
+	Hiawatha_Class,
+	Mars_Synth_Defense_Ship,
+	Mogai_Class,
+	Intrepid_Class_Aeroshuttle,
+	Gagarin_Class,
+	Saber_Class,
+	Miranda_Class_Saratoga_variant,
+	Parliament_Class,
+	Georgiou_Class,
+	Defiant_Class,
+	Cheyenne_Class,
+	Talarian_Freighter,
+	Galor_Class,
+	Bajoran_Freighter,
+	daSpu_Class,
+	Klingon_Bird_of_Prey,
+	Shrike_Class,
+	Walker_Class,
+	Sovereign_Class,
+	Malachowski_Class,
+	Miranda_Class_Lantree_variant,
+	Nova_Class,
+	Constitution_Class_Strange_New_Worlds,
+	Nova_Class_Rhode_Island_variant,
+	New_Orleans_Class,
+	Merchantman,
+	Keldon_Class,
+	batlh_Class,
+	JemHadar,
+	sech_Class,
+	Lanora_Class,
+	Pathfinder_Class,
+	Steamrunner_Class,
+	Soyuz_Class,
+	Miranda_Class,
+	Nimitz_Class,
+	Freedom_Class,
+	Intrepid_Class,
+	Niagara_Class,
 }
 
 ## Accessed by Utility.SHIP_DATA[Utility.SHIP_TYPES.ship_name].variable
-var SHIP_DATA: Dictionary  # Loaded from ShipData.csv  — sprite, collision, faction etc.
+var SHIP_DATA: Dictionary  # Loaded from ShipData.txt  — sprite, collision, faction etc.
 ## Accessed by Utility.SHIP_STATS[Utility.SHIP_TYPES.ship_name].variable
-var SHIP_STATS: Dictionary # Loaded from ShipStats.csv — movement, health, combat stats
+var SHIP_STATS: Dictionary # Loaded from ShipStats.txt — movement, health, combat stats
 
 var is_initial_load: bool = true
 var fadeLength: float = 2.0 # Used for fade in/out on Galaxy Warp
@@ -192,14 +195,14 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func load_ship_data() -> void:
-	_load_csv("res://assets/data/ShipData.txt", SHIP_DATA)
-	_load_csv("res://assets/data/ShipStats.txt", SHIP_STATS)
+	_load_txt("res://assets/data/ShipData.txt", SHIP_DATA)
+	_load_txt("res://assets/data/ShipStats.txt", SHIP_STATS)
 
-func _load_csv(path: String, target: Dictionary) -> void:
+func _load_txt(path: String, target: Dictionary) -> void:
 	var absolute_path: String = ProjectSettings.globalize_path(path)
 	var file: FileAccess = FileAccess.open(absolute_path, FileAccess.READ)
 	if file == null:
-		push_error("CSV loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
+		push_error("TXT loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
 		file = FileAccess.open(path, FileAccess.READ)
 		return
 	#else: print('loading file path %s: ' % path)

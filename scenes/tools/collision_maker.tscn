@@ -1,8 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgvcoy4y2ygwx"]
+[gd_scene format=3 uid="uid://dgvcoy4y2ygwx"]
 
-[ext_resource type="Texture2D" uid="uid://dsnhk654y1bmp" path="res://assets/textures/ships/Sprite-0001.png" id="1_g6pgu"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="1_g6pgu"]
 [ext_resource type="Script" uid="uid://c1t11j6ykdmlp" path="res://scripts/tools/collision_maker.gd" id="2_b6uka"]
 
-[node name="Node2D" type="Sprite2D"]
-texture = ExtResource("1_g6pgu")
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6pgu"]
+atlas = ExtResource("1_g6pgu")
+region = Rect2(240, 240, 48, 48)
+filter_clip = true
+
+[node name="Node2D" type="Sprite2D" unique_id=614381808]
+texture = SubResource("AtlasTexture_g6pgu")
 script = ExtResource("2_b6uka")

@@ -398,6 +398,7 @@ func respawn() -> void:
 		
 		if shield:
 			shield.turnShieldOn()
+			shield.fadein_INSTANT()
 		health_component.regenTimeout = false
 
 

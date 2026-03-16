@@ -40,6 +40,11 @@ enum SystemComponentType { KILL_FACTION, ESCORT, CONTAINER, }
 }
 @export var active_components: Dictionary[SystemComponentType, MissionData]
 
+
+func _to_string() -> String:
+	return "--- %s system data. %s planets, %s active NPCs, %1.2f difficulty mult ---" % [self.system_name, str(planet_data.size()), str(enemy_list.size() + neutral_list.size()), system_difficulty_mult]
+
+
 func add_component(component_type: SystemComponentType, mission_data: MissionData = MissionData.new()) -> void:
 	#print("added component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
 	if component_type in active_components:

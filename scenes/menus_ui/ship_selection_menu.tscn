@@ -17,10 +17,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_3djgo")
-federation_unlocks = Array[int]([54, 38, 5, 47, 63, 51])
-klingon_unlocks = Array[int]([83, 42, 55])
-romulan_unlocks = Array[int]([57, 84, 31])
-neutral_unlocks = Array[int]([27, 80, 68, 14, 26, 43])
+federation_unlocks = Array[int]([90, 63, 66, 37, 88, 75])
+klingon_unlocks = Array[int]([4, 72, 42, 29])
+romulan_unlocks = Array[int]([31, 32, 87, 59, 5, 73])
+neutral_unlocks = Array[int]([55, 0, 70, 54, 83, 2])
 
 [node name="starbase_back" type="TextureRect" parent="." unique_id=2007563163]
 z_index = -2

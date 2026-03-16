@@ -19,7 +19,7 @@ func sync_components(system_data: SystemData) -> void:
 	# 1. Clear existing debug rows
 	var old_children: Array[Node] = get_tree().get_nodes_in_group("component_debug_row")
 	for old_row: Node in old_children:
-		old_row.free()
+		old_row.queue_free()
 	
 	# 2. System Components
 	var active_system_components: Dictionary = system_data.get_components()
