@@ -2,8 +2,8 @@ extends TextureRect
 
 @export var showing: bool = true
 @export var transition_time:float = 0.8
-const HIDDEN_POS:Vector2 = Vector2(0, -51)
-const SHOWN_POS:Vector2 = Vector2.ZERO
+const HIDDEN_POS:Vector2 = Vector2(-480, -51)
+const SHOWN_POS:Vector2 = Vector2(-480, 0)
 
 var tween: Tween
 var total_distance: float = 51

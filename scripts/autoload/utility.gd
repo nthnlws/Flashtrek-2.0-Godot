@@ -28,8 +28,10 @@ var player_name: String = "Runabout"
 var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
-enum GAMESTATE { SYSTEM, WARPING, MENU, MAINMENU, CUTSCENE }
+enum GAMESTATE { SYSTEM, WARPING, CUTSCENE, MAINMENU }
+enum MENUSTATE { SETTINGS, SHIPINFO, STARBASE, GALAXY, NONE }
 var current_gamestate: GAMESTATE = GAMESTATE.MAINMENU
+var current_menu: MENUSTATE = MENUSTATE.NONE
 var _is_quitting: bool = false
 var dev_mode_enabled: bool = false
 

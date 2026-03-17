@@ -83,6 +83,7 @@ folder_colors={
 secondary_weapon=""
 primary_weapon=""
 shield=""
+default_mouse=""
 
 [gui]
 

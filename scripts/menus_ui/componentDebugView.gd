@@ -16,6 +16,7 @@ func _input(event: InputEvent) -> void:
 
 
 func sync_components(system_data: SystemData) -> void:
+	if !system_data: return
 	# 1. Clear existing debug rows
 	var old_children: Array[Node] = get_tree().get_nodes_in_group("component_debug_row")
 	for old_row: Node in old_children:

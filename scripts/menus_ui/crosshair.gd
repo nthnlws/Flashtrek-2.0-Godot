@@ -12,13 +12,27 @@ func  _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	position = get_global_mouse_position()
+	if Utility.current_menu != Utility.MENUSTATE.NONE: return
+	global_position = get_viewport().get_mouse_position()
+	
+	# Check if mouse is over any UI control
+	var mouse_over_ui: bool = _is_mouse_over_ui()
+	visible = not mouse_over_ui
+	Input.set_mouse_mode(
+		Input.MOUSE_MODE_VISIBLE if mouse_over_ui else Input.MOUSE_MODE_HIDDEN
+	)
 
 
 func update_energy_max(new_value:float) -> void:
 	energy_bar.max_value = new_value
 func update_energy_value(new_value:float) -> void:
 	energy_bar.value = new_value
+
+func _is_mouse_over_ui() -> bool:
+	var control_under_mouse: Control = get_viewport().gui_get_hovered_control()
+	if control_under_mouse == null:
+		return false
+	return control_under_mouse.is_in_group("default_mouse")
 
 
 func _on_visibility_changed() -> void:

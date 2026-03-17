@@ -21,7 +21,7 @@ var exceptions: Array = []
 var shooterObject: Node # Saves the shooter ID for targeting logic
 var movement_vector: Vector2 = Vector2(1, 0)
 
-var lifetime_seconds:float = 7.5
+var lifetime_seconds:float = 5.0
 var age: float = 0.0
 var faction: Utility.FACTION
 

@@ -1,7 +1,7 @@
 extends TextureButton
 
-func _ready() -> void:
-	SignalBus.HUDchanged.connect(change_scale)
+#func _ready() -> void:
+	#SignalBus.HUDchanged.connect(change_scale)
 
 
 func _on_pressed() -> void:
