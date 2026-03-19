@@ -102,7 +102,7 @@ func predict_ship_position() -> Vector2:
 		return predicted_position
 	else: #No firing solution possible
 		var predicted_position: Vector2 = enemy_target.global_position
-		return enemy_target.global_position
+		return predicted_position
 
 
 func randomize_position(predicted_position: Vector2) -> Vector2:

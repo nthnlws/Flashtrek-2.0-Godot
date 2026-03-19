@@ -109,11 +109,12 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 func add_ship_stats(ship_type: Utility.SHIP_TYPES, stats_multiplier: float, move_multiplier: float) -> void:
 	var base: Dictionary = Utility.SHIP_STATS[ship_type]
 	_scaled_ship_stats[ship_type] = {
-		"SHIP_NAME": 		Utility.SHIP_TYPES.keys()[ship_type],
-		"MAX_HP": 			snapped(base.MAX_HP * stats_multiplier, 10),
-		"MAX_SHIELD": 		snapped(base.MAX_SHIELD * stats_multiplier, 10),
-		"SPEED": 			snapped(base.PLAYER_SPEED_OVERRIDE * move_multiplier, 10),
-		"ROTATION_SPEED":	snapped(base.PLAYER_ROTATION_OVERRIDE * move_multiplier, 10),
+		"SHIP_NAME": 			Utility.SHIP_TYPES.keys()[ship_type],
+		"MAX_HP": 				snapped(base.MAX_HP * stats_multiplier, 10),
+		"MAX_SHIELD": 			snapped(base.MAX_SHIELD * stats_multiplier, 10),
+		"SPEED": 				snapped(base.PLAYER_SPEED_OVERRIDE * move_multiplier, 10),
+		"ROTATION_SPEED":		snapped(base.PLAYER_ROTATION_OVERRIDE * move_multiplier, 10),
+		"DAMAGE_MULTIPLIER":	snapped(stats_multiplier, 0.1)
 	}
 
 

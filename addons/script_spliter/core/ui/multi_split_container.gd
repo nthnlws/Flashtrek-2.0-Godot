@@ -600,10 +600,8 @@ class LineSep extends ColorRect:
 
 	func update() -> void:
 		button.rotation_degrees = 90.0 * int(is_vertical)
-		button.pivot_offset = button.size / 2.0
+		button.pivot_offset_ratio = Vector2(0.5, 0.5)
 		button.position = size / 2.0 - button.pivot_offset
-
-
 
 	func _init() -> void:
 		color = Color.RED

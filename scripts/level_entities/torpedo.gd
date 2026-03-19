@@ -26,6 +26,7 @@ var age: float = 0.0
 var faction: Utility.FACTION
 
 var damage:float = 15.0
+var damage_multipler: float = 1.0
 var world_border:int = 20000
 
 func _ready() -> void:
@@ -94,7 +95,7 @@ func hit_success(area:Area2D) -> void:
 	hit_event.is_critical_hit = false
 	hit_event.is_continuous_damage = false
 	
-	hit_event.damage_amount = damage
+	hit_event.damage_amount = damage * damage_multipler
 	
 	if area.has_method("can_recieve_damage") and is_instance_valid(shooterObject):
 		area.can_recieve_damage(hit_event)

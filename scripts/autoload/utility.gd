@@ -246,7 +246,7 @@ func create_custom_tween(node: Node, property: String, final_val, duration: floa
 
 
 # This function finds the closest point on the surface of a body's shapes to a given global point.
-static func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:
+func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:
 	# Remove old debug lines
 	for line in Engine.get_main_loop().get_nodes_in_group("lines"):
 		line.free()

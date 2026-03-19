@@ -55,6 +55,7 @@ var warp_range: int:
 	get: return 20 + stats.WarpRangeAdd
 var cargo_capacity: int:
 	get: return 1 + stats.CargoCapacityAdd
+var ship_damage_multipler: float = 1.0
 
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
@@ -117,6 +118,9 @@ func _sync_data_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary 
 
 func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
 	var ship_stats: Dictionary = Utility.SHIP_STATS[ship]
+	ship_stats.DAMAGE_MULTIPLIER = 1.0
+	
+	# Override ship stats if override present
 	if !stats_override.is_empty():
 		ship_stats = stats_override
 	
@@ -127,6 +131,7 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary
 	health_component.hp_current = ship_stats.MAX_HP
 	health_component.SP_max = ship_stats.MAX_SHIELD
 	health_component.sp_current = ship_stats.MAX_SHIELD
+	ship_damage_multipler = ship_stats.DAMAGE_MULTIPLIER
 	
 	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 	SignalBus.playerHealthChanged.emit(health_component.HP_max)
@@ -327,6 +332,7 @@ func shoot_torpedo() -> void:
 		bullet.rotation = rotation
 		bullet.shooterObject = self
 		bullet.damage *= stats.DamageMult
+		bullet.damage_multipler = ship_damage_multipler
 		bullet.faction = faction
 		
 		bullet.exceptions.append($hitbox_area)
@@ -351,7 +357,7 @@ func shoot_missile(clicked_pos: Vector2) -> void:
 		missile.shooterObject = self
 		energy.consume(cost)
 		energy.lock_regeneration(1.0)
-		missile.max_damage = missile.max_damage * stats.DamageMult
+		missile.max_damage = missile.max_damage * stats.DamageMult * ship_damage_multipler
 		missile.faction = self.faction
 		missile.target_position = clicked_pos
 		
