@@ -4,6 +4,7 @@ class_name HomingMissile
 @export var damage_curve: Curve
 @export var explosion_radius:int = 150
 @export var max_damage:float = 30.0
+var damage_multipler: float = 1.0
 
 var energy_drain:float = 20.0
 @export var speed:float = 600.0
@@ -105,7 +106,7 @@ func create_hit_event() -> HitEvent:
 
 
 func apply_damage_to_area(area:Area2D, hit_event:HitEvent) -> void:
-	hit_event.damage_amount = get_explosion_damage(area)
+	hit_event.damage_amount = get_explosion_damage(area) * damage_multipler
 	area.can_recieve_damage(hit_event)
 
 

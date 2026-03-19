@@ -8,7 +8,7 @@ class_name HealthIndicator
 func _ready() -> void:
 	_connect_signals()
 	
-	change_health_sprite(Utility.starting_ship)
+	change_health_sprite(LevelManager.galaxy_data.player_ship_type)
 
 
 func _connect_signals() -> void:

@@ -21,7 +21,7 @@ func _ready() -> void:
 	update_all_faction_unlocks()
 	
 	# Update starting ship type after Upgrade Menu is ready
-	SignalBus.player_type_changed.emit.call_deferred(Utility.starting_ship, _scaled_ship_stats.get(Utility.starting_ship))
+	SignalBus.player_type_changed.emit.call_deferred(LevelManager.galaxy_data.player_ship_type, _scaled_ship_stats.get(LevelManager.galaxy_data.player_ship_type))
 
 func update_all_faction_unlocks() -> void:
 	_update_ship_unlocks(Utility.FACTION.FEDERATION, MissionManager.Reputation.FederationRep)
@@ -158,6 +158,7 @@ func start_ambience() -> void:
 
 func _on_ship_selected(ship_type: Utility.SHIP_TYPES) -> void:
 	SignalBus.player_type_changed.emit(ship_type, _scaled_ship_stats.get(ship_type))
+	LevelManager.galaxy_data.player_ship_type = ship_type
 	close_menu()
 
 

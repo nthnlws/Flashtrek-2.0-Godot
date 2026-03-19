@@ -15,7 +15,7 @@ func _ready() -> void:
 	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
 	MissionManager.Reputation.player_faction_changed.connect(update_faction_colors)
 	
-	set_background(Utility.starting_ship)
+	set_background(LevelManager.galaxy_data.player_ship_type)
 
 
 func update_faction_colors(new_faction:Utility.FACTION) -> void:

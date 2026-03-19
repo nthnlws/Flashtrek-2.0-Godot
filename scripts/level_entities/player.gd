@@ -72,8 +72,8 @@ func _ready() -> void:
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
 	_connect_signals()
-	_sync_data_to_resource(Utility.starting_ship)
-	_sync_stats_to_resource(Utility.starting_ship)
+	_sync_data_to_resource(LevelManager.galaxy_data.player_ship_type)
+	_sync_stats_to_resource(LevelManager.galaxy_data.player_ship_type)
 	
 	energy.max_energy = energy.max_energy * stats.EnergyCapacityMult
 	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
@@ -357,7 +357,8 @@ func shoot_missile(clicked_pos: Vector2) -> void:
 		missile.shooterObject = self
 		energy.consume(cost)
 		energy.lock_regeneration(1.0)
-		missile.max_damage = missile.max_damage * stats.DamageMult * ship_damage_multipler
+		missile.max_damage = missile.max_damage * stats.DamageMult
+		missile.damage_multiplier = ship_damage_multipler
 		missile.faction = self.faction
 		missile.target_position = clicked_pos
 		

@@ -24,15 +24,9 @@ func _ready() -> void:
 	#TODO: Remove force volume mute
 	#var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
 	#AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(0.0))
-
+	
+	initialize_spawn_system()
 	_connect_signals()
-	
-	var default_system: SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
-	LevelManager.current_system_data = default_system
-	change_system(default_system)
-	spawn_player()
-	
-	level_loaded.emit()
 
 
 func _connect_signals() -> void:
@@ -43,6 +37,16 @@ func _connect_signals() -> void:
 	SignalBus.spawnShip.connect(spawn_faction_ship)
 	SignalBus.factionShipDied.connect(remove_faction_ship_data)
 	SignalBus.neutralShipDied.connect(remove_neutral_ship_data)
+
+
+func initialize_spawn_system() -> void:
+	var spawn_system: SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	if LevelManager.galaxy_data.current_system:
+		spawn_system = LevelManager.galaxy_data.current_system
+	change_system(spawn_system)
+	spawn_player()
+	
+	level_loaded.emit()
 
 
 func _build_components() -> void:
@@ -71,6 +75,7 @@ func spawn_player() -> void:
 
 func change_system(new_system_data: SystemData) -> void:
 	LevelManager.current_system_data = new_system_data
+	LevelManager.galaxy_data.current_system = new_system_data
 	cleanup_old_system()
 	
 	instantiate_new_system_nodes()

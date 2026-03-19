@@ -36,7 +36,7 @@ func create_or_load_galaxy(slot:int) -> void:
 		galaxy_data = GalaxyData.generate_galaxy_data()
 		SaveManager.save_galaxy(slot, galaxy_data)
 		#print_debug('Saved newly created galaxy data to slot %s' % slot)
-	current_system_data = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	current_system_data = galaxy_data.current_system
 
 
 func update_system_data() -> void:

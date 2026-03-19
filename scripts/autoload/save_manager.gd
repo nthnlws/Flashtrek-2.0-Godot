@@ -101,7 +101,7 @@ func load_galaxy(slot: int) -> GalaxyData:
 	var data: Resource = ResourceLoader.load(path)
 	
 	if data is GalaxyData:
-		var galaxy: GalaxyData = data as GalaxyData
+		var galaxy: GalaxyData = data
 		# CRITICAL: Rebuild the lookup map that wasn't saved
 		galaxy.post_load_setup()
 		var rep_path: String = SAVE_FOLDER + ("save_slot_%d_rep.res" % slot)
