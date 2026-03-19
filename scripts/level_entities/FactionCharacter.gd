@@ -28,6 +28,7 @@ func _ready() -> void:
 	
 	SignalBus.enemy_type_changed.connect(_sync_stats_to_resource)
 	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
+	SignalBus.playerDied.connect(_clear_agro)
 
 
 func setMovementState(delta:float) -> void:
@@ -209,3 +210,8 @@ func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 	await animation.animation_finished
 	
 	queue_free()
+
+
+func _clear_agro() -> void:
+	enemy_target = null
+	enemyAgro = false

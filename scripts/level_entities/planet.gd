@@ -47,6 +47,7 @@ func _on_comm_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		SignalBus.exitedPlanetComm.emit(self )
 		SignalBus.toggleQ3HUD.emit("off")
+		SignalBus.toggleQ2HUD.emit("off")
 		player = null
 
 

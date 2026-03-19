@@ -31,8 +31,8 @@ func _ready() -> void:
 	current_energy = max_energy
 	
 	# Initialize HUD values
-	SignalBus.playerMaxEnergyChanged.emit(max_energy)
-	SignalBus.playerEnergyChanged.emit(current_energy)
+	SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
+	SignalBus.playerEnergyChanged.emit.call_deferred(current_energy)
 
 
 ## Attempt to spend energy. Returns true if successful.

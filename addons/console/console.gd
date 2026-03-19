@@ -218,7 +218,7 @@ func _ready() -> void:
 func _input(event : InputEvent) -> void:
 	var current_scene = get_tree().get_current_scene()
 	if current_scene != null and current_scene.name == "Game":
-		if get_tree().get_root().get_node("Game").get_node("Menus").current_state == 0:
+		if Utility.current_menu == Utility.MENUSTATE.NONE and Utility.current_gamestate == Utility.GAMESTATE.SYSTEM:
 			if (event is InputEventKey):
 				if (event.get_physical_keycode_with_modifiers() == KEY_QUOTELEFT): # ~ key.
 					if (event.pressed):

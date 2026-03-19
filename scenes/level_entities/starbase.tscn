@@ -1,17 +1,18 @@
 [gd_scene format=3 uid="uid://oexei8cmm0yk"]
 
 [ext_resource type="Script" uid="uid://b02s82d23ssv0" path="res://scripts/level_entities/starbase.gd" id="1_1b8td"]
-[ext_resource type="Texture2D" uid="uid://dwegjlw112b31" path="res://assets/textures/ships/starbase.png" id="2_opdfu"]
+[ext_resource type="Texture2D" uid="uid://b0yxn416jdx8a" path="res://assets/textures/system/starbase_romulan.png" id="2_8wm1o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0kshu"]
 radius = 2500.0
 
 [node name="Starbase" type="Node2D" unique_id=140364990]
 script = ExtResource("1_1b8td")
+metadata/_edit_vertical_guides_ = [654.0]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1846341479]
-scale = Vector2(2, 2)
-texture = ExtResource("2_opdfu")
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_8wm1o")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1639515253]
 collision_mask = 2

@@ -1,7 +1,7 @@
 extends Node
 class_name HealthComponent
 
-var Stats: PlayerUpgrades = PlayerUpgrades.new()
+var stats: PlayerUpgrades = PlayerUpgrades.new()
 var ship_stats:Dictionary = Utility.SHIP_STATS[Utility.starting_ship]
 
 @export var shield: Shield
@@ -27,8 +27,8 @@ signal shield_damage_received
 	get:
 		return get_max_HP(HP_max)
 func get_max_HP(new_value:float) -> float:
-	if Stats:
-		return new_value * Stats.HullMult
+	if stats:
+		return new_value * stats.HullMult
 	else:
 		return new_value
 
@@ -136,7 +136,7 @@ func set_shield_value(value:float) -> float:
 func set_shield_max(value:float) -> float:
 	if is_on_player:
 		SignalBus.playerMaxShieldChanged.emit(value)
-		value = value * Stats.ShieldMult
+		value = value * stats.ShieldMult
 	return value
 
 

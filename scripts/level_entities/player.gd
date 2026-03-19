@@ -124,7 +124,14 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary
 	rotation_speed = ship_stats.ROTATION_SPEED
 	base_cargo_size = ship_stats.get_or_add("CARGO_SIZE", 1)
 	health_component.HP_max = ship_stats.MAX_HP
+	health_component.hp_current = ship_stats.MAX_HP
 	health_component.SP_max = ship_stats.MAX_SHIELD
+	health_component.sp_current = ship_stats.MAX_SHIELD
+	
+	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
+	SignalBus.playerHealthChanged.emit(health_component.HP_max)
+	SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
+	SignalBus.playerShieldChanged.emit(health_component.SP_max)
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -560,7 +567,7 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 		UpgradePickup.MODULE_TYPES.HEALTH:
 			stats.HullMult = health_component.stats.HullMult + mult_step
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			health_component.Stats.ShieldMult = health_component.Stats.ShieldMult + mult_step
+			health_component.stats.ShieldMult = health_component.stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
 				health_component.SP_max = health_component.SP_max
 		UpgradePickup.MODULE_TYPES.DAMAGE:
