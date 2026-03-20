@@ -23,6 +23,10 @@ func _ready() -> void:
 	MissionManager.mission_started.connect(update_mission_text)
 	SignalBus.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)
+	
+	# Force update current system since signal connections above are
+	# connected after system has already emitted "system_changed" signal
+	update_current_system(LevelManager.current_system_data)
 
 
 func _process(delta: float) -> void:
@@ -174,7 +178,7 @@ func is_point_in_collision_shape(point: Vector2, collision_shape: CollisionShape
 
 func _on_close_menu_button_pressed() -> void:
 	AudioManager.play_UI_click_sound()
-	Menus.toggle_menu(self , 0)
+	Menus.toggle_menu(self , Utility.MENUSTATE.NONE)
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
 		red.queue_free()
 

@@ -42,7 +42,7 @@ func update_selection_grid() -> void:
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, federation_unlocks.size())
 		var stats_multiplier: float = Scaling.get_player_stat_scale(i, federation_unlocks.size())
 		var move_multiplier: float = Scaling.get_player_move_scale(i, federation_unlocks.size())
-		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
+		add_ship_stats(ship_type, Utility.FACTION.FEDERATION, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.FEDERATION, unlock_cost)
 		%FederationGrid.add_child(frame)
 		frames.append(frame)
@@ -51,7 +51,7 @@ func update_selection_grid() -> void:
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, klingon_unlocks.size())
 		var stats_multiplier: float = Scaling.get_player_stat_scale(i, klingon_unlocks.size())
 		var move_multiplier: float = Scaling.get_player_move_scale(i, klingon_unlocks.size())
-		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
+		add_ship_stats(ship_type, Utility.FACTION.KLINGON, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.KLINGON, unlock_cost)
 		%KlingonGrid.add_child(frame)
 		frames.append(frame)
@@ -60,7 +60,7 @@ func update_selection_grid() -> void:
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, romulan_unlocks.size())
 		var stats_multiplier: float = Scaling.get_player_stat_scale(i, romulan_unlocks.size())
 		var move_multiplier: float = Scaling.get_player_move_scale(i, romulan_unlocks.size())
-		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
+		add_ship_stats(ship_type, Utility.FACTION.ROMULAN, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.ROMULAN, unlock_cost)
 		%RomulanGrid.add_child(frame)
 		frames.append(frame)
@@ -69,7 +69,7 @@ func update_selection_grid() -> void:
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, neutral_unlocks.size())
 		var stats_multiplier: float = Scaling.get_player_stat_scale(i, neutral_unlocks.size())
 		var move_multiplier: float = Scaling.get_player_move_scale(i, neutral_unlocks.size())
-		add_ship_stats(ship_type, stats_multiplier, move_multiplier)
+		add_ship_stats(ship_type, Utility.FACTION.NEUTRAL, stats_multiplier, move_multiplier)
 		var frame: ShipSelector = create_frame(ship_type, Utility.FACTION.NEUTRAL, unlock_cost)
 		%NeutralGrid.add_child(frame)
 		frames.append(frame)
@@ -106,7 +106,7 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 		%price_banner.text = "Reputation Required: %s%s" % [Utility.damage_red, req_rep]
 
 
-func add_ship_stats(ship_type: Utility.SHIP_TYPES, stats_multiplier: float, move_multiplier: float) -> void:
+func add_ship_stats(ship_type: Utility.SHIP_TYPES, ship_faction:Utility.FACTION, stats_multiplier: float, move_multiplier: float) -> void:
 	var base: Dictionary = Utility.SHIP_STATS[ship_type]
 	_scaled_ship_stats[ship_type] = {
 		"SHIP_NAME": 			Utility.SHIP_TYPES.keys()[ship_type],
@@ -114,7 +114,8 @@ func add_ship_stats(ship_type: Utility.SHIP_TYPES, stats_multiplier: float, move
 		"MAX_SHIELD": 			snapped(base.MAX_SHIELD * stats_multiplier, 10),
 		"SPEED": 				snapped(base.PLAYER_SPEED_OVERRIDE * move_multiplier, 10),
 		"ROTATION_SPEED":		snapped(base.PLAYER_ROTATION_OVERRIDE * move_multiplier, 10),
-		"DAMAGE_MULTIPLIER":	snapped(stats_multiplier, 0.1)
+		"DAMAGE_MULTIPLIER":	snapped(stats_multiplier, 0.1),
+		"FACTION":				ship_faction,
 	}
 
 

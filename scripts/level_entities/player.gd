@@ -118,6 +118,7 @@ func _sync_data_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary 
 
 func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
 	var ship_stats: Dictionary = Utility.SHIP_STATS[ship]
+	var ship_data: Dictionary = Utility.SHIP_DATA[ship]
 	ship_stats.DAMAGE_MULTIPLIER = 1.0
 	
 	# Override ship stats if override present
@@ -132,6 +133,7 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary
 	health_component.SP_max = ship_stats.MAX_SHIELD
 	health_component.sp_current = ship_stats.MAX_SHIELD
 	ship_damage_multipler = ship_stats.DAMAGE_MULTIPLIER
+	faction = ship_data.FACTION
 	
 	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 	SignalBus.playerHealthChanged.emit(health_component.HP_max)
@@ -573,10 +575,12 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 			stats.FireRateMult = stats.FireRateMult + mult_step
 		UpgradePickup.MODULE_TYPES.HEALTH:
 			stats.HullMult = health_component.stats.HullMult + mult_step
+			SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 		UpgradePickup.MODULE_TYPES.SHIELD:
 			health_component.stats.ShieldMult = health_component.stats.ShieldMult + mult_step
 			if shield: # Manually forces the shield to calculate and signal the new max value
 				health_component.SP_max = health_component.SP_max
+				SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			stats.DamageMult = stats.DamageMult + mult_step
 

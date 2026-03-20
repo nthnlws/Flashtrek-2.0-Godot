@@ -347,3 +347,14 @@ func get_enemy_faction(faction: Utility.FACTION) -> Utility.FACTION:
 
 func get_random_point_on_circle(radius: float) -> Vector2:
 	return Vector2.from_angle(randf() * TAU) * radius
+
+func get_faction_home_system(faction: FACTION) -> SystemData:
+	if faction == FACTION.FEDERATION:
+		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	if faction == FACTION.ROMULAN:
+		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Romulus)
+	if faction == FACTION.KLINGON:
+		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Kronos)
+	else:
+		printerr("No home system found for faction %s" % faction)
+		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus) 

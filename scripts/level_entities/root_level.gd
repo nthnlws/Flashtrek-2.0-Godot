@@ -291,7 +291,7 @@ func spawn_loot(type: UpgradePickup.MODULE_TYPES, position: Vector2, number: int
 
 
 func _handle_player_death() -> void:
-	var home_system: SystemData = LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+	var home_system: SystemData = Utility.get_faction_home_system(LevelManager.player.faction)
 	LevelManager.player.global_position = get_spawn_position()
 	
 	# Do not change system if died in home system

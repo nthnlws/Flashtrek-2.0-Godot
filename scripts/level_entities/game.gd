@@ -45,7 +45,7 @@ func handlePlayerDied() -> void:
 	SignalBus.toggleQ2HUD.emit("off")
 	%LoadingScreen.visible = true
 	LevelManager.player.camera._zoom = Vector2(0.4, 0.4)
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1.0).timeout
 	LevelManager.player.respawn()
 	%LoadingScreen.visible = false
 	minimap.create_minimap_objects()

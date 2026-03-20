@@ -1,7 +1,9 @@
 class_name UpgradePickup
 extends Area2D
 
+## SPEED, ROTATION, FIRE_RATE, HEALTH, SHIELD, DAMAGE
 enum MODULE_TYPES { SPEED, ROTATION, FIRE_RATE, HEALTH, SHIELD, DAMAGE }
+## ADD, MULT
 enum MODIFIER { ADD, MULT }
 
 @export var modifier_type: MODIFIER = MODIFIER.MULT

@@ -79,19 +79,10 @@ visible = false
 layout_mode = 1
 
 [node name="Warning_Popup" parent="." unique_id=806105503 instance=ExtResource("9_l28jr")]
-visible = false
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -292.0
-offset_top = -194.00003
-offset_right = 434.24988
-offset_bottom = -7.75
-grow_horizontal = 2
-grow_vertical = 0
+offset_top = -175.0
+offset_bottom = -10.0
+scale = Vector2(0.7, 0.7)
 
 [node name="ComponentDebugPanel" type="Panel" parent="." unique_id=110746639]
 visible = false

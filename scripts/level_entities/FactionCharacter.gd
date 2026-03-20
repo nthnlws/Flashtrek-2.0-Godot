@@ -215,3 +215,4 @@ func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 func _clear_agro() -> void:
 	enemy_target = null
 	enemyAgro = false
+	stored_enemies.clear()

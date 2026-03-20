@@ -75,3 +75,7 @@ func _on_scale_setting_item_selected(index: int) -> void:
 
 func _on_save_game_pressed() -> void:
 	SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
+
+
+func _on_check_button_toggled(toggled_on: bool) -> void:
+	SignalBus.warningsDisabled.emit(toggled_on)

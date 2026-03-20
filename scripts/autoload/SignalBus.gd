@@ -62,6 +62,7 @@ signal joystickMoved(playerDirection:Vector2)
 
 # Menus
 signal pause_menu_clicked
+signal warningsDisabled(disabled:bool)
 
 # World
 signal border_size_moved

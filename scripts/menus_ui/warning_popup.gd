@@ -7,29 +7,35 @@ extends Control
 @export var RomulanHeads: Array[Texture2D]
 @export var KlingonHeads: Array[Texture2D]
 
+var disabled: bool = false
+
 func _ready() -> void:
 	self.visible = false
 	SignalBus.galaxy_warp_finished.connect(_handle_entering_new_system)
+	SignalBus.warningsDisabled.connect(func(check_value): disabled = check_value)
 
 
 func _handle_entering_new_system(system_data:SystemData) -> void:
 	if _in_enemy_system(system_data):
 			await get_tree().create_timer(3.0).timeout
-			open_comms()
+			open_comms(system_data.faction)
 
 
 func _in_enemy_system(system_data:SystemData):
-	if (system_data.faction != LevelManager.player.faction
-		and LevelManager.player.faction != Utility.FACTION.NEUTRAL
-		and LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name
-		and LevelManager.current_system_data.faction != Utility.FACTION.NEUTRAL):
-			return true
-	else: return false
+	# If either party is neutral
+	if (system_data.faction == Utility.FACTION.NEUTRAL
+		or LevelManager.player.faction == Utility.FACTION.NEUTRAL):
+			return false
+	# If player faction does not match system
+	if LevelManager.player.faction != system_data.faction:
+		return true
+	# Player faction matches system
+	else: return false 
 
 
-func open_comms() -> void:
-	var current_faction:Utility.FACTION = LevelManager.current_system_data.faction
-	match current_faction:
+func open_comms(system_faction: Utility.FACTION) -> void:
+	if disabled: return
+	match system_faction:
 		Utility.FACTION.FEDERATION:
 			$FactionHead.texture = FederationHeads.pick_random()
 		Utility.FACTION.ROMULAN:
@@ -37,7 +43,7 @@ func open_comms() -> void:
 		Utility.FACTION.KLINGON:
 			$FactionHead.texture = KlingonHeads.pick_random()
 	
-	update_comms_message(current_faction)
+	update_comms_message(system_faction)
 	self.visible = true
 
 
@@ -46,15 +52,6 @@ func close_comms() -> void:
 	if close_button:
 		close_button.pressed = false
 		close_button._update_color()
-
-
-func _on_close_ui_pressed() -> void:
-	AudioManager.play_UI_click_sound()
-	close_comms()
-
-
-func _on_open_comms_pressed() -> void:
-	open_comms()
 
 
 func update_comms_message(faction: Utility.FACTION) -> void:

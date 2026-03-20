@@ -94,18 +94,18 @@ text = "X"
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="VideoColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=1124672008]
+[node name="VideoGameColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=1124672008]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="TopSpacer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=2087458878]
+[node name="TopSpacer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=2087458878]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="VideoTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=78387270]
+[node name="VideoTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=78387270]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_etbwm")
@@ -113,28 +113,28 @@ theme_override_font_sizes/font_size = 30
 text = "Video"
 horizontal_alignment = 1
 
-[node name="vSyncContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=188107707]
+[node name="vSyncContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=188107707]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer" unique_id=1096833443]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer" unique_id=1096833443]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="vSync" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer" unique_id=1082441956]
+[node name="vSync" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer" unique_id=1082441956]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "vSync:"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer" unique_id=934656372]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer" unique_id=934656372]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="vSyncSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer" unique_id=114640077]
+[node name="vSyncSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer" unique_id=114640077]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
@@ -147,19 +147,19 @@ popup/item_1/id = 1
 popup/item_2/text = "Disabled"
 popup/item_2/id = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer" unique_id=1551527737]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer" unique_id=1551527737]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
 
-[node name="TopSpacer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=1969443227]
+[node name="TopSpacer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=1969443227]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 15
 
-[node name="GameTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=339487094]
+[node name="GameTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=339487094]
 layout_mode = 2
 mouse_filter = 0
 theme_override_fonts/font = ExtResource("2_etbwm")
@@ -167,28 +167,28 @@ theme_override_font_sizes/font_size = 30
 text = "Game"
 horizontal_alignment = 1
 
-[node name="HUDScaleContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn" unique_id=1923053148]
+[node name="HUDScaleContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=1923053148]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_left = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer" unique_id=1708532821]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer" unique_id=1708532821]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="HUDscale" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=1146588693]
+[node name="HUDscale" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer" unique_id=1146588693]
 layout_mode = 2
 mouse_filter = 0
 theme_override_font_sizes/font_size = 20
 text = "HUD Scale:"
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=857904551]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer" unique_id=857904551]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="ScaleSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=1957580201]
+[node name="ScaleSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer" unique_id=1957580201]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
@@ -206,7 +206,36 @@ popup/item_3/id = 3
 popup/item_4/text = "60%"
 popup/item_4/id = 4
 
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer" unique_id=867551546]
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer" unique_id=867551546]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
+[node name="PopupContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=2145235708]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer" unique_id=105576639]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="DisableWarnings" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1325390962]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "Disable Warnings:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1073366072]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="CheckButton" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1905316697]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1623545826]
 layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
@@ -429,8 +458,9 @@ size_flags_vertical = 10
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/closeGameButton" to="." method="_on_close_game_button_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/mainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/closeMenuButton" to="." method="close_settings_menu"]
-[connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_setting_changed"]
-[connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoColumn/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
+[connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_setting_changed"]
+[connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
+[connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MasterContainer/HBoxContainer/masterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MusicContainer/HBoxContainer/musicSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/EffectsContainer/HBoxContainer/effectsSlider" to="." method="_on_effects_volume_changed"]
