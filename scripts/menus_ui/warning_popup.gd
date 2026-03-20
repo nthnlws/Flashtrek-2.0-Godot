@@ -2,6 +2,8 @@ extends Control
 
 @onready var close_button: TextButton = $CloseButton
 @onready var comms_message: RichTextLabel = $Comms_message
+@onready var timer: Timer = $Timer
+@onready var fade_anim: AnimationPlayer = $fade_anim
 
 @export var FederationHeads: Array[Texture2D]
 @export var RomulanHeads: Array[Texture2D]
@@ -35,6 +37,8 @@ func _in_enemy_system(system_data:SystemData):
 
 func open_comms(system_faction: Utility.FACTION) -> void:
 	if disabled: return
+	
+	timer.start()
 	match system_faction:
 		Utility.FACTION.FEDERATION:
 			$FactionHead.texture = FederationHeads.pick_random()
@@ -48,10 +52,17 @@ func open_comms(system_faction: Utility.FACTION) -> void:
 
 
 func close_comms() -> void:
-	visible = false
+	# Stop time in case close is triggered by button
+	if !timer.is_stopped():
+		timer.stop()
+	
 	if close_button:
 		close_button.pressed = false
 		close_button._update_color()
+	
+	fade_anim.play("fade_out")
+	await fade_anim.animation_finished
+	self.modulate = Color("ffffff")
 
 
 func update_comms_message(faction: Utility.FACTION) -> void:

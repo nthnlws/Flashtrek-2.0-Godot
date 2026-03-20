@@ -167,22 +167,28 @@ func instantiate_bullet(bullet: Area2D) -> void:
 
 var stored_enemies:Array = []
 func _on_agro_box_body_entered(body) -> void:
+	# Already a known enemy
 	if stored_enemies.has(body):
+		SignalBus.combatantEntered.emit(self)
 		enemyAgro =  true
 		enemy_target = body
 	#print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
-	if body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
+	# Hostile faction
+	elif body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
+		SignalBus.combatantEntered.emit(self)
 		enemyAgro =  true
 		enemy_target = body
 
 
 func _on_agro_box_body_exited(body) -> void:
+	SignalBus.combatantExited.emit(self)
 	if body == enemy_target:
 		enemyAgro =  false
 		enemy_target = null
 
 
 func _set_aggression_to_shooter(shooter: Node) -> void:
+	SignalBus.combatantEntered.emit(self)
 	enemyAgro =  true
 	enemy_target = shooter
 	if !stored_enemies.has(shooter):

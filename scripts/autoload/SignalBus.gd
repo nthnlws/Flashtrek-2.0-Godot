@@ -25,6 +25,8 @@ signal reputation_change_triggered(faction:Utility.FACTION, score:float)
 # Player
 signal playerDied
 signal playerRespawned
+signal entering_combat
+signal exited_combat
 
 signal playerHealthChanged(hp_current:float)
 signal playerMaxHealthChanged(hp_max:float)
@@ -69,6 +71,8 @@ signal border_size_moved
 signal world_reset
 signal collisionChanged
 signal spawnShip(ship_type:Utility.SHIP_TYPES)
+signal combatantEntered(enemy: FactionCharacter)
+signal combatantExited(enemy: FactionCharacter)
 
 signal enemy_shield_cheat_state(shield_state)
 signal enemy_type_changed(ENEMY_TYPE: Utility.SHIP_TYPES)

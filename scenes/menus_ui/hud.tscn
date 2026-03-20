@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://dfehj0ebpawa0"]
 
+[ext_resource type="Texture2D" uid="uid://b8ojgslpmxdfk" path="res://assets/textures/UI/warning_banner.png" id="1_hxir5"]
+[ext_resource type="Script" uid="uid://cldd4wvkrivvl" path="res://scripts/menus_ui/battle_alert.gd" id="2_h6ca5"]
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
 [ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
 [ext_resource type="Script" uid="uid://c14ywbiqs8efn" path="res://scripts/menus_ui/HUD_settings_button.gd" id="8_tbbuv"]
@@ -9,6 +11,46 @@
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="11_sp3p0"]
 [ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
 [ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_IU.tscn" id="13_sk8fp"]
+
+[sub_resource type="Animation" id="Animation_lffcq"]
+resource_name = "flash_red"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 3.1383386, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 0), Color(1, 0, 0, 0.08235294), Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hxir5"]
+resource_name = "flash_red"
+length = 2.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.25, 2.5),
+"transitions": PackedFloat32Array(1, 3.1383386, 1),
+"update": 0,
+"values": [Color(1, 0.6666667, 0, 0), Color(1, 0.69008625, 0, 0.075), Color(1, 0.6666667, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2hpj0"]
+_data = {
+&"red_alert": SubResource("Animation_lffcq"),
+&"yellow_alert": SubResource("Animation_hxir5")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h6ca5"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.186)
@@ -21,6 +63,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_horizontal_guides_ = [40.0]
+
+[node name="BattleStatus" type="TextureRect" parent="." unique_id=51775589]
+modulate = Color(1, 0.6666667, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_hxir5")
+script = ExtResource("2_h6ca5")
+
+[node name="flashing_anim" type="AnimationPlayer" parent="BattleStatus" unique_id=1230629372]
+libraries/ = SubResource("AnimationLibrary_2hpj0")
+
+[node name="Timer" type="Timer" parent="BattleStatus" unique_id=1013523549]
+wait_time = 7.5
+one_shot = true
 
 [node name="TopPanel" parent="." unique_id=2143030798 instance=ExtResource("2_l28jr")]
 layout_mode = 1

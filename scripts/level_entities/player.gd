@@ -41,6 +41,7 @@ var cloaked: bool = false
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 var current_cargo: int = 0
 var current_tweens: Array[Tween] = []
+var current_enemy_list: Array[FactionCharacter] = []
 
 # --- Getters for Stat Application ---
 var max_speed: float:
@@ -94,6 +95,8 @@ func _connect_signals() -> void:
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.TopLeft_clicked.connect(trigger_warp)
 	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
+	SignalBus.combatantEntered.connect(_handle_new_combatant)
+	SignalBus.combatantExited.connect(_handle_exiting_combatant)
 	
 	tractor_beam.object_captured.connect(_handle_container_pickup)
 
@@ -629,3 +632,18 @@ func uncloak_ship(length: float) -> void:
 func _handle_mission_finish(finished_data: MissionData) -> void:
 	current_cargo -= 1
 	current_cargo = clamp(current_cargo, 0, base_cargo_size)
+
+func _handle_new_combatant(enemy: FactionCharacter) -> void:
+	# If adding first combatant to list
+	if current_enemy_list.size() == 0:
+		SignalBus.entering_combat.emit()
+	current_enemy_list.append(enemy)
+
+
+func _handle_exiting_combatant(enemy: FactionCharacter) -> void:
+	# Remove combatant from list
+	if enemy in current_enemy_list:
+		current_enemy_list.erase(enemy)
+	# No active combatants
+	if current_enemy_list.is_empty():
+		SignalBus.exited_combat.emit()
