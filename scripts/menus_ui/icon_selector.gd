@@ -1,12 +1,12 @@
-extends TextureButton
+extends Control
 class_name IconSelector
 
 signal icon_selected
 signal icon_hovered
 
-@onready var background: ColorRect = $background
+@onready var background: ColorRect = %background
 @onready var icon: TextureRect = %icon
-@onready var gray_out: ColorRect = $gray_out
+@onready var gray_out: ColorRect = %gray_out
 @onready var lock_symbol: TextureRect = $lock_symbol
 
 const DEFAULT_GREY:Color = Color("5d5d5d")
@@ -14,6 +14,7 @@ const PRESSED_GREY:Color = Color("929292ff")
 
 @export var grayed_out:bool = true
 @export var current_icon: Texture2D
+var is_hovered:bool = false
 
 
 func _ready() -> void:
@@ -22,12 +23,15 @@ func _ready() -> void:
 
 
 func _on_hovered() -> void:
+	print('hovered')
 	background.color = PRESSED_GREY
+	is_hovered = true
 	icon_hovered.emit()
 
 
 func _on_mouse_exited() -> void:
 	background.color = DEFAULT_GREY
+	is_hovered = false
 
 
 func set_icon(texture:Texture2D) -> void:

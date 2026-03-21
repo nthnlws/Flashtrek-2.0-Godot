@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bs3phgjv8mqjs"]
+
+[ext_resource type="Texture2D" uid="uid://cpd0paggi412v" path="res://assets/textures/UI/ship_selection_menu/menu_button_round.png" id="1_4105l"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="2_51v8a"]
+[ext_resource type="Script" uid="uid://becccegsbpara" path="res://scripts/menus_ui/rounded_button.gd" id="2_psbm7"]
+[ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="3_psbm7"]
+[ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="4_aeq32"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3x4dw"]
+font = ExtResource("2_51v8a")
+font_size = 60
+
+[node name="RoundedButton" type="TextureRect" unique_id=521845913]
+self_modulate = Color(0.4, 0.59607846, 0.79607844, 1)
+offset_right = 501.0
+offset_bottom = 115.0
+pivot_offset_ratio = Vector2(0, 0.5)
+mouse_filter = 2
+texture = ExtResource("1_4105l")
+script = ExtResource("2_psbm7")
+
+[node name="TextButton" type="Label" parent="." unique_id=674924046]
+layout_mode = 0
+offset_right = 502.85718
+offset_bottom = 114.285645
+theme_override_fonts/font = ExtResource("2_51v8a")
+theme_override_font_sizes/font_size = 35
+text = "SHIP_NAME"
+label_settings = SubResource("LabelSettings_3x4dw")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_psbm7")
+pressed_color = Color(0.83137256, 0.83137256, 0.46666667, 1)
+
+[node name="PolygonMouseDetector" parent="TextButton" unique_id=1594107818 instance=ExtResource("4_aeq32")]
+layout_mode = 1
+
+[node name="Polygon2D" parent="TextButton/PolygonMouseDetector" index="0" unique_id=810687960]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(501, 0, 501, 115, 0, 115, 0, -3.0517578e-05)
+
+[connection signal="button_hovered" from="TextButton" to="." method="tween_out"]
+[connection signal="button_unhovered" from="TextButton" to="." method="tween_in"]
+[connection signal="mouse_entered" from="TextButton/PolygonMouseDetector" to="TextButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="TextButton/PolygonMouseDetector" to="TextButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="TextButton/PolygonMouseDetector" to="TextButton" method="_on_mouse_clicked"]
+[connection signal="released" from="TextButton/PolygonMouseDetector" to="TextButton" method="_on_mouse_released"]
+
+[editable path="TextButton/PolygonMouseDetector"]

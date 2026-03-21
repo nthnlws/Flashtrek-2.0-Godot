@@ -3,6 +3,7 @@ class_name TextButton
 extends Label
 
 signal button_hovered
+signal button_unhovered
 signal button_pressed
 
 @export var default_color: Color
@@ -26,6 +27,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	hover = false
+	button_unhovered.emit()
 	_update_color()
 
 

@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://coi3fmkymbj2q"]
+
+[ext_resource type="Texture2D" uid="uid://dkolrnhn4vqai" path="res://assets/textures/UI/ship_selection_menu/selection_menu_romulan.png" id="1_lbelg"]
+[ext_resource type="PackedScene" uid="uid://bs3phgjv8mqjs" path="res://scenes/menus_ui/rounded_button.tscn" id="2_nbnet"]
+[ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_selector.tscn" id="4_3x4dw"]
+
+[node name="Control" type="Control" unique_id=694363471]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_horizontal_guides_ = [81.0, 506.0]
+
+[node name="FactionBorder" type="TextureRect" parent="." unique_id=1999267077]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_lbelg")
+expand_mode = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="." unique_id=1417660356]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 142.00002
+offset_right = 646.0
+offset_bottom = 932.0
+scale = Vector2(0.35, 0.35)
+theme_override_constants/separation = 20
+
+[node name="RoundedButton" parent="ButtonContainer" unique_id=521845913 instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton2" parent="ButtonContainer" unique_id=855696567 instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton3" parent="ButtonContainer" unique_id=795802715 instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton4" parent="ButtonContainer" unique_id=1171803641 instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton5" parent="ButtonContainer" unique_id=982969905 instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton6" parent="ButtonContainer" unique_id=80523781 instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="Grid" type="GridContainer" parent="." unique_id=1715754282]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 382.0
+offset_top = 211.0
+offset_right = 582.0
+offset_bottom = 343.0
+scale = Vector2(1.5, 1.5)
+pivot_offset_ratio = Vector2(0, 0.5)
+size_flags_horizontal = 4
+columns = 3
+
+[node name="ShipSelector" parent="Grid" unique_id=995253799 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector2" parent="Grid" unique_id=1674243145 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector3" parent="Grid" unique_id=1322662301 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector4" parent="Grid" unique_id=1528928479 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector5" parent="Grid" unique_id=352058281 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector6" parent="Grid" unique_id=1744926049 instance=ExtResource("4_3x4dw")]
+layout_mode = 2

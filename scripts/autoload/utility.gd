@@ -358,3 +358,69 @@ func get_faction_home_system(faction: FACTION) -> SystemData:
 	else:
 		printerr("No home system found for faction %s" % faction)
 		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus) 
+
+
+const ANCHOR_YEAR: int = 2025 
+const ANCHOR_MONTH: int = 08
+const ANCHOR_DAY: int = 12
+const ANCHOR_STARDATE_BASE: float = 4513.0
+
+# Calendar Offsets
+const KLINGON_YEAR_OFFSET: int = 1374 # 2373 AD = Year 999 YoK
+const ROMULAN_YEAR_OFFSET: int = 450   # Landing on Romulus approx 450 AD
+
+## Original Federation Stardate Function
+func calculate_current_stardate() -> float:
+	var anchor_dict: Dictionary = {
+		"year": ANCHOR_YEAR, "month": ANCHOR_MONTH, "day": ANCHOR_DAY,
+		"hour": 0, "minute": 0, "second": 0
+	}
+	var anchor_timestamp: int = Time.get_unix_time_from_datetime_dict(anchor_dict)
+	var now_timestamp: int = Time.get_unix_time_from_system()
+	var seconds_since_anchor: int = now_timestamp - anchor_timestamp
+	var days_since_anchor: float = seconds_since_anchor / 86400.0
+
+	return ANCHOR_STARDATE_BASE + days_since_anchor
+
+## Klingon Format: "Day [X] in the Year of Kahless [Y]"
+func get_klingon_date() -> String:
+	var now: Dictionary = Time.get_datetime_dict_from_system()
+	
+	# Calculate Klingon Year
+	var klingon_year: int = now["year"] - KLINGON_YEAR_OFFSET
+	
+	# Calculate Day of the Year (1 - 366)
+	var day_of_year: int = _get_day_of_year(now)
+	
+	return "Day %d in the Year of Kahless %d" % [day_of_year, klingon_year]
+
+## Romulan Format: "Imperial Year [Y].[Day]"
+func get_romulan_date() -> String:
+	var now: Dictionary = Time.get_datetime_dict_from_system()
+	
+	# Calculate Romulan 'After Settlement' Year
+	var romulan_year: int = now["year"] - ROMULAN_YEAR_OFFSET
+	
+	# Calculate Day of the Year
+	var day_of_year: int = _get_day_of_year(now)
+	
+	# Formatting as "Year.Day" (e.g., 1575.224)
+	return "Imperial Year %d.%03d" % [romulan_year, day_of_year]
+
+# Helper function to calculate the ordinal day of the year
+func _get_day_of_year(date_dict: Dictionary) -> int:
+	var year = date_dict["year"]
+	var month = date_dict["month"]
+	var day = date_dict["day"]
+	
+	var days_in_months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+	
+	# Check for Leap Year
+	if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+		days_in_months[1] = 29
+		
+	var ordinal_day: int = day
+	for i in range(month - 1):
+		ordinal_day += days_in_months[i]
+		
+	return ordinal_day

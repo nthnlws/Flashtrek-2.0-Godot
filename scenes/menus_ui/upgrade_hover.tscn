@@ -22,7 +22,13 @@ upgrade_icons = Dictionary[int, Texture2D]({
 5: ExtResource("7_3qika")
 })
 
-[node name="HoverTooltip" parent="background" index="1" unique_id=1658331268 instance=ExtResource("9_ktc16")]
+[node name="background" parent="NinePatchRect/MarginContainer" parent_id_path=PackedInt32Array(1597193524) index="0" unique_id=180082468]
+unique_name_in_owner = true
+
+[node name="gray_out" parent="NinePatchRect/MarginContainer" parent_id_path=PackedInt32Array(1597193524) index="1" unique_id=348304217]
+unique_name_in_owner = true
+
+[node name="HoverTooltip" parent="." index="1" unique_id=1658331268 instance=ExtResource("9_ktc16")]
 visible = false
 z_index = 1
 layout_mode = 0

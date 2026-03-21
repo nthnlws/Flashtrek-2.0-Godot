@@ -96,22 +96,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=48221289 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=1674243145 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control2" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=1674243145 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector2" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=66238195 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control3" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=767728364 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector3" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=1741543113 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control4" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=521235363 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector4" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=1460177149 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control5" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=894165057 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector5" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=1913708502 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control6" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=2045651139 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector6" parent="ship_selection_area/GridMarginContainer/Grid/FederationGrid" unique_id=667766340 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
 [node name="KlingonGrid" type="HBoxContainer" parent="ship_selection_area/GridMarginContainer/Grid" unique_id=160619607]
@@ -119,22 +119,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=1531992208 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=1721313772 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control2" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=1810198173 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector2" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=266632016 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control3" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=1212307654 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector3" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=756164434 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control4" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=1352692757 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector4" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=1928314979 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control5" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=208998915 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector5" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=479598623 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control6" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=314367138 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector6" parent="ship_selection_area/GridMarginContainer/Grid/KlingonGrid" unique_id=593697699 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
 [node name="RomulanGrid" type="HBoxContainer" parent="ship_selection_area/GridMarginContainer/Grid" unique_id=1752421537]
@@ -142,22 +142,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1373276634 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1069303605 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control2" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1542074779 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector2" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1938250067 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control3" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1822077459 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector3" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1219232114 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control4" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=877792075 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector4" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=368052766 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control5" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=640041513 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector5" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1168738807 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control6" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=432161215 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector6" parent="ship_selection_area/GridMarginContainer/Grid/RomulanGrid" unique_id=1824788652 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
 [node name="NeutralGrid" type="HBoxContainer" parent="ship_selection_area/GridMarginContainer/Grid" unique_id=146769391]
@@ -165,22 +165,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Control" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=771689858 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=666647066 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control2" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=560676670 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector2" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1209494845 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control3" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1500429620 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector3" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1066648945 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control4" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1153434115 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector4" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=591212471 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control5" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1578042380 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector5" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1567913091 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
-[node name="Control6" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=1897047460 instance=ExtResource("13_y5r6i")]
+[node name="ShipSelector6" parent="ship_selection_area/GridMarginContainer/Grid/NeutralGrid" unique_id=63381915 instance=ExtResource("13_y5r6i")]
 layout_mode = 2
 
 [node name="vert_gray" type="ColorRect" parent="." unique_id=1418520609]

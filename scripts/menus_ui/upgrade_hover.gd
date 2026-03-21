@@ -1,15 +1,16 @@
-extends TextureButton
+extends Control
 class_name UpgradeHover
 
 signal icon_hovered
 enum Type { DAMAGE, FIRE_RATE, HEALTH, ROTATION, SHIELD, SPEED }
 
-@onready var background: ColorRect = $background
-@onready var icon: TextureRect = $background/icon
-@onready var gray_out: ColorRect = $gray_out
+@onready var background: ColorRect = %background
+@onready var icon: TextureRect = %icon
+@onready var gray_out: ColorRect = %gray_out
 @onready var lock_symbol: TextureRect = $lock_symbol
 @onready var count: RichTextLabel = $UpgradeCount
-@onready var tooltip: PanelContainer = $background/HoverTooltip
+@onready var tooltip: PanelContainer = $HoverTooltip
+
 
 const DEFAULT_GREY:Color = Color("5d5d5d")
 const PRESSED_GREY:Color = Color("707070")

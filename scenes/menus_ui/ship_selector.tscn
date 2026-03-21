@@ -10,10 +10,23 @@ region = Rect2(0, 0, 48, 48)
 filter_clip = true
 
 [node name="ShipSelector" unique_id=1674243145 groups=["ship_selection_frame"] instance=ExtResource("1_fuk3m")]
+mouse_filter = 2
 script = ExtResource("2_k7jjm")
+current_ship_type = 0
+ship_faction = 3
+unlock_price = 0
 
-[node name="icon" parent="background" parent_id_path=PackedInt32Array(180082468) index="0" unique_id=1041974235]
+[node name="MarginContainer" parent="NinePatchRect" parent_id_path=PackedInt32Array(1186606931) index="0" unique_id=1597193524]
+mouse_filter = 2
+
+[node name="background" parent="NinePatchRect/MarginContainer" index="0" unique_id=180082468]
+mouse_filter = 0
+
+[node name="icon" parent="NinePatchRect/MarginContainer/background" index="0" unique_id=1041974235]
 texture = SubResource("AtlasTexture_3s3b2")
 
-[node name="lock_symbol" parent="." index="2" unique_id=1087790095]
+[node name="gray_out" parent="NinePatchRect/MarginContainer" index="1" unique_id=348304217]
+unique_name_in_owner = true
+
+[node name="lock_symbol" parent="." index="1" unique_id=1087790095]
 mouse_filter = 2

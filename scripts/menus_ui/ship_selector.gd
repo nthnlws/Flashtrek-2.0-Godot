@@ -16,6 +16,7 @@ func _ready() -> void:
 
 func _on_hovered() -> void:
 	background.color = PRESSED_GREY
+	is_hovered = true
 	icon_hovered.emit(self)
 
 
