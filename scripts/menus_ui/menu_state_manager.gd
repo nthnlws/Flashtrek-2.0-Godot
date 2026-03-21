@@ -58,10 +58,10 @@ func handle_escape_press() -> void:
 			toggle_menu($GalaxyMap, Utility.MENUSTATE.NONE)
 		Utility.MENUSTATE.STARBASE:
 			# Starbase comms are open, close it
-			toggle_menu($ShipSelectionMenu, Utility.MENUSTATE.NONE)
+			toggle_menu($StarbaseMenu, Utility.MENUSTATE.NONE)
 		Utility.MENUSTATE.SHIPINFO:
 			# Ship status menu is open, close it
-			toggle_menu($ShipUpgradeMenu, Utility.MENUSTATE.NONE)
+			toggle_menu($StarbaseMenu, Utility.MENUSTATE.NONE)
 
 
 # Handle M key press (for the Galaxy Map)
@@ -85,11 +85,12 @@ func _handle_player_death() -> void:
 
 
 func toggle_ship_selection():
+	var starbase_menu = $StarbaseMenu
 	var starbase: Node2D = LevelManager.starbases[0]
 	if starbase.player_in_range == true:
-		$ShipSelectionMenu.visible = true
-		$ShipSelectionMenu.mouse_filter = Control.MOUSE_FILTER_STOP
-		$ShipSelectionMenu.start_ambience()
+		starbase_menu.visible = true
+		starbase_menu.mouse_filter = Control.MOUSE_FILTER_STOP
+		starbase_menu.start_ambience()
 		current_state = Utility.MENUSTATE.STARBASE
 
 

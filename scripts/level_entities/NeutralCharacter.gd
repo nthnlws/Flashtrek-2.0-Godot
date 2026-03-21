@@ -65,7 +65,7 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 
 
 func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
-	var ship_stats:Dictionary = Utility.SHIP_STATS[ship]
+	var ship_stats:Dictionary = Utility.SHIP_DATA[ship]
 	
 	move_speed = ship_stats.SPEED
 	rotation_rate = ship_stats.ROTATION_SPEED

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpd0paggi412v"
-path="res://.godot/imported/menu_button_round.png-16b1627e068248f1235194548b940af9.ctex"
+uid="uid://db4asel4ucnxb"
+path="res://.godot/imported/selection_menu_neutral.png-f8c950a118c7aee7bba3159c62c0975c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/UI/ship_selection_menu/menu_button_round.png"
-dest_files=["res://.godot/imported/menu_button_round.png-16b1627e068248f1235194548b940af9.ctex"]
+source_file="res://assets/textures/UI/ship_selection_menu/selection_menu_neutral.png"
+dest_files=["res://.godot/imported/selection_menu_neutral.png-f8c950a118c7aee7bba3159c62c0975c.ctex"]
 
 [params]
 

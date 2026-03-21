@@ -136,9 +136,7 @@ enum SHIP_TYPES {
 }
 
 ## Accessed by Utility.SHIP_DATA[Utility.SHIP_TYPES.ship_name].variable
-var SHIP_DATA: Dictionary  # Loaded from ShipData.txt  — sprite, collision, faction etc.
-## Accessed by Utility.SHIP_STATS[Utility.SHIP_TYPES.ship_name].variable
-var SHIP_STATS: Dictionary # Loaded from ShipStats.txt — movement, health, combat stats
+var SHIP_DATA: Dictionary  # Loaded from ShipData.txt
 
 var is_initial_load: bool = true
 var fadeLength: float = 2.0 # Used for fade in/out on Galaxy Warp
@@ -166,7 +164,7 @@ enum AUDIO_BUS {
 
 
 func _init() -> void:
-	load_ship_data()
+	_load_txt("res://assets/data/ShipData.txt", SHIP_DATA)
 func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)
 
@@ -196,9 +194,6 @@ func _input(event: InputEvent) -> void:
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
-func load_ship_data() -> void:
-	_load_txt("res://assets/data/ShipData.txt", SHIP_DATA)
-	_load_txt("res://assets/data/ShipStats.txt", SHIP_STATS)
 
 func _load_txt(path: String, target: Dictionary) -> void:
 	var absolute_path: String = ProjectSettings.globalize_path(path)
@@ -207,10 +202,8 @@ func _load_txt(path: String, target: Dictionary) -> void:
 		push_error("TXT loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
 		file = FileAccess.open(path, FileAccess.READ)
 		return
-	#else: print('loading file path %s: ' % path)
 
 	var headers: PackedStringArray = file.get_csv_line()
-
 	while not file.eof_reached():
 		var row: PackedStringArray = file.get_csv_line()
 		if row.size() < headers.size() or (row.size() == 1 and row[0] == ""):
@@ -218,11 +211,37 @@ func _load_txt(path: String, target: Dictionary) -> void:
 
 		var entry: Dictionary = {}
 		for i: int in range(headers.size()):
-			entry[headers[i]] = _parse_csv_value(row[i])
+			var header: String = headers[i]
+			var raw: Variant = _parse_csv_value(row[i])
+			entry[header] = _convert_special_value(header, raw)
 
-		var key = entry.get("INDEX")
+		var key: Variant = entry.get("INDEX")
 		if key != null:
 			target[key] = entry
+
+
+func _convert_special_value(header: String, value: Variant) -> Variant:
+	if value == null:
+		return value
+	if value is String and value == "":
+		return value
+	match header:
+		"ARCHETYPE":
+			return _parse_enum(Scaling.ARCHETYPE, str(value), Scaling.ARCHETYPE.CRUISER)
+		"TRAIT":
+			return _parse_enum(Scaling.SHIP_TRAIT, str(value), Scaling.SHIP_TRAIT.NONE)
+		"FACTION":
+			return _parse_enum(FACTION, str(value), FACTION.NEUTRAL)
+		_:
+			return value
+
+
+func _parse_enum(enum_dict: Dictionary, value: String, fallback: int) -> int:
+	var key: String = value.strip_edges().to_upper()
+	if enum_dict.has(key):
+		return enum_dict[key]
+	push_warning("CSV enum parse failed — key '%s' not found, using fallback" % value)
+	return fallback
 
 
 func _parse_csv_value(value: String) -> Variant:
@@ -370,7 +389,7 @@ const KLINGON_YEAR_OFFSET: int = 1374 # 2373 AD = Year 999 YoK
 const ROMULAN_YEAR_OFFSET: int = 450   # Landing on Romulus approx 450 AD
 
 ## Original Federation Stardate Function
-func calculate_current_stardate() -> float:
+func get_federation_date() -> float:
 	var anchor_dict: Dictionary = {
 		"year": ANCHOR_YEAR, "month": ANCHOR_MONTH, "day": ANCHOR_DAY,
 		"hour": 0, "minute": 0, "second": 0

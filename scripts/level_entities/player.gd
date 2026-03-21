@@ -74,7 +74,6 @@ func _ready() -> void:
 	
 	_connect_signals()
 	_sync_data_to_resource(LevelManager.galaxy_data.player_ship_type)
-	_sync_stats_to_resource(LevelManager.galaxy_data.player_ship_type)
 	
 	energy.max_energy = energy.max_energy * stats.EnergyCapacityMult
 	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
@@ -89,7 +88,6 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.teleport_player.connect(teleport)
 	SignalBus.player_type_changed.connect(_sync_data_to_resource)
-	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
 	MissionManager.mission_started.connect(_handle_mission_pickup)
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
@@ -117,25 +115,19 @@ func _sync_data_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary 
 	PV2Array = center_polygon(PV2Array)
 	$hitbox_area/CollisionPolygon2D.polygon = PV2Array
 	$WorldCollisionShape.polygon = PV2Array
-
-
-func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
-	var ship_stats: Dictionary = Utility.SHIP_STATS[ship]
-	var ship_data: Dictionary = Utility.SHIP_DATA[ship]
-	ship_stats.DAMAGE_MULTIPLIER = 1.0
 	
 	# Override ship stats if override present
 	if !stats_override.is_empty():
-		ship_stats = stats_override
+		ship_data = stats_override
 	
-	max_speed = ship_stats.SPEED
-	rotation_speed = ship_stats.ROTATION_SPEED
-	base_cargo_size = ship_stats.get_or_add("CARGO_SIZE", 1)
-	health_component.HP_max = ship_stats.MAX_HP
-	health_component.hp_current = ship_stats.MAX_HP
-	health_component.SP_max = ship_stats.MAX_SHIELD
-	health_component.sp_current = ship_stats.MAX_SHIELD
-	ship_damage_multipler = ship_stats.DAMAGE_MULTIPLIER
+	max_speed = ship_data.SPEED
+	rotation_speed = ship_data.ROTATION_SPEED
+	base_cargo_size = ship_data.get_or_add("CARGO_SIZE", 1)
+	health_component.HP_max = ship_data.MAX_HP
+	health_component.hp_current = ship_data.MAX_HP
+	health_component.SP_max = ship_data.MAX_SHIELD
+	health_component.sp_current = ship_data.MAX_SHIELD
+	ship_damage_multipler = ship_data.get("DAMAGE_MULTIPLIER", 1.0)
 	faction = ship_data.FACTION
 	
 	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)

@@ -1,10 +1,14 @@
 extends TextureRect
+class_name RoundedButton
 
 @export var enabled: bool = true
 @onready var text_button: TextButton = $TextButton
 
 var active_tweens: Array[Tween]
 var animation_duration: float = 0.5
+
+func set_text(new_text: String) -> void:
+	text_button.text = new_text
 
 
 func tween_out() -> void:

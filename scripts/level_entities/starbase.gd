@@ -5,10 +5,13 @@ class_name Starbase
 @onready var comm_distance: float = $Area2D/CollisionShape2D.shape.radius
 
 var player_in_range:bool = false
-const STARBASE_FEDERATION = preload("uid://p0cyamor3c2t")
-const STARBASE_KLINGON = preload("uid://dvdnin0yidfsm")
-const STARBASE_ROMULAN = preload("uid://b0yxn416jdx8a")
-
+@export var starbase_textures: Dictionary[Utility.FACTION, Texture2D]
+const starbase_scales: Dictionary[Utility.FACTION, Vector2] = {
+	Utility.FACTION.FEDERATION: Vector2(0.7, 0.7),
+	Utility.FACTION.KLINGON: Vector2(1.27, 1.27),
+	Utility.FACTION.ROMULAN: Vector2(0.63, 0.63),
+	Utility.FACTION.NEUTRAL: Vector2(0.6, 0.6),
+}
 
 func _ready() -> void:
 	z_index = Utility.Z["Starbase"]
@@ -18,15 +21,8 @@ func _ready() -> void:
 
 func update_faction(new_system: SystemData) -> void:
 	var new_faction: Utility.FACTION = new_system.faction
-	if new_faction == Utility.FACTION.FEDERATION:
-		sprite.texture = STARBASE_FEDERATION
-		sprite.scale = Vector2(0.7, 0.7)
-	if new_faction == Utility.FACTION.KLINGON:
-		sprite.texture = STARBASE_KLINGON
-		sprite.scale = Vector2(1.27, 1.27)
-	if new_faction == Utility.FACTION.ROMULAN:
-		sprite.texture = STARBASE_ROMULAN
-		sprite.scale = Vector2(0.63, 0.63)
+	sprite.texture = starbase_textures.get(new_faction)
+	sprite.scale = starbase_scales.get(new_faction)
 
 
 func _physics_process(delta: float) -> void:

@@ -9,7 +9,7 @@ func _ready() -> void:
 
 func update_stardate() -> void:
 	# Calculate the current Stardate
-	var current_stardate: float = Utility.calculate_current_stardate()
+	var current_stardate: float = Utility.get_federation_date()
 	
 	# Format the text for the label, showing one decimal place
 	text = "Stardate: %.1f" % current_stardate

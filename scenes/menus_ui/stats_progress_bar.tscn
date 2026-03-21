@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dcr6vn067q1ma"]
+
+[ext_resource type="Texture2D" uid="uid://dbegu3eeq8unb" path="res://assets/textures/UI/ship_selection_menu/progress_bar_frame.png" id="1_fjp26"]
+[ext_resource type="Script" uid="uid://co5qnv7cl88xr" path="res://scripts/menus_ui/stats_progress_bar.gd" id="1_vcde3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vcde3"]
+bg_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83fjv"]
+bg_color = Color(0, 0.35806996, 0.099583514, 1)
+
+[sub_resource type="Theme" id="Theme_wefvt"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_vcde3")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_83fjv")
+
+[node name="StatsProgressBar" type="Control" unique_id=1116322518]
+custom_minimum_size = Vector2(256, 50)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 50.0
+script = ExtResource("1_vcde3")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1399479376]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_wefvt")
+value = 50.0
+show_percentage = false
+
+[node name="Frame" type="NinePatchRect" parent="." unique_id=1088746184]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fjp26")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+metadata/_edit_horizontal_guides_ = [10.0]

@@ -1,0 +1,170 @@
+[gd_scene format=3 uid="uid://coi3fmkymbj2q"]
+
+[ext_resource type="Script" uid="uid://ccgeinf5odk32" path="res://scripts/menus_ui/starbase_menu.gd" id="1_bnhsj"]
+[ext_resource type="Texture2D" uid="uid://dkolrnhn4vqai" path="res://assets/textures/UI/ship_selection_menu/selection_menu_romulan.png" id="1_lbelg"]
+[ext_resource type="Texture2D" uid="uid://bi4ugrc4qaol4" path="res://assets/textures/UI/ship_selection_menu/selection_menu_klingon.png" id="1_rhiq8"]
+[ext_resource type="Texture2D" uid="uid://bqpek1dsitjt" path="res://assets/textures/UI/ship_selection_menu/selection_menu_federation.png" id="2_04oyq"]
+[ext_resource type="PackedScene" uid="uid://bs3phgjv8mqjs" path="res://scenes/menus_ui/rounded_button.tscn" id="2_nbnet"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_04oyq"]
+[ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_selector.tscn" id="4_3x4dw"]
+
+[node name="StarbaseMenu" type="Control" unique_id=694363471 node_paths=PackedStringArray("security_labels", "ship_buttons", "title_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bnhsj")
+federation_unlocks = Array[int]([0])
+security_labels = [NodePath("TopSecurity"), NodePath("BottomSecurity")]
+ship_buttons = [NodePath("ButtonContainer/RoundedButton"), NodePath("ButtonContainer/RoundedButton2"), NodePath("ButtonContainer/RoundedButton3"), NodePath("ButtonContainer/RoundedButton4"), NodePath("ButtonContainer/RoundedButton5"), NodePath("ButtonContainer/RoundedButton6")]
+title_label = NodePath("FactionTitle")
+faction_backgrounds = Dictionary[int, Texture]({
+0: ExtResource("2_04oyq"),
+1: ExtResource("1_rhiq8"),
+2: ExtResource("1_lbelg")
+})
+metadata/_edit_horizontal_guides_ = [81.0, 506.0]
+
+[node name="Background" type="ColorRect" parent="." unique_id=238010983]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="FactionBorder" type="TextureRect" parent="." unique_id=1999267077]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_lbelg")
+expand_mode = 1
+
+[node name="Stardate" type="Label" parent="." unique_id=1288970419]
+modulate = Color(0.16078432, 0.41960785, 0.3882353, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -942.0
+offset_top = 8.0
+offset_right = -519.0
+offset_bottom = 26.125
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("3_04oyq")
+theme_override_font_sizes/font_size = 15
+text = "Imperial Year: 1575.224"
+vertical_alignment = 1
+
+[node name="TopSecurity" type="Label" parent="." unique_id=305263924]
+modulate = Color(0.16078432, 0.41960785, 0.3882353, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -234.0
+offset_top = 5.0
+offset_right = -8.0
+offset_bottom = 23.125
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("3_04oyq")
+theme_override_font_sizes/font_size = 15
+text = "Security Clearance: Veridian 4"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BottomSecurity" type="Label" parent="." unique_id=1541816559]
+modulate = Color(0.16078432, 0.41960785, 0.3882353, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -323.0
+offset_top = 522.0
+offset_right = -6.0
+offset_bottom = 540.125
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("3_04oyq")
+theme_override_font_sizes/font_size = 15
+text = "Security Clearance: Veridian 4"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="FactionTitle" type="Label" parent="." unique_id=567162500]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 29.0
+offset_right = 346.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("3_04oyq")
+theme_override_font_sizes/font_size = 30
+text = "Tal'Shiar Armament Access"
+
+[node name="ButtonContainer" type="VBoxContainer" parent="." unique_id=1417660356]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 142.00002
+offset_right = 646.0
+offset_bottom = 932.0
+scale = Vector2(0.35, 0.35)
+theme_override_constants/separation = 20
+
+[node name="RoundedButton" parent="ButtonContainer" unique_id=521845913 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton2" parent="ButtonContainer" unique_id=855696567 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton3" parent="ButtonContainer" unique_id=795802715 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton4" parent="ButtonContainer" unique_id=1171803641 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton5" parent="ButtonContainer" unique_id=982969905 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="RoundedButton6" parent="ButtonContainer" unique_id=80523781 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
+layout_mode = 2
+
+[node name="Grid" type="VBoxContainer" parent="." unique_id=791743340]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 382.0
+offset_top = 211.0
+offset_right = 582.0
+offset_bottom = 343.0
+scale = Vector2(1.5, 1.5)
+pivot_offset_ratio = Vector2(0, 0.5)
+size_flags_horizontal = 4
+
+[node name="Row1" type="HBoxContainer" parent="Grid" unique_id=1532264119]
+layout_mode = 2
+
+[node name="ShipSelector" parent="Grid/Row1" unique_id=995253799 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector2" parent="Grid/Row1" unique_id=1674243145 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector3" parent="Grid/Row1" unique_id=1322662301 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="Row2" type="HBoxContainer" parent="Grid" unique_id=1250478058]
+layout_mode = 2
+
+[node name="ShipSelector4" parent="Grid/Row2" unique_id=1528928479 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector5" parent="Grid/Row2" unique_id=352058281 instance=ExtResource("4_3x4dw")]
+layout_mode = 2
+
+[node name="ShipSelector6" parent="Grid/Row2" unique_id=1744926049 instance=ExtResource("4_3x4dw")]
+layout_mode = 2

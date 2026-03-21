@@ -60,8 +60,8 @@ func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: Dictionary) -
 	#print("ship type set to %s in upgrade menu" % Utility.SHIP_TYPES.keys()[ship_type])
 	set_background(ship_type)
 	
-	%ship_name.text = "Ship Name: %s" % Utility.SHIP_TYPES.keys()[ship_type].replace("_", " ")
-	%faction.text = "Current Faction: %s" % Utility.FACTION.keys()[Utility.get_faction_from_ship_type(ship_type)].to_pascal_case()
+	%ship_name.text = "Ship Name: %s" % Utility.SHIP_TYPES.keys()[ship_type].capitalize()
+	%faction.text = "Current Faction: %s" % Utility.FACTION.keys()[new_stats.FACTION].capitalize()
 	%health_stat.text = "Health: %s" % new_stats.MAX_HP
 	%shield_stat.text = "Shield: %s" % new_stats.MAX_SHIELD
 	%speed_stat.text = "Max Speed: %s" % new_stats.SPEED
