@@ -26,7 +26,6 @@ func _ready() -> void:
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
 	agro_box.body_exited.connect(_on_agro_box_body_exited)
 	
-	SignalBus.enemy_type_changed.connect(_sync_stats_to_resource)
 	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
 	SignalBus.playerDied.connect(_clear_agro)
 
@@ -53,22 +52,20 @@ func targetMovement(delta: float) -> void:
 	var randomized_position: Vector2 = randomize_position(predicted_position)
 	var to_target: Vector2 = predicted_position - global_position
 	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
+	var angle_abs: float = absf(angle_diff)
 	var distance_to_target: float = to_target.length()
 	
-	if absf(angle_diff) > PI / 6.0:
-		# Angle diff > 30 degrees: rotate only, kill velocity immediately
-		_rotate_toward_target(angle_diff, delta)
-		velocity = Vector2.ZERO
+	_rotate_toward_target(angle_diff, delta)
+	
+	if distance_to_target > 1000:
+		var thrust_factor: float = clampf(1.0 - (angle_abs / deg_to_rad(90.0)), 0.0, 1.0)
+		var target_velocity: Vector2 = to_target.normalized() * move_speed * thrust_factor
+		velocity = velocity.move_toward(target_velocity, move_speed * delta * 2.0)
 	else:
-		# Facing close enough to target: rotate and move
-		_rotate_toward_target(angle_diff, delta)
-		if distance_to_target > 1000:
-			velocity = to_target.normalized() * move_speed
-		else:
-			velocity = velocity.move_toward(Vector2.ZERO, 25.0 * delta)
+		velocity = velocity.move_toward(Vector2.ZERO, move_speed * delta * 2.0)
 	
 	move_and_slide()
-	if absf(angle_diff) < TAU / 12.0:
+	if angle_abs < TAU / 12.0:
 		shoot_bullet(predicted_position, randomized_position)
 
 
@@ -184,7 +181,8 @@ func _on_agro_box_body_entered(body) -> void:
 
 
 func _on_agro_box_body_exited(body) -> void:
-	SignalBus.combatantExited.emit(self)
+	if body.is_in_group("player"):
+		SignalBus.combatantExited.emit(self)
 	if body == enemy_target:
 		enemyAgro =  false
 		enemy_target = null

@@ -44,19 +44,26 @@ var current_tweens: Array[Tween] = []
 var current_enemy_list: Array[FactionCharacter] = []
 
 # --- Getters for Stat Application ---
+var base_rotation_speed: float = 150.0
+var base_max_speed: float = 750.0
+var base_acceleration: float = 500
+var base_rate_of_fire: float = 5.0
+var base_warp_range: int = 20
+var base_cargo_capacity: int = 1
+
 var max_speed: float:
-	get: return 750.0 * stats.SpeedMult
+	get: return base_max_speed * stats.SpeedMult
 var rotation_speed: float:
-	get: return 150.0 * stats.RotateMult
+	get: return base_rotation_speed * stats.RotateMult
 var acceleration: float:
-	get: return 6.5 * stats.AccelMult
+	get: return base_acceleration * stats.AccelMult
 var rate_of_fire: float:
-	get: return 5.0 * stats.FireRateMult
+	get: return base_rate_of_fire * stats.FireRateMult
 var warp_range: int:
-	get: return 20 + stats.WarpRangeAdd
+	get: return base_warp_range + stats.WarpRangeAdd
 var cargo_capacity: int:
-	get: return 1 + stats.CargoCapacityAdd
-var ship_damage_multipler: float = 1.0
+	get: return base_cargo_capacity + stats.CargoCapacityAdd
+var ship_damage_multiplier: float = 1.0
 
 # Cargo upgrade variables
 @export var base_cargo_size: int = 1:
@@ -73,7 +80,7 @@ func _ready() -> void:
 	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
 	_connect_signals()
-	_sync_data_to_resource(LevelManager.galaxy_data.player_ship_type)
+	_sync_stats_to_resource(LevelManager.galaxy_data.player_ship_type)
 	
 	energy.max_energy = energy.max_energy * stats.EnergyCapacityMult
 	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
@@ -87,7 +94,7 @@ func _ready() -> void:
 
 func _connect_signals() -> void:
 	SignalBus.teleport_player.connect(teleport)
-	SignalBus.player_type_changed.connect(_sync_data_to_resource)
+	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
 	MissionManager.mission_started.connect(_handle_mission_pickup)
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
@@ -99,7 +106,7 @@ func _connect_signals() -> void:
 	tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
-func _sync_data_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
+func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
 	var ship_data: Dictionary = Utility.SHIP_DATA.values()[ship]
 	
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
@@ -120,14 +127,14 @@ func _sync_data_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary 
 	if !stats_override.is_empty():
 		ship_data = stats_override
 	
-	max_speed = ship_data.SPEED
-	rotation_speed = ship_data.ROTATION_SPEED
-	base_cargo_size = ship_data.get_or_add("CARGO_SIZE", 1)
+	base_max_speed = ship_data.SPEED
+	base_rotation_speed = ship_data.ROTATION_SPEED
 	health_component.HP_max = ship_data.MAX_HP
 	health_component.hp_current = ship_data.MAX_HP
 	health_component.SP_max = ship_data.MAX_SHIELD
 	health_component.sp_current = ship_data.MAX_SHIELD
-	ship_damage_multipler = ship_data.get("DAMAGE_MULTIPLIER", 1.0)
+	base_cargo_capacity = ship_data.get("CARGO_SIZE", 1)
+	ship_damage_multiplier = ship_data.get("DAMAGE_MULTIPLIER", 1.0)
 	faction = ship_data.FACTION
 	
 	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
@@ -224,25 +231,21 @@ func _physics_process(delta: float) -> void:
 
 func _handle_movement(delta: float) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-	# Check for keyboard input (Windows) and add to direction
 		if OS.get_name() == "Windows":
-			direction.x = Input.get_axis("move_backward", "move_forward") # Forward/backward movement
+			direction.x = Input.get_axis("move_backward", "move_forward")
 
-		# Add joystick direction for Android or hybrid control
-		#direction += direction
-		#print(direction)
-		# Apply forward/backward thrust logic
-		if direction.x != 0:
-			velocity += Vector2(direction.x, 0).rotated(rotation) * acceleration / overdrivem_v
+		if direction.x > 0:
+			velocity += Vector2(direction.x, 0).rotated(rotation) * acceleration * delta / overdrivem_v
+			velocity = velocity.limit_length(max_speed / overdrivem_v)
+		elif direction.x < 0:
+			velocity += Vector2(-1, 0).rotated(rotation) * acceleration * delta * 0.8 / overdrivem_v
 			velocity = velocity.limit_length(max_speed / overdrivem_v)
 		else:
-			# Gradually slow down when no input
-			velocity = velocity.move_toward(Vector2.ZERO, 3)
+			velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.175)
 			
 		if direction.y != 0:
 			rotate(deg_to_rad(direction.y * rotation_speed * delta * overdrivem_v))
 		
-		# Handle rotation for keyboard input
 		if OS.get_name() == "Windows":
 			if Input.is_action_pressed("rotate_right"):
 				rotate(deg_to_rad(rotation_speed * delta * overdrivem_r))
@@ -329,7 +332,7 @@ func shoot_torpedo() -> void:
 		bullet.rotation = rotation
 		bullet.shooterObject = self
 		bullet.damage *= stats.DamageMult
-		bullet.damage_multipler = ship_damage_multipler
+		bullet.damage_multipler = ship_damage_multiplier
 		bullet.faction = faction
 		
 		bullet.exceptions.append($hitbox_area)
@@ -355,7 +358,7 @@ func shoot_missile(clicked_pos: Vector2) -> void:
 		energy.consume(cost)
 		energy.lock_regeneration(1.0)
 		missile.max_damage = missile.max_damage * stats.DamageMult
-		missile.damage_multiplier = ship_damage_multipler
+		missile.damage_multiplier = ship_damage_multiplier
 		missile.faction = self.faction
 		missile.target_position = clicked_pos
 		
@@ -629,7 +632,8 @@ func _handle_new_combatant(enemy: FactionCharacter) -> void:
 	# If adding first combatant to list
 	if current_enemy_list.size() == 0:
 		SignalBus.entering_combat.emit()
-	current_enemy_list.append(enemy)
+	if !current_enemy_list.has(enemy):
+		current_enemy_list.append(enemy)
 
 
 func _handle_exiting_combatant(enemy: FactionCharacter) -> void:

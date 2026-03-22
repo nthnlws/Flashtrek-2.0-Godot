@@ -29,7 +29,7 @@ func VectorMovement(delta:float) -> void:
 	move_to_target(movement_target_position, delta)
 
 
-func move_to_target(target_pos: Vector2, delta: float) -> void:
+func move_to_target(target_pos: Vector2, delta: float, speed_mult: float = 1.0) -> void:
 	var to_target: Vector2 = target_pos - global_position
 	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
 	_rotate_toward_target(angle_diff, delta)

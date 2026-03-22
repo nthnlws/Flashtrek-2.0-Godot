@@ -331,6 +331,8 @@ max_distance = 3000.0
 attenuation = 0.615573
 bus = &"Effects"
 
+[connection signal="hull_damage_received" from="HealthComponent" to="." method="_on_hit_received"]
+[connection signal="shield_damage_received" from="HealthComponent" to="." method="_on_hit_received"]
 [connection signal="shield_off" from="HealthComponent" to="Shield" method="turnShieldOff"]
 [connection signal="ship_died" from="HealthComponent" to="." method="explode"]
 [connection signal="recieved_damage" from="hitbox_area" to="HealthComponent" method="collect_damage_events"]

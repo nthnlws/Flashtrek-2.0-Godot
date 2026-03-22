@@ -14,7 +14,7 @@ signal shield_off
 signal shield_on
 
 signal hull_damage_received
-signal shield_damage_received
+signal shield_damage_received(shooter:Node)
 
 #region HP Variables
 @export var HP_max: float = 150:

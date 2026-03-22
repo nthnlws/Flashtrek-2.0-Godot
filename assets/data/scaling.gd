@@ -11,7 +11,7 @@ const PLAYER_STAT_MIN: float = 1.0
 const PLAYER_STAT_MAX: float = 4.5
 const PLAYER_SIG_MID: float = 0.4
 const PLAYER_SIG_K: float = 5.0
-const PLAYER_MOVE_SCALE_MAX: float = 1.3
+const PLAYER_MOVE_SCALE_MAX: float = 1.2
 
 # ─── Unlock Cost Constants ────────────────────────────────────────────────────
 const UNLOCK_COST_MIN: float = 2000.0

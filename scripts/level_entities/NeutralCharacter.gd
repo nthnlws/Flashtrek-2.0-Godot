@@ -26,14 +26,15 @@ var AI_enabled:bool = true
 var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 var ship_index: int # Used for tying ship to Data resource files
 
+var fleeing: bool = false
+var flee_timer: float = 0.0
+const FLEE_DURATION: float = 7.2
+const FLEE_SPEED_MULTIPLIER: float = 1.5
+
 
 func _ready() -> void:
 	_create_unique_texture_atlas()
-
 	_sync_data_to_resource(ship_type)
-	_sync_stats_to_resource(ship_type)
-	
-	# Set initial movement state target
 	call_deferred("selectRandomPlanet")
 	z_index = Utility.Z["NeutralShips"]
 	
@@ -62,15 +63,11 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	PV2Array = center_polygon(PV2Array)
 	collision_shape.polygon = PV2Array
 	hitbox.polygon = PV2Array
-
-
-func _sync_stats_to_resource(ship:Utility.SHIP_TYPES) -> void:
-	var ship_stats:Dictionary = Utility.SHIP_DATA[ship]
 	
-	move_speed = ship_stats.SPEED
-	rotation_rate = ship_stats.ROTATION_SPEED
-	health_component.HP_max = ship_stats.MAX_HP
-	health_component.SP_max = ship_stats.MAX_SHIELD
+	move_speed = ship_data.SPEED
+	rotation_rate = ship_data.ROTATION_SPEED
+	health_component.HP_max = ship_data.MAX_HP
+	health_component.SP_max = ship_data.MAX_SHIELD
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -115,15 +112,24 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func setMovementState(delta:float) -> void:
+func setMovementState(delta: float) -> void:
+	if fleeing:
+		flee_timer -= delta
+		if flee_timer <= 0.0:
+			fleeing = false
+			selectRandomPlanet()
+		else:
+			move_to_target(endPoint, delta, FLEE_SPEED_MULTIPLIER)
+		return
+
 	if global_position.distance_to(starbase.global_position) < 1500 and moveTarget == MOVE_STATE.Starbase:
 		returnToStarbaseBool = false
 		selectRandomPlanet()
 		moveTarget = MOVE_STATE.Planet
-	elif returnToStarbaseBool == false: # Movement toward picked planet
+	elif returnToStarbaseBool == false:
 		planetMovement(delta)
 		moveTarget = MOVE_STATE.Planet
-	elif returnToStarbaseBool == true: # Move toward starbase
+	elif returnToStarbaseBool == true:
 		starbaseMovement(delta)
 		moveTarget = MOVE_STATE.Starbase
 	else: print("No matching movement status")
@@ -146,19 +152,16 @@ func planetMovement(delta:float) -> void:
 		returnToStarbaseBool = true
 
 
-func move_to_target(target_pos: Vector2, delta: float) -> void:
+func move_to_target(target_pos: Vector2, delta: float, speed_mult: float = 1.0) -> void:
 	var to_target: Vector2 = target_pos - global_position
 	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
 	var angle_abs: float = absf(angle_diff)
-	var alignment_threshold: float = deg_to_rad(30.0)
-	if angle_abs > alignment_threshold:
-		# Not yet facing target — rotate only, kill velocity immediately
-		_rotate_toward_target(angle_diff, delta)
-		velocity = Vector2.ZERO
-	else:
-		# Within 30 degrees — rotate and thrust
-		_rotate_toward_target(angle_diff, delta)
-		velocity = transform.x * move_speed
+	
+	_rotate_toward_target(angle_diff, delta)
+	
+	var thrust_factor: float = clampf(1.0 - (angle_abs / deg_to_rad(90.0)), 0.0, 1.0)
+	var target_velocity: Vector2 = transform.x * move_speed * speed_mult * thrust_factor
+	velocity = velocity.move_toward(target_velocity, move_speed * delta * 2.0)
 
 
 func _rotate_toward_target(angle_diff: float, delta: float) -> void:
@@ -196,3 +199,10 @@ func cloak_ship(length:float) -> void:
 func uncloak_ship(length:float) -> void:
 	cloak_animation.speed_scale = 2/length
 	cloak_animation.play("uncloak")
+
+
+func _on_hit_received(shooter: Node) -> void:
+	fleeing = true
+	flee_timer = FLEE_DURATION
+	var flee_direction: Vector2 = (global_position - shooter.global_position).normalized()
+	endPoint = global_position + flee_direction * 10000.0
