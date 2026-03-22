@@ -15,6 +15,7 @@ func _ready() -> void:
 
 
 func _on_hovered() -> void:
+	if !can_hover: return
 	background.color = PRESSED_GREY
 	is_hovered = true
 	icon_hovered.emit(self)
@@ -31,22 +32,26 @@ func _create_unique_atlas() -> void:
 func set_faction(faction: Utility.FACTION) -> void:
 	match faction:
 		Utility.FACTION.FEDERATION:
-			self_modulate = Color(0.457, 0.562, 0.869, 1.0)
+			frame.self_modulate =	Color(0.457, 0.562, 0.869, 1.0)
+			default_frame_color =	Color(0.457, 0.562, 0.869, 1.0)
 		Utility.FACTION.ROMULAN:
-			self_modulate = Color(0.302, 0.522, 0.27, 1.0)
+			frame.self_modulate =	Color(0.302, 0.522, 0.27, 1.0)
+			default_frame_color =	Color(0.302, 0.522, 0.27, 1.0)
 		Utility.FACTION.KLINGON:
-			self_modulate = Color(0.743, 0.32, 0.321, 1.0)
+			frame.self_modulate =	Color(0.743, 0.32, 0.321, 1.0)
+			default_frame_color =	Color(0.743, 0.32, 0.321, 1.0)
 		Utility.FACTION.NEUTRAL:
-			self_modulate = Color(1.0, 1.0, 1.0)
+			frame.self_modulate =	Color(1.0, 1.0, 1.0)
+			default_frame_color =	Color(1.0, 1.0, 1.0)
 
 
 func set_ship_type(type: Utility.SHIP_TYPES) -> void:
-	#print(Utility.SHIP_TYPES.keys()[i] + " " + str(i))
 	var ship_data:Dictionary = Utility.SHIP_DATA[type]
 	icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
 
 
 func _on_button_down() -> void:
+	if !can_click:return
 	icon.scale = Vector2(0.8, 0.8)
 	if !grayed_out:
 		icon_selected.emit(current_ship_type)

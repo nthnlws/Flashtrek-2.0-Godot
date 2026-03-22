@@ -163,6 +163,7 @@ animation = &"explode_hull"
 stream = ExtResource("5_3x835")
 volume_db = -5.0
 pitch_scale = 2.0
+bus = &"Effects"
 
 [node name="torpedo_fire" type="AudioStreamPlayer2D" parent="." unique_id=216149717]
 stream = ExtResource("5_7nkmn")
@@ -170,6 +171,7 @@ volume_db = -5.0
 max_distance = 4000.0
 attenuation = 0.5547841
 panning_strength = 3.0
+bus = &"Effects"
 
 [connection signal="animation_finished" from="explosion_animation" to="." method="_on_animation_finished"]
 [connection signal="finished" from="torpedo_hit" to="." method="_on_torpedo_hit_finished"]

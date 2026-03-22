@@ -461,7 +461,7 @@ func velocity_check() -> bool:
 
 
 func trigger_warp() -> void:
-	if LevelManager.target_system_data:
+	if LevelManager.target_system_data: # Ensure warp has destination
 		if LevelManager.current_system_data.system_name != LevelManager.target_system_data.system_name:
 			var start_sys_id: int = LevelManager.current_system_data.system_index
 			var end_sys_id: int = LevelManager.target_system_data.system_index

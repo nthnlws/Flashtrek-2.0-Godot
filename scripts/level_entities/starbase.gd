@@ -7,7 +7,7 @@ class_name Starbase
 var player_in_range:bool = false
 @export var starbase_textures: Dictionary[Utility.FACTION, Texture2D]
 const starbase_scales: Dictionary[Utility.FACTION, Vector2] = {
-	Utility.FACTION.FEDERATION: Vector2(0.7, 0.7),
+	Utility.FACTION.FEDERATION: Vector2(0.6, 0.6),
 	Utility.FACTION.KLINGON: Vector2(1.27, 1.27),
 	Utility.FACTION.ROMULAN: Vector2(0.63, 0.63),
 	Utility.FACTION.NEUTRAL: Vector2(0.6, 0.6),

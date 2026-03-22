@@ -173,8 +173,11 @@ func _on_agro_box_body_entered(body) -> void:
 		enemyAgro =  true
 		enemy_target = body
 	#print("self name: %s, target name: %s, Own faction: %s, target faction: %s, " % [self.name, body.name, self.faction, body.faction])
+	
+	# Break if either party is neutral
+	if body.faction == Utility.FACTION.NEUTRAL or self.faction == Utility.FACTION.NEUTRAL: return
 	# Hostile faction
-	elif body.faction != self.faction and body.faction != Utility.FACTION.NEUTRAL:
+	if body.faction != self.faction:
 		SignalBus.combatantEntered.emit(self)
 		enemyAgro =  true
 		enemy_target = body

@@ -192,6 +192,7 @@ columns = 3
 
 [node name="ShipSelector" parent="ShipGrid" unique_id=1674243145 instance=ExtResource("4_3x4dw")]
 layout_mode = 2
+can_click = false
 
 [node name="ShipSelector2" parent="ShipGrid" unique_id=920179625 instance=ExtResource("4_3x4dw")]
 layout_mode = 2
@@ -281,7 +282,7 @@ layout_mode = 2
 
 [node name="ambience" type="AudioStreamPlayer" parent="." unique_id=1526442479]
 stream = ExtResource("11_hkoso")
-volume_db = -15.634
+volume_db = -25.0
 bus = &"Effects"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

@@ -14,7 +14,7 @@ offset_right = 64.0
 offset_bottom = 64.0
 script = ExtResource("1_tsr40")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1186606931]
+[node name="Frame" type="NinePatchRect" parent="." unique_id=1186606931]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 anchors_preset = 15
@@ -30,7 +30,7 @@ patch_margin_bottom = 7
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect" unique_id=1597193524]
+[node name="MarginContainer" type="MarginContainer" parent="Frame" unique_id=1597193524]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,14 +42,14 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="background" type="ColorRect" parent="NinePatchRect/MarginContainer" unique_id=180082468]
+[node name="background" type="ColorRect" parent="Frame/MarginContainer" unique_id=180082468]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 color = Color(0.364706, 0.364706, 0.364706, 1)
 script = ExtResource("3_wwhoa")
 
-[node name="icon" type="TextureRect" parent="NinePatchRect/MarginContainer/background" unique_id=1041974235]
+[node name="icon" type="TextureRect" parent="Frame/MarginContainer/background" unique_id=1041974235]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -70,7 +70,7 @@ texture = ExtResource("2_tsr40")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="gray_out" type="ColorRect" parent="NinePatchRect/MarginContainer" unique_id=348304217]
+[node name="gray_out" type="ColorRect" parent="Frame/MarginContainer" unique_id=348304217]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 mouse_filter = 2
@@ -92,7 +92,7 @@ grow_vertical = 0
 texture = ExtResource("3_uvwdm")
 expand_mode = 1
 
-[connection signal="mouse_entered" from="NinePatchRect/MarginContainer/background" to="." method="_on_hovered"]
-[connection signal="mouse_exited" from="NinePatchRect/MarginContainer/background" to="." method="_on_mouse_exited"]
-[connection signal="pressed" from="NinePatchRect/MarginContainer/background" to="." method="_on_button_down"]
-[connection signal="released" from="NinePatchRect/MarginContainer/background" to="." method="_on_button_up"]
+[connection signal="mouse_entered" from="Frame/MarginContainer/background" to="." method="_on_hovered"]
+[connection signal="mouse_exited" from="Frame/MarginContainer/background" to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="Frame/MarginContainer/background" to="." method="_on_button_down"]
+[connection signal="released" from="Frame/MarginContainer/background" to="." method="_on_button_up"]

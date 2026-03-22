@@ -23,9 +23,10 @@ func _input(event: InputEvent) -> void:
 		if (event is InputEventKey
 			or (event is InputEventMouseButton and event.pressed)):
 				
-				# Prevent double click beinga assigned
-				if event is InputEventMouseButton and event.double_click:
-					event.double_click = false
+				# Prevent left clicks being assigned
+				if event is InputEventMouseButton and event.double_click: return
+				elif event.is_action_pressed("left_click"): return
+				elif event.is_action_pressed("right_click"): return
 				
 				InputMap.action_erase_events(action_to_remap)
 				InputMap.action_add_event(action_to_remap, event)

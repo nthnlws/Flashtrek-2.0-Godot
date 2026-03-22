@@ -10,6 +10,7 @@ func _ready() -> void:
 	SignalBus.exited_combat.connect(deactivate_alert)
 	SignalBus.galaxy_warp_finished.connect(_handle_entering_new_system)
 	SignalBus.warningsDisabled.connect(func(check_value): disabled = check_value)
+	SignalBus.playerDied.connect(deactivate_alert)
 	
 	modulate = Color("ff000000")
 
