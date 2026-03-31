@@ -58,13 +58,13 @@ func _on_exit_button_pressed(node_name:String) -> void:
 
 func _on_credit_button_clicked(node_name:String) -> void:
 	AudioManager.play_UI_click_sound()
-	credits.closeButton.grab_focus()
+	credits.close_button.grab_focus()
 	credits.visible = true
 
 func _on_settings_button_pressed(node_name:String) -> void:
 	AudioManager.play_UI_click_sound()
 	settings.visible = true
-	settings.closeButton.grab_focus()
+	settings.close_button.grab_focus()
 
 func _on_credits_closed() -> void:
 	credits.visible = false

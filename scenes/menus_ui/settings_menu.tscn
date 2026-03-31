@@ -135,6 +135,7 @@ size_flags_horizontal = 3
 mouse_filter = 0
 
 [node name="vSyncSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer" unique_id=114640077]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
@@ -189,6 +190,7 @@ size_flags_horizontal = 3
 mouse_filter = 0
 
 [node name="ScaleSetting" type="OptionButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer" unique_id=1957580201]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
@@ -232,7 +234,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="CheckButton" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1905316697]
+[node name="WarningsToggle" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1905316697]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer" unique_id=1623545826]
@@ -396,6 +399,7 @@ step = 0.01
 value = 0.8
 
 [node name="KeybindColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=48488046]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
@@ -460,7 +464,7 @@ size_flags_vertical = 10
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HeaderArea/MenuButtonArea/closeMenuButton" to="." method="close_settings_menu"]
 [connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_setting_changed"]
 [connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
-[connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer/WarningsToggle" to="." method="_on_check_button_toggled"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MasterContainer/HBoxContainer/masterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MusicContainer/HBoxContainer/musicSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/EffectsContainer/HBoxContainer/effectsSlider" to="." method="_on_effects_volume_changed"]

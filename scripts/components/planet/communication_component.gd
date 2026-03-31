@@ -6,7 +6,7 @@ class_name PlanetCommunicationComponent
 func request_hail(player_ship_name: String) -> String:
 	# 1. Active Mission Logic
 	if MissionManager.current_state == MissionManager.STATE.active_mission:
-		if MissionManager.active_mission.target_planet_name == self.name:
+		if MissionManager.active_mission.target_planet_name == planet_data.name:
 			# We are the destination
 			return MissionGenerator.confirmation_complete_prompts.pick_random()
 		else:
@@ -39,7 +39,7 @@ func attempt_interaction(player_ship_name: String) -> String:
 
 	# B. Complete Active
 	elif (MissionManager.current_state == MissionManager.STATE.active_mission
-		and MissionManager.active_mission.target_planet_name == self.name):
+		and MissionManager.active_mission.target_planet_name == planet_data.name):
 		var completed_mission: MissionData = MissionManager.active_mission
 		MissionManager.complete_mission()
 		return _format_completion_message(completed_mission, player_ship_name)

@@ -1,31 +1,33 @@
 # SaveManager.gd
 extends Node
 
+signal settings_loaded(new_settings: SettingsResource)
+
 var current_save_slot: int = -1
+var current_settings: SettingsResource
 
 const SAVE_FOLDER: String = "user://saves/"
 const SAVE_FILE_TEMPLATE: String = "save_slot_%d.res"
-
-
 const SETTINGS_PATH: String = "user://settings.tres"
-var current_settings: SettingsResource
 
+
+# In SaveManager.gd
 func _ready() -> void:
 	_load_menu_settings()
 	_apply_menu_settings()
-
+	
+	settings_loaded.emit.call_deferred(current_settings)
+	get_tree().scene_changed.connect(func(): settings_loaded.emit(current_settings))
 	SignalBus.entering_galaxy_warp.connect(func(): save_galaxy(current_save_slot, LevelManager.galaxy_data))
 
 
 func _apply_menu_settings() -> void:
-	# Apply Video
 	DisplayServer.window_set_vsync_mode(current_settings.vsync_setting)
-	
-	# Apply Audio
-	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, current_settings.master_volume)
-	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MUSIC, current_settings.music_volume)
-	AudioManager.update_bus_volume(Utility.AUDIO_BUS.EFFECTS, current_settings.effects_volume)
-	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MENUS, current_settings.menus_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER,   current_settings.master_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MUSIC,    current_settings.music_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.EFFECTS,  current_settings.effects_volume)
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MENUS,    current_settings.menus_volume)
+	current_settings.apply_keybinds()  # Restore saved keybinds
 
 
 func _load_menu_settings() -> void:
@@ -34,6 +36,7 @@ func _load_menu_settings() -> void:
 	
 	if not current_settings:
 		current_settings = SettingsResource.new()
+
 
 func save_settings() -> void:
 	ResourceSaver.save(current_settings, SETTINGS_PATH)
