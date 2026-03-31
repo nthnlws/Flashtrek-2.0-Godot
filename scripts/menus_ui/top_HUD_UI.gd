@@ -18,6 +18,7 @@ func _ready() -> void:
 	MissionManager.mission_started.connect(_update_mission_text)
 	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_score)
 	MissionManager.mission_completed.connect(_clear_mission_text.unbind(1))
+	MissionManager.mission_failed.connect(_clear_mission_text.unbind(1))
 	SignalBus.factionShipDied.connect(_on_enemy_ship_died)
 	#SignalBus.HUDchanged.connect(change_scale)
 	

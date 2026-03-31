@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bx0gpi1essltr"]
+
+[ext_resource type="Script" uid="uid://1mo1eu2ab28n" path="res://scripts/components/system/escort_ship_component.gd" id="1_4iuk8"]
+
+[node name="ProtectShipComponent" type="Node" unique_id=154051259]
+script = ExtResource("1_4iuk8")

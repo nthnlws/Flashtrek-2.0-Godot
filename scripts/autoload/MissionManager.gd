@@ -4,7 +4,7 @@ extends Node
 #signal new_mission_generated(mission_data: MissionData)
 signal mission_started(mission_data: MissionData)
 signal mission_completed(mission_data: MissionData)
-#signal mission_rejected(reason: String)
+signal mission_failed(reason: String)
 
 var Reputation: PlayerReputation = PlayerReputation.new()
 
@@ -51,6 +51,8 @@ func accept_pending_mission() -> void:
 		system_data.add_component(SystemData.SystemComponentType.KILL_FACTION, active_mission)
 	elif active_mission.type == MissionData.MISSION_TYPE.CONTAINER:
 		system_data.add_component(SystemData.SystemComponentType.CONTAINER, active_mission)
+	elif active_mission.type == MissionData.MISSION_TYPE.ESCORT:
+		system_data.add_component(SystemData.SystemComponentType.ESCORT, active_mission)
 	
 	mission_started.emit(active_mission)
 	
@@ -80,3 +82,15 @@ func complete_mission() -> void:
 		pending_mission = null
 		active_mission = null
 	else: printerr('No active mission to complete')
+
+
+func fail_mission() -> void:
+	if active_mission:
+		var failed_reason: String = "Mission Failed"
+		if active_mission.type == MissionData.MISSION_TYPE.ESCORT:
+			failed_reason = "Escorting ship died, mission failed"
+		mission_failed.emit(failed_reason)
+		
+		current_state = STATE.no_mission
+		pending_mission = null
+		active_mission = null

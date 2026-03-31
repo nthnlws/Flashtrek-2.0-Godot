@@ -35,7 +35,7 @@ var warp_neighbors: Array[SystemData]
 enum SystemComponentType { KILL_FACTION, ESCORT, CONTAINER, }
 @export var component_map: Dictionary[SystemComponentType, PackedScene] = {
 	SystemComponentType.KILL_FACTION: preload("uid://dd0uqe0hng5gy"),
-	#SystemComponentType.ESCORT: preload("res://scenes/components/planet_communication_component.tscn"),
+	SystemComponentType.ESCORT: preload("uid://bx0gpi1essltr"),
 	SystemComponentType.CONTAINER: preload("uid://cgljy0cnyeb7f")
 }
 @export var active_components: Dictionary[SystemComponentType, MissionData]
@@ -52,6 +52,13 @@ func add_component(component_type: SystemComponentType, mission_data: MissionDat
 		return
 	
 	active_components.set(component_type, mission_data)
+
+
+func remove_component(component_type: SystemComponentType) -> void:
+	#print("Removed component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
+	if component_type in active_components:
+		active_components.erase(component_type)
+
 
 func get_components() -> Dictionary[SystemComponentType, MissionData]:
 	return active_components

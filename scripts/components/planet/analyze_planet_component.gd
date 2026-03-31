@@ -136,3 +136,4 @@ func _on_sequence_complete(old_state: Utility.GAMESTATE) -> void:
 		_target_player.set_physics_process(true)
 	
 	MissionManager.complete_mission()
+	

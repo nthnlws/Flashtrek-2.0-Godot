@@ -20,6 +20,7 @@ const FADE_SPEED: float = 5.0
 
 func _ready() -> void:
 	MissionManager.mission_completed.connect(clear_mission_text.unbind(1))
+	MissionManager.mission_failed.connect(clear_mission_text.unbind(1))
 	MissionManager.mission_started.connect(update_mission_text)
 	SignalBus.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)

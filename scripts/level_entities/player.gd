@@ -40,8 +40,8 @@ var shooting_button_held: bool = false
 var cloaked: bool = false
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 var current_cargo: int = 0
-var current_tweens: Array[Tween] = []
-var current_enemy_list: Array[FactionCharacter] = []
+var current_tweens: Array[Tween] 
+var current_enemy_list: Array[FactionCharacter]
 
 # --- Getters for Stat Application ---
 var base_rotation_speed: float = 150.0
@@ -554,7 +554,8 @@ func galaxy_warp_out() -> void:
 
 
 func _handle_mission_pickup(mission_data: MissionData) -> void:
-	current_cargo += 1
+	if mission_data.type == MissionData.MISSION_TYPE.DELIVERY:
+		current_cargo += 1
 
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
@@ -625,8 +626,10 @@ func uncloak_ship(length: float) -> void:
 
 
 func _handle_mission_finish(finished_data: MissionData) -> void:
-	current_cargo -= 1
-	current_cargo = clamp(current_cargo, 0, base_cargo_size)
+	if finished_data.type == MissionData.MISSION_TYPE.DELIVERY:
+		current_cargo -= 1
+		current_cargo = clamp(current_cargo, 0, base_cargo_size)
+
 
 func _handle_new_combatant(enemy: FactionCharacter) -> void:
 	# If adding first combatant to list
