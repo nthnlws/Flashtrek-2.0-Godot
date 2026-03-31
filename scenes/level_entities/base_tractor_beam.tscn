@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dbypet2yfve00"]
 
-[ext_resource type="Script" uid="uid://cadtj6pukd0ci" path="res://scripts/level_entities/tractor_beam.gd" id="1_fnnpl"]
+[ext_resource type="Script" uid="uid://bs30ffk046wd" path="res://scripts/level_entities/base_tractor_beam.gd" id="1_vwgry"]
 [ext_resource type="Shader" uid="uid://dtphrsivpjmra" path="res://resources/Materials_Shaders/tractor_beam.gdshader" id="2_vwgry"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_vwgry"]
@@ -27,7 +27,7 @@ shader_parameter/min_alpha_floor = 0.0
 top_level = true
 collision_layer = 256
 collision_mask = 644
-script = ExtResource("1_fnnpl")
+script = ExtResource("1_vwgry")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1132091049]
 

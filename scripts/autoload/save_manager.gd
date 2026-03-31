@@ -28,6 +28,7 @@ func _apply_menu_settings() -> void:
 	AudioManager.update_bus_volume(Utility.AUDIO_BUS.EFFECTS,  current_settings.effects_volume)
 	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MENUS,    current_settings.menus_volume)
 	current_settings.apply_keybinds()  # Restore saved keybinds
+	Utility.dev_mode_enabled = current_settings.cheats_activated
 
 
 func _load_menu_settings() -> void:

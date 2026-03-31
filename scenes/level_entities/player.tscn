@@ -17,10 +17,10 @@
 [ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/characters/hull_damage_receiver.gd" id="11_2mpn1"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
 [ext_resource type="AudioStream" uid="uid://8q5c25ij7dt0" path="res://assets/audio/effects/smallexplosion3.ogg" id="13_klvb2"]
+[ext_resource type="PackedScene" uid="uid://bajjprkqvejsh" path="res://scenes/level_entities/ship_tractor_beam.tscn" id="13_rue2e"]
 [ext_resource type="PackedScene" uid="uid://dl1t2pm0xwqsn" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
 [ext_resource type="AudioStream" uid="uid://yrcvjrhot45k" path="res://assets/audio/effects/galaxy_warp_UP.ogg" id="16_hjmq1"]
 [ext_resource type="AudioStream" uid="uid://x7f3bcrhvsvq" path="res://assets/audio/effects/warp_boom.ogg" id="17_e8fxd"]
-[ext_resource type="PackedScene" uid="uid://dbypet2yfve00" path="res://scenes/level_entities/tractor_beam.tscn" id="21_rue2e"]
 
 [sub_resource type="Curve" id="Curve_p5fwl"]
 _data = [Vector2(0, 0.78022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -327,9 +327,7 @@ libraries/ = SubResource("AnimationLibrary_vaax2")
 [node name="Laser" parent="." unique_id=998248818 instance=ExtResource("15_ke2ow")]
 show_behind_parent = true
 
-[node name="TractorBeam" parent="." unique_id=1715823975 instance=ExtResource("21_rue2e")]
-visible = false
-position = Vector2(12, -0.66666675)
+[node name="TractorBeam" parent="." unique_id=1757544994 instance=ExtResource("13_rue2e")]
 
 [node name="regen_timer" type="Timer" parent="." unique_id=2024973739]
 

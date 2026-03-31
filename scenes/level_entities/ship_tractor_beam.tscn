@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bajjprkqvejsh"]
+
+[ext_resource type="PackedScene" uid="uid://dbypet2yfve00" path="res://scenes/level_entities/base_tractor_beam.tscn" id="1_hm6y4"]
+[ext_resource type="Script" uid="uid://cadtj6pukd0ci" path="res://scripts/level_entities/ship_tractor_beam.gd" id="2_ickcn"]
+
+[node name="ShipTractorBeam" unique_id=1757544994 instance=ExtResource("1_hm6y4")]
+script = ExtResource("2_ickcn")
+tractor_speed = 250.0
+energy_drain_rate = 10.0

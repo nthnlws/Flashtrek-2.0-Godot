@@ -13,6 +13,7 @@ class_name SettingsResource
 @export_group("Game")
 @export var ui_scale: float = 0.7
 @export var warnings_disabled: bool = false
+@export var cheats_activated: bool = false
 
 @export_group("Keybinds")
 # Stores action name → serialized event string for persistence

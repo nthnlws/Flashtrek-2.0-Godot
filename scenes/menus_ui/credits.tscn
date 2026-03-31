@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c2q23nltytkg1" path="res://scripts/menus_ui/Credits.gd" id="1_kobys"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="2_lme6a"]
 
-[node name="Credits" type="Control" unique_id=976179657 node_paths=PackedStringArray("closeButton", "passcode_input")]
+[node name="Credits" type="Control" unique_id=976179657 node_paths=PackedStringArray("close_button", "passcode_input")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kobys")
-closeButton = NodePath("ColorRect/MarginContainer/ScrollContainer/HeaderButtonContainer/closeMenuButton")
+close_button = NodePath("ColorRect/MarginContainer/ScrollContainer/HeaderButtonContainer/closeMenuButton")
 passcode_input = NodePath("ColorRect/MarginContainer/ScrollContainer/DevSecretContainer/DevModeSecret")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=490982846]

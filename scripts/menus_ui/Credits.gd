@@ -5,7 +5,7 @@ signal closed_credits
 var scroll_pos: float = 0.0
 var max_scroll: float = -1200.0 # Adjust based on needed scroll length
 
-@export var closeButton: Button
+@export var close_button: Button
 @onready var scroll_area = %ScrollContainer
 @export var passcode_input: LineEdit
 
@@ -44,6 +44,8 @@ func _on_passcode_submitted(new_text: String) -> void:
 		Utility.dev_mode_enabled = true
 		passcode_input.text = ""
 		passcode_input.placeholder_text = "Dev Mode Unlocked"
+		SaveManager.current_settings.cheats_activated = true
+		SaveManager.save_settings()
 	else:
 		passcode_input.text = ""
 		passcode_input.placeholder_text = "..."

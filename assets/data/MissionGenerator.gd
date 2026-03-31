@@ -88,7 +88,7 @@ static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData
 	mission.type = selected_type
 	mission.confirm_message = PROMPTS.pick_random()
 	mission.target_system = target_system
-	mission.faction_owner = target_system.faction # Default to system owner
+	mission.faction_owner = current_system.faction # Default to system owner
 	mission.accepted_time = Time.get_ticks_msec()
 	mission.mission_id = "MSN_%d_%d" % [selected_type, mission.accepted_time]
 	
@@ -104,7 +104,7 @@ static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData
 			_setup_escort(mission)
 		MissionData.MISSION_TYPE.ANALYZE:
 			_setup_analysis(mission)
-			
+	
 	return mission
 
 # --- Helper Logic ---
@@ -170,14 +170,10 @@ static func _setup_kill_faction(m: MissionData, current_system: SystemData) -> v
 	m.enemy_faction = Utility.get_enemy_faction(m.faction_owner)
 	m.enemy_target_count = randi_range(2, 5)
 	
-	# Ensure that faction for mission is not the same faction as current system
-	while m.faction_owner == current_system.faction:
-		m.faction_owner = Utility.FACTION.keys().pick_random()
-	
 	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	
 	# Format faction
-	var faction: String = Utility.FACTION.keys()[m.faction_owner]
+	var faction: String = Utility.FACTION.keys()[m.enemy_faction]
 	var formatted_faction: String = faction.to_pascal_case()
 	var formatted_kills: String
 	if formatted_faction == "Klingon":

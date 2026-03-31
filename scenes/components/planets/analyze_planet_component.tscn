@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://cq5kxvmajgng5"]
 
 [ext_resource type="Script" uid="uid://bmt7prtd1070f" path="res://scripts/components/planet/analyze_planet_component.gd" id="1_l0drc"]
+[ext_resource type="PackedScene" uid="uid://djq0tqpmx0twc" path="res://scenes/level_entities/cinematic_tractor_beam.tscn" id="2_u5psy"]
 
 [node name="AnalyzePlanetComponent" type="Node2D" unique_id=1470894390]
 script = ExtResource("1_l0drc")
+
+[node name="CinematicTractorBeam" parent="." unique_id=1757544994 instance=ExtResource("2_u5psy")]

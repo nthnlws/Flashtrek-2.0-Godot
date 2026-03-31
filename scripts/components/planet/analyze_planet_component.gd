@@ -10,10 +10,12 @@ var indicator: MissionIndicator
 # Configuration
 @export var orbit_radius: float = 1500.0
 @export var approach_duration: float = 1.5
-@export var orbit_duration: float = 5.0 # Seconds
+@export var orbit_duration: float = 7.0 # Seconds
 @export var max_orbit_speed: float = 600.0
 @export var orbit_color: Color = Color(0.2, 0.8, 1.0, 0.5)
 @export var accel_fraction: float = 0.15 
+
+@onready var tractor_beam: CinematicTractorBeam = $CinematicTractorBeam
 
 # Internal State
 var _target_player: Node2D = null
@@ -102,6 +104,14 @@ func _process_custom_orbit(t: float) -> void:
 	var offset: Vector2 = Vector2(cos(current_angle), sin(current_angle)) * orbit_radius
 	_target_player.global_position = parent_planet.global_position + offset
 	_target_player.rotation = current_angle + (PI / 2.0)
+	
+	# Tractor Beam updates
+	var in_flat: bool = t >= accel_fraction and t <= (1.0 - accel_fraction)
+	if in_flat:
+		tractor_beam.global_position = _target_player.global_position
+		tractor_beam.activate_toward(parent_planet)
+	elif not in_flat and tractor_beam.beam_active:
+		tractor_beam.deactivate()
 
 
 func _get_trapezoidal_progress(t: float, a: float) -> float:

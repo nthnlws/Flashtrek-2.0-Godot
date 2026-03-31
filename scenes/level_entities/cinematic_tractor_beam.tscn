@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://djq0tqpmx0twc"]
+
+[ext_resource type="PackedScene" uid="uid://dbypet2yfve00" path="res://scenes/level_entities/base_tractor_beam.tscn" id="1_4njca"]
+[ext_resource type="Script" uid="uid://dqvetu5pjygi8" path="res://scripts/level_entities/cinematic_tractor_beam.gd" id="2_4reqh"]
+
+[node name="CinematicTractorBeam" unique_id=1757544994 instance=ExtResource("1_4njca")]
+script = ExtResource("2_4reqh")
