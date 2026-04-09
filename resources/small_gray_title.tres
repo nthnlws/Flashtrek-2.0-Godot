@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://ba47nn8n74kdf"]
+
+[ext_resource type="FontVariation" uid="uid://rf47hcpm7pup" path="res://resources/spaced_Okuda.tres" id="1_j2fuh"]
+
+[resource]
+font = ExtResource("1_j2fuh")
+font_size = 8
+font_color = Color(0.4, 0.4, 0.4, 1)

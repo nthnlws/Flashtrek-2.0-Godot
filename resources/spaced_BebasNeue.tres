@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" format=3 uid="uid://cwgbp1v0fxd8k"]
+
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="1_08web"]
+
+[resource]
+base_font = ExtResource("1_08web")
+spacing_glyph = 1
+spacing_top = 1

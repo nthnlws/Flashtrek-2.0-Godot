@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" format=3 uid="uid://rf47hcpm7pup"]
+
+[ext_resource type="FontFile" uid="uid://dm8tfupg8l1ui" path="res://assets/font/Okuda.otf" id="1_8wc2k"]
+
+[resource]
+base_font = ExtResource("1_8wc2k")
+spacing_glyph = 1

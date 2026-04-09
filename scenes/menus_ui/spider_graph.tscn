@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://de58tf0fe8vi7"]
+
+[ext_resource type="Script" uid="uid://r7vfg60vjf50" path="res://scripts/menus_ui/spider_graph.gd" id="1_5ku22"]
+
+[node name="SpiderGraph" type="Control" unique_id=1385922256]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_5ku22")

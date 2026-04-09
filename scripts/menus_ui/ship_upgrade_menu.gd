@@ -65,7 +65,7 @@ func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: Dictionary) -
 	%health_stat.text = "Health: %s" % new_stats.MAX_HP
 	%shield_stat.text = "Shield: %s" % new_stats.MAX_SHIELD
 	%speed_stat.text = "Max Speed: %s" % new_stats.SPEED
-	%maneuver_stat.text = "Maneuverability: %s" % new_stats.ROTATION_SPEED
+	%agility_stat.text = "Agility: %s" % new_stats.ROTATION_SPEED
 	%weapon.text = "Weapon: Torpedo"
 
 

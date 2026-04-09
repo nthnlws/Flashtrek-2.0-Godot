@@ -1,0 +1,815 @@
+[gd_scene format=3 uid="uid://cq7nipnakpnsu"]
+
+[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="1_44ekp"]
+[ext_resource type="Texture2D" uid="uid://j3fi53qkphtu" path="res://assets/textures/UI/ship_upgrade_menu/corridor_romulan_edited.png" id="1_vgki0"]
+[ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="2_2y2cj"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="2_50soj"]
+[ext_resource type="StyleBox" uid="uid://on2jhiscw266" path="res://resources/orange_banner.tres" id="4_twr8y"]
+[ext_resource type="FontVariation" uid="uid://cwgbp1v0fxd8k" path="res://resources/spaced_BebasNeue.tres" id="6_gqbio"]
+[ext_resource type="Texture2D" uid="uid://bb20682c5fl82" path="res://assets/textures/UI/ship_stats_menu/health_icon.png" id="7_3y1vc"]
+[ext_resource type="FontVariation" uid="uid://rf47hcpm7pup" path="res://resources/spaced_Okuda.tres" id="8_yuiiv"]
+[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="9_twr8y"]
+[ext_resource type="Texture2D" uid="uid://c4p3tjtont85b" path="res://assets/textures/UI/ship_stats_menu/shield_icon.png" id="10_fxv5w"]
+[ext_resource type="Texture2D" uid="uid://byr1t4wk3r0yl" path="res://assets/textures/UI/new_HUD/federation_symbol.svg" id="11_44ekp"]
+[ext_resource type="Texture2D" uid="uid://btgmbffdrpg3a" path="res://assets/textures/UI/ship_stats_menu/energy_icon.png" id="11_gapcq"]
+[ext_resource type="Texture2D" uid="uid://b6g254d043h22" path="res://assets/textures/UI/new_HUD/klingon_symbol.svg" id="12_gqbio"]
+[ext_resource type="Texture2D" uid="uid://dhpxi3okw2mo0" path="res://assets/textures/UI/new_HUD/romulan_symbol.svg" id="13_3y1vc"]
+[ext_resource type="PackedScene" uid="uid://de58tf0fe8vi7" path="res://scenes/menus_ui/spider_graph.tscn" id="14_3y1vc"]
+[ext_resource type="PackedScene" uid="uid://c5s0nigwpa515" path="res://scenes/menus_ui/upgrade_hover.tscn" id="16_fxv5w"]
+[ext_resource type="LabelSettings" uid="uid://ba47nn8n74kdf" path="res://resources/small_gray_title.tres" id="16_k3w1r"]
+[ext_resource type="LabelSettings" uid="uid://b24xvdfbt6lh2" path="res://resources/combat_info.tres" id="17_eq1b8"]
+[ext_resource type="FontFile" uid="uid://d3pmli8sgfifn" path="res://assets/font/Okuda Bold.otf" id="18_01jvp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k3w1r"]
+resource_local_to_scene = true
+shader = ExtResource("1_44ekp")
+shader_parameter/progress = 0.2
+shader_parameter/noise_density = 60.0
+shader_parameter/beam_size = 0.0
+shader_parameter/color = Color(0, 1.02, 1.2, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq1b8"]
+atlas = ExtResource("2_2y2cj")
+region = Rect2(192, 48, 48, 48)
+filter_clip = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_gqbio"]
+font = ExtResource("6_gqbio")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_01jvp"]
+font = ExtResource("6_gqbio")
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v705g"]
+bg_color = Color(0.101960786, 0.0627451, 0.05490196, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.47843137, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_17wuk"]
+color = Color(0.19607843, 0.11764706, 0, 1)
+grow_begin = 0.0
+grow_end = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_b8rxe"]
+font = ExtResource("8_yuiiv")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_n672o"]
+font = ExtResource("9_twr8y")
+font_size = 13
+font_color = Color(0.2, 1, 0.6, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_030s8"]
+bg_color = Color(0.05490196, 0.33333334, 0.23137255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpw5d"]
+bg_color = Color(0.047058824, 0.65882355, 0.4, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_kwrsq"]
+font = ExtResource("9_twr8y")
+font_size = 13
+font_color = Color(0.32, 0.49, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frfd3"]
+bg_color = Color(0, 0.23921569, 0.6, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4e88h"]
+bg_color = Color(0, 0.35686275, 0.8980392, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_ivhov"]
+font = ExtResource("9_twr8y")
+font_size = 13
+font_color = Color(1, 0.81960785, 0.101960786, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kr6j6"]
+bg_color = Color(0.29411766, 0.25490198, 0.0627451, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5v3m"]
+bg_color = Color(1, 0.81960785, 0.101960786, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2y2cj"]
+bg_color = Color(0.3738, 0.3738, 0.89, 1)
+border_width_left = 1
+border_width_top = 4
+border_width_right = 1
+border_width_bottom = 4
+border_color = Color(0.28627452, 0.28627452, 0.6901961, 1)
+border_blend = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_yuiiv"]
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_3y1vc"]
+font = ExtResource("6_gqbio")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_twr8y"]
+font = ExtResource("2_50soj")
+font_size = 12
+font_color = Color(0.4, 0.4, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twr8y"]
+bg_color = Color(0.6, 0.25190002, 0.24600002, 1)
+border_width_left = 1
+border_width_top = 4
+border_width_right = 1
+border_width_bottom = 4
+border_color = Color(0.39607844, 0.16470589, 0.16078432, 1)
+border_blend = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_v705g"]
+font = ExtResource("8_yuiiv")
+font_color = Color(1, 0.8, 0.4, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_17wuk"]
+base_font = ExtResource("18_01jvp")
+spacing_glyph = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_030s8"]
+font = SubResource("FontVariation_17wuk")
+font_color = Color(1, 0.8, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gapcq"]
+bg_color = Color(0.09599999, 0.48, 0.28800002, 1)
+border_width_left = 1
+border_width_top = 4
+border_width_right = 1
+border_width_bottom = 4
+border_color = Color(0.050980393, 0.2784314, 0.16470589, 1)
+border_blend = true
+
+[node name="ShipStatusMenu" type="Control" unique_id=1335963301]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ShipSprite" type="TextureRect" parent="." unique_id=902019999]
+show_behind_parent = true
+z_index = 1
+material = SubResource("ShaderMaterial_k3w1r")
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 0
+offset_left = 85.0
+offset_top = 140.0
+offset_right = 165.0
+offset_bottom = 220.0
+rotation = -1.5707964
+size_flags_horizontal = 4
+texture = SubResource("AtlasTexture_eq1b8")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Background" type="TextureRect" parent="." unique_id=1367059072]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_vgki0")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background" unique_id=729503400]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPanelBackground" type="ColorRect" parent="Background/HBoxContainer" unique_id=1747235950]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+color = Color(0.0036000002, 0.0036000002, 0.06, 0.8117647)
+
+[node name="LeftPanelContainer" type="VBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground" unique_id=500805800]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleBanner" type="Panel" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=1167334854]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_twr8y")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/TitleBanner" unique_id=1359679833]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/TitleBanner/MarginContainer" unique_id=16360236]
+layout_mode = 2
+
+[node name="DotLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/TitleBanner/MarginContainer/HBoxContainer" unique_id=1603025320]
+self_modulate = Color(0.47843137, 0.28627452, 0, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "•"
+
+[node name="StatusLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/TitleBanner/MarginContainer/HBoxContainer" unique_id=1834321128]
+layout_mode = 2
+text = "SHIP STATUS"
+label_settings = SubResource("LabelSettings_gqbio")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=202062658]
+layout_mode = 2
+theme_override_constants/margin_bottom = 100
+
+[node name="ClassLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=1418923542]
+layout_mode = 2
+text = "SOVEREIGN CLASS"
+label_settings = SubResource("LabelSettings_01jvp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FactionPanel" type="Panel" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=841924439]
+custom_minimum_size = Vector2(100, 21)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_v705g")
+
+[node name="Label" type="RichTextLabel" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionPanel" unique_id=840932230]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 1.333334
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("6_gqbio")
+bbcode_enabled = true
+text = "[color=#cc7a00]• [/color][color=#6699CC]FEDERATION"
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=246475559]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=289187222]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_17wuk")
+
+[node name="StatsContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=1029434395]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer" unique_id=1362179983]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HealthBarContainer" type="VBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer" unique_id=989697777]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HealthStatus" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer" unique_id=2042765126]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer/HealthStatus" unique_id=2086236324]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_3y1vc")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TypeLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer/HealthStatus" unique_id=1218407541]
+layout_mode = 2
+text = "HULL HEALTH"
+label_settings = SubResource("LabelSettings_b8rxe")
+
+[node name="ValueLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer/HealthStatus" unique_id=244841325]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100 / 100"
+label_settings = SubResource("LabelSettings_n672o")
+
+[node name="HealthBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer" unique_id=1967659870]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+value = 50.0
+show_percentage = false
+
+[node name="ShieldBarContainer" type="VBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer" unique_id=1541121533]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ShieldStatus" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer" unique_id=1447101232]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer/ShieldStatus" unique_id=1496235840]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_fxv5w")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TypeLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer/ShieldStatus" unique_id=228003888]
+layout_mode = 2
+text = "SHIELD HEALTH"
+label_settings = SubResource("LabelSettings_b8rxe")
+
+[node name="ValueLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer/ShieldStatus" unique_id=710493763]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100 / 100"
+label_settings = SubResource("LabelSettings_kwrsq")
+
+[node name="ShieldBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer" unique_id=246416417]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_frfd3")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4e88h")
+value = 50.0
+show_percentage = false
+
+[node name="EnergyBarContainer" type="VBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer" unique_id=1451505490]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="EnergyStatus" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer" unique_id=1538153236]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Icon" type="TextureRect" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer/EnergyStatus" unique_id=1629317243]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("11_gapcq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TypeLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer/EnergyStatus" unique_id=1354883535]
+layout_mode = 2
+text = "ENERGY"
+label_settings = SubResource("LabelSettings_b8rxe")
+
+[node name="ValueLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer/EnergyStatus" unique_id=524098598]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "100 / 100"
+label_settings = SubResource("LabelSettings_ivhov")
+
+[node name="ShieldBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer" unique_id=78191309]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_kr6j6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a5v3m")
+value = 50.0
+show_percentage = false
+
+[node name="FactionBanner" type="Panel" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=720468798]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2y2cj")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionBanner" unique_id=465966260]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionBanner/MarginContainer" unique_id=2061508519]
+layout_mode = 2
+
+[node name="DotLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionBanner/MarginContainer/HBoxContainer" unique_id=39836556]
+self_modulate = Color(0, 0, 0.2627451, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "•"
+
+[node name="FactionBannerLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionBanner/MarginContainer/HBoxContainer" unique_id=1077766586]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_50soj")
+theme_override_font_sizes/font_size = 18
+text = "FACTION STANDING"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=932448297]
+layout_mode = 2
+
+[node name="FedContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=658544596]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer" unique_id=1768217213]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FactionIcon" type="TextureRect" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=1474633615]
+modulate = Color(0.22352941, 0.5176471, 0.74509805, 1)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("11_44ekp")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=779969700]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+max_value = 20000.0
+step = 1.0
+value = 10000.0
+show_percentage = false
+
+[node name="RepAmountLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=1833011258]
+modulate = Color(0.27450982, 0.8784314, 0.39607844, 1)
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "+105,200"
+label_settings = SubResource("LabelSettings_yuiiv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KlingonContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=693210600]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer" unique_id=1896316514]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FactionIcon" type="TextureRect" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=537590058]
+modulate = Color(1, 0.16470589, 0.16470589, 1)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("12_gqbio")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=418201371]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+max_value = 20000.0
+step = 1.0
+value = 10000.0
+show_percentage = false
+
+[node name="RepAmountLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=490488601]
+modulate = Color(0.92156863, 0.2509804, 0.20392157, 1)
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "-120,000"
+label_settings = SubResource("LabelSettings_yuiiv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RomContainer" type="MarginContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=20217883]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer" unique_id=706534913]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FactionIcon" type="TextureRect" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=295155033]
+modulate = Color(0, 0.5764706, 0.003921569, 1)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("13_3y1vc")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=1946910876]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+max_value = 20000.0
+step = 1.0
+value = 10000.0
+show_percentage = false
+
+[node name="RepAmountLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=2078314189]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "0.00"
+label_settings = SubResource("LabelSettings_yuiiv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightPanel" type="ColorRect" parent="Background/HBoxContainer" unique_id=848459465]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+color = Color(0.003921569, 0.003921569, 0.05882353, 0.8117647)
+
+[node name="RightPanelContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel" unique_id=54985550]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatsBanner" type="Panel" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1501341731]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2y2cj")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner" unique_id=2103065327]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner/MarginContainer" unique_id=1235645667]
+layout_mode = 2
+
+[node name="DotLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner/MarginContainer/HBoxContainer" unique_id=406888852]
+self_modulate = Color(0, 0, 0.2627451, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "•"
+
+[node name="FactionBannerLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner/MarginContainer/HBoxContainer" unique_id=919990972]
+layout_mode = 2
+text = "SHIP STATISTICS"
+label_settings = SubResource("LabelSettings_3y1vc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PerformanceContainer" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1668416050]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="SpiderTitleLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/PerformanceContainer" unique_id=796360422]
+layout_mode = 2
+text = "PERFORMANCE PROFILE"
+label_settings = SubResource("LabelSettings_twr8y")
+
+[node name="SpiderGraph" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1385922256 instance=ExtResource("14_3y1vc")]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+label_font_size = 8
+label_offset = 20.0
+
+[node name="CombatInfoBanner" type="Panel" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=230077478]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_twr8y")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/CombatInfoBanner" unique_id=1860691967]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/CombatInfoBanner/MarginContainer" unique_id=1282757268]
+layout_mode = 2
+
+[node name="DotLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/CombatInfoBanner/MarginContainer/HBoxContainer" unique_id=1233610199]
+self_modulate = Color(0.3019608, 0.12156863, 0.12156863, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "•"
+
+[node name="FactionBannerLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/CombatInfoBanner/MarginContainer/HBoxContainer" unique_id=2009545104]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_50soj")
+theme_override_font_sizes/font_size = 18
+text = "COMBAT INFO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=182763620]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3" unique_id=1277762704]
+layout_mode = 2
+columns = 2
+
+[node name="WeaponContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer" unique_id=738202521]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WeaponTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/WeaponContainer" unique_id=1653756658]
+layout_mode = 2
+text = "PRIMARY WEAPON"
+label_settings = ExtResource("16_k3w1r")
+
+[node name="WeaponName" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/WeaponContainer" unique_id=63064454]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TORPEDO"
+label_settings = ExtResource("17_eq1b8")
+vertical_alignment = 1
+
+[node name="CloakContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer" unique_id=2004771087]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloakTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CloakContainer" unique_id=1869232767]
+layout_mode = 2
+text = "CLOAK STATUS"
+label_settings = ExtResource("16_k3w1r")
+
+[node name="CloakStatus" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CloakContainer" unique_id=151740478]
+unique_name_in_owner = true
+layout_mode = 2
+text = "READY"
+label_settings = SubResource("LabelSettings_v705g")
+
+[node name="CargoContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer" unique_id=1495291780]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CargoTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CargoContainer" unique_id=1487244098]
+layout_mode = 2
+text = "CLOAK STATUS"
+label_settings = ExtResource("16_k3w1r")
+
+[node name="CargoValue" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CargoContainer" unique_id=1269445252]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/1"
+label_settings = SubResource("LabelSettings_030s8")
+
+[node name="OverdriveContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer" unique_id=1786356605]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OverdriveTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=262681188]
+layout_mode = 2
+text = "CLOAK STATUS"
+label_settings = ExtResource("16_k3w1r")
+
+[node name="OverdriveStatus" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=836138696]
+layout_mode = 2
+text = "ONLINE"
+label_settings = ExtResource("17_eq1b8")
+
+[node name="UpgradesBanner" type="Panel" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1556902790]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gapcq")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradesBanner" unique_id=245241684]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradesBanner/MarginContainer" unique_id=308962753]
+layout_mode = 2
+
+[node name="DotLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradesBanner/MarginContainer/HBoxContainer" unique_id=188775895]
+self_modulate = Color(0.050980393, 0.26666668, 0.16078432, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "•"
+
+[node name="FactionBannerLabel" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradesBanner/MarginContainer/HBoxContainer" unique_id=1464871405]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_50soj")
+theme_override_font_sizes/font_size = 18
+text = "UPGRADES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=779447922]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="UpgradeFrames" type="GridContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=828491266]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 3
+
+[node name="Damage" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=165350808 instance=ExtResource("16_fxv5w")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FireRate" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=29491455 instance=ExtResource("16_fxv5w")]
+unique_name_in_owner = true
+layout_mode = 2
+current_icon = 1
+
+[node name="Rotation" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=527524160 instance=ExtResource("16_fxv5w")]
+unique_name_in_owner = true
+layout_mode = 2
+current_icon = 3
+
+[node name="Health" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=1869276543 instance=ExtResource("16_fxv5w")]
+unique_name_in_owner = true
+layout_mode = 2
+current_icon = 2
+
+[node name="Shield" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=1576016045 instance=ExtResource("16_fxv5w")]
+unique_name_in_owner = true
+layout_mode = 2
+current_icon = 4
+
+[node name="Speed" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=1966444519 instance=ExtResource("16_fxv5w")]
+unique_name_in_owner = true
+layout_mode = 2
+current_icon = 5

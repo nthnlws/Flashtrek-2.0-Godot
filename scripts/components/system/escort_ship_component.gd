@@ -47,11 +47,10 @@ func _on_ready_logic() -> void:
 		var random_offset: Vector2 = Utility.get_random_point_on_circle(250)
 		var new_spawn_pos: Vector2 = base_spawn_pos + random_offset
 		offset_spawn_pos.append(new_spawn_pos)
-
-
+	
 	const FACTION_SHIP: Dictionary[Utility.FACTION, Utility.SHIP_TYPES] = {
-		Utility.FACTION.FEDERATION: Utility.SHIP_TYPES.California_Class,
-		Utility.FACTION.ROMULAN:    Utility.SHIP_TYPES.Dderidex_Class,
+		Utility.FACTION.FEDERATION: Utility.SHIP_TYPES.Cardenas_Class,
+		Utility.FACTION.ROMULAN:    Utility.SHIP_TYPES.Lanora_Class,
 		Utility.FACTION.KLINGON:    Utility.SHIP_TYPES.Klingon_Bird_of_Prey,
 	}
 	var ship_type: Utility.SHIP_TYPES = FACTION_SHIP.get(faction)
@@ -66,3 +65,4 @@ func _on_ready_logic() -> void:
 			ship_type,
 			false, true)
 		system_data.mission_ship_list.append(ship_data)
+	

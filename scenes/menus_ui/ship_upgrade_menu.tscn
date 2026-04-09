@@ -306,13 +306,13 @@ text = "Max Speed: "
 fit_content = true
 scroll_active = false
 
-[node name="maneuver_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=579819713]
+[node name="agility_stat" type="RichTextLabel" parent="right_panel/MarginContainer/ship_info" unique_id=579819713]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_ir0yc")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "Maneuverability: "
+text = "Agility: "
 fit_content = true
 scroll_active = false
 

@@ -224,7 +224,15 @@ func _physics_process(delta: float) -> void:
 	if !health_component.alive: return
 	
 	if Input.is_action_pressed("left_click") and !shoot_cd and !overdrive_active and shooting_button_held:
-		shoot_torpedo()
+		var mouse_angle: float = global_position.angle_to_point(get_global_mouse_position())
+		var angle_diff: float = angle_difference(rotation, mouse_angle)
+		const MAX_AIM_DEVIATION: float = deg_to_rad(35.0)
+		
+		if abs(angle_diff) <= MAX_AIM_DEVIATION:
+			shoot_torpedo(mouse_angle)
+		#else:
+			#shoot_torpedo(rotation)
+
 	_handle_movement(delta)
 	move_and_slide()
 
@@ -319,7 +327,7 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 				shield.fadeout_SMOOTH()
 
 
-func shoot_torpedo() -> void:
+func shoot_torpedo(fire_direction: float) -> void:
 	var bullet: Torpedo = torpedo_scene.instantiate()
 	var cost: float = bullet.energy_drain
 
@@ -329,7 +337,7 @@ func shoot_torpedo() -> void:
 		shoot_cd = true
 		
 		bullet.position = muzzle.global_position
-		bullet.rotation = rotation
+		bullet.rotation = fire_direction
 		bullet.shooterObject = self
 		bullet.damage *= stats.DamageMult
 		bullet.damage_multipler = ship_damage_multiplier
