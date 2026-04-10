@@ -44,7 +44,7 @@ var current_tweens: Array[Tween]
 var current_enemy_list: Array[FactionCharacter]
 
 # --- Getters for Stat Application ---
-var base_rotation_speed: float = 150.0
+var base_agility: float = 150.0
 var base_max_speed: float = 750.0
 var base_acceleration: float = 500
 var base_rate_of_fire: float = 5.0
@@ -53,8 +53,8 @@ var base_cargo_capacity: int = 1
 
 var max_speed: float:
 	get: return base_max_speed * stats.SpeedMult
-var rotation_speed: float:
-	get: return base_rotation_speed * stats.RotateMult
+var agility: float:
+	get: return base_agility * stats.AgilityMult
 var acceleration: float:
 	get: return base_acceleration * stats.AccelMult
 var rate_of_fire: float:
@@ -106,14 +106,14 @@ func _connect_signals() -> void:
 	tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
-func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary = {}) -> void:
-	var ship_data: Dictionary = Utility.SHIP_DATA.values()[ship]
-	
+func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipStats = null) -> void:
+	var ship_data: Dictionary = Utility.SHIP_DATA[ship]
+
+	# Sprite / collision setup
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
 	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
-	muzzle.position = Vector2(0, ship_data.MUZZLE_POS)
 	muzzle.position.y = ship_data.MUZZLE_POS * base_scale.y
-	
+
 	var rawColl = ship_data.COLLISION_POLY
 	var parsed_array = JSON.parse_string(rawColl)
 	var PV2Array = PackedVector2Array()
@@ -122,21 +122,18 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, stats_override:Dictionary
 	PV2Array = center_polygon(PV2Array)
 	$hitbox_area/CollisionPolygon2D.polygon = PV2Array
 	$WorldCollisionShape.polygon = PV2Array
-	
-	# Override ship stats if override present
-	if !stats_override.is_empty():
-		ship_data = stats_override
-	
-	base_max_speed = ship_data.SPEED
-	base_rotation_speed = ship_data.ROTATION_SPEED
-	health_component.HP_max = ship_data.MAX_HP
-	health_component.hp_current = ship_data.MAX_HP
-	health_component.SP_max = ship_data.MAX_SHIELD
-	health_component.sp_current = ship_data.MAX_SHIELD
-	base_cargo_capacity = ship_data.get("CARGO_SIZE", 1)
-	ship_damage_multiplier = ship_data.get("DAMAGE_MULTIPLIER", 1.0)
-	faction = ship_data.FACTION
-	
+
+	# Use PlayableShipStats if provided, otherwise use default ship_data
+	base_max_speed           = new_stats.speed          if new_stats else ship_data.SPEED
+	base_agility             = new_stats.agility        if new_stats else ship_data.AGILITY
+	health_component.HP_max  = new_stats.max_hp         if new_stats else ship_data.MAX_HP
+	health_component.hp_current = health_component.HP_max
+	health_component.SP_max  = new_stats.max_shield     if new_stats else ship_data.MAX_SHIELD
+	health_component.sp_current = health_component.SP_max
+	ship_damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
+	base_cargo_capacity      = ship_data.get("CARGO_SIZE", 1)
+	faction                  = new_stats.faction        if new_stats else ship_data.FACTION
+
 	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 	SignalBus.playerHealthChanged.emit(health_component.HP_max)
 	SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
@@ -252,13 +249,13 @@ func _handle_movement(delta: float) -> void:
 			velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.175)
 			
 		if direction.y != 0:
-			rotate(deg_to_rad(direction.y * rotation_speed * delta * overdrivem_v))
+			rotate(deg_to_rad(direction.y * agility * delta * overdrivem_v))
 		
 		if OS.get_name() == "Windows":
 			if Input.is_action_pressed("rotate_right"):
-				rotate(deg_to_rad(rotation_speed * delta * overdrivem_r))
+				rotate(deg_to_rad(agility * delta * overdrivem_r))
 			if Input.is_action_pressed("rotate_left"):
-				rotate(deg_to_rad(-rotation_speed * delta * overdrivem_r))
+				rotate(deg_to_rad(-agility * delta * overdrivem_r))
 
 
 func overdrive_state_change(speed) -> void: # Reverses overdrive state

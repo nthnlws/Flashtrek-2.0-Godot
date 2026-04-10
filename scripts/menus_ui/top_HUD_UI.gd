@@ -116,19 +116,21 @@ func _update_mission_text(mission_data:MissionData) -> void:
 
 
 func _update_faction_score(faction:Utility.FACTION, score:int, shake:bool = true) -> void:
-	if score == 0: return
 	#print("updating HUD score - %s - %s" % [Utility.FACTION.keys()[faction], str(score)])
 	match faction:
 		Utility.FACTION.FEDERATION:
-			fed_score.text = str(score)
+			if score == 0: fed_score.text = "0.00"
+			else: fed_score.text = str(score)
 			if shake:
 				fed_score.get_child(0).trigger_shake(true if score > 0 else false)
 		Utility.FACTION.KLINGON:
-			klingon_score.text = str(score)
+			if score == 0: klingon_score.text = "0.00"
+			else: klingon_score.text = str(score)
 			if shake:
 				klingon_score.get_child(0).trigger_shake(true if score > 0 else false)
 		Utility.FACTION.ROMULAN:
-			rom_score.text = str(score)
+			if score == 0: rom_score.text = "0.00"
+			else: rom_score.text = str(score)
 			if shake:
 				rom_score.get_child(0).trigger_shake(true if score > 0 else false)
 

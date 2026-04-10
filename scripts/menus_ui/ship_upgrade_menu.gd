@@ -13,7 +13,6 @@ func _ready() -> void:
 	SignalBus.player_type_changed.connect(_handle_ship_change)
 	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
 	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
-	MissionManager.Reputation.player_faction_changed.connect(update_faction_colors)
 	
 	set_background(LevelManager.galaxy_data.player_ship_type)
 
@@ -65,7 +64,7 @@ func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: Dictionary) -
 	%health_stat.text = "Health: %s" % new_stats.MAX_HP
 	%shield_stat.text = "Shield: %s" % new_stats.MAX_SHIELD
 	%speed_stat.text = "Max Speed: %s" % new_stats.SPEED
-	%agility_stat.text = "Agility: %s" % new_stats.ROTATION_SPEED
+	%agility_stat.text = "Agility: %s" % new_stats.AGILITY
 	%weapon.text = "Weapon: Torpedo"
 
 

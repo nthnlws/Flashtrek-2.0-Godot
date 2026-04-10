@@ -113,7 +113,6 @@ func load_galaxy(slot: int) -> GalaxyData:
 			var rep_data: Resource = ResourceLoader.load(rep_path)
 			if rep_data is PlayerReputation:
 				MissionManager.Reputation = rep_data as PlayerReputation
-				MissionManager.Reputation.player_faction_changed.emit(MissionManager.Reputation.current_player_faction)
 
 		return galaxy
 	else:

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cq7nipnakpnsu"]
 
 [ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="1_44ekp"]
+[ext_resource type="Script" uid="uid://3877dbb2mg6q" path="res://scripts/menus_ui/ship_status_menu.gd" id="1_eq1b8"]
 [ext_resource type="Texture2D" uid="uid://j3fi53qkphtu" path="res://assets/textures/UI/ship_upgrade_menu/corridor_romulan_edited.png" id="1_vgki0"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="2_2y2cj"]
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="2_50soj"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bb20682c5fl82" path="res://assets/textures/UI/ship_stats_menu/health_icon.png" id="7_3y1vc"]
 [ext_resource type="FontVariation" uid="uid://rf47hcpm7pup" path="res://resources/spaced_Okuda.tres" id="8_yuiiv"]
 [ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="9_twr8y"]
+[ext_resource type="StyleBox" uid="uid://cfvn6vh2rs2m" path="res://resources/green_progress_fill.tres" id="10_01jvp"]
 [ext_resource type="Texture2D" uid="uid://c4p3tjtont85b" path="res://assets/textures/UI/ship_stats_menu/shield_icon.png" id="10_fxv5w"]
 [ext_resource type="Texture2D" uid="uid://byr1t4wk3r0yl" path="res://assets/textures/UI/new_HUD/federation_symbol.svg" id="11_44ekp"]
 [ext_resource type="Texture2D" uid="uid://btgmbffdrpg3a" path="res://assets/textures/UI/ship_stats_menu/energy_icon.png" id="11_gapcq"]
@@ -75,13 +77,6 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpw5d"]
-bg_color = Color(0.047058824, 0.65882355, 0.4, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
 [sub_resource type="LabelSettings" id="LabelSettings_kwrsq"]
 font = ExtResource("9_twr8y")
 font_size = 13
@@ -129,9 +124,6 @@ border_width_bottom = 4
 border_color = Color(0.28627452, 0.28627452, 0.6901961, 1)
 border_blend = true
 
-[sub_resource type="LabelSettings" id="LabelSettings_yuiiv"]
-font_size = 14
-
 [sub_resource type="LabelSettings" id="LabelSettings_3y1vc"]
 font = ExtResource("6_gqbio")
 font_size = 28
@@ -178,8 +170,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_eq1b8")
 
 [node name="ShipSprite" type="TextureRect" parent="." unique_id=902019999]
+unique_name_in_owner = true
 show_behind_parent = true
 z_index = 1
 material = SubResource("ShaderMaterial_k3w1r")
@@ -263,6 +257,7 @@ layout_mode = 2
 theme_override_constants/margin_bottom = 100
 
 [node name="ClassLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer" unique_id=1418923542]
+unique_name_in_owner = true
 layout_mode = 2
 text = "SOVEREIGN CLASS"
 label_settings = SubResource("LabelSettings_01jvp")
@@ -275,7 +270,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_v705g")
 
-[node name="Label" type="RichTextLabel" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionPanel" unique_id=840932230]
+[node name="FactionLabel" type="RichTextLabel" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FactionPanel" unique_id=840932230]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -331,17 +327,19 @@ layout_mode = 2
 text = "HULL HEALTH"
 label_settings = SubResource("LabelSettings_b8rxe")
 
-[node name="ValueLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer/HealthStatus" unique_id=244841325]
+[node name="HealthLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer/HealthStatus" unique_id=244841325]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 text = "100 / 100"
 label_settings = SubResource("LabelSettings_n672o")
 
 [node name="HealthBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/HealthBarContainer" unique_id=1967659870]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
-theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+theme_override_styles/fill = ExtResource("10_01jvp")
 value = 50.0
 show_percentage = false
 
@@ -367,13 +365,15 @@ layout_mode = 2
 text = "SHIELD HEALTH"
 label_settings = SubResource("LabelSettings_b8rxe")
 
-[node name="ValueLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer/ShieldStatus" unique_id=710493763]
+[node name="ShieldLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer/ShieldStatus" unique_id=710493763]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 text = "100 / 100"
 label_settings = SubResource("LabelSettings_kwrsq")
 
 [node name="ShieldBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/ShieldBarContainer" unique_id=246416417]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_frfd3")
@@ -403,13 +403,15 @@ layout_mode = 2
 text = "ENERGY"
 label_settings = SubResource("LabelSettings_b8rxe")
 
-[node name="ValueLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer/EnergyStatus" unique_id=524098598]
+[node name="EnergyLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer/EnergyStatus" unique_id=524098598]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 text = "100 / 100"
 label_settings = SubResource("LabelSettings_ivhov")
 
-[node name="ShieldBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer" unique_id=78191309]
+[node name="EnergyBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/StatsContainer/VBoxContainer/EnergyBarContainer" unique_id=78191309]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_kr6j6")
@@ -472,25 +474,26 @@ texture = ExtResource("11_44ekp")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="ReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=779969700]
+[node name="FedReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=779969700]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
-theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+theme_override_styles/fill = ExtResource("10_01jvp")
 max_value = 20000.0
 step = 1.0
 value = 10000.0
 show_percentage = false
 
-[node name="RepAmountLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=1833011258]
-modulate = Color(0.27450982, 0.8784314, 0.39607844, 1)
+[node name="FedRepLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/FedContainer/HBoxContainer" unique_id=1833011258]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-text = "+105,200"
-label_settings = SubResource("LabelSettings_yuiiv")
+theme_override_font_sizes/font_size = 14
+text = "0.00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -513,25 +516,26 @@ texture = ExtResource("12_gqbio")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="ReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=418201371]
+[node name="KlingonReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=418201371]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
-theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+theme_override_styles/fill = ExtResource("10_01jvp")
 max_value = 20000.0
 step = 1.0
 value = 10000.0
 show_percentage = false
 
-[node name="RepAmountLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=490488601]
-modulate = Color(0.92156863, 0.2509804, 0.20392157, 1)
+[node name="KlingonRepLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/KlingonContainer/HBoxContainer" unique_id=490488601]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-text = "-120,000"
-label_settings = SubResource("LabelSettings_yuiiv")
+theme_override_font_sizes/font_size = 14
+text = "0.00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -554,24 +558,26 @@ texture = ExtResource("13_3y1vc")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="ReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=1946910876]
+[node name="RomReputationBar" type="ProgressBar" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=1946910876]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/background = SubResource("StyleBoxFlat_030s8")
-theme_override_styles/fill = SubResource("StyleBoxFlat_mpw5d")
+theme_override_styles/fill = ExtResource("10_01jvp")
 max_value = 20000.0
 step = 1.0
 value = 10000.0
 show_percentage = false
 
-[node name="RepAmountLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=2078314189]
+[node name="RomRepLabel" type="Label" parent="Background/HBoxContainer/LeftPanelBackground/LeftPanelContainer/RomContainer/HBoxContainer" unique_id=2078314189]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 14
 text = "0.00"
-label_settings = SubResource("LabelSettings_yuiiv")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -621,6 +627,13 @@ label_settings = SubResource("LabelSettings_3y1vc")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="closeMenuButton" type="Button" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner/MarginContainer/HBoxContainer" unique_id=370096351]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+text = "X"
+
 [node name="PerformanceContainer" type="MarginContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1668416050]
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -634,6 +647,7 @@ text = "PERFORMANCE PROFILE"
 label_settings = SubResource("LabelSettings_twr8y")
 
 [node name="SpiderGraph" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1385922256 instance=ExtResource("14_3y1vc")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 label_font_size = 8
@@ -720,7 +734,7 @@ size_flags_horizontal = 3
 
 [node name="CargoTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CargoContainer" unique_id=1487244098]
 layout_mode = 2
-text = "CLOAK STATUS"
+text = "CARGO LOAD"
 label_settings = ExtResource("16_k3w1r")
 
 [node name="CargoValue" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CargoContainer" unique_id=1269445252]
@@ -733,14 +747,15 @@ label_settings = SubResource("LabelSettings_030s8")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OverdriveTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=262681188]
+[node name="AbilityTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=262681188]
 layout_mode = 2
-text = "CLOAK STATUS"
+text = "ABILITY"
 label_settings = ExtResource("16_k3w1r")
 
-[node name="OverdriveStatus" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=836138696]
+[node name="AbilityValue" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=836138696]
+unique_name_in_owner = true
 layout_mode = 2
-text = "ONLINE"
+text = "UNKNOWN"
 label_settings = ExtResource("17_eq1b8")
 
 [node name="UpgradesBanner" type="Panel" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1556902790]
@@ -794,7 +809,7 @@ unique_name_in_owner = true
 layout_mode = 2
 current_icon = 1
 
-[node name="Rotation" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=527524160 instance=ExtResource("16_fxv5w")]
+[node name="Agility" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/UpgradeFrames" unique_id=527524160 instance=ExtResource("16_fxv5w")]
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 3
@@ -813,3 +828,5 @@ current_icon = 4
 unique_name_in_owner = true
 layout_mode = 2
 current_icon = 5
+
+[connection signal="pressed" from="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner/MarginContainer/HBoxContainer/closeMenuButton" to="." method="_on_close_button_pressed"]

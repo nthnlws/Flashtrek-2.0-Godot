@@ -28,13 +28,12 @@ const MENU_BUTTON_ROUNDED = preload("uid://cpd0paggi412v")
 @onready var ambience: AudioStreamPlayer = $ambience
 
 var frames: Array[ShipSelector]
-var _scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, Dictionary]
+var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, PlayableShipStats]
 var _stat_ranges: Dictionary = {}
 const SHIP_SELECTOR = preload("uid://djjxdvhjd147f")
 
 const FACTION_DATA: Dictionary = {
 	Utility.FACTION.FEDERATION: {
-		"stardate_func":   "get_federation_date",  # handled specially below
 		"security":        "Security Level 4",
 		"title":           "Federation Starship Registry",
 		"button_colors":   [Color("ff9a66"), Color("faa747"), Color("fdc07e"),
@@ -78,7 +77,7 @@ func _ready() -> void:
 	if LevelManager.galaxy_data:
 		SignalBus.player_type_changed.emit.call_deferred(
 			LevelManager.galaxy_data.player_ship_type,
-			_scaled_ship_stats.get(LevelManager.galaxy_data.player_ship_type))
+			scaled_ship_stats.get(LevelManager.galaxy_data.player_ship_type))
 
 
 # ─── Stats Pre-Build ──────────────────────────────────────────────────────────
@@ -96,30 +95,43 @@ func _build_faction_stats(unlock_list: Array[Utility.SHIP_TYPES]) -> void:
 		var ship_type: Utility.SHIP_TYPES = unlock_list[i]
 		_add_ship_stats(ship_type,
 			Scaling.get_player_stat_scale(i, total),
-			Scaling.get_player_move_scale(i, total))
+			Scaling.get_player_move_scale(i, total),
+			Scaling.get_player_energy_scale(i, total), i)
 
 
-func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scale: float) -> void:
+func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scale: float, energy_scale: float, index:int) -> void:
 	var base: Dictionary         = Utility.SHIP_DATA[ship_type]
 	var faction: Utility.FACTION = base.FACTION
 	var archetype: Scaling.ARCHETYPE = base.ARCHETYPE
-	_scaled_ship_stats[ship_type] = {
-		"FACTION":        faction,
-		"SHIP_NAME":      base.SHIP_NAME,
-		"ARCHETYPE":      archetype,
-		"TRAIT":          base.TRAIT,
-		"MAX_HP":         Scaling.apply_modifiers(base.MAX_HP,                   stat_scale, archetype, faction, "MAX_HP"),
-		"MAX_SHIELD":     Scaling.apply_modifiers(base.MAX_SHIELD,               stat_scale, archetype, faction, "MAX_SHIELD"),
-		"SPEED":          Scaling.apply_modifiers(base.PLAYER_SPEED_OVERRIDE,    move_scale, archetype, faction, "SPEED"),
-		"ROTATION_SPEED": Scaling.apply_modifiers(base.PLAYER_ROTATION_OVERRIDE, move_scale, archetype, faction, "ROTATION_SPEED"),
+	var warp_ranges: Dictionary[int, int] = {
+		0: 2,
+		1: 2,
+		2: 3,
+		3: 4,
+		4: 5,
+		5: 6,
 	}
+	
+	var stats: PlayableShipStats = PlayableShipStats.new()
+	stats.faction        = faction
+	stats.ship_name      = base.SHIP_NAME
+	stats.archetype      = archetype
+	stats.trait_type     = base.TRAIT
+	stats.damage_mult    = energy_scale
+	stats.max_hp         = Scaling.apply_modifiers(base.MAX_HP,                   stat_scale, archetype, faction, "MAX_HP")
+	stats.max_shield     = Scaling.apply_modifiers(base.MAX_SHIELD,               stat_scale, archetype, faction, "MAX_SHIELD")
+	stats.speed          = Scaling.apply_modifiers(base.PLAYER_SPEED_OVERRIDE,    move_scale, archetype, faction, "SPEED")
+	stats.agility        = Scaling.apply_modifiers(base.PLAYER_AGILITY_OVERRIDE, move_scale, archetype, faction, "AGILITY")
+	stats.warp_range     = warp_ranges.get(index, 2)
+	
+	scaled_ship_stats[ship_type] = stats
 
 
 func _cache_stat_ranges() -> void:
-	_stat_ranges["MAX_HP"]         = Scaling.get_playable_stat_range("MAX_HP",         _scaled_ship_stats)
-	_stat_ranges["MAX_SHIELD"]     = Scaling.get_playable_stat_range("MAX_SHIELD",      _scaled_ship_stats)
-	_stat_ranges["SPEED"]          = Scaling.get_playable_stat_range("SPEED",           _scaled_ship_stats)
-	_stat_ranges["ROTATION_SPEED"] = Scaling.get_playable_stat_range("ROTATION_SPEED",  _scaled_ship_stats)
+	_stat_ranges["MAX_HP"]         = Scaling.get_playable_stat_range("max_hp",         scaled_ship_stats)
+	_stat_ranges["MAX_SHIELD"]     = Scaling.get_playable_stat_range("max_shield",      scaled_ship_stats)
+	_stat_ranges["SPEED"]          = Scaling.get_playable_stat_range("speed",           scaled_ship_stats)
+	_stat_ranges["AGILITY"] = Scaling.get_playable_stat_range("agility",  scaled_ship_stats)
 
 
 # ─── Faction Change ───────────────────────────────────────────────────────────
@@ -204,14 +216,14 @@ func create_frame(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unloc
 func update_ship_stats(selected_ship: ShipSelector) -> void:
 	var faction: Utility.FACTION      = selected_ship.ship_faction
 	var ship_type: Utility.SHIP_TYPES = selected_ship.current_ship_type
-	var ship_stats: Dictionary        = _scaled_ship_stats[ship_type]
+	var stats: PlayableShipStats              = scaled_ship_stats[ship_type]
 
-	_set_stat_bar(%HealthBar,   ship_stats.MAX_HP,         _stat_ranges["MAX_HP"])
-	_set_stat_bar(%ShieldBar,   ship_stats.MAX_SHIELD,     _stat_ranges["MAX_SHIELD"])
-	_set_stat_bar(%SpeedBar,    ship_stats.SPEED,          _stat_ranges["SPEED"])
-	_set_stat_bar(%MovementBar, ship_stats.ROTATION_SPEED, _stat_ranges["ROTATION_SPEED"])
+	_set_stat_bar(%HealthBar,   stats.max_hp,         _stat_ranges["MAX_HP"])
+	_set_stat_bar(%ShieldBar,   stats.max_shield,     _stat_ranges["MAX_SHIELD"])
+	_set_stat_bar(%SpeedBar,    stats.speed,          _stat_ranges["SPEED"])
+	_set_stat_bar(%MovementBar, stats.agility, _stat_ranges["AGILITY"])
 
-	var formatted_name: String = Utility.fed_blue + ship_stats.get("SHIP_NAME", "Missing").capitalize()
+	var formatted_name: String = Utility.fed_blue + stats.ship_name.capitalize()
 	%ship_name.text = "[color=#FFCC66]Ship Name:[/color] %s" % formatted_name
 
 	var my_rep: float = MissionManager.Reputation.get_reputation(faction)
@@ -243,7 +255,7 @@ func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
 
 
 func _on_ship_selected(ship_type: Utility.SHIP_TYPES) -> void:
-	SignalBus.player_type_changed.emit(ship_type, _scaled_ship_stats.get(ship_type))
+	SignalBus.player_type_changed.emit(ship_type, scaled_ship_stats.get(ship_type))
 	LevelManager.galaxy_data.player_ship_type = ship_type
 	close_menu()
 

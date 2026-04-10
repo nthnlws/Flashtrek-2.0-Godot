@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://3st5s0ue3nj4" path="res://scenes/menus_ui/settings_menu.tscn" id="4_kawko"]
 [ext_resource type="Script" uid="uid://5ubg1s4kiduk" path="res://scripts/menus_ui/hud_layer.gd" id="9_bhx41"]
 [ext_resource type="PackedScene" uid="uid://coi3fmkymbj2q" path="res://scenes/menus_ui/starbase_menu.tscn" id="12_ab70e"]
+[ext_resource type="PackedScene" uid="uid://cq7nipnakpnsu" path="res://scenes/menus_ui/ship_status_menu.tscn" id="13_ab70e"]
 [ext_resource type="PackedScene" uid="uid://d0dea6kwmmylo" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="16_ab70e"]
@@ -14,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="17_a7ete"]
 [ext_resource type="PackedScene" uid="uid://lpc7nsfqbs77" path="res://scenes/menus_ui/crosshair.tscn" id="18_wcaow"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
-[ext_resource type="PackedScene" uid="uid://b3ruu3xegfccq" path="res://scenes/menus_ui/ship_upgrade_menu.tscn" id="23_546po"]
 [ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 
 [node name="Game" type="Node2D" unique_id=1659597695]
@@ -66,9 +66,8 @@ size_flags_vertical = 3
 [node name="StarbaseMenu" parent="Menus" unique_id=694363471 instance=ExtResource("12_ab70e")]
 visible = false
 
-[node name="ShipUpgradeMenu" parent="Menus" unique_id=1666973142 instance=ExtResource("23_546po")]
+[node name="ShipStatusMenu" parent="Menus" unique_id=1335963301 instance=ExtResource("13_ab70e")]
 visible = false
-mouse_filter = 2
 
 [node name="TunnelEffect" parent="Menus" unique_id=643784188 instance=ExtResource("23_g86nl")]
 unique_name_in_owner = true
@@ -93,4 +92,4 @@ metadata/_custom_type_script = "uid://dmdedm3kpsdji"
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="close_settings" from="Menus/SettingsMenu" to="Menus" method="_handle_settings_closed"]
 [connection signal="menu_closed" from="Menus/StarbaseMenu" to="Menus" method="_handle_ship_menu_closed"]
-[connection signal="menu_closed" from="Menus/ShipUpgradeMenu" to="Menus" method="_handle_ship_menu_closed"]
+[connection signal="menu_closed" from="Menus/ShipStatusMenu" to="Menus" method="_handle_ship_menu_closed"]

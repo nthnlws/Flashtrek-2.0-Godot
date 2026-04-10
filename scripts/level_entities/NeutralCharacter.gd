@@ -15,7 +15,7 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
-var rotation_rate: float = 1.5
+var agility_rate: float = 1.5
 
 var endPoint: Vector2
 var returnToStarbaseBool: bool = false
@@ -65,7 +65,7 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	hitbox.polygon = PV2Array
 	
 	move_speed = ship_data.SPEED
-	rotation_rate = ship_data.ROTATION_SPEED
+	agility_rate = ship_data.AGILITY
 	health_component.HP_max = ship_data.MAX_HP
 	health_component.SP_max = ship_data.MAX_SHIELD
 
@@ -165,7 +165,7 @@ func move_to_target(target_pos: Vector2, delta: float, speed_mult: float = 1.0) 
 
 
 func _rotate_toward_target(angle_diff: float, delta: float) -> void:
-	var max_turn: float = deg_to_rad(rotation_rate * delta)
+	var max_turn: float = deg_to_rad(agility_rate * delta)
 	# Ease off when within 15 degrees of target
 	var ease_factor: float = clampf(absf(angle_diff) / deg_to_rad(15.0), 0.0, 1.0)
 	rotation += clampf(angle_diff, -max_turn, max_turn) * ease_factor

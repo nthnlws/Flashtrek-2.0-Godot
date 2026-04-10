@@ -10,7 +10,7 @@ class_name PlayerUpgrades
 @export var ShieldMult: float = 1
 @export var HullMult: float = 1
 @export var SpeedMult: float = 1
-@export var RotateMult: float = 1
+@export var AgilityMult: float = 1
 @export var AccelMult: float = 1
 
 @export_group("Navigation Stats")

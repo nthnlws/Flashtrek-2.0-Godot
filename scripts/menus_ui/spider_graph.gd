@@ -76,14 +76,6 @@ func set_all_values(value_map: Dictionary) -> void:
 	queue_redraw()
 
 
-func set_values_by_array(values: Array[float]) -> void:
-	if Engine.is_editor_hint():
-		return
-	for i in min(values.size(), axes.size()):
-		_values[axes[i]] = clampf(values[i], 0.0, 1.0)
-	queue_redraw()
-
-
 func get_value(axis: String) -> float:
 	return _values.get(axis, 0.0)
 

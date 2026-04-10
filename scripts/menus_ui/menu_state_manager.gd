@@ -61,7 +61,7 @@ func handle_escape_press() -> void:
 			toggle_menu($StarbaseMenu, Utility.MENUSTATE.NONE)
 		Utility.MENUSTATE.SHIPINFO:
 			# Ship status menu is open, close it
-			toggle_menu($StarbaseMenu, Utility.MENUSTATE.NONE)
+			toggle_menu($ShipStatusMenu, Utility.MENUSTATE.NONE)
 
 
 # Handle M key press (for the Galaxy Map)
@@ -95,8 +95,8 @@ func toggle_ship_selection():
 
 
 func toggle_upgrade_menu():
-	$ShipUpgradeMenu.visible = true
-	$ShipUpgradeMenu.mouse_filter = Control.MOUSE_FILTER_STOP
+	$ShipStatusMenu.visible = true
+	$ShipStatusMenu.mouse_filter = Control.MOUSE_FILTER_STOP
 	current_state = Utility.MENUSTATE.SHIPINFO
 
 

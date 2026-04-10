@@ -23,20 +23,20 @@ const UNLOCK_COST_EXP: float = 2.0
 enum ARCHETYPE { ESCORT, CRUISER, SCIENCE, FREIGHTER, RAIDER, DREADNOUGHT }
 
 const ARCHETYPE_MULTIPLIERS: Dictionary = {
-	ARCHETYPE.ESCORT:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.8,  "SPEED": 1.2,  "ROTATION_SPEED": 1.2 },
-	ARCHETYPE.CRUISER:     { "MAX_HP": 1.1,  "MAX_SHIELD": 1.1,  "SPEED": 1.0,  "ROTATION_SPEED": 0.9 },
-	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.8,  "MAX_SHIELD": 1.3,  "SPEED": 1.1,  "ROTATION_SPEED": 1.1 },
-	ARCHETYPE.FREIGHTER:   { "MAX_HP": 1.3,  "MAX_SHIELD": 0.6,  "SPEED": 0.85,  "ROTATION_SPEED": 0.75 },
-	ARCHETYPE.RAIDER:      { "MAX_HP": 0.6,  "MAX_SHIELD": 0.7,  "SPEED": 1.4,  "ROTATION_SPEED": 1.4 },
-	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.5,  "MAX_SHIELD": 1.4,  "SPEED": 0.75,  "ROTATION_SPEED": 0.75 },
+	ARCHETYPE.ESCORT:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.8,  "SPEED": 1.2,  "AGILITY": 1.2 },
+	ARCHETYPE.CRUISER:     { "MAX_HP": 1.1,  "MAX_SHIELD": 1.1,  "SPEED": 1.0,  "AGILITY": 0.9 },
+	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.8,  "MAX_SHIELD": 1.3,  "SPEED": 1.1,  "AGILITY": 1.1 },
+	ARCHETYPE.FREIGHTER:   { "MAX_HP": 1.3,  "MAX_SHIELD": 0.6,  "SPEED": 0.85,  "AGILITY": 0.75 },
+	ARCHETYPE.RAIDER:      { "MAX_HP": 0.6,  "MAX_SHIELD": 0.7,  "SPEED": 1.4,  "AGILITY": 1.4 },
+	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.5,  "MAX_SHIELD": 1.4,  "SPEED": 0.75,  "AGILITY": 0.75 },
 }
 
 # ─── Faction Stat Bias ────────────────────────────────────────────────────────
 # Small faction-wide modifiers, applied on top of archetype multipliers.
 const FACTION_BIAS: Dictionary = {
-	Utility.FACTION.FEDERATION: { "MAX_SHIELD": 1.15, "ROTATION_SPEED": 0.95 },
+	Utility.FACTION.FEDERATION: { "MAX_SHIELD": 1.15, "AGILITY": 0.95 },
 	Utility.FACTION.KLINGON:    { "MAX_HP": 1.2,  "SPEED": 1.1,  "MAX_SHIELD": 0.85 },
-	Utility.FACTION.ROMULAN:    { "SPEED": 1.1, "ROTATION_SPEED": 1.1, "MAX_HP": 0.9 },
+	Utility.FACTION.ROMULAN:    { "SPEED": 1.1, "AGILITY": 1.1, "MAX_HP": 0.9 },
 	Utility.FACTION.NEUTRAL:    {},
 }
 
@@ -63,12 +63,18 @@ static func get_faction_bias(faction: Utility.FACTION, stat_key: String) -> floa
 static func get_playable_stat_range(stat_key: String, scaled_stats: Dictionary) -> Vector2:
 	var min_val: float = INF
 	var max_val: float = -INF
-	for entry: Dictionary in scaled_stats.values():
-		var val: float = float(entry.get(stat_key, 0))
+	for entry: PlayableShipStats in scaled_stats.values():
+		if not entry is PlayableShipStats:
+			printerr("get_playable_stat_range: unexpected type in dict — ", type_string(typeof(entry)))
+			continue
+		var val: float = float(entry.get(stat_key))
 		if val <= 0.0:
 			continue
 		min_val = minf(min_val, val)
 		max_val = maxf(max_val, val)
+	if min_val == INF or max_val == -INF:
+		printerr("get_playable_stat_range: no valid values found for key '", stat_key, "' — returning zero range")
+		return Vector2.ZERO
 	return Vector2(min_val, max_val)
 
 static func apply_modifiers(base_val: float, scale: float,
@@ -112,6 +118,10 @@ static func get_player_move_scale(tier_index: int, total_ships: int) -> float:
 static func get_unlock_cost_scale(tier_index: int, total_ships: int) -> int:
 	var t: float = float(tier_index) / float(max(total_ships - 1, 1))
 	return snappedi(_unlock_curve(t), 500)
+
+static func get_player_energy_scale(tier_index: int, total_ships: int) -> float:
+	var energy_multiplier: float = lerpf(1.0, 3.0, float(tier_index) / float(total_ships))
+	return energy_multiplier
 
 # ─── Private Curves ───────────────────────────────────────────────────────────
 
