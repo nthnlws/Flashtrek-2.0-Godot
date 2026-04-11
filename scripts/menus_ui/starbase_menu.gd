@@ -127,10 +127,9 @@ func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scal
 	stats.agility        = Scaling.apply_modifiers(base.PLAYER_AGILITY_OVERRIDE, move_scale, archetype, faction, "AGILITY")
 	stats.warp_range     = Scaling.get_ship_warp_range(index)
 	stats.stat_ranges    = stat_ranges
-	stats.max_energy     = 150 * energy_scale
+	stats.max_energy     = snappedi(150 * energy_scale, 25)
 	
 	scaled_ship_stats[ship_type] = stats
-	if stats.faction == Utility.FACTION.FEDERATION: print(stats)
 
 
 func _cache_stat_ranges() -> void:

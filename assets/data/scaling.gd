@@ -19,15 +19,15 @@ const UNLOCK_COST_MAX: float = 20000.0
 const UNLOCK_COST_EXP: float = 2.0
 
 # ─── Archetype Stat Multipliers ───────────────────────────────────────────────
-enum ARCHETYPE { ESCORT, CRUISER, SCIENCE, FREIGHTER, RAIDER, DREADNOUGHT }
+enum ARCHETYPE { ESCORT, CRUISER, SCIENCE, FREIGHTER, RAIDER, DREADNOUGHT, NONE }
 
 const ARCHETYPE_MULTIPLIERS: Dictionary = {
-	ARCHETYPE.ESCORT:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.8,  "SPEED": 1.15,  "AGILITY": 1.15 },
-	ARCHETYPE.CRUISER:     { "MAX_HP": 1.1,  "MAX_SHIELD": 1.1,  "SPEED": 1.0,  "AGILITY": 0.9 },
-	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.8,  "MAX_SHIELD": 1.2,  "SPEED": 1.1,  "AGILITY": 1.05 },
-	ARCHETYPE.FREIGHTER:   { "MAX_HP": 1.3,  "MAX_SHIELD": 0.6,  "SPEED": 0.85,  "AGILITY": 0.8 },
-	ARCHETYPE.RAIDER:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.7,  "SPEED": 1.25,  "AGILITY": 1.15 },
-	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.4,  "MAX_SHIELD": 1.3,  "SPEED": 0.75,  "AGILITY": 0.8 },
+	ARCHETYPE.ESCORT:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.8,  "SPEED": 1.15,  "AGILITY": 1.15 }, # Improved agility, reduced health
+	ARCHETYPE.CRUISER:     { "MAX_HP": 1.1,  "MAX_SHIELD": 1.1,  "SPEED": 1.0,  "AGILITY": 0.9 }, # Slightly improved health
+	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.8,  "MAX_SHIELD": 1.2,  "SPEED": 1.1,  "AGILITY": 1.05 }, # Improved shielding, reduced hull
+	ARCHETYPE.FREIGHTER:   { "MAX_HP": 1.3,  "MAX_SHIELD": 0.6,  "SPEED": 0.85,  "AGILITY": 0.8 }, # Improved hull, reduced shield and agility
+	ARCHETYPE.RAIDER:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.7,  "SPEED": 1.25,  "AGILITY": 1.15 }, # Improved agility, reduced health
+	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.4,  "MAX_SHIELD": 1.3,  "SPEED": 0.75,  "AGILITY": 0.8 }, # Greatly increased health, reduced agility
 }
 
 const FACTION_BIAS: Dictionary[Utility.FACTION, Dictionary] = {

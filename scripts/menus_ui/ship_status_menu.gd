@@ -88,7 +88,12 @@ func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: PlayableShipS
 	#TODO %CloakStatus.text
 	#TODO Dynamic weapon name
 	%WeaponName.text = "TORPEDO"
-	%AbilityValue.text = str(Scaling.ARCHETYPE.keys()[new_stats.archetype]).capitalize() if new_stats.archetype else "None"
+	if new_stats.archetype:
+		%AbilityValue.text = str(Scaling.ARCHETYPE.keys()[new_stats.archetype]).capitalize()
+		_set_ability_tooltip(new_stats.archetype)
+	else:
+		%AbilityValue.text = "None"
+		_set_ability_tooltip()
 
 
 func _format_faction_label(faction: Utility.FACTION) -> String:
@@ -202,3 +207,21 @@ func sync_faction_scores() -> void:
 	update_reputation(Utility.FACTION.ROMULAN, MissionManager.Reputation.RomulanRep)
 	
 #endregion
+
+var tooltip_mapping: Dictionary[Scaling.ARCHETYPE, String] = {
+	Scaling.ARCHETYPE.ESCORT: "Improved agility, reduced health",
+	Scaling.ARCHETYPE.CRUISER: "Slightly improved health",
+	Scaling.ARCHETYPE.SCIENCE: "Improved shielding, reduced hull",
+	Scaling.ARCHETYPE.FREIGHTER: "Improved hull, reduced shield and agility",
+	Scaling.ARCHETYPE.RAIDER: "Improved agility, reduced health",
+	Scaling.ARCHETYPE.DREADNOUGHT: "Greatly increased health, reduced agility",
+}
+func _set_ability_tooltip(type: Scaling.ARCHETYPE = Scaling.ARCHETYPE.NONE) -> void:
+	if type == Scaling.ARCHETYPE.NONE: %AbilityTooltip.text = "No change"
+	else: %AbilityTooltip.text = tooltip_mapping.get(type, "Missing Type")
+
+func _on_ability_hovered() -> void:
+	%AbilityTooltip.visible = true
+
+func _on_ability_exited() -> void:
+	%AbilityTooltip.visible = false

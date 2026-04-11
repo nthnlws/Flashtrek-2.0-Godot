@@ -21,6 +21,7 @@
 [ext_resource type="LabelSettings" uid="uid://ba47nn8n74kdf" path="res://resources/small_gray_title.tres" id="16_k3w1r"]
 [ext_resource type="LabelSettings" uid="uid://b24xvdfbt6lh2" path="res://resources/combat_info.tres" id="17_eq1b8"]
 [ext_resource type="FontFile" uid="uid://d3pmli8sgfifn" path="res://assets/font/Okuda Bold.otf" id="18_01jvp"]
+[ext_resource type="PackedScene" uid="uid://daibe5xomtf60" path="res://scenes/menus_ui/hover_tooltip.tscn" id="21_v705g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k3w1r"]
 resource_local_to_scene = true
@@ -726,7 +727,7 @@ label_settings = ExtResource("16_k3w1r")
 [node name="CloakStatus" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/CloakContainer" unique_id=151740478]
 unique_name_in_owner = true
 layout_mode = 2
-text = "READY"
+text = "OFFLINE"
 label_settings = SubResource("LabelSettings_v705g")
 
 [node name="CargoContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer" unique_id=1495291780]
@@ -745,12 +746,13 @@ text = "0/1"
 label_settings = SubResource("LabelSettings_030s8")
 
 [node name="OverdriveContainer" type="VBoxContainer" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer" unique_id=1786356605]
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
 
 [node name="AbilityTitle" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=262681188]
 layout_mode = 2
-text = "ABILITY"
+text = "SHIP TYPE"
 label_settings = ExtResource("16_k3w1r")
 
 [node name="AbilityValue" type="Label" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" unique_id=836138696]
@@ -758,6 +760,14 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "UNKNOWN"
 label_settings = ExtResource("17_eq1b8")
+
+[node name="AbilityTooltip" parent="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer/AbilityValue" unique_id=583419101 instance=ExtResource("21_v705g")]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+z_as_relative = false
+layout_mode = 0
+text = "+10% Speed"
 
 [node name="UpgradesBanner" type="Panel" parent="Background/HBoxContainer/RightPanel/RightPanelContainer" unique_id=1556902790]
 custom_minimum_size = Vector2(0, 30)
@@ -831,3 +841,5 @@ layout_mode = 2
 current_icon = 5
 
 [connection signal="pressed" from="Background/HBoxContainer/RightPanel/RightPanelContainer/StatsBanner/MarginContainer/HBoxContainer/closeMenuButton" to="." method="_on_close_button_pressed"]
+[connection signal="mouse_entered" from="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" to="." method="_on_ability_hovered"]
+[connection signal="mouse_exited" from="Background/HBoxContainer/RightPanel/RightPanelContainer/MarginContainer3/GridContainer/OverdriveContainer" to="." method="_on_ability_exited"]
