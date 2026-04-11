@@ -29,7 +29,8 @@ const MENU_BUTTON_ROUNDED = preload("uid://cpd0paggi412v")
 
 var frames: Array[ShipSelector]
 var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, PlayableShipStats]
-var _stat_ranges: Dictionary = {}
+var _faction_stat_ranges: Dictionary[Utility.FACTION, Dictionary]
+var _stat_ranges: Dictionary
 const SHIP_SELECTOR = preload("uid://djjxdvhjd147f")
 
 const FACTION_DATA: Dictionary = {
@@ -72,6 +73,7 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	MissionManager.Reputation.reputation_total_changed.connect(_update_ship_unlocks)
+	_cache_faction_ranges()
 	_build_all_ship_stats()
 	_cache_stat_ranges()
 	if LevelManager.galaxy_data:
@@ -90,52 +92,55 @@ func _build_all_ship_stats() -> void:
 
 
 func _build_faction_stats(unlock_list: Array[Utility.SHIP_TYPES]) -> void:
-	var total: int = unlock_list.size()
-	for i: int in total:
-		var ship_type: Utility.SHIP_TYPES = unlock_list[i]
+	var total: float = float(unlock_list.size())
+	for index: int in total:
+		var ship_type: Utility.SHIP_TYPES = unlock_list[index]
 		_add_ship_stats(ship_type,
-			Scaling.get_player_stat_scale(i, total),
-			Scaling.get_player_move_scale(i, total),
-			Scaling.get_player_energy_scale(i, total), i)
+			Scaling.get_player_stat_scale(index / total),
+			Scaling.get_player_move_scale(index / total),
+			Scaling.get_player_energy_scale(index / total),
+			index,
+			_faction_stat_ranges)
 
 
-func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scale: float, energy_scale: float, index:int) -> void:
+func _cache_faction_ranges() -> void:
+	_faction_stat_ranges[Utility.FACTION.FEDERATION] = Scaling.get_faction_stat_range(federation_unlocks, Utility.FACTION.FEDERATION)
+	_faction_stat_ranges[Utility.FACTION.KLINGON]    = Scaling.get_faction_stat_range(klingon_unlocks,    Utility.FACTION.KLINGON)
+	_faction_stat_ranges[Utility.FACTION.ROMULAN]    = Scaling.get_faction_stat_range(romulan_unlocks,    Utility.FACTION.ROMULAN)
+	_faction_stat_ranges[Utility.FACTION.NEUTRAL]    = Scaling.get_faction_stat_range(neutral_unlocks,    Utility.FACTION.NEUTRAL)
+
+
+func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scale: float, energy_scale: float, index:int, stat_ranges:Dictionary[Utility.FACTION, Dictionary]) -> void:
 	var base: Dictionary         = Utility.SHIP_DATA[ship_type]
 	var faction: Utility.FACTION = base.FACTION
 	var archetype: Scaling.ARCHETYPE = base.ARCHETYPE
-	var warp_ranges: Dictionary[int, int] = {
-		0: 2,
-		1: 2,
-		2: 3,
-		3: 4,
-		4: 5,
-		5: 6,
-	}
 	
 	var stats: PlayableShipStats = PlayableShipStats.new()
 	stats.faction        = faction
 	stats.ship_name      = base.SHIP_NAME
 	stats.archetype      = archetype
 	stats.trait_type     = base.TRAIT
-	stats.damage_mult    = energy_scale
+	stats.damage_mult    = Scaling.apply_modifiers(1.0,                           stat_scale, archetype, faction, "DAMAGE")
 	stats.max_hp         = Scaling.apply_modifiers(base.MAX_HP,                   stat_scale, archetype, faction, "MAX_HP")
 	stats.max_shield     = Scaling.apply_modifiers(base.MAX_SHIELD,               stat_scale, archetype, faction, "MAX_SHIELD")
 	stats.speed          = Scaling.apply_modifiers(base.PLAYER_SPEED_OVERRIDE,    move_scale, archetype, faction, "SPEED")
 	stats.agility        = Scaling.apply_modifiers(base.PLAYER_AGILITY_OVERRIDE, move_scale, archetype, faction, "AGILITY")
-	stats.warp_range     = warp_ranges.get(index, 2)
+	stats.warp_range     = Scaling.get_ship_warp_range(index)
+	stats.stat_ranges    = stat_ranges
+	stats.max_energy     = 150 * energy_scale
 	
 	scaled_ship_stats[ship_type] = stats
+	if stats.faction == Utility.FACTION.FEDERATION: print(stats)
 
 
 func _cache_stat_ranges() -> void:
 	_stat_ranges["MAX_HP"]         = Scaling.get_playable_stat_range("max_hp",         scaled_ship_stats)
 	_stat_ranges["MAX_SHIELD"]     = Scaling.get_playable_stat_range("max_shield",      scaled_ship_stats)
 	_stat_ranges["SPEED"]          = Scaling.get_playable_stat_range("speed",           scaled_ship_stats)
-	_stat_ranges["AGILITY"] = Scaling.get_playable_stat_range("agility",  scaled_ship_stats)
+	_stat_ranges["AGILITY"]        = Scaling.get_playable_stat_range("agility",  scaled_ship_stats)
 
 
 # ─── Faction Change ───────────────────────────────────────────────────────────
-
 func change_faction(new_faction: Utility.FACTION) -> void:
 	var faction_data: Dictionary = FACTION_DATA.get(new_faction, {})
 
@@ -164,8 +169,7 @@ func _get_stardate(faction: Utility.FACTION) -> String:
 		_:                          return "Stardate: %.2f" % Utility.get_federation_date()
 
 
-# ─── Grid ─────────────────────────────────────────────────────────────────────
-
+# ─── Grid ─────
 func update_selection_grid(faction: Utility.FACTION) -> void:
 	for frame: Node in get_tree().get_nodes_in_group("ship_selection_frame"):
 		frame.free()
@@ -176,7 +180,7 @@ func update_selection_grid(faction: Utility.FACTION) -> void:
 
 	for i: int in unlock_ships.size():
 		var ship_type: Utility.SHIP_TYPES = unlock_ships[i]
-		var unlock_cost: int = Scaling.get_unlock_cost_scale(i, unlock_ships.size())
+		var unlock_cost: int = Scaling.get_unlock_cost_scale(i / float(unlock_ships.size()))
 		var frame: ShipSelector = create_frame(ship_type, faction, unlock_cost)
 		%ShipGrid.add_child(frame)
 		frames.append(frame)
@@ -212,16 +216,16 @@ func create_frame(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unloc
 
 
 # ─── Ship Stats Display ───────────────────────────────────────────────────────
-
 func update_ship_stats(selected_ship: ShipSelector) -> void:
 	var faction: Utility.FACTION      = selected_ship.ship_faction
 	var ship_type: Utility.SHIP_TYPES = selected_ship.current_ship_type
-	var stats: PlayableShipStats              = scaled_ship_stats[ship_type]
+	var stats: PlayableShipStats      = scaled_ship_stats[ship_type]
 
+	# Existing stat bars unchanged
 	_set_stat_bar(%HealthBar,   stats.max_hp,         _stat_ranges["MAX_HP"])
 	_set_stat_bar(%ShieldBar,   stats.max_shield,     _stat_ranges["MAX_SHIELD"])
 	_set_stat_bar(%SpeedBar,    stats.speed,          _stat_ranges["SPEED"])
-	_set_stat_bar(%MovementBar, stats.agility, _stat_ranges["AGILITY"])
+	_set_stat_bar(%MovementBar, stats.agility,        _stat_ranges["AGILITY"])
 
 	var formatted_name: String = Utility.fed_blue + stats.ship_name.capitalize()
 	%ship_name.text = "[color=#FFCC66]Ship Name:[/color] %s" % formatted_name
@@ -234,6 +238,12 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 		%price_banner.text = "Required Rep: %s%s" % [Utility.UI_cargo_green, req_rep]
 	else:
 		%price_banner.text = "Required Rep: %s%s" % [Utility.damage_red, req_rep]
+
+
+func _safe_div(value: float, max_val: float) -> float:
+	if max_val <= 0.0:
+		return 0.0
+	return clampf(value / max_val, 0.0, 1.0)
 
 
 func _set_stat_bar(bar: Control, value: float, range: Vector2, min_fill: float = 0.2, contrast: float = 0.6) -> void:

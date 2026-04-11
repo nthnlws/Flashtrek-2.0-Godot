@@ -5,6 +5,7 @@ signal energy_changed(current: float)
 signal max_energy_changed(max: float)
 signal energy_depleted
 
+var base_max_energy: float = 150.0
 @export var max_energy: float = 150.0:
 	set(value):
 		max_energy = max(0.0, value)

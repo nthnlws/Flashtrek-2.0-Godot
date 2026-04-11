@@ -58,28 +58,32 @@ func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:
 
 
 func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: PlayableShipStats) -> void:
-	#print("ship type set to %s in upgrade menu" % Utility.SHIP_TYPES.keys()[ship_type])
 	set_background(ship_type)
 	_change_ship_sprite(ship_type)
-	
-	# Spider Graph
+
+	# Spider Graph — sigmoid-normalised matches progression curve
 	var graph: SpiderGraph = %SpiderGraph
-	var graph_dict: Dictionary[String, float] = {
-		"SPEED": new_stats.speed,
-		"ARMOR": new_stats.max_hp,
-		"SHIELDS": new_stats.max_shield,
-		"FIREPOWER": new_stats.damage_mult,
-		"AGILITY": new_stats.agility,
-		"RANGE": new_stats.warp_range,
-	}
-	graph.set_all_values(graph_dict)
+	var stat_ranges: Dictionary = new_stats.stat_ranges.get(new_stats.faction, {})
+
+	if stat_ranges.is_empty():
+		push_warning("ShipStatusMenu: no max_values found for faction %s" % Utility.FACTION.keys()[new_stats.faction])
+	else:
+		var graph_dict: Dictionary[String, float] = {
+			#"SPEED":   inverse_lerp(stat_ranges["speed"]["min"], stat_ranges["speed"]["max"], new_stats.speed),
+			"ARMOR":   Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_hp"]["min"], stat_ranges["max_hp"]["max"], new_stats.max_hp)) / Scaling.PLAYER_STAT_MAX,
+			"SHIELDS": Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_shield"]["min"], stat_ranges["max_shield"]["max"], new_stats.max_shield)) / Scaling.PLAYER_STAT_MAX,
+			"DAMAGE":  Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["damage"]["min"], stat_ranges["damage"]["max"], new_stats.damage_mult)) / Scaling.PLAYER_STAT_MAX,
+			#"AGILITY": inverse_lerp(stat_ranges["agility"]["min"], stat_ranges["agility"]["max"], new_stats.agility),
+			"RANGE":   (new_stats.warp_range / 6.0),
+		}
+		graph.set_all_values(graph_dict)
 	
 	%ClassLabel.text = str(Utility.SHIP_TYPES.keys()[ship_type]).capitalize()
 	%FactionLabel.text = _format_faction_label(new_stats.faction)
 	
 	%HealthLabel.text = "%d / %d" % [new_stats.max_hp, new_stats.max_hp]
 	%ShieldLabel.text = "%d / %d" % [new_stats.max_shield, new_stats.max_shield]
-	#TODO Get max energy %EnergyBar.text = "%d / %d" % [new_stats.max_shield, new_stats.max_shield]
+	%EnergyLabel.text = "%d / %d" % [new_stats.max_energy, new_stats.max_energy]
 	
 	#TODO %CloakStatus.text
 	#TODO Dynamic weapon name

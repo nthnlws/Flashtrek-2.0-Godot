@@ -130,6 +130,8 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	health_component.hp_current = health_component.HP_max
 	health_component.SP_max  = new_stats.max_shield     if new_stats else ship_data.MAX_SHIELD
 	health_component.sp_current = health_component.SP_max
+	energy.max_energy        = new_stats.max_energy     if new_stats else energy.base_max_energy
+	energy.current_energy    = new_stats.max_energy     if new_stats else energy.base_max_energy
 	ship_damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
 	base_cargo_capacity      = ship_data.get("CARGO_SIZE", 1)
 	faction                  = new_stats.faction        if new_stats else ship_data.FACTION

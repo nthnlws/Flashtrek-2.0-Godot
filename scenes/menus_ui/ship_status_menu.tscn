@@ -650,6 +650,7 @@ label_settings = SubResource("LabelSettings_twr8y")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
+axes = Array[String](["ARMOR", "SHIELDS", "DAMAGE", "RANGE"])
 label_font_size = 8
 label_offset = 20.0
 

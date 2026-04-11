@@ -2,7 +2,7 @@
 extends Control
 class_name SpiderGraph
 
-@export var axes: Array[String] = ["Speed", "Armor", "Shields", "Firepower", "Agility", "Range"]:
+@export var axes: Array[String] = ["SPEED", "ARMOR", "SHIELDS", "DAMAGE", "RANGE", "AGILITY"]:
 	set(value):
 		axes = value
 		_rebuild_values()
@@ -67,12 +67,13 @@ func set_value(axis: String, value: float) -> void:
 	queue_redraw()
 
 
-func set_all_values(value_map: Dictionary) -> void:
+func set_all_values(value_map: Dictionary[String, float]) -> void:
 	if Engine.is_editor_hint():
 		return
-	for key in value_map:
+	for key:String in value_map:
 		if key in _values:
 			_values[key] = clampf(value_map[key], 0.0, 1.0)
+		else: printerr('No key: %s found in spider graph axes' % key)
 	queue_redraw()
 
 
