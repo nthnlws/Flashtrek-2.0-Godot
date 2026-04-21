@@ -328,6 +328,7 @@ libraries/ = SubResource("AnimationLibrary_vaax2")
 show_behind_parent = true
 
 [node name="TractorBeam" parent="." unique_id=1757544994 instance=ExtResource("13_rue2e")]
+visible = false
 
 [node name="regen_timer" type="Timer" parent="." unique_id=2024973739]
 

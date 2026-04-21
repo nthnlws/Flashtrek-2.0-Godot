@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://b0fqb8hjt4vsf"]
+
+[ext_resource type="Shader" uid="uid://reqdb4wt4qge" path="res://resources/Materials_Shaders/warp_effect.gdshader" id="1_qodhv"]
+[ext_resource type="Script" uid="uid://ba4i47dhg1gei" path="res://scripts/menus_ui/warp_effect.gd" id="2_b42u8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dfkrf"]
+shader = ExtResource("1_qodhv")
+shader_parameter/star_count = 200
+shader_parameter/arms = 100
+shader_parameter/particle_size = 1.5
+shader_parameter/use_white_color = false
+shader_parameter/color_a = Color(1, 1, 1, 0)
+shader_parameter/color_b = Color(0.5294118, 0.80784315, 0.92156863, 1)
+shader_parameter/gradient_speed = 5.3
+shader_parameter/world_scale = 400.0
+shader_parameter/theta = 80.0
+shader_parameter/centerArea = 85.0
+shader_parameter/scale_x = 0.01
+shader_parameter/stretch = 1.4
+shader_parameter/speed = 20.0
+shader_parameter/modTime = 20.0
+shader_parameter/rect_size = Vector2(960, 540)
+
+[sub_resource type="Animation" id="Animation_qodhv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:centerArea")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [85.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_b42u8"]
+resource_name = "activate_warp"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:centerArea")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [140.0, 85.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_yej1r"]
+resource_name = "exit_warp"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:centerArea")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [85.0, 140.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ygnhr"]
+_data = {
+&"RESET": SubResource("Animation_qodhv"),
+&"activate_warp": SubResource("Animation_b42u8"),
+&"exit_warp": SubResource("Animation_yej1r")
+}
+
+[node name="WarpEffect" type="ColorRect" unique_id=1523918010]
+visible = false
+material = SubResource("ShaderMaterial_dfkrf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("2_b42u8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1663906071]
+libraries/ = SubResource("AnimationLibrary_ygnhr")

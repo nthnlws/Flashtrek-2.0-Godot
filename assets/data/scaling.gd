@@ -18,16 +18,16 @@ const UNLOCK_COST_MIN: float = 2000.0
 const UNLOCK_COST_MAX: float = 20000.0
 const UNLOCK_COST_EXP: float = 2.0
 
-# ─── Archetype Stat Multipliers ───────────────────────────────────────────────
+# ─── Archetype Stat Multipliers ─────
 enum ARCHETYPE { ESCORT, CRUISER, SCIENCE, FREIGHTER, RAIDER, DREADNOUGHT, NONE }
 
-const ARCHETYPE_MULTIPLIERS: Dictionary = {
-	ARCHETYPE.ESCORT:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.8,  "SPEED": 1.15,  "AGILITY": 1.15 }, # Improved agility, reduced health
-	ARCHETYPE.CRUISER:     { "MAX_HP": 1.1,  "MAX_SHIELD": 1.1,  "SPEED": 1.0,  "AGILITY": 0.9 }, # Slightly improved health
-	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.8,  "MAX_SHIELD": 1.2,  "SPEED": 1.1,  "AGILITY": 1.05 }, # Improved shielding, reduced hull
-	ARCHETYPE.FREIGHTER:   { "MAX_HP": 1.3,  "MAX_SHIELD": 0.6,  "SPEED": 0.85,  "AGILITY": 0.8 }, # Improved hull, reduced shield and agility
-	ARCHETYPE.RAIDER:      { "MAX_HP": 0.7,  "MAX_SHIELD": 0.7,  "SPEED": 1.25,  "AGILITY": 1.15 }, # Improved agility, reduced health
-	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.4,  "MAX_SHIELD": 1.3,  "SPEED": 0.75,  "AGILITY": 0.8 }, # Greatly increased health, reduced agility
+const ARCHETYPE_MULTIPLIERS: Dictionary[ARCHETYPE, Dictionary] = {
+	ARCHETYPE.ESCORT:      { "MAX_HP": 0.85, "MAX_SHIELD": 0.9,  "SPEED": 1.1,  "AGILITY": 1.1 }, 
+	ARCHETYPE.CRUISER:     { "MAX_HP": 1.05, "MAX_SHIELD": 1.05, "SPEED": 1.0,  "AGILITY": 1.0 },
+	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.9,  "MAX_SHIELD": 1.1,  "SPEED": 1.05, "AGILITY": 1.05 },
+	ARCHETYPE.FREIGHTER:   { "MAX_HP": 1.15, "MAX_SHIELD": 0.85, "SPEED": 0.9,  "AGILITY": 0.9 },
+	ARCHETYPE.RAIDER:      { "MAX_HP": 0.85, "MAX_SHIELD": 0.85, "SPEED": 1.15, "AGILITY": 1.1 },
+	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.2,  "MAX_SHIELD": 1.15, "SPEED": 0.85, "AGILITY": 0.85 },
 }
 
 const FACTION_BIAS: Dictionary[Utility.FACTION, Dictionary] = {
@@ -72,9 +72,14 @@ static func apply_modifiers(base_val: float, scale: float,
 							archetype: ARCHETYPE,
 							faction: Utility.FACTION,
 							stat_key: String) -> int:
-	return roundi(base_val * scale
-		* ARCHETYPE_MULTIPLIERS.get(archetype, {}).get(stat_key, 1.0)
-		* FACTION_BIAS.get(faction, {}).get(stat_key, 1.0))
+	
+	var arch_mod: float = ARCHETYPE_MULTIPLIERS.get(archetype, {}).get(stat_key, 1.0) - 1.0
+	var fact_mod: float = FACTION_BIAS.get(faction, {}).get(stat_key, 1.0) - 1.0
+	var final_mult: float = scale + arch_mod + fact_mod
+	# Prevent negative multipliers from dropping stats below 10%
+	final_mult = maxf(final_mult, 0.1) 
+	
+	return roundi(base_val * final_mult)
 
 static func get_playable_stat_range(stat_key: String, scaled_stats: Dictionary) -> Vector2:
 	var min_val: float = INF
@@ -201,3 +206,19 @@ static func get_faction_stat_range(unlock_list: Array[Utility.SHIP_TYPES], facti
 			ranges[key]["min"] = 0.0
 
 	return ranges
+
+
+static func get_spider_norm(current_val: float, stat_key: String) -> float:
+	var global_max: float = 1.0
+	var global_min: float = 1.0
+	
+	if stat_key in ["SPEED", "AGILITY"]:
+		# Max possible: base * PLAYER_MOVE_SCALE_MAX * highest_multiplier (1.15)
+		global_max = 1.0 * PLAYER_MOVE_SCALE_MAX * 1.15
+		global_min = 1.0 * 1.0 * 0.8 # approx min
+	else:
+		# Max possible: base * PLAYER_STAT_MAX (4.5) * highest_multiplier (1.2)
+		global_max = 1.0 * PLAYER_STAT_MAX * 1.2
+		global_min = 1.0 * 1.0 * 0.7 # approx min
+		
+	return clampf(inverse_lerp(global_min, global_max, current_val), 0.15, 1.0)

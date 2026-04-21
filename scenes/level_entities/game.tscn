@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://coi3fmkymbj2q" path="res://scenes/menus_ui/starbase_menu.tscn" id="12_ab70e"]
 [ext_resource type="PackedScene" uid="uid://cq7nipnakpnsu" path="res://scenes/menus_ui/ship_status_menu.tscn" id="13_ab70e"]
 [ext_resource type="PackedScene" uid="uid://d0dea6kwmmylo" path="res://scenes/menus_ui/minimap.tscn" id="13_pwbrs"]
+[ext_resource type="PackedScene" uid="uid://b0fqb8hjt4vsf" path="res://scenes/level_entities/warp_effect.tscn" id="14_ab70e"]
 [ext_resource type="Script" uid="uid://dub433vpxkq4e" path="res://scripts/menus_ui/menu_state_manager.gd" id="14_nkpvs"]
 [ext_resource type="Script" uid="uid://dmdedm3kpsdji" path="res://addons/signal_printer/signal_printer.gd" id="16_ab70e"]
 [ext_resource type="PackedScene" uid="uid://dm6q0abakck7u" path="res://scenes/menus_ui/joystick.tscn" id="16_cqedu"]
@@ -15,7 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://bmickf1y1dx86" path="res://scenes/level_entities/scrolling_background.tscn" id="17_a7ete"]
 [ext_resource type="PackedScene" uid="uid://lpc7nsfqbs77" path="res://scenes/menus_ui/crosshair.tscn" id="18_wcaow"]
 [ext_resource type="PackedScene" uid="uid://bhb1c0qiau5du" path="res://scenes/menus_ui/loading_screen.tscn" id="20_qnb83"]
-[ext_resource type="PackedScene" uid="uid://coo2wawx2fvq2" path="res://scenes/menus_ui/tunnel_effect.tscn" id="23_g86nl"]
 
 [node name="Game" type="Node2D" unique_id=1659597695]
 process_mode = 3
@@ -69,18 +69,8 @@ visible = false
 [node name="ShipStatusMenu" parent="Menus" unique_id=1335963301 instance=ExtResource("13_ab70e")]
 visible = false
 
-[node name="TunnelEffect" parent="Menus" unique_id=643784188 instance=ExtResource("23_g86nl")]
+[node name="WarpEffect" parent="Menus" unique_id=1523918010 instance=ExtResource("14_ab70e")]
 unique_name_in_owner = true
-visible = false
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="ScrollingBackground" parent="." unique_id=26839956 instance=ExtResource("17_a7ete")]
 

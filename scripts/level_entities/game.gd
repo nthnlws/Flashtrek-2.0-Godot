@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var loading_screen: Control = %LoadingScreen
-@onready var tunnel_effect: SubViewportContainer = %TunnelEffect
+@onready var warp_effect: ColorRect = %WarpEffect
 @onready var hud: Control = $HUD_layer/HUD
 @onready var level: Node = $Level
 @onready var minimap: Control = %MiniMap
@@ -19,7 +19,7 @@ func _ready() -> void:
 	SignalBus.system_changed.connect(_on_level_system_changed)
 	SignalBus.galaxy_warp_finished.connect(_warp_into_new_system)
 	SignalBus.playerDied.connect(handlePlayerDied)
-	SignalBus.galaxy_warp_screen_fade.connect(galaxy_fade_out)
+	SignalBus.start_warp_effect.connect(galaxy_fade_out)
 	
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 	minimap.create_minimap_objects()
@@ -28,16 +28,7 @@ func _ready() -> void:
 
 
 func galaxy_fade_out() -> void:
-	tunnel_effect.visible = true
-	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 85, 4.0)
-	
-	await get_tree().create_timer(4.0).timeout
-	
-	#print("Warp finished with target system " + str(LevelManager.current_system_data.system_name))
-
-	SignalBus.galaxy_warp_finished.emit(LevelManager.current_system_data)
-	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
+	warp_effect.start_warp_animation()
 
 
 func handlePlayerDied() -> void:
@@ -54,21 +45,17 @@ func handlePlayerDied() -> void:
 func _warp_into_new_system(system_data:SystemData) -> void:
 	LevelManager.player.global_position = LevelManager.entry_coords
 	
-	var tween: Tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(tunnel_effect.get_node("ParticleViewport/ParticleDrawer"), "centerArea", 200, 4.0)
-	
 	LevelManager.player.camera._zoom = Vector2(0.4, 0.4)
-	LevelManager.player.overdrive_state_change("INSTANT")
 	LevelManager.player.uncloak_ship(3.0)
 	
 	await get_tree().create_timer(1.5).timeout
 	SignalBus.entering_new_system.emit()
+	warp_effect.exit_warp_animation()
 	
 	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	tween2.tween_property(LevelManager.player, "velocity", Vector2(600, 0).rotated(LevelManager.player.global_rotation), 3.0)
 	create_tween().tween_property(LevelManager.player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
 	await tween2.finished
-	tunnel_effect.visible = false
 	
 	LevelManager.player.camera._zoom = Vector2(0.5, 0.5)
 	LevelManager.player.overdrive_state_change("SMOOTH")

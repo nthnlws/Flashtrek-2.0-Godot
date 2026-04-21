@@ -43,7 +43,7 @@ signal playerShieldOn
 signal teleport_player(new_coords: Vector2)
 signal triggerGalaxyWarp
 signal entering_galaxy_warp
-signal galaxy_warp_screen_fade
+signal start_warp_effect
 signal galaxy_warp_finished(system_data: SystemData)
 signal entering_new_system
 signal system_changed(system_data: SystemData)

@@ -68,13 +68,12 @@ func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: PlayableShipS
 	if stat_ranges.is_empty():
 		push_warning("ShipStatusMenu: no max_values found for faction %s" % Utility.FACTION.keys()[new_stats.faction])
 	else:
+		const GRAPH_MIN: float = 0.2
 		var graph_dict: Dictionary[String, float] = {
-			#"SPEED":   inverse_lerp(stat_ranges["speed"]["min"], stat_ranges["speed"]["max"], new_stats.speed),
-			"ARMOR":   Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_hp"]["min"], stat_ranges["max_hp"]["max"], new_stats.max_hp)) / Scaling.PLAYER_STAT_MAX,
-			"SHIELDS": Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_shield"]["min"], stat_ranges["max_shield"]["max"], new_stats.max_shield)) / Scaling.PLAYER_STAT_MAX,
-			"DAMAGE":  Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["damage"]["min"], stat_ranges["damage"]["max"], new_stats.damage_mult)) / Scaling.PLAYER_STAT_MAX,
-			#"AGILITY": inverse_lerp(stat_ranges["agility"]["min"], stat_ranges["agility"]["max"], new_stats.agility),
-			"RANGE":   (new_stats.warp_range / 6.0),
+			"ARMOR":   lerpf(GRAPH_MIN, 1.0, Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_hp"]["min"],     stat_ranges["max_hp"]["max"],     new_stats.max_hp))     / Scaling.PLAYER_STAT_MAX),
+			"SHIELDS": lerpf(GRAPH_MIN, 1.0, Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_shield"]["min"], stat_ranges["max_shield"]["max"], new_stats.max_shield)) / Scaling.PLAYER_STAT_MAX),
+			"DAMAGE":  lerpf(GRAPH_MIN, 1.0, Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["damage"]["min"],     stat_ranges["damage"]["max"],     new_stats.damage_mult)) / Scaling.PLAYER_STAT_MAX),
+			"RANGE":   lerpf(GRAPH_MIN, 1.0, new_stats.warp_range / 6.0),
 		}
 		graph.set_all_values(graph_dict)
 	

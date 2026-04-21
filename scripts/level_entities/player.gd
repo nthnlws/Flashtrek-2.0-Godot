@@ -526,6 +526,7 @@ func galaxy_warp_out() -> void:
 	
 	await get_tree().create_timer(1.5).timeout # 6.0 sec
 	#print("flat, scale")
+	SignalBus.start_warp_effect.emit()
 	create_tween().tween_property(galaxy_particles.process_material, "flatness", 0.0, 5.0)
 	create_tween().tween_property(galaxy_particles.process_material, "scale_min", 1.0, 3.5)
 	create_tween().tween_property(galaxy_particles.process_material, "scale_max", 2.0, 3.5)
@@ -533,6 +534,7 @@ func galaxy_warp_out() -> void:
 	await get_tree().create_timer(2.5).timeout # 8.5 sec
 	var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
+	overdrive_state_change("SMOOTH")
 	
 	await get_tree().create_timer(2.5).timeout
 	cloak_ship(3.0, false)
@@ -552,12 +554,14 @@ func galaxy_warp_out() -> void:
 	var tween3: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)
 	
-	
-	SignalBus.galaxy_warp_screen_fade.emit()
 	galaxy_warp_sound.pitch_scale = 1.0
 	tween.stop()
 	tween2.stop()
 	tween3.stop()
+	
+	await get_tree().create_timer(2.0).timeout
+	SignalBus.galaxy_warp_finished.emit(LevelManager.current_system_data)
+	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 
 
 func _handle_mission_pickup(mission_data: MissionData) -> void:
@@ -576,7 +580,7 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 		UpgradePickup.MODULE_TYPES.SPEED:
 			stats.SpeedMult = stats.SpeedMult + mult_step
 		UpgradePickup.MODULE_TYPES.ROTATION:
-			stats.RotateMult = stats.RotateMult + mult_step
+			stats.AgilityMult = stats.AgilityMult + mult_step
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
 			stats.FireRateMult = stats.FireRateMult + mult_step
 		UpgradePickup.MODULE_TYPES.HEALTH:
