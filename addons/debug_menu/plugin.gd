@@ -1,8 +1,0 @@
-@tool
-extends EditorPlugin
-
-func _enter_tree() -> void :
-	add_autoload_singleton("DebugMenu", "res://addons/debug_menu/debug_menu.tscn")
-
-func _exit_tree() -> void :
-	remove_autoload_singleton("DebugMenu")

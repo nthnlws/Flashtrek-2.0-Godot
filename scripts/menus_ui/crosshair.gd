@@ -1,6 +1,10 @@
 extends Node2D
 
 @onready var energy_bar: TextureProgressBar = $ProgressBar
+var player: Player
+
+const valid_aim_color: Color = Color("3a83cf")
+const invalid_aim_color: Color = Color("f4bf00")
 
 func  _ready() -> void:
 	if visible:
@@ -9,11 +13,15 @@ func  _ready() -> void:
 	SignalBus.playerEnergyChanged.connect(update_energy_value)
 	SignalBus.playerMaxEnergyChanged.connect(update_energy_max)
 	SignalBus.entering_new_system.connect(func(): visible = true)
+	
+	call_deferred("set_player")
 
+func set_player() -> void:
+	player = LevelManager.player
 
 func _process(delta: float) -> void:
 	if Utility.current_menu != Utility.MENUSTATE.NONE: return
-	global_position = get_viewport().get_mouse_position()
+	global_position = get_global_mouse_position()
 	
 	# Check if mouse is over any UI control
 	var mouse_over_ui: bool = _is_mouse_over_ui()
@@ -21,6 +29,23 @@ func _process(delta: float) -> void:
 	Input.set_mouse_mode(
 		Input.MOUSE_MODE_VISIBLE if mouse_over_ui else Input.MOUSE_MODE_HIDDEN
 	)
+	
+	if !player: return
+	var mouse_angle: float = player.global_position.angle_to_point(player.get_global_mouse_position())
+	var angle_diff: float = angle_difference(player.rotation, mouse_angle)
+	const MAX_AIM_DEVIATION: float = deg_to_rad(35.0)
+	
+	
+	if abs(angle_diff) <= MAX_AIM_DEVIATION:
+		#print('valid aim')
+		if energy_bar.tint_progress != valid_aim_color:
+			#print('switching to valid color')
+			energy_bar.tint_progress = valid_aim_color
+	elif abs(angle_diff) > MAX_AIM_DEVIATION:
+		#print('invalid aim')
+		if energy_bar.tint_progress != invalid_aim_color:
+			#print('setting to invalid color')
+			energy_bar.tint_progress = invalid_aim_color
 
 
 func update_energy_max(new_value:float) -> void:

@@ -82,6 +82,8 @@ func _on_collision_changed(toggle_status: bool) -> void:
 
 
 func toggle_world_borders(active:bool) -> void:
+	await get_tree().create_timer(3.0).timeout # Timeout after warp in
+	#TODO Remove debug labels
 	for label:Label in get_tree().get_nodes_in_group("Labels"):
 		label.visible = true if active else false
 	# Update border visibility

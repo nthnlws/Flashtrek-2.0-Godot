@@ -39,6 +39,7 @@ DebugMenu="*uid://cggqb75a8w8r"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
 gdscript/warnings/unused_parameter=0
 gdscript/warnings/narrowing_conversion=0
 
@@ -57,7 +58,7 @@ movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_lens/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_lens/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
 
 [file_customization]
 

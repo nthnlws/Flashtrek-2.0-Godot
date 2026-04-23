@@ -209,6 +209,7 @@ _data = {
 }
 
 [node name="HUD_Button" type="TextureRect" unique_id=1861936504 groups=["default_mouse"]]
+self_modulate = Color(0.79607844, 0.4, 0.4, 1)
 offset_right = 550.0
 offset_bottom = 550.0
 pivot_offset_ratio = Vector2(1, 1)

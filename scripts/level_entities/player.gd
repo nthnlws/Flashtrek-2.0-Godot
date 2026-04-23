@@ -229,8 +229,6 @@ func _physics_process(delta: float) -> void:
 		
 		if abs(angle_diff) <= MAX_AIM_DEVIATION:
 			shoot_torpedo(mouse_angle)
-		#else:
-			#shoot_torpedo(rotation)
 
 	_handle_movement(delta)
 	move_and_slide()
@@ -248,7 +246,7 @@ func _handle_movement(delta: float) -> void:
 			velocity += Vector2(-1, 0).rotated(rotation) * acceleration * delta * 0.8 / overdrivem_v
 			velocity = velocity.limit_length(max_speed / overdrivem_v)
 		else:
-			velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.175)
+			velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.25)
 			
 		if direction.y != 0:
 			rotate(deg_to_rad(direction.y * agility * delta * overdrivem_v))
@@ -550,14 +548,9 @@ func galaxy_warp_out() -> void:
 	await get_tree().create_timer(0.20).timeout
 	galaxy_warp_sound.stop()
 	
-	# Camera zoom in
-	var tween3: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	tween3.tween_property(camera, "zoom", Vector2(2.75, 2.75), 3.0)
-	
 	galaxy_warp_sound.pitch_scale = 1.0
 	tween.stop()
 	tween2.stop()
-	tween3.stop()
 	
 	await get_tree().create_timer(2.0).timeout
 	SignalBus.galaxy_warp_finished.emit(LevelManager.current_system_data)
@@ -574,7 +567,7 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 	var mult_step: float = 0.05 # 5% increase to stat
 	
 	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type
-	var modifier: UpgradePickup.MODIFIER = pickup.modifier_type
+	var modifier: UpgradePickup.MODIFIER = pickup.modifier_type # Mult vs Add
 	
 	match type:
 		UpgradePickup.MODULE_TYPES.SPEED:

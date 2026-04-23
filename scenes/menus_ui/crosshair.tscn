@@ -30,6 +30,6 @@ mouse_filter = 2
 value = 75.0
 fill_mode = 8
 texture_progress = ExtResource("3_2awl7")
-tint_progress = Color(0.22658296, 0.5137611, 0.810629, 1)
+tint_progress = Color(0.22745098, 0.5137255, 0.8117647, 1)
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

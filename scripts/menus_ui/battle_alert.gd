@@ -4,6 +4,8 @@ extends TextureRect
 @onready var timer: Timer = $Timer
 
 var disabled: bool = false
+var tween: Tween
+var tween2: Tween
 
 func _ready() -> void:
 	SignalBus.entering_combat.connect(activate_red_alert)
@@ -59,3 +61,24 @@ func _in_enemy_system(system_data:SystemData):
 		return true
 	# Player faction matches system
 	else: return false 
+
+
+func stretch_banner(tween_length:float, full_size:bool) -> void:
+	if is_instance_valid(tween):
+		tween.kill()
+	if is_instance_valid(tween2):
+		tween2.kill()
+	
+	var y_size: Vector2
+	var new_position: Vector2
+	if full_size:
+		y_size = Vector2(960, 540.0)
+		new_position = Vector2.ZERO
+	else:
+		y_size = Vector2(960, 500.0)
+		new_position = Vector2(0, 40)
+	
+	tween = create_tween()
+	tween.tween_property(self, "size", y_size, tween_length)
+	tween2 = create_tween()
+	tween2.tween_property(self, "position", new_position, tween_length)

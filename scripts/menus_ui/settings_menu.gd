@@ -80,8 +80,13 @@ func _on_menu_volume_changed(value: float) -> void:
 # ─── Video ────────────────────────────────────────────────────────────────────
 
 func _on_vsync_setting_changed(index: int) -> void:
-	DisplayServer.window_set_vsync_mode(index)
-	SaveManager.current_settings.vsync_setting = index as DisplayServer.VSyncMode
+	var new_setting: DisplayServer.VSyncMode
+	if index == 0: new_setting = DisplayServer.VSyncMode.VSYNC_ENABLED
+	elif index == 1: new_setting = DisplayServer.VSyncMode.VSYNC_ADAPTIVE
+	elif index == 2: new_setting = DisplayServer.VSyncMode.VSYNC_DISABLED
+	
+	DisplayServer.window_set_vsync_mode(new_setting)
+	SaveManager.current_settings.vsync_setting = new_setting as DisplayServer.VSyncMode
 	SaveManager.save_settings()
 
 func _on_scale_setting_item_selected(index: int) -> void:
@@ -116,6 +121,7 @@ func _on_main_menu_button_pressed() -> void:
 	AudioManager.play_UI_click_sound()
 	if get_parent().name != "MainMenu":
 		get_tree().change_scene_to_file("res://scenes/menus_ui/main_menu.tscn")
+		Utility.current_menu = Utility.MENUSTATE.NONE
 	else:
 		close_settings.emit()
 

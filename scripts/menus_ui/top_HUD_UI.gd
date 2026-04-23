@@ -1,5 +1,8 @@
 extends TextureRect
 
+signal HidePanel(transition_time:float)
+signal ShowPanel(transition_time:float)
+
 @export var showing: bool = true
 @export var transition_time:float = 0.8
 const HIDDEN_POS:Vector2 = Vector2(-480, -51)
@@ -34,9 +37,11 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.is_action_pressed("Tab"):
 			if showing:
+				HidePanel.emit(transition_time)
 				showing = false
 				tween_menu(HIDDEN_POS)
 			else:
+				ShowPanel.emit(transition_time)
 				showing = true
 				tween_menu(SHOWN_POS)
 
@@ -56,7 +61,7 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 		Utility.FACTION.FEDERATION:
 			var old_fed:int = int(fed_score.text)
 			var old_klingon:int = int(klingon_score.text)
-
+			
 			var new_fed:int = old_fed - SHIP_VALUE
 			var new_klingon:int = old_klingon + (SHIP_VALUE * 0.75)
 			fed_score.text = str(new_fed)
@@ -148,7 +153,3 @@ func tween_menu(target_position:Vector2) -> void: # Collapse mission menu
 	
 	tween = create_tween()
 	tween.tween_property(self, "position", target_position, dynamic_duration)
-
-#func change_scale(new_scale: float) -> void:
-	#var use: Vector2 = Vector2(new_scale, new_scale)
-	#scale = use * Vector2(0.5, 0.5)

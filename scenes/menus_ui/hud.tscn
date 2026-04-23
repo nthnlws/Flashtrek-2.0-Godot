@@ -66,13 +66,16 @@ mouse_filter = 2
 metadata/_edit_horizontal_guides_ = [40.0]
 
 [node name="BattleStatus" type="TextureRect" parent="." unique_id=51775589]
+modulate = Color(1, 0.6856383, 0, 0.06075567)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_hxir5")
+expand_mode = 1
 script = ExtResource("2_h6ca5")
 
 [node name="flashing_anim" type="AnimationPlayer" parent="BattleStatus" unique_id=1230629372]
@@ -169,4 +172,6 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="ComponentDebugPanel/MarginContainer" unique_id=1555789346]
 layout_mode = 2
 
+[connection signal="HidePanel" from="TopPanel" to="BattleStatus" method="stretch_banner" binds= [true]]
+[connection signal="ShowPanel" from="TopPanel" to="BattleStatus" method="stretch_banner" binds= [false]]
 [connection signal="pressed" from="SettingsButton" to="SettingsButton" method="_on_pressed"]
