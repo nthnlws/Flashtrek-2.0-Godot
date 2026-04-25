@@ -216,7 +216,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _handle_input_actions(event: InputEvent) -> void:
 	if event.is_action_pressed("overdrive") and Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-		overdrive_state_change("SMOOTH")
+		overdrive_state_change(trans_length)
 
 
 func _physics_process(delta: float) -> void:
@@ -258,8 +258,10 @@ func _handle_movement(delta: float) -> void:
 				rotate(deg_to_rad(-agility * delta * overdrivem_r))
 
 
-func overdrive_state_change(speed) -> void: # Reverses overdrive state
+func overdrive_state_change(transition_length:float) -> void: # Reverses overdrive state
+	var is_instant:bool = true if is_zero_approx(transition_length) else false
 	if Utility.current_gamestate == Utility.GAMESTATE.CUTSCENE:
+		printerr("Cannot change player overdrive state, Utility.current_gamestate is CUTSCENE")
 		return
 	
 	# Stop any ongoing tweens
@@ -275,53 +277,51 @@ func overdrive_state_change(speed) -> void: # Reverses overdrive state
 		overdrive_active = false
 		if laser:
 			laser.force_enable()
-		match speed:
-			"INSTANT":
-				scale = base_scale
-				overdrivem_v = 1.0
-				overdrivem_r = 1.0
-				shield.call_deferred("fadein_SMOOTH")
-			"SMOOTH":
-				var tween_scale: Object = create_tween() # Ship sprite scale
-				tween_scale.tween_property(self, "scale", base_scale, trans_length)
-				current_tweens.append(tween_scale)
-				
-				var tween_v: Object = create_tween() # Max Velocity
-				tween_v.tween_property(self, "overdrivem_v", 1.0, trans_length * 4)
-				current_tweens.append(tween_v)
-				
-				var tween_r: Object = create_tween() # Rotation speed
-				tween_r.tween_property(self, "overdrivem_r", 1.0, trans_length)
-				current_tweens.append(tween_r)
-				
-				shield.fadein_SMOOTH()
-				overdrive_sound_off()
+		if is_instant:
+			scale = base_scale
+			overdrivem_v = 1.0
+			overdrivem_r = 1.0
+			shield.call_deferred("fadein_SMOOTH")
+		else:
+			var tween_scale: Object = create_tween() # Ship sprite scale
+			tween_scale.tween_property(self, "scale", base_scale, transition_length)
+			current_tweens.append(tween_scale)
+			
+			var tween_v: Object = create_tween() # Max Velocity
+			tween_v.tween_property(self, "overdrivem_v", 1.0, transition_length * 4)
+			current_tweens.append(tween_v)
+			
+			var tween_r: Object = create_tween() # Rotation speed
+			tween_r.tween_property(self, "overdrivem_r", 1.0, transition_length)
+			current_tweens.append(tween_r)
+			
+			shield.fadein_SMOOTH()
+			overdrive_sound_off()
 	else: # Transition to overdrive
 		to_overdrive_transition.emit()
 		overdrive_active = true
 		overdrive_sound_on()
 		if laser:
 			laser.force_disable()
-		match speed:
-			"INSTANT":
-				scale = base_scale * Vector2(1.5, 1.0)
-				overdrivem_v = overdrive_multiplier
-				overdrivem_r = overdrive_multiplier
-				shield.fadeout_INSTANT()
-			"SMOOTH":
-				var tween_scale: Object = create_tween() # Ship sprite scale
-				tween_scale.tween_property(self, "scale", base_scale * Vector2(1.5, 1), trans_length)
-				current_tweens.append(tween_scale)
-				
-				var tween_v: Object = create_tween() # Max Velocity
-				tween_v.tween_property(self, "overdrivem_v", overdrive_multiplier, trans_length)
-				current_tweens.append(tween_v)
-				
-				var tween_r: Object = create_tween() # Rotation speed
-				tween_r.tween_property(self, "overdrivem_r", overdrive_multiplier, trans_length)
-				current_tweens.append(tween_r)
-				
-				shield.fadeout_SMOOTH()
+		if is_instant:
+			scale = base_scale * Vector2(1.5, 1.0)
+			overdrivem_v = overdrive_multiplier
+			overdrivem_r = overdrive_multiplier
+			shield.fadeout_INSTANT()
+		else:
+			var tween_scale: Object = create_tween() # Ship sprite scale
+			tween_scale.tween_property(self, "scale", base_scale * Vector2(1.5, 1), transition_length)
+			current_tweens.append(tween_scale)
+			
+			var tween_v: Object = create_tween() # Max Velocity
+			tween_v.tween_property(self, "overdrivem_v", overdrive_multiplier, transition_length)
+			current_tweens.append(tween_v)
+			
+			var tween_r: Object = create_tween() # Rotation speed
+			tween_r.tween_property(self, "overdrivem_r", overdrive_multiplier, transition_length)
+			current_tweens.append(tween_r)
+			
+			shield.fadeout_SMOOTH()
 
 
 func shoot_torpedo(fire_direction: float) -> void:
@@ -391,7 +391,7 @@ func killPlayer(hit_event: HitEvent) -> void:
 	shield.fadeout_INSTANT()
 	
 	if overdrive_active == true:
-		overdrive_state_change("INSTANT")
+		overdrive_state_change(0.0) # Instant state change
 	
 	#Kill player stats
 	energy.current_energy = 0.0
@@ -423,7 +423,7 @@ func respawn() -> void:
 
 func teleport(new_position: Vector2) -> void: # Uses coords from cheat menu to teleport player
 	if overdrive_active == true:
-		overdrive_state_change("INSTANT")
+		overdrive_state_change(0.0)
 	global_position = new_position
 	velocity = Vector2(0, 0)
 
@@ -532,7 +532,7 @@ func galaxy_warp_out() -> void:
 	await get_tree().create_timer(2.5).timeout # 8.5 sec
 	var tween2: Object = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tween2.tween_property(galaxy_warp_sound, "pitch_scale", 2.5, 3.5)
-	overdrive_state_change("SMOOTH")
+	overdrive_state_change(3.0)
 	
 	await get_tree().create_timer(2.5).timeout
 	cloak_ship(3.0, false)

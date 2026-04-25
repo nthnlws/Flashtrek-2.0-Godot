@@ -70,12 +70,6 @@ const anim_length:float = 1.5
 		_update_shader("modTime", value)
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug1"):
-		$AnimationPlayer.play("activate_warp")
-	elif event.is_action_pressed("debug2"):
-		$AnimationPlayer.play("exit_warp")
-
 func _ready() -> void:
 	# Force an initial sync of all variables
 	_update_shader("star_count", star_count)

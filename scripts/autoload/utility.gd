@@ -443,3 +443,14 @@ func _get_day_of_year(date_dict: Dictionary) -> int:
 		ordinal_day += days_in_months[i]
 		
 	return ordinal_day
+
+func format_number(value: int) -> String:
+	var string = str(value)
+	var mod = string.length() % 3
+	var res = ""
+
+	for i in range(0, string.length()):
+		if i != 0 and i % 3 == mod:
+			res += ","
+		res += string[i]
+	return res

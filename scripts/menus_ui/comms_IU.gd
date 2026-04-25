@@ -92,5 +92,3 @@ func _on_exit_comms(_planet: Node2D) -> void:
 	close_comms()
 
 #endregion
-
-#region Survey Mission

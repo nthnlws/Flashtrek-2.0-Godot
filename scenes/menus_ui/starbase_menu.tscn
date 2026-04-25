@@ -4,16 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://dkolrnhn4vqai" path="res://assets/textures/UI/ship_selection_menu/selection_menu_romulan.png" id="1_lbelg"]
 [ext_resource type="Texture2D" uid="uid://bi4ugrc4qaol4" path="res://assets/textures/UI/ship_selection_menu/selection_menu_klingon.png" id="1_rhiq8"]
 [ext_resource type="Texture2D" uid="uid://bqpek1dsitjt" path="res://assets/textures/UI/ship_selection_menu/selection_menu_federation.png" id="2_04oyq"]
-[ext_resource type="PackedScene" uid="uid://bs3phgjv8mqjs" path="res://scenes/menus_ui/rounded_button.tscn" id="2_nbnet"]
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_04oyq"]
-[ext_resource type="PackedScene" uid="uid://djjxdvhjd147f" path="res://scenes/menus_ui/ship_selector.tscn" id="4_3x4dw"]
 [ext_resource type="Texture2D" uid="uid://db4asel4ucnxb" path="res://assets/textures/UI/ship_selection_menu/selection_menu_neutral.png" id="5_e0x14"]
-[ext_resource type="FontFile" uid="uid://biu3eo18bcl6f" path="res://assets/font/ethnocentric rg.ttf" id="5_f5wy4"]
+[ext_resource type="PackedScene" uid="uid://qu0xx1uo0wsd" path="res://scenes/menus_ui/ship_card_button.tscn" id="7_f5wy4"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="8_j8vod"]
 [ext_resource type="PackedScene" uid="uid://dcr6vn067q1ma" path="res://scenes/menus_ui/stats_progress_bar.tscn" id="9_f5wy4"]
 [ext_resource type="AudioStream" uid="uid://c83cajmhoop7t" path="res://assets/audio/ambience/engine_ambience_loud.ogg" id="11_hkoso"]
 
-[node name="StarbaseMenu" type="Control" unique_id=694363471 node_paths=PackedStringArray("security_labels", "ship_buttons")]
+[node name="StarbaseMenu" type="Control" unique_id=694363471 node_paths=PackedStringArray("security_labels")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,14 +24,13 @@ klingon_unlocks = Array[int]([4, 72, 42, 29])
 romulan_unlocks = Array[int]([31, 32, 87, 59, 5, 73])
 neutral_unlocks = Array[int]([55, 0, 70, 54, 83, 2])
 security_labels = [NodePath("BottomSecurity"), NodePath("TopSecurity")]
-ship_buttons = [NodePath("ButtonContainer/RoundedButton"), NodePath("ButtonContainer/RoundedButton2"), NodePath("ButtonContainer/RoundedButton3"), NodePath("ButtonContainer/RoundedButton4"), NodePath("ButtonContainer/RoundedButton5"), NodePath("ButtonContainer/RoundedButton6")]
 faction_backgrounds = Dictionary[int, Texture]({
 0: ExtResource("2_04oyq"),
 1: ExtResource("1_rhiq8"),
 2: ExtResource("1_lbelg"),
 3: ExtResource("5_e0x14")
 })
-metadata/_edit_horizontal_guides_ = [81.0, 506.0, 416.0]
+metadata/_edit_horizontal_guides_ = [130.0]
 
 [node name="Background" type="ColorRect" parent="." unique_id=238010983]
 layout_mode = 1
@@ -54,27 +51,6 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_lbelg")
 expand_mode = 1
-
-[node name="price_banner" type="RichTextLabel" parent="." unique_id=2095923974]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.9674934
-anchor_top = -13.263385
-anchor_right = -1.6570767
-anchor_bottom = -13.215237
-offset_left = 2272.7937
-offset_top = 7305.228
-offset_right = 2272.7937
-offset_bottom = 7305.228
-theme_override_colors/default_color = Color(1, 1, 0.54588866, 1)
-theme_override_fonts/normal_font = ExtResource("5_f5wy4")
-theme_override_font_sizes/normal_font_size = 12
-bbcode_enabled = true
-text = "Required Rep:"
-scroll_active = false
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="Stardate" type="Label" parent="." unique_id=1288970419]
 modulate = Color(0.16078432, 0.41960785, 0.3882353, 1)
@@ -139,82 +115,50 @@ text = "Tal'Shiar Armament Access"
 scroll_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1871962987]
+visible = false
 layout_mode = 0
 offset_left = 145.0
 offset_top = 137.0
 offset_right = 914.0
 offset_bottom = 425.5
 
-[node name="ButtonContainer" type="VBoxContainer" parent="." unique_id=1417660356]
-layout_mode = 0
-offset_left = 145.0
-offset_top = 140.0
-offset_right = 646.0
-offset_bottom = 930.0
-scale = Vector2(0.35, 0.35)
-theme_override_constants/separation = 20
-
-[node name="RoundedButton" parent="ButtonContainer" unique_id=521845913 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
-self_modulate = Color(0.24705882, 0.53333336, 0.41960785, 1)
-layout_mode = 2
-
-[node name="RoundedButton2" parent="ButtonContainer" unique_id=855696567 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
-self_modulate = Color(0.24705882, 0.53333336, 0.41960785, 1)
-layout_mode = 2
-
-[node name="RoundedButton3" parent="ButtonContainer" unique_id=795802715 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
-self_modulate = Color(0.24705882, 0.53333336, 0.41960785, 1)
-layout_mode = 2
-
-[node name="RoundedButton4" parent="ButtonContainer" unique_id=1171803641 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
-self_modulate = Color(0.24705882, 0.53333336, 0.41960785, 1)
-layout_mode = 2
-
-[node name="RoundedButton5" parent="ButtonContainer" unique_id=982969905 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
-self_modulate = Color(0.24705882, 0.53333336, 0.41960785, 1)
-layout_mode = 2
-
-[node name="RoundedButton6" parent="ButtonContainer" unique_id=80523781 groups=["rounded_selection"] instance=ExtResource("2_nbnet")]
-self_modulate = Color(0.24705882, 0.53333336, 0.41960785, 1)
-layout_mode = 2
-
 [node name="ShipGrid" type="GridContainer" parent="." unique_id=192700235]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 382.0
-offset_top = 211.0
-offset_right = 582.0
-offset_bottom = 343.0
-scale = Vector2(1.5, 1.5)
+offset_left = 143.0
+offset_top = 130.0
+offset_right = 643.0
+offset_bottom = 438.0
 pivot_offset_ratio = Vector2(0, 0.5)
 size_flags_horizontal = 4
-columns = 3
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 15
+columns = 2
 
-[node name="ShipSelector" parent="ShipGrid" unique_id=1674243145 instance=ExtResource("4_3x4dw")]
-layout_mode = 2
-can_click = false
-
-[node name="ShipSelector2" parent="ShipGrid" unique_id=920179625 instance=ExtResource("4_3x4dw")]
+[node name="ShipCardButton" parent="ShipGrid" unique_id=498234588 groups=["ship_card_button"] instance=ExtResource("7_f5wy4")]
 layout_mode = 2
 
-[node name="ShipSelector3" parent="ShipGrid" unique_id=1486107842 instance=ExtResource("4_3x4dw")]
+[node name="ShipCardButton2" parent="ShipGrid" unique_id=1573226288 groups=["ship_card_button"] instance=ExtResource("7_f5wy4")]
 layout_mode = 2
 
-[node name="ShipSelector4" parent="ShipGrid" unique_id=360114878 instance=ExtResource("4_3x4dw")]
+[node name="ShipCardButton3" parent="ShipGrid" unique_id=439313890 groups=["ship_card_button"] instance=ExtResource("7_f5wy4")]
 layout_mode = 2
 
-[node name="ShipSelector5" parent="ShipGrid" unique_id=1740899827 instance=ExtResource("4_3x4dw")]
+[node name="ShipCardButton4" parent="ShipGrid" unique_id=2120413518 groups=["ship_card_button"] instance=ExtResource("7_f5wy4")]
 layout_mode = 2
 
-[node name="ShipSelector6" parent="ShipGrid" unique_id=1009293316 instance=ExtResource("4_3x4dw")]
+[node name="ShipCardButton5" parent="ShipGrid" unique_id=1317221049 groups=["ship_card_button"] instance=ExtResource("7_f5wy4")]
+layout_mode = 2
+
+[node name="ShipCardButton6" parent="ShipGrid" unique_id=1146424056 groups=["ship_card_button"] instance=ExtResource("7_f5wy4")]
 layout_mode = 2
 
 [node name="StatsContainer" type="VBoxContainer" parent="." unique_id=55024130]
 layout_mode = 0
 offset_left = 729.0
-offset_top = 140.0
+offset_top = 128.0
 offset_right = 1230.0
-offset_bottom = 931.42847
+offset_bottom = 919.42847
 scale = Vector2(0.35, 0.35)
 theme_override_constants/separation = 20
 

@@ -138,7 +138,6 @@ offset_right = 159.0
 offset_bottom = 553.0
 
 [node name="Comms_UI" parent="." unique_id=300701307 instance=ExtResource("13_sk8fp")]
-visible = false
 layout_mode = 1
 
 [node name="Warning_Popup" parent="." unique_id=806105503 instance=ExtResource("9_l28jr")]

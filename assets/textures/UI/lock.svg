@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 24 24"
+   fill="none"
+   stroke="rgba(239, 68, 68, 0.8)"
+   stroke-width="2"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="lock.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="12.703125"
+     inkscape:cx="-2.6765068"
+     inkscape:cy="21.451415"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <rect
+     width="18"
+     height="11"
+     x="3"
+     y="11"
+     rx="2"
+     ry="2"
+     id="rect1"
+     style="fill:#ff0000;fill-opacity:0;stroke:#ffffff;stroke-opacity:1;stroke-width:2.00025;stroke-dasharray:none" />
+  <path
+     d="M7 11V7a5 5 0 0 1 10 0v4"
+     id="path1"
+     style="fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-opacity:1" />
+</svg>

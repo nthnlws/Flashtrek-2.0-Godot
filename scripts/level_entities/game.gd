@@ -58,7 +58,7 @@ func _warp_into_new_system(system_data:SystemData) -> void:
 	await tween2.finished
 	
 	LevelManager.player.camera._zoom = Vector2(0.5, 0.5)
-	LevelManager.player.overdrive_state_change("SMOOTH")
+	LevelManager.player.overdrive_state_change(LevelManager.player.trans_length)
 
 
 func _on_level_system_changed(system_data: SystemData) -> void:

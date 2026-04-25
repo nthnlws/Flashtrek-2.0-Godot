@@ -11,13 +11,9 @@ signal menu_closed
 
 @export_category("Scene Nodes")
 @export var security_labels: Array[Label]
-@export var ship_buttons: Array[RoundedButton]
-@export var title_label: Label
 
 @export_category("Assets")
 @export var faction_backgrounds: Dictionary[Utility.FACTION, Texture]
-const MENU_BUTTON_ROUNDED_COPPER = preload("uid://cuuk6xjyayqmn")
-const MENU_BUTTON_ROUNDED = preload("uid://cpd0paggi412v")
 
 @onready var stardate: Label = $Stardate
 @onready var top_security: Label = $TopSecurity
@@ -27,11 +23,11 @@ const MENU_BUTTON_ROUNDED = preload("uid://cpd0paggi412v")
 @onready var ship_grid: GridContainer = %ShipGrid
 @onready var ambience: AudioStreamPlayer = $ambience
 
-var frames: Array[ShipSelector]
+var selection_buttons: Array[ShipCardButton]
 var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, PlayableShipStats]
 var _faction_stat_ranges: Dictionary[Utility.FACTION, Dictionary]
 var _stat_ranges: Dictionary
-const SHIP_SELECTOR = preload("uid://djjxdvhjd147f")
+const SHIP_CARD_BUTTON = preload("uid://qu0xx1uo0wsd")
 
 const FACTION_DATA: Dictionary = {
 	Utility.FACTION.FEDERATION: {
@@ -151,10 +147,10 @@ func change_faction(new_faction: Utility.FACTION) -> void:
 
 	var button_colors: Array = faction_data.get("button_colors", [])
 	var use_copper: bool     = faction_data.get("copper_buttons", false)
-	for i: int in ship_buttons.size():
-		ship_buttons[i].self_modulate = button_colors[i] if i < button_colors.size() else Color.WHITE
-		if use_copper: 		ship_buttons[i].texture = MENU_BUTTON_ROUNDED_COPPER
-		else: 				ship_buttons[i].texture = MENU_BUTTON_ROUNDED
+	for i: int in selection_buttons.size():
+		selection_buttons[i].self_modulate = button_colors[i] if i < button_colors.size() else Color.WHITE
+		# if use_copper: 		selection_buttons[i].texture = MENU_BUTTON_ROUNDED_COPPER
+		# else: 				selection_buttons[i].texture = MENU_BUTTON_ROUNDED
 
 	faction_border.texture = faction_backgrounds.get(new_faction)
 	update_selection_grid(new_faction)
@@ -170,25 +166,20 @@ func _get_stardate(faction: Utility.FACTION) -> String:
 
 # ─── Grid ─────
 func update_selection_grid(faction: Utility.FACTION) -> void:
-	for frame: Node in get_tree().get_nodes_in_group("ship_selection_frame"):
-		frame.free()
-	frames.clear()
+	for button: ShipCardButton in get_tree().get_nodes_in_group("ship_card_button"):
+		button.queue_free()
+	selection_buttons.clear()
 
 	var unlock_ships: Array[Utility.SHIP_TYPES] = _get_faction_unlocks(faction)
-	ship_grid.columns = ceili(sqrt(float(unlock_ships.size())))
+	ship_grid.columns = mini(2, unlock_ships.size())
 
 	for i: int in unlock_ships.size():
 		var ship_type: Utility.SHIP_TYPES = unlock_ships[i]
 		var unlock_cost: int = Scaling.get_unlock_cost_scale(i / float(unlock_ships.size()))
-		var frame: ShipSelector = create_frame(ship_type, faction, unlock_cost)
-		%ShipGrid.add_child(frame)
-		frames.append(frame)
-		if i < ship_buttons.size():
-			ship_buttons[i].set_text(Utility.SHIP_TYPES.keys()[ship_type].replace("_", " "))
-			ship_buttons[i].visible = true
-
-	for i: int in range(unlock_ships.size(), ship_buttons.size()):
-		ship_buttons[i].visible = false
+		var button: ShipCardButton = create_ship_button(ship_type, faction, unlock_cost)
+		button.add_to_group("ship_card_button")
+		%ShipGrid.add_child(button)
+		selection_buttons.append(button)
 
 
 func _get_faction_unlocks(faction: Utility.FACTION) -> Array[Utility.SHIP_TYPES]:
@@ -200,22 +191,21 @@ func _get_faction_unlocks(faction: Utility.FACTION) -> Array[Utility.SHIP_TYPES]
 		_:                          return []
 
 
-func create_frame(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unlock_cost: int) -> ShipSelector:
-	var frame: ShipSelector = SHIP_SELECTOR.instantiate()
-	frame.current_ship_type = ship_type
-	frame.ship_faction      = faction
-	frame.unlock_price      = unlock_cost
-	frame.ship_faction      = faction
+func create_ship_button(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unlock_cost: int) -> ShipCardButton:
+	var button: ShipCardButton = SHIP_CARD_BUTTON.instantiate()
+	button.current_ship_type = ship_type
+	button.ship_faction      = faction
+	button.unlock_price      = unlock_cost
 	if ship_type == Utility.starting_ship:
-		frame.unlock_price = 0
-		frame.grayed_out   = false
-	frame.icon_selected.connect(_on_ship_selected)
-	frame.icon_hovered.connect(update_ship_stats)
-	return frame
+		button.unlock_price = 0
+		button.grayed_out   = false
+	button.clicked.connect(_on_ship_selected)
+	button.hovered.connect(update_ship_stats)
+	return button
 
 
 # ─── Ship Stats Display ───────────────────────────────────────────────────────
-func update_ship_stats(selected_ship: ShipSelector) -> void:
+func update_ship_stats(selected_ship: ShipCardButton) -> void:
 	var faction: Utility.FACTION      = selected_ship.ship_faction
 	var ship_type: Utility.SHIP_TYPES = selected_ship.current_ship_type
 	var stats: PlayableShipStats      = scaled_ship_stats[ship_type]
@@ -228,15 +218,6 @@ func update_ship_stats(selected_ship: ShipSelector) -> void:
 
 	var formatted_name: String = Utility.fed_blue + stats.ship_name.capitalize()
 	%ship_name.text = "[color=#FFCC66]Ship Name:[/color] %s" % formatted_name
-
-	var my_rep: float = MissionManager.Reputation.get_reputation(faction)
-	var req_rep: int  = selected_ship.unlock_price
-	if req_rep == 0:
-		%price_banner.text = "Unlocked: %sDefault" % Utility.UI_cargo_green
-	elif my_rep >= req_rep:
-		%price_banner.text = "Required Rep: %s%s" % [Utility.UI_cargo_green, req_rep]
-	else:
-		%price_banner.text = "Required Rep: %s%s" % [Utility.damage_red, req_rep]
 
 
 func _safe_div(value: float, max_val: float) -> float:
@@ -258,9 +239,10 @@ func _set_stat_bar(bar: Control, value: float, range: Vector2, min_fill: float =
 # ─── Unlock Updates ───────────────────────────────────────────────────────────
 
 func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
-	for frame: ShipSelector in frames:
-		if frame.ship_faction == faction and frame.unlock_price != 0:
-			frame.set_gray_out(new_score < frame.unlock_price)
+	for button: ShipCardButton in selection_buttons:
+		if button.ship_faction == faction and button.unlock_price != 0:
+			button.set_unlock_cost(button.unlock_price, new_score >= button.unlock_price)
+			button.set_gray_out(new_score < button.unlock_price)
 
 
 func _on_ship_selected(ship_type: Utility.SHIP_TYPES) -> void:
@@ -286,9 +268,9 @@ func _on_visibility_changed() -> void:
 		change_faction(faction)
 		_update_ship_unlocks(faction, rep_mapping[faction])
 	elif not visible:
-		for frame: ShipSelector in frames:
-			frame.queue_free()
-		frames.clear()
+		for button: ShipCardButton in selection_buttons:
+			button.queue_free()
+		selection_buttons.clear()
 		stop_ambience()
 
 

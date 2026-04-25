@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c5s0nigwpa515"]
 
-[ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scripts/menus_ui/icon_selector.tscn" id="1_h2gxt"]
+[ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scenes/menus_ui/icon_selector.tscn" id="1_h2gxt"]
 [ext_resource type="Script" uid="uid://bpyos2wlpbqb5" path="res://scripts/menus_ui/upgrade_hover.gd" id="2_0x6h4"]
 [ext_resource type="Texture2D" uid="uid://cumccrds4wt2d" path="res://assets/textures/UI/damage_upgrade_icon.png" id="3_3qika"]
 [ext_resource type="Texture2D" uid="uid://ipcss5idnno5" path="res://assets/textures/UI/fire_rate_upgrade_icon.png" id="4_fuqwu"]

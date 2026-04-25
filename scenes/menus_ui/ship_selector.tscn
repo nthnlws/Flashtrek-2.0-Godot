@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://djjxdvhjd147f"]
 
-[ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scripts/menus_ui/icon_selector.tscn" id="1_fuk3m"]
+[ext_resource type="PackedScene" uid="uid://dc8qriv88auro" path="res://scenes/menus_ui/icon_selector.tscn" id="1_fuk3m"]
 [ext_resource type="Script" uid="uid://drrpthed6v3fy" path="res://scripts/menus_ui/ship_selector.gd" id="2_k7jjm"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_n336a"]
 
