@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dwulk1peb7b3f"]
+
+[ext_resource type="Shader" uid="uid://rrhgr0dubssk" path="res://resources/Materials_Shaders/starbase_menu.gdshader" id="1_1hi1l"]
+
+[resource]
+shader = ExtResource("1_1hi1l")
+shader_parameter/color_1 = Color(0.34509805, 0.07450981, 0.08627451, 1)
+shader_parameter/color_2 = Color(0.34509805, 0.07450981, 0.08627451, 1)
+shader_parameter/color_3 = Color(0.68235296, 0.5882353, 0.3372549, 1)
+shader_parameter/color_4 = Color(0.34509805, 0.07450981, 0.08627451, 1)
+shader_parameter/color_5 = Color(0.68235296, 0.5882353, 0.3372549, 1)
+shader_parameter/color_6 = Color(0.34509805, 0.07450981, 0.08627451, 1)

@@ -24,7 +24,9 @@ func _ready() -> void:
 	SignalBus.playerMaxEnergyChanged.connect(_update_max_energy)
 	SignalBus.playerEnergyChanged.connect(_update_current_energy)
 	
-	set_background(LevelManager.galaxy_data.player_ship_type)
+	if LevelManager.galaxy_data:
+		set_background(LevelManager.galaxy_data.player_ship_type)
+	else: set_background(Utility.SHIP_TYPES.Reliant_Class)
 	sync_faction_scores()
 
 

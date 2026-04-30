@@ -5,6 +5,7 @@ class_name SpiderGraph
 @export var axes: Array[String] = ["SPEED", "ARMOR", "SHIELDS", "DAMAGE", "RANGE", "AGILITY"]:
 	set(value):
 		axes = value
+		axis_label_offsets.resize(axes.size()) # Keep offsets array in sync with axes
 		_rebuild_values()
 
 @export_group("Appearance")
@@ -22,6 +23,12 @@ class_name SpiderGraph
 	set(value): label_font_size = value; queue_redraw()
 @export var label_offset: float = 18.0:
 	set(value): label_offset = value; queue_redraw()
+	
+# Added manual Vector2 offsets per axis
+@export var axis_label_offsets: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]:
+	set(value):
+		axis_label_offsets = value
+		queue_redraw()
 
 @export_group("Preview Values")
 @export var preview_values: Array[float] = [0.75, 1.0, 0.8, 0.2, 0.6, 0.5]:
@@ -115,9 +122,20 @@ func _draw() -> void:
 	var font: Font = ThemeDB.fallback_font
 	for i in count:
 		var tip: Vector2 = center + _axis_vector(i, count, radius + label_offset)
+		
+		# Grab the manual offset for this specific axis (fallback to Vector2.ZERO if array is out of sync)
+		var custom_offset: Vector2 = Vector2.ZERO
+		if i < axis_label_offsets.size():
+			custom_offset = axis_label_offsets[i]
+			
 		var label: String = axes[i]
 		var label_size: Vector2 = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size)
-		draw_string(font, tip - label_size / 2.0, label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size, label_color)
+		
+		# Apply custom offset, center the text on X/Y, and adjust for font ascent (baseline fix)
+		var text_pos: Vector2 = tip + custom_offset - (label_size / 2.0)
+		text_pos.y += font.get_ascent(label_font_size) 
+		
+		draw_string(font, text_pos, label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_font_size, label_color)
 
 
 func _axis_vector(index: int, count: int, length: float) -> Vector2:

@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://coi3fmkymbj2q"]
 
 [ext_resource type="Script" uid="uid://ccgeinf5odk32" path="res://scripts/menus_ui/starbase_menu.gd" id="1_bnhsj"]
-[ext_resource type="Texture2D" uid="uid://dkolrnhn4vqai" path="res://assets/textures/UI/ship_selection_menu/selection_menu_romulan.png" id="1_lbelg"]
-[ext_resource type="Texture2D" uid="uid://bi4ugrc4qaol4" path="res://assets/textures/UI/ship_selection_menu/selection_menu_klingon.png" id="1_rhiq8"]
-[ext_resource type="Texture2D" uid="uid://bqpek1dsitjt" path="res://assets/textures/UI/ship_selection_menu/selection_menu_federation.png" id="2_04oyq"]
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_04oyq"]
-[ext_resource type="Texture2D" uid="uid://db4asel4ucnxb" path="res://assets/textures/UI/ship_selection_menu/selection_menu_neutral.png" id="5_e0x14"]
+[ext_resource type="Material" uid="uid://4di586ydcxup" path="res://resources/Materials_Shaders/romulan_starbase_menu.tres" id="6_e0x14"]
 [ext_resource type="PackedScene" uid="uid://qu0xx1uo0wsd" path="res://scenes/menus_ui/ship_card_button.tscn" id="7_f5wy4"]
+[ext_resource type="Texture2D" uid="uid://bd2odrgq4wa8e" path="res://assets/textures/UI/ship_selection_menu/selection_menu_template.png" id="7_q83j8"]
 [ext_resource type="FontFile" uid="uid://bfelmvtojob74" path="res://assets/font/Univers UltraCondensed Regular.ttf" id="8_j8vod"]
 [ext_resource type="PackedScene" uid="uid://dcr6vn067q1ma" path="res://scenes/menus_ui/stats_progress_bar.tscn" id="9_f5wy4"]
 [ext_resource type="AudioStream" uid="uid://c83cajmhoop7t" path="res://assets/audio/ambience/engine_ambience_loud.ogg" id="11_hkoso"]
@@ -24,12 +22,6 @@ klingon_unlocks = Array[int]([4, 72, 42, 29])
 romulan_unlocks = Array[int]([31, 32, 87, 59, 5, 73])
 neutral_unlocks = Array[int]([55, 0, 70, 54, 83, 2])
 security_labels = [NodePath("BottomSecurity"), NodePath("TopSecurity")]
-faction_backgrounds = Dictionary[int, Texture]({
-0: ExtResource("2_04oyq"),
-1: ExtResource("1_rhiq8"),
-2: ExtResource("1_lbelg"),
-3: ExtResource("5_e0x14")
-})
 metadata/_edit_horizontal_guides_ = [130.0]
 
 [node name="Background" type="ColorRect" parent="." unique_id=238010983]
@@ -42,6 +34,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="FactionBorder" type="TextureRect" parent="." unique_id=1999267077]
+material = ExtResource("6_e0x14")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,7 +42,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_lbelg")
+texture = ExtResource("7_q83j8")
 expand_mode = 1
 
 [node name="Stardate" type="Label" parent="." unique_id=1288970419]
@@ -106,7 +99,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 104.0
 offset_top = 29.0
-offset_right = 374.0
+offset_right = 771.0
 offset_bottom = 65.25
 theme_override_fonts/normal_font = ExtResource("3_04oyq")
 theme_override_font_sizes/normal_font_size = 30

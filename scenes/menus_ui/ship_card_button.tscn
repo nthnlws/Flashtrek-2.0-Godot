@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://13xsauuhn3kk" path="res://scripts/menus_ui/PolygonMouseDetector.gd" id="3_drkca"]
 [ext_resource type="FontVariation" uid="uid://rf47hcpm7pup" path="res://resources/spaced_Okuda.tres" id="4_d8y06"]
 [ext_resource type="StyleBox" uid="uid://cp1bhkwan3qaf" path="res://resources/ShipCardButton/right_normal.tres" id="7_7gmrw"]
+[ext_resource type="Texture2D" uid="uid://cuuk6xjyayqmn" path="res://assets/textures/UI/ship_selection_menu/menu_button_rounded_copper.png" id="7_t6wfe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t6wfe"]
 resource_local_to_scene = true
@@ -22,12 +23,6 @@ atlas = ExtResource("1_2626t")
 region = Rect2(192, 48, 48, 48)
 filter_clip = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drkca"]
-bg_color = Color(0, 0, 0, 0.6392157)
-corner_radius_top_left = 50
-corner_radius_bottom_left = 50
-corner_detail = 20
-
 [node name="ShipCardButton" type="Control" unique_id=498234588]
 custom_minimum_size = Vector2(248, 100)
 layout_mode = 3
@@ -36,20 +31,81 @@ offset_right = 248.0
 offset_bottom = 10.0
 script = ExtResource("1_4mmsk")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1357976719]
+[node name="Panels" type="HBoxContainer" parent="." unique_id=1357976719]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 248.0
+offset_bottom = 100.0
+mouse_filter = 2
 theme_override_constants/separation = -2
 
-[node name="LeftPanel" type="Panel" parent="HBoxContainer" unique_id=1975123965]
+[node name="LeftPanel" type="Panel" parent="Panels" unique_id=1975123965]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(125, 100)
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_7l0bw")
 
-[node name="ShipSprite" type="TextureRect" parent="HBoxContainer/LeftPanel" unique_id=1137776648]
+[node name="RightPanel" type="Panel" parent="Panels" unique_id=909828890]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(125, 100)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("7_7gmrw")
+
+[node name="ClassNameLabel" type="RichTextLabel" parent="." unique_id=749030378]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 0
+offset_left = 123.0
+offset_top = 23.0
+offset_right = 248.0
+offset_bottom = 50.0
+size_flags_vertical = 10
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_d8y06")
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "T'VARO CLASS"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RepUnlockStatus" type="RichTextLabel" parent="." unique_id=2116068913]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 0
+offset_left = 123.0
+offset_top = 66.0
+offset_right = 248.0
+offset_bottom = 84.0
+size_flags_vertical = 6
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_d8y06")
+bbcode_enabled = true
+text = "REQUIRED REP: 20,000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LockTexture" type="TextureRect" parent="." unique_id=1582049807]
+unique_name_in_owner = true
+self_modulate = Color(1, 0.21268043, 0.15969583, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 101.0
+offset_top = 75.0
+offset_right = 121.0
+offset_bottom = 95.0
+mouse_filter = 2
+texture = ExtResource("3_4mmsk")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ShipSprite" type="TextureRect" parent="." unique_id=1137776648]
 unique_name_in_owner = true
 show_behind_parent = true
 z_index = 1
@@ -63,71 +119,10 @@ offset_bottom = 80.0
 rotation = -1.5707964
 pivot_offset_ratio = Vector2(0.5, 0.5)
 size_flags_horizontal = 4
+mouse_filter = 2
 texture = SubResource("AtlasTexture_7l0bw")
 expand_mode = 1
 stretch_mode = 4
-
-[node name="LockTexture" type="TextureRect" parent="HBoxContainer/LeftPanel" unique_id=1582049807]
-unique_name_in_owner = true
-self_modulate = Color(1, 0.21268043, 0.15969583, 1)
-z_index = 5
-layout_mode = 0
-offset_left = 101.0
-offset_top = 75.0
-offset_right = 121.0
-offset_bottom = 95.0
-texture = ExtResource("3_4mmsk")
-expand_mode = 1
-stretch_mode = 4
-
-[node name="RightPanel" type="Panel" parent="HBoxContainer" unique_id=909828890]
-unique_name_in_owner = true
-clip_contents = true
-custom_minimum_size = Vector2(125, 100)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("7_7gmrw")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/RightPanel" unique_id=658164337]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
-
-[node name="ClassNameLabel" type="RichTextLabel" parent="HBoxContainer/RightPanel/VBoxContainer" unique_id=749030378]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 10
-theme_override_fonts/normal_font = ExtResource("4_d8y06")
-theme_override_font_sizes/normal_font_size = 25
-bbcode_enabled = true
-text = "T'VARO CLASS"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="RepUnlockStatus" type="RichTextLabel" parent="HBoxContainer/RightPanel/VBoxContainer" unique_id=2116068913]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/normal_font = ExtResource("4_d8y06")
-bbcode_enabled = true
-text = "REQUIRED REP: 20,000"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="GrayoutPanel" type="Panel" parent="." unique_id=771604507]
-z_index = 3
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_drkca")
 
 [node name="ButtonDetector" type="Control" parent="." unique_id=716773323 groups=["polygon_mouse_button"]]
 layout_mode = 1
@@ -141,3 +136,19 @@ script = ExtResource("3_drkca")
 [node name="Polygon2D" type="Polygon2D" parent="ButtonDetector" unique_id=804824653]
 visible = false
 polygon = PackedVector2Array(248, 0, 248, 100, 46, 100, 36, 98, 24, 93, 14, 85, 8, 77, 4, 69, 1, 60, 0, 54, 0, 44, 3, 33, 7, 24, 13, 16, 19, 11, 30, 4, 40, 1, 50, 0)
+
+[node name="CopperContainer" type="Control" parent="." unique_id=1213233464]
+visible = false
+clip_contents = true
+anchors_preset = 0
+offset_right = 248.0
+offset_bottom = 100.0
+mouse_filter = 2
+
+[node name="CopperButtonTexture" type="TextureRect" parent="CopperContainer" unique_id=74279963]
+layout_mode = 0
+offset_right = 395.0
+offset_bottom = 100.0
+mouse_filter = 2
+texture = ExtResource("7_t6wfe")
+expand_mode = 1

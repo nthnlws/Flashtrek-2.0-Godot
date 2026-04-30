@@ -12,9 +12,6 @@ signal menu_closed
 @export_category("Scene Nodes")
 @export var security_labels: Array[Label]
 
-@export_category("Assets")
-@export var faction_backgrounds: Dictionary[Utility.FACTION, Texture]
-
 @onready var stardate: Label = $Stardate
 @onready var top_security: Label = $TopSecurity
 @onready var bottom_security: Label = $BottomSecurity
@@ -28,34 +25,38 @@ var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, PlayableShipStats]
 var _faction_stat_ranges: Dictionary[Utility.FACTION, Dictionary]
 var _stat_ranges: Dictionary
 const SHIP_CARD_BUTTON = preload("uid://qu0xx1uo0wsd")
+const SELECTION_MENU_TEMPLATE = preload("uid://bd2odrgq4wa8e")
+const SELECTION_MENU_NEUTRAL = preload("uid://db4asel4ucnxb")
+
+
 
 const FACTION_DATA: Dictionary = {
 	Utility.FACTION.FEDERATION: {
 		"security":        "Security Level 4",
 		"title":           "Federation Starship Registry",
-		"button_colors":   [Color("ff9a66"), Color("faa747"), Color("fdc07e"),
-							Color("f5b890"), Color("e18f7b"), Color("cd6667")],
-		"copper_buttons":  false,
+		"button_colors":   [Color("FF9A66"), Color("F59066"), Color("EB8566"),
+							Color("E17B67"), Color("D77067"), Color("CD6667")],
+		"menu_color":		preload("uid://gc0h18tj2rpq"),
 	},
 	Utility.FACTION.KLINGON: {
 		"security":        "Guard Access: Level 4",
 		"title":           "Klingon Imperial Shipyard",
 		"button_colors":   [Color("AE9656"), Color("A47F49"), Color("9B683C"),
 							Color("915130"), Color("883A23"), Color("7E2316")],
-		"copper_buttons":  false,
+		"menu_color":		preload("uid://dwulk1peb7b3f"),
 	},
 	Utility.FACTION.ROMULAN: {
 		"security":        "Security Clearance: Veridian 4",
 		"title":           "Romulan Imperial Shipyard",
-		"button_colors":   [Color("438056"), Color("3f886b"), Color("3a9080"),
-							Color("4e9f7d"), Color("79b464"), Color("a4ca4b")],
-		"copper_buttons":  false,
+		"button_colors":   [Color("A4CA4B"), Color("91BB4D"), Color("7DAC4F"),
+							Color("6A9E52"), Color("568F54"), Color("438056")],
+		"menu_color":		preload("uid://4di586ydcxup"),
 	},
 	Utility.FACTION.NEUTRAL: {
 		"security":        "Credit Rating: AA+",
 		"title":           "[color=b27f65]Ferengi Trading Post",
 		"button_colors":   [Color(1.0, 1.0, 1.0)],
-		"copper_buttons":  true,
+		"menu_color":		preload("uid://d3rdh06w7l4xe"),
 	},
 }
 
@@ -146,13 +147,19 @@ func change_faction(new_faction: Utility.FACTION) -> void:
 		label.text = faction_data.get("security", "")
 
 	var button_colors: Array = faction_data.get("button_colors", [])
-	var use_copper: bool     = faction_data.get("copper_buttons", false)
 	for i: int in selection_buttons.size():
-		selection_buttons[i].self_modulate = button_colors[i] if i < button_colors.size() else Color.WHITE
-		# if use_copper: 		selection_buttons[i].texture = MENU_BUTTON_ROUNDED_COPPER
-		# else: 				selection_buttons[i].texture = MENU_BUTTON_ROUNDED
-
-	faction_border.texture = faction_backgrounds.get(new_faction)
+		if new_faction != Utility.FACTION.NEUTRAL:
+			selection_buttons[i].set_copper_state(false)
+			selection_buttons[i].self_modulate = button_colors[i] if i < button_colors.size() else Color.WHITE
+		else: # Neutral buttons
+			selection_buttons[i].set_copper_state(true)
+	
+	# Update menu frame colors
+	faction_border.material = faction_data.get("menu_color") # Set faction shader
+	if new_faction != Utility.FACTION.NEUTRAL:
+		faction_border.texture = SELECTION_MENU_TEMPLATE
+	else: # Neutral faction frame
+		faction_border.texture = SELECTION_MENU_NEUTRAL
 	update_selection_grid(new_faction)
 
 
@@ -180,6 +187,11 @@ func update_selection_grid(faction: Utility.FACTION) -> void:
 		button.add_to_group("ship_card_button")
 		%ShipGrid.add_child(button)
 		selection_buttons.append(button)
+		if faction != Utility.FACTION.NEUTRAL:
+			button.set_copper_state(false)
+			button.update_color(FACTION_DATA.get(faction, {}).get("button_colors", [])[i])
+		else:
+			button.set_copper_state(true)
 
 
 func _get_faction_unlocks(faction: Utility.FACTION) -> Array[Utility.SHIP_TYPES]:
@@ -199,7 +211,7 @@ func create_ship_button(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION,
 	if ship_type == Utility.starting_ship:
 		button.unlock_price = 0
 		button.grayed_out   = false
-	button.clicked.connect(_on_ship_selected)
+	button.released.connect(_on_ship_selected)
 	button.hovered.connect(update_ship_stats)
 	return button
 
