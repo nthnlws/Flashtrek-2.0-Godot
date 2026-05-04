@@ -12,7 +12,7 @@ signal to_overdrive_transition
 
 # --- Node References ---
 @onready var sprite: Sprite2D = $ShipSprite
-@onready var cloak_anim: AnimationPlayer = $ShipSprite/CloakAnim
+@onready var sprite_animation: AnimationPlayer = $ShipSprite/SpriteAnimation
 @onready var shield: Shield = $Shield
 @onready var muzzle: Node2D = $Muzzle
 @onready var laser: Laser = $Laser
@@ -77,7 +77,6 @@ func set_player_direction(joystick_direction) -> void:
 func _ready() -> void:
 	z_index = Utility.Z["Player"]
 	$warp_anim.z_index = Utility.Z["Effects"]
-	sprite.material.set("shader_parameter/flash_value", 0.0)
 	
 	_connect_signals()
 	_sync_stats_to_resource(LevelManager.galaxy_data.player_ship_type)
@@ -99,7 +98,7 @@ func _connect_signals() -> void:
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
 	SignalBus.TopLeft_clicked.connect(trigger_warp)
-	SignalBus.triggerGalaxyWarp.connect(galaxy_warp_out)
+	SignalBus.triggerGalaxyWarp.connect(trigger_galaxy_warp)
 	SignalBus.combatantEntered.connect(_handle_new_combatant)
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
 	
@@ -491,11 +490,11 @@ func trigger_warp() -> void:
 				SignalBus.changePopMessage.emit(error_message)
 				return
 			else:
-				galaxy_warp_out()
+				trigger_galaxy_warp()
 	else: print("No target system selected")
 
 
-func galaxy_warp_out() -> void:
+func trigger_galaxy_warp() -> void:
 	SignalBus.entering_galaxy_warp.emit()
 	Utility.current_gamestate = Utility.GAMESTATE.WARPING
 	
@@ -535,7 +534,7 @@ func galaxy_warp_out() -> void:
 	overdrive_state_change(3.0)
 	
 	await get_tree().create_timer(2.5).timeout
-	cloak_ship(3.0, false)
+	trigger_warp_effect(3.0, true)
 	
 	await get_tree().create_timer(1.0).timeout # 11.5 sec, velocity tween ends
 	#create_tween().tween_property(sprite, "modulate", Color(1, 1, 1, 0), 0.8)
@@ -595,38 +594,15 @@ func _handle_container_pickup(data: ContainerData) -> void:
 		MissionManager.complete_mission()
 
 
-func cloak_ship(length: float, show_shadow: bool = false) -> void:
-	cloaked = true
-	
-	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
-	var new_mat = ShaderMaterial.new()
-	new_mat.shader = cloak_shader
-	new_mat.resource_local_to_scene = true
-	sprite.material = new_mat
-	
-	cloak_anim.speed_scale = 2 / length
-	cloak_anim.play("cloak")
-	await cloak_anim.animation_finished
-	
-	if show_shadow:
-		var cloak_fill: ShaderMaterial = preload("res://resources/Materials_Shaders/player_cloak_fill.tres")
-		var new_mat2 = cloak_fill
-		new_mat2.resource_local_to_scene = true
-		sprite.material = new_mat2
-
-
-func uncloak_ship(length: float) -> void:
-	var cloak_shader = preload("res://resources/Materials_Shaders/cloak_CENTER.gdshader")
-	var new_mat = ShaderMaterial.new()
-	new_mat.shader = cloak_shader
-	new_mat.resource_local_to_scene = true
-	sprite.material = new_mat
-	
-	cloak_anim.speed_scale = 2 / length
-	cloak_anim.play("uncloak")
-	await cloak_anim.animation_finished
-	
-	cloaked = false
+func trigger_warp_effect(length: float, warp_effect_on: bool) -> void:
+	sprite_animation.speed_scale = 2 / length
+	if warp_effect_on:
+		cloaked = true
+		sprite_animation.play("galaxy_warp_out")
+	else:
+		sprite_animation.play("galaxy_warp_in")
+		await sprite_animation.animation_finished
+		cloaked = false
 
 
 func _handle_mission_finish(finished_data: MissionData) -> void:

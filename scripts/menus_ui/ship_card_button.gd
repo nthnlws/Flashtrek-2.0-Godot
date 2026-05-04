@@ -16,7 +16,6 @@ signal released(button: ShipCardButton)
 
 var is_hovered:bool = false
 @onready var ship_sprite: TextureRect = %ShipSprite
-@onready var grayout_panel: Panel = $GrayoutPanel
 @onready var lock_texture: TextureRect = %LockTexture
 @onready var class_name_label: RichTextLabel = %ClassNameLabel
 @onready var rep_unlock_status: RichTextLabel = %RepUnlockStatus
@@ -69,6 +68,8 @@ func _update_sync_state(new_state: STATE):
 			left_panel.add_theme_stylebox_override("panel", LEFT_NORMAL)
 			right_panel.add_theme_stylebox_override("panel", RIGHT_NORMAL)
 			current_state = new_state
+			if !grayed_out:
+				released.emit(self)
 		else:
 			current_state = STATE.EXITED
 
@@ -87,10 +88,11 @@ func set_ship_type(type: Utility.SHIP_TYPES) -> void:
 	class_name_label.text = str(Utility.SHIP_TYPES.keys()[type]).capitalize()
 
 
-func set_gray_out(state:bool) -> void:
-	grayed_out = state
-	grayout_panel.visible = state
-	lock_texture.visible = state
+func set_gray_out(new_state:bool) -> void:
+	grayed_out = new_state
+	lock_texture.visible = new_state
+	$GrayoutPanel.visible = new_state
+
 
 func set_unlock_cost(unlock_cost:int, is_unlocked:bool = false) -> void:
 	var text_color: String = Utility.UI_cargo_green if is_unlocked else Utility.damage_red
@@ -98,3 +100,10 @@ func set_unlock_cost(unlock_cost:int, is_unlocked:bool = false) -> void:
 		rep_unlock_status.text = text_color + "Required Rep: " + Utility.format_number(unlock_cost)
 	else:
 		rep_unlock_status.text = Utility.UI_cargo_green + "Unlocked"
+
+
+func set_copper_state(is_copper:bool) -> void:
+	$CopperContainer.visible = is_copper
+
+func update_color(new_color: Color) -> void:
+	self.modulate = new_color

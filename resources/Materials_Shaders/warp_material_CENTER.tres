@@ -1,11 +1,11 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://c7htollnbbtij"]
 
-[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="1_hya10"]
+[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/warp_effect_CENTER.gdshader" id="1_fveal"]
 
 [resource]
 resource_local_to_scene = true
-shader = ExtResource("1_hya10")
-shader_parameter/progress = 0.2
+shader = ExtResource("1_fveal")
+shader_parameter/progress = 0.830000039425
 shader_parameter/noise_density = 60.0
 shader_parameter/beam_size = 0.0
 shader_parameter/color = Color(0, 1.02, 1.2, 1)

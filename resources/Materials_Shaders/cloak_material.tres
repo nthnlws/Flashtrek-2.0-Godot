@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cjg1iflumfhkw"]
+
+[ext_resource type="Shader" uid="uid://eifc7vhqrgmd" path="res://resources/Materials_Shaders/cloak_effect.gdshader" id="1_aahwu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_b8rxe"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n672o"]
+noise = SubResource("FastNoiseLite_b8rxe")
+seamless = true
+
+[resource]
+shader = ExtResource("1_aahwu")
+shader_parameter/cloak_alpha = 0.0
+shader_parameter/direction = 0
+shader_parameter/noise_speed = 0.05
+shader_parameter/distortion_speed = 0.15
+shader_parameter/cloak_color = Color(0, 1, 0.5, 1)
+shader_parameter/distortion_strength = 0.010000000475
+shader_parameter/edge_glow = 0.8
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_n672o")

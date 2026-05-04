@@ -257,9 +257,10 @@ func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
 			button.set_gray_out(new_score < button.unlock_price)
 
 
-func _on_ship_selected(ship_type: Utility.SHIP_TYPES) -> void:
-	SignalBus.player_type_changed.emit(ship_type, scaled_ship_stats.get(ship_type))
-	LevelManager.galaxy_data.player_ship_type = ship_type
+func _on_ship_selected(clicked_button:ShipCardButton) -> void:
+	var selected_ship: Utility.SHIP_TYPES = clicked_button.current_ship_type
+	SignalBus.player_type_changed.emit(selected_ship, scaled_ship_stats.get(selected_ship))
+	LevelManager.galaxy_data.player_ship_type = selected_ship
 	close_menu()
 
 

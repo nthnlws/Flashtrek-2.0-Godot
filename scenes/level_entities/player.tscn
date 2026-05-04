@@ -13,9 +13,10 @@
 [ext_resource type="AudioStream" uid="uid://106cq4nsaxy8" path="res://assets/audio/effects/warp_on.ogg" id="6_ihea4"]
 [ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="7_7pmes"]
 [ext_resource type="AudioStream" uid="uid://dy23em8ausssl" path="res://assets/audio/ambience/ship_idle.ogg" id="7_8rbfi"]
-[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="10_rue2e"]
+[ext_resource type="Material" uid="uid://cjg1iflumfhkw" path="res://resources/Materials_Shaders/cloak_material.tres" id="10_wda1y"]
 [ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/characters/hull_damage_receiver.gd" id="11_2mpn1"]
 [ext_resource type="Texture2D" uid="uid://baic84045hmx1" path="res://assets/textures/ships/warp_collapse.png" id="11_epgvs"]
+[ext_resource type="Material" uid="uid://c7htollnbbtij" path="res://resources/Materials_Shaders/warp_material_CENTER.tres" id="12_vaax2"]
 [ext_resource type="AudioStream" uid="uid://8q5c25ij7dt0" path="res://assets/audio/effects/smallexplosion3.ogg" id="13_klvb2"]
 [ext_resource type="PackedScene" uid="uid://bajjprkqvejsh" path="res://scenes/level_entities/ship_tractor_beam.tscn" id="13_rue2e"]
 [ext_resource type="PackedScene" uid="uid://dl1t2pm0xwqsn" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
@@ -59,79 +60,369 @@ color = Color(0.32549, 1, 1, 1)
 color_ramp = SubResource("GradientTexture1D_iucyo")
 alpha_curve = SubResource("CurveTexture_dad8g")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2mpn1"]
-resource_local_to_scene = true
-shader = ExtResource("10_rue2e")
-shader_parameter/progress = 0.0
-shader_parameter/noise_density = 60.0
-shader_parameter/beam_size = 0.0
-shader_parameter/color = Color(0, 1.02, 1.2, 1)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_wg5l6"]
 atlas = ExtResource("6_54us1")
 region = Rect2(192, 48, 48, 48)
 filter_clip = true
 
-[sub_resource type="Animation" id="Animation_rue2e"]
-resource_name = "cloak"
-length = 2.0
+[sub_resource type="Animation" id="Animation_l33it"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/path = NodePath(".:material")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.2, 0.8]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(2),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_7pmes"]
-resource_name = "uncloak"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/progress")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.8, 0.2]
+"values": [null]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 0.5, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader_parameter/progress")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.2]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_vaax2"]
+[sub_resource type="Animation" id="Animation_s85ir"]
+resource_name = "cloak_FEDERATION"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_wda1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.16078432, 0.8352941, 0.8509804, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_o4ahg"]
+resource_name = "cloak_KLINGON"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_wda1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.39607844, 0.32941177, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_a5e8g"]
+resource_name = "cloak_ROMULAN"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_wda1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 0.5, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wda1y"]
+resource_name = "galaxy_warp_in"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_vaax2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.830000039425, 0.150000007125]
+}
+
+[sub_resource type="Animation" id="Animation_t32tb"]
+resource_name = "galaxy_warp_out"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_vaax2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.150000007125, 0.830000039425]
+}
+
+[sub_resource type="Animation" id="Animation_ljjbr"]
+resource_name = "uncloak_FEDERATION"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_wda1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.16007765, 0.83396184, 0.8499613, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_71til"]
+resource_name = "uncloak_KLINGON"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_wda1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.39766216, 0.32960063, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_scpag"]
+resource_name = "uncloak_ROMULAN"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_wda1y")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/cloak_alpha")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/cloak_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 0.5, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yrb1v"]
 _data = {
-&"cloak": SubResource("Animation_rue2e"),
-&"uncloak": SubResource("Animation_7pmes")
+&"RESET": SubResource("Animation_l33it"),
+&"cloak_FEDERATION": SubResource("Animation_s85ir"),
+&"cloak_KLINGON": SubResource("Animation_o4ahg"),
+&"cloak_ROMULAN": SubResource("Animation_a5e8g"),
+&"galaxy_warp_in": SubResource("Animation_wda1y"),
+&"galaxy_warp_out": SubResource("Animation_t32tb"),
+&"uncloak_FEDERATION": SubResource("Animation_ljjbr"),
+&"uncloak_KLINGON": SubResource("Animation_71til"),
+&"uncloak_ROMULAN": SubResource("Animation_scpag")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rry4s"]
@@ -318,11 +609,10 @@ script = ExtResource("3_fns5h")
 
 [node name="ShipSprite" type="Sprite2D" parent="." unique_id=503438551]
 show_behind_parent = true
-material = SubResource("ShaderMaterial_2mpn1")
 texture = SubResource("AtlasTexture_wg5l6")
 
-[node name="CloakAnim" type="AnimationPlayer" parent="ShipSprite" unique_id=402463764]
-libraries/ = SubResource("AnimationLibrary_vaax2")
+[node name="SpriteAnimation" type="AnimationPlayer" parent="ShipSprite" unique_id=1855098877]
+libraries/ = SubResource("AnimationLibrary_yrb1v")
 
 [node name="Laser" parent="." unique_id=998248818 instance=ExtResource("15_ke2ow")]
 show_behind_parent = true

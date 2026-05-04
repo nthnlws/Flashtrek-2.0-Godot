@@ -5,13 +5,14 @@ class_name NeutralCharacter
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @export var reputation_value: float = 100.0
 
-@onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite node
-@onready var hitbox: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D  # Reference to the CollisionShape2D node
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var hitbox: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D
 @onready var collision_shape: CollisionPolygon2D = $WorldCollisionShape
 @onready var shield: Shield = $Shield
 @onready var animation: AnimatedSprite2D = $hull_explosion
-@onready var cloak_animation: AnimationPlayer = $Sprite2D/CloakAnimation
+@onready var sprite_animation: AnimationPlayer = $Sprite2D/SpriteAnimation
 @onready var health_component: HealthComponent = $HealthComponent
+
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
@@ -26,6 +27,7 @@ var AI_enabled:bool = true
 var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 var ship_index: int # Used for tying ship to Data resource files
 
+var cloaked: bool = false
 var fleeing: bool = false
 var flee_timer: float = 0.0
 const FLEE_DURATION: float = 7.2
@@ -192,13 +194,16 @@ func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 	queue_free()
 
 
-func cloak_ship(length:float) -> void:
-	cloak_animation.speed_scale = 2/length
-	cloak_animation.play("cloak")
-
-func uncloak_ship(length:float) -> void:
-	cloak_animation.speed_scale = 2/length
-	cloak_animation.play("uncloak")
+func trigger_warp_effect(length:float, warp_effect_on: bool) -> void:
+	sprite_animation.speed_scale = 2/length
+	
+	if warp_effect_on:
+		cloaked = true
+		sprite_animation.play("galaxy_warp_out")
+	else:
+		sprite_animation.play("galaxy_warp_in")
+		await sprite_animation.animation_finished
+		cloaked = false
 
 
 func _on_hit_received(shooter: Node) -> void:

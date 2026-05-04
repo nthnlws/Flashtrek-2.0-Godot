@@ -36,7 +36,7 @@ layout_mode = 1
 
 [node name="Polygon2D" parent="TextButton/PolygonMouseDetector" index="0" unique_id=810687960]
 color = Color(1, 1, 1, 0)
-polygon = PackedVector2Array(501, 0, 501, 115, 0, 115, 0, -3.0517578e-05)
+polygon = PackedVector2Array(47, 0, 453, 0, 473, 6, 490, 22, 499, 44, 500, 68, 490, 94, 477, 106, 459, 114, 451, 115, 48, 115, 26, 107, 13, 95, 2, 76, 0, 59, 0, 51, 7, 28, 18, 15, 33, 5)
 
 [connection signal="button_hovered" from="TextButton" to="." method="tween_out"]
 [connection signal="button_unhovered" from="TextButton" to="." method="tween_in"]

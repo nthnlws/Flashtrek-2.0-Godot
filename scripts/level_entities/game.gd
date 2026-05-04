@@ -46,7 +46,7 @@ func _warp_into_new_system(system_data:SystemData) -> void:
 	LevelManager.player.global_position = LevelManager.entry_coords
 	
 	LevelManager.player.camera._zoom = Vector2(0.4, 0.4)
-	LevelManager.player.uncloak_ship(3.0)
+	LevelManager.player.trigger_warp_effect(3.0, false)
 	
 	await get_tree().create_timer(1.5).timeout
 	SignalBus.entering_new_system.emit()

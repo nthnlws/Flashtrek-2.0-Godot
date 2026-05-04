@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cq7nipnakpnsu"]
 
-[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/cloak_CENTER.gdshader" id="1_44ekp"]
+[ext_resource type="Shader" uid="uid://bnwbddeenbtd8" path="res://resources/Materials_Shaders/warp_effect_CENTER.gdshader" id="1_44ekp"]
 [ext_resource type="Script" uid="uid://3877dbb2mg6q" path="res://scripts/menus_ui/ship_status_menu.gd" id="1_eq1b8"]
 [ext_resource type="Texture2D" uid="uid://j3fi53qkphtu" path="res://assets/textures/UI/ship_upgrade_menu/corridor_romulan_edited.png" id="1_vgki0"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="2_2y2cj"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://daayjayaf31a" path="res://assets/textures/UI/LCARS_square.svg" id="21_17wuk"]
 [ext_resource type="PackedScene" uid="uid://daibe5xomtf60" path="res://scenes/menus_ui/hover_tooltip.tscn" id="21_v705g"]
 [ext_resource type="Texture2D" uid="uid://bjuwcbid11wn0" path="res://assets/textures/UI/LCARS_corner.svg" id="23_17wuk"]
+[ext_resource type="Material" uid="uid://cjg1iflumfhkw" path="res://resources/Materials_Shaders/cloak_material.tres" id="24_b8rxe"]
 
 [sub_resource type="Shader" id="Shader_17wuk"]
 code = "shader_type canvas_item;
@@ -1153,3 +1154,19 @@ vertical_alignment = 1
 [node name="MarginContainer2" type="MarginContainer" parent="ReputationPanel/RightPanelContainer/RomContainer/VBoxContainer/HBoxContainer" unique_id=903265442]
 layout_mode = 2
 theme_override_constants/margin_left = 1
+
+[node name="ShipSprite" type="TextureRect" parent="." unique_id=1532771586]
+show_behind_parent = true
+z_index = 1
+material = ExtResource("24_b8rxe")
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 0
+offset_left = 361.0
+offset_top = 321.0
+offset_right = 556.4293
+offset_bottom = 526.67444
+rotation = -1.5707964
+size_flags_horizontal = 4
+texture = SubResource("AtlasTexture_eq1b8")
+expand_mode = 1
+stretch_mode = 4
