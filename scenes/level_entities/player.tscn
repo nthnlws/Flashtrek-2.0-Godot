@@ -610,6 +610,9 @@ script = ExtResource("3_fns5h")
 [node name="ShipSprite" type="Sprite2D" parent="." unique_id=503438551]
 show_behind_parent = true
 texture = SubResource("AtlasTexture_wg5l6")
+region_enabled = true
+region_rect = Rect2(0, 0, 48, 48)
+region_filter_clip_enabled = true
 
 [node name="SpriteAnimation" type="AnimationPlayer" parent="ShipSprite" unique_id=1855098877]
 libraries/ = SubResource("AnimationLibrary_yrb1v")

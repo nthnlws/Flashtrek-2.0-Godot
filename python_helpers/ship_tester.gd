@@ -4,6 +4,7 @@ extends Control
 @onready var sprite: Sprite2D = $Sprite
 @onready var area: Area2D = $Area2D
 @onready var coll: CollisionPolygon2D = %CollisionPolygon2D
+@onready var sprite_animation: AnimationPlayer = $Sprite/SpriteAnimation
 
 
 var sprite_areas: Array[Rect2] = [
@@ -105,6 +106,33 @@ var sprite_areas: Array[Rect2] = [
 ]
 
 var collision_array: Array[PackedVector2Array] = []
+
+
+func _process(delta: float) -> void:
+	if sprite.material:
+		update_shader_region()
+
+
+func update_shader_region() -> void:
+	var tex = sprite.texture
+	if tex is AtlasTexture:
+		var atlas_size = tex.atlas.get_size()   # Full spritesheet size (336, 672)
+		var region     = tex.region             # pixel offset within the sheet
+		var uv_min = Vector2(region.position.x / atlas_size.x,
+							 region.position.y / atlas_size.y)
+
+		sprite.material.set_shader_parameter("region_uv_min", uv_min)
+	else:
+		# uv_min stays (0, 0) when not AtlasTexture
+		sprite.material.set_shader_parameter("region_uv_min", Vector2.ZERO)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug1"):
+		sprite_animation.play("cloak_ROMULAN")
+		return
+	elif event.is_action_pressed("debug2"):
+		sprite_animation.play("uncloak_ROMULAN")
+		return
 
 func _ready() -> void:
 	var poly: PackedVector2Array = sprite_to_polygon()
