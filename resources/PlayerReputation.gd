@@ -12,9 +12,11 @@ signal reputation_total_changed(effected_faction: Utility.FACTION, new_total: fl
 const NEUTRAL_THRESHOLD: int = 5000 # Any faction rep above this value is no longer neutral
 const ENEMY_FACTION_MULTIPLIER: float = 0.50 # Amount the opposite faction rep decreases
 const MAX_REP_VALUE: float = 100000.0
+const DEATH_PENALTY = 0.1 # Rep penalty for death in percentage
 
 func _init() -> void:
 	SignalBus.reputation_change_triggered.connect(_handle_reputation_change)
+	SignalBus.playerRespawned.connect(_handle_player_death)
 
 
 func get_reputation(faction: Utility.FACTION) -> float:
@@ -62,3 +64,17 @@ func _clamp_rep(value: float, faction: Utility.FACTION) -> float:
 		])
 	return clamped
  
+
+func _handle_player_death() -> void:
+	if FederationRep > 0:
+		FederationRep = snappedi(FederationRep * (1 - DEATH_PENALTY), 1)
+		reputation_total_changed.emit(Utility.FACTION.FEDERATION, FederationRep)
+	if KlingonRep > 0:
+		KlingonRep = snappedi(KlingonRep * (1 - DEATH_PENALTY), 1)
+		reputation_total_changed.emit(Utility.FACTION.KLINGON, KlingonRep)
+	if RomulanRep > 0:
+		RomulanRep = snappedi(RomulanRep * (1 - DEATH_PENALTY), 1)
+		reputation_total_changed.emit(Utility.FACTION.ROMULAN, RomulanRep)
+	if NeutralRep > 0:
+		NeutralRep = snappedi(NeutralRep * (1 - DEATH_PENALTY), 1)
+		reputation_total_changed.emit(Utility.FACTION.NEUTRAL, NeutralRep)

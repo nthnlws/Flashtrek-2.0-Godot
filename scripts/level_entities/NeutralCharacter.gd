@@ -41,6 +41,10 @@ func _ready() -> void:
 	z_index = Utility.Z["NeutralShips"]
 	
 	starbase = LevelManager.starbases.front()
+	
+	# Preprocess ship angle toward first target
+	await get_tree().process_frame
+	self.rotation = get_angle_to(endPoint)
 
 
 func _create_unique_texture_atlas() -> void:

@@ -191,10 +191,9 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug1"):
-		sprite_animation.play("cloak_ROMULAN")
-		return
+		cloak_ship(Utility.FACTION.ROMULAN, true)
 	elif event.is_action_pressed("debug2"):
-		sprite_animation.play("uncloak_ROMULAN")
+		cloak_ship(Utility.FACTION.ROMULAN, false)
 		return
 	# Primary weapon firing
 	if event.is_action_pressed("left_click"):
@@ -260,13 +259,13 @@ func _handle_movement(delta: float) -> void:
 		if OS.get_name() == "Windows":
 			direction.x = Input.get_axis("move_backward", "move_forward")
 
-		if direction.x > 0:
+		if direction.x > 0: # Acceleration
 			velocity += Vector2(direction.x, 0).rotated(rotation) * acceleration * delta / overdrivem_v
 			velocity = velocity.limit_length(max_speed / overdrivem_v)
-		elif direction.x < 0:
-			velocity += Vector2(-1, 0).rotated(rotation) * acceleration * delta * 0.8 / overdrivem_v
+		elif direction.x < 0: # Deceleration
+			velocity += Vector2(-1, 0).rotated(rotation) * acceleration * delta / overdrivem_v
 			velocity = velocity.limit_length(max_speed / overdrivem_v)
-		else:
+		else: # Natural deceleration when no input
 			velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.25)
 			
 		if direction.y != 0:
@@ -648,3 +647,20 @@ func _handle_exiting_combatant(enemy: FactionCharacter) -> void:
 	# No active combatants
 	if current_enemy_list.is_empty():
 		SignalBus.exited_combat.emit()
+
+func cloak_ship(faction: Utility.FACTION, is_cloaking: bool) -> void:
+	if faction == Utility.FACTION.ROMULAN:
+		if is_cloaking:
+			sprite_animation.play("cloak_ROMULAN")
+		else:
+			sprite_animation.play("uncloak_ROMULAN")
+	elif faction == Utility.FACTION.FEDERATION:
+		if is_cloaking:
+			sprite_animation.play("cloak_FEDERATION")
+		else:
+			sprite_animation.play("uncloak_FEDERATION")
+	elif faction == Utility.FACTION.KLINGON:
+		if is_cloaking:
+			sprite_animation.play("cloak_KLINGON")
+		else:
+			sprite_animation.play("uncloak_KLINGON")

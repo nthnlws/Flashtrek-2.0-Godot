@@ -375,7 +375,7 @@ func get_faction_home_system(faction: FACTION) -> SystemData:
 	if faction == FACTION.KLINGON:
 		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Kronos)
 	else:
-		printerr("No home system found for faction %s" % faction)
+		push_warning("No home system found for faction %s, spawning at Solarus" % faction)
 		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus) 
 
 

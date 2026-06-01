@@ -54,7 +54,7 @@ func _warp_into_new_system(system_data:SystemData) -> void:
 	
 	var tween2: Object = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
 	tween2.tween_property(LevelManager.player, "velocity", Vector2(600, 0).rotated(LevelManager.player.global_rotation), 3.0)
-	create_tween().tween_property(LevelManager.player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
+	#create_tween().tween_property(LevelManager.player.camera, "_zoom", Vector2(0.5, 0.5), 3.0)
 	await tween2.finished
 	
 	LevelManager.player.camera._zoom = Vector2(0.5, 0.5)
