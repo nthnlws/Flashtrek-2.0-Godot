@@ -3,10 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://b8ojgslpmxdfk" path="res://assets/textures/UI/warning_banner.png" id="1_hxir5"]
 [ext_resource type="Script" uid="uid://cldd4wvkrivvl" path="res://scripts/menus_ui/battle_alert.gd" id="2_h6ca5"]
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
+[ext_resource type="PackedScene" uid="uid://bjoxdjudxb5p1" path="res://scenes/menus_ui/HUD_selection_button.tscn" id="6_lffcq"]
 [ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
 [ext_resource type="Script" uid="uid://c14ywbiqs8efn" path="res://scripts/menus_ui/HUD_settings_button.gd" id="8_tbbuv"]
 [ext_resource type="PackedScene" uid="uid://bfl6ircpc33v" path="res://scenes/menus_ui/faction_warning_popup.tscn" id="9_l28jr"]
-[ext_resource type="PackedScene" uid="uid://g3qxm0r002bc" path="res://scenes/menus_ui/hud_button.tscn" id="10_ee1ns"]
 [ext_resource type="Script" uid="uid://bmtgssvplxaao" path="res://scripts/menus_ui/componentDebugView.gd" id="10_hxir5"]
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="11_sp3p0"]
 [ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
@@ -111,20 +111,8 @@ ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("8_tbbuv")
 
-[node name="HUD_button" parent="." unique_id=1861936504 instance=ExtResource("10_ee1ns")]
+[node name="HUD_buttons" parent="." unique_id=2128267408 instance=ExtResource("6_lffcq")]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -550.0
-offset_top = -550.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.2, 0.2)
 
 [node name="health_indicator" parent="." unique_id=574128593 instance=ExtResource("11_sp3p0")]
 layout_mode = 1

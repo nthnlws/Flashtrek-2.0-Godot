@@ -32,8 +32,9 @@ func galaxy_fade_out() -> void:
 
 
 func handlePlayerDied() -> void:
-	SignalBus.toggleQ3HUD.emit("off")
-	SignalBus.toggleQ2HUD.emit("off")
+	# Old HUD button animation toggle
+	#SignalBus.toggleQ3HUD.emit("off")
+	#SignalBus.toggleQ2HUD.emit("off")
 	%LoadingScreen.visible = true
 	LevelManager.player.camera._zoom = Vector2(0.4, 0.4)
 	await get_tree().create_timer(1.0).timeout

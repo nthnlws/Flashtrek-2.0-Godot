@@ -46,10 +46,12 @@ func check_distance_to_planets() -> bool:
 
 func _on_starbase_area_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		SignalBus.toggleQ4HUD.emit("on")
+		# Old HUD button animation toggle
+		#SignalBus.toggleQ4HUD.emit("on")
 		player_in_range = true
 
 func _on_starbase_area_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		SignalBus.toggleQ4HUD.emit("off")
+		# Old HUD button animation toggle
+		#SignalBus.toggleQ4HUD.emit("off")
 		player_in_range = false

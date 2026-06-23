@@ -49,16 +49,12 @@ signal entering_new_system
 signal system_changed(system_data: SystemData)
 
 #HUD
-signal Center_clicked # Declared in HUD_Button script by string name
-signal TopLeft_clicked
-signal TopRight_clicked
-signal BottomLeft_clicked
-signal BottomRight_clicked
+signal ShipButton_clicked
+signal NavButton_clicked
+signal IntelButton_clicked
+signal CommsButton_clicked
 signal HUDchanged(scale:float)
 
-signal toggleQ2HUD(state:String) # States: "on", "off"
-signal toggleQ3HUD(state:String) # States: "on", "off"
-signal toggleQ4HUD(state:String) # States: "on", "off"
 
 signal joystickMoved(playerDirection:Vector2)
 

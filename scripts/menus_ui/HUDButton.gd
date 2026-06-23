@@ -1,9 +1,12 @@
 extends Control
 
-@onready var label_button_array: Array[Node] = get_tree().get_nodes_in_group("label_buttons")
 @onready var texture_button_array: Array[Node] = get_tree().get_nodes_in_group("texture_buttons")
 @onready var animation_players: Array[Node] = get_tree().get_nodes_in_group("anims")
 
+@onready var ship_button: TextButton = $MarginContainer/GridContainer/SHIPpanel/ShipButton
+@onready var nav_button: TextButton = $MarginContainer/GridContainer/NAVpanel/NavButton
+@onready var intel_button: TextButton = $MarginContainer/GridContainer/INTELpanel/IntelButton
+@onready var comms_button: TextButton = $MarginContainer/GridContainer/COMMSpanel/CommsButton
 
 func _input(event: InputEvent) -> void:
 	if get_tree().get_current_scene().name == "HUD_button" and event is InputEventKey:
@@ -15,19 +18,18 @@ func _ready() -> void:
 
 
 func _connect_signals() -> void:
-	SignalBus.toggleQ2HUD.connect(_handle_beam_animation)
-	SignalBus.toggleQ3HUD.connect(_handle_hail_animation)
-	SignalBus.toggleQ4HUD.connect(_handle_dock_animation)
 	SignalBus.HUDchanged.connect(change_scale)
 	
-	for button:TextButton in label_button_array:
-		button.button_pressed.connect(_handle_button_click.bind(button.name))
+	ship_button.button_pressed.connect(_handle_HUD_button_pressed.bind(ship_button))
+	nav_button.button_pressed.connect(_handle_HUD_button_pressed.bind(nav_button))
+	intel_button.button_pressed.connect(_handle_HUD_button_pressed.bind(intel_button))
+	comms_button.button_pressed.connect(_handle_HUD_button_pressed.bind(comms_button))
 
 
-func _handle_button_click(button_name: String) -> void:
+func _handle_HUD_button_pressed(clicked_button: TextButton) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		AudioManager.play_UI_click_sound()
-		var signal_name: String = button_name + "_clicked"
+		var signal_name: String = clicked_button.name + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			#print(str(signal_name) + " emitted")
@@ -36,7 +38,7 @@ func _handle_button_click(button_name: String) -> void:
 
 func change_scale(new_scale: float) -> void:
 	var use: Vector2 = Vector2(new_scale, new_scale)
-	scale = use * Vector2(0.2, 0.2)
+	scale = use
 
 
 func scale_HUD_button(new_scale: float) -> void: # Scales entire Control node, not used

@@ -1,4 +1,4 @@
-extends NeutralCharacter
+extends FactionCharacter
 class_name MissionCharacter
 
 var movement_target_position: Vector2 = Vector2.ZERO

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="90.984802"
+   height="34.426636"
+   viewBox="0 0 24.073059 9.1087129"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="new_HUD_button.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="4"
+     inkscape:cx="134.625"
+     inkscape:cy="194.125"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-41.775171,-41.691285)">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:0.347489;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1-8-7"
+       width="23.725571"
+       height="8.7612219"
+       x="41.948917"
+       y="41.865032"
+       ry="4.3806109"
+       inkscape:export-filename="rounded_button.svg"
+       inkscape:export-xdpi="2.4190476"
+       inkscape:export-ydpi="2.4190476" />
+    <path
+       id="rect2"
+       style="fill:#d88632;fill-opacity:1;stroke:none;stroke-width:0.373073;stroke-dasharray:none;stroke-opacity:1"
+       d="m 12.467973,33.866666 c -1.40762,0 -2.320627,0.0081 -2.464449,0.02192 -0.2836505,0.02719 -0.7264367,0.104648 -1.0025231,0.175349 -2.1386453,0.547672 -3.7781774,2.113361 -4.2276489,4.03715 -0.1100033,0.470811 -0.1157552,0.604154 -0.1157552,2.646226 v 1.926561 25.059461 H 12.511898 V 42.673871 h -0.01964 v -1.137945 c 0,-1.168904 0.01167,-1.367006 0.09612,-1.645272 0.10146,-0.334317 0.381998,-0.741594 0.67231,-0.975839 0.361758,-0.291893 0.806429,-0.456143 1.340487,-0.528788 h 0.102836 39.10769 v -4.519361 h -39.10769 z" />
+  </g>
+</svg>

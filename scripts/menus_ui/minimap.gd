@@ -154,7 +154,7 @@ func update_minimap() -> void:
 			var visual_marker:TextureRect = missionShips[i]
 			
 			# Check if a corresponding real ship exists for this index
-			if i < LevelManager.missionShips.size():
+			if i < LevelManager.missionShips.size() and is_instance_valid(LevelManager.missionShips[i]):
 				var real_ship = LevelManager.missionShips[i]
 				
 				var globalDistance = real_ship.global_position - LevelManager.player.global_position
@@ -185,6 +185,7 @@ func update_minimap() -> void:
 
 
 func remove_minimap_object(object) -> void:
+	print(object.name)
 	if object in ship_to_object:
 		var texture_rect: TextureRect = ship_to_object[object]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap

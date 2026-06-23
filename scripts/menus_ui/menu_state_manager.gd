@@ -21,9 +21,10 @@ var current_state: Utility.MENUSTATE = Utility.MENUSTATE.NONE:
 func _ready() -> void:
 	SignalBus.playerDied.connect(_handle_player_death)
 	SignalBus.pause_menu_clicked.connect(_handle_pause_menu_clicked) #Connect HUD menu button to toggle=
-	SignalBus.BottomRight_clicked.connect(toggle_ship_selection)
-	SignalBus.Center_clicked.connect(toggle_upgrade_menu)
+	SignalBus.CommsButton_clicked.connect(toggle_ship_selection)
+	SignalBus.ShipButton_clicked.connect(toggle_upgrade_menu)
 	SignalBus.entering_galaxy_warp.connect(func(): current_state = Utility.MENUSTATE.NONE)
+	SignalBus.NavButton_clicked.connect(activate_galaxy_map)
 
 
 # Input handling
@@ -73,6 +74,15 @@ func handle_m_press() -> void:
 		Utility.MENUSTATE.GALAXY:
 			# Galaxy map is open, close it
 			toggle_menu($GalaxyMap, Utility.MENUSTATE.NONE)
+		_:
+			return # Do nothing for all other menu states
+
+
+func activate_galaxy_map() -> void:
+	match current_state:
+		Utility.MENUSTATE.NONE:
+			# No menus are open, open the Galaxy Map
+			toggle_menu($GalaxyMap, Utility.MENUSTATE.GALAXY)
 		_:
 			return # Do nothing for all other menu states
 

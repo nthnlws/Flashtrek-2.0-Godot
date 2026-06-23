@@ -38,16 +38,18 @@ func _physics_process(delta: float) -> void:
 
 func _on_comm_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		SignalBus.enteredPlanetComm.emit(self )
-		SignalBus.toggleQ3HUD.emit("on")
+		SignalBus.enteredPlanetComm.emit(self)
+		# Old HUD button animation toggle
+		#SignalBus.toggleQ3HUD.emit("on")
 		player = body
 
 
 func _on_comm_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		SignalBus.exitedPlanetComm.emit(self )
-		SignalBus.toggleQ3HUD.emit("off")
-		SignalBus.toggleQ2HUD.emit("off")
+		# Old HUD button animation toggle
+		#SignalBus.toggleQ3HUD.emit("off")
+		#SignalBus.toggleQ2HUD.emit("off")
 		player = null
 
 

@@ -97,7 +97,6 @@ func _connect_signals() -> void:
 	MissionManager.mission_started.connect(_handle_mission_pickup)
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.TopLeft_clicked.connect(trigger_warp)
 	SignalBus.triggerGalaxyWarp.connect(trigger_galaxy_warp)
 	SignalBus.combatantEntered.connect(_handle_new_combatant)
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)

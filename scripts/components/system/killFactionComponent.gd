@@ -1,8 +1,9 @@
 class_name KillFactionComponent
 extends SystemComponent
 
-var number_to_kill: int
+var number_to_kill: int = 0
 var faction: Utility.FACTION
+var remaining_ships: int = 0
 
 var spawned_ships: Array[MissionCharacter] = []
 
@@ -14,6 +15,7 @@ func _ready() -> void:
 func on_mission_ship_died(ship: MissionCharacter) -> void:
 	if ship.is_in_group("mission_ships") and ship in spawned_ships: # If destroyed ship is part of this mission
 		spawned_ships.erase(ship)
+		remaining_ships = spawned_ships.size()
 		if spawned_ships.is_empty(): # All mission ships destroyed
 			MissionManager.complete_mission()
 			cleanup_component()
@@ -28,7 +30,10 @@ func cleanup_component() -> void:
 
 func _on_ready_logic() -> void:
 	# Set component-specific properties from system_data
-	number_to_kill = randi_range(1, 4)
+	if number_to_kill == 0: # Generate new ships
+		number_to_kill = randi_range(1, 4)
+	else:					# Number already generated, use remaining ship number
+		number_to_kill = remaining_ships
 	faction = system_data.faction
 	var root_level: Node = get_tree().get_root().get_node("Game/Level")
 	var spawn_radius: int = randi_range(5000, 15000)
@@ -39,7 +44,6 @@ func _on_ready_logic() -> void:
 		var random_offset: Vector2 = Utility.get_random_point_on_circle(250)
 		var new_spawn_pos: Vector2 = spawn_origin + random_offset
 		spawn_positions.append(new_spawn_pos)
-
 
 	if faction == Utility.FACTION.FEDERATION:
 		for i:int in number_to_kill:

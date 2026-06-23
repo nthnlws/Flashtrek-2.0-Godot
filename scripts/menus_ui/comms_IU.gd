@@ -16,8 +16,8 @@ func _connect_signals() -> void:
 	# --- UI & PLAYER SIGNALS ---
 	SignalBus.enteredPlanetComm.connect(_on_enter_comms_range)
 	SignalBus.exitedPlanetComm.connect(_on_exit_comms)
-	SignalBus.TopRight_clicked.connect(_on_cargo_beam_pressed)
-	SignalBus.BottomLeft_clicked.connect(_on_open_comms_pressed)
+	#SignalBus.TopRight_clicked.connect(_on_cargo_beam_pressed)
+	SignalBus.CommsButton_clicked.connect(_on_open_comms_pressed)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 
 
@@ -31,7 +31,8 @@ func open_comms() -> void:
 		return
 	
 	self.visible = true
-	SignalBus.toggleQ3HUD.emit("off") # Turn off Q3 pulse (Comm Available)
+	# Old HUD button animation toggle
+	#SignalBus.toggleQ3HUD.emit("off") # Turn off Q3 pulse (Comm Available)
 	
 	# 1. Get the formatted text from the planet
 	var message: String = comms_component.request_hail(ship_name)
@@ -40,7 +41,8 @@ func open_comms() -> void:
 	# 2. Check resulting state to toggle UI elements
 	# If the planet just generated a pending mission, we need the "Beam/Accept" button to pulse
 	if MissionManager.current_state == MissionManager.STATE.pending_mission:
-		SignalBus.toggleQ2HUD.emit("on")
+		# Old button animation
+		pass
 
 func close_comms() -> void:
 	visible = false
@@ -75,7 +77,8 @@ func _on_cargo_beam_pressed() -> void:
 	var response: String = current_planet.get_component(comm_component).attempt_interaction(ship_name)
 	
 	if not response.is_empty():
-		SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse
+		# Old HUD button animation toggle
+		#SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse
 		update_comms_message(response)
 
 # --- UTILITY ---

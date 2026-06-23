@@ -186,7 +186,7 @@ func _on_close_menu_button_pressed() -> void:
 
 func _on_warp_button_pressed() -> void:
 	AudioManager.play_UI_click_sound()
-	SignalBus.TopLeft_clicked.emit()
+	SignalBus.NavButton_clicked.emit()
 	visible = false
 
 

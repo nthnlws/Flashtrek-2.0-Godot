@@ -23,11 +23,11 @@ func _ready() -> void:
 	
 	$hull_explosion.z_index = Utility.Z["Effects"]
 	
-	agro_box.body_entered.connect(_on_agro_box_body_entered)
-	agro_box.body_exited.connect(_on_agro_box_body_exited)
-	
 	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
 	SignalBus.playerDied.connect(_clear_agro)
+	await Engine.get_main_loop().process_frame
+	agro_box.body_entered.connect(_on_agro_box_body_entered)
+	agro_box.body_exited.connect(_on_agro_box_body_exited)
 
 
 func setMovementState(delta:float) -> void:
