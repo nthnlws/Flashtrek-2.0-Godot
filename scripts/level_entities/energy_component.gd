@@ -37,13 +37,15 @@ func _ready() -> void:
 
 
 ## Attempt to spend energy. Returns true if successful.
-func consume(amount: float) -> bool:
+func request_consume(amount: float) -> bool:
 	if current_energy >= amount:
-		current_energy -= amount
 		return true
-	
+	else: 
+		return false
+
+func consume_energy(amount: float) -> void:
+	current_energy -= amount
 	energy_depleted.emit()
-	return false
 
 
 ## Instantly add energy
@@ -60,7 +62,7 @@ func regenerate(delta: float, rate: float) -> void:
 		current_energy += rate * delta
 
 
-## Disables regeneration for a set duration
+## Disables regeneration for a set duration (in seconds)
 func lock_regeneration(duration: float) -> void:
 	is_regen_locked = true
 	var timer: SceneTreeTimer = get_tree().create_timer(duration)

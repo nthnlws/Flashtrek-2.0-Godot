@@ -9,21 +9,16 @@ signal to_overdrive_transition
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var stats: PlayerUpgrades = PlayerUpgrades.new()
+@onready var weapons_component: Node = $WeaponsComponent
 
 # --- Node References ---
 @onready var sprite: Sprite2D = $ShipSprite
 @onready var sprite_animation: AnimationPlayer = $ShipSprite/SpriteAnimation
 @onready var shield: Shield = $Shield
-@onready var muzzle: Node2D = $Muzzle
 @onready var laser: Laser = $Laser
-@onready var tractor_beam: ShipTractorBeam = $TractorBeam
 @onready var camera: Camera2D = $Camera2D
 @onready var galaxy_particles: GPUParticles2D = $GalaxyParticles
-@onready var galaxy_warp_sound: AudioStreamPlayer = %Galaxy_warp
-
-# --- Exported Scenes ---
-@export var torpedo_scene: PackedScene
-@export var missile_scene: PackedScene
+@onready var galaxy_warp_sound: AudioStreamPlayer = %Galaxy_warp	
 
 # --- Movement Variables ---
 var direction: Vector2 = Vector2.ZERO
@@ -35,8 +30,6 @@ var trans_length: float = 0.8
 var base_scale: Vector2 = Vector2(1.5, 1.5)
 
 # --- State Variables ---
-var shoot_cd: bool = false
-var shooting_button_held: bool = false
 var cloaked: bool = false
 var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 var current_cargo: int = 0
@@ -47,7 +40,6 @@ var current_enemy_list: Array[FactionCharacter]
 var base_agility: float = 150.0
 var base_max_speed: float = 750.0
 var base_acceleration: float = 500
-var base_rate_of_fire: float = 5.0
 var base_warp_range: int = 20
 var base_cargo_capacity: int = 1
 
@@ -57,8 +49,6 @@ var agility: float:
 	get: return base_agility * stats.AgilityMult
 var acceleration: float:
 	get: return base_acceleration * stats.AccelMult
-var rate_of_fire: float:
-	get: return base_rate_of_fire * stats.FireRateMult
 var warp_range: int:
 	get: return base_warp_range + stats.WarpRangeAdd
 var cargo_capacity: int:
@@ -100,8 +90,6 @@ func _connect_signals() -> void:
 	SignalBus.triggerGalaxyWarp.connect(trigger_galaxy_warp)
 	SignalBus.combatantEntered.connect(_handle_new_combatant)
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
-	
-	tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
 func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipStats = null) -> void:
@@ -110,7 +98,7 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	# Sprite / collision setup
 	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
 	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
-	muzzle.position.y = ship_data.MUZZLE_POS * base_scale.y
+	weapons_component.firing_position.position.y = ship_data.MUZZLE_POS * base_scale.y
 
 	var rawColl = ship_data.COLLISION_POLY
 	var parsed_array = JSON.parse_string(rawColl)
@@ -130,7 +118,7 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	health_component.sp_current = health_component.SP_max
 	energy.max_energy        = new_stats.max_energy     if new_stats else energy.base_max_energy
 	energy.current_energy    = new_stats.max_energy     if new_stats else energy.base_max_energy
-	ship_damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
+	weapons_component.ship_damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
 	base_cargo_capacity      = ship_data.get("CARGO_SIZE", 1)
 	faction                  = new_stats.faction        if new_stats else ship_data.FACTION
 
@@ -171,7 +159,7 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 	sprite.scale *= new_scale
 	$hitbox_area.scale *= new_scale
 	$WorldCollisionShape.scale *= new_scale
-	muzzle.position.y *= new_scale.y
+	weapons_component.firing_position.position.y *= new_scale.y
 
 
 func _process(delta: float) -> void:
@@ -194,30 +182,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("debug2"):
 		cloak_ship(Utility.FACTION.ROMULAN, false)
 		return
-	# Primary weapon firing
-	if event.is_action_pressed("left_click"):
-		shooting_button_held = true
-	if event.is_action_released("left_click"):
-		shooting_button_held = false
 	
-	if event.is_action_pressed("right_click"):
-		if _can_fire(0): # Try "can fire" with 0 energy cost
-			#shoot_missile(get_global_mouse_position())
-			tractor_beam.visible = true
-			tractor_beam.try_activate_beam()
-	
-	if event.is_action_released("right_click"):
-		tractor_beam.visible = false
-		tractor_beam.deactivate_beam()
-		
 	_handle_input_actions(event)
-	# Secondary weapon firing
-	#if event.is_action_pressed("right_click"):
-		#if _can_fire_weapons(laser.energy_drain):
-			#laser.firing_button_held = true
-	#if event.is_action_released("right_click"):
-		#laser.firing_button_held = false
-		#laser.stop_firing()
+
 
 func update_shader_region() -> void:
 	var tex = sprite.texture
@@ -241,14 +208,6 @@ func _handle_input_actions(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if !health_component.alive: return
 	
-	if Input.is_action_pressed("left_click") and !shoot_cd and !overdrive_active and shooting_button_held:
-		var mouse_angle: float = global_position.angle_to_point(get_global_mouse_position())
-		var angle_diff: float = angle_difference(rotation, mouse_angle)
-		const MAX_AIM_DEVIATION: float = deg_to_rad(35.0)
-		
-		if abs(angle_diff) <= MAX_AIM_DEVIATION:
-			shoot_torpedo(mouse_angle)
-
 	_handle_movement(delta)
 	move_and_slide()
 
@@ -342,65 +301,6 @@ func overdrive_state_change(transition_length:float) -> void: # Reverses overdri
 			
 			shield.fadeout_SMOOTH()
 
-
-func shoot_torpedo(fire_direction: float) -> void:
-	var bullet: Torpedo = torpedo_scene.instantiate()
-	var cost: float = bullet.energy_drain
-
-	if _can_fire(cost):
-		energy.consume(cost)
-		energy.lock_regeneration(0.5)
-		shoot_cd = true
-		
-		bullet.position = muzzle.global_position
-		bullet.rotation = fire_direction
-		bullet.shooterObject = self
-		bullet.damage *= stats.DamageMult
-		bullet.damage_multipler = ship_damage_multiplier
-		bullet.faction = faction
-		
-		bullet.exceptions.append($hitbox_area)
-		bullet.exceptions.append(shield.get_node("shield_area"))
-		
-		$Projectiles.add_child(bullet)
-		
-		get_tree().create_timer(1.0 / rate_of_fire).timeout.connect(func(): shoot_cd = false)
-	else:
-		bullet.queue_free()
-
-
-func shoot_missile(clicked_pos: Vector2) -> void:
-	var missile: HomingMissile = missile_scene.instantiate()
-	var cost: float = missile.energy_drain
-	
-	if _can_fire(cost):
-		missile.position = muzzle.global_position
-		missile.rotation = self.rotation
-		missile.exceptions.append($hitbox_area)
-		missile.exceptions.append(shield.get_node("shield_area"))
-		missile.shooterObject = self
-		energy.consume(cost)
-		energy.lock_regeneration(1.0)
-		missile.max_damage = missile.max_damage * stats.DamageMult
-		missile.damage_multiplier = ship_damage_multiplier
-		missile.faction = self.faction
-		missile.target_position = clicked_pos
-		
-		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
-		%HeavyTorpedo.play()
-		$Projectiles.add_child(missile)
-	else:
-		missile.queue_free()
-
-
-func _can_fire(cost: float) -> bool:
-	return (
-		energy.current_energy >= cost and
-		!overdrive_active and
-		!cloaked and
-		Utility.current_gamestate != Utility.GAMESTATE.WARPING and
-		Utility.current_gamestate != Utility.GAMESTATE.CUTSCENE
-	)
 
 
 func killPlayer(hit_event: HitEvent) -> void:
@@ -605,13 +505,6 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 				SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			stats.DamageMult = stats.DamageMult + mult_step
-
-
-func _handle_container_pickup(data: ContainerData) -> void:
-	#print('picked up container')
-	if data.is_mission_goal == true:
-		#print('attempting mission finish')
-		MissionManager.complete_mission()
 
 
 func trigger_warp_effect(length: float, warp_effect_on: bool) -> void:

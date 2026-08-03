@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bd2odrgq4wa8e"
-path="res://.godot/imported/selection_menu_template.png-b6e397b4b5d2073d340e90f5ae04e4e0.ctex"
+path="res://.godot/imported/starbase_menu_template.png-676d672e1d0cc6de9d3e5ffe7b184868.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/UI/ship_selection_menu/selection_menu_template.png"
-dest_files=["res://.godot/imported/selection_menu_template.png-b6e397b4b5d2073d340e90f5ae04e4e0.ctex"]
+source_file="res://assets/textures/UI/ship_selection_menu/starbase_menu_template.png"
+dest_files=["res://.godot/imported/starbase_menu_template.png-676d672e1d0cc6de9d3e5ffe7b184868.ctex"]
 
 [params]
 
