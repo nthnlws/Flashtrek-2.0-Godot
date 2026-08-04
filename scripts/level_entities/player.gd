@@ -9,7 +9,7 @@ signal to_overdrive_transition
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var stats: PlayerUpgrades = PlayerUpgrades.new()
-@onready var weapons_component: Node = $WeaponsComponent
+@onready var weapons_component: WeaponsComponent = $WeaponsComponent
 
 # --- Node References ---
 @onready var sprite: Sprite2D = $ShipSprite
@@ -118,7 +118,7 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	health_component.sp_current = health_component.SP_max
 	energy.max_energy        = new_stats.max_energy     if new_stats else energy.base_max_energy
 	energy.current_energy    = new_stats.max_energy     if new_stats else energy.base_max_energy
-	weapons_component.ship_damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
+	weapons_component.damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
 	base_cargo_capacity      = ship_data.get("CARGO_SIZE", 1)
 	faction                  = new_stats.faction        if new_stats else ship_data.FACTION
 

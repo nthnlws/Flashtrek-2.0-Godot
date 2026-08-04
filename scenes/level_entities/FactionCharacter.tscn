@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b2270c41mmjk1" path="res://scripts/level_entities/FactionCharacter.gd" id="2_owcls"]
 [ext_resource type="PackedScene" uid="uid://dkwrosj64i8ur" path="res://scenes/level_entities/torpedo.tscn" id="3_owcls"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="3_ph44v"]
+[ext_resource type="PackedScene" uid="uid://wbwabixpynjx" path="res://scenes/level_entities/weapons_component.tscn" id="4_owcls"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uivqo"]
 radius = 1250.0
@@ -17,17 +18,25 @@ filter_clip = true
 script = ExtResource("2_owcls")
 torpedo = ExtResource("3_owcls")
 
-[node name="Muzzle" type="Node2D" parent="." index="0" unique_id=768224536]
+[node name="WeaponsComponent" parent="." index="0" unique_id=871976209 node_paths=PackedStringArray("parent_entity", "shield", "hitbox", "firing_position") instance=ExtResource("4_owcls")]
+is_on_player = false
+apply_randomness = true
+parent_entity = NodePath("..")
+shield = NodePath("../Shield")
+hitbox = NodePath("../hitbox_area")
+firing_position = NodePath("../FiringPosition")
+
+[node name="FiringPosition" type="Marker2D" parent="." index="1" unique_id=574381838]
 position = Vector2(0, -12)
 
-[node name="AgroBox" type="Area2D" parent="." index="1" unique_id=678687225]
+[node name="AgroBox" type="Area2D" parent="." index="2" unique_id=678687225]
 collision_layer = 8
 collision_mask = 70
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox" index="0" unique_id=1894494548]
 shape = SubResource("CircleShape2D_uivqo")
 
-[node name="Sprite2D" parent="." index="4" unique_id=828422874]
+[node name="Sprite2D" parent="." index="5" unique_id=828422874]
 texture = SubResource("AtlasTexture_ytmji")
 
 [connection signal="hull_damage_received" from="HealthComponent" to="." method="_set_aggression_to_shooter"]

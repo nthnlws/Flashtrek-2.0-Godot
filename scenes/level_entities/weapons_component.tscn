@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://wbwabixpynjx"]
+
+[ext_resource type="Script" uid="uid://6eg1y5lkdfs4" path="res://scripts/level_entities/weapons_component.gd" id="1_mfyvp"]
+
+[node name="WeaponsComponent" type="Node" unique_id=871976209 node_paths=PackedStringArray("parent_entity", "energy_component", "shield", "hitbox", "firing_position", "tractor_beam")]
+script = ExtResource("1_mfyvp")
+is_on_player = true
+parent_entity = NodePath("")
+energy_component = NodePath("")
+shield = NodePath("")
+hitbox = NodePath("")
+firing_position = NodePath("")
+tractor_beam = NodePath("")
+
+[node name="cooldown_timer" type="Timer" parent="." unique_id=321195331]
+one_shot = true
