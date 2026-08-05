@@ -1,12 +1,21 @@
-extends PlanetComponent
+extends BaseComponent
 class_name PlanetCommunicationComponent
+
+var assigned_planet_data: PlanetData
+var component_data: CommunicationComponentData
+
+func initialize(data: BaseComponentData) -> void:
+	component_data = data as CommunicationComponentData
+	var manager = get_parent()
+	if manager is PlanetComponentManager:
+		assigned_planet_data = manager.current_planet_data
 
 
 # Called by CommsUI when opening the menu. Returns the greeting/mission text.
 func request_hail(player_ship_name: String) -> String:
 	# 1. Active Mission Logic
 	if MissionManager.current_state == MissionManager.STATE.active_mission:
-		if MissionManager.active_mission.target_planet_name == planet_data.name:
+		if MissionManager.active_mission.target_planet_name == assigned_planet_data.name:
 			# We are the destination
 			return MissionGenerator.confirmation_complete_prompts.pick_random()
 		else:
@@ -39,7 +48,7 @@ func attempt_interaction(player_ship_name: String) -> String:
 
 	# B. Complete Active
 	elif (MissionManager.current_state == MissionManager.STATE.active_mission
-		and MissionManager.active_mission.target_planet_name == planet_data.name):
+		and MissionManager.active_mission.target_planet_name == assigned_planet_data.name):
 		var completed_mission: MissionData = MissionManager.active_mission
 		MissionManager.complete_mission()
 		return _format_completion_message(completed_mission, player_ship_name)
@@ -71,7 +80,7 @@ func _format_completion_message(mission: MissionData, ship_name: String) -> Stri
 	}
 	
 	# Pick thank you message based on this planet's faction
-	match planet_data.faction:
+	match assigned_planet_data.faction:
 		Utility.FACTION.FEDERATION:
 			data.random_confirm = MissionGenerator.federation_thankYou.pick_random()
 		Utility.FACTION.KLINGON:

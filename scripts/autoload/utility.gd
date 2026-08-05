@@ -30,6 +30,10 @@ var starting_ship: SHIP_TYPES = SHIP_TYPES.Hideki_Class
 enum FACTION { FEDERATION, KLINGON, ROMULAN, NEUTRAL }
 enum GAMESTATE { SYSTEM, WARPING, CUTSCENE, MAINMENU }
 enum MENUSTATE { SETTINGS, SHIPINFO, STARBASE, GALAXY, NONE }
+
+enum SystemComponentType { KILL_FACTION, ESCORT, CONTAINER, }
+enum PlanetComponentType { ANALYZE, COMMUNICATION, DELIVER }
+
 var current_gamestate: GAMESTATE = GAMESTATE.MAINMENU
 var current_menu: MENUSTATE = MENUSTATE.NONE
 var _is_quitting: bool = false

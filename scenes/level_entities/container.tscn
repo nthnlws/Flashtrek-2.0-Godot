@@ -11,7 +11,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("2_tbdv3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"federation",
 "speed": 5.0
 }, {
@@ -19,7 +19,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_3eqcd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"klingon",
 "speed": 5.0
 }, {
@@ -27,7 +27,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_3v6lj")
 }],
-"loop": true,
+"loop": 1,
 "name": &"romulan",
 "speed": 5.0
 }]

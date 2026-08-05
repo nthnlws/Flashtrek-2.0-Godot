@@ -76,6 +76,7 @@ signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES, ship_stats: Dictiona
 
 # Level Creation
 signal levelReset
+signal level_loaded(root: RootLevel)
 
 # Audio
 signal UIselectSound

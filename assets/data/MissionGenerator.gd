@@ -198,7 +198,7 @@ static func _setup_container(m: MissionData) -> void:
 	m.cargo = CARGO_TYPES.pick_random()
 	var formatted_cargo: String = Utility.color_string(Utility.UI_yellow, m.cargo)
 	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
-	m.container_target = ContainerData.create_container_data(m.cargo, m.faction_owner)
+	m.container_target = ContainerData.create_container_data(m.cargo, m.faction_owner, UUID.generate_UUID())
 	m.reward = randi_range(500, 2000)
 	m.description = "scanners detected a %s container drifting in the %s system. Retrieve it" % [
 		formatted_cargo, formatted_system

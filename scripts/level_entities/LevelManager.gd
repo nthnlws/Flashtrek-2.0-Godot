@@ -19,12 +19,13 @@ const FACTION_CHARACTER: PackedScene = preload("uid://c8tsyg40o4m7h")
 const NEUTRAL_CHARACTER: PackedScene = preload("uid://crsud8w51n07n")
 const MISSION_CHARACTER: PackedScene = preload("uid://c0vl8rhh5rl22")
 const LEVEL: PackedScene = preload("uid://bfitp1ynqfei8")
-var current_level_scene: Node
+var rootLevel: RootLevel
 var entry_coords:Vector2 # Position to spawn player after exiting warp
 
 
 func _ready() -> void:
 	SignalBus.entering_galaxy_warp.connect(update_system_data)
+	SignalBus.level_loaded.connect(func(level): rootLevel = level)
 
 
 func create_or_load_galaxy(slot:int) -> void:

@@ -1,8 +1,13 @@
-extends PlanetComponent
+extends BaseComponent
 class_name AnalyzePlanetComponent
 
 signal sequence_started
 signal sequence_finished
+
+var component_data: AnalyzeComponentData
+
+func initialize(data: BaseComponentData) -> void:
+	component_data = data as AnalyzeComponentData
 
 const MISSION_INDICATOR = preload("uid://cj1a8ynj87xoc")
 var indicator: MissionIndicator
@@ -18,13 +23,20 @@ var indicator: MissionIndicator
 @onready var tractor_beam: CinematicTractorBeam = $CinematicTractorBeam
 
 # Internal State
-var _target_player: Node2D = null
+var _target_player: Player = null
 var _is_active: bool = false
 var _orbit_start_angle: float = 0.0
 var _total_arc_angle: float = 0.0 # How far we actually travel in radians
+var parent_planet: Planet
 
 
-func _ready() -> void:
+func _on_ready_logic() -> void:
+	var current_node: Node = get_parent()
+	while current_node and not current_node is Planet:
+		current_node = current_node.get_parent()
+	
+	parent_planet = current_node as Planet
+	
 	create_analyis_point()
 
 
@@ -136,4 +148,6 @@ func _on_sequence_complete(old_state: Utility.GAMESTATE) -> void:
 		_target_player.set_physics_process(true)
 	
 	MissionManager.complete_mission()
-	
+	if component_data:
+		component_data.complete()
+

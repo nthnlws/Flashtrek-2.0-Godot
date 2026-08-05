@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://owc1q1nlv3cr" path="res://scripts/level_entities/planet.gd" id="1_u3uqc"]
 [ext_resource type="Texture2D" uid="uid://csqm03cav5a3l" path="res://assets/textures/planets/planet_sprite_sheet.png" id="2_ayfns"]
+[ext_resource type="Script" uid="uid://dtxd2gp3r4lvh" path="res://scripts/level_entities/planet_component_manager.gd" id="3_iwvp7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_st7tq"]
 radius = 2400.0
@@ -39,7 +40,8 @@ bbcode_enabled = true
 text = "PLANET"
 horizontal_alignment = 1
 
-[node name="ComponentFolder" type="Node2D" parent="." unique_id=1581020651]
+[node name="PlanetComponentManager" type="Node" parent="." unique_id=93115992]
+script = ExtResource("3_iwvp7")
 
 [connection signal="body_entered" from="CommArea" to="." method="_on_comm_area_body_entered"]
 [connection signal="body_exited" from="CommArea" to="." method="_on_comm_area_body_exited"]

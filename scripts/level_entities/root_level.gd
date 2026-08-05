@@ -1,6 +1,6 @@
 extends Node
+class_name RootLevel
 
-signal level_loaded
 signal system_data_updated(system_data: SystemData)
 
 @export_category("Level Objects")
@@ -9,22 +9,19 @@ const PLANET: PackedScene = preload("uid://cjwf6ulibdpvr")
 const STARBASE: PackedScene = preload("uid://oexei8cmm0yk")
 const PLAYER_SPAWN_AREA: PackedScene = preload("uid://bxpqhkwbma8la")
 const SUN: PackedScene = preload("uid://be1sbec7mtn51")
-const FACTION_CHARACTER: PackedScene = preload("uid://c8tsyg40o4m7h")
-const NEUTRAL_CHARACTER: PackedScene = preload("uid://crsud8w51n07n")
-const MISSION_CHARACTER: PackedScene = preload("uid://c0vl8rhh5rl22")
+@onready var FACTION_CHARACTER: PackedScene = load("res://scenes/level_entities/FactionCharacter.tscn")
+@onready var NEUTRAL_CHARACTER: PackedScene = load("res://scenes/level_entities/NeutralCharacter.tscn")
+@onready var MISSION_CHARACTER: PackedScene = load("res://scenes/level_entities/MissionCharacter.tscn")
 const PLAYER: PackedScene = preload("uid://1wnfmblulhx0")
 const upgrade_item: PackedScene = preload("uid://berjp6uasq671")
 
 @onready var pickup_folder: Node = $item_pickups
 @onready var level_folder: Node = $level_objects
 @onready var ship_folder: Node = $ship_folder
-@onready var component_folder: Node = $ComponentFolder
+@onready var system_components: Node = $SystemComponentManager
+
 
 func _ready() -> void:
-	#TODO: Remove force volume mute
-	#var MAIN_BUS_ID: int = AudioServer.get_bus_index("Master")
-	#AudioServer.set_bus_volume_db(MAIN_BUS_ID, linear_to_db(0.0))
-	
 	initialize_spawn_system()
 	_connect_signals()
 
@@ -46,24 +43,7 @@ func initialize_spawn_system() -> void:
 	change_system(spawn_system)
 	spawn_player()
 	
-	level_loaded.emit()
-
-
-func _build_components() -> void:
-	for type:SystemData.SystemComponentType in LevelManager.current_system_data.active_components.keys():
-		if LevelManager.current_system_data.component_map.has(type):
-			var component_scene: PackedScene = LevelManager.current_system_data.component_map[type]
-			var component_instance: SystemComponent = component_scene.instantiate() as SystemComponent
-			
-			# Component life cycle follows parent planet
-			component_folder.add_child(component_instance)
-			
-			# Initialize with data and planet reference
-			var mission_data:MissionData = LevelManager.current_system_data.active_components.get(type)
-			component_instance.initialize_component(LevelManager.current_system_data, mission_data)
-			
-			print("System %s: Spawned component %s" % [LevelManager.current_system_data.system_name, SystemData.SystemComponentType.keys()[type]])
-		else: printerr("No component type %s found in SystemData component_map dict" % SystemData.SystemComponentType.keys()[type])
+	SignalBus.level_loaded.emit(self)
 
 
 func spawn_player() -> void:
@@ -82,7 +62,7 @@ func change_system(new_system_data: SystemData) -> void:
 	sync_ships_to_data()
 	sync_sun_to_data()
 	
-	_build_components()
+	#TODO spawn new components
 	save_ship_data()
 	
 	#print("changing to system: %s" % new_system_data.system_name)

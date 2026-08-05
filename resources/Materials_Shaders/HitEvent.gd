@@ -11,7 +11,7 @@ var shooter_faction:Utility.FACTION
 
 #var weapon_type:WEAPON_TYPE
 #var firing_pos:Vector2
-var projectile_ID:int
+var projectile_ID:String
 var hit_position:Vector2 = Vector2(0.0, 0.0)
 var hit_hull:bool = false
 var hit_shield:bool = false

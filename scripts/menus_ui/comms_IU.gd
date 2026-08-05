@@ -69,12 +69,12 @@ func _on_open_comms_pressed() -> void:
 
 
 func _on_cargo_beam_pressed() -> void:
-	var comm_component: PlanetData.PlanetComponentType = PlanetData.PlanetComponentType.COMMUNICATION
+	var comm_component: Utility.PlanetComponentType = Utility.PlanetComponentType.COMMUNICATION
 	if not self.visible or not current_planet or not current_planet.has_component(comm_component):
 			return
 	
 	# Attempt to interact (Accept Mission or Complete Mission)
-	var response: String = current_planet.get_component(comm_component).attempt_interaction(ship_name)
+	var response: String = current_planet.attempt_interaction(ship_name)
 	
 	if not response.is_empty():
 		# Old HUD button animation toggle

@@ -10,7 +10,24 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 @export var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @export var system_index: int = 0
 @export var system_size: int = 20000
+@export var components: Array[BaseComponentData] = []
 
+func add_component(component_type: Utility.SystemComponentType, mission: MissionData) -> void:
+	if component_type == Utility.SystemComponentType.KILL_FACTION:
+		var data = KillFactionComponentData.new()
+		data.setup_data(mission.enemy_faction, system_difficulty_mult, mission.enemy_target_count)
+		components.append(data)
+	elif component_type == Utility.SystemComponentType.CONTAINER:
+		var data = ContainerComponentData.new()
+		var spawn_positions: Array[Vector2] = []
+		for i in range(randi_range(3, 5)):
+			spawn_positions.append(Utility.get_random_point_on_circle(randf_range(2000, 6000)))
+		data.setup_data(mission.cargo, mission.faction_owner, spawn_positions)
+		components.append(data)
+	elif component_type == Utility.SystemComponentType.ESCORT:
+		var data = ProtectComponentData.new()
+		data.setup_data(system_size, faction, system_difficulty_mult, 1)
+		components.append(data)
 # System contents
 @export var planet_data: Array[PlanetData]
 @export var sun_data: SunData
@@ -31,37 +48,10 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 @export var neighbor_ids: Array[int] = []
 var warp_neighbors: Array[SystemData]
 
-# Components
-enum SystemComponentType { KILL_FACTION, ESCORT, CONTAINER, }
-@export var component_map: Dictionary[SystemComponentType, PackedScene] = {
-	SystemComponentType.KILL_FACTION: preload("uid://dd0uqe0hng5gy"),
-	SystemComponentType.ESCORT: preload("uid://bx0gpi1essltr"),
-	SystemComponentType.CONTAINER: preload("uid://cgljy0cnyeb7f")
-}
-@export var active_components: Dictionary[SystemComponentType, MissionData]
-
 
 func _to_string() -> String:
 	return "--- %s system data. %s planets, %s active NPCs, %1.2f difficulty mult ---" % [self.system_name, str(planet_data.size()), str(enemy_list.size() + neutral_list.size()), system_difficulty_mult]
 
-
-func add_component(component_type: SystemComponentType, mission_data: MissionData = MissionData.new()) -> void:
-	#print("added component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
-	if component_type in active_components:
-		# Component already added to data
-		return
-	
-	active_components.set(component_type, mission_data)
-
-
-func remove_component(component_type: SystemComponentType) -> void:
-	#print("Removed component: %s to system: %s" % [SystemComponentType.keys()[component_type], system_name])
-	if component_type in active_components:
-		active_components.erase(component_type)
-
-
-func get_components() -> Dictionary[SystemComponentType, MissionData]:
-	return active_components
 
 func get_containers() -> Array[ContainerData]:
 	return mission_containers
@@ -169,16 +159,24 @@ static func get_planet_spawn_positions(PLANET_COUNT: int) -> Array:
 static func generate_planet_data(valid_spawn: Vector2, planet_name: String, faction: Utility.FACTION) -> PlanetData:
 	var new_planet_data: PlanetData = PlanetData.new()
 	
-	var random_frame: int = randi() % 220 # 220 = sprite sheet size
-	new_planet_data.name = planet_name
-	
+	var random_frame: int = randi() % 220
 	new_planet_data.name = planet_name
 	new_planet_data.frame = random_frame
 	new_planet_data.world_position = valid_spawn
 	new_planet_data.faction = faction
-	new_planet_data.add_component(PlanetData.PlanetComponentType.COMMUNICATION)
 	
-	return new_planet_data # PlanetData
+	# --- ADDING COMPONENTS DURING GENERATION ---
+	
+	# Add communication component to every planet
+	var comms_data = CommunicationComponentData.new()
+	new_planet_data.components.append(comms_data)
+	
+	# Example: Randomly add a static debris field to SOME planets
+	#if randf() > 0.7:
+		#var debris_data = DebrisComponentData.new()
+		#new_planet_data.components.append(debris_data)
+	
+	return new_planet_data
 
 
 static func generate_sun_data(PLANET_COUNT: int) -> SunData:

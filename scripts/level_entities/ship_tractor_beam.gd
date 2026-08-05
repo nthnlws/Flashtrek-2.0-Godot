@@ -28,10 +28,12 @@ func _physics_process(delta: float) -> void:
 			target_position,
 			tractor_speed * delta
 		)
-
+		
+		# Pick up container
 		if tractored_container.global_position.distance_to(target_position) < 5.0:
 			object_captured.emit(tractored_container.container_data)
 			SignalBus.containerPickedUp.emit(tractored_container)
+			tractored_container.collected.emit(tractored_container.uniqueID)
 			tractored_container.queue_free()
 			tractored_container = null
 

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://berjp6uasq671" path="res://scenes/menus_ui/upgrade_area.tscn" id="2_evqwg"]
 [ext_resource type="PackedScene" uid="uid://dess4qrmx6vve" path="res://scenes/level_entities/container.tscn" id="3_srq5d"]
 [ext_resource type="Resource" uid="uid://ccai2qie4uxf0" path="res://assets/data/mission_container.tres" id="4_dxm1t"]
+[ext_resource type="Script" uid="uid://cw1cd25fxqnld" path="res://scripts/level_entities/system_component_manager.gd" id="6_evqwg"]
 
 [node name="Level" type="Node" unique_id=941716331 groups=["current_level"]]
 process_mode = 1
@@ -27,4 +28,5 @@ upgrade_type = 5
 position = Vector2(2429, 851)
 container_data = ExtResource("4_dxm1t")
 
-[node name="ComponentFolder" type="Node" parent="." unique_id=1549498849]
+[node name="SystemComponentManager" type="Node" parent="." unique_id=1549498849]
+script = ExtResource("6_evqwg")
