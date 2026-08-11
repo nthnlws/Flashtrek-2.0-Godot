@@ -26,8 +26,12 @@ func _connect_signals() -> void:
 func open_comms() -> void:
 	if not current_planet:
 		return
-	var comms_component: PlanetCommunicationComponent = current_planet.get_node_or_null("ComponentFolder/CommunicationComponent")
-	if not comms_component:
+	
+	if not current_planet.component_manager.has_component_type(&"communication"):
+		return
+		
+	var comms_component = current_planet.component_manager.get_component_by_type(&"communication")
+	if not is_instance_valid(comms_component):
 		return
 	
 	self.visible = true
@@ -69,8 +73,7 @@ func _on_open_comms_pressed() -> void:
 
 
 func _on_cargo_beam_pressed() -> void:
-	var comm_component: Utility.PlanetComponentType = Utility.PlanetComponentType.COMMUNICATION
-	if not self.visible or not current_planet or not current_planet.has_component(comm_component):
+	if not self.visible or not current_planet or not current_planet.component_manager.has_component_type(&"communication"):
 			return
 	
 	# Attempt to interact (Accept Mission or Complete Mission)

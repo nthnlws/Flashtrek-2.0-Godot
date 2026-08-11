@@ -15,10 +15,6 @@ var player: Player
 var starbases: Array[Node2D]
 var containers: Array[ContainerPickup]
 
-const FACTION_CHARACTER: PackedScene = preload("uid://c8tsyg40o4m7h")
-const NEUTRAL_CHARACTER: PackedScene = preload("uid://crsud8w51n07n")
-const MISSION_CHARACTER: PackedScene = preload("uid://c0vl8rhh5rl22")
-const LEVEL: PackedScene = preload("uid://bfitp1ynqfei8")
 var rootLevel: RootLevel
 var entry_coords:Vector2 # Position to spawn player after exiting warp
 

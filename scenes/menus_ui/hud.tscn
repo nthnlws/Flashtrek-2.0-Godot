@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://bmtgssvplxaao" path="res://scripts/menus_ui/componentDebugView.gd" id="10_hxir5"]
 [ext_resource type="PackedScene" uid="uid://chbr28imsjgnv" path="res://scenes/menus_ui/health_indicator.tscn" id="11_sp3p0"]
 [ext_resource type="PackedScene" uid="uid://cup0hh5dv0n1n" path="res://scenes/menus_ui/energy_bar.tscn" id="12_lmyut"]
-[ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_IU.tscn" id="13_sk8fp"]
+[ext_resource type="PackedScene" uid="uid://nr3ksi6mj4h8" path="res://scenes/menus_ui/comms_UI.tscn" id="13_sk8fp"]
 
 [sub_resource type="Animation" id="Animation_lffcq"]
 resource_name = "flash_red"

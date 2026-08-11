@@ -32,6 +32,8 @@ func _handle_HUD_button_pressed(clicked_button: TextButton) -> void:
 		var signal_name: String = clicked_button.name + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
+			# Following signals emitted:
+			# ShipButton, NavButton, IntelButton, CommsButton
 			#print(str(signal_name) + " emitted")
 		else: print("%s not found in SignalBus" % signal_name)
 
