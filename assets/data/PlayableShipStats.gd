@@ -12,7 +12,7 @@ class_name PlayableShipStats
 @export var agility: float
 @export var warp_range: int
 @export var stat_ranges: Dictionary[Utility.FACTION, Dictionary]
-@export var max_energy: int
+@export var max_energy: float
 
 
 func _to_string() -> String:

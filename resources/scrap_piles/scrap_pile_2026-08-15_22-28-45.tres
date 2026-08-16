@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ScrapPileConfig" format=3 uid="uid://delgtohvxm6b8"]
+
+[ext_resource type="Script" uid="uid://wuhbpl7d50vo" path="res://resources/scrap_pile_config.gd" id="1_edvse"]
+
+[resource]
+script = ExtResource("1_edvse")
+positions = Array[Vector2]([Vector2(23.580555, 87.95375), Vector2(-67.40605, -68.470215), Vector2(24.716337, -72.51112), Vector2(-15.745425, -71.22092), Vector2(93.15906, 33.910152), Vector2(-28.812635, 41.98142), Vector2(76.67922, 60.060196), Vector2(51.31452, 63.292137), Vector2(47.64839, -87.135056), Vector2(-19.982393, 95.38393)])
+rotations = Array[float]([5.46394, 2.8426094, 1.0365714, 0.06799794, 4.257515, 5.1335177, 1.0301374, 2.149804, 4.949013, 3.1462905])
+regions = Array[Rect2]([Rect2(256, 0, 128, 128), Rect2(320, 128, 128, 64), Rect2(320, 128, 128, 64), Rect2(64, 0, 64, 64), Rect2(256, 256, 64, 64), Rect2(64, 192, 64, 64), Rect2(128, 128, 64, 64), Rect2(128, 64, 64, 64), Rect2(320, 256, 64, 64), Rect2(0, 0, 64, 64)])

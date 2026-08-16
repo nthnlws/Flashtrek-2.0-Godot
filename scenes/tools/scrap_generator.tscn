@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://mvttjtiddmk8"]
+
+[ext_resource type="Script" uid="uid://b1vmoev4jorum" path="res://scripts/tools/scrap_generator.gd" id="1_o5ft0"]
+[ext_resource type="Texture2D" uid="uid://bmybeo1pjo21w" path="res://assets/textures/system/debris_sprite_sheet.png" id="2_15i5r"]
+[ext_resource type="Resource" uid="uid://baba77nfbybk8" path="res://resources/scrap_piles/scrap_pile_2026-08-15_22-27-42.tres" id="2_tnsxh"]
+
+[node name="Node2D" type="Node2D" unique_id=1527905695]
+script = ExtResource("1_o5ft0")
+saved_pile_config = ExtResource("2_tnsxh")
+spread_radius = 100.0
+poisson_retries = 60
+large_piece_chance = 1.0
+
+[node name="@Sprite2D@25212" type="Sprite2D" parent="." unique_id=1211225593]
+position = Vector2(-22.778072, 45.903923)
+rotation = 1.4699056
+texture = ExtResource("2_15i5r")
+region_enabled = true
+region_rect = Rect2(192, 128, 64, 64)
+
+[node name="@Sprite2D@25213" type="Sprite2D" parent="." unique_id=563443818]
+position = Vector2(16.973852, -9.801561)
+rotation = 4.616926
+texture = ExtResource("2_15i5r")
+region_enabled = true
+region_rect = Rect2(192, 128, 64, 64)
+
+[node name="@Sprite2D@25214" type="Sprite2D" parent="." unique_id=206430077]
+position = Vector2(-57.18044, -12.786613)
+rotation = 0.006806305
+texture = ExtResource("2_15i5r")
+region_enabled = true
+region_rect = Rect2(128, 64, 64, 64)
+
+[node name="@Sprite2D@25215" type="Sprite2D" parent="." unique_id=473486292]
+position = Vector2(-34.3994, -34.172733)
+rotation = 0.70894426
+texture = ExtResource("2_15i5r")
+region_enabled = true
+region_rect = Rect2(128, 64, 64, 64)
+
+[node name="@Sprite2D@25216" type="Sprite2D" parent="." unique_id=792288725]
+position = Vector2(41.88768, 36.097687)
+rotation = 2.1241899
+texture = ExtResource("2_15i5r")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 64)

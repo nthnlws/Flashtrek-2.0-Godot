@@ -6,27 +6,33 @@ signal max_energy_changed(max: float)
 signal energy_depleted
 
 @export var base_max_energy: float = 150.0
-@export var max_energy: float = 150.0:
-	set(value):
-		max_energy = max(0.0, value)
-		max_energy_changed.emit(max_energy)
-		# Ensure current energy doesn't exceed new max
-		if current_energy > max_energy:
-			current_energy = max_energy
+@export var max_energy: float = 150.0
 
-var current_energy: float = 0.0:
-	set(value):
-		var old_value: float = current_energy
-		current_energy = clamp(value, 0.0, max_energy)
-		
-		if current_energy != old_value:
-			energy_changed.emit(current_energy)
-		
-		if current_energy <= 0.0 and old_value > 0.0:
-			energy_depleted.emit()
-
-
+var current_energy: float = 0.0
 var is_regen_locked: bool = false
+
+
+func resetEnergyToMax() -> void:
+	setCurrentEnergy(base_max_energy)
+
+
+func setCurrentEnergy(new_current:float):
+	var old_value: float = current_energy
+	current_energy = clamp(new_current, 0.0, max_energy)
+	
+	if current_energy != old_value:
+		energy_changed.emit(current_energy)
+	
+	if current_energy <= 0.0 and old_value > 0.0:
+		energy_depleted.emit()
+
+func setMaxEnergy(new_max:float):
+	max_energy = max(0.0, new_max)
+	max_energy_changed.emit(max_energy)
+	# Ensure current energy doesn't exceed new max
+	if current_energy > max_energy:
+		current_energy = max_energy
+
 
 func _ready() -> void:
 	current_energy = max_energy

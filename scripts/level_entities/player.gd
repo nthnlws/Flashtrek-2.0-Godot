@@ -71,7 +71,7 @@ func _ready() -> void:
 	_connect_signals()
 	_sync_stats_to_resource(LevelManager.galaxy_data.player_ship_type)
 	
-	energy.max_energy = energy.max_energy * stats.EnergyCapacityMult
+	energy.setMaxEnergy(energy.max_energy * stats.EnergyCapacityMult)
 	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
 	energy.energy_changed.connect(func(val): SignalBus.playerEnergyChanged.emit(val))
 	
@@ -116,8 +116,8 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	health_component.hp_current = health_component.HP_max
 	health_component.SP_max  = new_stats.max_shield     if new_stats else ship_data.MAX_SHIELD
 	health_component.sp_current = health_component.SP_max
-	energy.max_energy        = new_stats.max_energy     if new_stats else energy.base_max_energy
-	energy.current_energy    = new_stats.max_energy     if new_stats else energy.base_max_energy
+	energy.setMaxEnergy(new_stats.max_energy if new_stats else energy.base_max_energy)
+	energy.setCurrentEnergy(new_stats.max_energy if new_stats else energy.base_max_energy)
 	weapons_component.damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
 	base_cargo_capacity      = ship_data.get("CARGO_SIZE", 1)
 	faction                  = new_stats.faction        if new_stats else ship_data.FACTION
@@ -313,7 +313,7 @@ func killPlayer(hit_event: HitEvent) -> void:
 		overdrive_state_change(0.0) # Instant state change
 	
 	#Kill player stats
-	energy.current_energy = 0.0
+	energy.setCurrentEnergy(0.0)
 	
 	await get_tree().create_timer(1.5).timeout
 	SignalBus.playerDied.emit()
@@ -330,7 +330,7 @@ func respawn() -> void:
 		# Restores all HUD values to max
 		health_component.hp_current = health_component.HP_max # Resets HP to max
 		health_component.sp_current = health_component.SP_max # Resets Shield
-		energy.current_energy = energy.max_energy # Resets energy
+		energy.resetEnergyToMax() # Resets energy
 		
 		rotation = deg_to_rad(-90.0) # Sets rotation to up
 		
