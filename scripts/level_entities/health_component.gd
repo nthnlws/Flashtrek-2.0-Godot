@@ -1,12 +1,12 @@
 extends Node
 class_name HealthComponent
 
-var stats: PlayerUpgrades = PlayerUpgrades.new()
 var ship_stats:Dictionary = Utility.SHIP_DATA[LevelManager.galaxy_data.player_ship_type]
 
+@export var parent: Node
 @export var shield: Shield
 @export var hull_component: HullDamageReceiver
-@onready var is_on_player:bool = get_parent() is Player
+@export var is_on_player:bool = false
 var alive:bool = true
 
 signal ship_died(last_hit_event:HitEvent)
@@ -17,27 +17,34 @@ signal hull_damage_received
 signal shield_damage_received(shooter:Node)
 
 #region HP Variables
-@export var HP_max: float = 150:
-	set(value):
-		HP_max = value
-		if hp_current > get_max_HP(HP_max): # Reduce current HP if max reduced
-			hp_current = value
-		if is_on_player:
-			SignalBus.playerMaxHealthChanged.emit(get_max_HP(HP_max))
-	get:
-		return get_max_HP(HP_max)
-func get_max_HP(new_value:float) -> float:
-	if stats:
-		return new_value * stats.HullMult
-	else:
-		return new_value
+@export var HP_max: float = 150
+var HP_current:float = HP_max
 
-var hp_current:float = HP_max:
-	set(value):
-		if hp_current == value: return
-		hp_current = clamp(value, 0, HP_max)
-		if is_on_player:
-			SignalBus.playerHealthChanged.emit(hp_current)
+func resetHealthToMax() -> void:
+	setCurrentHP(getMaxHP())
+
+func getMaxHP() -> float:
+	if parent:
+		return HP_max * parent.stats.HullMult
+	else:
+		return HP_max
+
+func getCurrentHP() -> float:
+	return HP_current
+
+func setMaxHP(new_max: float) -> void:
+	HP_max = new_max
+	if HP_current > HP_max: # Reduce current HP if max reduced
+		setCurrentHP(new_max)
+	if is_on_player:
+		SignalBus.playerMaxHealthChanged.emit(HP_max)
+
+func setCurrentHP(new_HP: float) -> void:
+	# No need to update current if already at max
+	if SP_current == new_HP: return
+	HP_current = clamp(new_HP, 0, HP_max)
+	if is_on_player:
+		SignalBus.playerHealthChanged.emit(HP_current)
 #endregion
 
 
@@ -46,7 +53,7 @@ var continuous_damage_accumulator: float = 0.0
 const HITMARKER_DAMAGE_THRESHOLD: float = 10.0
 func take_hull_damage(hit_event: HitEvent):
 	hull_damage_received.emit(hit_event.get_shooter_node())
-	hp_current -= hit_event.damage_amount
+	HP_current -= hit_event.damage_amount
 	
 	if hit_event.is_continuous_damage:
 		# --- Laser Logic ---
@@ -60,9 +67,9 @@ func take_hull_damage(hit_event: HitEvent):
 		# --- Torpedo / Instant Damage Logic ---
 		Hitmarker.createDamageHitmarker(hit_event.damage_amount, hit_event.hit_position, Hitmarker.TargetType.SELF)
 	
-	if hp_current <= 0 and alive:
-		hp_current = 0
-		sp_current = 0
+	if HP_current <= 0 and alive:
+		HP_current = 0
+		SP_current = 0
 		alive = false
 		regenTimeout = true
 		ship_died.emit(hit_event)
@@ -76,7 +83,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if sp_current < SP_max and regenTimeout == false:
+	if SP_current < SP_max and regenTimeout == false:
 		regen_shield(delta)
 	if is_on_player:
 		if get_parent().overdrive_active == true and shield.shieldActive == true:
@@ -86,27 +93,46 @@ func _process(delta: float) -> void:
 
 func initialize_hud() -> void:
 	SignalBus.playerMaxShieldChanged.emit(SP_max)
-	SignalBus.playerShieldChanged.emit(sp_current)
-
+	SignalBus.playerShieldChanged.emit(SP_current)
 
 
 #region Shield Functions
 var regenTimeout:bool = false # Timeout
 var regen_speed:float = 2.5
 
-var SP_max:int = 50:
-	set(value):
-		SP_max = set_shield_max(value)
-var sp_current:float = SP_max:
-	set(value): 
-		if sp_current == value: return
-		sp_current = set_shield_value(value)
+var SP_max:int = 50
+var SP_current:float = SP_max
+
+func resetShieldToMax() -> void:
+	setCurrentSP(getMaxShield())
+
+func setCurrentSP(new_current:float) -> void:
+	if is_on_player:
+		SignalBus.playerShieldChanged.emit(new_current)
+	SP_current = clamp(new_current, 0.0, SP_max)
+
+func setMaxSP(new_max:float) -> void:
+	# Emit signals and check against stats if on player
+	if is_on_player:
+		SignalBus.playerMaxShieldChanged.emit(new_max)
+		SP_max = new_max * parent.stats.ShieldMult
+	else:
+		SP_max = new_max
+
+func getMaxShield() -> float:
+	if is_on_player:
+		return SP_max * parent.stats.ShieldMult
+	else:
+		return SP_max
+
+func getCurrentSP() -> float:
+	return SP_current
 
 
 func take_shield_damage(hit_event:HitEvent) -> void:
 	activate_regeneration_timeout()
 	shield_damage_received.emit(hit_event.get_shooter_node())
-	sp_current -= hit_event.damage_amount
+	SP_current -= hit_event.damage_amount
 	
 	if hit_event.is_continuous_damage:
 		# --- Laser Logic ---
@@ -120,28 +146,15 @@ func take_shield_damage(hit_event:HitEvent) -> void:
 		# --- Torpedo / Instant Damage Logic ---
 		Hitmarker.createDamageHitmarker(hit_event.damage_amount, hit_event.hit_position, Hitmarker.TargetType.SHIELD)
 	
-	if sp_current <= 0:
+	if SP_current <= 0:
 		shield_off.emit()
 		if is_on_player:
 			SignalBus.playerShieldOff.emit()
 		activate_regeneration_timeout()
 
 
-func set_shield_value(value:float) -> float:
-	if is_on_player:
-		SignalBus.playerShieldChanged.emit(value)
-	return clamp(value, 0.0, SP_max)
-
-
-func set_shield_max(value:float) -> float:
-	if is_on_player:
-		SignalBus.playerMaxShieldChanged.emit(value)
-		value = value * stats.ShieldMult
-	return value
-
-
 func regen_shield(delta: float) -> void:
-	sp_current += regen_speed * delta
+	SP_current += regen_speed * delta
 
 
 var active_timers:Array[Timer] = []

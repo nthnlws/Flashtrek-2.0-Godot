@@ -105,6 +105,7 @@ func _cache_faction_ranges() -> void:
 	_faction_stat_ranges[Utility.FACTION.KLINGON]    = Scaling.get_faction_stat_range(klingon_unlocks,    Utility.FACTION.KLINGON)
 	_faction_stat_ranges[Utility.FACTION.ROMULAN]    = Scaling.get_faction_stat_range(romulan_unlocks,    Utility.FACTION.ROMULAN)
 	_faction_stat_ranges[Utility.FACTION.NEUTRAL]    = Scaling.get_faction_stat_range(neutral_unlocks,    Utility.FACTION.NEUTRAL)
+	print(_faction_stat_ranges[Utility.FACTION.NEUTRAL])
 
 
 func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scale: float, energy_scale: float, index:int, stat_ranges:Dictionary[Utility.FACTION, Dictionary]) -> void:

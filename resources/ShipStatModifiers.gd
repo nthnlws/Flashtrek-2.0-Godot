@@ -1,5 +1,5 @@
 extends Resource
-class_name PlayerUpgrades
+class_name ShipStatModifiers
 
 @export_group("Weapon Stats")
 @export var DamageMult: float = 1

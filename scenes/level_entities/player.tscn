@@ -594,9 +594,11 @@ hitbox = NodePath("../hitbox_area")
 firing_position = NodePath("../FiringPosition")
 tractor_beam = NodePath("../FiringPosition/TractorBeam")
 
-[node name="HealthComponent" parent="." unique_id=341020749 node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("4_7pmes")]
+[node name="HealthComponent" parent="." unique_id=341020749 node_paths=PackedStringArray("parent", "shield", "hull_component") instance=ExtResource("4_7pmes")]
+parent = NodePath("..")
 shield = NodePath("../Shield")
 hull_component = NodePath("../hitbox_area")
+is_on_player = true
 
 [node name="DamageHandlerComponent" parent="." unique_id=965277636 node_paths=PackedStringArray("shield", "hull", "health_component") instance=ExtResource("5_vaax2")]
 shield = NodePath("../Shield")

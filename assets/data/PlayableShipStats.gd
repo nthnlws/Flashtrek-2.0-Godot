@@ -1,18 +1,18 @@
 extends Resource
 class_name PlayableShipStats
 
-@export var faction: Utility.FACTION
-@export var ship_name: String
-@export var archetype: Scaling.ARCHETYPE
-@export var trait_type: Scaling.SHIP_TRAIT
-@export var damage_mult: float
-@export var max_hp: float
-@export var max_shield: float
-@export var speed: float
-@export var agility: float
-@export var warp_range: int
+@export var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
+@export var ship_name: String = "PlayerShip"
+@export var archetype: Scaling.ARCHETYPE = Scaling.ARCHETYPE.NONE
+@export var trait_type: Scaling.SHIP_TRAIT = Scaling.SHIP_TRAIT.NONE
+@export var damage_mult: float = 1.0
+@export var max_hp: float = 100.0
+@export var max_shield: float = 50.0
+@export var speed: float = 750.0
+@export var agility: float = 150.0
+@export var warp_range: int = 3
 @export var stat_ranges: Dictionary[Utility.FACTION, Dictionary]
-@export var max_energy: float
+@export var max_energy: float = 100.0
 
 
 func _to_string() -> String:

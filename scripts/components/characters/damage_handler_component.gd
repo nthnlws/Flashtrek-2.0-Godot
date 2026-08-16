@@ -37,12 +37,11 @@ func handle_frame_hits() -> void:
 	# Loop 2: Process Hull Hits
 	for event: HitEvent in frame_hit_events:
 		if event.hit_hull:
-			# Check if the projectile that caused this hull hit was already handled by the shield
+			# Check if the projectile was already handled by shield
 			if handled_projectiles.has(event.projectile_ID):
-				continue # Skip, shield took the hit.
+				continue # Skip, shield already took the hit.
 
 			health_component.take_hull_damage(event)
 	
 	frame_hit_events.clear()
 	_is_processing_scheduled = false
-#endregion

@@ -8,7 +8,7 @@ signal to_overdrive_transition
 # --- Components ---
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
-@onready var stats: PlayerUpgrades = PlayerUpgrades.new()
+@onready var stats: ShipStatModifiers = ShipStatModifiers.new()
 @onready var weapons_component: WeaponsComponent = $WeaponsComponent
 
 # --- Node References ---
@@ -112,10 +112,10 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	# Use PlayableShipStats if provided, otherwise use default ship_data
 	base_max_speed           = new_stats.speed          if new_stats else ship_data.SPEED
 	base_agility             = new_stats.agility        if new_stats else ship_data.AGILITY
-	health_component.HP_max  = new_stats.max_hp         if new_stats else ship_data.MAX_HP
-	health_component.hp_current = health_component.HP_max
-	health_component.SP_max  = new_stats.max_shield     if new_stats else ship_data.MAX_SHIELD
-	health_component.sp_current = health_component.SP_max
+	health_component.setMaxHP(new_stats.max_hp if new_stats else ship_data.MAX_HP)
+	health_component.setCurrentHP(health_component.HP_max)
+	health_component.setMaxSP(new_stats.max_shield if new_stats else ship_data.MAX_SHIELD)
+	health_component.setCurrentSP(health_component.SP_max)
 	energy.setMaxEnergy(new_stats.max_energy if new_stats else energy.base_max_energy)
 	energy.setCurrentEnergy(new_stats.max_energy if new_stats else energy.base_max_energy)
 	weapons_component.damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
@@ -328,8 +328,8 @@ func respawn() -> void:
 		self.visible = true
 		
 		# Restores all HUD values to max
-		health_component.hp_current = health_component.HP_max # Resets HP to max
-		health_component.sp_current = health_component.SP_max # Resets Shield
+		health_component.resetHealthToMax()
+		health_component.resetShieldToMax()
 		energy.resetEnergyToMax() # Resets energy
 		
 		rotation = deg_to_rad(-90.0) # Sets rotation to up

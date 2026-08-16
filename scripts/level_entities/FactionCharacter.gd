@@ -12,9 +12,6 @@ var accuracy_cone_angle: float = 3.0 # Degrees
 const VALID_FIRING_ANGLE: float = 30.0
 var difficulty_multiplier: float = 1.0
 
-@export var torpedo: PackedScene
-
-
 var enemyAgro: bool = false
 var shoot_cd: bool = false
 var enemy_target: Node2D = null # Typed as Node2D for transform access

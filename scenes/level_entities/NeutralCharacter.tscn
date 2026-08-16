@@ -453,7 +453,8 @@ scale = Vector2(2.475, 2.475)
 collision_layer = 4
 script = ExtResource("1_scpag")
 
-[node name="HealthComponent" parent="." unique_id=2119456622 node_paths=PackedStringArray("shield", "hull_component") instance=ExtResource("2_a5e8g")]
+[node name="HealthComponent" parent="." unique_id=2119456622 node_paths=PackedStringArray("parent", "shield", "hull_component") instance=ExtResource("2_a5e8g")]
+parent = NodePath("..")
 shield = NodePath("../Shield")
 hull_component = NodePath("../hitbox_area")
 

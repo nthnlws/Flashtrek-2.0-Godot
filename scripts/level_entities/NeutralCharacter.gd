@@ -13,6 +13,7 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @onready var sprite_animation: AnimationPlayer = $Sprite2D/SpriteAnimation
 @onready var health_component: HealthComponent = $HealthComponent
 
+@onready var stats = ShipStatModifiers.new()
 
 # Variables for handling dynamic behavior
 var move_speed: int = 60
@@ -72,8 +73,8 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	
 	move_speed = ship_data.SPEED
 	agility_rate = ship_data.AGILITY
-	health_component.HP_max = ship_data.MAX_HP
-	health_component.SP_max = ship_data.MAX_SHIELD
+	health_component.setMaxHP(ship_data.MAX_HP)
+	health_component.setMaxSP(ship_data.MAX_SHIELD)
 
 
 func center_polygon(points: Array) -> PackedVector2Array:

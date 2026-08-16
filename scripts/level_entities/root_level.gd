@@ -102,10 +102,10 @@ func instantiate_neutral_ship(ship_data: NeutralShipData) -> NeutralCharacter:
 	var new_neutral: NeutralCharacter = NEUTRAL_CHARACTER.instantiate()
 	new_neutral.add_to_group("neutral_ships")
 	
-	new_neutral.get_node("HealthComponent").hp_current = ship_data.current_hp
+	new_neutral.get_node("HealthComponent").HP_current = ship_data.current_hp
 	new_neutral.get_node("HealthComponent").HP_max = ship_data.HP_max
 	new_neutral.get_node("HealthComponent").SP_max = ship_data.SP_max
-	new_neutral.get_node("HealthComponent").sp_current = ship_data.current_sp
+	new_neutral.get_node("HealthComponent").SP_current = ship_data.current_sp
 	
 	new_neutral.global_position = ship_data.world_position
 	new_neutral.get_node("Shield").shieldActive = ship_data.shield_state
@@ -119,10 +119,10 @@ func instantiate_faction_ship(ship_data: FactionShipData) -> FactionCharacter:
 	var new_faction: FactionCharacter = FACTION_CHARACTER.instantiate()
 	new_faction.add_to_group("faction_ships")
 	
-	new_faction.get_node("HealthComponent").hp_current = ship_data.current_hp
+	new_faction.get_node("HealthComponent").HP_current = ship_data.current_hp
 	new_faction.get_node("HealthComponent").HP_max = ship_data.HP_max
 	new_faction.get_node("HealthComponent").SP_max = ship_data.SP_max
-	new_faction.get_node("HealthComponent").sp_current = ship_data.current_sp
+	new_faction.get_node("HealthComponent").SP_current = ship_data.current_sp
 
 	new_faction.global_position = ship_data.world_position
 	new_faction.get_node("Shield").shieldActive = ship_data.shield_state
@@ -154,10 +154,10 @@ func sync_ships_to_data() -> void:
 		var data: NeutralShipData = LevelManager.current_system_data.neutral_list[i]
 		var ship: NeutralCharacter = LevelManager.neutralShips[i]
 		ship.global_position = data.world_position
-		ship.health_component.hp_current = data.current_hp
-		ship.health_component.sp_current = data.current_sp
-		ship.health_component.SP_max = data.SP_max
-		ship.health_component.HP_max = data.HP_max
+		ship.health_component.setCurrentHP(data.current_hp)
+		ship.health_component.setCurrentSP(data.current_sp)
+		ship.health_component.setMaxSP(data.SP_max)
+		ship.health_component.setMaxHP(data.HP_max)
 		ship.shield.shieldActive = data.shield_state
 		ship.ship_index = data.ship_index
 	
@@ -166,10 +166,10 @@ func sync_ships_to_data() -> void:
 		var data: FactionShipData = LevelManager.current_system_data.enemy_list[i]
 		var ship: FactionCharacter = LevelManager.factionShips[i]
 		ship.global_position = data.world_position
-		ship.health_component.hp_current = data.current_hp
-		ship.health_component.sp_current = data.current_sp
-		ship.health_component.SP_max = data.SP_max
-		ship.health_component.HP_max = data.HP_max
+		ship.health_component.setCurrentHP(data.current_hp)
+		ship.health_component.setCurrentSP(data.current_sp)
+		ship.health_component.setMaxSP(data.SP_max)
+		ship.health_component.setMaxHP(data.HP_max)
 		ship.shield.shieldActive = data.shield_state
 		ship.ship_index = data.ship_index
 
@@ -192,8 +192,8 @@ func save_ship_data() -> void:
 		var data: NeutralShipData = neutral_data[i]
 		
 		data.world_position = ship.global_position
-		data.current_hp = ship.health_component.hp_current
-		data.current_sp = ship.health_component.sp_current
+		data.current_hp = ship.health_component.getCurrentHP()
+		data.current_sp = ship.health_component.getCurrentSP()
 		data.shield_state = ship.shield.shieldActive
 		
 	for i: int in range(LevelManager.factionShips.size()):
@@ -201,8 +201,8 @@ func save_ship_data() -> void:
 		var data: FactionShipData = enemy_data[i]
 		
 		data.world_position = ship.global_position
-		data.current_hp = ship.health_component.hp_current
-		data.current_sp = ship.health_component.sp_current
+		data.current_hp = ship.health_component.getCurrentHP()
+		data.current_sp = ship.health_component.getCurrentSP()
 		data.shield_state = ship.shield.shieldActive
 		
 	system_data_updated.emit(LevelManager.current_system_data)
