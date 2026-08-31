@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://bsuyns6ta0huo"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_hj7dt"]
+
+[resource]
+script = ExtResource("1_hj7dt")
+ship_type = 24
+faction = 0
+ship_name = "Sagan_Class"
+archetype = 2
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(48, 0)
+collision_polygon = "[[-1.0, 21.0], [-2.0, 19.0], [-2.0, 17.0], [-8.0, 14.0], [-8.0, 13.0], [-22.0, 13.0], [-48.0, 13.0], [-47.0, 17.0], [-32.0, 17.0], [-32.0, 29.0], [-32.0, 30.0], [-48.0, 32.0], [-48.0, 34.0], [-17.0, 34.0], [-17.0, 35.0], [-6.0, 32.0], [-4.0, 32.0], [-0.0, 21.0]]"
+shield_scale = Vector2(0.5952, 0)
+warp_range = 1
+base_energy = 150.0

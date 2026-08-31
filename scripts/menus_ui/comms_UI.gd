@@ -1,10 +1,22 @@
 extends Control
 
-@onready var comms_message: RichTextLabel = $Comms_message
-@onready var close_button: TextButton = $CloseButton
+@onready var comms_message: RichTextLabel = $CommsMessage
+@onready var interact_button: TextButton = $InteractButton
+
+const ACCEPT_STRING: String = "ACCEPT
+            MISSION"
+const CLOSE_STRING: String = "CLOSE
+            COMMS"
+enum STATE { PENDING, ERROR, ACCEPTED }
+var current_state: STATE = STATE.PENDING
+
+signal mission_accepted
+signal mission_rerolled
+
 
 var ship_name: String
 var current_planet: Planet
+
 
 func _ready() -> void:
 	ship_name = Utility.player_name
@@ -13,15 +25,10 @@ func _ready() -> void:
 
 
 func _connect_signals() -> void:
-	# --- UI & PLAYER SIGNALS ---
-	SignalBus.enteredPlanetComm.connect(_on_enter_comms_range)
-	SignalBus.exitedPlanetComm.connect(_on_exit_comms)
-	#SignalBus.TopRight_clicked.connect(_on_cargo_beam_pressed)
 	SignalBus.CommsButton_clicked.connect(_on_open_comms_pressed)
 	SignalBus.entering_galaxy_warp.connect(close_comms)
 
 
-#region Player Comms
 # --- UI VISIBILITY AND STATE ---
 func open_comms() -> void:
 	if not current_planet:
@@ -40,7 +47,7 @@ func open_comms() -> void:
 	
 	# 1. Get the formatted text from the planet
 	var message: String = comms_component.request_hail(ship_name)
-	update_comms_message(message)
+	updateMessage(message)
 	
 	# 2. Check resulting state to toggle UI elements
 	# If the planet just generated a pending mission, we need the "Beam/Accept" button to pulse
@@ -50,9 +57,10 @@ func open_comms() -> void:
 
 func close_comms() -> void:
 	visible = false
-	if close_button:
-		close_button.pressed = false
-		close_button._update_color()
+	if interact_button:
+		interact_button.pressed = false
+		interact_button._update_color()
+
 
 # --- BUTTON PRESS HANDLERS ---
 func _on_reroll_pressed() -> void:
@@ -63,16 +71,11 @@ func _on_reroll_pressed() -> void:
 		open_comms()
 
 
-func _on_close_ui_pressed() -> void:
-	AudioManager.play_UI_click_sound()
-	close_comms()
-
-
 func _on_open_comms_pressed() -> void:
 	open_comms()
 
 
-func _on_cargo_beam_pressed() -> void:
+func _on_mission_accepted() -> void:
 	if not self.visible or not current_planet or not current_planet.component_manager.has_component_type(&"communication"):
 			return
 	
@@ -80,13 +83,11 @@ func _on_cargo_beam_pressed() -> void:
 	var response: String = current_planet.attempt_interaction(ship_name)
 	
 	if not response.is_empty():
-		# Old HUD button animation toggle
-		#SignalBus.toggleQ2HUD.emit("off") # Turn off beam pulse
-		update_comms_message(response)
+		updateMessage(response)
+
 
 # --- UTILITY ---
-
-func update_comms_message(message: String) -> void:
+func updateMessage(message: String) -> void:
 	comms_message.text = message
 
 func _on_enter_comms_range(planet_node: Node2D) -> void:
@@ -97,4 +98,11 @@ func _on_exit_comms(_planet: Node2D) -> void:
 	current_planet = null
 	close_comms()
 
-#endregion
+
+func update_state(new_state: STATE) -> void:
+	if new_state == STATE.PENDING:
+		interact_button.text = ACCEPT_STRING
+	elif new_state == STATE.ERROR:
+		interact_button.text = CLOSE_STRING
+	elif new_state == STATE.ACCEPTED:
+		interact_button.text = CLOSE_STRING

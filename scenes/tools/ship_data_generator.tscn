@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bggbj0wliniyp"]
+
+[ext_resource type="Script" uid="uid://dcf4jvpti5u4j" path="res://scripts/tools/ship_data_generator.gd" id="1_7revu"]
+
+[node name="ShipDataGenerator" type="Node" unique_id=2006614293]
+script = ExtResource("1_7revu")

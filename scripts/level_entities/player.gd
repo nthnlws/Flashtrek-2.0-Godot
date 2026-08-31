@@ -36,29 +36,7 @@ var current_cargo: int = 0
 var current_tweens: Array[Tween] 
 var current_enemy_list: Array[FactionCharacter]
 
-# --- Getters for Stat Application ---
-var base_agility: float = 150.0
-var base_max_speed: float = 750.0
-var base_acceleration: float = 500
-var base_warp_range: int = 20
-var base_cargo_capacity: int = 1
-
-var max_speed: float:
-	get: return base_max_speed * stats.SpeedMult
-var agility: float:
-	get: return base_agility * stats.AgilityMult
-var acceleration: float:
-	get: return base_acceleration * stats.AccelMult
-var warp_range: int:
-	get: return base_warp_range + stats.WarpRangeAdd
-var cargo_capacity: int:
-	get: return base_cargo_capacity + stats.CargoCapacityAdd
-var ship_damage_multiplier: float = 1.0
-
-# Cargo upgrade variables
-@export var base_cargo_size: int = 1:
-	get:
-		return base_cargo_size + stats.CargoCapacityAdd
+var ship_stats: ShipState
 
 func set_player_direction(joystick_direction) -> void:
 	direction = joystick_direction
@@ -69,7 +47,7 @@ func _ready() -> void:
 	$warp_anim.z_index = Utility.Z["Effects"]
 	
 	_connect_signals()
-	_sync_stats_to_resource(LevelManager.galaxy_data.player_ship_type)
+	sync_ship_to_data(ship_stats)
 	
 	energy.setMaxEnergy(energy.max_energy * stats.EnergyCapacityMult)
 	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
@@ -83,7 +61,7 @@ func _ready() -> void:
 
 func _connect_signals() -> void:
 	SignalBus.teleport_player.connect(teleport)
-	SignalBus.player_type_changed.connect(_sync_stats_to_resource)
+	SignalBus.player_type_changed.connect(sync_ship_to_data)
 	MissionManager.mission_started.connect(_handle_mission_pickup)
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
@@ -92,15 +70,14 @@ func _connect_signals() -> void:
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
 
 
-func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipStats = null) -> void:
-	var ship_data: Dictionary = Utility.SHIP_DATA[ship]
-
+func sync_ship_to_data(ship_stats: ShipState) -> void:
+	var ship_info: BaseShipInfo = Utility.get_ship_stats(ship_stats.ship_type)
 	# Sprite / collision setup
-	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	shield.scale = Vector2(float(ship_data.SHIELD_SCALE_X), float(ship_data.SHIELD_SCALE_Y)) * base_scale
-	weapons_component.firing_position.position.y = ship_data.MUZZLE_POS * base_scale.y
+	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
+	shield.scale =  ship_info.shield_scale * base_scale
+	weapons_component.firing_position.position.y = ship_info.muzzle_pos * base_scale.y
 
-	var rawColl = ship_data.COLLISION_POLY
+	var rawColl = ship_info.collision_polygon
 	var parsed_array = JSON.parse_string(rawColl)
 	var PV2Array = PackedVector2Array()
 	for pair in parsed_array:
@@ -109,18 +86,15 @@ func _sync_stats_to_resource(ship: Utility.SHIP_TYPES, new_stats: PlayableShipSt
 	$hitbox_area/CollisionPolygon2D.polygon = PV2Array
 	$WorldCollisionShape.polygon = PV2Array
 
-	# Use PlayableShipStats if provided, otherwise use default ship_data
-	base_max_speed           = new_stats.speed          if new_stats else ship_data.SPEED
-	base_agility             = new_stats.agility        if new_stats else ship_data.AGILITY
-	health_component.setMaxHP(new_stats.max_hp if new_stats else ship_data.MAX_HP)
+	# Use BaseShipInfo if provided, otherwise use default ship_data
+	health_component.setMaxHP(ship_stats.scaled_max_HP)
 	health_component.setCurrentHP(health_component.HP_max)
-	health_component.setMaxSP(new_stats.max_shield if new_stats else ship_data.MAX_SHIELD)
+	health_component.setMaxSP(ship_stats.scaled_max_shield)
 	health_component.setCurrentSP(health_component.SP_max)
-	energy.setMaxEnergy(new_stats.max_energy if new_stats else energy.base_max_energy)
-	energy.setCurrentEnergy(new_stats.max_energy if new_stats else energy.base_max_energy)
-	weapons_component.damage_multiplier   = new_stats.damage_mult    if new_stats else ship_data.get("DAMAGE_MULTIPLIER", 1.0)
-	base_cargo_capacity      = ship_data.get("CARGO_SIZE", 1)
-	faction                  = new_stats.faction        if new_stats else ship_data.FACTION
+	energy.setMaxEnergy(ship_stats.scaled_energy)
+	energy.setCurrentEnergy(ship_stats.scaled_energy)
+	weapons_component.damage_multiplier = ship_stats.scaled_damage_mult
+	faction = ship_info.faction
 
 	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 	SignalBus.playerHealthChanged.emit(health_component.HP_max)
@@ -214,26 +188,31 @@ func _physics_process(delta: float) -> void:
 
 func _handle_movement(delta: float) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
-		if OS.get_name() == "Windows":
-			direction.x = Input.get_axis("move_backward", "move_forward")
-
-		if direction.x > 0: # Acceleration
-			velocity += Vector2(direction.x, 0).rotated(rotation) * acceleration * delta / overdrivem_v
-			velocity = velocity.limit_length(max_speed / overdrivem_v)
-		elif direction.x < 0: # Deceleration
-			velocity += Vector2(-1, 0).rotated(rotation) * acceleration * delta / overdrivem_v
-			velocity = velocity.limit_length(max_speed / overdrivem_v)
-		else: # Natural deceleration when no input
-			velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.25)
-			
-		if direction.y != 0:
-			rotate(deg_to_rad(direction.y * agility * delta * overdrivem_v))
+		var thrust: float = 0.0
 		
 		if OS.get_name() == "Windows":
+			thrust = Input.get_axis("move_backward", "move_forward")
+			
+		# Apply unified physics
+		apply_thrust(thrust, delta)
+		
+		# Rotation logic remains exactly the same
+		if direction.y != 0:
+			rotate(deg_to_rad(direction.y * ship_stats.scaled_agility * delta * overdrivem_v))
+			
+		if OS.get_name() == "Windows":
 			if Input.is_action_pressed("rotate_right"):
-				rotate(deg_to_rad(agility * delta * overdrivem_r))
+				rotate(deg_to_rad(ship_stats.scaled_agility * delta * overdrivem_r))
 			if Input.is_action_pressed("rotate_left"):
-				rotate(deg_to_rad(-agility * delta * overdrivem_r))
+				rotate(deg_to_rad(-ship_stats.scaled_agility * delta * overdrivem_r))
+
+func apply_thrust(thrust: float, delta: float, speed_mult: float = 1.0) -> void:
+	if thrust != 0.0:
+		velocity += transform.x * thrust * ship_stats.scaled_acceleration * delta / overdrivem_v
+		velocity = velocity.limit_length((ship_stats.scaled_speed * speed_mult) / overdrivem_v)
+	else:
+		# Natural deceleration when no thrust is applied
+		velocity = velocity.move_toward(Vector2.ZERO, ship_stats.scaled_acceleration * delta * 0.25)
 
 
 func overdrive_state_change(transition_length:float) -> void: # Reverses overdrive state
@@ -393,7 +372,7 @@ func trigger_warp() -> void:
 			var start_sys_id: int = LevelManager.current_system_data.system_index
 			var end_sys_id: int = LevelManager.target_system_data.system_index
 			var warp_distance: int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
-			if warp_distance > warp_range:
+			if warp_distance > ship_stats.scaled_warp_range:
 				var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
 				SignalBus.changePopMessage.emit(error_message)
 				return
@@ -521,7 +500,7 @@ func trigger_warp_effect(length: float, warp_effect_on: bool) -> void:
 func _handle_mission_finish(finished_data: MissionData) -> void:
 	if finished_data.type == MissionData.MISSION_TYPE.DELIVERY:
 		current_cargo -= 1
-		current_cargo = clamp(current_cargo, 0, base_cargo_size)
+		current_cargo = clamp(current_cargo, 0, ship_stats.cargo_capacity)
 
 
 func _handle_new_combatant(enemy: FactionCharacter) -> void:

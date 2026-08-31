@@ -33,5 +33,5 @@ func move_to_target(target_pos: Vector2, delta: float, speed_mult: float = 1.0) 
 	var to_target: Vector2 = target_pos - global_position
 	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
 	_rotate_toward_target(angle_diff, delta)
-	velocity = to_target.normalized() * move_speed
+	velocity = to_target.normalized() * ship_stats.scaled_speed
 	move_and_slide()

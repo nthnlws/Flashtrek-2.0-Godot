@@ -28,14 +28,15 @@ func add_component(component_type: Utility.SystemComponentType, mission: Mission
 		var data = ProtectComponentData.new()
 		data.setup_data(system_size, faction, system_difficulty_mult, 1)
 		components.append(data)
+
 # System contents
 @export var planet_data: Array[PlanetData]
 @export var sun_data: SunData
-@export var enemy_list: Array[FactionShipData]
-@export var mission_ship_list: Array[MissionShipData] = []
-@export var defeated_enemies: Array[FactionShipData] = []
-@export var neutral_list: Array[NeutralShipData]
-@export var defeated_neutrals: Array[NeutralShipData] = []
+@export var enemy_list: Array[ShipState]
+@export var mission_ship_list: Array[ShipState] = []
+@export var defeated_enemies: Array[ShipState] = []
+@export var neutral_list: Array[ShipState]
+@export var defeated_neutrals: Array[ShipState] = []
 @export var mission_containers: Array[ContainerData] = []
 
 # System logic
@@ -103,10 +104,19 @@ static func generate_system_data(sys_index: int, new_system_name: String) -> Sys
 	# NPC Ship Data
 	var index: int = 0
 	for planet: PlanetData in new_system_data.planet_data:
-		var new_enemy: FactionShipData = FactionShipData.generate_enemy_ship_data(_generate_faction_spawn_position(planet), new_system_data.faction, new_system_data.system_difficulty_mult, index)
-		new_system_data.enemy_list.append(new_enemy)
-		var new_neutral: NeutralShipData = NeutralShipData.generate_neutral_ship_data(_generate_neutral_spawn_position(planet), new_system_data.faction, new_system_data.system_difficulty_mult, index)
-		new_system_data.neutral_list.append(new_neutral)
+		# Generate Faction ship spawn data
+		var faction_spawn_pos: Vector2 = _generate_faction_spawn_position(planet)
+		var baseFactionInfo: BaseShipInfo = Utility.get_ship_stats(BaseShipInfo.get_faction_ship_type(sys_faction))
+		var scaled_faction_stats: ShipState = ShipState.get_NPC_scaled_stats(new_system_data.system_difficulty_mult, baseFactionInfo, ShipState.CATEGORY.FACTION)
+		scaled_faction_stats.save_position = faction_spawn_pos
+		new_system_data.enemy_list.append(scaled_faction_stats)
+		
+		# Generate Neutral ship spawn data
+		var neutral_spawn_pos: Vector2 = _generate_neutral_spawn_position(planet)
+		var baseNeutralInfo: BaseShipInfo = Utility.get_ship_stats(BaseShipInfo.get_neutral_ship_type())
+		var scaled_neutral_stats: ShipState = ShipState.get_NPC_scaled_stats(new_system_data.system_difficulty_mult, baseNeutralInfo, ShipState.CATEGORY.NEUTRAL)
+		scaled_faction_stats.save_position = neutral_spawn_pos
+		new_system_data.neutral_list.append(scaled_neutral_stats)
 		index += 1
 	
 	return new_system_data
@@ -231,21 +241,22 @@ func load_text_file(file_path: String) -> Array[String]:
 	return names
 
 
-func remove_faction_ship_data(ship_index: int) -> void:
-	var to_remove: FactionShipData
-	for ship: FactionShipData in enemy_list:
-		if ship.ship_index == ship_index:
-			to_remove = ship
-	enemy_list.erase(to_remove)
-	defeated_enemies.append(to_remove)
+func remove_faction_ship_data(to_remove: ShipState) -> void:
+	var found: ShipState
+	for ship: ShipState in enemy_list:
+		if ship.unique_id == to_remove.unique_id:
+			found = ship
+	enemy_list.erase(found)
+	defeated_enemies.append(found)
 
 
-func remove_neutral_ship_data(ship_index: int) -> void:
-	var to_remove: NeutralShipData
-	for ship: NeutralShipData in neutral_list:
-		if ship.ship_index == ship_index:
-			to_remove = ship
-	neutral_list.erase(to_remove)
+func remove_neutral_ship_data(to_remove: ShipState) -> void:
+	var found: ShipState
+	for ship: ShipState in neutral_list:
+		if ship.unique_id == to_remove.unique_id:
+			found = ship
+	neutral_list.erase(found)
+	defeated_neutrals.append(found)
 	defeated_neutrals.append(to_remove)
 
 

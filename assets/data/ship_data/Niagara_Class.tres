@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://djd6n0ei72qkj"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_g3xwe"]
+
+[resource]
+script = ExtResource("1_g3xwe")
+ship_type = 95
+faction = 0
+ship_name = "Niagara_Class"
+archetype = 1
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(288, 0)
+collision_polygon = "[[-1.0, 17.0], [-8.0, 9.0], [-8.0, 8.0], [-18.0, 8.0], [-24.0, 14.0], [-24.0, 15.0], [-47.0, 16.0], [-48.0, 16.0], [-47.0, 31.0], [-47.0, 32.0], [-24.0, 32.0], [-18.0, 38.0], [-18.0, 39.0], [-8.0, 39.0], [-3.0, 34.0], [-2.0, 34.0], [-0.0, 17.0]]"
+shield_scale = Vector2(0.5952, 0)
+warp_range = 1
+base_energy = 150.0

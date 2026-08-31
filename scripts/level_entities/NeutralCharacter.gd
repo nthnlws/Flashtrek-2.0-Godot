@@ -1,10 +1,6 @@
 extends CharacterBody2D
 class_name NeutralCharacter
 
-@export var ship_type:Utility.SHIP_TYPES = Utility.SHIP_TYPES.Merchantman
-var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
-@export var reputation_value: float = 100.0
-
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var hitbox: CollisionPolygon2D = $hitbox_area/CollisionPolygon2D
 @onready var collision_shape: CollisionPolygon2D = $WorldCollisionShape
@@ -13,11 +9,7 @@ var faction: Utility.FACTION = Utility.FACTION.NEUTRAL
 @onready var sprite_animation: AnimationPlayer = $Sprite2D/SpriteAnimation
 @onready var health_component: HealthComponent = $HealthComponent
 
-@onready var stats = ShipStatModifiers.new()
-
-# Variables for handling dynamic behavior
-var move_speed: int = 60
-var agility_rate: float = 1.5
+var ship_stats: ShipState
 
 var endPoint: Vector2
 var returnToStarbaseBool: bool = false
@@ -37,7 +29,7 @@ const FLEE_SPEED_MULTIPLIER: float = 1.5
 
 func _ready() -> void:
 	_create_unique_texture_atlas()
-	_sync_data_to_resource(ship_type)
+	sync_ship_to_resource()
 	call_deferred("selectRandomPlanet")
 	z_index = Utility.Z["NeutralShips"]
 	
@@ -55,14 +47,12 @@ func _create_unique_texture_atlas() -> void:
 	sprite.texture = atlas_texture
 
 
-func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
+func sync_ship_to_resource() -> void:
+	var ship_info: BaseShipInfo = Utility.get_ship_stats(ship_stats.ship_type)
+	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
+	shield.scale = ship_info.shield_scale
 	
-	sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	faction = ship_data.FACTION
-	shield.scale = Vector2(ship_data.SHIELD_SCALE_X, ship_data.SHIELD_SCALE_Y)
-	
-	var rawColl = ship_data.COLLISION_POLY
+	var rawColl = ship_info.collision_polygon
 	var parsed_array = JSON.parse_string(rawColl)
 	var PV2Array = PackedVector2Array()
 	for pair in parsed_array:
@@ -70,11 +60,6 @@ func _sync_data_to_resource(ship:Utility.SHIP_TYPES) -> void:
 	PV2Array = center_polygon(PV2Array)
 	collision_shape.polygon = PV2Array
 	hitbox.polygon = PV2Array
-	
-	move_speed = ship_data.SPEED
-	agility_rate = ship_data.AGILITY
-	health_component.setMaxHP(ship_data.MAX_HP)
-	health_component.setMaxSP(ship_data.MAX_SHIELD)
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -166,13 +151,24 @@ func move_to_target(target_pos: Vector2, delta: float, speed_mult: float = 1.0) 
 	
 	_rotate_toward_target(angle_diff, delta)
 	
+	# Calculate thrust (0.0 to 1.0) based on how well the ship is facing the target
 	var thrust_factor: float = clampf(1.0 - (angle_abs / deg_to_rad(90.0)), 0.0, 1.0)
-	var target_velocity: Vector2 = transform.x * move_speed * speed_mult * thrust_factor
-	velocity = velocity.move_toward(target_velocity, move_speed * delta * 2.0)
+	
+	# Apply unified physics
+	apply_thrust(thrust_factor, delta, speed_mult)
+
+
+func apply_thrust(thrust: float, delta: float, speed_mult: float = 1.0) -> void:
+	if thrust != 0.0:
+		velocity += transform.x * thrust * ship_stats.scaled_acceleration * delta
+		velocity = velocity.limit_length((ship_stats.scaled_speed * speed_mult))
+	else:
+		# Natural deceleration when no thrust is applied
+		velocity = velocity.move_toward(Vector2.ZERO, ship_stats.scaled_acceleration * delta * 0.25)
 
 
 func _rotate_toward_target(angle_diff: float, delta: float) -> void:
-	var max_turn: float = deg_to_rad(agility_rate * delta)
+	var max_turn: float = deg_to_rad(ship_stats.scaled_agility * delta)
 	# Ease off when within 15 degrees of target
 	var ease_factor: float = clampf(absf(angle_diff) / deg_to_rad(15.0), 0.0, 1.0)
 	rotation += clampf(angle_diff, -max_turn, max_turn) * ease_factor
@@ -185,7 +181,7 @@ func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 	SignalBus.neutralShipDied.emit(self)
 	if hit_event.is_from_player: # Update reputation if died from player damage
 		#print('killed by player')
-		SignalBus.reputation_change_triggered.emit(self.faction, self.reputation_value)
+		SignalBus.reputation_change_triggered.emit(ship_stats.current_faction, ship_stats.reputation_value)
 	#else: print('not player kill')
 	
 	collision_shape.set_deferred("disabled", true)

@@ -2,12 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ce5tkw2njick7" path="res://assets/data/GalaxyData.gd" id="1_rkjmv"]
 [ext_resource type="Script" uid="uid://crmapxuysvfyo" path="res://assets/data/SystemData.gd" id="2_5kh3e"]
-[ext_resource type="Script" uid="uid://bonjd25nygff0" path="res://scripts/components/system/baseComponentData.gd" id="3_m6x7m"]
-[ext_resource type="Script" uid="uid://bktaqvosfrawh" path="res://assets/data/FactionShipData.gd" id="3_rgw12"]
-[ext_resource type="Script" uid="uid://gabdv0wsngai" path="res://assets/data/NeutralShipData.gd" id="4_sk3sv"]
-[ext_resource type="Script" uid="uid://c8etv4xdg5hur" path="res://assets/data/PlanetData.gd" id="5_3slc2"]
-[ext_resource type="Script" uid="uid://c53l8fgax4plp" path="res://assets/data/container_data.gd" id="5_sk3sv"]
-[ext_resource type="Script" uid="uid://n6pwghn7ctt6" path="res://assets/data/MissionShipData.gd" id="8_o4lku"]
+[ext_resource type="Script" uid="uid://bonjd25nygff0" path="res://scripts/components/system/baseComponentData.gd" id="3_sk3sv"]
+[ext_resource type="Script" uid="uid://d1htj42w7m36m" path="res://assets/data/ShipState.gd" id="4_3slc2"]
+[ext_resource type="Script" uid="uid://c53l8fgax4plp" path="res://assets/data/container_data.gd" id="5_m6x7m"]
+[ext_resource type="Script" uid="uid://c8etv4xdg5hur" path="res://assets/data/PlanetData.gd" id="6_o4lku"]
 
 [sub_resource type="Resource" id="Resource_rkjmv"]
 script = ExtResource("2_5kh3e")

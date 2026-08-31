@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://4qxy1r8dh7ty"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_ptp7q"]
+
+[resource]
+script = ExtResource("1_ptp7q")
+ship_type = 55
+ship_name = "Hideki_Class"
+archetype = 0
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(192, 0)
+collision_polygon = "[[-2.0, 22.0], [-7.0, 15.0], [-7.0, 14.0], [-21.0, 8.0], [-21.0, 7.0], [-26.0, 9.0], [-27.0, 9.0], [-23.0, 13.0], [-22.0, 13.0], [-24.0, 15.0], [-24.0, 16.0], [-43.0, 17.0], [-45.0, 17.0], [-48.0, 20.0], [-48.0, 21.0], [-40.0, 22.0], [-40.0, 25.0], [-48.0, 26.0], [-48.0, 27.0], [-43.0, 30.0], [-43.0, 31.0], [-27.0, 31.0], [-24.0, 31.0], [-22.0, 33.0], [-22.0, 34.0], [-26.0, 37.0], [-27.0, 37.0], [-25.0, 39.0], [-25.0, 40.0], [-18.0, 38.0], [-15.0, 38.0], [-9.0, 33.0], [-7.0, 33.0], [-1.0, 22.0]]"
+shield_scale = Vector2(0.6348, 0)
+warp_range = 1
+base_energy = 150.0

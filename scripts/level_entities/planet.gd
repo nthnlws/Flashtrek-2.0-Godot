@@ -8,7 +8,6 @@ class_name Planet
 var planet_data: PlanetData
 var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
 var CanCommunicate: bool = false
-var player: Player
 var player_in_mission_area: bool = false
 
 
@@ -37,22 +36,6 @@ func sync_planet_to_data() -> void:
 func _physics_process(delta: float) -> void:
 	sprite.rotate(deg_to_rad(1.5) * delta) # Spin planet
 
-
-func _on_comm_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		SignalBus.enteredPlanetComm.emit(self)
-		# Old HUD button animation toggle
-		#SignalBus.toggleQ3HUD.emit("on")
-		player = body
-
-
-func _on_comm_area_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		SignalBus.exitedPlanetComm.emit(self )
-		# Old HUD button animation toggle
-		#SignalBus.toggleQ3HUD.emit("off")
-		#SignalBus.toggleQ2HUD.emit("off")
-		player = null
 
 
 func set_frame(index: int) -> void:

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://b7l0npw0xypan"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_ekk2g"]
+
+[resource]
+script = ExtResource("1_ekk2g")
+ship_type = 72
+faction = 1
+ship_name = "Klingon_Bird_of_Prey"
+archetype = 4
+trait_type = 3
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(240, 0)
+collision_polygon = "[[-1.0, 3.0], [-27.0, 3.0], [-35.0, 3.0], [-46.0, 10.0], [-47.0, 10.0], [-48.0, 12.0], [-48.0, 14.0], [-44.0, 13.0], [-42.0, 13.0], [-41.0, 17.0], [-40.0, 17.0], [-44.0, 22.0], [-45.0, 22.0], [-41.0, 30.0], [-41.0, 33.0], [-46.0, 32.0], [-47.0, 32.0], [-47.0, 35.0], [-47.0, 37.0], [-39.0, 42.0], [-39.0, 43.0], [-27.0, 44.0], [-27.0, 45.0], [-1.0, 44.0], [-0.0, 44.0], [-13.0, 40.0], [-16.0, 40.0], [-22.0, 33.0], [-23.0, 33.0], [-22.0, 27.0], [-22.0, 26.0], [-19.0, 27.0], [-15.0, 27.0], [-13.0, 24.0], [-12.0, 24.0], [-15.0, 21.0], [-15.0, 20.0], [-22.0, 20.0], [-23.0, 20.0], [-23.0, 14.0], [-20.0, 12.0], [-20.0, 10.0], [-0.0, 3.0]]"
+shield_scale = Vector2(0.7936, 0)
+warp_range = 1
+base_energy = 150.0

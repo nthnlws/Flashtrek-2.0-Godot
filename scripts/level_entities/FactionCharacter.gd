@@ -23,7 +23,7 @@ func _ready() -> void:
 	
 	$hull_explosion.z_index = Utility.Z["Effects"]
 	
-	SignalBus.enemy_type_changed.connect(_sync_data_to_resource)
+	SignalBus.enemy_type_changed.connect(sync_ship_to_resource)
 	SignalBus.playerDied.connect(_clear_agro)
 	
 	await Engine.get_main_loop().process_frame
@@ -65,10 +65,10 @@ func targetMovement(delta: float) -> void:
 	# Movement logic
 	if distance_to_target > 1000.0:
 		var thrust_factor: float = clampf(1.0 - (angle_abs / deg_to_rad(90.0)), 0.0, 1.0)
-		var target_velocity: Vector2 = to_target.normalized() * move_speed * thrust_factor
-		velocity = velocity.move_toward(target_velocity, move_speed * delta * 2.0)
+		var target_velocity: Vector2 = to_target.normalized() * ship_stats.scaled_speed * thrust_factor
+		velocity = velocity.move_toward(target_velocity, ship_stats.scaled_speed * delta * 2.0)
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, move_speed * delta * 2.0)
+		velocity = velocity.move_toward(Vector2.ZERO, ship_stats.scaled_speed * delta * 2.0)
 	
 	move_and_slide()
 	
@@ -119,11 +119,22 @@ func _on_agro_box_body_entered(body: Node2D) -> void:
 	if body == self or body == enemy_target: return 
 	
 	# Check if known or hostile
-	var is_hostile: bool = body.faction != Utility.FACTION.NEUTRAL and self.faction != Utility.FACTION.NEUTRAL and body.faction != self.faction
+	var is_hostile: bool = hostile_check(body)
 	var is_known: bool = stored_enemies.has(body)
 	
+	# Trigger aggression if body was previosly hostile
+	# or is part of an enemy faction
 	if is_hostile or is_known:
 		_set_target(body)
+
+
+## Compare newly entered body faction to own faction to determine hostility status
+func hostile_check(body: Node2D) -> bool:
+	var check: bool = (body.ship_stats.current_faction != Utility.FACTION.NEUTRAL
+	and self.ship_stats.current_faction != Utility.FACTION.NEUTRAL
+	and body.ship_stats.current_faction != self.ship_stats.current_faction)
+	
+	return check
 
 
 func _on_agro_box_body_exited(body: Node2D) -> void:
@@ -177,7 +188,7 @@ func explode(hit_event: HitEvent = HitEvent.new()) -> void:
 	
 	SignalBus.factionShipDied.emit(self)
 	if hit_event.is_from_player: 
-		SignalBus.reputation_change_triggered.emit(self.faction, self.reputation_value)
+		SignalBus.reputation_change_triggered.emit(ship_stats.current_faction, ship_stats.reputation_value)
 	
 	var random_pickup_type: int = randi_range(0, UpgradePickup.MODULE_TYPES.keys().size())
 	SignalBus.spawnLoot.emit(random_pickup_type, self.global_position, 1)

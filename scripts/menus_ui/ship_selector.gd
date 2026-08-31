@@ -46,8 +46,8 @@ func set_faction(faction: Utility.FACTION) -> void:
 
 
 func set_ship_type(type: Utility.SHIP_TYPES) -> void:
-	var ship_data:Dictionary = Utility.SHIP_DATA[type]
-	icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
+	var ship_data:BaseShipInfo = Utility.get_ship_stats(type)
+	icon.texture.region = Rect2(ship_data.sprite_coords, Vector2(48, 48))
 
 
 func _on_button_down() -> void:

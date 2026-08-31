@@ -25,9 +25,9 @@ func _connect_signals() -> void:
 	SignalBus.HUDchanged.connect(change_scale)
 
 
-func change_health_sprite(ship:Utility.SHIP_TYPES):
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship]
-	hull_icon.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
+func change_health_sprite(type:Utility.SHIP_TYPES):
+	var ship_data:BaseShipInfo = Utility.get_ship_stats(type)
+	hull_icon.texture.region = Rect2(ship_data.sprite_coords, Vector2(48, 48))
 	
 	hull_icon.initialize_hull_icon()
 	hull_icon.calculate_and_set_content_bounds()

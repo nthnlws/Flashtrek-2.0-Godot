@@ -95,7 +95,7 @@ func attempt_primary_fire(target_location: Vector2) -> void:
 		bullet.shooterObject = parent_entity
 		bullet.damage *= damage_multiplier
 		bullet.damage_multipler = damage_multiplier
-		bullet.faction = parent_entity.faction
+		bullet.faction = parent_entity.ship_stats.current_faction
 		
 		if hitbox:
 			bullet.exceptions.append(hitbox)

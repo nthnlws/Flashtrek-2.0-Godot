@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://cq1j8j2lga8hg"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_4ls0p"]
+
+[resource]
+script = ExtResource("1_4ls0p")
+ship_type = 46
+faction = 0
+ship_name = "Oberth_Class"
+archetype = 2
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(144, 0)
+collision_polygon = "[[-2.0, 21.0], [-7.0, 15.0], [-9.0, 15.0], [-9.0, 11.0], [-32.0, 11.0], [-32.0, 15.0], [-27.0, 15.0], [-29.0, 18.0], [-29.0, 20.0], [-47.0, 23.0], [-48.0, 23.0], [-38.0, 27.0], [-29.0, 27.0], [-27.0, 31.0], [-27.0, 32.0], [-32.0, 32.0], [-32.0, 35.0], [-32.0, 36.0], [-9.0, 36.0], [-9.0, 33.0], [-9.0, 32.0], [-3.0, 28.0], [-2.0, 28.0], [-1.0, 21.0]]"
+shield_scale = Vector2(0.6348, 0)
+warp_range = 1
+base_energy = 150.0

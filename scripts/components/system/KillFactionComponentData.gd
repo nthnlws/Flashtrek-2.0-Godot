@@ -2,7 +2,7 @@ class_name KillFactionComponentData
 extends BaseComponentData
 
 @export var faction: Utility.FACTION
-@export var target_ships_data: Array[MissionShipData] = []
+@export var target_ships_data: Array[ShipState]
 
 func _init() -> void:
 	component_id = &"kill_faction"
@@ -23,20 +23,14 @@ func setup_data(system_faction: Utility.FACTION, diff_mult: float, num_to_kill: 
 		var random_offset: Vector2 = Utility.get_random_point_on_circle(250)
 		var spawn_pos: Vector2 = spawn_origin + random_offset
 		
-		# Passing 'true' for is_hostile (assuming these are targets)
-		var ship_data = MissionShipData.generate_mission_ship_data(
-			spawn_pos, 
-			faction, 
-			diff_mult, 
-			i, 
-			ship_type, 
-			true 
-		)
-		target_ships_data.append(ship_data)
+		var missionShipInfo: BaseShipInfo = Utility.get_ship_stats(ship_type)
+		var scaled_mission_stats: ShipState = ShipState.get_NPC_scaled_stats(diff_mult, missionShipInfo, ShipState.CATEGORY.FACTION)
+		scaled_mission_stats.save_position = spawn_pos
+		target_ships_data.append(missionShipInfo)
 
 
 ## Called by the View Component when a target ship is destroyed.
-func report_ship_destroyed(ship_data: MissionShipData) -> void:
+func report_ship_destroyed(ship_data: ShipState) -> void:
 	if is_finished:
 		return
 		
@@ -49,7 +43,6 @@ func report_ship_destroyed(ship_data: MissionShipData) -> void:
 		MissionManager.complete_mission()
 
 
-# --- Internal Helper ---
 func _get_faction_ship(f: Utility.FACTION) -> Utility.SHIP_TYPES:
 	match f:
 		Utility.FACTION.FEDERATION: return Utility.SHIP_TYPES.California_Class

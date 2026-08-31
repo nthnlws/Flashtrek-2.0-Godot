@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://dr1s7xqdv65u6"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_5n6vk"]
+
+[resource]
+script = ExtResource("1_5n6vk")
+ship_type = 34
+faction = 0
+ship_name = "Excelsior_Class"
+archetype = 1
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(96, 0)
+collision_polygon = "[[-1.0, 21.0], [-6.0, 15.0], [-6.0, 14.0], [-14.0, 14.0], [-19.0, 20.0], [-27.0, 20.0], [-27.0, 19.0], [-22.0, 19.0], [-22.0, 15.0], [-47.0, 15.0], [-46.0, 19.0], [-32.0, 19.0], [-40.0, 23.0], [-41.0, 23.0], [-32.0, 27.0], [-32.0, 28.0], [-46.0, 28.0], [-47.0, 31.0], [-47.0, 32.0], [-22.0, 32.0], [-22.0, 29.0], [-22.0, 28.0], [-27.0, 28.0], [-27.0, 27.0], [-19.0, 27.0], [-14.0, 32.0], [-14.0, 33.0], [-6.0, 32.0], [-4.0, 32.0], [-0.0, 21.0]]"
+shield_scale = Vector2(0.5556, 0)
+warp_range = 1
+base_energy = 150.0

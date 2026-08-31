@@ -56,8 +56,8 @@ func _clear_mission_text() -> void:
 
 
 func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
-	var SHIP_VALUE = enemy.reputation_value # Get reputation from ship
-	match enemy.faction:
+	var SHIP_VALUE: float = enemy.ship_stats.reputation_value # Get reputation from ship
+	match enemy.ship_stats.current_faction:
 		Utility.FACTION.FEDERATION:
 			var old_fed:int = int(fed_score.text)
 			var old_klingon:int = int(klingon_score.text)

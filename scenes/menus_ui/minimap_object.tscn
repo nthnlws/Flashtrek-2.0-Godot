@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://d02qw0b8fwpm0"]
 
 [ext_resource type="Texture2D" uid="uid://crn20wba425xj" path="res://assets/textures/Minimap/minimap_object.png" id="1_ocqmn"]
+[ext_resource type="Script" uid="uid://v4gp7j4rj2ks" path="res://scripts/menus_ui/minimap_object.gd" id="2_ofwle"]
 
 [node name="minimap_object" type="TextureRect" unique_id=1872592589 groups=["minimap_obj"]]
 anchors_preset = 8
@@ -16,3 +17,4 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_ocqmn")
+script = ExtResource("2_ofwle")

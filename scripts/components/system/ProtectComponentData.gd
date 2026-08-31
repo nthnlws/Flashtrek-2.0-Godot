@@ -5,7 +5,7 @@ extends BaseComponentData
 signal mission_failed 
 
 @export var faction: Utility.FACTION
-@export var protected_ships_data: Array[MissionShipData] = []
+@export var protected_ships_data: Array[ShipState]
 @export var is_failed: bool = false
 
 func _init() -> void:
@@ -23,14 +23,14 @@ func setup_data(system_size: float, system_faction: Utility.FACTION, diff_mult: 
 		var random_offset: Vector2 = Utility.get_random_point_on_circle(250)
 		var spawn_pos: Vector2 = base_spawn_pos + random_offset
 		
-		var ship_data = MissionShipData.generate_mission_ship_data(
-			spawn_pos, faction, diff_mult, i, ship_type, false, true
-		)
-		protected_ships_data.append(ship_data)
+		var missionShipInfo: BaseShipInfo = Utility.get_ship_stats(ship_type)
+		var scaled_mission_stats: ShipState = ShipState.get_NPC_scaled_stats(diff_mult, missionShipInfo, ShipState.CATEGORY.FACTION)
+		scaled_mission_stats.save_position = spawn_pos
+		protected_ships_data.append(scaled_mission_stats)
 
 
 ## Called by the View Component when the physical ship blows up.
-func report_ship_destroyed(ship_data: MissionShipData) -> void:
+func report_ship_destroyed(ship_data: ShipState) -> void:
 	if is_finished or is_failed: 
 		return
 		

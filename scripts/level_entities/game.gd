@@ -23,8 +23,6 @@ func _ready() -> void:
 	
 	Utility.current_gamestate = Utility.GAMESTATE.SYSTEM
 	minimap.create_minimap_objects()
-	
-	SignalBus.galaxyDataUpdated.emit(LevelManager.galaxy_data)
 
 
 func galaxy_fade_out() -> void:

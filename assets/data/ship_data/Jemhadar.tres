@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://c4apyy42sl1a5"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_dehod"]
+
+[resource]
+script = ExtResource("1_dehod")
+ship_type = 85
+ship_name = "JemHadar"
+archetype = 4
+trait_type = 5
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(288, 0)
+collision_polygon = "[[-3.0, 21.0], [-14.0, 11.0], [-16.0, 11.0], [-15.0, 2.0], [-35.0, 2.0], [-36.0, 5.0], [-36.0, 6.0], [-24.0, 8.0], [-24.0, 9.0], [-30.0, 10.0], [-33.0, 10.0], [-46.0, 20.0], [-47.0, 20.0], [-42.0, 21.0], [-40.0, 21.0], [-40.0, 26.0], [-47.0, 26.0], [-47.0, 27.0], [-30.0, 38.0], [-24.0, 38.0], [-25.0, 41.0], [-36.0, 41.0], [-35.0, 44.0], [-35.0, 45.0], [-15.0, 45.0], [-16.0, 39.0], [-16.0, 36.0], [-3.0, 26.0], [-2.0, 26.0], [-2.0, 21.0]]"
+shield_scale = Vector2(0.5556, 0)
+warp_range = 1
+base_energy = 150.0

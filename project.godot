@@ -8,6 +8,19 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
+resources_spreadsheet_view/freeze_first_column=true
+
 [application]
 
 config/name="FlashTrek-2.0"
@@ -29,7 +42,6 @@ buses/default_bus_layout="uid://5ks7wglc8ka3"
 Console="*uid://ouiu5xh1cs8n"
 SignalBus="*res://scripts/autoload/SignalBus.gd"
 CheatsMenu="*res://scripts/autoload/cheats_menu.gd"
-Utility="*res://scripts/autoload/utility.gd"
 SignalLens="*res://addons/signal_lens/autoload/signal_lens_autoload.gd"
 MissionManager="*res://scenes/autoload/MissionManager.tscn"
 LevelManager="*res://scripts/level_entities/LevelManager.gd"
@@ -37,6 +49,7 @@ DiscordManager="*res://scripts/autoload/DiscordManager.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
 AudioManager="*uid://3sl8g3mtc08a"
 DebugMenu="*uid://cggqb75a8w8r"
+Utility="*uid://d3u51f4um1ark"
 
 [debug]
 
@@ -47,9 +60,8 @@ gdscript/warnings/narrowing_conversion=0
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/size/window_width_override=960
-window/size/window_height_override=540
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [editor]
 
@@ -57,7 +69,7 @@ movie_writer/movie_file="C:/Users/nthnl/Desktop/Code/Flashtrek-2.0-Godot/Exports
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_lens/plugin.cfg", "res://addons/signal_printer/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg", "res://addons/godot_resource_groups/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/signal_lens/plugin.cfg", "res://addons/signal_printer/plugin.cfg", "res://addons/yard/plugin.cfg")
 
 [file_customization]
 
@@ -85,6 +97,10 @@ secondary_weapon=""
 primary_weapon=""
 shield=""
 default_mouse=""
+
+[godot_resource_groups]
+
+auto_rebuild=true
 
 [gui]
 

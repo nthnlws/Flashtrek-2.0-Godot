@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://nfjux626usqf"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_vw50s"]
+
+[resource]
+script = ExtResource("1_vw50s")
+ship_type = 90
+faction = 0
+ship_name = "Soyuz_Class"
+archetype = 1
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(288, 0)
+collision_polygon = "[[-1.0, 20.0], [-2.0, 18.0], [-2.0, 16.0], [-11.0, 10.0], [-11.0, 9.0], [-22.0, 8.0], [-28.0, 8.0], [-28.0, 11.0], [-46.0, 11.0], [-45.0, 15.0], [-34.0, 15.0], [-35.0, 17.0], [-35.0, 20.0], [-41.0, 21.0], [-42.0, 21.0], [-42.0, 26.0], [-37.0, 27.0], [-35.0, 27.0], [-34.0, 30.0], [-34.0, 32.0], [-47.0, 34.0], [-47.0, 35.0], [-28.0, 38.0], [-28.0, 39.0], [-9.0, 36.0], [-7.0, 36.0], [-1.0, 27.0], [-0.0, 27.0], [-0.0, 20.0]]"
+shield_scale = Vector2(0.5952, 0)
+warp_range = 1
+base_energy = 150.0

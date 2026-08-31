@@ -4,14 +4,23 @@ class_name PlanetCommunicationComponent
 var assigned_planet_data: PlanetData
 var component_data: CommunicationComponentData
 
+var player: Player
+
 func initialize(data: BaseComponentData) -> void:
 	component_data = data as CommunicationComponentData
 	var manager = get_parent()
 	if manager is PlanetComponentManager:
 		assigned_planet_data = manager.current_planet_data
+	
+	SignalBus.CommsButton_clicked.connect(_check_player_range)
 
 
-# Called by CommsUI when opening the menu. Returns the greeting/mission text.
+func _check_player_range() -> void:
+	if player:
+		request_hail(LevelManager.player.name)
+
+
+# Called by comms button click. Returns the greeting/mission text.
 func request_hail(player_ship_name: String) -> String:
 	# 1. Active Mission Logic
 	if MissionManager.current_state == MissionManager.STATE.active_mission:
@@ -101,3 +110,15 @@ func _get_faction_color_string(faction: int, text: String) -> String:
 		Utility.FACTION.KLINGON: color_code = Utility.klin_red
 	
 	return color_code + text + "[/color]"
+
+
+func _on_comm_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		SignalBus.enteredPlanetComm.emit(self)
+		player = body
+
+
+func _on_comm_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		SignalBus.exitedPlanetComm.emit(self )
+		player = null

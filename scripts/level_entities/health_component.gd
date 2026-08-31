@@ -1,7 +1,7 @@
 extends Node
 class_name HealthComponent
 
-var ship_stats:Dictionary = Utility.SHIP_DATA[LevelManager.galaxy_data.player_ship_type]
+var ship_stats:BaseShipInfo = Utility.get_ship_stats(LevelManager.galaxy_data.player_ship_type)
 
 @export var parent: Node
 @export var shield: Shield

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://bxxmyb6htli4p"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_jrp7h"]
+
+[resource]
+script = ExtResource("1_jrp7h")
+ship_type = 13
+faction = 0
+ship_name = "Nebula_Class"
+archetype = 2
+cargo_capacity = 1
+reputation_value = 100
+collision_polygon = "[[-2.0, 17.0], [-5.0, 10.0], [-5.0, 8.0], [-10.0, 4.0], [-10.0, 3.0], [-18.0, 1.0], [-18.0, 0.0], [-21.0, 1.0], [-25.0, 1.0], [-33.0, 7.0], [-33.0, 8.0], [-46.0, 10.0], [-47.0, 10.0], [-47.0, 35.0], [-47.0, 37.0], [-45.0, 39.0], [-33.0, 39.0], [-29.0, 43.0], [-29.0, 44.0], [-21.0, 46.0], [-21.0, 47.0], [-12.0, 44.0], [-10.0, 44.0], [-6.0, 39.0], [-5.0, 39.0], [-2.0, 30.0], [-1.0, 30.0], [-1.0, 17.0]]"
+shield_scale = Vector2(0.6744, 0)
+warp_range = 1
+base_energy = 150.0

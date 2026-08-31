@@ -1,6 +1,8 @@
+@tool
 extends Node
-class_name game_data
 
+@export var all_ship_data: ResourceGroup = load("res://assets/data/all_ship_data.tres")
+var SHIP_DATA: Array[BaseShipInfo]
 
 var Z: Dictionary[String, int] = { # Z Indexes for level objects
 	# -- GAME WORLD STATIC OBJECTS --
@@ -139,9 +141,6 @@ enum SHIP_TYPES {
 	Niagara_Class,
 }
 
-## Accessed by Utility.SHIP_DATA[Utility.SHIP_TYPES.ship_name].variable
-var SHIP_DATA: Dictionary  # Loaded from ShipData.txt
-
 var is_initial_load: bool = true
 var fadeLength: float = 2.0 # Used for fade in/out on Galaxy Warp
 
@@ -166,10 +165,12 @@ enum AUDIO_BUS {
 	MENUS
 }
 
-
-func _init() -> void:
-	_load_txt("res://assets/data/ShipData.txt", SHIP_DATA)
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+	
+	all_ship_data.load_all_into(SHIP_DATA)
+	
 	get_tree().set_auto_accept_quit(false)
 
 
@@ -183,7 +184,7 @@ func _handle_quit_request() -> void:
 	#print("Intercepted Quit Request")
 	if (LevelManager.galaxy_data
 		and SaveManager.current_save_slot > 0
-		and Utility.current_gamestate != Utility.GAMESTATE.MAINMENU):
+		and current_gamestate != GAMESTATE.MAINMENU):
 			SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
 			#print("Emergency Save Complete.")
 	
@@ -191,6 +192,8 @@ func _handle_quit_request() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
 	#Fullscreen management
 	if Input.is_action_just_pressed("f11"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
@@ -199,74 +202,18 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
-func _load_txt(path: String, target: Dictionary) -> void:
-	var absolute_path: String = ProjectSettings.globalize_path(path)
-	var file: FileAccess = FileAccess.open(absolute_path, FileAccess.READ)
-	if file == null:
-		push_error("TXT loading failed at %s — error: %s" % [path, FileAccess.get_open_error()])
-		file = FileAccess.open(path, FileAccess.READ)
-		return
-
-	var headers: PackedStringArray = file.get_csv_line()
-	while not file.eof_reached():
-		var row: PackedStringArray = file.get_csv_line()
-		if row.size() < headers.size() or (row.size() == 1 and row[0] == ""):
-			continue
-
-		var entry: Dictionary = {}
-		for i: int in range(headers.size()):
-			var header: String = headers[i]
-			var raw: Variant = _parse_csv_value(row[i])
-			entry[header] = _convert_special_value(header, raw)
-
-		var key: Variant = entry.get("INDEX")
-		if key != null:
-			target[key] = entry
-
-
-func _convert_special_value(header: String, value: Variant) -> Variant:
-	if value == null:
-		return value
-	if value is String and value == "":
-		return value
-	match header:
-		"ARCHETYPE":
-			return _parse_enum(Scaling.ARCHETYPE, str(value), Scaling.ARCHETYPE.CRUISER)
-		"TRAIT":
-			return _parse_enum(Scaling.SHIP_TRAIT, str(value), Scaling.SHIP_TRAIT.NONE)
-		"FACTION":
-			return _parse_enum(FACTION, str(value), FACTION.NEUTRAL)
-		_:
-			return value
-
-
-func _parse_enum(enum_dict: Dictionary, value: String, fallback: int) -> int:
-	var key: String = value.strip_edges().to_upper()
-	if enum_dict.has(key):
-		return enum_dict[key]
-	push_warning("CSV enum parse failed — key '%s' not found, using fallback" % value)
-	return fallback
-
-
-func _parse_csv_value(value: String) -> Variant:
-	# Empty string
-	if value == "":
-		return null
-	# Bool
-	if value.to_lower() == "true":  return true
-	if value.to_lower() == "false": return false
-	# Integer
-	if value.is_valid_int():        return value.to_int()
-	# Float
-	if value.is_valid_float():      return value.to_float()
-	# Fallback to string
-	return value
-
-
 func create_custom_tween(node: Node, property: String, final_val, duration: float, curve: Curve) -> void:
 	create_tween().tween_property(node, property, final_val, duration).as_relative().set_custom_interpolator(func(v): return curve.sample_baked(v))
 
 
+func get_ship_stats(type: SHIP_TYPES) -> BaseShipInfo:
+	for stat: BaseShipInfo in SHIP_DATA:
+		if stat.ship_type == type:
+			return stat
+	
+	# Fallback if no matching type was found or SHIP_DATA was empty:
+	push_error("Ship stats not found for type: ", SHIP_TYPES.keys()[type])
+	return null
 
 # This function finds the closest point on the surface of a body's shapes to a given global point.
 func get_distance_to_shape(to_point: Vector2, area: Area2D) -> float:
@@ -352,21 +299,17 @@ func get_distance_to_polygon(to_point: Vector2, area: Area2D) -> float:
 	return min_distance
 
 
-func get_faction_from_ship_type(ship_index: SHIP_TYPES) -> FACTION:
-	var faction: FACTION = SHIP_DATA.values()[ship_index].get("FACTION")
-	return faction
-
 func color_string(color: String, text: String) -> String:
 	return color + text + "[/color]"
 
 func get_enemy_faction(faction: FACTION) -> FACTION:
 	if faction == Utility.FACTION.FEDERATION:
-		return Utility.FACTION.KLINGON
+		return FACTION.KLINGON
 	elif faction == Utility.FACTION.KLINGON:
-		return Utility.FACTION.ROMULAN
+		return FACTION.ROMULAN
 	elif faction == Utility.FACTION.ROMULAN:
-		return Utility.FACTION.FEDERATION
-	else: return Utility.FACTION.NEUTRAL
+		return FACTION.FEDERATION
+	else: return FACTION.NEUTRAL
 
 func get_random_point_on_circle(radius: float) -> Vector2:
 	return Vector2.from_angle(randf() * TAU) * radius

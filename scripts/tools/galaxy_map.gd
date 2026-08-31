@@ -22,7 +22,7 @@ func _ready() -> void:
 	MissionManager.mission_completed.connect(clear_mission_text.unbind(1))
 	MissionManager.mission_failed.connect(clear_mission_text.unbind(1))
 	MissionManager.mission_started.connect(update_mission_text)
-	SignalBus.galaxyDataUpdated.connect(update_system_names)
+	LevelManager.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)
 	
 	# Force update current system since signal connections above are
@@ -191,6 +191,8 @@ func _on_warp_button_pressed() -> void:
 
 
 func update_system_names(galaxy_data: GalaxyData) -> void:
+	print('updating system names in galaxy map')
+	print("system array size: %s" % system_array.size())
 	for system: Area2D in system_array:
 		var sys_data = galaxy_data.get_system(int(system.name))
 		var system_string: String

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://casux4niplgjj"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_455aj"]
+
+[resource]
+script = ExtResource("1_455aj")
+ship_type = 29
+faction = 1
+ship_name = "chargh_Class"
+archetype = 4
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(96, 0)
+collision_polygon = "[[-1.0, 14.0], [-13.0, 11.0], [-13.0, 10.0], [-42.0, 8.0], [-43.0, 8.0], [-47.0, 14.0], [-48.0, 14.0], [-44.0, 17.0], [-42.0, 17.0], [-46.0, 23.0], [-47.0, 23.0], [-42.0, 27.0], [-42.0, 30.0], [-47.0, 31.0], [-48.0, 31.0], [-43.0, 38.0], [-43.0, 39.0], [-28.0, 37.0], [-13.0, 37.0], [-6.0, 34.0], [-1.0, 34.0], [-1.0, 32.0], [-1.0, 31.0], [-10.0, 29.0], [-28.0, 29.0], [-32.0, 26.0], [-34.0, 26.0], [-34.0, 22.0], [-34.0, 21.0], [-0.0, 14.0]]"
+shield_scale = Vector2(0.6348, 0)
+warp_range = 1
+base_energy = 150.0

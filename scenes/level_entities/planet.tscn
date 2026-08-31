@@ -4,9 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://csqm03cav5a3l" path="res://assets/textures/planets/planet_sprite_sheet.png" id="2_ayfns"]
 [ext_resource type="Script" uid="uid://dtxd2gp3r4lvh" path="res://scripts/level_entities/planet_component_manager.gd" id="3_iwvp7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_st7tq"]
-radius = 2400.0
-
 [node name="Planet" type="Node2D" unique_id=2032482251]
 script = ExtResource("1_u3uqc")
 
@@ -16,12 +13,6 @@ texture = ExtResource("2_ayfns")
 hframes = 15
 vframes = 15
 frame = 1
-
-[node name="CommArea" type="Area2D" parent="." unique_id=1461443641]
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CommArea" unique_id=1984614234]
-shape = SubResource("CircleShape2D_st7tq")
 
 [node name="Label" type="RichTextLabel" parent="." unique_id=1615506276]
 anchors_preset = 8
@@ -40,8 +31,5 @@ bbcode_enabled = true
 text = "PLANET"
 horizontal_alignment = 1
 
-[node name="PlanetComponentManager" type="Node" parent="." unique_id=93115992]
+[node name="PlanetComponentManager" type="Node2D" parent="." unique_id=1531847490]
 script = ExtResource("3_iwvp7")
-
-[connection signal="body_entered" from="CommArea" to="." method="_on_comm_area_body_entered"]
-[connection signal="body_exited" from="CommArea" to="." method="_on_comm_area_body_exited"]

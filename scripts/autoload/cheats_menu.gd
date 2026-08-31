@@ -56,9 +56,8 @@ func _add_cheat_commands() -> void:
 
 func spawn_ship(ship_type:String) -> void:
 	var ship:int = int(ship_type)
-
-	SignalBus.spawnShip.emit(ship)
-	print("Spawned ship of type: %s" % Utility.SHIP_TYPES.keys()[ship])
+	print("#TODO: Fix spawning cheat ship, no activity currently happening")
+	#print("Spawned ship of type: %s" % Utility.SHIP_TYPES.keys()[ship])
 
 
 func add_score(faction: String, number: String) -> void:

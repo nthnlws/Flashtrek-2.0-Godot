@@ -55,16 +55,16 @@ func _on_close_menu_button_pressed() -> void:
 	menu_closed.emit()
 
 
-func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: Dictionary) -> void:
+func _handle_ship_change(new_stats: ShipState) -> void:
 	#print("ship type set to %s in upgrade menu" % Utility.SHIP_TYPES.keys()[ship_type])
-	set_background(ship_type)
+	set_background(new_stats.ship_type)
 	
-	%ship_name.text = "Ship Name: %s" % Utility.SHIP_TYPES.keys()[ship_type].capitalize()
-	%faction.text = "Current Faction: %s" % Utility.FACTION.keys()[new_stats.FACTION].capitalize()
-	%health_stat.text = "Health: %s" % new_stats.MAX_HP
-	%shield_stat.text = "Shield: %s" % new_stats.MAX_SHIELD
-	%speed_stat.text = "Max Speed: %s" % new_stats.SPEED
-	%agility_stat.text = "Agility: %s" % new_stats.AGILITY
+	%ship_name.text = "Ship Name: %s" % Utility.SHIP_TYPES.keys()[new_stats.ship_type].capitalize()
+	%faction.text = "Current Faction: %s" % Utility.FACTION.keys()[new_stats.faction].capitalize()
+	%health_stat.text = "Health: %s" % new_stats.scaled_max_HP
+	%shield_stat.text = "Shield: %s" % new_stats.scaled_max_shield
+	%speed_stat.text = "Max Speed: %s" % new_stats.scaled_speed
+	%agility_stat.text = "Agility: %s" % new_stats.scaled_agility
 	%weapon.text = "Weapon: Torpedo"
 
 

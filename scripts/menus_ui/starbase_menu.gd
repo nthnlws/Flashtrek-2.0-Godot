@@ -21,13 +21,12 @@ signal menu_closed
 @onready var ambience: AudioStreamPlayer = $ambience
 
 var selection_buttons: Array[ShipCardButton]
-var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, PlayableShipStats]
+var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, BaseShipInfo]
 var _faction_stat_ranges: Dictionary[Utility.FACTION, Dictionary]
 var _stat_ranges: Dictionary
 const SHIP_CARD_BUTTON = preload("uid://qu0xx1uo0wsd")
 const SELECTION_MENU_TEMPLATE = preload("uid://bd2odrgq4wa8e")
 const SELECTION_MENU_NEUTRAL = preload("uid://db4asel4ucnxb")
-
 
 
 const FACTION_DATA: Dictionary = {
@@ -69,72 +68,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
+	clear_buttons()
 	MissionManager.Reputation.reputation_total_changed.connect(_update_ship_unlocks)
-	_cache_faction_ranges()
-	_build_all_ship_stats()
-	_cache_stat_ranges()
-	if LevelManager.galaxy_data:
-		SignalBus.player_type_changed.emit.call_deferred(
-			LevelManager.galaxy_data.player_ship_type,
-			scaled_ship_stats.get(LevelManager.galaxy_data.player_ship_type))
-
-
-# ─── Stats Pre-Build ──────────────────────────────────────────────────────────
-
-func _build_all_ship_stats() -> void:
-	_build_faction_stats(federation_unlocks)
-	_build_faction_stats(klingon_unlocks)
-	_build_faction_stats(romulan_unlocks)
-	_build_faction_stats(neutral_unlocks)
-
-
-func _build_faction_stats(unlock_list: Array[Utility.SHIP_TYPES]) -> void:
-	var total: float = float(unlock_list.size())
-	for index: int in total:
-		var ship_type: Utility.SHIP_TYPES = unlock_list[index]
-		_add_ship_stats(ship_type,
-			Scaling.get_player_stat_scale(index / total),
-			Scaling.get_player_move_scale(index / total),
-			Scaling.get_player_energy_scale(index / total),
-			index,
-			_faction_stat_ranges)
-
-
-func _cache_faction_ranges() -> void:
-	_faction_stat_ranges[Utility.FACTION.FEDERATION] = Scaling.get_faction_stat_range(federation_unlocks, Utility.FACTION.FEDERATION)
-	_faction_stat_ranges[Utility.FACTION.KLINGON]    = Scaling.get_faction_stat_range(klingon_unlocks,    Utility.FACTION.KLINGON)
-	_faction_stat_ranges[Utility.FACTION.ROMULAN]    = Scaling.get_faction_stat_range(romulan_unlocks,    Utility.FACTION.ROMULAN)
-	_faction_stat_ranges[Utility.FACTION.NEUTRAL]    = Scaling.get_faction_stat_range(neutral_unlocks,    Utility.FACTION.NEUTRAL)
-	print(_faction_stat_ranges[Utility.FACTION.NEUTRAL])
-
-
-func _add_ship_stats(ship_type: Utility.SHIP_TYPES, stat_scale: float, move_scale: float, energy_scale: float, index:int, stat_ranges:Dictionary[Utility.FACTION, Dictionary]) -> void:
-	var base: Dictionary         = Utility.SHIP_DATA[ship_type]
-	var faction: Utility.FACTION = base.FACTION
-	var archetype: Scaling.ARCHETYPE = base.ARCHETYPE
-	
-	var stats: PlayableShipStats = PlayableShipStats.new()
-	stats.faction        = faction
-	stats.ship_name      = base.SHIP_NAME
-	stats.archetype      = archetype
-	stats.trait_type     = base.TRAIT
-	stats.damage_mult    = Scaling.apply_modifiers(1.0,                           stat_scale, archetype, faction, "DAMAGE")
-	stats.max_hp         = Scaling.apply_modifiers(base.MAX_HP,                   stat_scale, archetype, faction, "MAX_HP")
-	stats.max_shield     = Scaling.apply_modifiers(base.MAX_SHIELD,               stat_scale, archetype, faction, "MAX_SHIELD")
-	stats.speed          = Scaling.apply_modifiers(base.PLAYER_SPEED_OVERRIDE,    move_scale, archetype, faction, "SPEED")
-	stats.agility        = Scaling.apply_modifiers(base.PLAYER_AGILITY_OVERRIDE, move_scale, archetype, faction, "AGILITY")
-	stats.warp_range     = Scaling.get_ship_warp_range(index)
-	stats.stat_ranges    = stat_ranges
-	stats.max_energy     = snappedi(150 * energy_scale, 25)
-	
-	scaled_ship_stats[ship_type] = stats
-
-
-func _cache_stat_ranges() -> void:
-	_stat_ranges["MAX_HP"]         = Scaling.get_playable_stat_range("max_hp",         scaled_ship_stats)
-	_stat_ranges["MAX_SHIELD"]     = Scaling.get_playable_stat_range("max_shield",      scaled_ship_stats)
-	_stat_ranges["SPEED"]          = Scaling.get_playable_stat_range("speed",           scaled_ship_stats)
-	_stat_ranges["AGILITY"]        = Scaling.get_playable_stat_range("agility",  scaled_ship_stats)
 
 
 # ─── Faction Change ───────────────────────────────────────────────────────────
@@ -173,18 +108,27 @@ func _get_stardate(faction: Utility.FACTION) -> String:
 
 
 # ─── Grid ─────
-func update_selection_grid(faction: Utility.FACTION) -> void:
+func clear_buttons() -> void:
 	for button: ShipCardButton in get_tree().get_nodes_in_group("ship_card_button"):
 		button.queue_free()
 	selection_buttons.clear()
 
-	var unlock_ships: Array[Utility.SHIP_TYPES] = _get_faction_unlocks(faction)
-	ship_grid.columns = mini(2, unlock_ships.size())
 
-	for i: int in unlock_ships.size():
-		var ship_type: Utility.SHIP_TYPES = unlock_ships[i]
-		var unlock_cost: int = Scaling.get_unlock_cost_scale(i / float(unlock_ships.size()))
-		var button: ShipCardButton = create_ship_button(ship_type, faction, unlock_cost)
+func update_selection_grid(faction: Utility.FACTION) -> void:
+	clear_buttons()
+
+	var unlock_ships: Array[Utility.SHIP_TYPES] = _get_faction_unlocks(faction)
+	var array_size: int = unlock_ships.size()
+	ship_grid.columns = mini(2, array_size)
+
+	for i: int in range(array_size):
+		var ship_info: BaseShipInfo = Utility.get_ship_stats(unlock_ships[i])
+		var scaled_info: ShipState = ShipState.get_player_scaled_stats(i, array_size, ship_info)
+		var button: ShipCardButton = ShipCardButton.create_ship_button(scaled_info)
+		# Connect new button signals
+		button.released.connect(_on_ship_selected)
+		button.hovered.connect(update_ship_stats)
+		
 		button.add_to_group("ship_card_button")
 		%ShipGrid.add_child(button)
 		selection_buttons.append(button)
@@ -204,32 +148,17 @@ func _get_faction_unlocks(faction: Utility.FACTION) -> Array[Utility.SHIP_TYPES]
 		_:                          return []
 
 
-func create_ship_button(ship_type: Utility.SHIP_TYPES, faction: Utility.FACTION, unlock_cost: int) -> ShipCardButton:
-	var button: ShipCardButton = SHIP_CARD_BUTTON.instantiate()
-	button.current_ship_type = ship_type
-	button.ship_faction      = faction
-	button.unlock_price      = unlock_cost
-	if ship_type == Utility.starting_ship:
-		button.unlock_price = 0
-		button.grayed_out   = false
-	button.released.connect(_on_ship_selected)
-	button.hovered.connect(update_ship_stats)
-	return button
-
-
 # ─── Ship Stats Display ───────────────────────────────────────────────────────
 func update_ship_stats(selected_ship: ShipCardButton) -> void:
-	var faction: Utility.FACTION      = selected_ship.ship_faction
-	var ship_type: Utility.SHIP_TYPES = selected_ship.current_ship_type
-	var stats: PlayableShipStats      = scaled_ship_stats[ship_type]
+	var ship_info: ShipState = selected_ship.ship_info
 
 	# Existing stat bars unchanged
-	_set_stat_bar(%HealthBar,   stats.max_hp,         _stat_ranges["MAX_HP"])
-	_set_stat_bar(%ShieldBar,   stats.max_shield,     _stat_ranges["MAX_SHIELD"])
-	_set_stat_bar(%SpeedBar,    stats.speed,          _stat_ranges["SPEED"])
-	_set_stat_bar(%MovementBar, stats.agility,        _stat_ranges["AGILITY"])
+	_set_stat_bar(%HealthBar,   ship_info.scaled_HP,         _stat_ranges["MAX_HP"])
+	_set_stat_bar(%ShieldBar,   ship_info.scaled_shield,     _stat_ranges["MAX_SHIELD"])
+	_set_stat_bar(%SpeedBar,    ship_info.scaled_speed,          _stat_ranges["SPEED"])
+	_set_stat_bar(%MovementBar, ship_info.scaled_agility,        _stat_ranges["AGILITY"])
 
-	var formatted_name: String = Utility.fed_blue + stats.ship_name.capitalize()
+	var formatted_name: String = Utility.fed_blue + ship_info.ship_name.capitalize()
 	%ship_name.text = "[color=#FFCC66]Ship Name:[/color] %s" % formatted_name
 
 
@@ -261,7 +190,6 @@ func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
 func _on_ship_selected(clicked_button:ShipCardButton) -> void:
 	var selected_ship: Utility.SHIP_TYPES = clicked_button.current_ship_type
 	SignalBus.player_type_changed.emit(selected_ship, scaled_ship_stats.get(selected_ship))
-	LevelManager.galaxy_data.player_ship_type = selected_ship
 	close_menu()
 
 
@@ -271,7 +199,7 @@ func close_menu() -> void:
 
 
 func _on_visibility_changed() -> void:
-	if LevelManager.galaxy_data and visible:
+	if visible:
 		var faction: Utility.FACTION = LevelManager.galaxy_data.current_system.faction
 		var rep_mapping: Dictionary[Utility.FACTION, float] = {
 			Utility.FACTION.FEDERATION: MissionManager.Reputation.FederationRep,

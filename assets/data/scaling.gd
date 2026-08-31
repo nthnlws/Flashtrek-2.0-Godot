@@ -1,3 +1,4 @@
+@tool
 class_name Scaling
 extends Resource
 
@@ -21,7 +22,7 @@ const UNLOCK_COST_EXP: float = 2.0
 # ─── Archetype Stat Multipliers ─────
 enum ARCHETYPE { ESCORT, CRUISER, SCIENCE, FREIGHTER, RAIDER, DREADNOUGHT, NONE }
 
-const ARCHETYPE_MULTIPLIERS: Dictionary[ARCHETYPE, Dictionary] = {
+const ARCHETYPE_MULTIPLIERS: Dictionary = {
 	ARCHETYPE.ESCORT:      { "MAX_HP": 0.85, "MAX_SHIELD": 0.9,  "SPEED": 1.1,  "AGILITY": 1.1 }, 
 	ARCHETYPE.CRUISER:     { "MAX_HP": 1.05, "MAX_SHIELD": 1.05, "SPEED": 1.0,  "AGILITY": 1.0 },
 	ARCHETYPE.SCIENCE:     { "MAX_HP": 0.9,  "MAX_SHIELD": 1.1,  "SPEED": 1.05, "AGILITY": 1.05 },
@@ -30,28 +31,25 @@ const ARCHETYPE_MULTIPLIERS: Dictionary[ARCHETYPE, Dictionary] = {
 	ARCHETYPE.DREADNOUGHT: { "MAX_HP": 1.2,  "MAX_SHIELD": 1.15, "SPEED": 0.85, "AGILITY": 0.85 },
 }
 
-const FACTION_BIAS: Dictionary[Utility.FACTION, Dictionary] = {
+const FACTION_BIAS: Dictionary = {
 	Utility.FACTION.FEDERATION: { "MAX_SHIELD": 1.15, "AGILITY": 0.95 },
 	Utility.FACTION.KLINGON:    { "MAX_HP": 1.2,  "SPEED": 1.1,  "MAX_SHIELD": 0.85 },
 	Utility.FACTION.ROMULAN:    { "SPEED": 1.1, "AGILITY": 1.1, "MAX_HP": 0.9 },
 	Utility.FACTION.NEUTRAL:    {},
 }
 
-#One trait per ship set in the CSV. Changes gameplay behaviour, not raw stats.
 enum SHIP_TRAIT {
-		NONE,
-		REGENERATING_SHIELDS,  # Shields regen faster out of combat
-		HEAVY_WEAPONS,         # Torpedo damage multiplier
-		CLOAKING_CAPABLE,      # Romulan ships — brief cloak ability
-		CARGO_EXPANDED,        # Larger cargo hold
-		RAPID_FIRE,            # Faster fire rate, lower per-shot damage
-		POINT_DEFENSE,         # Chance to intercept incoming torpedoes
-		}
-
+	NONE,
+	REGENERATING_SHIELDS,
+	HEAVY_WEAPONS,       
+	CLOAKING_CAPABLE,    
+	CARGO_EXPANDED,      
+	RAPID_FIRE,          
+	POINT_DEFENSE,       
+}
 
 # ─── Public API ───────────────────────────────────────────────────────────────
 
-## Helper to convert index/total into the normalized 0.0-1.0 float used by this class.
 static func get_norm_t(index: int, total: int) -> float:
 	if total <= 1: return 0.0
 	return clampf(float(index) / float(total - 1), 0.0, 1.0)
@@ -68,53 +66,15 @@ static func get_unlock_cost_scale(t: float) -> int:
 static func get_player_energy_scale(t: float) -> float:
 	return lerpf(1.0, 3.0, clampf(t, 0.0, 1.0))
 
-static func apply_modifiers(base_val: float, scale: float,
-							archetype: ARCHETYPE,
-							faction: Utility.FACTION,
-							stat_key: String) -> int:
-	
+# Changed return type to float so damage modifiers don't lose precision
+static func apply_modifiers(base_val: float, scale: float, archetype: ARCHETYPE, faction: Utility.FACTION, stat_key: String) -> float:
 	var arch_mod: float = ARCHETYPE_MULTIPLIERS.get(archetype, {}).get(stat_key, 1.0) - 1.0
 	var fact_mod: float = FACTION_BIAS.get(faction, {}).get(stat_key, 1.0) - 1.0
 	var final_mult: float = scale + arch_mod + fact_mod
-	# Prevent negative multipliers from dropping stats below 10%
 	final_mult = maxf(final_mult, 0.1) 
 	
-	return roundi(base_val * final_mult)
+	return base_val * final_mult
 
-static func get_playable_stat_range(stat_key: String, scaled_stats: Dictionary) -> Vector2:
-	var min_val: float = INF
-	var max_val: float = -INF
-	for entry: PlayableShipStats in scaled_stats.values():
-		if not entry is PlayableShipStats:
-			printerr("get_playable_stat_range: unexpected type in dict — ", type_string(typeof(entry)))
-			continue
-		var val: float = float(entry.get(stat_key))
-		if val <= 0.0:
-			continue
-		min_val = minf(min_val, val)
-		max_val = maxf(max_val, val)
-	if min_val == INF or max_val == -INF:
-		printerr("get_playable_stat_range: no valid values found for key '", stat_key, "' — returning zero range")
-		return Vector2.ZERO
-	return Vector2(min_val, max_val)
-
-
-static func get_roster_stat_range(stat_key: String, is_move_stat: bool) -> Vector2:
-	var min_val: float = INF
-	var max_val: float = -INF
-	var ships: Array = Utility.SHIP_DATA.values()
-	var total: int = ships.size()
-	
-	for i: int in total:
-		var t: float = get_norm_t(i, total)
-		var base: float = float(ships[i].get(stat_key, 0))
-		var scale: float = get_player_move_scale(t) if is_move_stat else get_player_stat_scale(t)
-		
-		var scaled_val: float = base * scale
-		min_val = minf(min_val, base) # Min is at t=0
-		max_val = maxf(max_val, scaled_val)
-		
-	return Vector2(min_val, max_val)
 
 static func get_system_difficulty(sys_index: int, faction: Utility.FACTION) -> float:
 	match sys_index:
@@ -124,7 +84,6 @@ static func get_system_difficulty(sys_index: int, faction: Utility.FACTION) -> f
 		GalaxyData.SPECIAL_SYSTEMS.Risa:    return 1.0
 		_:
 			return _enemy_curve(_galaxy_progress(sys_index, faction))
-
 
 # ─── Private Curves ────
 static func _galaxy_progress(sys_index: int, faction: Utility.FACTION) -> float:
@@ -151,20 +110,14 @@ static func _unlock_curve(t: float) -> float:
 	return UNLOCK_COST_MIN + (UNLOCK_COST_MAX - UNLOCK_COST_MIN) * pow(clampf(t, 0.0, 1.0), UNLOCK_COST_EXP)
 
 static func get_ship_warp_range(index:int) -> int:
-	var warp_ranges: Dictionary[int, int] = {
-		0: 2,
-		1: 2,
-		2: 3,
-		3: 4,
-		4: 5,
-		5: 6,
+	var warp_ranges: Dictionary = {
+		0: 2, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6,
 	}
 	return warp_ranges.get(index, 1)
 
-
 # ─── Spider Graph Normalisation ───────────────────────────────────────────────
 static func get_faction_stat_range(unlock_list: Array[Utility.SHIP_TYPES], faction: Utility.FACTION) -> Dictionary:
-	var ranges: Dictionary[String, Dictionary] = {
+	var ranges: Dictionary = {
 		"max_hp":     { "min": INF, "max": 0.0 },
 		"max_shield": { "min": INF, "max": 0.0 },
 		"speed":      { "min": INF, "max": 0.0 },
@@ -178,27 +131,26 @@ static func get_faction_stat_range(unlock_list: Array[Utility.SHIP_TYPES], facti
 	for i: int in total:
 		var t: float            = get_norm_t(i, total)
 		var ship_type           = unlock_list[i]
-		var base: Dictionary    = Utility.SHIP_DATA[ship_type]
+		var base: BaseShipInfo    = Utility.get_ship_stats(ship_type)
 		var archetype: ARCHETYPE = base.ARCHETYPE
 		var stat_mult: float    = get_player_stat_scale(t)
 		var move_mult: float    = get_player_move_scale(t)
 		var energy_scale: float = get_player_energy_scale(t)
 
-		var computed: Dictionary[String, float] = {
-			"max_hp":     apply_modifiers(base.MAX_HP,                   stat_mult, archetype, faction, "MAX_HP"),
-			"max_shield": apply_modifiers(base.MAX_SHIELD,               stat_mult, archetype, faction, "MAX_SHIELD"),
-			"speed":      apply_modifiers(base.PLAYER_SPEED_OVERRIDE,    move_mult, archetype, faction, "SPEED"),
-			"agility":    apply_modifiers(base.PLAYER_AGILITY_OVERRIDE,  move_mult, archetype, faction, "AGILITY"),
-			"damage":     apply_modifiers(1.0,                           stat_mult, archetype, faction, "DAMAGE"),
+		var computed: Dictionary = {
+			"max_hp":     apply_modifiers(base.base_HP,                    stat_mult, archetype, faction, "MAX_HP"),
+			"max_shield": apply_modifiers(base.base_shield,                stat_mult, archetype, faction, "MAX_SHIELD"),
+			"speed":      apply_modifiers(base.base_speed,    				move_mult, archetype, faction, "SPEED"),
+			"agility":    apply_modifiers(base.base_agility,  				move_mult, archetype, faction, "AGILITY"),
+			"damage":     apply_modifiers(1.0,                            stat_mult, archetype, faction, "DAMAGE"),
 			"range":      float(get_ship_warp_range(i)),
-			"max_energy": energy_scale,
+			"max_energy": snappedi(150.0 * energy_scale, 25),
 		}
 
 		for key in computed:
 			ranges[key]["max"] = maxf(ranges[key]["max"], computed[key])
 			ranges[key]["min"] = minf(ranges[key]["min"], computed[key])
 
-	# Guard: if only one ship in list min == max, avoid zero-range issues downstream
 	for key in ranges:
 		if ranges[key]["min"] == INF:
 			ranges[key]["min"] = 0.0
@@ -207,18 +159,15 @@ static func get_faction_stat_range(unlock_list: Array[Utility.SHIP_TYPES], facti
 
 	return ranges
 
-
 static func get_spider_norm(current_val: float, stat_key: String) -> float:
 	var global_max: float = 1.0
 	var global_min: float = 1.0
 	
 	if stat_key in ["SPEED", "AGILITY"]:
-		# Max possible: base * PLAYER_MOVE_SCALE_MAX * highest_multiplier (1.15)
 		global_max = 1.0 * PLAYER_MOVE_SCALE_MAX * 1.15
-		global_min = 1.0 * 1.0 * 0.8 # approx min
+		global_min = 1.0 * 1.0 * 0.8
 	else:
-		# Max possible: base * PLAYER_STAT_MAX (4.5) * highest_multiplier (1.2)
 		global_max = 1.0 * PLAYER_STAT_MAX * 1.2
-		global_min = 1.0 * 1.0 * 0.7 # approx min
+		global_min = 1.0 * 1.0 * 0.7
 		
 	return clampf(inverse_lerp(global_min, global_max, current_val), 0.15, 1.0)

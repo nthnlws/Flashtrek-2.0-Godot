@@ -31,7 +31,7 @@ func _ready() -> void:
 
 
 func set_background(ship_index: Utility.SHIP_TYPES) -> void:
-	var faction = Utility.get_faction_from_ship_type(ship_index)
+	var faction:Utility.FACTION = Utility.get_ship_stats(ship_index).faction
 	match faction:
 		Utility.FACTION.FEDERATION:
 			background.texture = CORRIDOR_FEDERATION
@@ -59,7 +59,7 @@ func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:
 			%Damage.upgrade_number += 1
 
 
-func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: PlayableShipStats) -> void:
+func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: BaseShipInfo) -> void:
 	set_background(ship_type)
 	_change_ship_sprite(ship_type)
 
@@ -199,8 +199,8 @@ func _update_max_energy(new_value:float) -> void:
 	energy_label.text = "%d / %d" % [energy_bar.value, new_value]
 
 func _change_ship_sprite(ship_type:Utility.SHIP_TYPES) -> void:
-	var ship_data:Dictionary = Utility.SHIP_DATA.values()[ship_type]
-	%ShipSprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
+	var ship_data:BaseShipInfo = Utility.get_ship_stats(ship_type)
+	%ShipSprite.texture.region = Rect2(ship_data.sprite_coords, Vector2(48, 48))
 
 func sync_faction_scores() -> void:
 	update_reputation(Utility.FACTION.FEDERATION, MissionManager.Reputation.FederationRep)

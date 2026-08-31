@@ -4,7 +4,7 @@ extends BaseComponent
 var component_data: ProtectComponentData
 
 # Dictionary to map the Physical Node back to its Resource Data
-var spawned_ships: Dictionary[MissionCharacter, MissionShipData]
+var spawned_ships: Dictionary[MissionCharacter, ShipState]
 
 
 func initialize(data: BaseComponentData) -> void:
@@ -35,7 +35,7 @@ func _spawn_ships() -> void:
 func _on_mission_ship_died(ship: MissionCharacter) -> void:
 	if spawned_ships.has(ship):
 		# Get data for destroyed ship
-		var destroyed_ship_data: MissionShipData = spawned_ships[ship]
+		var destroyed_ship_data: ShipState = spawned_ships[ship]
 		spawned_ships.erase(ship)
 		
 		# Update ProtectComponentData

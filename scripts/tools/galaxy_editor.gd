@@ -55,8 +55,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_pressed("tool_script"):
-		generate_galaxy_map()
+	#if Input.is_action_pressed("tool_script"):
+		#generate_galaxy_map()
+	pass
 
 
 func generate_galaxy_map() -> void:

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://b7x36sgonbxyq"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_uf1ec"]
+
+[resource]
+script = ExtResource("1_uf1ec")
+ship_type = 22
+faction = 0
+ship_name = "Edison_Class"
+archetype = 0
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(48, 0)
+collision_polygon = "[[-1.0, 17.0], [-7.0, 9.0], [-7.0, 8.0], [-14.0, 6.0], [-14.0, 5.0], [-41.0, 5.0], [-47.0, 5.0], [-47.0, 7.0], [-47.0, 9.0], [-43.0, 11.0], [-34.0, 11.0], [-41.0, 17.0], [-42.0, 17.0], [-41.0, 22.0], [-36.0, 22.0], [-36.0, 25.0], [-42.0, 26.0], [-42.0, 30.0], [-34.0, 35.0], [-34.0, 36.0], [-43.0, 36.0], [-48.0, 40.0], [-48.0, 41.0], [-32.0, 43.0], [-32.0, 44.0], [-22.0, 44.0], [-9.0, 39.0], [-7.0, 39.0], [-1.0, 30.0], [-0.0, 30.0], [-0.0, 17.0]]"
+shield_scale = Vector2(0.6744, 0)
+warp_range = 1
+base_energy = 150.0

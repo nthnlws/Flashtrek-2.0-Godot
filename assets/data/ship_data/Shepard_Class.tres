@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://2jyhy72m2ei8"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_62pij"]
+
+[resource]
+script = ExtResource("1_62pij")
+ship_type = 36
+faction = 0
+ship_name = "Shepard_Class"
+archetype = 0
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(96, 0)
+collision_polygon = "[[-1.0, 22.0], [-2.0, 19.0], [-2.0, 17.0], [-9.0, 13.0], [-9.0, 12.0], [-14.0, 13.0], [-17.0, 13.0], [-20.0, 17.0], [-21.0, 17.0], [-20.0, 11.0], [-20.0, 10.0], [-39.0, 11.0], [-47.0, 11.0], [-47.0, 14.0], [-29.0, 14.0], [-29.0, 30.0], [-29.0, 33.0], [-47.0, 34.0], [-48.0, 34.0], [-39.0, 36.0], [-39.0, 37.0], [-20.0, 37.0], [-21.0, 31.0], [-21.0, 30.0], [-14.0, 35.0], [-9.0, 35.0], [-3.0, 30.0], [-2.0, 30.0], [-0.0, 22.0]]"
+shield_scale = Vector2(0.6348, 0)
+warp_range = 1
+base_energy = 150.0

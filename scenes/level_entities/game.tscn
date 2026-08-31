@@ -63,8 +63,9 @@ visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="StarbaseMenu" parent="Menus" unique_id=694363471 instance=ExtResource("12_ab70e")]
+[node name="StarbaseMenu" parent="Menus" unique_id=694363471 node_paths=PackedStringArray("security_labels") instance=ExtResource("12_ab70e")]
 visible = false
+security_labels = []
 
 [node name="ShipStatusMenu" parent="Menus" unique_id=1335963301 instance=ExtResource("13_ab70e")]
 visible = false
@@ -80,6 +81,4 @@ enabled = false
 metadata/_custom_type_script = "uid://dmdedm3kpsdji"
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="close_settings" from="Menus/SettingsMenu" to="Menus" method="_handle_settings_closed"]
 [connection signal="menu_closed" from="Menus/StarbaseMenu" to="Menus" method="_handle_ship_menu_closed"]
-[connection signal="menu_closed" from="Menus/ShipStatusMenu" to="Menus" method="_handle_ship_menu_closed"]

@@ -5,13 +5,11 @@ func _init() -> void:
 	@warning_ignore_start("UNUSED_SIGNAL")
 	pass
 
-signal factionShipDied(enemy:FactionCharacter)
-signal neutralShipDied(enemy:NeutralCharacter)
-signal missionCharacterDied(mission_ship)
+signal factionShipDied(ship:FactionCharacter)
+signal neutralShipDied(ship:NeutralCharacter)
+signal missionCharacterDied(ship:MissionCharacter)
 signal containerPickedUp(container:ContainerPickup)
 signal spawnLoot(type:UpgradePickup.MODULE_TYPES, position:Vector2, number:int)
-signal updateGalaxyData(galaxy_data:GalaxyData)
-signal galaxyDataUpdated(galaxy_data:GalaxyData)
 
 # Missions
 signal changePopMessage(text:String)
@@ -66,7 +64,6 @@ signal warningsDisabled(disabled:bool)
 signal border_size_moved
 signal world_reset
 signal collisionChanged
-signal spawnShip(ship_type:Utility.SHIP_TYPES)
 signal combatantEntered(enemy: FactionCharacter)
 signal combatantExited(enemy: FactionCharacter)
 

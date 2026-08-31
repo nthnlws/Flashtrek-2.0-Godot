@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseShipInfo" format=3 uid="uid://cu4gx0u1bgaa0"]
+
+[ext_resource type="Script" uid="uid://dh3n6232t1ua7" path="res://assets/data/BaseShipInfo.gd" id="1_o2qkx"]
+
+[resource]
+script = ExtResource("1_o2qkx")
+ship_type = 70
+ship_name = "Bajoran_Freighter"
+archetype = 3
+trait_type = 4
+cargo_capacity = 1
+reputation_value = 100
+sprite_coords = Vector2(240, 0)
+collision_polygon = "[[-22.0, -12.0],[-22.0, 11.0],[-22.0, 12.0],[19.0, 5.0],[21.0, 5.0],[23.0, 2.0],[24.0, 2.0],[21.0, -5.0],[21.0, -6.0],[-22.0, -13.0]]"
+shield_scale = Vector2(0.6348, 0)
+warp_range = 1
+base_energy = 150.0

@@ -6,15 +6,13 @@ signal unhovered(button: ShipCardButton)
 signal clicked(button: ShipCardButton)
 signal released(button: ShipCardButton)
 
-@export var current_ship_type:Utility.SHIP_TYPES = 0 as Utility.SHIP_TYPES
-@export var ship_faction:Utility.FACTION = Utility.FACTION.NEUTRAL
-@export var unlock_price: int = 0
-
 @export var can_click: bool = true
 @export var can_hover: bool = true
 @export var grayed_out: bool = true
 
 var is_hovered:bool = false
+var ship_info: ShipState
+
 @onready var ship_sprite: TextureRect = %ShipSprite
 @onready var lock_texture: TextureRect = %LockTexture
 @onready var class_name_label: RichTextLabel = %ClassNameLabel
@@ -38,10 +36,12 @@ func _ready() -> void:
 	button_detector.pressed.connect(_update_sync_state.bind(STATE.PRESSED))
 	button_detector.released.connect(_update_sync_state.bind(STATE.RELEASED))
 	
-	set_unlock_cost(unlock_price)
+	if !ship_info: return
+	set_unlock_cost(ship_info.unlock_cost)
 	set_gray_out(grayed_out)
 	_create_unique_atlas()
-	set_ship_type(current_ship_type)
+	set_ship_type(ship_info)
+
 
 var current_state: STATE = STATE.EXITED
 func _update_sync_state(new_state: STATE):
@@ -50,7 +50,7 @@ func _update_sync_state(new_state: STATE):
 		right_panel.add_theme_stylebox_override("panel", RIGHT_PRESSED)
 		current_state = new_state
 		if !grayed_out:
-			clicked.emit(current_ship_type)
+			clicked.emit(ship_info.unlock_price)
 	elif new_state == STATE.ENTERED:
 		left_panel.add_theme_stylebox_override("panel", LEFT_HOVER)
 		right_panel.add_theme_stylebox_override("panel", RIGHT_HOVER)
@@ -82,10 +82,10 @@ func _create_unique_atlas() -> void:
 	ship_sprite.texture = atlas_texture
 
 
-func set_ship_type(type: Utility.SHIP_TYPES) -> void:
-	var ship_data:Dictionary = Utility.SHIP_DATA[type]
-	ship_sprite.texture.region = Rect2(ship_data.SPRITE_X, ship_data.SPRITE_Y, 48, 48)
-	class_name_label.text = str(Utility.SHIP_TYPES.keys()[type]).capitalize()
+func set_ship_type(ship_info: ShipState) -> void:
+	var base_info: BaseShipInfo = Utility.get_ship_stats(ship_info.ship_type)
+	ship_sprite.texture.region = Rect2(base_info.sprite_coords, Vector2(48, 48))
+	class_name_label.text = str(base_info.ship_type)
 
 
 func set_gray_out(new_state:bool) -> void:
@@ -94,10 +94,10 @@ func set_gray_out(new_state:bool) -> void:
 	$GrayoutPanel.visible = new_state
 
 
-func set_unlock_cost(unlock_cost:int, is_unlocked:bool = false) -> void:
+func set_unlock_cost(unlock_price:int, is_unlocked:bool = false) -> void:
 	var text_color: String = Utility.UI_cargo_green if is_unlocked else Utility.damage_red
 	if unlock_price > 0:
-		rep_unlock_status.text = text_color + "Required Rep: " + Utility.format_number(unlock_cost)
+		rep_unlock_status.text = text_color + "Required Rep: " + Utility.format_number(unlock_price)
 	else:
 		rep_unlock_status.text = Utility.UI_cargo_green + "Unlocked"
 
@@ -107,3 +107,11 @@ func set_copper_state(is_copper:bool) -> void:
 
 func update_color(new_color: Color) -> void:
 	self.modulate = new_color
+
+
+static func create_ship_button(scaled_info: ShipState) -> ShipCardButton:
+	var button: ShipCardButton = load("uid://qu0xx1uo0wsd").instantiate()
+	button.ship_info = scaled_info
+	if scaled_info.ship_type == Utility.starting_ship:
+		button.grayed_out   = false
+	return button
