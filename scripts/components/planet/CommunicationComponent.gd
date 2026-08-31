@@ -17,7 +17,7 @@ func initialize(data: BaseComponentData) -> void:
 
 func _check_player_range() -> void:
 	if player:
-		request_hail(LevelManager.player.name)
+		request_hail(LevelManager.player.ship_stats.ship_name)
 
 
 # Called by comms button click. Returns the greeting/mission text.

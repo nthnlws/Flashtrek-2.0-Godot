@@ -89,11 +89,10 @@ func cleanup_old_system() -> void:
 			obj.free()
 
 
-func spawn_mission_ship(ship_type: Utility.SHIP_TYPES, position: Vector2, is_hostile: bool = false) -> MissionCharacter:
+func spawn_mission_ship(ship_data: ShipState) -> MissionCharacter:
 	var mission_faction: MissionCharacter = MISSION_CHARACTER.instantiate()
 	mission_faction.add_to_group("mission_ships")
-	mission_faction.ship_type = ship_type
-	mission_faction.global_position = position
+	mission_faction.global_position = ship_data.save_position
 	ship_folder.add_child(mission_faction)
 	LevelManager.missionShips.append(mission_faction)
 
@@ -103,6 +102,7 @@ func spawn_mission_ship(ship_type: Utility.SHIP_TYPES, position: Vector2, is_hos
 func instantiate_neutral_ship(ship_data: ShipState) -> NeutralCharacter:
 	var new_neutral: NeutralCharacter = NEUTRAL_CHARACTER.instantiate()
 	new_neutral.ship_stats = ship_data
+	new_neutral.global_position = ship_data.save_position
 	new_neutral.add_to_group("neutral_ships")
 	return new_neutral
 
@@ -110,6 +110,7 @@ func instantiate_neutral_ship(ship_data: ShipState) -> NeutralCharacter:
 func instantiate_faction_ship(ship_data: ShipState) -> FactionCharacter:
 	var new_faction: FactionCharacter = FACTION_CHARACTER.instantiate()
 	new_faction.ship_stats = ship_data
+	new_faction.global_position = ship_data.save_position
 	new_faction.add_to_group("faction_ships")
 	return new_faction
 

@@ -63,9 +63,8 @@ visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="StarbaseMenu" parent="Menus" unique_id=694363471 node_paths=PackedStringArray("security_labels") instance=ExtResource("12_ab70e")]
+[node name="StarbaseMenu" parent="Menus" unique_id=694363471 instance=ExtResource("12_ab70e")]
 visible = false
-security_labels = []
 
 [node name="ShipStatusMenu" parent="Menus" unique_id=1335963301 instance=ExtResource("13_ab70e")]
 visible = false

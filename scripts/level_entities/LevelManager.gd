@@ -27,16 +27,18 @@ func _ready() -> void:
 
 
 func create_or_load_galaxy(slot:int) -> void:
-	print('creating galaxy')
-	# Create or load galaxy from save slot
+	# Load save slot from save data
 	if SaveManager.save_slot_exists(slot):
-		print_debug('Loaded slot %s data' % slot)
+		#print_debug('Loaded slot %s data' % slot)
 		galaxy_data = SaveManager.load_galaxy(slot)
-	else:
+	
+	# No save data, generate new from scratch
+	else: 
 		galaxy_data = GalaxyData.generate_galaxy_data()
 		SaveManager.save_galaxy(slot, galaxy_data)
-		print_debug('Saved newly created galaxy data to slot %s' % slot)
-	current_system_data = galaxy_data.current_system
+		galaxy_data.current_system = galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
+		#print_debug('Saved newly created galaxy data to slot %s' % slot)
+	print(galaxy_data)
 	galaxyDataUpdated.emit(galaxy_data)
 
 

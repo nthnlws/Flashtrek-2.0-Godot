@@ -85,7 +85,7 @@ func _create_unique_atlas() -> void:
 func set_ship_type(ship_info: ShipState) -> void:
 	var base_info: BaseShipInfo = Utility.get_ship_stats(ship_info.ship_type)
 	ship_sprite.texture.region = Rect2(base_info.sprite_coords, Vector2(48, 48))
-	class_name_label.text = str(base_info.ship_type)
+	class_name_label.text = str(Utility.SHIP_TYPES.keys()[base_info.ship_type]).replace("_", " ")
 
 
 func set_gray_out(new_state:bool) -> void:

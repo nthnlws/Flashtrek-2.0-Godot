@@ -75,13 +75,13 @@ func _ready() -> void:
 # ─── Faction Change ───────────────────────────────────────────────────────────
 func change_faction(new_faction: Utility.FACTION) -> void:
 	var faction_data: Dictionary = FACTION_DATA.get(new_faction, {})
-
+	
 	stardate.text      = _get_stardate(new_faction)
 	faction_title.text = faction_data.get("title", "")
 
 	for label: Label in security_labels:
 		label.text = faction_data.get("security", "")
-
+	
 	var button_colors: Array = faction_data.get("button_colors", [])
 	for i: int in selection_buttons.size():
 		if new_faction != Utility.FACTION.NEUTRAL:
@@ -153,8 +153,8 @@ func update_ship_stats(selected_ship: ShipCardButton) -> void:
 	var ship_info: ShipState = selected_ship.ship_info
 
 	# Existing stat bars unchanged
-	_set_stat_bar(%HealthBar,   ship_info.scaled_HP,         _stat_ranges["MAX_HP"])
-	_set_stat_bar(%ShieldBar,   ship_info.scaled_shield,     _stat_ranges["MAX_SHIELD"])
+	_set_stat_bar(%HealthBar,   ship_info.scaled_max_HP,         _stat_ranges["MAX_HP"])
+	_set_stat_bar(%ShieldBar,   ship_info.scaled_max_shield,     _stat_ranges["MAX_SHIELD"])
 	_set_stat_bar(%SpeedBar,    ship_info.scaled_speed,          _stat_ranges["SPEED"])
 	_set_stat_bar(%MovementBar, ship_info.scaled_agility,        _stat_ranges["AGILITY"])
 
@@ -179,17 +179,16 @@ func _set_stat_bar(bar: Control, value: float, range: Vector2, min_fill: float =
 
 
 # ─── Unlock Updates ───────────────────────────────────────────────────────────
-
 func _update_ship_unlocks(faction: Utility.FACTION, new_score: float) -> void:
 	for button: ShipCardButton in selection_buttons:
-		if button.ship_faction == faction and button.unlock_price != 0:
-			button.set_unlock_cost(button.unlock_price, new_score >= button.unlock_price)
-			button.set_gray_out(new_score < button.unlock_price)
+		var cost: float = button.ship_info.unlock_cost
+		if button.ship_info.current_faction == faction and cost != 0:
+			button.set_unlock_cost(cost, new_score >= cost)
+			button.set_gray_out(new_score < cost)
 
 
 func _on_ship_selected(clicked_button:ShipCardButton) -> void:
-	var selected_ship: Utility.SHIP_TYPES = clicked_button.current_ship_type
-	SignalBus.player_type_changed.emit(selected_ship, scaled_ship_stats.get(selected_ship))
+	SignalBus.player_type_changed.emit(clicked_button.ship_info)
 	close_menu()
 
 

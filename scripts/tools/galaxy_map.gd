@@ -28,6 +28,7 @@ func _ready() -> void:
 	# Force update current system since signal connections above are
 	# connected after system has already emitted "system_changed" signal
 	update_current_system(LevelManager.current_system_data)
+	update_system_names(LevelManager.galaxy_data)
 
 
 func _process(delta: float) -> void:

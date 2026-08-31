@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://g3qxm0r002bc"]
+[gd_scene format=3 uid="uid://s84tsxrx33y7"]
 
 [ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_6dfc7"]
 [ext_resource type="Texture2D" uid="uid://b1qqvb3og1mw2" path="res://assets/textures/UI/HUD_button/Top Left.png" id="2_40wxk"]

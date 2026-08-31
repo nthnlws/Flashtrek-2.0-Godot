@@ -115,7 +115,7 @@ static func generate_system_data(sys_index: int, new_system_name: String) -> Sys
 		var neutral_spawn_pos: Vector2 = _generate_neutral_spawn_position(planet)
 		var baseNeutralInfo: BaseShipInfo = Utility.get_ship_stats(BaseShipInfo.get_neutral_ship_type())
 		var scaled_neutral_stats: ShipState = ShipState.get_NPC_scaled_stats(new_system_data.system_difficulty_mult, baseNeutralInfo, ShipState.CATEGORY.NEUTRAL)
-		scaled_faction_stats.save_position = neutral_spawn_pos
+		scaled_neutral_stats.save_position = neutral_spawn_pos
 		new_system_data.neutral_list.append(scaled_neutral_stats)
 		index += 1
 	
@@ -126,15 +126,13 @@ static func _generate_neutral_spawn_position(host_planet: PlanetData) -> Vector2
 	# Set spawn distance between 20-80% from starbase to planet
 	var random_fraction: float = clamp(randf(), 0.20, 0.80)
 	var spawn_pos: Vector2 = Vector2.ZERO.lerp(host_planet.world_position, random_fraction)
-	
 	return spawn_pos
 
-
+const MAX_SPAWN_DISTANCE: int = 1500
+const MIN_SPAWN_DISTANCE: int = 500
 static func _generate_faction_spawn_position(host_planet: PlanetData) -> Vector2:
-	var max_spawn_distance: int = 1500
-	var min_spawn_distance: int = 500
 	var random_angle: float = randf_range(0, TAU)
-	var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
+	var spawn_distance: float = randf_range(MIN_SPAWN_DISTANCE, MAX_SPAWN_DISTANCE)
 	var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
 	
 	return host_planet.world_position + spawn_position

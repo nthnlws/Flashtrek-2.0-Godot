@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="9_hkoso"]
 [ext_resource type="AudioStream" uid="uid://c83cajmhoop7t" path="res://assets/audio/ambience/engine_ambience_loud.ogg" id="11_hkoso"]
 
-[node name="StarbaseMenu" type="Control" unique_id=694363471 node_paths=PackedStringArray("security_labels")]
+[node name="StarbaseMenu" type="Control" unique_id=694363471]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,6 @@ federation_unlocks = Array[int]([91, 38, 66, 37, 88, 75])
 klingon_unlocks = Array[int]([4, 72, 42, 29])
 romulan_unlocks = Array[int]([31, 32, 87, 59, 5, 73])
 neutral_unlocks = Array[int]([55, 0, 70, 54, 83, 2])
-security_labels = [NodePath("BottomSecurity"), NodePath("TopSecurity")]
 metadata/_edit_horizontal_guides_ = [130.0]
 
 [node name="Background" type="ColorRect" parent="." unique_id=238010983]

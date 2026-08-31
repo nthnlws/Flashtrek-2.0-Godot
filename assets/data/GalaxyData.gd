@@ -54,6 +54,8 @@ static var NEIGHBOR_MAP: Dictionary = {
 	30: [SPECIAL_SYSTEMS.Romulus, 29],
 }
 
+func _to_string() -> String:
+	return "--- %s systems generated in galaxy ---" % [systems.size()]
 func _init() -> void:
 	if system_names.is_empty():
 		_reload_text_file()

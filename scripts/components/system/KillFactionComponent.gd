@@ -20,12 +20,8 @@ func initialize(data: BaseComponentData) -> void:
 func _spawn_ships() -> void:
 	var root_level: Node = LevelManager.rootLevel
 	
-	for ship_data in component_data.target_ships_data:
-		var new_ship: MissionCharacter = root_level.spawn_mission_ship(
-			ship_data.ship_type, 
-			ship_data.spawn_position, 
-			true
-		)
+	for ship_data:ShipState in component_data.target_ships_data:
+		var new_ship: MissionCharacter = root_level.spawn_mission_ship(ship_data)
 		spawned_ships[new_ship] = ship_data
 
 
