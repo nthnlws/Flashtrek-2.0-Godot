@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b8ojgslpmxdfk" path="res://assets/textures/UI/warning_banner.png" id="1_hxir5"]
 [ext_resource type="Script" uid="uid://cldd4wvkrivvl" path="res://scripts/menus_ui/battle_alert.gd" id="2_h6ca5"]
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
-[ext_resource type="PackedScene" uid="uid://bjoxdjudxb5p1" path="res://scenes/menus_ui/HUD_selection_button.tscn" id="6_lffcq"]
+[ext_resource type="PackedScene" uid="uid://bjoxdjudxb5p1" path="res://scenes/menus_ui/HUD_buttons.tscn" id="6_lffcq"]
 [ext_resource type="Texture2D" uid="uid://clux3cdk0q4eo" path="res://assets/textures/UI/new_HUD/engineering_insignia_button.svg" id="7_lg2su"]
 [ext_resource type="Script" uid="uid://c14ywbiqs8efn" path="res://scripts/menus_ui/HUD_settings_button.gd" id="8_tbbuv"]
 [ext_resource type="PackedScene" uid="uid://bfl6ircpc33v" path="res://scenes/menus_ui/faction_warning_popup.tscn" id="9_l28jr"]

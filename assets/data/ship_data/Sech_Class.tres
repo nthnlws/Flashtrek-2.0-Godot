@@ -6,12 +6,9 @@
 script = ExtResource("1_1wom2")
 ship_type = 86
 faction = 1
-ship_name = "sech_Class"
 archetype = 0
-cargo_capacity = 1
-reputation_value = 100
-sprite_coords = Vector2(288, 0)
+sprite_coords = Vector2(288, 192)
 collision_polygon = "[[-1.0, 23.0], [-21.0, 13.0], [-23.0, 13.0], [-21.0, 3.0], [-21.0, 2.0], [-45.0, 15.0], [-47.0, 15.0], [-48.0, 30.0], [-48.0, 31.0], [-23.0, 44.0], [-23.0, 45.0], [-21.0, 44.0], [-20.0, 44.0], [-23.0, 40.0], [-23.0, 34.0], [-21.0, 33.0], [-15.0, 33.0], [-13.0, 30.0], [-13.0, 29.0], [-0.0, 23.0]]"
-shield_scale = Vector2(0.5952, 0)
+shield_scale = Vector2(0.5952, 0.7936)
 warp_range = 1
 base_energy = 150.0

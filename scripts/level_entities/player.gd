@@ -462,28 +462,28 @@ func _handle_mission_pickup(mission_data: MissionData) -> void:
 
 func apply_upgrade(pickup: UpgradePickup) -> void:
 	SignalBus.playerUpgradeApplied.emit(pickup.upgrade_type)
-	var mult_step: float = 0.05 # 5% increase to stat
+	const MULT_STEP: float = 0.05 # 5% increase to stat
 	
 	var type: UpgradePickup.MODULE_TYPES = pickup.upgrade_type
 	var modifier: UpgradePickup.MODIFIER = pickup.modifier_type # Mult vs Add
 	
 	match type:
 		UpgradePickup.MODULE_TYPES.SPEED:
-			stats.SpeedMult = stats.SpeedMult + mult_step
+			stats.SpeedMult = stats.SpeedMult + MULT_STEP
 		UpgradePickup.MODULE_TYPES.ROTATION:
-			stats.AgilityMult = stats.AgilityMult + mult_step
+			stats.AgilityMult = stats.AgilityMult + MULT_STEP
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
-			stats.FireRateMult = stats.FireRateMult + mult_step
+			stats.FireRateMult = stats.FireRateMult + MULT_STEP
 		UpgradePickup.MODULE_TYPES.HEALTH:
-			stats.HullMult = health_component.stats.HullMult + mult_step
+			stats.HullMult = health_component.stats.HullMult + MULT_STEP
 			SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			health_component.stats.ShieldMult = health_component.stats.ShieldMult + mult_step
+			health_component.stats.ShieldMult = health_component.stats.ShieldMult + MULT_STEP
 			if shield: # Manually forces the shield to calculate and signal the new max value
 				health_component.SP_max = health_component.SP_max
 				SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
 		UpgradePickup.MODULE_TYPES.DAMAGE:
-			stats.DamageMult = stats.DamageMult + mult_step
+			stats.DamageMult = stats.DamageMult + MULT_STEP
 
 
 func trigger_warp_effect(length: float, warp_effect_on: bool) -> void:

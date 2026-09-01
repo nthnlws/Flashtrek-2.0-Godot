@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bjoxdjudxb5p1"]
 
-[ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_27pli"]
-[ext_resource type="Shader" uid="uid://b4l7y0m8f5br" path="res://resources/Materials_Shaders/button_recolor.gdshader" id="1_pq8ac"]
-[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="2_2lwyv"]
-[ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="3_27pli"]
-[ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="4_g1kv5"]
+[ext_resource type="Script" uid="uid://ctsbbnip752bo" path="res://scripts/menus_ui/HUDButton.gd" id="1_wihod"]
+[ext_resource type="Shader" uid="uid://b4l7y0m8f5br" path="res://resources/Materials_Shaders/button_recolor.gdshader" id="2_qlrvm"]
+[ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_mat07"]
+[ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="4_uqsvg"]
+[ext_resource type="PackedScene" uid="uid://v62r6kmtnagj" path="res://scenes/tools/PolygonMouseDetector.tscn" id="5_x2bpr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2lwyv"]
-shader = ExtResource("1_pq8ac")
+shader = ExtResource("2_qlrvm")
 shader_parameter/white_replace_color = Color(0.58431375, 0.62352943, 0.99607843, 1)
 shader_parameter/red_replace_color = Color(1, 1, 1, 1)
 shader_parameter/tolerance = 1.0
@@ -26,19 +26,19 @@ corner_radius_bottom_left = 100
 corner_detail = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_27pli"]
-shader = ExtResource("1_pq8ac")
+shader = ExtResource("2_qlrvm")
 shader_parameter/white_replace_color = Color(0.7137255, 0.4862745, 0.81960785, 1)
 shader_parameter/red_replace_color = Color(1, 1, 1, 1)
 shader_parameter/tolerance = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g1kv5"]
-shader = ExtResource("1_pq8ac")
+shader = ExtResource("2_qlrvm")
 shader_parameter/white_replace_color = Color(0.84705883, 0.64705884, 0.43529412, 1)
 shader_parameter/red_replace_color = Color(1, 1, 1, 1)
 shader_parameter/tolerance = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d6iro"]
-shader = ExtResource("1_pq8ac")
+shader = ExtResource("2_qlrvm")
 shader_parameter/white_replace_color = Color(0.79607844, 0.4, 0.4, 1)
 shader_parameter/red_replace_color = Color(1, 1, 1, 1)
 shader_parameter/tolerance = 1.0
@@ -51,7 +51,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_27pli")
+script = ExtResource("1_wihod")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2134249426]
 layout_mode = 1
@@ -96,14 +96,14 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-theme_override_fonts/font = ExtResource("2_2lwyv")
+theme_override_fonts/font = ExtResource("3_mat07")
 theme_override_font_sizes/font_size = 14
 text = "SHIP"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("3_27pli")
+script = ExtResource("4_uqsvg")
 
-[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/SHIPpanel/ShipButton" unique_id=2000010716 instance=ExtResource("4_g1kv5")]
+[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/SHIPpanel/ShipButton" unique_id=2000010716 instance=ExtResource("5_x2bpr")]
 layout_mode = 1
 
 [node name="Polygon2D" parent="MarginContainer/GridContainer/SHIPpanel/ShipButton/PolygonMouseDetector" index="0" unique_id=810687960]
@@ -130,14 +130,14 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-theme_override_fonts/font = ExtResource("2_2lwyv")
+theme_override_fonts/font = ExtResource("3_mat07")
 theme_override_font_sizes/font_size = 14
 text = "NAV"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("3_27pli")
+script = ExtResource("4_uqsvg")
 
-[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/NAVpanel/NavButton" unique_id=1594107818 instance=ExtResource("4_g1kv5")]
+[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/NAVpanel/NavButton" unique_id=1594107818 instance=ExtResource("5_x2bpr")]
 layout_mode = 1
 
 [node name="Polygon2D" parent="MarginContainer/GridContainer/NAVpanel/NavButton/PolygonMouseDetector" index="0" unique_id=810687960]
@@ -164,14 +164,14 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-theme_override_fonts/font = ExtResource("2_2lwyv")
+theme_override_fonts/font = ExtResource("3_mat07")
 theme_override_font_sizes/font_size = 14
 text = "INTEL"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("3_27pli")
+script = ExtResource("4_uqsvg")
 
-[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/INTELpanel/IntelButton" unique_id=852794953 instance=ExtResource("4_g1kv5")]
+[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/INTELpanel/IntelButton" unique_id=852794953 instance=ExtResource("5_x2bpr")]
 layout_mode = 1
 
 [node name="Polygon2D" parent="MarginContainer/GridContainer/INTELpanel/IntelButton/PolygonMouseDetector" index="0" unique_id=810687960]
@@ -198,14 +198,14 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-theme_override_fonts/font = ExtResource("2_2lwyv")
+theme_override_fonts/font = ExtResource("3_mat07")
 theme_override_font_sizes/font_size = 14
 text = "COMMS"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("3_27pli")
+script = ExtResource("4_uqsvg")
 
-[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/COMMSpanel/CommsButton" unique_id=1068797882 instance=ExtResource("4_g1kv5")]
+[node name="PolygonMouseDetector" parent="MarginContainer/GridContainer/COMMSpanel/CommsButton" unique_id=1068797882 instance=ExtResource("5_x2bpr")]
 layout_mode = 1
 
 [node name="Polygon2D" parent="MarginContainer/GridContainer/COMMSpanel/CommsButton/PolygonMouseDetector" index="0" unique_id=810687960]

@@ -50,7 +50,7 @@ func _to_string() -> String:
 		warp_range,
 	]
 
-## For getting ship type for a given system based on faction
+## Returns ship type for a given faction
 static func get_faction_ship_type(faction:Utility.FACTION) -> Utility.SHIP_TYPES:
 	match faction as Utility.FACTION:
 		Utility.FACTION.FEDERATION:
@@ -70,7 +70,6 @@ static func get_faction_ship_type(faction:Utility.FACTION) -> Utility.SHIP_TYPES
 static func get_neutral_ship_type() -> Utility.SHIP_TYPES:
 	var neutral_ship_array: Array[Utility.SHIP_TYPES] = [
 		Utility.SHIP_TYPES.Merchantman,
-		Utility.SHIP_TYPES.DKora_Marauder,
 		Utility.SHIP_TYPES.Hideki_Class,
 		Utility.SHIP_TYPES.Tellarite_Cruiser,
 		Utility.SHIP_TYPES.Talarian_Freighter,

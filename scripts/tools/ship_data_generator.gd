@@ -33,22 +33,21 @@ func _generate_resources() -> void:
 		var base_data: Dictionary = SHIP_DATA[ship_enum]
 		var stats: BaseShipInfo = BaseShipInfo.new()
 		
-		var x = base_data.get("SPRITE_X", 0.0)
-		var y = base_data.get("SPRITE_y", 0.0)
+		var x = base_data.get("SPRITE_X", 999.0)
+		var y = base_data.get("SPRITE_Y", 999.0)
 		stats.sprite_coords = Vector2(x, y)
 		stats.collision_polygon = base_data.get("COLLISION_POLY", [])
 		
 		var x2 = base_data.get("SHIELD_SCALE_X", 0.0)
-		var y2 = base_data.get("SHIELD_SCALE_y", 0.0)
+		var y2 = base_data.get("SHIELD_SCALE_Y", 0.0)
 		stats.shield_scale = Vector2(x2, y2)
 		
 		stats.muzzle_pos = base_data.get("MUZZLE_POS", 0)
-		stats.cargo_capacity = base_data.get("CARGO_SIZE", 1)
-		stats.reputation_value = 100
+		#stats.cargo_capacity = base_data.get("CARGO_SIZE", 1)
+		#stats.reputation_value = 100
 		
 		stats.ship_type  = base_data.get("INDEX", Utility.SHIP_TYPES.La_Sirena)
 		stats.faction    = base_data.get("FACTION", Utility.FACTION.NEUTRAL)
-		stats.ship_name  = base_data.get("SHIP_NAME", str(key))
 		stats.archetype  = base_data.get("ARCHETYPE", Scaling.ARCHETYPE.NONE)
 		stats.trait_type = base_data.get("TRAIT", Scaling.SHIP_TRAIT.NONE)
 		

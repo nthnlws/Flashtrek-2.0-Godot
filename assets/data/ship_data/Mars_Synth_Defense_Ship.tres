@@ -6,13 +6,10 @@
 script = ExtResource("1_fct7n")
 ship_type = 58
 faction = 0
-ship_name = "Mars_Synth_Defense_Ship"
 archetype = 4
 trait_type = 6
-cargo_capacity = 1
-reputation_value = 100
-sprite_coords = Vector2(192, 0)
+sprite_coords = Vector2(192, 192)
 collision_polygon = "[[-12.0, 22.0], [-19.0, 8.0], [-20.0, 8.0], [-19.0, 1.0], [-19.0, 0.0], [-31.0, 18.0], [-31.0, 20.0], [-38.0, 22.0], [-39.0, 22.0], [-38.0, 25.0], [-38.0, 26.0], [-32.0, 27.0], [-31.0, 27.0], [-20.0, 46.0], [-20.0, 47.0], [-20.0, 41.0], [-20.0, 39.0], [-11.0, 22.0]]"
-shield_scale = Vector2(0.5556, 0)
+shield_scale = Vector2(0.5556, 0.8728)
 warp_range = 1
 base_energy = 150.0

@@ -16,7 +16,7 @@ const NUM_ROM_SYSTEMS: int = 7
 @export var player_ship_type: Utility.SHIP_TYPES = Utility.starting_ship
 @export var current_system: SystemData
 
-static var NEIGHBOR_MAP: Dictionary = {
+static var NEIGHBOR_MAP: Dictionary[SPECIAL_SYSTEMS, Array] = {
 	SPECIAL_SYSTEMS.Solarus: [6, 7, 8, 10],
 	SPECIAL_SYSTEMS.Kronos: [16, 17, SPECIAL_SYSTEMS.Risa, 19, 20],
 	SPECIAL_SYSTEMS.Romulus: [25, 28, 29, 30],

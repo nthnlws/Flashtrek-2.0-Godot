@@ -20,21 +20,21 @@ func _ready() -> void:
 func _connect_signals() -> void:
 	SignalBus.HUDchanged.connect(change_scale)
 	
-	ship_button.button_pressed.connect(_handle_HUD_button_pressed.bind(ship_button))
-	nav_button.button_pressed.connect(_handle_HUD_button_pressed.bind(nav_button))
-	intel_button.button_pressed.connect(_handle_HUD_button_pressed.bind(intel_button))
-	comms_button.button_pressed.connect(_handle_HUD_button_pressed.bind(comms_button))
+	ship_button.button_pressed.connect(_handle_HUD_button_pressed.bind("ShipButton"))
+	nav_button.button_pressed.connect(_handle_HUD_button_pressed.bind("NavButton"))
+	intel_button.button_pressed.connect(_handle_HUD_button_pressed.bind("IntelButton"))
+	comms_button.button_pressed.connect(_handle_HUD_button_pressed.bind("CommsButton"))
 
 
-func _handle_HUD_button_pressed(clicked_button: TextButton) -> void:
+func _handle_HUD_button_pressed(clicked_button: String) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		AudioManager.play_UI_click_sound()
-		var signal_name: String = clicked_button.name + "_clicked"
+		var signal_name: String = clicked_button + "_clicked"
 		if SignalBus.has_signal(signal_name):
 			SignalBus.emit_signal(signal_name)
 			# Following signals emitted:
 			# ShipButton, NavButton, IntelButton, CommsButton
-			#print(str(signal_name) + " emitted")
+			print(signal_name + " emitted")
 		else: print("%s not found in SignalBus" % signal_name)
 
 

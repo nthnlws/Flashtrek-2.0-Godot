@@ -5,12 +5,9 @@
 [resource]
 script = ExtResource("1_qt5sa")
 ship_type = 45
-ship_name = "Bajoran_Interceptor"
 archetype = 4
-cargo_capacity = 1
-reputation_value = 100
-sprite_coords = Vector2(144, 0)
+sprite_coords = Vector2(144, 240)
 collision_polygon = "[[-8.0, 23.0], [-20.0, 17.0], [-22.0, 17.0], [-21.0, 1.0], [-21.0, 0.0], [-24.0, 1.0], [-26.0, 1.0], [-31.0, 7.0], [-32.0, 7.0], [-39.0, 23.0], [-39.0, 24.0], [-32.0, 38.0], [-32.0, 40.0], [-24.0, 46.0], [-24.0, 47.0], [-21.0, 46.0], [-20.0, 46.0], [-22.0, 42.0], [-23.0, 42.0], [-22.0, 32.0], [-22.0, 30.0], [-15.0, 28.0], [-12.0, 28.0], [-7.0, 23.0]]"
-shield_scale = Vector2(0.5556, 0)
+shield_scale = Vector2(0.5556, 0.6348)
 warp_range = 1
 base_energy = 150.0

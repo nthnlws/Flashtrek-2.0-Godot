@@ -192,8 +192,6 @@ func _on_warp_button_pressed() -> void:
 
 
 func update_system_names(galaxy_data: GalaxyData) -> void:
-	print('updating system names in galaxy map')
-	print("system array size: %s" % system_array.size())
 	for system: Area2D in system_array:
 		var sys_data = galaxy_data.get_system(int(system.name))
 		var system_string: String

@@ -40,12 +40,12 @@ const FACTION_BIAS: Dictionary = {
 
 enum SHIP_TRAIT {
 	NONE,
-	REGENERATING_SHIELDS,
-	HEAVY_WEAPONS,       
-	CLOAKING_CAPABLE,    
-	CARGO_EXPANDED,      
-	RAPID_FIRE,          
-	POINT_DEFENSE,       
+	REGENERATING_SHIELDS,	# Shields regen faster out of combat
+	HEAVY_WEAPONS,			# Torpedo damage multiplier   
+	CLOAKING_CAPABLE,		# Cloak ability
+	CARGO_EXPANDED,			# Larger cargo hold
+	RAPID_FIRE,				# Faster fire rate, lower per-shot damage
+	POINT_DEFENSE,			# Chance to intercept incoming torpedoes
 }
 
 # ─── Public API ───────────────────────────────────────────────────────────────
