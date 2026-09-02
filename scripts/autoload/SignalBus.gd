@@ -53,6 +53,14 @@ signal IntelButton_clicked
 signal CommsButton_clicked
 signal HUDchanged(scale:float)
 
+## Emitted by the planet component to tell the HUD to instantiate the popup
+signal request_comms_popup(message: String, state: int) 
+## Emitted by the planet component to update an already open popup
+signal update_comms_popup(message: String, state: int) 
+## Emitted by the planet component or system to destroy the popup
+signal close_comms_popup() 
+## Emitted by the CommsUI to tell the active component what the player clicked
+signal comms_action_taken(action: String) # "interact", "reroll", or "close"
 
 signal joystickMoved(playerDirection:Vector2)
 

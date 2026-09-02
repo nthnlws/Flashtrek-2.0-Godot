@@ -34,7 +34,7 @@ func _handle_HUD_button_pressed(clicked_button: String) -> void:
 			SignalBus.emit_signal(signal_name)
 			# Following signals emitted:
 			# ShipButton, NavButton, IntelButton, CommsButton
-			print(signal_name + " emitted")
+			#print(signal_name + " emitted")
 		else: print("%s not found in SignalBus" % signal_name)
 
 

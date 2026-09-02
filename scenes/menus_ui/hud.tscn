@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dfehj0ebpawa0"]
 
+[ext_resource type="Script" uid="uid://bhyxdehxvyi4s" path="res://scripts/menus_ui/hud_manager.gd" id="1_h6ca5"]
 [ext_resource type="Texture2D" uid="uid://b8ojgslpmxdfk" path="res://assets/textures/UI/warning_banner.png" id="1_hxir5"]
 [ext_resource type="Script" uid="uid://cldd4wvkrivvl" path="res://scripts/menus_ui/battle_alert.gd" id="2_h6ca5"]
 [ext_resource type="PackedScene" uid="uid://8hmvc0qqsew1" path="res://scenes/menus_ui/top_panel.tscn" id="2_l28jr"]
@@ -63,6 +64,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_h6ca5")
+comms_ui_scene = ExtResource("13_sk8fp")
 metadata/_edit_horizontal_guides_ = [40.0]
 
 [node name="BattleStatus" type="TextureRect" parent="." unique_id=51775589]
@@ -124,9 +127,6 @@ offset_left = 99.0
 offset_top = 533.0
 offset_right = 159.0
 offset_bottom = 553.0
-
-[node name="Comms_UI" parent="." unique_id=300701307 instance=ExtResource("13_sk8fp")]
-layout_mode = 1
 
 [node name="Warning_Popup" parent="." unique_id=806105503 instance=ExtResource("9_l28jr")]
 layout_mode = 1

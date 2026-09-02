@@ -150,4 +150,3 @@ func _on_sequence_complete(old_state: Utility.GAMESTATE) -> void:
 	MissionManager.complete_mission()
 	if component_data:
 		component_data.complete()
-

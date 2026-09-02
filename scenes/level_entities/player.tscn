@@ -605,8 +605,9 @@ shield = NodePath("../Shield")
 hull = NodePath("../hitbox_area")
 health_component = NodePath("../HealthComponent")
 
-[node name="EnergyComponent" type="Node" parent="." unique_id=480543882]
+[node name="EnergyComponent" type="Node" parent="." unique_id=480543882 node_paths=PackedStringArray("parent")]
 script = ExtResource("5_wda1y")
+parent = NodePath("..")
 
 [node name="GalaxyParticles" type="GPUParticles2D" parent="." unique_id=1824920944]
 emitting = false

@@ -4,7 +4,6 @@ class_name Player
 signal to_impulse_transition
 signal to_overdrive_transition
 
-
 # --- Components ---
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
@@ -37,6 +36,9 @@ var current_tweens: Array[Tween]
 var current_enemy_list: Array[FactionCharacter]
 
 var ship_stats: ShipState
+## Tracks if the player is within the communication range
+## of a planet. Set by the planet with the changePlanet() function
+var nearest_planet: PlanetData
 
 func set_player_direction(joystick_direction) -> void:
 	direction = joystick_direction
@@ -48,10 +50,6 @@ func _ready() -> void:
 	
 	_connect_signals()
 	sync_ship_to_data(ship_stats)
-	
-	energy.setMaxEnergy(energy.max_energy * stats.EnergyCapacityMult)
-	energy.max_energy_changed.connect(func(val): SignalBus.playerMaxEnergyChanged.emit(val))
-	energy.energy_changed.connect(func(val): SignalBus.playerEnergyChanged.emit(val))
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
 	
@@ -94,12 +92,7 @@ func sync_ship_to_data(ship_stats: ShipState) -> void:
 	energy.setMaxEnergy(ship_stats.scaled_energy)
 	energy.setCurrentEnergy(ship_stats.scaled_energy)
 	weapons_component.damage_multiplier = ship_stats.scaled_damage_mult
-	faction = ship_info.faction
-
-	SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
-	SignalBus.playerHealthChanged.emit(health_component.HP_max)
-	SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
-	SignalBus.playerShieldChanged.emit(health_component.SP_max)
+	faction = ship_stats.current_faction
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
@@ -535,3 +528,7 @@ func cloak_ship(faction: Utility.FACTION, is_cloaking: bool) -> void:
 			sprite_animation.play("cloak_KLINGON")
 		else:
 			sprite_animation.play("uncloak_KLINGON")
+
+
+func changePlanet(new_comms: PlanetData = null):
+	nearest_planet = new_comms

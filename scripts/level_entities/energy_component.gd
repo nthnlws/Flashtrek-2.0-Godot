@@ -5,15 +5,21 @@ signal energy_changed(current: float)
 signal max_energy_changed(max: float)
 signal energy_depleted
 
-@export var base_max_energy: float = 150.0
-@export var max_energy: float = 150.0
+@export var parent:Node
+@export var max_energy: float = 150.0:
+	set(value):
+		max_energy = value
+		SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
 
-var current_energy: float = 0.0
+var current_energy: float = 0.0:
+	set(value):
+		current_energy = value
+		SignalBus.playerEnergyChanged.emit.call_deferred(current_energy)
 var is_regen_locked: bool = false
 
 
 func resetEnergyToMax() -> void:
-	setCurrentEnergy(base_max_energy)
+	setCurrentEnergy(max_energy)
 
 
 func setCurrentEnergy(new_current:float):
@@ -25,6 +31,7 @@ func setCurrentEnergy(new_current:float):
 	
 	if current_energy <= 0.0 and old_value > 0.0:
 		energy_depleted.emit()
+
 
 func setMaxEnergy(new_max:float):
 	max_energy = max(0.0, new_max)
