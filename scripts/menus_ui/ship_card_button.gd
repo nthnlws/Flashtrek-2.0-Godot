@@ -55,9 +55,11 @@ func _update_sync_state(new_state: STATE):
 		left_panel.add_theme_stylebox_override("panel", LEFT_HOVER)
 		right_panel.add_theme_stylebox_override("panel", RIGHT_HOVER)
 		current_state = new_state
-		if !grayed_out:
+		if !grayed_out: # Available ship animation
 			hovered.emit(self)
 			ship_sprite.scale = Vector2(1.1, 1.1)
+		else: # Animation-less, only updates stats
+			hovered.emit(self)
 	elif new_state == STATE.EXITED:
 		left_panel.add_theme_stylebox_override("panel", LEFT_NORMAL)
 		right_panel.add_theme_stylebox_override("panel", RIGHT_NORMAL)

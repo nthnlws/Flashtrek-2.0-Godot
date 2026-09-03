@@ -117,8 +117,8 @@ metadata/_edit_vertical_guides_ = [208.0, 634.0, 15.0]
 metadata/_edit_horizontal_guides_ = [412.0]
 
 [node name="Comms_message" type="RichTextLabel" parent="." unique_id=2008053641]
-clip_contents = false
 custom_minimum_size = Vector2(400, 115)
+clip_contents = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.41700003

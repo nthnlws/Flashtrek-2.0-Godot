@@ -175,10 +175,12 @@ func _evaluate_remaining_targets() -> void:
 
 func _clear_agro() -> void:
 	if enemyAgro:
-		SignalBus.combatantExited.emit(self) # Optional: Emit exit if you track AI dropping out of combat
+		# Turns off player "in-combat" status if present
+		SignalBus.combatantExited.emit(self)
 	
 	enemy_target = null
 	enemyAgro = false
+	stored_enemies.clear()
 
 
 # Overwrites NeutralCharacter explode() function

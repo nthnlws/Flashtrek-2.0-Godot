@@ -21,9 +21,6 @@ signal menu_closed
 @onready var ambience: AudioStreamPlayer = $ambience
 
 var selection_buttons: Array[ShipCardButton]
-var scaled_ship_stats: Dictionary[Utility.SHIP_TYPES, BaseShipInfo]
-var _faction_stat_ranges: Dictionary[Utility.FACTION, Dictionary]
-var _stat_ranges: Dictionary
 const SHIP_CARD_BUTTON = preload("uid://qu0xx1uo0wsd")
 const SELECTION_MENU_TEMPLATE = preload("uid://bd2odrgq4wa8e")
 const SELECTION_MENU_NEUTRAL = preload("uid://db4asel4ucnxb")
@@ -66,7 +63,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug3"): change_faction(Utility.FACTION.KLINGON)
 	if event.is_action_pressed("debug4"): change_faction(Utility.FACTION.NEUTRAL)
 
-
+func _enter_tree() -> void:
+	generate_all_faction_ranges()
 func _ready() -> void:
 	clear_buttons()
 	MissionManager.Reputation.reputation_total_changed.connect(_update_ship_unlocks)
@@ -127,7 +125,7 @@ func update_selection_grid(faction: Utility.FACTION) -> void:
 		var button: ShipCardButton = ShipCardButton.create_ship_button(scaled_info)
 		# Connect new button signals
 		button.released.connect(_on_ship_selected)
-		button.hovered.connect(update_ship_stats)
+		button.hovered.connect(%StatsContainer.update_ship_stats)
 		
 		button.add_to_group("ship_card_button")
 		%ShipGrid.add_child(button)
@@ -146,36 +144,6 @@ func _get_faction_unlocks(faction: Utility.FACTION) -> Array[Utility.SHIP_TYPES]
 		Utility.FACTION.ROMULAN:    return romulan_unlocks
 		Utility.FACTION.NEUTRAL:    return neutral_unlocks
 		_:                          return []
-
-
-# ─── Ship Stats Display ───────────────────────────────────────────────────────
-func update_ship_stats(selected_ship: ShipCardButton) -> void:
-	var ship_info: ShipState = selected_ship.ship_info
-
-	# Existing stat bars unchanged
-	_set_stat_bar(%HealthBar,   ship_info.scaled_max_HP,         _stat_ranges["MAX_HP"])
-	_set_stat_bar(%ShieldBar,   ship_info.scaled_max_shield,     _stat_ranges["MAX_SHIELD"])
-	_set_stat_bar(%SpeedBar,    ship_info.scaled_speed,          _stat_ranges["SPEED"])
-	_set_stat_bar(%MovementBar, ship_info.scaled_agility,        _stat_ranges["AGILITY"])
-
-	var formatted_name: String = Utility.fed_blue + ship_info.ship_name.capitalize()
-	%ship_name.text = "[color=#FFCC66]Ship Name:[/color] %s" % formatted_name
-
-
-func _safe_div(value: float, max_val: float) -> float:
-	if max_val <= 0.0:
-		return 0.0
-	return clampf(value / max_val, 0.0, 1.0)
-
-
-func _set_stat_bar(bar: Control, value: float, range: Vector2, min_fill: float = 0.2, contrast: float = 0.6) -> void:
-	if range.y <= range.x:
-		bar.set_progress(min_fill * 100.0)
-		return
-	var t: float       = clampf((value - range.x) / (range.y - range.x), 0.0, 1.0)
-	var curved: float  = pow(t, contrast)
-	var display: float = lerpf(min_fill, 1.0, curved)
-	bar.set_progress(display * 100.0)
 
 
 # ─── Unlock Updates ───────────────────────────────────────────────────────────
@@ -222,3 +190,78 @@ func start_ambience() -> void:
 
 func stop_ambience() -> void:
 	if ambience: ambience.stop()
+
+func generate_all_faction_ranges() -> void:
+	Utility.factionStatRanges.clear()
+	Utility.factionStatRanges.append(_create_faction_range(Utility.FACTION.FEDERATION, federation_unlocks))
+	Utility.factionStatRanges.append(_create_faction_range(Utility.FACTION.KLINGON, klingon_unlocks))
+	Utility.factionStatRanges.append(_create_faction_range(Utility.FACTION.ROMULAN, romulan_unlocks))
+	Utility.factionStatRanges.append(_create_faction_range(Utility.FACTION.NEUTRAL, neutral_unlocks))
+
+func _create_faction_range(faction: Utility.FACTION, unlock_list: Array[Utility.SHIP_TYPES]) -> FactionRanges:
+	var res: FactionRanges = FactionRanges.new()
+	res.faction = faction
+	
+	# Initialize minimums to infinity to allow correct minf() calculation
+	res.max_hp_MIN = INF
+	res.max_shield_MIN = INF
+	res.speed_MIN = INF
+	res.agility_MIN = INF
+	res.damage_MIN = INF
+	res.range_MIN = INF
+	res.max_energy_MIN = INF
+	
+	var total: int = unlock_list.size()
+	for i: int in total:
+		var t: float = Scaling.get_norm_t(i, total)
+		var ship_type: Utility.SHIP_TYPES = unlock_list[i]
+		var base: BaseShipInfo = Utility.get_ship_stats(ship_type)
+		var archetype: Scaling.ARCHETYPE = base.archetype
+		
+		var stat_mult: float = Scaling.get_player_stat_scale(t)
+		var move_mult: float = Scaling.get_player_move_scale(t)
+		var energy_scale: float = Scaling.get_player_energy_scale(t)
+		
+		# Calculate raw scaled values
+		var c_hp:float = Scaling.apply_modifiers(base.base_HP, stat_mult, archetype, faction, "MAX_HP")
+		var c_shield:float = Scaling.apply_modifiers(base.base_shield, stat_mult, archetype, faction, "MAX_SHIELD")
+		var c_speed:float = Scaling.apply_modifiers(base.base_speed, move_mult, archetype, faction, "SPEED")
+		var c_agility:float = Scaling.apply_modifiers(base.base_agility, move_mult, archetype, faction, "AGILITY")
+		var c_damage:float = Scaling.apply_modifiers(1.0, stat_mult, archetype, faction, "DAMAGE")
+		var c_range:float = float(Scaling.get_ship_warp_range(i))
+		var c_energy:float = float(snappedi(150.0 * energy_scale, 25))
+		
+		# Track minimums and maximums
+		res.max_hp_MIN = minf(res.max_hp_MIN, c_hp)
+		res.max_hp_MAX = maxf(res.max_hp_MAX, c_hp)
+		
+		res.max_shield_MIN = minf(res.max_shield_MIN, c_shield)
+		res.max_shield_MAX = maxf(res.max_shield_MAX, c_shield)
+		
+		res.speed_MIN = minf(res.speed_MIN, c_speed)
+		res.speed_MAX = maxf(res.speed_MAX, c_speed)
+		
+		res.agility_MIN = minf(res.agility_MIN, c_agility)
+		res.agility_MAX = maxf(res.agility_MAX, c_agility)
+		
+		res.damage_MIN = minf(res.damage_MIN, c_damage)
+		res.damage_MAX = maxf(res.damage_MAX, c_damage)
+		
+		res.range_MIN = minf(res.range_MIN, c_range)
+		res.range_MAX = maxf(res.range_MAX, c_range)
+		
+		res.max_energy_MIN = minf(res.max_energy_MIN, c_energy)
+		res.max_energy_MAX = maxf(res.max_energy_MAX, c_energy)
+
+	# Clean up edge cases dynamically 
+	var props: Array[String] = ["max_hp", "max_shield", "speed", "agility", "damage", "range", "max_energy"]
+	for prop in props:
+		var min_val: float = res.get(prop + "_MIN")
+		var max_val: float = res.get(prop + "_MAX")
+		
+		if min_val == INF:
+			res.set(prop + "_MIN", 0.0)
+		elif is_equal_approx(min_val, max_val):
+			res.set(prop + "_MIN", 0.0)
+
+	return res

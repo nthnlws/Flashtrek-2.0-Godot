@@ -55,8 +55,8 @@ func _generate_resources() -> void:
 		stats.damage_mult = 1.0
 		stats.base_HP      = base_data.get("MAX_HP", 100.0)
 		stats.base_shield  = base_data.get("MAX_SHIELD", 50.0)
-		stats.base_speed   = base_data.get("PLAYER_SPEED_OVERRIDE", 750.0)
-		stats.base_agility = base_data.get("PLAYER_AGILITY_OVERRIDE", 150.0)
+		stats.base_speed   = base_data.get("SPEED", 750.0)
+		stats.base_agility = base_data.get("AGILITY", 150.0)
 		stats.warp_range  = 1
 		stats.base_energy  = 150.0
 		

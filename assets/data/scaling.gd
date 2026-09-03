@@ -10,8 +10,8 @@ const ENEMY_DIFF_EXP: float = 1.5
 # ─── Player Stat Scaling Constants ───────────────────────────────────────────
 const PLAYER_STAT_MIN: float = 1.0
 const PLAYER_STAT_MAX: float = 4.5
-const PLAYER_SIG_MID: float = 0.4
-const PLAYER_SIG_K: float = 5.0
+const PLAYER_SIG_MID: float = 0.7
+const PLAYER_SIG_K: float = 4.0
 const PLAYER_MOVE_SCALE_MAX: float = 1.2
 
 # ─── Unlock Cost Constants ────────────────────────────────────────────────────
@@ -114,50 +114,6 @@ static func get_ship_warp_range(index:int) -> int:
 		0: 2, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6,
 	}
 	return warp_ranges.get(index, 1)
-
-# ─── Spider Graph Normalisation ───────────────────────────────────────────────
-static func get_faction_stat_range(unlock_list: Array[Utility.SHIP_TYPES], faction: Utility.FACTION) -> Dictionary:
-	var ranges: Dictionary = {
-		"max_hp":     { "min": INF, "max": 0.0 },
-		"max_shield": { "min": INF, "max": 0.0 },
-		"speed":      { "min": INF, "max": 0.0 },
-		"agility":    { "min": INF, "max": 0.0 },
-		"damage":     { "min": INF, "max": 0.0 },
-		"range":      { "min": INF, "max": 0.0 },
-		"max_energy": { "min": INF, "max": 0.0 },
-	}
-
-	var total: int = unlock_list.size()
-	for i: int in total:
-		var t: float            = get_norm_t(i, total)
-		var ship_type           = unlock_list[i]
-		var base: BaseShipInfo    = Utility.get_ship_stats(ship_type)
-		var archetype: ARCHETYPE = base.ARCHETYPE
-		var stat_mult: float    = get_player_stat_scale(t)
-		var move_mult: float    = get_player_move_scale(t)
-		var energy_scale: float = get_player_energy_scale(t)
-
-		var computed: Dictionary = {
-			"max_hp":     apply_modifiers(base.base_HP,                    stat_mult, archetype, faction, "MAX_HP"),
-			"max_shield": apply_modifiers(base.base_shield,                stat_mult, archetype, faction, "MAX_SHIELD"),
-			"speed":      apply_modifiers(base.base_speed,    				move_mult, archetype, faction, "SPEED"),
-			"agility":    apply_modifiers(base.base_agility,  				move_mult, archetype, faction, "AGILITY"),
-			"damage":     apply_modifiers(1.0,                            stat_mult, archetype, faction, "DAMAGE"),
-			"range":      float(get_ship_warp_range(i)),
-			"max_energy": snappedi(150.0 * energy_scale, 25),
-		}
-
-		for key in computed:
-			ranges[key]["max"] = maxf(ranges[key]["max"], computed[key])
-			ranges[key]["min"] = minf(ranges[key]["min"], computed[key])
-
-	for key in ranges:
-		if ranges[key]["min"] == INF:
-			ranges[key]["min"] = 0.0
-		if is_equal_approx(ranges[key]["min"], ranges[key]["max"]):
-			ranges[key]["min"] = 0.0
-
-	return ranges
 
 static func get_spider_norm(current_val: float, stat_key: String) -> float:
 	var global_max: float = 1.0

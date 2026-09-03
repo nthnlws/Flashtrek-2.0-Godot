@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ccgeinf5odk32" path="res://scripts/menus_ui/starbase_menu.gd" id="1_bnhsj"]
 [ext_resource type="FontFile" uid="uid://cfcwm8k5hrjno" path="res://assets/font/BebasNeue-Regular.ttf" id="3_04oyq"]
 [ext_resource type="Material" uid="uid://4di586ydcxup" path="res://resources/Materials_Shaders/romulan_starbase_menu.tres" id="6_e0x14"]
+[ext_resource type="Script" uid="uid://uqg1kd31q85b" path="res://scripts/menus_ui/starbase_stats_container.gd" id="6_hkoso"]
 [ext_resource type="PackedScene" uid="uid://qu0xx1uo0wsd" path="res://scenes/menus_ui/ship_card_button.tscn" id="7_f5wy4"]
 [ext_resource type="Texture2D" uid="uid://bd2odrgq4wa8e" path="res://assets/textures/UI/ship_selection_menu/starbase_menu_template.png" id="7_q83j8"]
 [ext_resource type="Script" uid="uid://dtc20owbkcnv0" path="res://scripts/menus_ui/text_button.gd" id="8_f5wy4"]
@@ -148,6 +149,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="StatsContainer" type="VBoxContainer" parent="." unique_id=55024130]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 729.0
 offset_top = 128.0
@@ -155,6 +157,7 @@ offset_right = 1230.0
 offset_bottom = 919.42847
 scale = Vector2(0.35, 0.35)
 theme_override_constants/separation = 20
+script = ExtResource("6_hkoso")
 
 [node name="ship_name" type="RichTextLabel" parent="StatsContainer" unique_id=241643808]
 unique_name_in_owner = true
@@ -215,6 +218,19 @@ fit_content = true
 scroll_active = false
 
 [node name="MovementBar" parent="StatsContainer" unique_id=578783667 groups=["progress_bar"] instance=ExtResource("9_f5wy4")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="damage_stat" type="RichTextLabel" parent="StatsContainer" unique_id=400782982]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("8_j8vod")
+theme_override_font_sizes/normal_font_size = 45
+bbcode_enabled = true
+text = "Damage:"
+fit_content = true
+scroll_active = false
+
+[node name="DamageBar" parent="StatsContainer" unique_id=1462744209 groups=["progress_bar"] instance=ExtResource("9_f5wy4")]
 unique_name_in_owner = true
 layout_mode = 2
 

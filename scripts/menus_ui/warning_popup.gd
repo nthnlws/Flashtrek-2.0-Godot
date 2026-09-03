@@ -15,6 +15,7 @@ func _ready() -> void:
 	self.visible = false
 	SignalBus.galaxy_warp_finished.connect(_handle_entering_new_system)
 	SignalBus.warningsDisabled.connect(func(check_value): disabled = check_value)
+	SignalBus.request_comms_popup.connect(close_comms.unbind(2))
 
 
 func _handle_entering_new_system(system_data:SystemData) -> void:

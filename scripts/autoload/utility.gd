@@ -3,6 +3,7 @@ extends Node
 
 @export var all_ship_data: ResourceGroup = load("res://assets/data/all_ship_data.tres")
 var SHIP_DATA: Array[BaseShipInfo]
+var factionStatRanges: Array[FactionRanges]
 
 var Z: Dictionary[String, int] = { # Z Indexes for level objects
 	# -- GAME WORLD STATIC OBJECTS --
@@ -310,6 +311,12 @@ func get_enemy_faction(faction: FACTION) -> FACTION:
 	elif faction == Utility.FACTION.ROMULAN:
 		return FACTION.FEDERATION
 	else: return FACTION.NEUTRAL
+
+func get_faction_stat_ranges(selected_faction: FACTION) -> FactionRanges:
+	for stats: FactionRanges in factionStatRanges:
+		if stats.faction == selected_faction:
+			return stats
+	return FactionRanges.new()
 
 func get_random_point_on_circle(radius: float) -> Vector2:
 	return Vector2.from_angle(randf() * TAU) * radius

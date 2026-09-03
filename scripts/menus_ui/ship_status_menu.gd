@@ -4,11 +4,11 @@ class_name ShipStatusMenu
 signal menu_closed
 
 @export var CORRIDOR_KLINGON: Texture2D = preload("uid://cabdk1q27chx3")
-@export var CORRIDOR_ROMULAN = preload("uid://j3fi53qkphtu")
-@export var CORRIDOR_FEDERATION = preload("uid://cxp0gxn468sms")
-@export var CORRIDOR_NEUTRAL = preload("uid://d0ps0nwg5gyfd")
-const GREEN_PROGRESS_FILL = preload("uid://cfvn6vh2rs2m")
-const RED_PROGRESS_FILL = preload("uid://cypx6ypk7ff2w")
+@export var CORRIDOR_ROMULAN: Texture2D = preload("uid://j3fi53qkphtu")
+@export var CORRIDOR_FEDERATION: Texture2D = preload("uid://cxp0gxn468sms")
+@export var CORRIDOR_NEUTRAL: Texture2D = preload("uid://d0ps0nwg5gyfd")
+const GREEN_PROGRESS_FILL: StyleBoxFlat = preload("uid://cfvn6vh2rs2m")
+const RED_PROGRESS_FILL: StyleBoxFlat = preload("uid://cypx6ypk7ff2w")
 
 @onready var background: TextureRect = $Background
 
