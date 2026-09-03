@@ -13,7 +13,7 @@ const RED_PROGRESS_FILL: StyleBoxFlat = preload("uid://cypx6ypk7ff2w")
 @onready var background: TextureRect = $Background
 
 func _ready() -> void:
-	SignalBus.player_type_changed.connect(_handle_ship_change)
+	SignalBus.player_type_changed.connect(handle_ship_change)
 	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
 	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
 	
@@ -59,39 +59,46 @@ func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:
 			%Damage.upgrade_number += 1
 
 
-func _handle_ship_change(ship_type: Utility.SHIP_TYPES, new_stats: BaseShipInfo) -> void:
-	set_background(ship_type)
-	_change_ship_sprite(ship_type)
+func handle_ship_change(new_stats: ShipState) -> void:
+	set_background(new_stats.ship_type)
+	_change_ship_sprite(new_stats.ship_type)
 
-	# Spider Graph — sigmoid-normalised matches progression curve
 	var graph: SpiderGraph = %SpiderGraph
-	var stat_ranges: Dictionary = new_stats.stat_ranges.get(new_stats.faction, {})
+	var stat_ranges: FactionRanges = Utility.get_faction_stat_ranges(new_stats.current_faction)
 
-	if stat_ranges.is_empty():
-		push_warning("ShipStatusMenu: no max_values found for faction %s" % Utility.FACTION.keys()[new_stats.faction])
-	else:
-		const GRAPH_MIN: float = 0.2
-		var graph_dict: Dictionary[String, float] = {
-			"ARMOR":   lerpf(GRAPH_MIN, 1.0, Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_hp"]["min"],     stat_ranges["max_hp"]["max"],     new_stats.max_hp))     / Scaling.PLAYER_STAT_MAX),
-			"SHIELDS": lerpf(GRAPH_MIN, 1.0, Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["max_shield"]["min"], stat_ranges["max_shield"]["max"], new_stats.max_shield)) / Scaling.PLAYER_STAT_MAX),
-			"DAMAGE":  lerpf(GRAPH_MIN, 1.0, Scaling.get_player_stat_scale(inverse_lerp(stat_ranges["damage"]["min"],     stat_ranges["damage"]["max"],     new_stats.damage_mult)) / Scaling.PLAYER_STAT_MAX),
-			"RANGE":   lerpf(GRAPH_MIN, 1.0, new_stats.warp_range / 6.0),
-		}
-		graph.set_all_values(graph_dict)
+	# Inline lambda to safely normalize values between the faction minimums and maximums
+	var get_norm = func(val: float, min_v: float, max_v: float) -> float:
+		if max_v <= min_v: return 0.0
+		return clampf(inverse_lerp(min_v, max_v, val), 0.0, 1.0)
+
+	const GRAPH_MIN: float = 0.2
 	
-	%ClassLabel.text = str(Utility.SHIP_TYPES.keys()[ship_type]).capitalize()
-	%FactionLabel.text = _format_faction_label(new_stats.faction)
+	# Spider Graph — direct inverse_lerp against the FactionRanges automatically handles the curve visuals
+	var graph_dict: Dictionary[String, float] = {
+		"ARMOR":   lerpf(GRAPH_MIN, 1.0, get_norm.call(new_stats.scaled_max_HP, stat_ranges.max_hp_MIN, stat_ranges.max_hp_MAX)),
+		"SHIELDS": lerpf(GRAPH_MIN, 1.0, get_norm.call(new_stats.scaled_max_shield, stat_ranges.max_shield_MIN, stat_ranges.max_shield_MAX)),
+		"DAMAGE":  lerpf(GRAPH_MIN, 1.0, get_norm.call(new_stats.scaled_damage_mult, stat_ranges.damage_MIN, stat_ranges.damage_MAX)),
+		"RANGE":   lerpf(GRAPH_MIN, 1.0, clampf(float(new_stats.scaled_warp_range) / 6.0, 0.0, 1.0)),
+	}
+	graph.set_all_values(graph_dict)
 	
-	%HealthLabel.text = "%d / %d" % [new_stats.max_hp, new_stats.max_hp]
-	%ShieldLabel.text = "%d / %d" % [new_stats.max_shield, new_stats.max_shield]
-	%EnergyLabel.text = "%d / %d" % [new_stats.max_energy, new_stats.max_energy]
+	%ClassLabel.text = str(Utility.SHIP_TYPES.keys()[new_stats.ship_type]).capitalize()
+	%FactionLabel.text = _format_faction_label(new_stats.current_faction)
+	
+	%HealthLabel.text = "%d / %d" % [new_stats.scaled_max_HP, new_stats.scaled_max_HP]
+	%ShieldLabel.text = "%d / %d" % [new_stats.scaled_max_shield, new_stats.scaled_max_shield]
+	%EnergyLabel.text = "%d / %d" % [new_stats.scaled_energy, new_stats.scaled_energy]
 	
 	#TODO %CloakStatus.text
 	#TODO Dynamic weapon name
 	%WeaponName.text = "TORPEDO"
-	if new_stats.archetype:
-		%AbilityValue.text = str(Scaling.ARCHETYPE.keys()[new_stats.archetype]).capitalize()
-		_set_ability_tooltip(new_stats.archetype)
+	
+	# Archetype is not saved in ShipState, so we retrieve it from the base resource
+	var base_info = Utility.get_ship_stats(new_stats.ship_type)
+	
+	if base_info and base_info.archetype != Scaling.ARCHETYPE.NONE:
+		%AbilityValue.text = str(Scaling.ARCHETYPE.keys()[base_info.archetype]).capitalize()
+		_set_ability_tooltip(base_info.archetype)
 	else:
 		%AbilityValue.text = "None"
 		_set_ability_tooltip()

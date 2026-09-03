@@ -9,13 +9,13 @@ func _ready() -> void:
 	_connect_signals()
 	
 	if LevelManager.galaxy_data:
-		change_health_sprite(LevelManager.galaxy_data.player_ship_type)
+		change_health_sprite(LevelManager.player.ship_stats)
 
 
 func _connect_signals() -> void:
 	SignalBus.entering_galaxy_warp.connect(fade_indicator.bind("off"))
 	SignalBus.entering_new_system.connect(fade_indicator.bind("on"))
-	SignalBus.player_type_changed.connect(change_health_sprite.unbind(1))
+	SignalBus.player_type_changed.connect(change_health_sprite)
 	
 	SignalBus.playerHealthChanged.connect(update_hitbox_health)
 	SignalBus.playerMaxHealthChanged.connect(update_hitbox_max)
@@ -25,8 +25,8 @@ func _connect_signals() -> void:
 	SignalBus.HUDchanged.connect(change_scale)
 
 
-func change_health_sprite(type:Utility.SHIP_TYPES):
-	var ship_data:BaseShipInfo = Utility.get_ship_stats(type)
+func change_health_sprite(ship_stats: ShipState):
+	var ship_data:BaseShipInfo = Utility.get_ship_stats(ship_stats.ship_type)
 	hull_icon.texture.region = Rect2(ship_data.sprite_coords, Vector2(48, 48))
 	
 	hull_icon.initialize_hull_icon()

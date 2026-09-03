@@ -50,6 +50,7 @@ func _ready() -> void:
 	
 	_connect_signals()
 	sync_ship_to_data(ship_stats)
+	SignalBus.player_type_changed.emit.call_deferred(ship_stats)
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
 	

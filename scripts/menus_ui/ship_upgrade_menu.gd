@@ -10,7 +10,7 @@ signal menu_closed
 @onready var background: TextureRect = $corridor_background
 
 func _ready() -> void:
-	SignalBus.player_type_changed.connect(_handle_ship_change)
+	SignalBus.player_type_changed.connect(handle_ship_change)
 	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
 	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
 	
@@ -55,7 +55,7 @@ func _on_close_menu_button_pressed() -> void:
 	menu_closed.emit()
 
 
-func _handle_ship_change(new_stats: ShipState) -> void:
+func handle_ship_change(new_stats: ShipState) -> void:
 	#print("ship type set to %s in upgrade menu" % Utility.SHIP_TYPES.keys()[ship_type])
 	set_background(new_stats.ship_type)
 	

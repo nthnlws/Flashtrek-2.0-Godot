@@ -50,7 +50,7 @@ func _update_sync_state(new_state: STATE):
 		right_panel.add_theme_stylebox_override("panel", RIGHT_PRESSED)
 		current_state = new_state
 		if !grayed_out:
-			clicked.emit(ship_info.unlock_price)
+			clicked.emit(ship_info.unlock_cost)
 	elif new_state == STATE.ENTERED:
 		left_panel.add_theme_stylebox_override("panel", LEFT_HOVER)
 		right_panel.add_theme_stylebox_override("panel", RIGHT_HOVER)
