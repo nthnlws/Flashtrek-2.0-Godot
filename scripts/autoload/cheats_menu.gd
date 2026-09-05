@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _add_cheat_commands() -> void:
-	Console.add_command( # Upgrade loot
+	Console.add_command( # Spawn upgrade drop
 		"upgrade", # Command name
 		spawn_loot_command, # Function call
 		["type", "number"], # Argument params
@@ -25,17 +25,17 @@ func _add_cheat_commands() -> void:
 		2, # Required params
 		"Teleports player to input coords", # Description
 		)
-	Console.add_command( # Upgrade loot
+	Console.add_command( # Kill random faction ship
 		"kill", # Command name
 		kill_command, # Function call
 		["ship_type", "number"], # Argument params
 		1, # Required params
 		"Kills random ship based on input type (Faction or Enemy)", # Description
 		)
-	var kill_params: Array = ["faction", "enemy"]
+	var kill_params: Array = ["faction", "neutral"]
 	Console.add_command_autocomplete_list("kill_command", PackedStringArray(kill_params))
 
-	Console.add_command( # Upgrade loot
+	Console.add_command( # Add faction score
 		"score", # Command name
 		add_score, # Function call
 		["faction", "number"], # Argument params
@@ -45,13 +45,39 @@ func _add_cheat_commands() -> void:
 	var factions: Array = ["federation", "romulan", "klingon", "neutral"]
 	Console.add_command_autocomplete_list("add_score", PackedStringArray(factions))
 	
-	Console.add_command( # Upgrade loot
+	Console.add_command( # Spawn faction ship
 		"spawn", # Command name
 		spawn_ship, # Function call
 		["ship"], # Argument params
 		1, # Required params
 		"Spawns a faction ship (uses int for ship type)", # Description
 		)
+		
+	Console.add_command( # Mute game audio
+		"mute", # Command name
+		mute_game, # Function call
+		[], # Argument params
+		0, # Required params
+		"Mutes game audio", # Description
+		)
+	
+	Console.add_command( # Unmute game audio
+		"unmute", # Command name
+		unmute_game, # Function call
+		[], # Argument params
+		0, # Required params
+		"Unmutes game audio", # Description
+		)
+
+func mute_game() -> void:
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, 0)
+	SaveManager.current_settings.master_volume = 0
+	SaveManager.save_settings()
+
+func unmute_game() -> void:
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, 70)
+	SaveManager.current_settings.master_volume = 70
+	SaveManager.save_settings()
 
 
 func spawn_ship(ship_type:String) -> void:

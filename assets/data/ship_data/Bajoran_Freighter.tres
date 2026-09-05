@@ -10,5 +10,6 @@ trait_type = 4
 sprite_coords = Vector2(240, 96)
 collision_polygon = "[[-22.0, -12.0],[-22.0, 11.0],[-22.0, 12.0],[19.0, 5.0],[21.0, 5.0],[23.0, 2.0],[24.0, 2.0],[21.0, -5.0],[21.0, -6.0],[-22.0, -13.0]]"
 shield_scale = Vector2(0.6348, 0.6348)
+base_agility = 120.0
 warp_range = 1
 base_energy = 150.0

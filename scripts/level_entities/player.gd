@@ -69,8 +69,9 @@ func _connect_signals() -> void:
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
 
 
-func sync_ship_to_data(ship_stats: ShipState) -> void:
-	var ship_info: BaseShipInfo = Utility.get_ship_stats(ship_stats.ship_type)
+func sync_ship_to_data(new_stats: ShipState) -> void:
+	self.ship_stats = new_stats
+	var ship_info: BaseShipInfo = Utility.get_ship_stats(new_stats.ship_type)
 	# Sprite / collision setup
 	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
 	shield.scale =  ship_info.shield_scale * base_scale
@@ -86,14 +87,14 @@ func sync_ship_to_data(ship_stats: ShipState) -> void:
 	$WorldCollisionShape.polygon = PV2Array
 
 	# Use BaseShipInfo if provided, otherwise use default ship_data
-	health_component.setMaxHP(ship_stats.scaled_max_HP)
+	health_component.setMaxHP(new_stats.scaled_max_HP)
 	health_component.setCurrentHP(health_component.HP_max)
-	health_component.setMaxSP(ship_stats.scaled_max_shield)
+	health_component.setMaxSP(new_stats.scaled_max_shield)
 	health_component.setCurrentSP(health_component.SP_max)
-	energy.setMaxEnergy(ship_stats.scaled_energy)
-	energy.setCurrentEnergy(ship_stats.scaled_energy)
-	weapons_component.damage_multiplier = ship_stats.scaled_damage_mult
-	faction = ship_stats.current_faction
+	energy.setMaxEnergy(new_stats.scaled_energy)
+	energy.setCurrentEnergy(new_stats.scaled_energy)
+	weapons_component.damage_multiplier = new_stats.scaled_damage_mult
+	faction = new_stats.current_faction
 
 
 func center_polygon(points: Array) -> PackedVector2Array:
