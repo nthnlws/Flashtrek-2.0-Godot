@@ -5,7 +5,7 @@ var assigned_planet_data: PlanetData
 var component_data: CommunicationComponentData
 var is_active_session: bool = false
 
-enum UI_STATE { PENDING, ERROR, ACCEPTED }
+enum UI_STATE { PENDING, READY_TO_BEAM, ERROR, ACCEPTED }
 
 func initialize(data: BaseComponentData) -> void:
 	component_data = data as CommunicationComponentData
@@ -33,7 +33,7 @@ func _start_hail(player_ship_name: String) -> void:
 	if MissionManager.current_state == MissionManager.STATE.active_mission:
 		if MissionManager.active_mission.target_planet_name == assigned_planet_data.name:
 			message = MissionGenerator.confirmation_complete_prompts.pick_random()
-			state = UI_STATE.PENDING # Requires interaction to complete
+			state = UI_STATE.READY_TO_BEAM # Dedicated beam state
 		else:
 			message = MissionGenerator.cargo_full_messages.pick_random()
 			state = UI_STATE.ERROR # Informational only, allow closing
@@ -41,7 +41,7 @@ func _start_hail(player_ship_name: String) -> void:
 	elif MissionManager.current_state in [MissionManager.STATE.no_mission, MissionManager.STATE.pending_mission]:
 		MissionManager.generate_mission()
 		message = _format_mission_offer(MissionManager.pending_mission, player_ship_name)
-		state = UI_STATE.PENDING
+		state = UI_STATE.PENDING # Dedicated accept state
 
 	if message.is_empty():
 		message = "Channel open. No data available."
@@ -49,7 +49,7 @@ func _start_hail(player_ship_name: String) -> void:
 
 	SignalBus.request_comms_popup.emit(message, state as int)
 
-## Called by comms_ui scene upon reroll, close or accept mission button clicked
+## Called by comms_ui scene upon reroll, close, beam, or accept mission button clicked
 func _on_comms_action_taken(action: String) -> void:
 	if not is_active_session:
 		return
@@ -57,32 +57,30 @@ func _on_comms_action_taken(action: String) -> void:
 	var player_ship_name: String = LevelManager.player.ship_stats.ship_name
 
 	match action:
-		"interact":
-			_attempt_interaction(player_ship_name)
+		"accept":
+			_accept_mission()
+		"beam":
+			_beam_cargo(player_ship_name)
 		"reroll":
 			_start_hail(player_ship_name)
 		"close":
 			_close_session()
 
-func _attempt_interaction(player_ship_name: String) -> void:
-	var response: String = ""
-
-	# A. Accept Pending
+func _accept_mission() -> void:
 	if MissionManager.current_state == MissionManager.STATE.pending_mission:
 		MissionManager.accept_pending_mission()
 		var mission: MissionData = MissionManager.active_mission
 		MissionManager.mission_started.emit(mission)
 		
 		var formatted_system: String = _get_faction_color_string(mission.target_system.faction, mission.target_system.system_name)
-		response = "Mission accepted! Head to the %s system." % formatted_system
+		var response: String = "Mission accepted! Head to the %s system." % formatted_system
+		SignalBus.update_comms_popup.emit(response, UI_STATE.ACCEPTED as int)
 
-	# B. Complete Active
-	elif MissionManager.current_state == MissionManager.STATE.active_mission and MissionManager.active_mission.target_planet_name == assigned_planet_data.name:
+func _beam_cargo(player_ship_name: String) -> void:
+	if MissionManager.current_state == MissionManager.STATE.active_mission and MissionManager.active_mission.target_planet_name == assigned_planet_data.name:
 		var completed_mission: MissionData = MissionManager.active_mission
 		MissionManager.complete_mission()
-		response = _format_completion_message(completed_mission, player_ship_name)
-		
-	if not response.is_empty():
+		var response: String = _format_completion_message(completed_mission, player_ship_name)
 		SignalBus.update_comms_popup.emit(response, UI_STATE.ACCEPTED as int)
 
 func _close_session() -> void:

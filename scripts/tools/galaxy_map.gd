@@ -10,7 +10,6 @@ class_name GalaxyMap
 @export var selection_marker: PackedScene
 @export var systemMarker: PackedScene
 
-var selected_system: String
 var current_path_nodes: Array[Area2D] = [] # Warp path nodes
 
 # Configuration for the flashlight effect
@@ -187,7 +186,7 @@ func _on_close_menu_button_pressed() -> void:
 
 func _on_warp_button_pressed() -> void:
 	AudioManager.play_UI_click_sound()
-	SignalBus.NavButton_clicked.emit()
+	SignalBus.triggerGalaxyWarp.emit()
 	visible = false
 
 

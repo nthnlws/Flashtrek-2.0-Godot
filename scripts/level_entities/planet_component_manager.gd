@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name PlanetComponentManager
 
 var current_planet_data: PlanetData

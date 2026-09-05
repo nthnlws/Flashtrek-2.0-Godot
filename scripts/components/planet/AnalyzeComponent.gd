@@ -30,7 +30,7 @@ var _total_arc_angle: float = 0.0 # How far we actually travel in radians
 var parent_planet: Planet
 
 
-func _on_ready_logic() -> void:
+func _ready() -> void:
 	var current_node: Node = get_parent()
 	while current_node and not current_node is Planet:
 		current_node = current_node.get_parent()

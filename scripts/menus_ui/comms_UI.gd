@@ -4,12 +4,11 @@ class_name CommsUI
 @onready var comms_message: RichTextLabel = $CommsMessage
 @onready var interact_button: TextButton = $InteractButton
 
-const ACCEPT_STRING: String = "ACCEPT
-            MISSION"
-const CLOSE_STRING: String = "CLOSE
-            COMMS"
+const ACCEPT_STRING: String = "ACCEPT\n            MISSION"
+const CLOSE_STRING: String = "CLOSE\n            COMMS"
+const BEAM_STRING: String = "BEAM\n            CARGO"
 
-enum STATE { PENDING, ERROR, ACCEPTED }
+enum STATE { PENDING, READY_TO_BEAM, ERROR, ACCEPTED }
 var current_state: int = STATE.PENDING
 
 func _ready() -> void:
@@ -24,6 +23,9 @@ func setup(message: String, new_state: int) -> void:
 	if current_state == STATE.PENDING:
 		interact_button.text = ACCEPT_STRING
 		interact_button.pressed = false # Reset visual toggle if necessary
+	elif current_state == STATE.READY_TO_BEAM:
+		interact_button.text = BEAM_STRING
+		interact_button.pressed = false
 	else:
 		interact_button.text = CLOSE_STRING
 
@@ -31,7 +33,9 @@ func setup(message: String, new_state: int) -> void:
 func _on_interact_pressed() -> void:
 	AudioManager.play_UI_click_sound()
 	if current_state == STATE.PENDING:
-		SignalBus.comms_action_taken.emit("interact")
+		SignalBus.comms_action_taken.emit("accept")
+	elif current_state == STATE.READY_TO_BEAM:
+		SignalBus.comms_action_taken.emit("beam")
 	else:
 		SignalBus.comms_action_taken.emit("close")
 
