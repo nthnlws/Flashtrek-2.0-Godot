@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://dy23em8ausssl" path="res://assets/audio/ambience/ship_idle.ogg" id="7_ljjbr"]
 [ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/characters/hull_damage_receiver.gd" id="7_scpag"]
 [ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="8_scpag"]
+[ext_resource type="PackedScene" uid="uid://d4h4tvuwc4bqj" path="res://scenes/level_entities/ShipStatusBars.tscn" id="12_a5e8g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
 atlas = ExtResource("3_l33it")
@@ -510,6 +511,9 @@ stream = ExtResource("6_o4ahg")
 max_distance = 3000.0
 attenuation = 0.615573
 bus = &"Effects"
+
+[node name="ShipStatusBars" parent="." unique_id=1990365906 node_paths=PackedStringArray("health_component") instance=ExtResource("12_a5e8g")]
+health_component = NodePath("../HealthComponent")
 
 [connection signal="hull_damage_received" from="HealthComponent" to="." method="_on_hit_received"]
 [connection signal="shield_damage_received" from="HealthComponent" to="." method="_on_hit_received"]

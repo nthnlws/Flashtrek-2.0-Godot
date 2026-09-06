@@ -398,6 +398,64 @@ max_value = 1.0
 step = 0.01
 value = 0.8
 
+[node name="DebugTitle" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn" unique_id=318146332]
+layout_mode = 2
+mouse_filter = 0
+theme_override_fonts/font = ExtResource("2_etbwm")
+theme_override_font_sizes/font_size = 30
+text = "DEBUG"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn" unique_id=1346166074]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="DisableWarnings" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer" unique_id=837553331]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "Health Boxes:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer" unique_id=1621242999]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="healthBoxesToggle" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer" unique_id=1299835294]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer" unique_id=1674681745]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn" unique_id=1696836228]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="DisableWarnings" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer2" unique_id=507111972]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "Energy Boxes:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer2" unique_id=1953259351]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="energyBoxesToggle" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer2" unique_id=1589204928]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer2" unique_id=624248213]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
 [node name="KeybindColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=48488046]
 unique_name_in_owner = true
 layout_mode = 2
@@ -469,4 +527,6 @@ size_flags_vertical = 10
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MusicContainer/HBoxContainer/musicSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/EffectsContainer/HBoxContainer/effectsSlider" to="." method="_on_effects_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MenusContainer/HBoxContainer/menusSlider" to="." method="_on_menu_volume_changed"]
+[connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer/healthBoxesToggle" to="." method="_on_health_boxes_toggle_toggled"]
+[connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/HBoxContainer2/energyBoxesToggle" to="." method="_on_energy_boxes_toggle_toggled"]
 [connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn/ResetButton" to="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/KeybindColumn" method="_on_reset_button_pressed"]

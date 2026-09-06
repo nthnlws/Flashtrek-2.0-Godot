@@ -52,6 +52,11 @@ func sync_ship_to_resource() -> void:
 	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
 	shield.scale = ship_info.shield_scale
 	
+	health_component.setMaxHealth(ship_stats.scaled_max_HP)
+	health_component.setCurrentHealth(ship_stats.scaled_max_HP)
+	health_component.setMaxShield(ship_stats.scaled_max_shield)
+	health_component.setCurrentShield(ship_stats.scaled_max_shield)
+	
 	var rawColl = ship_info.collision_polygon
 	var parsed_array = JSON.parse_string(rawColl)
 	var PV2Array = PackedVector2Array()

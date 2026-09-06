@@ -136,3 +136,14 @@ func _on_reset_pressed() -> void:
 
 func _on_save_game_pressed() -> void:
 	SaveManager.save_galaxy(SaveManager.current_save_slot, LevelManager.galaxy_data)
+
+
+func _on_energy_boxes_toggle_toggled(toggled_on: bool) -> void:
+	SignalBus.energyBoxesDebugToggle.emit(toggled_on)
+
+func _on_health_boxes_toggle_toggled(toggled_on: bool) -> void:
+	SignalBus.healthBoxesDebugToggle.emit(toggled_on)
+
+
+func _on_health_boxes_toggle_pressed() -> void:
+	pass # Replace with function body.

@@ -1,7 +1,7 @@
 extends Node
 class_name HealthComponent
 
-var ship_stats:BaseShipInfo = Utility.get_ship_stats(LevelManager.galaxy_data.player_ship_type)
+var upgrades: ShipStatModifiers
 
 @export var parent: Node
 @export var shield: Shield
@@ -13,33 +13,45 @@ signal ship_died(last_hit_event:HitEvent)
 signal shield_off
 signal shield_on
 
+signal health_changed(new_value:float)
+signal shield_changed(new_value:float)
+signal health_max_changed(new_value:float)
+signal shield_max_changed(new_value:float)
+
 signal hull_damage_received
 signal shield_damage_received(shooter:Node)
 
 #region HP Variables
-@export var HP_max: float = 150
-var HP_current:float = HP_max
+@export var HP_max: float = 150:
+	set(value):
+		HP_max = value
+		health_max_changed.emit(value)
+var HP_current:float = HP_max:
+	set(value):
+		HP_current = value
+		health_changed.emit(value)
 
 func resetHealthToMax() -> void:
-	setCurrentHP(getMaxHP())
+	setCurrentHealth(getMaxHealth())
 
-func getMaxHP() -> float:
+func getMaxHealth() -> float:
 	if parent:
-		return HP_max * parent.stats.HullMult
+		return HP_max * upgrades.HullMult
 	else:
 		return HP_max
 
 func getCurrentHP() -> float:
 	return HP_current
 
-func setMaxHP(new_max: float) -> void:
+func setMaxHealth(new_max: float) -> void:
 	HP_max = new_max
+	health_max_changed.emit(new_max)
 	if HP_current > HP_max: # Reduce current HP if max reduced
-		setCurrentHP(new_max)
+		setCurrentHealth(new_max)
 	if is_on_player:
 		SignalBus.playerMaxHealthChanged.emit(HP_max)
 
-func setCurrentHP(new_HP: float) -> void:
+func setCurrentHealth(new_HP: float) -> void:
 	# No need to update current if already at max
 	if SP_current == new_HP: return
 	HP_current = clamp(new_HP, 0, HP_max)
@@ -100,28 +112,36 @@ func initialize_hud() -> void:
 var regenTimeout:bool = false # Timeout
 var regen_speed:float = 2.5
 
-var SP_max:int = 50
-var SP_current:float = SP_max
+var SP_max:int = 50:
+	set(value):
+		SP_max = value
+		shield_max_changed.emit(value)
+var SP_current:float = SP_max:
+	set(value):
+		SP_current = value
+		shield_changed.emit(value)
 
 func resetShieldToMax() -> void:
-	setCurrentSP(getMaxShield())
+	setCurrentShield(getMaxShield())
 
-func setCurrentSP(new_current:float) -> void:
+func setCurrentShield(new_value:float) -> void:
+	shield_changed.emit(new_value)
 	if is_on_player:
-		SignalBus.playerShieldChanged.emit(new_current)
-	SP_current = clamp(new_current, 0.0, SP_max)
+		SignalBus.playerShieldChanged.emit(new_value)
+	SP_current = clamp(new_value, 0.0, SP_max)
 
-func setMaxSP(new_max:float) -> void:
+func setMaxShield(new_max:float) -> void:
+	shield_max_changed.emit(new_max)
 	# Emit signals and check against stats if on player
 	if is_on_player:
 		SignalBus.playerMaxShieldChanged.emit(new_max)
-		SP_max = new_max * parent.stats.ShieldMult
+		SP_max = new_max * upgrades.ShieldMult
 	else:
 		SP_max = new_max
 
 func getMaxShield() -> float:
 	if is_on_player:
-		return SP_max * parent.stats.ShieldMult
+		return SP_max * upgrades.ShieldMult
 	else:
 		return SP_max
 

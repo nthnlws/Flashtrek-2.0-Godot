@@ -28,7 +28,7 @@ func _ready() -> void:
 
 
 # Input handling
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		if Input.is_action_just_pressed("escape"):
 			handle_escape_press()

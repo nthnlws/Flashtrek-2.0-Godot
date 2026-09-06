@@ -2,6 +2,8 @@ extends VBoxContainer
 
 const INPUT_BUTTON = preload("uid://byw6waphlkgng")
 @onready var reset_button: Button = $ResetButton
+@onready var health_toggle: CheckButton = %healthBoxesToggle
+@onready var energy_toggle: CheckButton = %energyBoxesToggle
 
 var is_remapping: bool = false
 var action_to_remap: String

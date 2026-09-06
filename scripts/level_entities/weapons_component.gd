@@ -135,7 +135,7 @@ func shoot_missile(clicked_pos: Vector2) -> void:
 		
 		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
 		%HeavyTorpedo.play()
-		add_child(missile)
+		LevelManager.rootLevel.add_child(missile)
 	else:
 		missile.queue_free()
 

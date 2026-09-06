@@ -7,7 +7,7 @@ signal to_overdrive_transition
 # --- Components ---
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
-@onready var stats: ShipStatModifiers = ShipStatModifiers.new()
+@onready var upgrade_modifiers: ShipStatModifiers = ShipStatModifiers.new()
 @onready var weapons_component: WeaponsComponent = $WeaponsComponent
 
 # --- Node References ---
@@ -71,6 +71,7 @@ func _connect_signals() -> void:
 
 func sync_ship_to_data(new_stats: ShipState) -> void:
 	self.ship_stats = new_stats
+	health_component.upgrades = upgrade_modifiers
 	var ship_info: BaseShipInfo = Utility.get_ship_stats(new_stats.ship_type)
 	# Sprite / collision setup
 	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
@@ -86,11 +87,11 @@ func sync_ship_to_data(new_stats: ShipState) -> void:
 	$hitbox_area/CollisionPolygon2D.polygon = PV2Array
 	$WorldCollisionShape.polygon = PV2Array
 
-	# Use BaseShipInfo if provided, otherwise use default ship_data
-	health_component.setMaxHP(new_stats.scaled_max_HP)
-	health_component.setCurrentHP(health_component.HP_max)
-	health_component.setMaxSP(new_stats.scaled_max_shield)
-	health_component.setCurrentSP(health_component.SP_max)
+	# Sync health and energy components
+	health_component.setMaxHealth(new_stats.scaled_max_HP)
+	health_component.setCurrentHealth(health_component.HP_max)
+	health_component.setMaxShield(new_stats.scaled_max_shield)
+	health_component.setCurrentShield(health_component.SP_max)
 	energy.setMaxEnergy(new_stats.scaled_energy)
 	energy.setCurrentEnergy(new_stats.scaled_energy)
 	weapons_component.damage_multiplier = new_stats.scaled_damage_mult
@@ -464,21 +465,21 @@ func apply_upgrade(pickup: UpgradePickup) -> void:
 	
 	match type:
 		UpgradePickup.MODULE_TYPES.SPEED:
-			stats.SpeedMult = stats.SpeedMult + MULT_STEP
+			upgrade_modifiers.SpeedMult = upgrade_modifiers.SpeedMult + MULT_STEP
 		UpgradePickup.MODULE_TYPES.ROTATION:
-			stats.AgilityMult = stats.AgilityMult + MULT_STEP
+			upgrade_modifiers.AgilityMult = upgrade_modifiers.AgilityMult + MULT_STEP
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
-			stats.FireRateMult = stats.FireRateMult + MULT_STEP
+			upgrade_modifiers.FireRateMult = upgrade_modifiers.FireRateMult + MULT_STEP
 		UpgradePickup.MODULE_TYPES.HEALTH:
-			stats.HullMult = health_component.stats.HullMult + MULT_STEP
+			upgrade_modifiers.HullMult = upgrade_modifiers.HullMult + MULT_STEP
 			SignalBus.playerMaxHealthChanged.emit(health_component.HP_max)
 		UpgradePickup.MODULE_TYPES.SHIELD:
-			health_component.stats.ShieldMult = health_component.stats.ShieldMult + MULT_STEP
+			upgrade_modifiers.ShieldMult = upgrade_modifiers.ShieldMult + MULT_STEP
 			if shield: # Manually forces the shield to calculate and signal the new max value
-				health_component.SP_max = health_component.SP_max
-				SignalBus.playerMaxShieldChanged.emit(health_component.SP_max)
+				health_component.setMaxShield(health_component.SP_max)
+				SignalBus.playerMaxShieldChanged.emit(health_component.getMaxShield())
 		UpgradePickup.MODULE_TYPES.DAMAGE:
-			stats.DamageMult = stats.DamageMult + MULT_STEP
+			upgrade_modifiers.DamageMult = upgrade_modifiers.DamageMult + MULT_STEP
 
 
 func trigger_warp_effect(length: float, warp_effect_on: bool) -> void:

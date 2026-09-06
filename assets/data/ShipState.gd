@@ -31,7 +31,7 @@ enum CATEGORY { FACTION, NEUTRAL, MISSION, PLAYER }
 @export var save_shield_status: bool
 
 # Divisor to multiply speed against for NPC ships
-const NPC_SPEED_DIVISOR: int = 3
+const NPC_SPEED_DIVISOR: int = 6
 
 
 func save_ship_state(position:Vector2, health:float, shield_health:float, shield_status:bool = true):
@@ -76,6 +76,7 @@ static func get_NPC_scaled_stats(system_difficulty: float, base_ship: BaseShipIn
 	new_state.unique_id = UUID.generate_UUID()
 	new_state.ship_category = category
 	new_state.ship_type = base_ship.ship_type
+	new_state.reputation_value = 100 * system_difficulty
 	
 	new_state.scaled_max_HP = base_ship.base_HP * system_difficulty
 	new_state.save_health = base_ship.base_HP * system_difficulty

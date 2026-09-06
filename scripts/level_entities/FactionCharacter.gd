@@ -10,7 +10,6 @@ class_name FactionCharacter
 var fire_rate: float = 1.0
 var accuracy_cone_angle: float = 3.0 # Degrees
 const VALID_FIRING_ANGLE: float = 30.0
-var difficulty_multiplier: float = 1.0
 
 var enemyAgro: bool = false
 var shoot_cd: bool = false
@@ -30,9 +29,11 @@ func _ready() -> void:
 	
 	agro_box.body_entered.connect(_on_agro_box_body_entered)
 	agro_box.body_exited.connect(_on_agro_box_body_exited)
-	
-	if weapons_component:
-		weapons_component.damage_multiplier = difficulty_multiplier
+
+
+func sync_ship_to_resource() -> void:
+	super() # Runs NeutralCharacters sync function
+	weapons_component.damage_multiplier = ship_stats.scaled_damage_mult
 
 
 func setMovementState(delta: float) -> void:

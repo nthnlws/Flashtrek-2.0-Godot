@@ -86,3 +86,7 @@ signal level_loaded(root: RootLevel)
 # Audio
 signal UIselectSound
 signal UIclickSound
+
+# Debug
+signal healthBoxesDebugToggle(state:bool)
+signal energyBoxesDebugToggle(state:bool)

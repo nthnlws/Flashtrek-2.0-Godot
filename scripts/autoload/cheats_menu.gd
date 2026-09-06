@@ -75,8 +75,8 @@ func mute_game() -> void:
 	SaveManager.save_settings()
 
 func unmute_game() -> void:
-	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, 70)
-	SaveManager.current_settings.master_volume = 70
+	AudioManager.update_bus_volume(Utility.AUDIO_BUS.MASTER, 0.8)
+	SaveManager.current_settings.master_volume = 0.8
 	SaveManager.save_settings()
 
 

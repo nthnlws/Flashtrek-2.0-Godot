@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://d4h4tvuwc4bqj"]
+
+[ext_resource type="Script" uid="uid://ckrwasi711xat" path="res://scripts/level_entities/ship_status_bars.gd" id="1_du0y0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rue2e"]
+bg_color = Color(1.6893893e-05, 0.8853616, 0.1965223, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wda1y"]
+bg_color = Color(0.41558042, 0.50067276, 0.94196314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaax2"]
+bg_color = Color(1, 0.6844199, 0.24158207, 1)
+
+[node name="ShipStatusBars" type="Node2D" unique_id=1990365906]
+script = ExtResource("1_du0y0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=652905440]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="VBoxContainer" unique_id=905799205]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_rue2e")
+
+[node name="ShieldBar" type="ProgressBar" parent="VBoxContainer" unique_id=2114918618]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_wda1y")
+
+[node name="EnergyBar" type="ProgressBar" parent="VBoxContainer" unique_id=1148684717]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_vaax2")

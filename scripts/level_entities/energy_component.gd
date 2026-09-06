@@ -9,11 +9,13 @@ signal energy_depleted
 @export var max_energy: float = 150.0:
 	set(value):
 		max_energy = value
+		max_energy_changed.emit(value)
 		SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
 
 var current_energy: float = 0.0:
 	set(value):
 		current_energy = value
+		energy_changed.emit(value)
 		SignalBus.playerEnergyChanged.emit.call_deferred(current_energy)
 var is_regen_locked: bool = false
 
@@ -58,7 +60,6 @@ func request_consume(amount: float) -> bool:
 
 func consume_energy(amount: float) -> void:
 	current_energy -= amount
-	energy_depleted.emit()
 
 
 ## Instantly add energy

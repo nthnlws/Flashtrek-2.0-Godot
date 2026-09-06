@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://dl1t2pm0xwqsn" path="res://scenes/level_entities/laser_beam.tscn" id="15_ke2ow"]
 [ext_resource type="AudioStream" uid="uid://yrcvjrhot45k" path="res://assets/audio/effects/galaxy_warp_UP.ogg" id="16_hjmq1"]
 [ext_resource type="AudioStream" uid="uid://x7f3bcrhvsvq" path="res://assets/audio/effects/warp_boom.ogg" id="17_e8fxd"]
+[ext_resource type="PackedScene" uid="uid://d4h4tvuwc4bqj" path="res://scenes/level_entities/ShipStatusBars.tscn" id="22_wda1y"]
 
 [sub_resource type="Curve" id="Curve_p5fwl"]
 _data = [Vector2(0, 0.78022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -692,6 +693,10 @@ bus = &"Effects"
 
 [node name="intersection_line" type="Line2D" parent="." unique_id=153905444]
 width = 15.0
+
+[node name="ShipStatusBars" parent="." unique_id=1990365906 node_paths=PackedStringArray("health_component", "energy_component") instance=ExtResource("22_wda1y")]
+health_component = NodePath("../HealthComponent")
+energy_component = NodePath("../EnergyComponent")
 
 [connection signal="shield_off" from="HealthComponent" to="Shield" method="turnShieldOff"]
 [connection signal="ship_died" from="HealthComponent" to="." method="killPlayer"]

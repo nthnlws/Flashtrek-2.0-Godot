@@ -31,7 +31,7 @@ func _on_planet_tp_button_pressed() -> void:
 func _on_next_planet_tp_button_pressed() -> void:
 	# Safety check for at least 2 planets
 	if LevelManager.planets.size() <= 1:
-		print("Not enough planets to teleport.")
+		printerr("Not enough planets to teleport.")
 		return
 
 	var current_player_pos: Vector2 = LevelManager.player.global_position

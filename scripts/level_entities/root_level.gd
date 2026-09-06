@@ -48,7 +48,7 @@ func initialize_spawn_system() -> void:
 func spawn_player() -> void:
 	var init_player: Player = PLAYER.instantiate()
 	var base_info: BaseShipInfo = Utility.get_ship_stats(Utility.starting_ship)
-	var scaled_stats: ShipState = ShipState.get_player_scaled_stats(1, 6, base_info)
+	var scaled_stats: ShipState = ShipState.get_player_scaled_stats(0, 6, base_info)
 	init_player.ship_stats = scaled_stats
 	level_folder.add_child(init_player)
 	init_player.global_position = get_spawn_position()
@@ -116,15 +116,21 @@ func instantiate_faction_ship(ship_data: ShipState) -> FactionCharacter:
 
 
 func instantiate_NPC_ships(system_data: SystemData) -> void:
+	var i: int = 1
 	for ship: ShipState in system_data.enemy_list:
 		var new_faction: FactionCharacter = instantiate_faction_ship(ship)
+		new_faction.name = "FactionCharacter%s" % i
 		ship_folder.add_child(new_faction)
 		LevelManager.factionShips.append(new_faction)
+		i += 1
 	
+	i = 1
 	for ship:ShipState in system_data.neutral_list:
 		var new_neutral: NeutralCharacter = instantiate_neutral_ship(ship)
+		new_neutral.name = "NeutralCharacter%s" % i
 		ship_folder.add_child(new_neutral)
 		LevelManager.neutralShips.append(new_neutral)
+		i += 1
 
 
 func sync_ships_to_data() -> void:
@@ -230,7 +236,7 @@ func spawn_loot(type: UpgradePickup.MODULE_TYPES, position: Vector2, number: int
 
 
 func _handle_player_death() -> void:
-	var home_system: SystemData = Utility.get_faction_home_system(LevelManager.player.faction)
+	var home_system: SystemData = Utility.get_faction_home_system(LevelManager.player.ship_stats.current_faction)
 	LevelManager.player.global_position = get_spawn_position()
 	
 	# Do not change system if died in home system
