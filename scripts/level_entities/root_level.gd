@@ -93,6 +93,7 @@ func spawn_mission_ship(ship_data: ShipState) -> MissionCharacter:
 	var mission_faction: MissionCharacter = MISSION_CHARACTER.instantiate()
 	mission_faction.add_to_group("mission_ships")
 	mission_faction.global_position = ship_data.save_position
+	mission_faction.ship_stats = ship_data
 	ship_folder.add_child(mission_faction)
 	LevelManager.missionShips.append(mission_faction)
 

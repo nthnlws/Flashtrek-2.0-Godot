@@ -32,10 +32,17 @@ func _on_mission_ship_died(ship: MissionCharacter) -> void:
 		
 		# 2. Remove from our local tracking dictionary
 		spawned_ships.erase(ship)
-		
-		# 3. Tell the Data layer. If this was the last ship, the Data layer 
-		#    will automatically emit component_completed!
-		component_data.report_ship_destroyed(destroyed_ship_data)
+		component_data.target_ships_data.erase(destroyed_ship_data)
+	
+	## Checks if spawned_ships array is empty, and finished mission if so
+	if spawned_ships.is_empty():
+		mark_completed()
+		component_data.mark_completed()
+
+
+## No cleanup activity needed, all ships already dead and cleared
+func mark_completed():
+	pass
 
 
 func _exit_tree() -> void:

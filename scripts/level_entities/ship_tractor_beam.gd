@@ -7,7 +7,7 @@ signal energy_drain(amount: float)
 signal object_captured(container_data: ContainerData)
 
 var is_input_active: bool = false
-var tractored_container: Area2D = null
+var tractored_container: ContainerPickup = null
 
 const MAX_ANGLE_DEVIATION_RAD: float = deg_to_rad(35)
 @export var tractor_speed: float = 250.0
@@ -32,10 +32,9 @@ func _physics_process(delta: float) -> void:
 		# Pick up container
 		if tractored_container.global_position.distance_to(target_position) < 5.0:
 			object_captured.emit(tractored_container.container_data)
-			SignalBus.containerPickedUp.emit(tractored_container)
-			tractored_container.collected.emit(tractored_container.uniqueID)
-			tractored_container.queue_free()
-			tractored_container = null
+			if tractored_container.has_method("collect_container"):
+				tractored_container.collect_container()
+				tractored_container = null
 
 
 func _process(_delta: float) -> void:

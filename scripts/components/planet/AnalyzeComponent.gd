@@ -1,8 +1,6 @@
 extends BaseComponent
 class_name AnalyzePlanetComponent
 
-signal sequence_started
-signal sequence_finished
 
 var component_data: AnalyzeComponentData
 
@@ -28,6 +26,9 @@ var _is_active: bool = false
 var _orbit_start_angle: float = 0.0
 var _total_arc_angle: float = 0.0 # How far we actually travel in radians
 var parent_planet: Planet
+
+## Used to restore previous game state after analyze is finished
+var previous_gamestate: Utility.GAMESTATE
 
 
 func _ready() -> void:
@@ -56,7 +57,7 @@ func start_orbit_sequence(player: Node2D) -> void:
 	if _is_active: 
 		return
 		
-	var previous_gamestate: Utility.GAMESTATE = Utility.current_gamestate
+	previous_gamestate = Utility.current_gamestate
 	Utility.current_gamestate = Utility.GAMESTATE.CUTSCENE
 	
 	if is_instance_valid(indicator):
@@ -64,7 +65,6 @@ func start_orbit_sequence(player: Node2D) -> void:
 	
 	_is_active = true
 	_target_player = player
-	sequence_started.emit()
 
 	# 1. Disable Player
 	_target_player.set_physics_process(false)
@@ -99,7 +99,7 @@ func start_orbit_sequence(player: Node2D) -> void:
 	tween.chain().tween_method(_process_custom_orbit, 0.0, 1.0, orbit_duration)\
 		.set_trans(Tween.TRANS_LINEAR)
 
-	tween.finished.connect(_on_sequence_complete.bind(previous_gamestate))
+	tween.finished.connect(mark_completed)
 
 
 func _process_custom_orbit(t: float) -> void:
@@ -139,14 +139,16 @@ func _get_trapezoidal_progress(t: float, a: float) -> float:
 		return (0.5 * v_max * a) + v_max * (t - a)
 
 
-func _on_sequence_complete(old_state: Utility.GAMESTATE) -> void:
+func mark_completed() -> void:
 	_is_active = false
-	Utility.current_gamestate = old_state
-	sequence_finished.emit()
+	Utility.current_gamestate = previous_gamestate
+	
+	# Is connected back to PlanetComponentManager to
+	# free component when finished
+	component_completed.emit()
 	
 	if is_instance_valid(_target_player):
 		_target_player.set_physics_process(true)
 	
 	MissionManager.complete_mission()
-	if component_data:
-		component_data.complete()
+	component_data.mark_completed()

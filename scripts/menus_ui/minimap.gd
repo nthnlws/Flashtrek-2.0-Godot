@@ -3,6 +3,7 @@ extends Control
 const OBJECT:PackedScene = preload("res://scenes/menus_ui/minimap_object.tscn")
 
 var count:int = 0
+enum OBJECT_TYPE { FACTION, NEUTRAL, MISSION_OBJECTIVE, SUN, PLANET, STARBASE }
 
 var factionShips: Array[TextureRect]
 var neutralShips: Array[TextureRect]
@@ -48,7 +49,7 @@ func _input(event: InputEvent) -> void:
 			minimapScale = scale_values[current_index]
 
 
-func add_minimap_object(color: Color) -> TextureRect:
+func create_minimap_texture(color: Color) -> TextureRect:
 	var new_obj = OBJECT.instantiate()
 	new_obj.modulate = color
 	new_obj.add_to_group("minimap_obj")
@@ -72,13 +73,13 @@ func create_minimap_objects() -> void:
 
 	# Handle single objects (Sun)
 	if is_instance_valid(LevelManager.sun):
-		sunObjects.append(add_minimap_object(Color.YELLOW))
+		sunObjects.append(create_minimap_texture(Color.YELLOW))
 
 func _create_marker_group(entities: Array, markers: Array, color: Color, dict_map: Variant = null) -> void:
 	for entity in entities:
 		# is_instance_valid acts as a safer version of your previous "if enemy:" checks
 		if is_instance_valid(entity):
-			var new_obj: TextureRect = add_minimap_object(color)
+			var new_obj: TextureRect = create_minimap_texture(color)
 			markers.append(new_obj)
 			
 			# If a dictionary was passed in, map the entity to its minimap object

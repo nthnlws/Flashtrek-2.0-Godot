@@ -133,3 +133,8 @@ func _get_faction_color_string(faction: int, text: String) -> String:
 		Utility.FACTION.ROMULAN: color_code = Utility.rom_green
 		Utility.FACTION.KLINGON: color_code = Utility.klin_red
 	return color_code + text + "[/color]"
+
+
+## No action needed on comms closed for planet communication
+func mark_completed() -> void:
+	pass

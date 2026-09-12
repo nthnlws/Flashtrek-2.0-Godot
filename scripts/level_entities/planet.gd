@@ -54,6 +54,7 @@ func fade_label(state: String) -> void:
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween.tween_property(label, "modulate", Color(1, 1, 1, 1), Utility.fadeLength)
 
+
 func attempt_interaction(ship_name: String) -> String:
 	if component_manager.has_component_type(&"communication"):
 		var comm_component = component_manager.get_component_by_type(&"communication")

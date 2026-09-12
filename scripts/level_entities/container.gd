@@ -1,6 +1,8 @@
 extends Area2D
 class_name ContainerPickup
 
+signal container_collected(container:ContainerPickup)
+
 @export var container_data:ContainerData
 @onready var sprite: AnimatedSprite2D = $SpriteFrames
 
@@ -21,3 +23,9 @@ func _ready() -> void:
 	
 	# Set position
 	self.global_position = container_data.spawn_position
+
+
+func collect_container() -> void:
+	container_collected.emit(self)
+	SignalBus.containerPickedUp.emit(self)
+	self.queue_free()

@@ -3,11 +3,12 @@ class_name PlanetComponentManager
 
 var current_planet_data: PlanetData
 
+enum COMPONENT_TYPE { ANALYZE, COMMUNICATION, }
+
 # Map the Data Resource's component_id to the View's PackedScene
 @export var planet_component_map: Dictionary[StringName, PackedScene] = {
 	&"analyze": preload("uid://cq5kxvmajgng5"),
 	&"communication": preload("uid://rr6unh73nxxs"),
-	# &"deliver": preload("res://scenes/components/...")
 }
 
 # Tracks active physical components by mapping the Data Resource to its Node instance
@@ -37,6 +38,7 @@ func _spawn_component(data: BaseComponentData) -> void:
 	# Instantiate the physical Node
 	var component_scene: PackedScene = planet_component_map[data.component_id]
 	var component_node: Node = component_scene.instantiate()
+	component_node.component_completed.connect(_on_component_completed.bind(data))
 	
 	add_child(component_node)
 	
@@ -48,23 +50,11 @@ func _spawn_component(data: BaseComponentData) -> void:
 		
 	# Track it
 	active_components[data] = component_node
-	
-	# Listen for when the Data Resource declares itself finished.
-	# .bind(data) allows us to pass the specific resource into the parameterless signal.
-	if not data.component_completed.is_connected(_on_component_completed):
-		data.component_completed.connect(_on_component_completed.bind(data))
-
-
-## Called dynamically if a component is added to the planet while the player is already in the system.
-func inject_runtime_component(data: BaseComponentData) -> void:
-	if current_planet_data and not current_planet_data.components.has(data):
-		current_planet_data.components.append(data)
-	_spawn_component(data)
 
 
 ## Automatically called when a Data Resource finishes its objective
 func _on_component_completed(data: BaseComponentData) -> void:
-	# 1. Safely remove the physical View Node from the world
+	# 1. Remove the physical View Node from the world
 	if active_components.has(data):
 		var node: Node = active_components[data]
 		if is_instance_valid(node):

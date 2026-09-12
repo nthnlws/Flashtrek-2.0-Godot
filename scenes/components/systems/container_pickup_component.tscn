@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://nac5ghwbhwa5" path="res://scripts/components/system/ContainerComponent.gd" id="1_fptfj"]
 
-[node name="ContainerPickupComponent" type="Node" unique_id=232287133]
+[node name="ContainerPickupComponent" type="Node2D" unique_id=1474040465]
 script = ExtResource("1_fptfj")

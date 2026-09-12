@@ -47,3 +47,7 @@ func _exit_tree() -> void:
 			ship.queue_free()
 			
 	spawned_ships.clear()
+
+## TODO: Add fail/pass conditions
+func mark_completed() -> void:
+	pass

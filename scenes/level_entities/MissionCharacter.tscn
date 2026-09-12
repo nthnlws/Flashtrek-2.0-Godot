@@ -2,15 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://crsud8w51n07n" path="res://scenes/level_entities/NeutralCharacter.tscn" id="1_m6mjk"]
 [ext_resource type="Script" uid="uid://bju32b0804p1i" path="res://scripts/level_entities/MissionCharacter.gd" id="2_5w1xw"]
+[ext_resource type="PackedScene" uid="uid://wbwabixpynjx" path="res://scenes/level_entities/weapons_component.tscn" id="3_28hi0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5w1xw"]
 radius = 1250.0
 
 [node name="MissionCharacter" unique_id=48704108 instance=ExtResource("1_m6mjk")]
 script = ExtResource("2_5w1xw")
-torpedo = null
 
-[node name="Muzzle" type="Node2D" parent="." index="0" unique_id=1446616472]
+[node name="FiringPosition" type="Marker2D" parent="." index="0" unique_id=534123390]
 position = Vector2(0, -12)
 
 [node name="AgroBox" type="Area2D" parent="." index="1" unique_id=553939609]
@@ -19,3 +19,10 @@ collision_mask = 70
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgroBox" index="0" unique_id=306975671]
 shape = SubResource("CircleShape2D_5w1xw")
+
+[node name="WeaponsComponent" parent="." index="11" unique_id=871976209 node_paths=PackedStringArray("parent_entity", "shield", "hitbox", "firing_position") instance=ExtResource("3_28hi0")]
+is_on_player = false
+parent_entity = NodePath("..")
+shield = NodePath("../Shield")
+hitbox = NodePath("../hitbox_area")
+firing_position = NodePath("../FiringPosition")

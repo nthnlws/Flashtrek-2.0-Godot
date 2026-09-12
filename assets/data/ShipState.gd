@@ -12,6 +12,7 @@ enum CATEGORY { FACTION, NEUTRAL, MISSION, PLAYER }
 @export var cargo_capacity: int
 @export var reputation_value: int
 @export var is_mission_goal: bool = false
+@export var is_hostile: bool = true
 
 # Scaled stats
 @export var scaled_max_HP: float

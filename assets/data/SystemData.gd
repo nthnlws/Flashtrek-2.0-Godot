@@ -20,7 +20,8 @@ func add_component(component_type: Utility.SystemComponentType, mission: Mission
 	elif component_type == Utility.SystemComponentType.CONTAINER:
 		var data = ContainerComponentData.new()
 		var spawn_positions: Array[Vector2] = []
-		for i in range(randi_range(3, 5)):
+		
+		for i in range(randi_range(2, 4)): # Number of containers to spawn
 			spawn_positions.append(Utility.get_random_point_on_circle(randf_range(2000, 6000)))
 		data.setup_data(mission.cargo, mission.faction_owner, spawn_positions)
 		components.append(data)

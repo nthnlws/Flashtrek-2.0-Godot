@@ -60,6 +60,7 @@ func accept_pending_mission() -> void:
 
 
 func complete_mission() -> void:
+	#print("attempting completion of current mission")
 	if active_mission:
 		#print("Mission Completed at Planet: ", active_mission.target_planet_name)
 		mission_completed.emit(active_mission)
@@ -81,7 +82,7 @@ func complete_mission() -> void:
 	
 		pending_mission = null
 		active_mission = null
-	else: printerr('No active mission to complete')
+	else: printerr('Attempted to finish mission in MissionManager with no active mission to complete')
 
 
 func fail_mission() -> void:

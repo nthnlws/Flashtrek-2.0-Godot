@@ -33,7 +33,7 @@ func sync_components_to_new_system(new_system: SystemData) -> void:
 		_spawn_component(data)
 
 
-## Instantiates the View (Node) and passes the Data to it
+## Instantiates the in-level node and passes data in
 func _spawn_component(data: BaseComponentData) -> void:
 	if not system_component_map.has(data.component_id):
 		printerr("System Component Manager: No PackedScene mapped for component_id '%s'" % data.component_id)
@@ -41,22 +41,19 @@ func _spawn_component(data: BaseComponentData) -> void:
 		
 	# Instantiate the physical Node
 	var component_scene: PackedScene = system_component_map[data.component_id]
-	var component_node: Node = component_scene.instantiate()
+	var component_node: BaseComponent = component_scene.instantiate()
 	
 	add_child(component_node)
 	
 	# Pass the Data Resource into the physical Node
-	if component_node.has_method("initialize"):
-		component_node.initialize(data)
-	else:
-		printerr("System Component Manager: Node '%s' missing initialize() method!" % component_node.name)
+	component_node.initialize(data)
 		
-	# Track the instance
+	# Add component node to active list
 	active_components[data] = component_node
 	
 	# Listen for when the Data Resource declares itself finished
-	if not data.component_completed.is_connected(_on_component_completed):
-		data.component_completed.connect(_on_component_completed.bind(data))
+	if not component_node.component_completed.is_connected(_on_component_completed):
+		component_node.component_completed.connect(_on_component_completed.bind(data))
 
 
 ## Called if a component is dynamically added to the system while the player is currently inside it
@@ -90,10 +87,6 @@ func _cleanup_active_components() -> void:
 		var node: Node = active_components[data]
 		if is_instance_valid(node):
 			node.queue_free()
-			
-		# Disconnect signals so they don't fire in the background while unloaded
-		if data.component_completed.is_connected(_on_component_completed):
-			data.component_completed.disconnect(_on_component_completed)
 			
 	active_components.clear()
 

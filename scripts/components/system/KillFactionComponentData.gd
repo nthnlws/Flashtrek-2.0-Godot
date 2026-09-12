@@ -8,7 +8,7 @@ func _init() -> void:
 	component_id = &"kill_faction"
 
 
-## Called ONCE by the Mission Generator when the mission is created.
+## Called by the Mission Generator when the mission is created.
 func setup_data(system_faction: Utility.FACTION, diff_mult: float, num_to_kill: int = 0) -> void:
 	faction = system_faction
 	
@@ -26,21 +26,7 @@ func setup_data(system_faction: Utility.FACTION, diff_mult: float, num_to_kill: 
 		var missionShipInfo: BaseShipInfo = Utility.get_ship_stats(ship_type)
 		var scaled_mission_stats: ShipState = ShipState.get_NPC_scaled_stats(diff_mult, missionShipInfo, ShipState.CATEGORY.FACTION)
 		scaled_mission_stats.save_position = spawn_pos
-		target_ships_data.append(missionShipInfo)
-
-
-## Called by the View Component when a target ship is destroyed.
-func report_ship_destroyed(ship_data: ShipState) -> void:
-	if is_finished:
-		return
-		
-	target_ships_data.erase(ship_data)
-	
-	# If no targets remain, the component finishes itself.
-	# The base complete() function will emit 'component_completed'.
-	if target_ships_data.is_empty():
-		complete()
-		MissionManager.complete_mission()
+		target_ships_data.append(scaled_mission_stats)
 
 
 func _get_faction_ship(f: Utility.FACTION) -> Utility.SHIP_TYPES:

@@ -33,8 +33,6 @@ var rate_of_fire: float = 1.0 / base_rate_of_fire:
 
 func _ready() -> void:
 	cooldown_timer.wait_time = rate_of_fire
-	if tractor_beam:
-		tractor_beam.object_captured.connect(_handle_container_pickup)
 
 
 func _physics_process(delta: float) -> void:
@@ -157,8 +155,9 @@ func _can_fire(cost: float) -> bool:
 		return false
 		
 	# 2. Player-specific early exits
-	if is_on_player and (parent_entity.overdrive_active or parent_entity.cloaked):
-		return false
+	if is_on_player:
+		if (parent_entity.overdrive_active or parent_entity.cloaked):
+			return false
 		
 	# 3. Final check: Energy consumption
 	if energy_component:
@@ -166,10 +165,3 @@ func _can_fire(cost: float) -> bool:
 		
 	# 4. If there's no energy component and all other checks passed, they can fire
 	return true
-
-
-func _handle_container_pickup(data: ContainerData) -> void:
-	#print('picked up container')
-	if data.is_mission_goal == true:
-		#print('attempting mission finish')
-		MissionManager.complete_mission()
