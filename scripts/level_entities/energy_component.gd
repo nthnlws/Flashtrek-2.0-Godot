@@ -5,12 +5,18 @@ signal energy_changed(current: float)
 signal max_energy_changed(max: float)
 signal energy_depleted
 
+var upgrades: ShipStatModifiers = ShipStatModifiers.new()
+
 @export var parent:Node
 @export var max_energy: float = 150.0:
 	set(value):
 		max_energy = value
 		max_energy_changed.emit(value)
 		SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
+	get:
+		if upgrades:
+			return max_energy * upgrades.EnergyCapacityMult
+		else: return max_energy
 
 var current_energy: float = 0.0:
 	set(value):

@@ -2,12 +2,12 @@ extends ColorRect
 
 @export var SP_max: float = 100.0:
 	set(value):
-		SP_max = value
+		SP_max = snappedf(value, 0.1)
 		update_shield_display()
 var current_SP: float = 100.0:
 	set(value):
 		if current_SP == value: return
-		current_SP = clampf(value, 0.0, SP_max)
+		current_SP = snappedf(clampf(value, 0.0, SP_max), 0.1)
 		update_shield_display()
 
 func _ready() -> void:

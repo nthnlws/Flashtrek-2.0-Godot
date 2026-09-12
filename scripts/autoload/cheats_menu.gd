@@ -102,7 +102,7 @@ func add_score(faction: String, number: String) -> void:
 
 func spawn_loot_command(type_str: String, number:String = "1") -> void:
 	type_str = type_str.to_upper()
-	var type:int = UpgradePickup.MODULE_TYPES[type_str]
+	var type:int = UpgradePickup.MODULE_TYPES.get(type_str)
 	var position: Vector2 = LevelManager.player.global_position
 	SignalBus.spawnLoot.emit(type, position, int(number))
 

@@ -1,13 +1,15 @@
 extends Node
 class_name WeaponsComponent
 
+var upgrades: ShipStatModifiers = ShipStatModifiers.new()
+
 @export var is_on_player: bool = false
 @export var apply_randomness: bool = false
 @export var accuracy_cone_angle: float = 3.0 # In degrees
 @export var base_rate_of_fire: float = 5.0
 @export var max_valid_angle: float = 35.0
-@export var damage_multiplier: float = 1.0
- 
+@export var ship_damage_multiplier: float = 1.0
+
 @export_category("Linked Nodes")
 @export var parent_entity: CharacterBody2D
 @export var energy_component: EnergyComponent
@@ -24,7 +26,6 @@ class_name WeaponsComponent
 @onready var cooldown_timer: Timer = $cooldown_timer
 
 var shooting_button_held: bool = false
-#var ship_damage_multiplier: float = 1.0
 var rate_of_fire: float = 1.0 / base_rate_of_fire:
 	set(value):
 		cooldown_timer.wait_time = 1.0 / value
@@ -91,9 +92,12 @@ func attempt_primary_fire(target_location: Vector2) -> void:
 		bullet.global_position = firing_position.global_position
 		bullet.rotation = firing_angle
 		bullet.shooterObject = parent_entity
-		bullet.damage *= damage_multiplier
-		bullet.damage_multipler = damage_multiplier
+		bullet.damage *= ship_damage_multiplier * upgrades.DamageMult
+		bullet.damage_multipler = ship_damage_multiplier * upgrades.DamageMult
 		bullet.faction = parent_entity.ship_stats.current_faction
+		
+		#if is_on_player:
+			#bullet.damage *= parent_entity.upgrade_modifiers.DamageMult
 		
 		if hitbox:
 			bullet.exceptions.append(hitbox)
@@ -117,8 +121,8 @@ func shoot_missile(clicked_pos: Vector2) -> void:
 		missile.position = self.global_position
 		missile.rotation = self.rotation
 		missile.shooterObject = parent_entity
-		missile.max_damage = missile.max_damage * damage_multiplier
-		missile.damage_multiplier = damage_multiplier
+		missile.max_damage = missile.max_damage * (ship_damage_multiplier + upgrades.DamageMult)
+		missile.damage_multiplier = (ship_damage_multiplier + upgrades.DamageMult)
 		missile.faction = parent_entity.faction
 		missile.target_position = clicked_pos
 		

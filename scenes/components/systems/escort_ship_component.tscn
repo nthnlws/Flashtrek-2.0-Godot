@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://1mo1eu2ab28n" path="res://scripts/components/system/ProtectComponent.gd" id="1_4iuk8"]
 
-[node name="EscortShipComponent" type="Node" unique_id=154051259]
+[node name="EscortShipComponent" type="Node2D" unique_id=873710135]
 script = ExtResource("1_4iuk8")

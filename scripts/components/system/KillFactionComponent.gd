@@ -27,10 +27,10 @@ func _spawn_ships() -> void:
 
 func _on_mission_ship_died(ship: MissionCharacter) -> void:
 	if spawned_ships.has(ship):
-		# 1. Get the data for the ship that just died
+		# Get dead ship data
 		var destroyed_ship_data: ShipState = spawned_ships[ship]
 		
-		# 2. Remove from our local tracking dictionary
+		# Remove from tracking dictionary
 		spawned_ships.erase(ship)
 		component_data.target_ships_data.erase(destroyed_ship_data)
 	

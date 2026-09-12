@@ -33,7 +33,7 @@ func _ready() -> void:
 
 func sync_ship_to_resource() -> void:
 	super() # Runs NeutralCharacters sync function
-	weapons_component.damage_multiplier = ship_stats.scaled_damage_mult
+	weapons_component.ship_damage_multiplier = ship_stats.scaled_damage_mult
 
 
 func setMovementState(delta: float) -> void:

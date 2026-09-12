@@ -1,7 +1,7 @@
 extends Node
 class_name HealthComponent
 
-var upgrades: ShipStatModifiers
+var upgrades: ShipStatModifiers = ShipStatModifiers.new()
 
 @export var parent: Node
 @export var shield: Shield
@@ -26,10 +26,20 @@ signal shield_damage_received(shooter:Node)
 	set(value):
 		HP_max = value
 		health_max_changed.emit(value)
+		if is_on_player:
+			SignalBus.playerMaxHealthChanged.emit(value * upgrades.HullMult)
+		else:
+			SignalBus.playerMaxHealthChanged.emit(value)
+	get:
+		if is_on_player:
+			return HP_max * upgrades.HullMult
+		else:
+			return HP_max
 var HP_current:float = HP_max:
 	set(value):
 		HP_current = value
 		health_changed.emit(value)
+		SignalBus.playerHealthChanged.emit(value)
 
 func resetHealthToMax() -> void:
 	setCurrentHealth(getMaxHealth())
@@ -116,10 +126,19 @@ var SP_max:int = 50:
 	set(value):
 		SP_max = value
 		shield_max_changed.emit(value)
+		if is_on_player:
+			SignalBus.playerMaxShieldChanged.emit(value * upgrades.ShieldMult)
+		else:
+			SignalBus.playerMaxShieldChanged.emit(value)
+	get:
+		if upgrades:
+			return SP_max * upgrades.ShieldMult
+		else: return SP_max
 var SP_current:float = SP_max:
 	set(value):
 		SP_current = value
 		shield_changed.emit(value)
+		SignalBus.playerShieldChanged.emit(value)
 
 func resetShieldToMax() -> void:
 	setCurrentShield(getMaxShield())

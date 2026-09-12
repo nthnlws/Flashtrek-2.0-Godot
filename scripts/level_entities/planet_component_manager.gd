@@ -64,10 +64,6 @@ func _on_component_completed(data: BaseComponentData) -> void:
 	# 2. Erase the completed Data from the persistent PlanetData so it doesn't spawn next visit
 	if current_planet_data and current_planet_data.components.has(data):
 		current_planet_data.components.erase(data)
-		
-	# 3. Disconnect the signal
-	if data.component_completed.is_connected(_on_component_completed):
-		data.component_completed.disconnect(_on_component_completed)
 
 
 ## Safely cleans up the world Nodes if the player leaves the system

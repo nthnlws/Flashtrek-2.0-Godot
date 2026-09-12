@@ -95,7 +95,7 @@ func hit_success(area:Area2D) -> void:
 	hit_event.is_critical_hit = false
 	hit_event.is_continuous_damage = false
 	
-	hit_event.damage_amount = damage * damage_multipler
+	hit_event.damage_amount = damage
 	
 	if area.has_method("can_recieve_damage") and is_instance_valid(shooterObject):
 		area.can_recieve_damage(hit_event)

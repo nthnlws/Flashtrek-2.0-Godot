@@ -4,11 +4,11 @@ extends TextureRect
 @export var fill_color: Color = Color(0.0, 1.0, 0.0, 1.0)
 @export var HP_max: float = 100.0:
 	set(value):
-		HP_max = value
+		HP_max = snappedf(value, 0.1)
 		update_hud_health_display()
 var current_HP: float = 100.0:
 	set(value):
-		current_HP = clampf(value, 0.0, HP_max)
+		current_HP = snappedf(clampf(value, 0.0, HP_max), 0.1)
 		update_hud_health_display()
 		calculate_and_set_content_bounds()
 

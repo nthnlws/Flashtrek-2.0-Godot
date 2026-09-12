@@ -88,13 +88,18 @@ func sync_ship_to_data(new_stats: ShipState) -> void:
 	$WorldCollisionShape.polygon = PV2Array
 
 	# Sync health and energy components
+	health_component.upgrades = upgrade_modifiers
 	health_component.setMaxHealth(new_stats.scaled_max_HP)
 	health_component.setCurrentHealth(health_component.HP_max)
 	health_component.setMaxShield(new_stats.scaled_max_shield)
 	health_component.setCurrentShield(health_component.SP_max)
+	
+	energy.upgrades = upgrade_modifiers
 	energy.setMaxEnergy(new_stats.scaled_energy)
 	energy.setCurrentEnergy(new_stats.scaled_energy)
-	weapons_component.damage_multiplier = new_stats.scaled_damage_mult
+	
+	weapons_component.upgrades = upgrade_modifiers
+	weapons_component.ship_damage_multiplier = new_stats.scaled_damage_mult
 	faction = new_stats.current_faction
 
 

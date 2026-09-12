@@ -3,6 +3,8 @@ class_name ShipStatusMenu
 
 signal menu_closed
 
+var player_upgrades: ShipStatModifiers
+
 @export var CORRIDOR_KLINGON: Texture2D = preload("uid://cabdk1q27chx3")
 @export var CORRIDOR_ROMULAN: Texture2D = preload("uid://j3fi53qkphtu")
 @export var CORRIDOR_FEDERATION: Texture2D = preload("uid://cxp0gxn468sms")
@@ -13,6 +15,15 @@ const RED_PROGRESS_FILL: StyleBoxFlat = preload("uid://cypx6ypk7ff2w")
 @onready var background: TextureRect = $Background
 
 func _ready() -> void:
+	_sync_signals()
+	
+	if LevelManager.galaxy_data:
+		set_background(LevelManager.galaxy_data.player_ship_type)
+	else: set_background(Utility.SHIP_TYPES.Reliant_Class)
+	sync_faction_scores()
+
+
+func _sync_signals() -> void:
 	SignalBus.player_type_changed.connect(handle_ship_change)
 	SignalBus.playerUpgradeApplied.connect(apply_upgrade)
 	MissionManager.Reputation.reputation_total_changed.connect(update_reputation)
@@ -23,11 +34,6 @@ func _ready() -> void:
 	SignalBus.playerShieldChanged.connect(_update_current_shield)
 	SignalBus.playerMaxEnergyChanged.connect(_update_max_energy)
 	SignalBus.playerEnergyChanged.connect(_update_current_energy)
-	
-	if LevelManager.galaxy_data:
-		set_background(LevelManager.galaxy_data.player_ship_type)
-	else: set_background(Utility.SHIP_TYPES.Reliant_Class)
-	sync_faction_scores()
 
 
 func set_background(ship_index: Utility.SHIP_TYPES) -> void:
@@ -44,6 +50,7 @@ func set_background(ship_index: Utility.SHIP_TYPES) -> void:
 
 
 func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:
+	var player: Player = LevelManager.player
 	match upgrade_type:
 		UpgradePickup.MODULE_TYPES.SPEED:
 			%Speed.upgrade_number += 1
@@ -52,8 +59,12 @@ func apply_upgrade(upgrade_type:UpgradePickup.MODULE_TYPES) -> void:
 		UpgradePickup.MODULE_TYPES.FIRE_RATE:
 			%FireRate.upgrade_number += 1
 		UpgradePickup.MODULE_TYPES.HEALTH:
+			_update_current_health(player.health_component.getCurrentHP())
+			_update_max_health(player.health_component.getMaxHealth())
 			%Health.upgrade_number += 1
 		UpgradePickup.MODULE_TYPES.SHIELD:
+			_update_current_shield(player.health_component.getCurrentSP())
+			_update_max_shield(player.health_component.getMaxShield())
 			%Shield.upgrade_number += 1
 		UpgradePickup.MODULE_TYPES.DAMAGE:
 			%Damage.upgrade_number += 1
