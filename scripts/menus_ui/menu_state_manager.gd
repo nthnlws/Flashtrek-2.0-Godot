@@ -25,6 +25,7 @@ func _ready() -> void:
 	SignalBus.ShipButton_clicked.connect(toggle_upgrade_menu)
 	SignalBus.entering_galaxy_warp.connect(func(): current_state = Utility.MENUSTATE.NONE)
 	SignalBus.NavButton_clicked.connect(activate_galaxy_map)
+	settings_menu.close_settings.connect(toggle_menu.bind(settings_menu, Utility.MENUSTATE.NONE))
 
 
 # Input handling

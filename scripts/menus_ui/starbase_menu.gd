@@ -33,6 +33,7 @@ const FACTION_DATA: Dictionary = {
 		"button_colors":   [Color("FF9A66"), Color("F59066"), Color("EB8566"),
 							Color("E17B67"), Color("D77067"), Color("CD6667")],
 		"menu_color":		preload("uid://gc0h18tj2rpq"),
+		"close_color":		Color("c276ea"),
 	},
 	Utility.FACTION.KLINGON: {
 		"security":        "Guard Access: Level 4",
@@ -40,6 +41,7 @@ const FACTION_DATA: Dictionary = {
 		"button_colors":   [Color("AE9656"), Color("A47F49"), Color("9B683C"),
 							Color("915130"), Color("883A23"), Color("7E2316")],
 		"menu_color":		preload("uid://dwulk1peb7b3f"),
+		"close_color":		Color("581316"),
 	},
 	Utility.FACTION.ROMULAN: {
 		"security":        "Security Clearance: Veridian 4",
@@ -47,12 +49,14 @@ const FACTION_DATA: Dictionary = {
 		"button_colors":   [Color("A4CA4B"), Color("91BB4D"), Color("7DAC4F"),
 							Color("6A9E52"), Color("568F54"), Color("438056")],
 		"menu_color":		preload("uid://4di586ydcxup"),
+		"close_color":		Color("38948a"),
 	},
 	Utility.FACTION.NEUTRAL: {
 		"security":        "Credit Rating: AA+",
 		"title":           "[color=b27f65]Ferengi Trading Post",
 		"button_colors":   [Color(1.0, 1.0, 1.0)],
 		"menu_color":		preload("uid://d3rdh06w7l4xe"),
+		"close_color":		Color("e2a180"),
 	},
 }
 
@@ -70,7 +74,6 @@ func _ready() -> void:
 	MissionManager.Reputation.reputation_total_changed.connect(_update_ship_unlocks)
 
 
-# ─── Faction Change ───────────────────────────────────────────────────────────
 func change_faction(new_faction: Utility.FACTION) -> void:
 	var faction_data: Dictionary = FACTION_DATA.get(new_faction, {})
 	
@@ -89,11 +92,13 @@ func change_faction(new_faction: Utility.FACTION) -> void:
 			selection_buttons[i].set_copper_state(true)
 	
 	# Update menu frame colors
-	faction_border.material = faction_data.get("menu_color") # Set faction shader
+	faction_border.material = faction_data.get("menu_color") # Set faction shader to resource
 	if new_faction != Utility.FACTION.NEUTRAL:
 		faction_border.texture = SELECTION_MENU_TEMPLATE
 	else: # Neutral faction frame
 		faction_border.texture = SELECTION_MENU_NEUTRAL
+	
+	$CloseButton.modulate = faction_data.get("close_color")
 	update_selection_grid(new_faction)
 
 
@@ -161,6 +166,8 @@ func _on_ship_selected(clicked_button:ShipCardButton) -> void:
 
 
 func close_menu() -> void:
+	$CloseButton/TextButton._on_mouse_exited()
+	$CloseButton/TextButton._on_mouse_released()
 	visible = false
 	menu_closed.emit()
 
@@ -255,7 +262,7 @@ func _create_faction_range(faction: Utility.FACTION, unlock_list: Array[Utility.
 
 	# Clean up edge cases dynamically 
 	var props: Array[String] = ["max_hp", "max_shield", "speed", "agility", "damage", "range", "max_energy"]
-	for prop in props:
+	for prop:String in props:
 		var min_val: float = res.get(prop + "_MIN")
 		var max_val: float = res.get(prop + "_MAX")
 		

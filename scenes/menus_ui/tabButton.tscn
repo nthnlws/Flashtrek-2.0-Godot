@@ -63,7 +63,7 @@ pressed_color = Color(0.83137256, 0.83137256, 0.46666667, 1)
 layout_mode = 1
 mouse_filter = 1
 
-[node name="Polygon2D" parent="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" index="0"]
+[node name="Polygon2D" parent="SlidingContainer/RedBox/TextButton/PolygonMouseDetector" index="0" unique_id=810687960]
 color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(72, 0, 72, 72, 0, 72, 0, 0)
 

@@ -115,6 +115,7 @@ func _on_keybind_changed(action: String, event: InputEvent) -> void:
 # ─── Header Buttons ───────────────────────────────────────────────────────────
 
 func close_settings_menu() -> void:
+	AudioManager.play_UI_click_sound()
 	close_settings.emit()
 
 func _on_main_menu_button_pressed() -> void:
