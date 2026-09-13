@@ -243,6 +243,36 @@ layout_mode = 2
 mouse_filter = 0
 theme_override_constants/margin_right = 15
 
+[node name="PopupContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn" unique_id=1066600936]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer2" unique_id=1805885818]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="EnableCheats" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer2/HBoxContainer" unique_id=1911747530]
+layout_mode = 2
+mouse_filter = 0
+theme_override_font_sizes/font_size = 20
+text = "Enable Cheats:"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer2/HBoxContainer" unique_id=516455523]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="CheatsToggle" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer2/HBoxContainer" unique_id=1064664153]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer2/HBoxContainer" unique_id=1154894304]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 15
+
 [node name="AudioColumn" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/ColumnContainer" unique_id=1663248078]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -513,6 +543,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CheatsFooter" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=1458896543 instance=ExtResource("3_61nsc")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 10
@@ -523,6 +554,7 @@ size_flags_vertical = 10
 [connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/vSyncContainer/HBoxContainer/vSyncSetting" to="." method="_on_vsync_setting_changed"]
 [connection signal="item_selected" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/HUDScaleContainer/HBoxContainer/ScaleSetting" to="." method="_on_scale_setting_item_selected"]
 [connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer/HBoxContainer/WarningsToggle" to="." method="_on_check_button_toggled"]
+[connection signal="toggled" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/VideoGameColumn/PopupContainer2/HBoxContainer/CheatsToggle" to="." method="_on_cheats_toggled"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MasterContainer/HBoxContainer/masterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/MusicContainer/HBoxContainer/musicSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="ColorRect/MarginContainer/VBoxContainer/ColumnContainer/AudioColumn/EffectsContainer/HBoxContainer/effectsSlider" to="." method="_on_effects_volume_changed"]

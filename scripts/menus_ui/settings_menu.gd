@@ -105,6 +105,12 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 	SaveManager.save_settings()
 
 
+func _on_cheats_toggled(toggled_on: bool) -> void:
+	Utility.dev_mode_enabled = toggled_on
+	SaveManager.current_settings.cheats_activated = toggled_on
+	SaveManager.save_settings()
+	%CheatsFooter.visible = toggled_on
+
 # ─── Keybinds ─────────────────────────────────────────────────────────────────
 
 func _on_keybind_changed(action: String, event: InputEvent) -> void:
@@ -144,7 +150,3 @@ func _on_energy_boxes_toggle_toggled(toggled_on: bool) -> void:
 
 func _on_health_boxes_toggle_toggled(toggled_on: bool) -> void:
 	SignalBus.healthBoxesDebugToggle.emit(toggled_on)
-
-
-func _on_health_boxes_toggle_pressed() -> void:
-	pass # Replace with function body.

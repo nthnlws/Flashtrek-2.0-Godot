@@ -40,7 +40,7 @@ func close_credits_menu() -> void:
 	closed_credits.emit()
 
 func _on_passcode_submitted(new_text: String) -> void:
-	if new_text == "theinnerlight": # Hello There - Dr. Who
+	if new_text.to_lower() == "theinnerlight": # Hello There - Dr. Who
 		Utility.dev_mode_enabled = true
 		passcode_input.text = ""
 		passcode_input.placeholder_text = "Dev Mode Unlocked"
