@@ -10,11 +10,11 @@ extends Control
 const TUTORIAL_TEXT: String = "Select a node in the remote scene"
 
 ## Default duration a signal emission pulse in seconds
-## TODO: This could be a user setting
+#: This could be a user setting
 const DEFAULT_EMISSION_DURATION: float = 1.0
 
 ## Default opacity of a connection line in the graph when rendered
-## TODO: This could be a user setting
+#: This could be a user setting
 const DEFAULT_CONNECTION_OPACITY: float = 0.3
 
 ## This enum is used to set up the graph node's ports 
@@ -271,7 +271,6 @@ func draw_node_data(data: Array):
 				create_button_slot(callable_method, callable_node, Direction.LEFT, slot_color)
 				graph_edit.add_child(callable_node)
 				# We set the offsets here to se can have the descending stair effect in the resulting graph
-				# TODO: This could be a user setting
 				callable_node.position_offset += Vector2(callable_node.get_index() * 250, callable_node.get_index() * 50)
 				graph_edit.connect_node(target_node.name, current_signal_index, callable_node.name, callable_node.get_child_count() - 1)
 		# Finally, we add to the current iterator and move on to the next signal

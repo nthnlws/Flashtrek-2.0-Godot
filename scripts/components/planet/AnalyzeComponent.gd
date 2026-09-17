@@ -1,11 +1,13 @@
-extends BaseComponent
+extends PlanetComponent
 class_name AnalyzePlanetComponent
 
 
 var component_data: AnalyzeComponentData
 
-func initialize(data: BaseComponentData) -> void:
+func initialize_planet_component(data: PlanetComponentData) -> void:
 	component_data = data as AnalyzeComponentData
+	_find_parent_planet_node()
+	create_analyis_point()
 
 const MISSION_INDICATOR = preload("uid://cj1a8ynj87xoc")
 var indicator: MissionIndicator
@@ -31,14 +33,16 @@ var parent_planet: Planet
 var previous_gamestate: Utility.GAMESTATE
 
 
-func _ready() -> void:
-	var current_node: Node = get_parent()
-	while current_node and not current_node is Planet:
-		current_node = current_node.get_parent()
-	
-	parent_planet = current_node as Planet
-	
-	create_analyis_point()
+## Finds this component's owning Planet Node (not just its PlanetData) so the
+## orbit sequence and tractor beam have a live Node2D to track. Components are
+## spawned as children of the central ComponentManager rather than the Planet
+## itself, so this looks the Node up via the level's planet registry instead
+## of walking the scene tree.
+func _find_parent_planet_node() -> void:
+	for planet: Planet in LevelManager.planets:
+		if planet.planet_data == owning_planet_data:
+			parent_planet = planet
+			return
 
 
 func create_analyis_point() -> void:
@@ -47,8 +51,7 @@ func create_analyis_point() -> void:
 	indicator = new_indicator
 	indicator.scale = Vector2(4.0, 4.0)
 	
-	var mission_point: Vector2 = Utility.get_random_point_on_circle(orbit_radius)
-	indicator.activate_indicator(mission_point)
+	indicator.activate_indicator(component_data.mission_point)
 	
 	new_indicator.player_entered.connect(start_orbit_sequence)
 
@@ -142,13 +145,9 @@ func _get_trapezoidal_progress(t: float, a: float) -> float:
 func mark_completed() -> void:
 	_is_active = false
 	Utility.current_gamestate = previous_gamestate
-	
-	# Is connected back to PlanetComponentManager to
-	# free component when finished
-	component_completed.emit()
-	
+
 	if is_instance_valid(_target_player):
 		_target_player.set_physics_process(true)
-	
+
 	MissionManager.complete_mission()
-	component_data.mark_completed()
+	complete(component_data)

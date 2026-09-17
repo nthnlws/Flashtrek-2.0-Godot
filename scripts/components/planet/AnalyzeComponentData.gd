@@ -1,5 +1,5 @@
 class_name AnalyzeComponentData
-extends BaseComponentData
+extends PlanetComponentData
 
 ## Store the local offset from the planet center
 @export var mission_point: Vector2

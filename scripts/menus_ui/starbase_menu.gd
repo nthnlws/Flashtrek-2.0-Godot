@@ -126,7 +126,7 @@ func update_selection_grid(faction: Utility.FACTION) -> void:
 
 	for i: int in range(array_size):
 		var ship_info: BaseShipInfo = Utility.get_ship_stats(unlock_ships[i])
-		var scaled_info: ShipState = ShipState.get_player_scaled_stats(i, array_size, ship_info)
+		var scaled_info: ShipState = ShipState.get_player_scaled_stats(i + 1, array_size, ship_info)
 		var button: ShipCardButton = ShipCardButton.create_ship_button(scaled_info)
 		# Connect new button signals
 		button.released.connect(_on_ship_selected)

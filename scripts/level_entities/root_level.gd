@@ -18,7 +18,7 @@ const upgrade_item: PackedScene = preload("uid://berjp6uasq671")
 @onready var pickup_folder: Node = $item_pickups
 @onready var level_folder: Node = $level_objects
 @onready var ship_folder: Node = $ship_folder
-@onready var system_components: Node = $SystemComponentManager
+@onready var component_manager: ComponentManager = $SystemComponentManager
 
 
 func _ready() -> void:
@@ -63,8 +63,9 @@ func change_system(new_system_data: SystemData) -> void:
 	instantiate_new_system_nodes(new_system_data)
 	sync_ships_to_data()
 	sync_sun_to_data(new_system_data.sun_data)
-	
-	#TODO spawn new components
+
+	# Components (system- and planet-scoped) are synced by ComponentManager,
+	# which listens for SignalBus.system_changed below.
 	save_ship_data()
 	
 	#print("changing to system: %s" % new_system_data.system_name)
@@ -75,7 +76,7 @@ func change_system(new_system_data: SystemData) -> void:
 
 func cleanup_old_system() -> void:
 	# Cleanup Arrays
-	for array in [LevelManager.factionShips, LevelManager.missionShips, LevelManager.neutralShips, LevelManager.spawn_options, LevelManager.planets, LevelManager.starbases]:
+	for array in [LevelManager.factionShips, LevelManager.missionShips, LevelManager.neutralShips, LevelManager.spawn_options, LevelManager.planets, LevelManager.starbases, LevelManager.containers]:
 		array.clear()
 	
 	# Cleanup Objects

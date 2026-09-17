@@ -1,4 +1,4 @@
-extends BaseComponentData
+extends PlanetComponentData
 class_name CommunicationComponentData
 
 func _init() -> void:

@@ -29,6 +29,10 @@ func add_component(component_type: Utility.SystemComponentType, mission: Mission
 		var data = ProtectComponentData.new()
 		data.setup_data(system_size, faction, system_difficulty_mult, 1)
 		components.append(data)
+	elif component_type == Utility.SystemComponentType.SCRAP:
+		var data = ScrapComponentData.new()
+		data.setup_data(randi_range(3, 6))
+		components.append(data)
 
 # System contents
 @export var planet_data: Array[PlanetData]
@@ -178,6 +182,7 @@ static func generate_planet_data(valid_spawn: Vector2, planet_name: String, fact
 	
 	# Add communication component to every planet
 	var comms_data = CommunicationComponentData.new()
+	comms_data.owning_planet = new_planet_data
 	new_planet_data.components.append(comms_data)
 	
 	# Example: Randomly add a static debris field to SOME planets

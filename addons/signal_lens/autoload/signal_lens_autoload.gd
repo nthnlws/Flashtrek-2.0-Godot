@@ -109,12 +109,6 @@ func parse_signal_callables_to_debugger_format(raw_signal_connections):
 		var parsed_callable_object: Object = raw_signal_connection["callable"].get_object()
 		var parsed_callable_object_name: String
 		
-		# If object has property "name", get this property
-		# Otherwise, get the string value of the object
-		# This is important to allow parsing anonymous lambdas, which
-		# don't have name properties. The names in the nodes are not
-		# very user-friendly right now, so this is a good spot for a 
-		# TODO: improve readability of anonymous lambda nodes
 		if not parsed_callable_object: return {"object_name": "ERROR: Couldn't parse node name."}
 		if parsed_callable_object.get("name") != null:
 			parsed_callable_object_name = parsed_callable_object.get("name")

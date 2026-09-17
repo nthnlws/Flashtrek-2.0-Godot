@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ResourceGroup" format=3 uid="uid://dn5mh1na73ndq"]
+
+[ext_resource type="Script" uid="uid://dkjynry1xjs56" path="res://addons/godot_resource_groups/resource_group.gd" id="1_bvcvx"]
+
+[resource]
+script = ExtResource("1_bvcvx")
+base_folder = "res://resources/scrap_piles/"
+paths = Array[String](["res://resources/scrap_piles/scrap_pile_2026-08-15_22-26-33.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-27-02.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-27-15.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-27-25.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-27-42.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-28-01.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-28-06.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-28-17.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-28-34.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-28-40.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-28-45.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-29-07.tres", "res://resources/scrap_piles/scrap_pile_2026-08-15_22-30-47.tres"])
+metadata/_custom_type_script = "uid://dkjynry1xjs56"

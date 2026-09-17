@@ -1,6 +1,11 @@
 extends HBoxContainer
 class_name ComponentLabelRow
 
+## Emitted when the row's remove ("X") button is pressed. The listener
+## decides what "remove" means - the row itself has no reference to a
+## component or its data.
+signal remove_requested
+
 @export var icon: TextureRect
 @export var component_name: Label
 
@@ -12,3 +17,7 @@ enum Icon {Control, Node2D, Node}
 func set_component(new_name: String, new_icon: Icon) -> void:
 	icon.texture = icon_map.get(new_icon)
 	component_name.text = new_name
+
+
+func _on_remove_button_pressed() -> void:
+	remove_requested.emit()

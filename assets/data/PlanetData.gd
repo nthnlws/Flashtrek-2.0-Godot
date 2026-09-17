@@ -11,6 +11,7 @@ class_name PlanetData
 func add_component(component_type: Utility.PlanetComponentType, mission: MissionData) -> void:
 	if component_type == Utility.PlanetComponentType.ANALYZE:
 		var data = AnalyzeComponentData.new()
+		data.owning_planet = self
 		data.setup_data(Utility.get_random_point_on_circle(1500))
 		components.append(data)
 		# Signal out or handle runtime injection if needed

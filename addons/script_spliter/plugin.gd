@@ -187,7 +187,6 @@ func _exit_tree() -> void:
 		_daemon_chaser.queue_free()
 
 func _get_translated_text(text : String) -> String:
-	# TODO: Translation
 	return text
 
 func swap(caller : Object) -> void:

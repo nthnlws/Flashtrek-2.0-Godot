@@ -1,5 +1,5 @@
 class_name KillFactionComponentData
-extends BaseComponentData
+extends SystemComponentData
 
 @export var faction: Utility.FACTION
 @export var target_ships_data: Array[ShipState]

@@ -1,5 +1,5 @@
 class_name ProtectComponentData
-extends BaseComponentData
+extends SystemComponentData
 
 ## Emitted when a protected ship is destroyed. Listen for this in your MissionManager.
 signal mission_failed 
@@ -41,6 +41,10 @@ func report_ship_destroyed(ship_data: ShipState) -> void:
 	is_failed = true
 	mission_failed.emit()
 	MissionManager.fail_mission()
+
+	# The mission is over either way (fail or succeed) - finalize the
+	# component so the owning ComponentManager despawns its view Node.
+	mark_completed()
 
 
 # --- Internal Generation Helpers ---

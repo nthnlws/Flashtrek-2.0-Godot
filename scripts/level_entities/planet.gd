@@ -3,7 +3,6 @@ class_name Planet
 
 @onready var label: RichTextLabel = $Label
 @onready var sprite: Sprite2D = $PlanetTexture
-@onready var component_manager: Node = $PlanetComponentManager
 
 var planet_data: PlanetData
 var planetFaction: Utility.FACTION = Utility.FACTION.FEDERATION
@@ -29,8 +28,6 @@ func sync_planet_to_data() -> void:
 	self.name = planet_data.name
 	self.set_label(planet_data.name)
 	self.planetFaction = planet_data.faction
-	
-	component_manager.sync_components(planet_data)
 
 
 func _physics_process(delta: float) -> void:
@@ -56,8 +53,7 @@ func fade_label(state: String) -> void:
 
 
 func attempt_interaction(ship_name: String) -> String:
-	if component_manager.has_component_type(&"communication"):
-		var comm_component = component_manager.get_component_by_type(&"communication")
-		if is_instance_valid(comm_component) and comm_component.has_method("attempt_interaction"):
-			return comm_component.attempt_interaction(ship_name)
+	var comm_component: Node = LevelManager.rootLevel.component_manager.get_planet_component(planet_data, &"communication")
+	if is_instance_valid(comm_component) and comm_component.has_method("attempt_interaction"):
+		return comm_component.attempt_interaction(ship_name)
 	return ""

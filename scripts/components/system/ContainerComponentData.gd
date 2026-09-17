@@ -1,4 +1,4 @@
-extends BaseComponentData
+extends SystemComponentData
 class_name ContainerComponentData
 
 

@@ -135,11 +135,10 @@ offset_bottom = -10.0
 scale = Vector2(0.7, 0.7)
 
 [node name="ComponentDebugPanel" type="Panel" parent="." unique_id=110746639]
-visible = false
 layout_mode = 0
-offset_left = 9.0
+offset_left = 48.0
 offset_top = 83.0
-offset_right = 111.0
+offset_right = 150.0
 offset_bottom = 106.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_h6ca5")
 script = ExtResource("10_hxir5")
@@ -156,9 +155,27 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ComponentDebugPanel/MarginContainer" unique_id=1555789346]
+[node name="Content" type="VBoxContainer" parent="ComponentDebugPanel/MarginContainer" unique_id=1555789345]
+layout_mode = 2
+
+[node name="AddRow" type="HBoxContainer" parent="ComponentDebugPanel/MarginContainer/Content" unique_id=1555789346]
+layout_mode = 2
+
+[node name="ComponentTypeDropdown" type="OptionButton" parent="ComponentDebugPanel/MarginContainer/Content/AddRow" unique_id=1555789347]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+
+[node name="AddButton" type="Button" parent="ComponentDebugPanel/MarginContainer/Content/AddRow" unique_id=1555789348]
+layout_mode = 2
+focus_mode = 0
+text = "Add"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ComponentDebugPanel/MarginContainer/Content" unique_id=1555789349]
 layout_mode = 2
 
 [connection signal="HidePanel" from="TopPanel" to="BattleStatus" method="stretch_banner" binds= [true]]
 [connection signal="ShowPanel" from="TopPanel" to="BattleStatus" method="stretch_banner" binds= [false]]
 [connection signal="pressed" from="SettingsButton" to="SettingsButton" method="_on_pressed"]
+[connection signal="pressed" from="ComponentDebugPanel/MarginContainer/Content/AddRow/AddButton" to="ComponentDebugPanel" method="_on_add_component_pressed"]

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://trx0ybm7p4ig"]
+
+[ext_resource type="Script" uid="uid://cy58h8j1cwd5k" path="res://scripts/components/system/ScrapComponent.gd" id="1_0vcsy"]
+
+[node name="ScrapComponent" type="Node2D" unique_id=417918130]
+script = ExtResource("1_0vcsy")

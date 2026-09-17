@@ -83,6 +83,20 @@ signal player_type_changed(PLAYER_TYPE: Utility.SHIP_TYPES, ship_stats: Dictiona
 signal levelReset
 signal level_loaded(root: RootLevel)
 
+# Components
+## Emitted by ComponentManager.inject_component() when a component is added
+## to the system/planet the player is currently in (as opposed to being
+## spawned as part of a normal system load). Listeners that only refresh on
+## system_changed (e.g. the minimap) need this too, since inject_component()
+## doesn't go through a system change.
+signal component_injected(data: BaseComponentData)
+## Emitted by ComponentManager._on_component_completed() whenever a component
+## finishes (naturally, or removed via the debug panel) and is despawned.
+## Listeners that only refresh on system_changed (e.g. the debug panel's row
+## list) need this too, since a component can finish mid-system without any
+## system change occurring.
+signal component_removed(data: BaseComponentData)
+
 # Audio
 signal UIselectSound
 signal UIclickSound

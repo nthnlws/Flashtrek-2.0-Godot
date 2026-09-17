@@ -32,3 +32,12 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Kill Faction Component"
 label_settings = SubResource("LabelSettings_xquqd")
+
+[node name="RemoveButton" type="Button" parent="." unique_id=1503686843]
+layout_mode = 2
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(18, 18)
+focus_mode = 0
+text = "X"
+
+[connection signal="pressed" from="RemoveButton" to="." method="_on_remove_button_pressed"]

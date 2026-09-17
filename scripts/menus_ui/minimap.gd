@@ -29,6 +29,11 @@ func _ready() -> void:
 	SignalBus.containerPickedUp.connect(remove_minimap_object)
 	SignalBus.missionCharacterDied.connect(remove_minimap_object)
 	SignalBus.galaxy_warp_finished.connect(create_minimap_objects.unbind(1))
+	# A component injected into the currently-loaded system (e.g. a debug-
+	# added component, or a mission accepted for the system you're already
+	# in) spawns its ships/containers outside the normal system_changed
+	# flow this minimap otherwise relies on, so it needs telling directly.
+	SignalBus.component_injected.connect(create_minimap_objects.unbind(1))
 	grid_scale = get_viewport().get_visible_rect().size / 2 # Var to center minimap objects
 
 
@@ -93,13 +98,19 @@ func update_minimap() -> void:
 		return
 	var player_pos: Vector2 = LevelManager.player.global_position
 
-	# Update all array-based markers
-	_update_marker_group(factionShips, LevelManager.factionShips, player_pos)
-	_update_marker_group(neutralShips, LevelManager.neutralShips, player_pos)
-	_update_marker_group(missionShips, LevelManager.missionShips, player_pos)
+	# Ships and containers can be added mid-system (component injection),
+	# which appends to LevelManager's arrays without necessarily rebuilding
+	# every marker in lockstep - so their markers are updated by looking each
+	# entity's marker up in its mapping dictionary directly, rather than by
+	# assuming markers[i] still corresponds to entities[i].
+	_update_marker_dict(ship_to_object, player_pos)
+	_update_marker_dict(container_to_object, player_pos)
+
+	# Starbases/planets never change after the initial system-load rebuild
+	# and have no per-entity removal signal, so plain index correspondence
+	# is safe for them.
 	_update_marker_group(starbaseObjects, LevelManager.starbases, player_pos)
 	_update_marker_group(planetObjects, LevelManager.planets, player_pos)
-	_update_marker_group(containerObjects, LevelManager.containers, player_pos)
 
 	# Update single objects (Sun)
 	if sunObjects and not sunObjects.is_empty() and is_instance_valid(LevelManager.sun):
@@ -107,15 +118,30 @@ func update_minimap() -> void:
 
 # Helper Functions for minimap updates
 func _update_marker_group(markers: Array, entities: Array, player_pos: Vector2) -> void:
-	if not markers: 
+	if not markers:
 		return
-		
+
 	for i in range(markers.size()):
 		var marker: TextureRect = markers[i]
-		
+
 		# Ensures the entity exists, the index is in bounds, and the node hasn't been freed
 		if i < entities.size() and is_instance_valid(entities[i]):
 			marker.position = _get_minimap_pos(entities[i].global_position, player_pos)
+			marker.visible = true
+		else:
+			marker.visible = false
+
+
+## Position-updates every entity->marker mapping directly from the dictionary,
+## so a marker is always tied to its actual entity regardless of array order
+## or how many entities were added since the marker was created.
+func _update_marker_dict(dict_map: Dictionary, player_pos: Vector2) -> void:
+	for entity in dict_map:
+		var marker: TextureRect = dict_map[entity]
+		if not is_instance_valid(marker):
+			continue
+		if is_instance_valid(entity):
+			marker.position = _get_minimap_pos(entity.global_position, player_pos)
 			marker.visible = true
 		else:
 			marker.visible = false
@@ -125,7 +151,10 @@ func _get_minimap_pos(target_pos: Vector2, player_pos: Vector2) -> Vector2:
 
 
 func remove_minimap_object(object: Variant) -> void:
+	var found: bool = false
+
 	if object in ship_to_object:
+		found = true
 		var texture_rect: TextureRect = ship_to_object[object]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
 		texture_rect.queue_free()  # Free the minimap object
@@ -133,13 +162,16 @@ func remove_minimap_object(object: Variant) -> void:
 		neutralShips.erase(texture_rect) # Remove from neutralShips array
 		missionShips.erase(texture_rect) # Remove from missionShips array
 		ship_to_object.erase(object)  # Remove from the mapping dictionary
+
 	if object in container_to_object:
+		found = true
 		var texture_rect: TextureRect = container_to_object[object]
 		self.remove_child(texture_rect)  # Remove the TextureRect from the minimap
 		texture_rect.queue_free()  # Free the minimap object
 		containerObjects.erase(texture_rect)
-		ship_to_object.erase(object)  # Remove from the mapping dictionary
-	else:
+		container_to_object.erase(object)  # Remove from the mapping dictionary
+
+	if not found:
 		printerr("Could not find %s in minimap mapping dictionaries" % object.name)
 
 
@@ -157,3 +189,9 @@ func clear_objects() -> void:
 	planetObjects.clear()
 	sunObjects.clear()
 	containerObjects.clear()
+
+	# The mapping dictionaries must be rebuilt in lockstep with the arrays
+	# above - clearing only the arrays left stale entity->marker entries
+	# (pointing at already-freed markers) behind on every rebuild.
+	ship_to_object.clear()
+	container_to_object.clear()
