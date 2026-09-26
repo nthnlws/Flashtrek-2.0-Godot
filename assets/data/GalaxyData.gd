@@ -83,7 +83,7 @@ func post_load_setup() -> void:
 
 func _reload_text_file() -> void:
 	system_names.clear()
-	system_names = load_text_file(system_name_file)
+	system_names = Utility.load_text_file(system_name_file)
 	system_names.shuffle()
 
 
@@ -109,15 +109,15 @@ static func generate_galaxy_data() -> GalaxyData:
 	for sys_index: int in range(MAX_SYSTEM_NUMBER):
 		var current_id: int = sys_index + 1
 		var rand_sys_name: String = new_galaxy.system_names.pop_front()
-		var system_data: SystemData = SystemData.generate_system_data(current_id, rand_sys_name)
+		var system_data: SystemData = SystemGenerator.generate_system_data(current_id, rand_sys_name)
 		new_galaxy.systems.append(system_data)
 		new_galaxy.system_id_map[current_id] = system_data
-	
+
 	var special_keys = SPECIAL_SYSTEMS.keys()
 	for key_name in special_keys:
 		var sys_id: int = SPECIAL_SYSTEMS[key_name] # INT value (101)
 		# Use the enum key name as the system name (e.g., "Solarus")
-		var system_data: SystemData = SystemData.generate_system_data(sys_id, key_name)
+		var system_data: SystemData = SystemGenerator.generate_system_data(sys_id, key_name)
 		
 		new_galaxy.systems.append(system_data)
 		new_galaxy.system_id_map[sys_id] = system_data
@@ -150,22 +150,7 @@ func _establish_warp_connections() -> void:
 					origin_system.neighbor_ids.append(target_id)
 
 
-static func load_text_file(file_path: String) -> Array[String]:
-	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
-	if file == null:
-		push_error("Failed to open planet names file at %s" % file_path)
-		return []
-
-	var names: Array[String] = []
-	while not file.eof_reached():
-		var line: String = file.get_line().strip_edges()
-		if line != "":
-			names.append(line)
-	file.close()
-	return names
-
-
-# Returns the number of jumps between two systems. 
+# Returns the number of jumps between two systems.
 # Returns -1 if no path exists.
 static func get_jump_distance(start_id: int, target_id: int) -> int:
 	# 1. Trivial case: We are already there

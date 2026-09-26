@@ -28,8 +28,6 @@ signal shield_damage_received(shooter:Node)
 		health_max_changed.emit(value)
 		if is_on_player:
 			SignalBus.playerMaxHealthChanged.emit(value * upgrades.HullMult)
-		else:
-			SignalBus.playerMaxHealthChanged.emit(value)
 	get:
 		if is_on_player:
 			return HP_max * upgrades.HullMult
@@ -39,7 +37,8 @@ var HP_current:float = HP_max:
 	set(value):
 		HP_current = value
 		health_changed.emit(value)
-		SignalBus.playerHealthChanged.emit(value)
+		if is_on_player:
+			SignalBus.playerHealthChanged.emit(value)
 
 func resetHealthToMax() -> void:
 	setCurrentHealth(getMaxHealth())
@@ -114,8 +113,9 @@ func _process(delta: float) -> void:
 
 
 func initialize_hud() -> void:
-	SignalBus.playerMaxShieldChanged.emit(SP_max)
-	SignalBus.playerShieldChanged.emit(SP_current)
+	if is_on_player:
+		SignalBus.playerMaxShieldChanged.emit(SP_max)
+		SignalBus.playerShieldChanged.emit(SP_current)
 
 
 #region Shield Functions
@@ -128,8 +128,6 @@ var SP_max:int = 50:
 		shield_max_changed.emit(value)
 		if is_on_player:
 			SignalBus.playerMaxShieldChanged.emit(value * upgrades.ShieldMult)
-		else:
-			SignalBus.playerMaxShieldChanged.emit(value)
 	get:
 		if upgrades:
 			return SP_max * upgrades.ShieldMult
@@ -138,7 +136,8 @@ var SP_current:float = SP_max:
 	set(value):
 		SP_current = value
 		shield_changed.emit(value)
-		SignalBus.playerShieldChanged.emit(value)
+		if is_on_player:
+			SignalBus.playerShieldChanged.emit(value)
 
 func resetShieldToMax() -> void:
 	setCurrentShield(getMaxShield())

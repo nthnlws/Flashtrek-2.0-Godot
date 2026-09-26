@@ -49,29 +49,3 @@ func _to_string() -> String:
 		damage_mult,
 		warp_range,
 	]
-
-## Returns ship type for a given faction
-static func get_faction_ship_type(faction:Utility.FACTION) -> Utility.SHIP_TYPES:
-	match faction as Utility.FACTION:
-		Utility.FACTION.FEDERATION:
-			return Utility.SHIP_TYPES.Ambassador_Class
-		Utility.FACTION.KLINGON:
-			return Utility.SHIP_TYPES.Brel_Class
-		Utility.FACTION.ROMULAN:
-			return Utility.SHIP_TYPES.Dderidex_Class
-		Utility.FACTION.NEUTRAL:
-			return Utility.SHIP_TYPES.JemHadar
-		_:
-			push_error("Unknown faction type %s" % faction)
-			return Utility.SHIP_TYPES.Merchantman
-
-
-## Returns random neutral ship type
-static func get_neutral_ship_type() -> Utility.SHIP_TYPES:
-	var neutral_ship_array: Array[Utility.SHIP_TYPES] = [
-		Utility.SHIP_TYPES.Merchantman,
-		Utility.SHIP_TYPES.Hideki_Class,
-		Utility.SHIP_TYPES.Tellarite_Cruiser,
-		Utility.SHIP_TYPES.Talarian_Freighter,
-	]
-	return neutral_ship_array.pick_random()

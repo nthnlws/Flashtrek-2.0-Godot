@@ -12,27 +12,24 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 @export var system_size: int = 20000
 @export var components: Array[BaseComponentData] = []
 
-func add_component(component_type: Utility.SystemComponentType, mission: MissionData) -> void:
-	if component_type == Utility.SystemComponentType.KILL_FACTION:
-		var data = KillFactionComponentData.new()
-		data.setup_data(mission.enemy_faction, system_difficulty_mult, mission.enemy_target_count)
-		components.append(data)
-	elif component_type == Utility.SystemComponentType.CONTAINER:
-		var data = ContainerComponentData.new()
-		var spawn_positions: Array[Vector2] = []
-		
-		for i in range(randi_range(2, 4)): # Number of containers to spawn
-			spawn_positions.append(Utility.get_random_point_on_circle(randf_range(2000, 6000)))
-		data.setup_data(mission.cargo, mission.faction_owner, spawn_positions)
-		components.append(data)
-	elif component_type == Utility.SystemComponentType.ESCORT:
-		var data = ProtectComponentData.new()
-		data.setup_data(system_size, faction, system_difficulty_mult, 1)
-		components.append(data)
-	elif component_type == Utility.SystemComponentType.SCRAP:
-		var data = ScrapComponentData.new()
-		data.setup_data(randi_range(3, 6))
-		components.append(data)
+## Maps a SystemComponentType to a factory Callable, mirroring
+## ComponentManager.component_scene_map.
+static var COMPONENT_FACTORIES: Dictionary[Utility.SystemComponentType, Callable] = {
+	Utility.SystemComponentType.KILL_FACTION: func(): return KillFactionComponentData.new(),
+	Utility.SystemComponentType.CONTAINER:    func(): return ContainerComponentData.new(),
+	Utility.SystemComponentType.ESCORT:       func(): return ProtectComponentData.new(),
+	Utility.SystemComponentType.SCRAP:        func(): return ScrapComponentData.new(),
+}
+
+func add_component(component_type: Utility.SystemComponentType, mission: MissionData) -> SystemComponentData:
+	if not COMPONENT_FACTORIES.has(component_type):
+		printerr("SystemData: no factory registered for component type %s" % component_type)
+		return null
+
+	var data: SystemComponentData = COMPONENT_FACTORIES[component_type].call()
+	data.setup_from_mission(mission, self)
+	components.append(data)
+	return data
 
 # System contents
 @export var planet_data: Array[PlanetData]
@@ -71,14 +68,12 @@ func remove_container(to_remove: ContainerData) -> void:
 	else: printerr("ContainerData does not exist in SystemData, cannot remove")
 
 
-func _init() -> void:
-	_reload_text_file()
-
-
-func _reload_text_file() -> void:
-	planet_names.clear()
-	planet_names = load_text_file(planet_name_file)
-	planet_names.shuffle()
+## Loads (and shuffles) the shared planet-name pool the first time this
+## SystemData needs a name during procedural generation.
+func ensure_planet_names_loaded() -> void:
+	if planet_names.is_empty():
+		planet_names = Utility.load_text_file(planet_name_file)
+		planet_names.shuffle()
 
 
 func get_planet_data(planet_name: String) -> PlanetData:
@@ -87,162 +82,6 @@ func get_planet_data(planet_name: String) -> PlanetData:
 			return planet
 	
 	return null # If PlanetData not found
-
-
-static func generate_system_data(sys_index: int, new_system_name: String) -> SystemData:
-	var new_system_data: SystemData = SystemData.new()
-	var sys_faction = get_system_faction(sys_index)
-	
-	new_system_data.system_name = new_system_name
-	new_system_data.system_index = sys_index
-	new_system_data.faction = sys_faction
-	new_system_data.system_difficulty_mult = Scaling.get_system_difficulty(sys_index, sys_faction)
-	
-	# Planetary body setup
-	var new_planet_count: int = randi_range(3, 6)
-	new_system_data.sun_data = generate_sun_data(new_planet_count)
-	var spawn_positions: Array = get_planet_spawn_positions(new_planet_count)
-	for valid_position: Vector2 in spawn_positions:
-		var planet_name: String = new_system_data.planet_names.pop_front()
-		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, sys_faction))
-
-	# NPC Ship Data
-	var index: int = 0
-	for planet: PlanetData in new_system_data.planet_data:
-		# Generate Faction ship spawn data
-		var faction_spawn_pos: Vector2 = _generate_faction_spawn_position(planet)
-		var baseFactionInfo: BaseShipInfo = Utility.get_ship_stats(BaseShipInfo.get_faction_ship_type(sys_faction))
-		var scaled_faction_stats: ShipState = ShipState.get_NPC_scaled_stats(new_system_data.system_difficulty_mult, baseFactionInfo, ShipState.CATEGORY.FACTION)
-		scaled_faction_stats.save_position = faction_spawn_pos
-		new_system_data.enemy_list.append(scaled_faction_stats)
-		
-		# Generate Neutral ship spawn data
-		var neutral_spawn_pos: Vector2 = _generate_neutral_spawn_position(planet)
-		var baseNeutralInfo: BaseShipInfo = Utility.get_ship_stats(BaseShipInfo.get_neutral_ship_type())
-		var scaled_neutral_stats: ShipState = ShipState.get_NPC_scaled_stats(new_system_data.system_difficulty_mult, baseNeutralInfo, ShipState.CATEGORY.NEUTRAL)
-		scaled_neutral_stats.save_position = neutral_spawn_pos
-		new_system_data.neutral_list.append(scaled_neutral_stats)
-		index += 1
-	
-	return new_system_data
-
-
-static func _generate_neutral_spawn_position(host_planet: PlanetData) -> Vector2:
-	# Set spawn distance between 20-80% from starbase to planet
-	var random_fraction: float = clamp(randf(), 0.20, 0.80)
-	var spawn_pos: Vector2 = Vector2.ZERO.lerp(host_planet.world_position, random_fraction)
-	return spawn_pos
-
-const MAX_SPAWN_DISTANCE: int = 1500
-const MIN_SPAWN_DISTANCE: int = 500
-static func _generate_faction_spawn_position(host_planet: PlanetData) -> Vector2:
-	var random_angle: float = randf_range(0, TAU)
-	var spawn_distance: float = randf_range(MIN_SPAWN_DISTANCE, MAX_SPAWN_DISTANCE)
-	var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
-	
-	return host_planet.world_position + spawn_position
-
-
-static func get_planet_spawn_positions(PLANET_COUNT: int) -> Array:
-	#var min_dist_between: float = clamp(20000.0 / PLANET_COUNT, 6000.0, 20000.0)
-	var max_dist_origin: float = 15000.0 + ((PLANET_COUNT - 3.0) * 750.0)
-	var min_dist_origin: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0)
-	
-	var all_possible_points: PackedVector2Array = PoissonDiscSampling.generate_points_for_circle(
-		Vector2.ZERO,
-		max_dist_origin,
-		min_dist_origin,
-		30
-	)
-	
-	# Filter the points to be within the spawn ring
-	var valid_spawn_points: Array[Vector2]
-	for point in all_possible_points:
-		# Check if the point is outside the inner "no-spawn" zone
-		if point.distance_to(Vector2.ZERO) >= min_dist_origin:
-			valid_spawn_points.append(point)
-	
-	# Shuffle the list to get a random selection
-	valid_spawn_points.shuffle()
-	# Get number of spawn points needed
-	var final_planet_positions = valid_spawn_points.slice(0, PLANET_COUNT)
-	return final_planet_positions
-
-
-static func generate_planet_data(valid_spawn: Vector2, planet_name: String, faction: Utility.FACTION) -> PlanetData:
-	var new_planet_data: PlanetData = PlanetData.new()
-	
-	var random_frame: int = randi() % 220
-	new_planet_data.name = planet_name
-	new_planet_data.frame = random_frame
-	new_planet_data.world_position = valid_spawn
-	new_planet_data.faction = faction
-	
-	# --- ADDING COMPONENTS DURING GENERATION ---
-	
-	# Add communication component to every planet
-	var comms_data = CommunicationComponentData.new()
-	comms_data.owning_planet = new_planet_data
-	new_planet_data.components.append(comms_data)
-	
-	# Example: Randomly add a static debris field to SOME planets
-	#if randf() > 0.7:
-		#var debris_data = DebrisComponentData.new()
-		#new_planet_data.components.append(debris_data)
-	
-	return new_planet_data
-
-
-static func generate_sun_data(PLANET_COUNT: int) -> SunData:
-	# Generate random angle and radius for spawn position
-	var max_spawn_distance: float = clamp(7500.0 + ((PLANET_COUNT - 3.0) * 750.0), 7500.0, 10000.0) - 2000
-	var min_spawn_distance: float = 4000
-	var random_angle: float = randf_range(0, TAU)
-	var spawn_distance: float = randf_range(min_spawn_distance, max_spawn_distance)
-	
-	var spawn_position: Vector2 = Vector2.from_angle(random_angle) * spawn_distance
-	var sprite_index: int = randi_range(0, 5)
-	
-	var new_sun_data: SunData = SunData.new()
-	new_sun_data.frame = sprite_index
-	new_sun_data.world_position = spawn_position
-	
-	return new_sun_data # SunData
-
-
-static func get_system_faction(sys_index: int) -> Utility.FACTION:
-	if sys_index <= GalaxyData.NUM_FED_SYSTEMS:
-		return Utility.FACTION.FEDERATION
-	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS:
-		return Utility.FACTION.KLINGON
-	elif sys_index <= GalaxyData.NUM_FED_SYSTEMS + GalaxyData.NUM_KLING_SYSTEMS + GalaxyData.NUM_ROM_SYSTEMS:
-		return Utility.FACTION.ROMULAN
-	else:
-		match sys_index:
-			GalaxyData.SPECIAL_SYSTEMS.Solarus:
-				return Utility.FACTION.FEDERATION
-			GalaxyData.SPECIAL_SYSTEMS.Kronos:
-				return Utility.FACTION.KLINGON
-			GalaxyData.SPECIAL_SYSTEMS.Romulus:
-				return Utility.FACTION.ROMULAN
-			GalaxyData.SPECIAL_SYSTEMS.Risa:
-				return Utility.FACTION.NEUTRAL
-			_: return Utility.FACTION.NEUTRAL # No matching value
-
-
-func load_text_file(file_path: String) -> Array[String]:
-	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
-	if file == null:
-		push_error("Failed to open planet names file at %s" % file_path)
-		return []
-
-	var names: Array[String] = []
-	while not file.eof_reached():
-		var line: String = file.get_line().strip_edges()
-		if line != "":
-			names.append(line)
-	file.close()
-	return names
 
 
 func remove_faction_ship_data(to_remove: ShipState) -> void:
@@ -262,51 +101,3 @@ func remove_neutral_ship_data(to_remove: ShipState) -> void:
 	neutral_list.erase(found)
 	defeated_neutrals.append(found)
 	defeated_neutrals.append(to_remove)
-
-
-static func get_entry_point(angle_rad: float) -> Vector2:
-	var coords: Vector2 = Vector2.ZERO
-	angle_rad = (angle_rad) - PI # Flips angle 180 degrees
-	var border_coords: int = 20000
-	var square_min: Vector2 = Vector2.ZERO - Vector2(border_coords, border_coords)
-	var square_max: Vector2 = Vector2.ZERO + Vector2(border_coords, border_coords)
-
-	var best_intersection: Vector2 = Vector2.INF
-	var best_t: float = INF
-
-	var cos_angle: float = cos(angle_rad)
-	var sin_angle: float = sin(angle_rad)
-
-	# Check right side
-	var t: float = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
-	if t > 0:
-		var y: float = coords.y + t * sin_angle
-		if y >= square_min.y and y <= square_max.y and t < best_t:
-			best_t = t
-			best_intersection = Vector2(square_max.x, y)
-
-	# Check left side
-	t = (square_min.x - coords.x) / cos_angle if cos_angle != 0 else INF
-	if t > 0:
-		var y: float = coords.y + t * sin_angle
-		if y >= square_min.y and y <= square_max.y and t < best_t:
-			best_t = t
-			best_intersection = Vector2(square_min.x, y)
-
-	# Check top side
-	t = (square_max.y - coords.y) / sin_angle if sin_angle != 0 else INF
-	if t > 0:
-		var x: float = coords.x + t * cos_angle
-		if x >= square_min.x and x <= square_max.x and t < best_t:
-			best_t = t
-			best_intersection = Vector2(x, square_max.y)
-
-	# Check bottom side
-	t = (square_min.y - coords.y) / sin_angle if sin_angle != 0 else INF
-	if t > 0:
-		var x: float = coords.x + t * cos_angle
-		if x >= square_min.x and x <= square_max.x and t < best_t:
-			best_t = t
-			best_intersection = Vector2(x, square_min.y)
-	
-	return best_intersection.move_toward(Vector2.ZERO, 2000)

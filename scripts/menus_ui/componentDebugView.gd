@@ -9,9 +9,9 @@ const COMPONENT_ROW = preload("uid://csirae4a2j33d")
 
 ## Addable component types that live directly on the system (not a specific
 ## planet). "mission_type" is the MissionData.MISSION_TYPE used to safely
-## generate a throwaway mission for setup_data() to read from (faction,
-## cargo, enemy count, etc.) - null when the component's setup_data() doesn't
-## read anything from a mission at all (e.g. Scrap).
+## generate a throwaway mission for setup_from_mission() to read from
+## (faction, cargo, enemy count, etc.) - null when the component's
+## setup_from_mission() doesn't read anything from a mission at all (e.g. Scrap).
 const SYSTEM_ADD_OPTIONS: Array[Dictionary] = [
 	{"label": "Kill Faction (System)", "component_type": Utility.SystemComponentType.KILL_FACTION, "mission_type": MissionData.MISSION_TYPE.KILL_FACTION},
 	{"label": "Escort / Protect (System)", "component_type": Utility.SystemComponentType.ESCORT, "mission_type": MissionData.MISSION_TYPE.ESCORT},
@@ -113,7 +113,7 @@ func _rebuild_add_options(system_data: SystemData) -> void:
 ## system (or, for planet-scoped types, the chosen planet), then spawns it
 ## immediately via the ComponentManager - the same inject_component() path a
 ## real mission acceptance uses. Since this isn't a real mission, nothing is
-## tracked in MissionManager; but anything setup_data() reads off a
+## tracked in MissionManager; but anything setup_from_mission() reads off a
 ## MissionData (faction, cargo, enemy count, etc.) is still populated safely
 ## via MissionGenerator.generate_mission() rather than left null/default, so
 ## debug-added components behave identically to mission-added ones.
@@ -137,11 +137,9 @@ func _on_add_component_pressed() -> void:
 	var new_data: BaseComponentData
 	if option.has("planet"):
 		var planet_data: PlanetData = option.planet
-		planet_data.add_component(option.component_type, mission)
-		new_data = planet_data.components.back()
+		new_data = planet_data.add_component(option.component_type, mission)
 	else:
-		current_system.add_component(option.component_type, mission)
-		new_data = current_system.components.back()
+		new_data = current_system.add_component(option.component_type, mission)
 
 	if new_data and LevelManager.rootLevel and LevelManager.rootLevel.component_manager:
 		LevelManager.rootLevel.component_manager.inject_component(new_data)

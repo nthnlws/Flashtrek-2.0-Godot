@@ -400,7 +400,7 @@ func trigger_galaxy_warp() -> void:
 	
 	self.velocity = Vector2.ZERO
 	
-	LevelManager.entry_coords = SystemData.get_entry_point(self.global_rotation)
+	LevelManager.entry_coords = Utility.get_entry_point(self.global_rotation)
 	
 	galaxy_warp_sound.play()
 	await get_tree().create_timer(1.5).timeout

@@ -321,6 +321,73 @@ func get_faction_stat_ranges(selected_faction: FACTION) -> FactionRanges:
 func get_random_point_on_circle(radius: float) -> Vector2:
 	return Vector2.from_angle(randf() * TAU) * radius
 
+
+## Shared text-file reader (one line per entry, blanks skipped). Previously
+## duplicated near-identically in both GalaxyData and SystemData.
+func load_text_file(file_path: String) -> Array[String]:
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		push_error("Failed to open text file at %s" % file_path)
+		return []
+
+	var lines: Array[String] = []
+	while not file.eof_reached():
+		var line: String = file.get_line().strip_edges()
+		if line != "":
+			lines.append(line)
+	file.close()
+	return lines
+
+
+## Pure geometry helper (nearest border intersection for a warp-in angle) -
+## moved here from SystemData, which it had no actual relationship to.
+func get_entry_point(angle_rad: float) -> Vector2:
+	var coords: Vector2 = Vector2.ZERO
+	angle_rad = (angle_rad) - PI # Flips angle 180 degrees
+	var border_coords: int = 20000
+	var square_min: Vector2 = Vector2.ZERO - Vector2(border_coords, border_coords)
+	var square_max: Vector2 = Vector2.ZERO + Vector2(border_coords, border_coords)
+
+	var best_intersection: Vector2 = Vector2.INF
+	var best_t: float = INF
+
+	var cos_angle: float = cos(angle_rad)
+	var sin_angle: float = sin(angle_rad)
+
+	# Check right side
+	var t: float = (square_max.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	if t > 0:
+		var y: float = coords.y + t * sin_angle
+		if y >= square_min.y and y <= square_max.y and t < best_t:
+			best_t = t
+			best_intersection = Vector2(square_max.x, y)
+
+	# Check left side
+	t = (square_min.x - coords.x) / cos_angle if cos_angle != 0 else INF
+	if t > 0:
+		var y: float = coords.y + t * sin_angle
+		if y >= square_min.y and y <= square_max.y and t < best_t:
+			best_t = t
+			best_intersection = Vector2(square_min.x, y)
+
+	# Check top side
+	t = (square_max.y - coords.y) / sin_angle if sin_angle != 0 else INF
+	if t > 0:
+		var x: float = coords.x + t * cos_angle
+		if x >= square_min.x and x <= square_max.x and t < best_t:
+			best_t = t
+			best_intersection = Vector2(x, square_max.y)
+
+	# Check bottom side
+	t = (square_min.y - coords.y) / sin_angle if sin_angle != 0 else INF
+	if t > 0:
+		var x: float = coords.x + t * cos_angle
+		if x >= square_min.x and x <= square_max.x and t < best_t:
+			best_t = t
+			best_intersection = Vector2(x, square_min.y)
+
+	return best_intersection.move_toward(Vector2.ZERO, 2000)
+
 func get_faction_home_system(faction: FACTION) -> SystemData:
 	if faction == FACTION.FEDERATION:
 		return LevelManager.galaxy_data.get_system(GalaxyData.SPECIAL_SYSTEMS.Solarus)
@@ -408,3 +475,30 @@ func format_number(value: int) -> String:
 			res += ","
 		res += string[i]
 	return res
+
+
+## Returns ship type for a given faction
+func get_faction_ship_type(faction:Utility.FACTION) -> Utility.SHIP_TYPES:
+	match faction as Utility.FACTION:
+		Utility.FACTION.FEDERATION:
+			return Utility.SHIP_TYPES.Ambassador_Class
+		Utility.FACTION.KLINGON:
+			return Utility.SHIP_TYPES.Brel_Class
+		Utility.FACTION.ROMULAN:
+			return Utility.SHIP_TYPES.Dderidex_Class
+		Utility.FACTION.NEUTRAL:
+			return Utility.SHIP_TYPES.JemHadar
+		_:
+			push_error("Unknown faction type %s" % faction)
+			return Utility.SHIP_TYPES.Merchantman
+
+
+## Returns random neutral ship type
+func get_neutral_ship_type() -> Utility.SHIP_TYPES:
+	var neutral_ship_array: Array[Utility.SHIP_TYPES] = [
+		Utility.SHIP_TYPES.Merchantman,
+		Utility.SHIP_TYPES.Hideki_Class,
+		Utility.SHIP_TYPES.Tellarite_Cruiser,
+		Utility.SHIP_TYPES.Talarian_Freighter,
+	]
+	return neutral_ship_array.pick_random()

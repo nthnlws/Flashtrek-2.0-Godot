@@ -81,16 +81,29 @@ func _spawn_component(data: BaseComponentData) -> void:
 		data.component_completed.connect(_on_component_completed.bind(data))
 
 
+## Resolves whichever Array[BaseComponentData] persistently owns `data` - a
+## specific planet's components if it's planet-scoped, otherwise the current
+## system's - and applies `mutate` (an (Array, BaseComponentData) -> void
+## Callable, typically arr.append or arr.erase) to it. Centralizes the
+## "which collection owns this component" branch that inject_component() and
+## _on_component_completed() both previously duplicated separately.
+func _mutate_owning_collection(data: BaseComponentData, mutate: Callable) -> void:
+	if data is PlanetComponentData:
+		var owning_planet: PlanetData = (data as PlanetComponentData).owning_planet
+		if owning_planet:
+			mutate.call(owning_planet.components, data)
+	elif current_system_data:
+		mutate.call(current_system_data.components, data)
+
+
 ## Called if a component is dynamically added to the system while the player
 ## is currently inside it (e.g. accepting a mission for the planet/system
 ## you're already at).
 func inject_component(data: BaseComponentData) -> void:
-	if data is PlanetComponentData:
-		var owning_planet: PlanetData = (data as PlanetComponentData).owning_planet
-		if owning_planet and not owning_planet.components.has(data):
-			owning_planet.components.append(data)
-	elif current_system_data and not current_system_data.components.has(data):
-		current_system_data.components.append(data)
+	_mutate_owning_collection(data, func(collection: Array, d: BaseComponentData) -> void:
+		if not collection.has(d):
+			collection.append(d)
+	)
 
 	_spawn_component(data)
 
@@ -110,12 +123,9 @@ func _on_component_completed(data: BaseComponentData) -> void:
 		active_components.erase(data)
 
 	# 2. Remove from its persistent owner so it doesn't respawn on return
-	if data is PlanetComponentData:
-		var owning_planet: PlanetData = (data as PlanetComponentData).owning_planet
-		if owning_planet and owning_planet.components.has(data):
-			owning_planet.components.erase(data)
-	elif current_system_data and current_system_data.components.has(data):
-		current_system_data.components.erase(data)
+	_mutate_owning_collection(data, func(collection: Array, d: BaseComponentData) -> void:
+		collection.erase(d)
+	)
 
 	# 3. Disconnect Signal
 	if data.component_completed.is_connected(_on_component_completed):

@@ -7,6 +7,6 @@ extends PlanetComponentData
 func _init() -> void:
 	component_id = &"analyze"
 
-## Called by the mission generator when the mission is created.
-func setup_data(calculated_local_point: Vector2) -> void:
-	mission_point = calculated_local_point
+## Called by PlanetData.add_component() when the mission is created.
+func setup_from_mission(mission: MissionData, context: PlanetData) -> void:
+	mission_point = Utility.get_random_point_on_circle(1500)

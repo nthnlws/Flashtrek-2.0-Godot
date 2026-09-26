@@ -45,19 +45,15 @@ func accept_pending_mission() -> void:
 	var new_component_data: BaseComponentData
 
 	if active_mission.type == MissionData.MISSION_TYPE.ANALYZE:
-		planet_data.add_component(Utility.PlanetComponentType.ANALYZE, active_mission)
-		new_component_data = planet_data.components.back()
+		new_component_data = planet_data.add_component(Utility.PlanetComponentType.ANALYZE, active_mission)
 	# elif active_mission.type == MissionData.MISSION_TYPE.DELIVERY:
-	# 	planet_data.add_component(Utility.PlanetComponentType.DELIVER, active_mission)
+	# 	new_component_data = planet_data.add_component(Utility.PlanetComponentType.DELIVER, active_mission)
 	elif active_mission.type == MissionData.MISSION_TYPE.KILL_FACTION:
-		system_data.add_component(Utility.SystemComponentType.KILL_FACTION, active_mission)
-		new_component_data = system_data.components.back()
+		new_component_data = system_data.add_component(Utility.SystemComponentType.KILL_FACTION, active_mission)
 	elif active_mission.type == MissionData.MISSION_TYPE.CONTAINER:
-		system_data.add_component(Utility.SystemComponentType.CONTAINER, active_mission)
-		new_component_data = system_data.components.back()
+		new_component_data = system_data.add_component(Utility.SystemComponentType.CONTAINER, active_mission)
 	elif active_mission.type == MissionData.MISSION_TYPE.ESCORT:
-		system_data.add_component(Utility.SystemComponentType.ESCORT, active_mission)
-		new_component_data = system_data.components.back()
+		new_component_data = system_data.add_component(Utility.SystemComponentType.ESCORT, active_mission)
 
 	# If the mission's target is the system currently loaded, spawn the
 	# component immediately instead of waiting for the next system_changed.

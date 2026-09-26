@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://lpc7nsfqbs77"]
 
-[ext_resource type="Texture2D" uid="uid://cmx6mdrgaqev6" path="res://assets/textures/UI/crosshair/crosshair.png" id="1_4opqp"]
 [ext_resource type="Script" uid="uid://dkqg1b08an5xg" path="res://scripts/menus_ui/crosshair.gd" id="1_23ifk"]
+[ext_resource type="Texture2D" uid="uid://cc26gmvhj48eu" path="res://assets/textures/UI/crosshair/crosshair2.png" id="2_4opqp"]
 [ext_resource type="Texture2D" uid="uid://b7bbhouxu2548" path="res://assets/textures/UI/crosshair/Progress.png" id="3_2awl7"]
 
 [node name="Crosshair" type="Node2D" unique_id=1246726848]
@@ -9,7 +9,8 @@ scale = Vector2(0.05, 0.05)
 script = ExtResource("1_23ifk")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1078484786]
-texture = ExtResource("1_4opqp")
+scale = Vector2(8, 8)
+texture = ExtResource("2_4opqp")
 region_rect = Rect2(0, 0, 65, 65)
 region_filter_clip_enabled = true
 
@@ -27,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = 3.1415927
 mouse_filter = 2
-value = 75.0
+value = 73.0
 fill_mode = 8
 texture_progress = ExtResource("3_2awl7")
 tint_progress = Color(0.22745098, 0.5137255, 0.8117647, 1)
