@@ -9,6 +9,7 @@ signal player_exited
 
 func _ready() -> void:
 	self.visible = false
+	add_to_group(MissionManager.MINIMAP_MARKER_GROUP)
 
 
 func activate_indicator(spawn_position:Vector2):

@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://r8jsbwhwde0d" path="res://scripts/components/characters/hull_damage_receiver.gd" id="7_scpag"]
 [ext_resource type="PackedScene" uid="uid://bextl4yltypag" path="res://scenes/level_entities/baseShield.tscn" id="8_scpag"]
 [ext_resource type="PackedScene" uid="uid://d4h4tvuwc4bqj" path="res://scenes/level_entities/ShipStatusBars.tscn" id="12_a5e8g"]
+[ext_resource type="Script" uid="uid://dxdveesswpky1" path="res://scripts/components/characters/ship_movement_component.gd" id="13_movement"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lot0p"]
 atlas = ExtResource("3_l33it")
@@ -514,6 +515,10 @@ bus = &"Effects"
 
 [node name="ShipStatusBars" parent="." unique_id=1990365906 node_paths=PackedStringArray("health_component") instance=ExtResource("12_a5e8g")]
 health_component = NodePath("../HealthComponent")
+
+[node name="MovementComponent" type="Node" parent="." unique_id=1170001838 node_paths=PackedStringArray("ship")]
+script = ExtResource("13_movement")
+ship = NodePath("..")
 
 [connection signal="hull_damage_received" from="HealthComponent" to="." method="_on_hit_received"]
 [connection signal="shield_damage_received" from="HealthComponent" to="." method="_on_hit_received"]

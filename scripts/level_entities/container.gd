@@ -25,6 +25,11 @@ func _ready() -> void:
 	self.global_position = container_data.spawn_position
 
 
+## Tractor beam pickup interface.
+func collect_pickup() -> void:
+	collect_container()
+
+
 func collect_container() -> void:
 	container_collected.emit(self)
 	SignalBus.containerPickedUp.emit(self)

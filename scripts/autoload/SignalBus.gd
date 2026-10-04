@@ -96,6 +96,13 @@ signal component_injected(data: BaseComponentData)
 ## list) need this too, since a component can finish mid-system without any
 ## system change occurring.
 signal component_removed(data: BaseComponentData)
+## Emitted by ComponentManager when a component resolves. MissionManager
+## settles the mission matching data.mission_id.
+signal component_resolved(data: BaseComponentData, success: bool)
+
+# AI
+## Rate-limited per ship. See FactionCharacter._should_answer_distress().
+signal ship_distress(victim: Node2D, attacker: Node2D)
 
 # Audio
 signal UIselectSound

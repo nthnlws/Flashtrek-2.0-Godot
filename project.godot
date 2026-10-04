@@ -308,6 +308,10 @@ cycle_debug_menu={
 2d_physics/layer_9="projectile"
 2d_physics/layer_10="interactable"
 
+[physics]
+
+common/physics_ticks_per_second=42
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

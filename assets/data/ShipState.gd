@@ -24,6 +24,10 @@ enum CATEGORY { FACTION, NEUTRAL, MISSION, PLAYER }
 @export var scaled_energy: float
 @export var scaled_acceleration: float
 
+# Ships sharing a squad_id follow the lowest living formation_slot. Empty = solo.
+@export var squad_id: String = ""
+@export var formation_slot: int = 0
+
 # Ship state variables
 @export var unique_id: String
 @export var save_position: Vector2
@@ -77,6 +81,7 @@ static func get_NPC_scaled_stats(system_difficulty: float, base_ship: BaseShipIn
 	new_state.unique_id = UUID.generate_UUID()
 	new_state.ship_category = category
 	new_state.ship_type = base_ship.ship_type
+	new_state.current_faction = Utility.FACTION.NEUTRAL if category == CATEGORY.NEUTRAL else base_ship.faction
 	new_state.reputation_value = 100 * system_difficulty
 	
 	new_state.scaled_max_HP = base_ship.base_HP * system_difficulty

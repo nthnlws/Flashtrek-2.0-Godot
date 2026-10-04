@@ -149,5 +149,4 @@ func mark_completed() -> void:
 	if is_instance_valid(_target_player):
 		_target_player.set_physics_process(true)
 
-	MissionManager.complete_mission()
 	complete(component_data)

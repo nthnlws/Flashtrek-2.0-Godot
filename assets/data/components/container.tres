@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ComponentDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/components/ComponentDefinition.gd" id="1_def"]
+[ext_resource type="Script" uid="uid://ctgmpmkug4pp6" path="res://scripts/components/system/ContainerComponentData.gd" id="2_data"]
+[ext_resource type="PackedScene" uid="uid://cgljy0cnyeb7f" path="res://scenes/components/systems/container_pickup_component.tscn" id="3_scene"]
+
+[resource]
+script = ExtResource("1_def")
+component_id = &"container"
+display_name = "Container"
+data_script = ExtResource("2_data")
+scene = ExtResource("3_scene")
+scope = 0
+mission_type = 1
+debug_addable = true

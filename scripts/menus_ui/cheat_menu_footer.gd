@@ -6,9 +6,17 @@ var current_system: String = "Solarus"
 var current_mission_type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.KILL_FACTION
 var current_faction: Utility.FACTION = Utility.FACTION.FEDERATION
 
+@onready var mission_type_button: OptionButton = $MarginContainer/VBoxContainer/OptionsLine1/MissionPanel/MarginContainer/HBoxContainer/MissionType
+
+
 func _ready() -> void:
 	if Utility.dev_mode_enabled:
 		self.visible = true
+
+	mission_type_button.clear()
+	for type_name: String in MissionData.MISSION_TYPE.keys():
+		mission_type_button.add_item(type_name.capitalize(), MissionData.MISSION_TYPE[type_name])
+	mission_type_button.select(current_mission_type)
 
 
 func _on_planet_tp_button_pressed() -> void:
@@ -79,7 +87,7 @@ func _on_factions_item_selected(index: int) -> void:
 
 
 func _on_mission_type_item_selected(index: int) -> void:
-	current_mission_type = index as MissionData.MISSION_TYPE
+	current_mission_type = mission_type_button.get_item_id(index) as MissionData.MISSION_TYPE
 
 
 func _on_system_name_text_changed(new_text: String) -> void:

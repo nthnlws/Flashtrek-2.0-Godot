@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ComponentDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/components/ComponentDefinition.gd" id="1_def"]
+[ext_resource type="Script" uid="uid://cqrykxyw5tis0" path="res://scripts/components/planet/CommunicationComponentData.gd" id="2_data"]
+[ext_resource type="PackedScene" uid="uid://rr6unh73nxxs" path="res://scenes/components/planets/planet_communication_component.tscn" id="3_scene"]
+
+[resource]
+script = ExtResource("1_def")
+component_id = &"communication"
+display_name = "Communication"
+data_script = ExtResource("2_data")
+scene = ExtResource("3_scene")
+scope = 1
+mission_type = -1
+debug_addable = false

@@ -90,8 +90,9 @@ func cleanup_old_system() -> void:
 			obj.free()
 
 
-func spawn_mission_ship(ship_data: ShipState) -> MissionCharacter:
+func spawn_mission_ship(ship_data: ShipState, role: MissionCharacter.Role = MissionCharacter.Role.HUNTER) -> MissionCharacter:
 	var mission_faction: MissionCharacter = MISSION_CHARACTER.instantiate()
+	mission_faction.role = role
 	mission_faction.add_to_group("mission_ships")
 	mission_faction.global_position = ship_data.save_position
 	mission_faction.ship_stats = ship_data
@@ -133,6 +134,8 @@ func instantiate_NPC_ships(system_data: SystemData) -> void:
 		ship_folder.add_child(new_neutral)
 		LevelManager.neutralShips.append(new_neutral)
 		i += 1
+
+	FactionCharacter.link_all_squads(LevelManager.factionShips)
 
 
 func sync_ships_to_data() -> void:

@@ -19,6 +19,7 @@ var total_distance: float = 51
 
 func _ready() -> void:
 	MissionManager.mission_started.connect(_update_mission_text)
+	MissionManager.mission_updated.connect(_update_mission_text)
 	MissionManager.Reputation.reputation_total_changed.connect(_update_faction_score)
 	MissionManager.mission_completed.connect(_clear_mission_text.unbind(1))
 	MissionManager.mission_failed.connect(_clear_mission_text.unbind(1))
@@ -92,8 +93,12 @@ func _on_enemy_ship_died(enemy:FactionCharacter) -> void:
 
 func _update_mission_text(mission_data:MissionData) -> void:
 	var fill_dict:Dictionary[String, String]
-	if (mission_data.type == MissionData.MISSION_TYPE.DELIVERY
-		or mission_data.type == MissionData.MISSION_TYPE.ANALYZE):
+	if mission_data.awaiting_turn_in:
+		fill_dict = {
+				"target": Utility.UI_yellow + "Return to Starbase[/color]",
+				"system": mission_data.target_system.system_name,
+			}
+	elif mission_data.uses_target_planet():
 			fill_dict = {
 				"target": Utility.UI_yellow + mission_data.target_planet_name + "[/color]",
 				"system": mission_data.target_system.system_name,

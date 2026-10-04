@@ -6,17 +6,6 @@ class_name ComponentManager
 ## reference; this manager tracks it directly.
 var current_system_data: SystemData
 
-# Map every component's component_id (system- and planet-scoped alike) to
-# the View's PackedScene.
-@export var component_scene_map: Dictionary[StringName, PackedScene] = {
-	&"kill_faction": preload("uid://dd0uqe0hng5gy"),
-	&"protect_ship": preload("uid://bx0gpi1essltr"),
-	&"container": preload("uid://cgljy0cnyeb7f"),
-	&"scrap": preload("uid://trx0ybm7p4ig"),
-	&"communication": preload("uid://rr6unh73nxxs"),
-	&"analyze": preload("uid://cq5kxvmajgng5"),
-}
-
 # Tracks active physical components by mapping the Data Resource to its Node instance.
 # Keyed by the data instance (not component_id), so any number of components
 # sharing the same component_id - multiple scrap fields, or one communication
@@ -37,15 +26,15 @@ func sync_components_to_new_system(new_system: SystemData) -> void:
 
 	current_system_data = new_system
 
-	# 2. Spawn system-scoped components
-	for data: BaseComponentData in current_system_data.components:
+	# 2. Spawn system-scoped components (copy - orphans are erased while spawning)
+	for data: BaseComponentData in current_system_data.components.duplicate():
 		if data.is_finished:
 			continue
 		_spawn_component(data)
 
 	# 3. Spawn every planet's components
 	for planet: PlanetData in current_system_data.planet_data:
-		for data: BaseComponentData in planet.components:
+		for data: BaseComponentData in planet.components.duplicate():
 			if data.is_finished:
 				continue
 			_spawn_component(data)
@@ -53,12 +42,19 @@ func sync_components_to_new_system(new_system: SystemData) -> void:
 
 ## Instantiates the in-level node and passes data in
 func _spawn_component(data: BaseComponentData) -> void:
-	if not component_scene_map.has(data.component_id):
-		printerr("Component Manager: No PackedScene mapped for component_id '%s'" % data.component_id)
+	# Drop components whose mission isn't active (e.g. after loading a save)
+	if not data.mission_id.is_empty() and not MissionManager.is_mission_active(data.mission_id):
+		_mutate_owning_collection(data, func(collection: Array, d: BaseComponentData) -> void:
+			collection.erase(d)
+		)
+		return
+
+	var component_scene: PackedScene = ComponentRegistry.get_scene(data.component_id)
+	if component_scene == null:
+		printerr("Component Manager: No ComponentDefinition registered for component_id '%s'" % data.component_id)
 		return
 
 	# Instantiate the physical Node
-	var component_scene: PackedScene = component_scene_map[data.component_id]
 	var component_node: BaseComponent = component_scene.instantiate()
 
 	add_child(component_node)
@@ -70,23 +66,17 @@ func _spawn_component(data: BaseComponentData) -> void:
 		if planet_data.owning_planet:
 			component_node.global_position = planet_data.owning_planet.world_position
 
-	# Pass the Data Resource into the physical Node
-	component_node.initialize(data)
-
-	# Add component node to active list
+	# Registered before initialize() so an immediate resolve is cleaned up
 	active_components[data] = component_node
 
-	# Listen for when the Data Resource declares itself finished
 	if not data.component_completed.is_connected(_on_component_completed):
 		data.component_completed.connect(_on_component_completed.bind(data))
 
+	component_node.initialize(data)
 
-## Resolves whichever Array[BaseComponentData] persistently owns `data` - a
-## specific planet's components if it's planet-scoped, otherwise the current
-## system's - and applies `mutate` (an (Array, BaseComponentData) -> void
-## Callable, typically arr.append or arr.erase) to it. Centralizes the
-## "which collection owns this component" branch that inject_component() and
-## _on_component_completed() both previously duplicated separately.
+
+## Calls `mutate(collection, data)` on the array that owns `data`: its planet's
+## components or the current system's.
 func _mutate_owning_collection(data: BaseComponentData, mutate: Callable) -> void:
 	if data is PlanetComponentData:
 		var owning_planet: PlanetData = (data as PlanetComponentData).owning_planet
@@ -113,8 +103,11 @@ func inject_component(data: BaseComponentData) -> void:
 	SignalBus.component_injected.emit(data)
 
 
-## Automatically called when a Data Resource achieves its objective
-func _on_component_completed(data: BaseComponentData) -> void:
+func is_spawned(data: BaseComponentData) -> bool:
+	return active_components.has(data)
+
+
+func _on_component_completed(success: bool, data: BaseComponentData) -> void:
 	# 1. Remove the View Node
 	if active_components.has(data):
 		var node: Node = active_components[data]
@@ -130,6 +123,9 @@ func _on_component_completed(data: BaseComponentData) -> void:
 	# 3. Disconnect Signal
 	if data.component_completed.is_connected(_on_component_completed):
 		data.component_completed.disconnect(_on_component_completed)
+
+	# 4. Report the outcome
+	SignalBus.component_resolved.emit(data, success)
 
 	# Anything that only refreshes on SignalBus.system_changed (e.g. the
 	# debug panel's row list) needs telling explicitly, since a component can

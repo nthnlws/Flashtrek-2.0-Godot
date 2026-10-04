@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ComponentDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/components/ComponentDefinition.gd" id="1_def"]
+[ext_resource type="Script" uid="uid://b0ju7c5p5lfup" path="res://scripts/components/system/ScrapComponentData.gd" id="2_data"]
+[ext_resource type="PackedScene" uid="uid://trx0ybm7p4ig" path="res://scenes/components/systems/scrap_component.tscn" id="3_scene"]
+
+[resource]
+script = ExtResource("1_def")
+component_id = &"scrap"
+display_name = "Scrap Field"
+data_script = ExtResource("2_data")
+scene = ExtResource("3_scene")
+scope = 0
+mission_type = -1
+debug_addable = true

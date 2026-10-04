@@ -12,22 +12,18 @@ const planet_name_file: String = "res://assets/data/planet_names.txt"
 @export var system_size: int = 20000
 @export var components: Array[BaseComponentData] = []
 
-## Maps a SystemComponentType to a factory Callable, mirroring
-## ComponentManager.component_scene_map.
-static var COMPONENT_FACTORIES: Dictionary[Utility.SystemComponentType, Callable] = {
-	Utility.SystemComponentType.KILL_FACTION: func(): return KillFactionComponentData.new(),
-	Utility.SystemComponentType.CONTAINER:    func(): return ContainerComponentData.new(),
-	Utility.SystemComponentType.ESCORT:       func(): return ProtectComponentData.new(),
-	Utility.SystemComponentType.SCRAP:        func(): return ScrapComponentData.new(),
-}
-
-func add_component(component_type: Utility.SystemComponentType, mission: MissionData) -> SystemComponentData:
-	if not COMPONENT_FACTORIES.has(component_type):
-		printerr("SystemData: no factory registered for component type %s" % component_type)
+## Builds the system-scoped component registered as `component_id` via
+## ComponentGenerator and stores it on this system. `mission` may be null for
+## components that don't need one.
+func add_component(component_id: StringName, mission: MissionData) -> SystemComponentData:
+	var definition: ComponentDefinition = ComponentRegistry.get_definition(component_id)
+	if definition == null or definition.scope != ComponentDefinition.Scope.SYSTEM:
+		printerr("SystemData: no system-scoped component registered for id '%s'" % component_id)
 		return null
 
-	var data: SystemComponentData = COMPONENT_FACTORIES[component_type].call()
-	data.setup_from_mission(mission, self)
+	var data: SystemComponentData = ComponentGenerator.build(component_id, {"mission": mission, "system": self}) as SystemComponentData
+	if data == null:
+		return null
 	components.append(data)
 	return data
 
@@ -100,4 +96,3 @@ func remove_neutral_ship_data(to_remove: ShipState) -> void:
 			found = ship
 	neutral_list.erase(found)
 	defeated_neutrals.append(found)
-	defeated_neutrals.append(to_remove)

@@ -7,9 +7,11 @@ class_name BaseComponent
 ## scoped data type and forward it to a strictly-typed hook.
 @abstract func initialize(data: BaseComponentData) -> void
 
-## Call when this component's objective is achieved. Marks the backing data
-## Resource finished, which emits BaseComponentData.component_completed -
-## the signal the owning ComponentManager listens for to despawn this Node
-## and remove the data from its persistent owner.
+## Resolves the component. ComponentManager despawns this node and
+## MissionManager settles the owning mission - don't call MissionManager directly.
 func complete(data: BaseComponentData) -> void:
-	data.mark_completed()
+	data.mark_completed(true)
+
+
+func fail(data: BaseComponentData, reason: String = "") -> void:
+	data.mark_failed(reason)

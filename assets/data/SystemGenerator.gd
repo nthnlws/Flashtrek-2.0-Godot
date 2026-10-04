@@ -9,6 +9,9 @@ extends RefCounted
 
 const MAX_SPAWN_DISTANCE: int = 1500
 const MIN_SPAWN_DISTANCE: int = 500
+const MIN_SQUAD_SIZE: int = 2
+const MAX_SQUAD_SIZE: int = 3
+const SQUAD_SPAWN_SPREAD: float = 250.0
 
 
 static func generate_system_data(sys_index: int, new_system_name: String) -> SystemData:
@@ -29,15 +32,18 @@ static func generate_system_data(sys_index: int, new_system_name: String) -> Sys
 		var planet_name: String = new_system_data.planet_names.pop_front()
 		new_system_data.planet_data.append(generate_planet_data(valid_position, planet_name, sys_faction))
 
+	# One faction squad per two planets
+	var squad_count: int = ceili(new_system_data.planet_data.size() / 2.0)
+	var squad_planets: Array[PlanetData] = new_system_data.planet_data.duplicate()
+	squad_planets.shuffle()
+	for squad_index: int in range(squad_count):
+		var squad_origin: Vector2 = _generate_faction_spawn_position(squad_planets[squad_index])
+		new_system_data.enemy_list.append_array(
+			generate_squad(sys_faction, new_system_data.system_difficulty_mult, squad_origin, randi_range(MIN_SQUAD_SIZE, MAX_SQUAD_SIZE))
+		)
+
 	# NPC Ship Data
 	for planet: PlanetData in new_system_data.planet_data:
-		# Generate Faction ship spawn data
-		var faction_spawn_pos: Vector2 = _generate_faction_spawn_position(planet)
-		var baseFactionInfo: BaseShipInfo = Utility.get_ship_stats(Utility.get_faction_ship_type(sys_faction))
-		var scaled_faction_stats: ShipState = ShipState.get_NPC_scaled_stats(new_system_data.system_difficulty_mult, baseFactionInfo, ShipState.CATEGORY.FACTION)
-		scaled_faction_stats.save_position = faction_spawn_pos
-		new_system_data.enemy_list.append(scaled_faction_stats)
-
 		# Generate Neutral ship spawn data
 		var neutral_spawn_pos: Vector2 = _generate_neutral_spawn_position(planet)
 		var baseNeutralInfo: BaseShipInfo = Utility.get_ship_stats(Utility.get_neutral_ship_type())
@@ -45,7 +51,37 @@ static func generate_system_data(sys_index: int, new_system_name: String) -> Sys
 		scaled_neutral_stats.save_position = neutral_spawn_pos
 		new_system_data.neutral_list.append(scaled_neutral_stats)
 
+	# Ambient components (rolled - may add nothing)
+	for scrap_field: ScrapComponentData in ComponentGenerator.roll_scrap_fields(new_system_data):
+		new_system_data.components.append(scrap_field)
+
 	return new_system_data
+
+
+## Squad ShipStates sharing one squad_id; slot 0 leads.
+static func generate_squad(faction: Utility.FACTION, difficulty: float, origin: Vector2, size: int) -> Array[ShipState]:
+	var squad: Array[ShipState] = []
+	var squad_id: String = UUID.generate_UUID()
+	var base_info: BaseShipInfo = Utility.get_ship_stats(Utility.get_faction_ship_type(faction))
+	for slot: int in range(size):
+		var ship: ShipState = ShipState.get_NPC_scaled_stats(difficulty, base_info, ShipState.CATEGORY.FACTION)
+		ship.squad_id = squad_id
+		ship.formation_slot = slot
+		ship.save_position = origin + Vector2(-SQUAD_SPAWN_SPREAD * slot, SQUAD_SPAWN_SPREAD * (slot % 2))
+		squad.append(ship)
+	return squad
+
+
+## Unsquadded ShipStates clustered around `origin`.
+static func generate_mission_ships(faction: Utility.FACTION, difficulty: float, origin: Vector2, count: int, ship_type: int = -1) -> Array[ShipState]:
+	var ships: Array[ShipState] = []
+	var type: Utility.SHIP_TYPES = (ship_type as Utility.SHIP_TYPES) if ship_type >= 0 else Utility.get_faction_ship_type(faction)
+	var base_info: BaseShipInfo = Utility.get_ship_stats(type)
+	for i: int in range(count):
+		var ship: ShipState = ShipState.get_NPC_scaled_stats(difficulty, base_info, ShipState.CATEGORY.FACTION)
+		ship.save_position = origin + Utility.get_random_point_on_circle(SQUAD_SPAWN_SPREAD)
+		ships.append(ship)
+	return ships
 
 
 static func _generate_neutral_spawn_position(host_planet: PlanetData) -> Vector2:
@@ -101,9 +137,7 @@ static func generate_planet_data(valid_spawn: Vector2, planet_name: String, fact
 	# --- ADDING COMPONENTS DURING GENERATION ---
 
 	# Add communication component to every planet
-	var comms_data: CommunicationComponentData = CommunicationComponentData.new()
-	comms_data.owning_planet = new_planet_data
-	new_planet_data.components.append(comms_data)
+	new_planet_data.components.append(ComponentGenerator.build_communication(new_planet_data))
 
 	# Example: Randomly add a static debris field to SOME planets
 	#if randf() > 0.7:

@@ -3,23 +3,35 @@ class_name BaseComponentData
 extends Resource
 
 
-## Emitted when this component achieves its objective. The owning
-## ComponentManager listens for this (connected once, when the component is
-## spawned) to despawn the associated view Node and remove this data
-## Resource from its persistent owner (SystemData.components or
-## PlanetData.components).
-signal component_completed
+## Handled by ComponentManager: despawns the view, removes this data from its
+## owner and emits SignalBus.component_resolved.
+signal component_completed(success: bool)
 
-## A unique identifier used by the Manager's Dictionary to map to a PackedScene.
+## Key into ComponentRegistry.
 @export var component_id: StringName = &"base"
 
 ## Flag to track if the component has met its win/end state (or was otherwise finalized).
 @export var is_finished: bool = false
 
-## Marks the component as finished and notifies the owning ComponentManager.
-## Safe to call multiple times - only the first call has any effect.
-func mark_completed() -> void:
+@export var succeeded: bool = false
+
+@export var failure_reason: String = ""
+
+## Owning MissionData.mission_id. Empty for ambient and debug components.
+@export var mission_id: String = ""
+
+
+## Only the first call has any effect.
+func mark_completed(success: bool = true) -> void:
 	if is_finished:
 		return
 	is_finished = true
-	component_completed.emit()
+	succeeded = success
+	component_completed.emit(success)
+
+
+func mark_failed(reason: String = "") -> void:
+	if is_finished:
+		return
+	failure_reason = reason
+	mark_completed(false)

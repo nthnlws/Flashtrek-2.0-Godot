@@ -8,36 +8,24 @@ class_name NeutralCharacter
 @onready var animation: AnimatedSprite2D = $hull_explosion
 @onready var sprite_animation: AnimationPlayer = $Sprite2D/SpriteAnimation
 @onready var health_component: HealthComponent = $HealthComponent
+@onready var movement: ShipMovementComponent = $MovementComponent
 
 var ship_stats: ShipState
 
-var endPoint: Vector2
-var returnToStarbaseBool: bool = false
-var moveTarget: MOVE_STATE
-enum MOVE_STATE { Starbase, Planet, Coordinates, Enemy }
+const AIState = ShipMovementComponent.State
+const DISTRESS_COOLDOWN_MSEC: int = 3000
 
-var AI_enabled:bool = true
-var starbase: Node2D  # Path to starbase, only set if AI_enabled is true
 var ship_index: int # Used for tying ship to Data resource files
-
 var cloaked: bool = false
-var fleeing: bool = false
-var flee_timer: float = 0.0
-const FLEE_DURATION: float = 7.2
-const FLEE_SPEED_MULTIPLIER: float = 1.5
+
+var _last_distress_msec: int = -DISTRESS_COOLDOWN_MSEC
 
 
 func _ready() -> void:
 	_create_unique_texture_atlas()
 	sync_ship_to_resource()
-	call_deferred("selectRandomPlanet")
 	z_index = Utility.Z["NeutralShips"]
-	
-	starbase = LevelManager.starbases.front()
-	
-	# Preprocess ship angle toward first target
-	await get_tree().process_frame
-	self.rotation = get_angle_to(endPoint)
+	movement.think_tick.connect(_think)
 
 
 func _create_unique_texture_atlas() -> void:
@@ -51,12 +39,12 @@ func sync_ship_to_resource() -> void:
 	var ship_info: BaseShipInfo = Utility.get_ship_stats(ship_stats.ship_type)
 	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
 	shield.scale = ship_info.shield_scale
-	
+
 	health_component.setMaxHealth(ship_stats.scaled_max_HP)
 	health_component.setCurrentHealth(ship_stats.scaled_max_HP)
 	health_component.setMaxShield(ship_stats.scaled_max_shield)
 	health_component.setCurrentShield(ship_stats.scaled_max_shield)
-	
+
 	var rawColl = ship_info.collision_polygon
 	var parsed_array = JSON.parse_string(rawColl)
 	var PV2Array = PackedVector2Array()
@@ -98,111 +86,63 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 	$hitbox_area.scale *= new_scale
 
 
-func _physics_process(delta: float) -> void:
-	#TODO Sync Player and Enemy speed stats to be compatible
-	if not AI_enabled or not visible or health_component.alive == false:
+## Decision hook, called every ShipMovementComponent.THINK_INTERVAL.
+func _think() -> void:
+	pass
+
+
+# --- Helpers ---
+
+func get_hull_fraction() -> float:
+	return health_component.getCurrentHP() / maxf(health_component.getMaxHealth(), 1.0)
+
+
+static func faction_of(body: Node) -> Utility.FACTION:
+	if is_instance_valid(body) and "ship_stats" in body and body.ship_stats:
+		return body.ship_stats.current_faction
+	return Utility.FACTION.NEUTRAL
+
+
+func _emit_distress(attacker: Node2D) -> void:
+	var now: int = Time.get_ticks_msec()
+	if now - _last_distress_msec < DISTRESS_COOLDOWN_MSEC or not is_instance_valid(attacker):
 		return
-	
-	# Movement state setter
-	setMovementState(delta)
-	
-	move_and_slide()
+	_last_distress_msec = now
+	SignalBus.ship_distress.emit(self, attacker)
 
 
-func setMovementState(delta: float) -> void:
-	if fleeing:
-		flee_timer -= delta
-		if flee_timer <= 0.0:
-			fleeing = false
-			selectRandomPlanet()
-		else:
-			move_to_target(endPoint, delta, FLEE_SPEED_MULTIPLIER)
+# --- Combat callbacks ---
+
+func _on_hit_received(shooter: Node) -> void:
+	var attacker: Node2D = shooter as Node2D
+	if not is_instance_valid(attacker):
 		return
-
-	if global_position.distance_to(starbase.global_position) < 1500 and moveTarget == MOVE_STATE.Starbase:
-		returnToStarbaseBool = false
-		selectRandomPlanet()
-		moveTarget = MOVE_STATE.Planet
-	elif returnToStarbaseBool == false:
-		planetMovement(delta)
-		moveTarget = MOVE_STATE.Planet
-	elif returnToStarbaseBool == true:
-		starbaseMovement(delta)
-		moveTarget = MOVE_STATE.Starbase
-	else: print("No matching movement status")
-
-
-func selectRandomPlanet() -> void:
-	endPoint = LevelManager.planets.pick_random().global_position
-
-
-func starbaseMovement(delta:float) -> void:
-	if starbase:
-		var starbaseLocation: Vector2 = starbase.global_position
-		move_to_target(starbaseLocation, delta)
-
-
-func planetMovement(delta:float) -> void: 
-	move_to_target(endPoint, delta)
-	
-	if self.global_position.distance_to(endPoint) < 5:
-		returnToStarbaseBool = true
-
-
-func move_to_target(target_pos: Vector2, delta: float, speed_mult: float = 1.0) -> void:
-	var to_target: Vector2 = target_pos - global_position
-	var angle_diff: float = wrapf(to_target.angle() - global_rotation, -PI, PI)
-	var angle_abs: float = absf(angle_diff)
-	
-	_rotate_toward_target(angle_diff, delta)
-	
-	# Calculate thrust (0.0 to 1.0) based on how well the ship is facing the target
-	var thrust_factor: float = clampf(1.0 - (angle_abs / deg_to_rad(90.0)), 0.0, 1.0)
-	
-	# Apply unified physics
-	apply_thrust(thrust_factor, delta, speed_mult)
-
-
-func apply_thrust(thrust: float, delta: float, speed_mult: float = 1.0) -> void:
-	if thrust != 0.0:
-		velocity += transform.x * thrust * ship_stats.scaled_acceleration * delta
-		velocity = velocity.limit_length((ship_stats.scaled_speed * speed_mult))
-	else:
-		# Natural deceleration when no thrust is applied
-		velocity = velocity.move_toward(Vector2.ZERO, ship_stats.scaled_acceleration * delta * 0.25)
-
-
-func _rotate_toward_target(angle_diff: float, delta: float) -> void:
-	var max_turn: float = deg_to_rad(ship_stats.scaled_agility * delta)
-	# Ease off when within 15 degrees of target
-	var ease_factor: float = clampf(absf(angle_diff) / deg_to_rad(15.0), 0.0, 1.0)
-	rotation += clampf(angle_diff, -max_turn, max_turn) * ease_factor
+	_emit_distress(attacker)
+	movement.flee_from(attacker.global_position)
 
 
 func explode(hit_event:HitEvent = HitEvent.new()) -> void:
 	shield.turnShieldOff()
 	sprite.visible = false
-	
+
 	SignalBus.neutralShipDied.emit(self)
 	if hit_event.is_from_player: # Update reputation if died from player damage
-		#print('killed by player')
 		SignalBus.reputation_change_triggered.emit(ship_stats.current_faction, ship_stats.reputation_value)
-	#else: print('not player kill')
-	
+
 	collision_shape.set_deferred("disabled", true)
 	hitbox.set_deferred("disabled", true)
 	%ship_explosion.play()
-	
+
 	animation.visible = true
 	animation.play("explode")
 	await animation.animation_finished
-	
+
 	queue_free()
 
 
 func trigger_warp_effect(length:float, warp_effect_on: bool) -> void:
 	sprite_animation.speed_scale = 2/length
-	
+
 	if warp_effect_on:
 		cloaked = true
 		sprite_animation.play("galaxy_warp_out")
@@ -210,10 +150,3 @@ func trigger_warp_effect(length:float, warp_effect_on: bool) -> void:
 		sprite_animation.play("galaxy_warp_in")
 		await sprite_animation.animation_finished
 		cloaked = false
-
-
-func _on_hit_received(shooter: Node) -> void:
-	fleeing = true
-	flee_timer = FLEE_DURATION
-	var flee_direction: Vector2 = (global_position - shooter.global_position).normalized()
-	endPoint = global_position + flee_direction * 10000.0

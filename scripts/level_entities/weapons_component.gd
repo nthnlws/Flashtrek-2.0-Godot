@@ -32,8 +32,14 @@ var rate_of_fire: float = 1.0 / base_rate_of_fire:
 		rate_of_fire = value
 
 
+var _torpedo_cost: float = 0.0
+
+
 func _ready() -> void:
 	cooldown_timer.wait_time = rate_of_fire
+	var prototype: Torpedo = torpedo_scene.instantiate()
+	_torpedo_cost = prototype.energy_drain
+	prototype.free()
 
 
 func _physics_process(delta: float) -> void:
@@ -73,21 +79,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		#laser.stop_firing()
 
 
-func attempt_primary_fire(target_location: Vector2) -> void:
-	var bullet: Torpedo = torpedo_scene.instantiate()
-	var cost: float = bullet.energy_drain
-	
+## Returns true if fired. Safe to call every frame.
+func attempt_primary_fire(target_location: Vector2) -> bool:
+	if not cooldown_timer.is_stopped():
+		return false
+
 	var firing_angle: float = firing_position.global_position.angle_to_point(target_location)
 	var angle_diff: float = angle_difference(parent_entity.rotation, firing_angle)
 	# Early exit for invalid shooting angle
-	if abs(angle_diff) > deg_to_rad(max_valid_angle): return
+	if abs(angle_diff) > deg_to_rad(max_valid_angle): return false
 	
 	if apply_randomness:
 		target_location = randomize_position(target_location)
 		# Recalculate firing angle after randomization
 		firing_angle = firing_position.global_position.angle_to_point(target_location)
 	
-	if _can_fire(cost):
+	if _can_fire(_torpedo_cost):
+		var bullet: Torpedo = torpedo_scene.instantiate()
 		cooldown_timer.start()
 		bullet.global_position = firing_position.global_position
 		bullet.rotation = firing_angle
@@ -105,12 +113,12 @@ func attempt_primary_fire(target_location: Vector2) -> void:
 			bullet.exceptions.append(shield.get_node("shield_area"))
 		
 		if energy_component:
-			energy_component.consume_energy(cost)
+			energy_component.consume_energy(_torpedo_cost)
 			energy_component.lock_regeneration(0.5)
 		
 		add_child(bullet)
-	else:
-		bullet.queue_free()
+		return true
+	return false
 
 
 func shoot_missile(clicked_pos: Vector2) -> void:
@@ -123,7 +131,7 @@ func shoot_missile(clicked_pos: Vector2) -> void:
 		missile.shooterObject = parent_entity
 		missile.max_damage = missile.max_damage * (ship_damage_multiplier + upgrades.DamageMult)
 		missile.damage_multiplier = (ship_damage_multiplier + upgrades.DamageMult)
-		missile.faction = parent_entity.faction
+		missile.faction = parent_entity.ship_stats.current_faction
 		missile.target_position = clicked_pos
 		
 		if is_instance_valid(energy_component):

@@ -27,9 +27,8 @@ func _on_container_picked_up(container: ContainerPickup) -> void:
 	# Removes this position from array
 	active_containers.erase(container)
 	LevelManager.containers.erase(container)
+	component_data.remaining_pickups.erase(container.container_data)
 	print("Containers remaining for pickup in component data: %s" % active_containers.size())
 
 	if active_containers.is_empty():
-		print("Active containers array in component data empty, marking mission as complete")
-		MissionManager.complete_mission()
 		complete(component_data)

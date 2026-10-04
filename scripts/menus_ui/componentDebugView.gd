@@ -7,18 +7,6 @@ const COMPONENT_ROW = preload("uid://csirae4a2j33d")
 @onready var v_box_container: VBoxContainer = $MarginContainer/Content/VBoxContainer
 @onready var add_type_dropdown: OptionButton = $MarginContainer/Content/AddRow/ComponentTypeDropdown
 
-## Addable component types that live directly on the system (not a specific
-## planet). "mission_type" is the MissionData.MISSION_TYPE used to safely
-## generate a throwaway mission for setup_from_mission() to read from
-## (faction, cargo, enemy count, etc.) - null when the component's
-## setup_from_mission() doesn't read anything from a mission at all (e.g. Scrap).
-const SYSTEM_ADD_OPTIONS: Array[Dictionary] = [
-	{"label": "Kill Faction (System)", "component_type": Utility.SystemComponentType.KILL_FACTION, "mission_type": MissionData.MISSION_TYPE.KILL_FACTION},
-	{"label": "Escort / Protect (System)", "component_type": Utility.SystemComponentType.ESCORT, "mission_type": MissionData.MISSION_TYPE.ESCORT},
-	{"label": "Container (System)", "component_type": Utility.SystemComponentType.CONTAINER, "mission_type": MissionData.MISSION_TYPE.CONTAINER},
-	{"label": "Scrap Field (System)", "component_type": Utility.SystemComponentType.SCRAP, "mission_type": null},
-]
-
 ## Parallel to add_type_dropdown's items - rebuilt every sync_components()
 ## call since the set of planets (and therefore addable planet-scoped
 ## options) can change between systems.
@@ -74,39 +62,35 @@ func _add_row(label_text: String, icon: ComponentLabelRow.Icon, data: BaseCompon
 	v_box_container.add_child(new_line)
 
 
-## Removes a component as if it had finished naturally: marks the data
-## Resource completed, which emits BaseComponentData.component_completed -
-## the signal the owning ComponentManager listens for to despawn the view
-## Node and erase the data from its persistent owner (SystemData/PlanetData).
-## ComponentManager then emits SignalBus.component_removed, which this panel
-## is listening for (_on_components_changed), so the row list refreshes
-## itself - no need to call sync_components() here too.
+## Resolves as a failure; rows refresh via SignalBus.component_removed.
+## Fails the active mission if the component belongs to it.
 func _on_remove_component_pressed(data: BaseComponentData) -> void:
-	data.mark_completed()
+	data.mark_failed("Removed via debug panel")
 
 
-## Rebuilds the "Add Component" dropdown: the fixed system-scoped options,
-## plus one Analyze entry per planet in the current system (the only
-## currently-implemented planet-scoped, user-addable component type -
-## Communication is auto-added per planet already and Deliver isn't
-## implemented yet, so neither is offered here).
+## One option per debug-addable system definition, and per planet for each
+## debug-addable planet definition.
 func _rebuild_add_options(system_data: SystemData) -> void:
 	_add_options.clear()
 	add_type_dropdown.clear()
 
-	for option: Dictionary in SYSTEM_ADD_OPTIONS:
-		_add_options.append(option)
-		add_type_dropdown.add_item(option.label)
+	for definition: ComponentDefinition in ComponentRegistry.get_all():
+		if not definition.debug_addable:
+			continue
 
-	for planet: PlanetData in system_data.planet_data:
-		var option: Dictionary = {
-			"label": "Analyze (%s)" % planet.name,
-			"component_type": Utility.PlanetComponentType.ANALYZE,
-			"mission_type": MissionData.MISSION_TYPE.ANALYZE,
-			"planet": planet,
-		}
-		_add_options.append(option)
-		add_type_dropdown.add_item(option.label)
+		if definition.scope == ComponentDefinition.Scope.SYSTEM:
+			_add_option("%s (System)" % definition.display_name, definition)
+		else:
+			for planet: PlanetData in system_data.planet_data:
+				_add_option("%s (%s)" % [definition.display_name, planet.name], definition, planet)
+
+
+func _add_option(label: String, definition: ComponentDefinition, planet: PlanetData = null) -> void:
+	var option: Dictionary = {"label": label, "definition": definition}
+	if planet:
+		option["planet"] = planet
+	_add_options.append(option)
+	add_type_dropdown.add_item(label)
 
 
 ## Adds the component type currently selected in the dropdown to the active
@@ -130,16 +114,20 @@ func _on_add_component_pressed() -> void:
 	if not current_system:
 		return
 
+	var definition: ComponentDefinition = option.definition
 	var mission: MissionData = null
-	if option.get("mission_type") != null:
-		mission = MissionGenerator.generate_mission(current_system, LevelManager.galaxy_data, false, option.mission_type)
+	if definition.mission_type >= 0:
+		mission = MissionGenerator.generate_mission(current_system, LevelManager.galaxy_data, false, definition.mission_type as MissionData.MISSION_TYPE)
+		mission.target_system = current_system
+		if option.has("planet"):
+			mission.target_planet_name = (option.planet as PlanetData).name
 
 	var new_data: BaseComponentData
 	if option.has("planet"):
 		var planet_data: PlanetData = option.planet
-		new_data = planet_data.add_component(option.component_type, mission)
+		new_data = planet_data.add_component(definition.component_id, mission)
 	else:
-		new_data = current_system.add_component(option.component_type, mission)
+		new_data = current_system.add_component(definition.component_id, mission)
 
 	if new_data and LevelManager.rootLevel and LevelManager.rootLevel.component_manager:
 		LevelManager.rootLevel.component_manager.inject_component(new_data)

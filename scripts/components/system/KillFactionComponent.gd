@@ -13,6 +13,10 @@ func initialize_system_component(data: SystemComponentData) -> void:
 	if component_data.is_finished:
 		return
 
+	if component_data.target_ships_data.is_empty():
+		complete(component_data)
+		return
+
 	_spawn_ships()
 	SignalBus.missionCharacterDied.connect(_on_mission_ship_died)
 
@@ -26,17 +30,17 @@ func _spawn_ships() -> void:
 
 
 func _on_mission_ship_died(ship: MissionCharacter) -> void:
-	if spawned_ships.has(ship):
-		# Get dead ship data
-		var destroyed_ship_data: ShipState = spawned_ships[ship]
+	if not spawned_ships.has(ship):
+		return
 
-		# Remove from tracking dictionary
-		spawned_ships.erase(ship)
-		component_data.target_ships_data.erase(destroyed_ship_data)
+	var destroyed_ship_data: ShipState = spawned_ships[ship]
+	spawned_ships.erase(ship)
+	component_data.target_ships_data.erase(destroyed_ship_data)
 
-	## Checks if spawned_ships array is empty, and finishes the component if so
 	if spawned_ships.is_empty():
 		complete(component_data)
+	else:
+		MissionManager.report_progress(component_data.mission_id, spawned_ships.size())
 
 
 func _exit_tree() -> void:

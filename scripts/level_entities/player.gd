@@ -67,6 +67,8 @@ func _connect_signals() -> void:
 	SignalBus.triggerGalaxyWarp.connect(trigger_galaxy_warp)
 	SignalBus.combatantEntered.connect(_handle_new_combatant)
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
+	health_component.hull_damage_received.connect(_on_damage_received)
+	health_component.shield_damage_received.connect(_on_damage_received)
 
 
 func sync_ship_to_data(new_stats: ShipState) -> void:
@@ -457,7 +459,7 @@ func trigger_galaxy_warp() -> void:
 
 
 func _handle_mission_pickup(mission_data: MissionData) -> void:
-	if mission_data.type == MissionData.MISSION_TYPE.DELIVERY:
+	if mission_data.is_delivery_type():
 		current_cargo += 1
 
 
@@ -499,9 +501,23 @@ func trigger_warp_effect(length: float, warp_effect_on: bool) -> void:
 
 
 func _handle_mission_finish(finished_data: MissionData) -> void:
-	if finished_data.type == MissionData.MISSION_TYPE.DELIVERY:
+	if finished_data.is_delivery_type():
 		current_cargo -= 1
 		current_cargo = clamp(current_cargo, 0, ship_stats.cargo_capacity)
+
+
+const DISTRESS_COOLDOWN: float = 3.0
+var _last_distress_msec: int = -100000
+
+func _on_damage_received(shooter: Node) -> void:
+	var attacker: Node2D = shooter as Node2D
+	if not is_instance_valid(attacker):
+		return
+	var now: int = Time.get_ticks_msec()
+	if now - _last_distress_msec < DISTRESS_COOLDOWN * 1000.0:
+		return
+	_last_distress_msec = now
+	SignalBus.ship_distress.emit(self, attacker)
 
 
 func _handle_new_combatant(enemy: FactionCharacter) -> void:

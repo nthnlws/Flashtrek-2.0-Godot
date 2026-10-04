@@ -70,6 +70,8 @@ func kill_projectile(target) -> void: # Creates explosion animation and kills se
 
 
 func _on_torpedo_collision(area: Area2D) -> void:
+	if area.has_method("blocks_projectile") and not area.blocks_projectile(self):
+		return
 	if !exceptions.has(area):
 		hit_success(area)
 

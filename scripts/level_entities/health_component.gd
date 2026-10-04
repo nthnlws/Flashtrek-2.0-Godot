@@ -62,7 +62,7 @@ func setMaxHealth(new_max: float) -> void:
 
 func setCurrentHealth(new_HP: float) -> void:
 	# No need to update current if already at max
-	if SP_current == new_HP: return
+	if HP_current == new_HP: return
 	HP_current = clamp(new_HP, 0, HP_max)
 	if is_on_player:
 		SignalBus.playerHealthChanged.emit(HP_current)

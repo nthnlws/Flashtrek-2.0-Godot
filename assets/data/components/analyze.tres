@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ComponentDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/components/ComponentDefinition.gd" id="1_def"]
+[ext_resource type="Script" uid="uid://bva6d8q3s4res" path="res://scripts/components/planet/AnalyzeComponentData.gd" id="2_data"]
+[ext_resource type="PackedScene" uid="uid://cq5kxvmajgng5" path="res://scenes/components/planets/analyze_planet_component.tscn" id="3_scene"]
+
+[resource]
+script = ExtResource("1_def")
+component_id = &"analyze"
+display_name = "Analyze"
+data_script = ExtResource("2_data")
+scene = ExtResource("3_scene")
+scope = 1
+mission_type = 4
+debug_addable = true

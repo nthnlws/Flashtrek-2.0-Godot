@@ -16,6 +16,8 @@ const NUM_ROM_SYSTEMS: int = 7
 @export var player_ship_type: Utility.SHIP_TYPES = Utility.starting_ship
 @export var current_system: SystemData
 
+@warning_ignore("int_as_enum_without_match")
+@warning_ignore("int_as_enum_without_cast")
 static var NEIGHBOR_MAP: Dictionary[SPECIAL_SYSTEMS, Array] = {
 	SPECIAL_SYSTEMS.Solarus: [6, 7, 8, 10],
 	SPECIAL_SYSTEMS.Kronos: [16, 17, SPECIAL_SYSTEMS.Risa, 19, 20],

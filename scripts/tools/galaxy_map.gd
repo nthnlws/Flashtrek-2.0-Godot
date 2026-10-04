@@ -21,6 +21,7 @@ func _ready() -> void:
 	MissionManager.mission_completed.connect(clear_mission_text.unbind(1))
 	MissionManager.mission_failed.connect(clear_mission_text.unbind(1))
 	MissionManager.mission_started.connect(update_mission_text)
+	MissionManager.mission_updated.connect(update_mission_text)
 	LevelManager.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)
 	
@@ -140,8 +141,7 @@ func update_mission_text(current_mission: MissionData) -> void:
 	else:
 		var system_name: String = current_mission.target_system.system_name
 		var target: String = current_mission.target_planet_name
-		if !(current_mission.type == MissionData.MISSION_TYPE.DELIVERY
-			or current_mission.type == MissionData.MISSION_TYPE.ANALYZE):
+		if not current_mission.uses_target_planet():
 				target = current_mission.title
 		 
 		var first_string: String = "Current mission: %s in " % Utility.color_string(Utility.UI_yellow, target)
