@@ -20,6 +20,13 @@ const TYPE_WEIGHTS: Dictionary = {
 ## Chance a delivery gets a follow-up rescue.
 const FOLLOW_UP_CHANCE: float = 0.3
 
+## Reward = jumps * randi_range(MIN, MAX) * destination system_difficulty_mult.
+const REWARD_PER_JUMP_MIN: int = 300
+const REWARD_PER_JUMP_MAX: int = 500
+
+## Pass as max_range for no warp-range limit.
+const UNLIMITED_RANGE: int = -1
+
 const CONTRABAND_TYPES: Array[String] = [
 	"Unlicensed Cloaking Components", "Tal Shiar Data Cores", "Stolen Isolinear Chips",
 	"Unregistered Trilithium", "Smuggled Romulan Ale", "Black-Market Phaser Rifles",
@@ -76,7 +83,9 @@ const PROMPTS: Array[String] = [
 ]
 
 # --- Main Generation Function ---
-static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData, random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE) -> MissionData:
+## `max_range`: player's warp range in jumps; targets are limited to it
+## (except Contraband). UNLIMITED_RANGE disables the limit.
+static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData, random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE, max_range: int = UNLIMITED_RANGE) -> MissionData:
 	var selected_type: MissionData.MISSION_TYPE = type
 	if random:
 		selected_type = _pick_weighted_type()
@@ -87,44 +96,66 @@ static func generate_mission(current_system: SystemData, galaxy_data: GalaxyData
 	mission.faction_owner = current_system.faction # Default to system owner
 	mission.accepted_time = Time.get_ticks_msec()
 	mission.mission_id = "MSN_%d_%d_%d" % [selected_type, mission.accepted_time, randi()]
-	mission.target_system = _pick_target_system(current_system, galaxy_data)
+	mission.target_system = _pick_target_system(current_system, galaxy_data, max_range)
 
 	# Branch logic based on type
 	match selected_type:
 		MissionData.MISSION_TYPE.DELIVERY:
-			_setup_delivery(mission, current_system, galaxy_data)
+			setup_delivery(mission, current_system, galaxy_data)
 		MissionData.MISSION_TYPE.CONTAINER:
-			_setup_container(mission)
+			setup_container(mission)
 		MissionData.MISSION_TYPE.KILL_FACTION:
-			_setup_kill_faction(mission, current_system)
+			setup_kill_faction(mission, current_system)
 		MissionData.MISSION_TYPE.ESCORT:
-			_setup_escort(mission)
+			setup_escort(mission)
 		MissionData.MISSION_TYPE.ANALYZE:
-			_setup_analysis(mission)
+			setup_analysis(mission)
 		MissionData.MISSION_TYPE.SALVAGE:
-			_setup_salvage(mission)
+			setup_salvage(mission)
 		MissionData.MISSION_TYPE.RESCUE:
-			_setup_rescue(mission)
+			setup_rescue(mission)
 		MissionData.MISSION_TYPE.BOUNTY:
-			_setup_bounty(mission, current_system)
+			setup_bounty(mission, current_system)
 		MissionData.MISSION_TYPE.SENSOR_SWEEP:
-			_setup_sensor_sweep(mission)
+			setup_sensor_sweep(mission)
 		MissionData.MISSION_TYPE.DEFENSE:
-			_setup_defense(mission, current_system, galaxy_data)
+			setup_defense(mission, current_system, galaxy_data, max_range)
 		MissionData.MISSION_TYPE.CONTRABAND:
-			_setup_contraband(mission, current_system, galaxy_data)
+			setup_contraband(mission, current_system, galaxy_data)
 
+	mission.reward = calculate_reward(current_system, mission.target_system)
 	return mission
 
 
-## Random system other than `current_system` and Risa. Prefers systems
-## passing `filter` when any exist.
-static func _pick_target_system(current_system: SystemData, galaxy_data: GalaxyData, filter: Callable = Callable()) -> SystemData:
-	var candidates: Array[SystemData] = []
+## Systems other than `current_system` and Risa that are reachable within
+## `max_range` jumps (any reachable distance for UNLIMITED_RANGE).
+static func get_systems_in_range(current_system: SystemData, galaxy_data: GalaxyData, max_range: int) -> Array[SystemData]:
+	var result: Array[SystemData] = []
 	for system: SystemData in galaxy_data.systems:
 		if system == current_system or system.system_index == GalaxyData.SPECIAL_SYSTEMS.Risa:
 			continue
-		candidates.append(system)
+		var dist: int = GalaxyData.get_jump_distance(current_system.system_index, system.system_index)
+		if dist < 1:
+			continue # unreachable
+		if max_range != UNLIMITED_RANGE and dist > max_range:
+			continue
+		result.append(system)
+	return result
+
+
+## In-range systems owned by `faction`.
+static func get_faction_systems_in_range(current_system: SystemData, galaxy_data: GalaxyData, max_range: int, faction: Utility.FACTION) -> Array[SystemData]:
+	return get_systems_in_range(current_system, galaxy_data, max_range).filter(
+		func(system: SystemData) -> bool: return system.faction == faction)
+
+
+## Random in-range target. Prefers systems passing `filter` when any exist,
+## otherwise any in-range system.
+static func _pick_target_system(current_system: SystemData, galaxy_data: GalaxyData, max_range: int, filter: Callable = Callable()) -> SystemData:
+	var candidates: Array[SystemData] = get_systems_in_range(current_system, galaxy_data, max_range)
+	if candidates.is_empty():
+		push_warning("No mission targets within %d jumps of %s; ignoring range" % [max_range, current_system.system_name])
+		candidates = get_systems_in_range(current_system, galaxy_data, UNLIMITED_RANGE)
 
 	if filter.is_valid():
 		var filtered: Array = candidates.filter(filter)
@@ -177,7 +208,7 @@ static func _pick_weighted_type() -> MissionData.MISSION_TYPE:
 
 
 # --- Specific Setup Functions ---
-static func _setup_delivery(m: MissionData, current_sys: SystemData, galaxy_data: GalaxyData) -> void:
+static func setup_delivery(m: MissionData, _current_sys: SystemData, galaxy_data: GalaxyData) -> void:
 	m.title = "Cargo Delivery"
 	m.cargo = CARGO_TYPES.pick_random()
 	var formatted_cargo: String = Utility.color_string(Utility.UI_yellow, m.cargo)
@@ -195,10 +226,6 @@ static func _setup_delivery(m: MissionData, current_sys: SystemData, galaxy_data
 	m.target_planet_name = m.target_system.planet_data.pick_random().name
 	var formatted_planet: String = Utility.color_string(Utility.UI_blue, m.target_planet_name)
 	var formatted_system: String = Utility.color_string(Utility.UI_yellow, m.target_system.system_name)
-	
-	# Calculate Reward
-	var dist = GalaxyData.get_jump_distance(current_sys.system_index, m.target_system.system_index)
-	m.reward = dist * 1000
 	
 	if m.faction_owner == Utility.FACTION.FEDERATION: # String formatting for faction descriptions
 		m.description = "The %s requires %s delivered to %s in the %s system" % [
@@ -219,6 +246,14 @@ static func _setup_delivery(m: MissionData, current_sys: SystemData, galaxy_data
 		m.follow_up = _create_follow_up_rescue(m, galaxy_data)
 
 
+## Payout for flying from `origin` to `destination`. Distance is at least 1
+## so a fallback target can never pay 0.
+static func calculate_reward(origin: SystemData, destination: SystemData) -> int:
+	var dist: int = maxi(GalaxyData.get_jump_distance(origin.system_index, destination.system_index), 1)
+	var per_jump: int = randi_range(REWARD_PER_JUMP_MIN, REWARD_PER_JUMP_MAX)
+	return roundi(dist * per_jump * destination.system_difficulty_mult)
+
+
 static func _create_follow_up_rescue(parent: MissionData, galaxy_data: GalaxyData) -> MissionData:
 	var follow_up: MissionData = MissionData.new()
 	follow_up.type = MissionData.MISSION_TYPE.RESCUE
@@ -234,7 +269,8 @@ static func _create_follow_up_rescue(parent: MissionData, galaxy_data: GalaxyDat
 			neighbors.append(neighbor)
 	follow_up.target_system = neighbors.pick_random() if not neighbors.is_empty() else parent.target_system
 
-	_setup_rescue(follow_up)
+	setup_rescue(follow_up)
+	follow_up.reward = calculate_reward(parent.target_system, follow_up.target_system)
 	follow_up.title = "Convoy Recovery"
 	follow_up.description = "the convoy that collected your %s was ambushed in the %s system. Tow its disabled freighter back to the starbase" % [
 		Utility.color_string(Utility.UI_yellow, parent.cargo), _format_system(follow_up.target_system)
@@ -242,7 +278,7 @@ static func _create_follow_up_rescue(parent: MissionData, galaxy_data: GalaxyDat
 	return follow_up
 
 
-static func _setup_kill_faction(m: MissionData, current_system: SystemData) -> void:
+static func setup_kill_faction(m: MissionData, current_system: SystemData) -> void:
 	m.title = "Sector Patrol"
 	m.enemy_faction = Utility.get_enemy_faction(m.faction_owner)
 	m.enemy_target_count = randi_range(2, 5)
@@ -263,33 +299,30 @@ static func _setup_kill_faction(m: MissionData, current_system: SystemData) -> v
 		formatted_faction = Utility.color_string(Utility.fed_blue, "Federation")
 		formatted_kills = Utility.color_string(Utility.fed_blue, str(m.enemy_target_count))
 	
-	m.reward = m.enemy_target_count * 500
 	m.description = "patrol the %s system and eliminate %s %s ships" % [
 		formatted_system,
 		formatted_kills,
 		formatted_faction,
 	]
 
-static func _setup_container(m: MissionData) -> void:
+static func setup_container(m: MissionData) -> void:
 	m.title = "Container"
 	m.cargo = CARGO_TYPES.pick_random()
 	var formatted_cargo: String = Utility.color_string(Utility.UI_yellow, m.cargo)
 	var formatted_system: String = Utility.color_string(Utility.UI_blue, m.target_system.system_name)
 	m.container_target = ContainerData.create_container_data(m.cargo, m.faction_owner, UUID.generate_UUID())
-	m.reward = randi_range(500, 2000)
 	m.description = "scanners detected a %s container drifting in the %s system. Retrieve it" % [
 		formatted_cargo, formatted_system
 	]
 
-static func _setup_escort(m: MissionData) -> void:
+static func setup_escort(m: MissionData) -> void:
 	m.title = "VIP Transport"
 	m.enemy_faction = _hostile_faction_for(m.faction_owner)
 	m.description = "escort a high-value transport through the %s system. Expect %s resistance" % [
 		_format_system(m.target_system), _format_faction(m.enemy_faction)
 	]
-	m.reward = 5000
 
-static func _setup_analysis(m: MissionData) -> void:
+static func setup_analysis(m: MissionData) -> void:
 	m.title = "Scientific Survey"
 	m.target_planet_name = m.target_system.planet_data.pick_random().name
 	var formatted_planet: String = Utility.color_string(Utility.UI_yellow, m.target_planet_name)
@@ -297,25 +330,22 @@ static func _setup_analysis(m: MissionData) -> void:
 	m.description = "orbit %s in the %s system and perform a full planetary scan" % [
 		formatted_planet, formatted_system
 	]
-	m.reward = 2500
 
 
-static func _setup_salvage(m: MissionData) -> void:
+static func setup_salvage(m: MissionData) -> void:
 	m.title = "Salvage Operation"
 	m.description = "a debris field in the %s system holds recoverable components. Use your tractor beam to haul in the marked salvage" % _format_system(m.target_system)
-	m.reward = randi_range(1500, 2500)
 
 
-static func _setup_rescue(m: MissionData) -> void:
+static func setup_rescue(m: MissionData) -> void:
 	m.title = "Distress Call"
 	m.enemy_faction = _hostile_faction_for(m.faction_owner)
 	m.description = "a disabled ship is drifting in the %s system under %s attack. Tow it back to the starbase with your tractor beam" % [
 		_format_system(m.target_system), _format_faction(m.enemy_faction)
 	]
-	m.reward = 3500
 
 
-static func _setup_bounty(m: MissionData, current_system: SystemData) -> void:
+static func setup_bounty(m: MissionData, _current_system: SystemData) -> void:
 	m.title = "Bounty Hunt"
 	m.enemy_faction = _hostile_faction_for(m.faction_owner)
 	m.bounty_name = BOUNTY_NAMES.pick_random()
@@ -323,37 +353,38 @@ static func _setup_bounty(m: MissionData, current_system: SystemData) -> void:
 	m.description = "the %s ship %s was last sighted in the %s system. Hunt it down before it moves on" % [
 		_format_faction(m.enemy_faction), formatted_target, _format_system(m.target_system)
 	]
-	var dist: int = GalaxyData.get_jump_distance(current_system.system_index, m.target_system.system_index)
-	m.reward = 4000 + dist * 1000
 
 
-static func _setup_sensor_sweep(m: MissionData) -> void:
+static func setup_sensor_sweep(m: MissionData) -> void:
 	m.title = "Sensor Sweep"
 	m.description = "calibrate the sensor buoys scattered across the %s system before the survey window closes" % _format_system(m.target_system)
-	m.reward = 2000
 
 
-static func _setup_defense(m: MissionData, current_system: SystemData, galaxy_data: GalaxyData) -> void:
+## Defends an in-range starbase of the pickup system's faction. Every
+## faction system has a same-faction neighbour; Risa (neutral) has none and
+## falls back to any in-range system.
+static func setup_defense(m: MissionData, current_system: SystemData, galaxy_data: GalaxyData, max_range: int) -> void:
 	m.title = "Starbase Defense"
-	var owner_faction: Utility.FACTION = m.faction_owner
-	m.target_system = _pick_target_system(current_system, galaxy_data, func(system: SystemData) -> bool: return system.faction == owner_faction)
+	var same_faction: Array[SystemData] = get_faction_systems_in_range(current_system, galaxy_data, max_range, current_system.faction)
+	if same_faction.is_empty():
+		m.target_system = _pick_target_system(current_system, galaxy_data, max_range)
+	else:
+		m.target_system = same_faction.pick_random()
 	m.enemy_faction = _hostile_faction_for(m.target_system.faction)
 	m.description = "%s forces are massing to strike the starbase in the %s system. Hold them off" % [
 		_format_faction(m.enemy_faction), _format_system(m.target_system)
 	]
-	m.reward = 4500
 
 
-static func _setup_contraband(m: MissionData, current_system: SystemData, galaxy_data: GalaxyData) -> void:
+static func setup_contraband(m: MissionData, current_system: SystemData, galaxy_data: GalaxyData) -> void:
 	m.title = "Discreet Delivery"
 	m.cargo = CONTRABAND_TYPES.pick_random()
 	m.scanning_faction = _hostile_faction_for(m.faction_owner)
 	var scanner: Utility.FACTION = m.scanning_faction
-	m.target_system = _pick_target_system(current_system, galaxy_data, func(system: SystemData) -> bool: return system.faction == scanner)
+	# Deliberately ignores warp range: may require several warps.
+	m.target_system = _pick_target_system(current_system, galaxy_data, UNLIMITED_RANGE, func(system: SystemData) -> bool: return system.faction == scanner)
 	m.target_planet_name = m.target_system.planet_data.pick_random().name
 
-	var dist: int = GalaxyData.get_jump_distance(current_system.system_index, m.target_system.system_index)
-	m.reward = max(dist, 1) * 2000
 	m.description = "we need %s delivered to %s in the %s system. Avoid lingering near %s patrols - if they scan your hold, they will open fire" % [
 		Utility.color_string(Utility.UI_yellow, m.cargo),
 		Utility.color_string(Utility.UI_blue, m.target_planet_name),

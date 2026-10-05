@@ -50,9 +50,12 @@ enum SHIP_TRAIT {
 
 # ─── Public API ───────────────────────────────────────────────────────────────
 
-static func get_norm_t(index: int, total: int) -> float:
-	if total <= 1: return 0.0
-	return clampf(float(index) / float(total - 1), 0.0, 1.0)
+## Scaling t for a player ship: 0.0 = starting ship (index 0), unlocks
+## 1..total_unlocks spread evenly up to 1.0 so every unlock gets its own step.
+static func get_unlock_t(unlock_index: int, total_unlocks: int) -> float:
+	if total_unlocks <= 0:
+		return 0.0
+	return clampf(float(unlock_index) / float(total_unlocks), 0.0, 1.0)
 
 static func get_player_stat_scale(t: float) -> float:
 	return _player_curve(t)
@@ -109,11 +112,30 @@ static func _player_curve(t: float) -> float:
 static func _unlock_curve(t: float) -> float:
 	return UNLOCK_COST_MIN + (UNLOCK_COST_MAX - UNLOCK_COST_MIN) * pow(clampf(t, 0.0, 1.0), UNLOCK_COST_EXP)
 
-static func get_ship_warp_range(index:int) -> int:
-	var warp_ranges: Dictionary = {
-		0: 2, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6,
-	}
-	return warp_ranges.get(index, 1)
+# ─── Warp Range ───────────────────────────────────────────────────────────────
+## Range of the starting ship (unlock index 0).
+const START_WARP_RANGE: int = 2
+## Warp range per unlock, keyed by the size of the faction's unlock list.
+## Entry k is the range of unlock index k + 1.
+const WARP_RANGE_TABLES: Dictionary[int, Array] = {
+	6: [3, 3, 4, 5, 6, 6],
+	4: [3, 4, 5, 6],
+}
+## Table used for list sizes not in WARP_RANGE_TABLES.
+const DEFAULT_WARP_RANGE_TABLE_SIZE: int = 6
+
+## Max jumps per warp. `unlock_index` 0 is the starting ship; unlocks run
+## 1..total_unlocks, matching ShipState.get_player_scaled_stats callers.
+static func get_ship_warp_range(unlock_index: int, total_unlocks: int) -> int:
+	if unlock_index <= 0 or total_unlocks <= 0:
+		return START_WARP_RANGE
+	if WARP_RANGE_TABLES.has(total_unlocks):
+		var table: Array = WARP_RANGE_TABLES[total_unlocks]
+		return table[clampi(unlock_index - 1, 0, table.size() - 1)]
+	# Unknown list size: pick the same relative position in the default table.
+	var fallback: Array = WARP_RANGE_TABLES[DEFAULT_WARP_RANGE_TABLE_SIZE]
+	var pos: int = ceili(float(unlock_index) * fallback.size() / float(total_unlocks)) - 1
+	return fallback[clampi(pos, 0, fallback.size() - 1)]
 
 static func get_spider_norm(current_val: float, stat_key: String) -> float:
 	var global_max: float = 1.0

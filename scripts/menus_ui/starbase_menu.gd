@@ -220,7 +220,7 @@ func _create_faction_range(faction: Utility.FACTION, unlock_list: Array[Utility.
 	
 	var total: int = unlock_list.size()
 	for i: int in total:
-		var t: float = Scaling.get_norm_t(i, total)
+		var t: float = Scaling.get_unlock_t(i + 1, total) # same t as the ship cards
 		var ship_type: Utility.SHIP_TYPES = unlock_list[i]
 		var base: BaseShipInfo = Utility.get_ship_stats(ship_type)
 		var archetype: Scaling.ARCHETYPE = base.archetype
@@ -235,7 +235,7 @@ func _create_faction_range(faction: Utility.FACTION, unlock_list: Array[Utility.
 		var c_speed:float = Scaling.apply_modifiers(base.base_speed, move_mult, archetype, faction, "SPEED")
 		var c_agility:float = Scaling.apply_modifiers(base.base_agility, move_mult, archetype, faction, "AGILITY")
 		var c_damage:float = Scaling.apply_modifiers(1.0, stat_mult, archetype, faction, "DAMAGE")
-		var c_range:float = float(Scaling.get_ship_warp_range(i))
+		var c_range:float = float(Scaling.get_ship_warp_range(i + 1, total))
 		var c_energy:float = float(snappedi(150.0 * energy_scale, 25))
 		
 		# Track minimums and maximums

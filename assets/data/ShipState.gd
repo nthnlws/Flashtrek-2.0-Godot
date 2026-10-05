@@ -49,7 +49,7 @@ func save_ship_state(position:Vector2, health:float, shield_health:float, shield
 ## Returns player-based scaled resource
 static func get_player_scaled_stats(unlock_index: int, total_unlocks: int, base_ship: BaseShipInfo) -> ShipState:
 	var new_state: ShipState = ShipState.new()
-	var t: float = Scaling.get_norm_t(unlock_index, total_unlocks)
+	var t: float = Scaling.get_unlock_t(unlock_index, total_unlocks)
 	
 	var stat_scale: float = Scaling.get_player_stat_scale(t)
 	var move_scale: float = Scaling.get_player_move_scale(t)
@@ -60,14 +60,14 @@ static func get_player_scaled_stats(unlock_index: int, total_unlocks: int, base_
 	new_state.ship_type = base_ship.ship_type
 	new_state.current_faction = base_ship.faction
 	
-	new_state.unlock_cost = Scaling.get_unlock_cost_scale(float(unlock_index) / float(total_unlocks))
+	new_state.unlock_cost = Scaling.get_unlock_cost_scale(t)
 	
 	new_state.scaled_max_HP = Scaling.apply_modifiers(base_ship.base_HP, stat_scale, base_ship.archetype, base_ship.faction, "MAX_HP")
 	new_state.scaled_max_shield = Scaling.apply_modifiers(base_ship.base_shield, stat_scale, base_ship.archetype, base_ship.faction, "MAX_SHIELD")
 	new_state.scaled_speed = Scaling.apply_modifiers(base_ship.base_speed, move_scale, base_ship.archetype, base_ship.faction, "SPEED")
 	new_state.scaled_agility = Scaling.apply_modifiers(base_ship.base_agility, move_scale, base_ship.archetype, base_ship.faction, "AGILITY")
 	new_state.scaled_damage_mult = Scaling.apply_modifiers(base_ship.damage_mult, stat_scale, base_ship.archetype, base_ship.faction, "DAMAGE")
-	new_state.scaled_warp_range = Scaling.get_ship_warp_range(unlock_index)
+	new_state.scaled_warp_range = Scaling.get_ship_warp_range(unlock_index, total_unlocks)
 	new_state.scaled_energy = snappedi(150.0 * energy_scale, 25)
 	new_state.scaled_acceleration = base_ship.base_acceleration
 

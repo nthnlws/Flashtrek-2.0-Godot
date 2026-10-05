@@ -43,11 +43,15 @@ func is_mission_active(mission_id: String) -> bool:
 
 # Leave arguments blank to generate a random mission
 func generate_mission(random: bool = true, type: MissionData.MISSION_TYPE = MissionData.MISSION_TYPE.ANALYZE) -> void:
+	var max_range: int = MissionGenerator.UNLIMITED_RANGE
+	if is_instance_valid(LevelManager.player) and LevelManager.player.ship_stats:
+		max_range = LevelManager.player.ship_stats.scaled_warp_range
 	var new_mission: MissionData = MissionGenerator.generate_mission(
 		LevelManager.current_system_data,
 		LevelManager.galaxy_data,
 		random,
-		type
+		type,
+		max_range
 	)
 
 	pending_mission = new_mission

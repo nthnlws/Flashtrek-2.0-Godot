@@ -24,6 +24,7 @@ func _ready() -> void:
 	MissionManager.mission_updated.connect(update_mission_text)
 	LevelManager.galaxyDataUpdated.connect(update_system_names)
 	SignalBus.system_changed.connect(update_current_system)
+	SignalBus.player_type_changed.connect(func(stats: ShipState) -> void: path_drawer.max_range = stats.scaled_warp_range)
 	
 	# Force update current system since signal connections above are
 	# connected after system has already emitted "system_changed" signal
@@ -110,7 +111,7 @@ func update_map_destination(system: Area2D, target_data: SystemData) -> void:
 		if node:
 			current_path_nodes.append(node)
 			
-	path_drawer.update_path(current_path_nodes)
+	path_drawer.update_path(current_path_nodes, _get_player_warp_range())
 	
 	# Delete old selection indicator
 	for red in get_tree().get_nodes_in_group("indicator_mark"):
@@ -129,6 +130,12 @@ func update_map_destination(system: Area2D, target_data: SystemData) -> void:
 	tween.tween_property(indicator, "scale", Vector2(1.05, 1.05), 1.0)
 	
 	LevelManager.target_system_data = target_data
+
+
+func _get_player_warp_range() -> int:
+	if is_instance_valid(LevelManager.player) and LevelManager.player.ship_stats:
+		return LevelManager.player.ship_stats.scaled_warp_range
+	return -1
 
 
 func clear_mission_text() -> void:

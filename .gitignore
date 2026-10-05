@@ -418,3 +418,4 @@ $RECYCLE.BIN/
 *.bak
 /addons
 /.vibe-wise
+*.exe

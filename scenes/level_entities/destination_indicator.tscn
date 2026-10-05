@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d3d0qkwoxcu2y"]
 
-[ext_resource type="Texture2D" uid="uid://bj8ch4hkfuo5u" path="res://assets/textures/UI/destination_aimer.png" id="1_0s4rm"]
+[ext_resource type="Texture2D" uid="uid://bj8ch4hkfuo5u" path="res://assets/textures/UI/destination_indicator.png" id="1_0s4rm"]
 
 [node name="Destination_indicator" type="Node2D" unique_id=284623050]
 modulate = Color(0, 1, 0, 1)

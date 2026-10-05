@@ -64,7 +64,7 @@ func _connect_signals() -> void:
 	MissionManager.mission_started.connect(_handle_mission_pickup)
 	MissionManager.mission_completed.connect(_handle_mission_finish)
 	SignalBus.joystickMoved.connect(set_player_direction)
-	SignalBus.triggerGalaxyWarp.connect(trigger_galaxy_warp)
+	SignalBus.triggerGalaxyWarp.connect(trigger_warp) # validates range/velocity before the sequence
 	SignalBus.combatantEntered.connect(_handle_new_combatant)
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
 	health_component.hull_damage_received.connect(_on_damage_received)
@@ -376,7 +376,7 @@ func trigger_warp() -> void:
 			var end_sys_id: int = LevelManager.target_system_data.system_index
 			var warp_distance: int = GalaxyData.get_jump_distance(start_sys_id, end_sys_id)
 			if warp_distance > ship_stats.scaled_warp_range:
-				var error_message: String = "Max warp range of %s systems" % LevelManager.instance.player.warp_range
+				var error_message: String = "Max warp range of %s systems" % ship_stats.scaled_warp_range
 				SignalBus.changePopMessage.emit(error_message)
 				return
 			if !velocity_check():

@@ -45,7 +45,7 @@ func _populate_option_buttons() -> void:
 
 
 func update_calculations() -> void:
-	var t: float = Scaling.get_norm_t(current_tier - 1, 6)
+	var t: float = Scaling.get_unlock_t(current_tier, 6) # tier = unlock 1..6
 	var stat_scale: float = Scaling.get_player_stat_scale(t)
 	var move_scale: float = Scaling.get_player_move_scale(t)
 
@@ -97,7 +97,7 @@ func update_calculations() -> void:
 
 		graph_data[key] = lerpf(0.2, 1.0, clampf(percent, 0.0, 1.0))
 
-	var current_range := float(Scaling.get_ship_warp_range(current_tier - 1))
+	var current_range := float(Scaling.get_ship_warp_range(current_tier, 6))
 	graph_data["RANGE"] = lerpf(0.2, 1.0, current_range / 6.0)
 	output += "- [color=cyan]RANGE     [/color]: %d\n" % int(current_range)
 
