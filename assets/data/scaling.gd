@@ -57,6 +57,16 @@ static func get_unlock_t(unlock_index: int, total_unlocks: int) -> float:
 		return 0.0
 	return clampf(float(unlock_index) / float(total_unlocks), 0.0, 1.0)
 
+## Standard weapon damage multiplier for every weapon and ability:
+## ship damage multiplier * upgrade DamageMult (multiplicative, never additive).
+static func get_damage_mult(ship_damage_mult: float, upgrades: ShipStatModifiers) -> float:
+	var upgrade_mult: float = upgrades.DamageMult if upgrades else 1.0
+	return ship_damage_mult * upgrade_mult
+
+## Standard weapon damage: base * ship damage multiplier * upgrade DamageMult.
+static func get_weapon_damage(base_damage: float, ship_damage_mult: float, upgrades: ShipStatModifiers) -> float:
+	return base_damage * get_damage_mult(ship_damage_mult, upgrades)
+
 static func get_player_stat_scale(t: float) -> float:
 	return _player_curve(t)
 

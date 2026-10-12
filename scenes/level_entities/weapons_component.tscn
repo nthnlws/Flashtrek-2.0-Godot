@@ -4,7 +4,6 @@
 
 [node name="WeaponsComponent" type="Node" unique_id=871976209]
 script = ExtResource("1_mfyvp")
-is_on_player = true
 
 [node name="cooldown_timer" type="Timer" parent="." unique_id=321195331]
 one_shot = true

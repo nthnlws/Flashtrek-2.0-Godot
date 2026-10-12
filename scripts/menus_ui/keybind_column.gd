@@ -15,7 +15,8 @@ var input_actions: Dictionary[String, String] = {
 	"letter_q": "Minimap Out",
 	"letter_e": "Minimap In",
 	"overdrive": "Overdrive",
-	"letter_m": "Galaxy Map"
+	"letter_m": "Galaxy Map",
+	"tractor_beam": "Tractor Beam"
 }
 
 func _ready() -> void:

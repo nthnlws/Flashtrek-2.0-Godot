@@ -8,10 +8,13 @@ signal to_overdrive_transition
 @onready var energy: EnergyComponent = $EnergyComponent
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var upgrade_modifiers: ShipStatModifiers = ShipStatModifiers.new()
-@onready var weapons_component: WeaponsComponent = $WeaponsComponent
+@onready var primary_slot: PrimarySlot = $PrimarySlot
+@onready var secondary_slot: SecondarySlot = $SecondarySlot
 
 # --- Node References ---
 @onready var sprite: Sprite2D = $ShipSprite
+@onready var firing_position: Marker2D = $FiringPosition
+@onready var tractor_beam: ShipTractorBeam = $FiringPosition/TractorBeam
 @onready var sprite_animation: AnimationPlayer = $ShipSprite/SpriteAnimation
 @onready var shield: Shield = $Shield
 @onready var laser: Laser = $Laser
@@ -50,6 +53,8 @@ func _ready() -> void:
 	
 	_connect_signals()
 	sync_ship_to_data(ship_stats)
+	# Slots mount their defaults in their own _ready (before ours), so resync listeners now
+	secondary_slot.refresh_tradeoffs()
 	SignalBus.player_type_changed.emit.call_deferred(ship_stats)
 	
 	_set_ship_scale(Vector2(1.5, 1.5))
@@ -69,6 +74,10 @@ func _connect_signals() -> void:
 	SignalBus.combatantExited.connect(_handle_exiting_combatant)
 	health_component.hull_damage_received.connect(_on_damage_received)
 	health_component.shield_damage_received.connect(_on_damage_received)
+	# Secondary slot tradeoffs -> cached stats (per-frame stats read secondary_slot.tradeoffs directly)
+	secondary_slot.tradeoffs_changed.connect(health_component.apply_tradeoffs)
+	secondary_slot.tradeoffs_changed.connect(energy.apply_tradeoffs)
+	secondary_slot.tradeoffs_changed.connect(primary_slot.on_secondary_tradeoffs_changed)
 
 
 func sync_ship_to_data(new_stats: ShipState) -> void:
@@ -78,7 +87,7 @@ func sync_ship_to_data(new_stats: ShipState) -> void:
 	# Sprite / collision setup
 	sprite.texture.region = Rect2(ship_info.sprite_coords, Vector2(48, 48))
 	shield.scale =  ship_info.shield_scale * base_scale
-	weapons_component.firing_position.position.y = ship_info.muzzle_pos * base_scale.y
+	firing_position.position.y = ship_info.muzzle_pos * base_scale.y
 
 	var rawColl = ship_info.collision_polygon
 	var parsed_array = JSON.parse_string(rawColl)
@@ -100,8 +109,9 @@ func sync_ship_to_data(new_stats: ShipState) -> void:
 	energy.setMaxEnergy(new_stats.scaled_energy)
 	energy.setCurrentEnergy(new_stats.scaled_energy)
 	
-	weapons_component.upgrades = upgrade_modifiers
-	weapons_component.ship_damage_multiplier = new_stats.scaled_damage_mult
+	for slot: ShipSlot in [primary_slot, secondary_slot]:
+		slot.upgrades = upgrade_modifiers
+		slot.ship_damage_multiplier = new_stats.scaled_damage_mult
 	faction = new_stats.current_faction
 
 
@@ -136,7 +146,7 @@ func _set_ship_scale(new_scale: Vector2) -> void:
 	sprite.scale *= new_scale
 	$hitbox_area.scale *= new_scale
 	$WorldCollisionShape.scale *= new_scale
-	weapons_component.firing_position.position.y *= new_scale.y
+	firing_position.position.y *= new_scale.y
 
 
 func _process(delta: float) -> void:
@@ -180,6 +190,28 @@ func update_shader_region() -> void:
 func _handle_input_actions(event: InputEvent) -> void:
 	if event.is_action_pressed("overdrive") and Utility.current_gamestate != Utility.GAMESTATE.WARPING:
 		overdrive_state_change(trans_length)
+	
+	# Tractor beam (mission use: rescue towing)
+	if event.is_action_pressed("tractor_beam") and can_use():
+		tractor_beam.visible = true
+		tractor_beam.try_activate_beam()
+	elif event.is_action_released("tractor_beam"):
+		tractor_beam.visible = false
+		tractor_beam.deactivate_beam()
+
+
+## Shared check for weapons, abilities and the tractor beam.
+func can_use() -> bool:
+	if Utility.current_gamestate != Utility.GAMESTATE.SYSTEM:
+		return false
+	return not (overdrive_active or cloaked)
+
+
+## Multiplier from the mounted secondary part's tradeoffs (1.0 if none).
+func _tradeoff(key: String) -> float:
+	if not is_instance_valid(secondary_slot):
+		return 1.0
+	return secondary_slot.tradeoffs.get(key, 1.0)
 
 
 func _physics_process(delta: float) -> void:
@@ -200,22 +232,25 @@ func _handle_movement(delta: float) -> void:
 		apply_thrust(thrust, delta)
 		
 		# Rotation logic remains exactly the same
+		var agility: float = ship_stats.scaled_agility * _tradeoff(ShipPartTradeoffs.AGILITY_MULT)
 		if direction.y != 0:
-			rotate(deg_to_rad(direction.y * ship_stats.scaled_agility * delta * overdrivem_v))
+			rotate(deg_to_rad(direction.y * agility * delta * overdrivem_v))
 			
 		if OS.get_name() == "Windows":
 			if Input.is_action_pressed("rotate_right"):
-				rotate(deg_to_rad(ship_stats.scaled_agility * delta * overdrivem_r))
+				rotate(deg_to_rad(agility * delta * overdrivem_r))
 			if Input.is_action_pressed("rotate_left"):
-				rotate(deg_to_rad(-ship_stats.scaled_agility * delta * overdrivem_r))
+				rotate(deg_to_rad(-agility * delta * overdrivem_r))
 
 func apply_thrust(thrust: float, delta: float, speed_mult: float = 1.0) -> void:
+	var acceleration: float = ship_stats.scaled_acceleration * _tradeoff(ShipPartTradeoffs.ACCEL_MULT)
+	var max_speed: float = ship_stats.scaled_speed * _tradeoff(ShipPartTradeoffs.SPEED_MULT)
 	if thrust != 0.0:
-		velocity += transform.x * thrust * ship_stats.scaled_acceleration * delta / overdrivem_v
-		velocity = velocity.limit_length((ship_stats.scaled_speed * speed_mult) / overdrivem_v)
+		velocity += transform.x * thrust * acceleration * delta / overdrivem_v
+		velocity = velocity.limit_length((max_speed * speed_mult) / overdrivem_v)
 	else:
 		# Natural deceleration when no thrust is applied
-		velocity = velocity.move_toward(Vector2.ZERO, ship_stats.scaled_acceleration * delta * 0.25)
+		velocity = velocity.move_toward(Vector2.ZERO, acceleration * delta * 0.25)
 
 
 func overdrive_state_change(transition_length:float) -> void: # Reverses overdrive state

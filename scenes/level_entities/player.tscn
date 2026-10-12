@@ -4,7 +4,10 @@
 [ext_resource type="Script" uid="uid://b0owr67wvdn0b" path="res://scripts/level_entities/PlayerCamera2D.gd" id="3_fns5h"]
 [ext_resource type="PackedScene" uid="uid://cox3jpjtaf204" path="res://scenes/components/entities/health_component.tscn" id="4_7pmes"]
 [ext_resource type="Texture2D" uid="uid://cukwfy1ikknpy" path="res://assets/textures/ships/warpparticle.png" id="4_mse3f"]
-[ext_resource type="PackedScene" uid="uid://wbwabixpynjx" path="res://scenes/level_entities/weapons_component.tscn" id="4_rue2e"]
+[ext_resource type="Script" path="res://scripts/ship_parts/primary_slot.gd" id="30_pslot"]
+[ext_resource type="Script" path="res://scripts/ship_parts/secondary_slot.gd" id="31_sslot"]
+[ext_resource type="Resource" path="res://assets/data/Primary Slot Data/torpedo.tres" id="32_torp"]
+[ext_resource type="Resource" path="res://assets/data/Secondary Slot Data/homing_missile.tres" id="33_miss"]
 [ext_resource type="PackedScene" uid="uid://b21k0tygx1d0h" path="res://scenes/components/entities/damage_handler_component.tscn" id="5_vaax2"]
 [ext_resource type="Script" uid="uid://bs5wcpkvhwkeq" path="res://scripts/level_entities/energy_component.gd" id="5_wda1y"]
 [ext_resource type="Texture2D" uid="uid://biixbk5sucnfs" path="res://assets/textures/ships/ship_sprites.png" id="6_54us1"]
@@ -587,13 +590,23 @@ position = Vector2(12, 0)
 [node name="TractorBeam" parent="FiringPosition" unique_id=1757544994 instance=ExtResource("13_rue2e")]
 visible = false
 
-[node name="WeaponsComponent" parent="." unique_id=871976209 node_paths=PackedStringArray("parent_entity", "energy_component", "shield", "hitbox", "firing_position", "tractor_beam") instance=ExtResource("4_rue2e")]
-parent_entity = NodePath("..")
+[node name="PrimarySlot" type="Node" parent="." node_paths=PackedStringArray("ship", "energy_component", "shield", "hitbox", "firing_position")]
+script = ExtResource("30_pslot")
+default_weapon = ExtResource("32_torp")
+ship = NodePath("..")
 energy_component = NodePath("../EnergyComponent")
 shield = NodePath("../Shield")
 hitbox = NodePath("../hitbox_area")
 firing_position = NodePath("../FiringPosition")
-tractor_beam = NodePath("../FiringPosition/TractorBeam")
+
+[node name="SecondarySlot" type="Node" parent="." node_paths=PackedStringArray("ship", "energy_component", "shield", "hitbox", "firing_position")]
+script = ExtResource("31_sslot")
+default_part = ExtResource("33_miss")
+ship = NodePath("..")
+energy_component = NodePath("../EnergyComponent")
+shield = NodePath("../Shield")
+hitbox = NodePath("../hitbox_area")
+firing_position = NodePath("../FiringPosition")
 
 [node name="HealthComponent" parent="." unique_id=341020749 node_paths=PackedStringArray("parent", "shield", "hull_component") instance=ExtResource("4_7pmes")]
 parent = NodePath("..")

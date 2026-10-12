@@ -17,7 +17,6 @@ filter_clip = true
 script = ExtResource("2_owcls")
 
 [node name="WeaponsComponent" parent="." index="0" unique_id=871976209 node_paths=PackedStringArray("parent_entity", "shield", "hitbox", "firing_position") instance=ExtResource("4_owcls")]
-is_on_player = false
 apply_randomness = true
 parent_entity = NodePath("..")
 shield = NodePath("../Shield")

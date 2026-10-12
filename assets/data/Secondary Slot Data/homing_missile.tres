@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ShipPartData" format=3]
+
+[ext_resource type="Script" path="res://scripts/ship_parts/ship_part_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/ship_parts/weapons/missile_launcher.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"homing_missile"
+display_name = "Homing Missile"
+description = "Click to launch a missile that winds toward the target point and explodes, damaging everything in its blast radius."
+type = 0
+scene = ExtResource("2_scene")
+unlock_cost = 0
+faction = 3
+damage = 30.0
+cooldown = 2.0
+energy_cost = 20.0

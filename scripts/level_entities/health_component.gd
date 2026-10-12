@@ -9,6 +9,10 @@ var upgrades: ShipStatModifiers = ShipStatModifiers.new()
 @export var is_on_player:bool = false
 var alive:bool = true
 
+## Secondary-slot tradeoff multipliers (set by apply_tradeoffs, 1.0 = none)
+var tradeoff_hull_mult: float = 1.0
+var tradeoff_shield_mult: float = 1.0
+
 signal ship_died(last_hit_event:HitEvent)
 signal shield_off
 signal shield_on
@@ -30,9 +34,9 @@ signal shield_damage_received(shooter:Node)
 			SignalBus.playerMaxHealthChanged.emit(value * upgrades.HullMult)
 	get:
 		if is_on_player:
-			return HP_max * upgrades.HullMult
+			return HP_max * upgrades.HullMult * tradeoff_hull_mult
 		else:
-			return HP_max
+			return HP_max * tradeoff_hull_mult
 var HP_current:float = HP_max:
 	set(value):
 		HP_current = value
@@ -45,9 +49,9 @@ func resetHealthToMax() -> void:
 
 func getMaxHealth() -> float:
 	if parent:
-		return HP_max * upgrades.HullMult
+		return HP_max * upgrades.HullMult * tradeoff_hull_mult
 	else:
-		return HP_max
+		return HP_max * tradeoff_hull_mult
 
 func getCurrentHP() -> float:
 	return HP_current
@@ -112,6 +116,24 @@ func _process(delta: float) -> void:
 			shield.shieldActive = false
 
 
+## Connected to SecondarySlot.tradeoffs_changed. Updates the max-hull/shield
+## multipliers, clamps current values and notifies the HUD.
+func apply_tradeoffs(tradeoffs: Dictionary) -> void:
+	tradeoff_hull_mult = tradeoffs.get(ShipPartTradeoffs.MAX_HULL_MULT, 1.0)
+	tradeoff_shield_mult = tradeoffs.get(ShipPartTradeoffs.MAX_SHIELD_MULT, 1.0)
+	
+	if HP_current > HP_max:
+		setCurrentHealth(HP_max)
+	if SP_current > SP_max:
+		SP_current = SP_max
+	
+	health_max_changed.emit(HP_max)
+	shield_max_changed.emit(SP_max)
+	if is_on_player:
+		SignalBus.playerMaxHealthChanged.emit(HP_max)
+		SignalBus.playerMaxShieldChanged.emit(SP_max)
+
+
 func initialize_hud() -> void:
 	if is_on_player:
 		SignalBus.playerMaxShieldChanged.emit(SP_max)
@@ -130,8 +152,8 @@ var SP_max:int = 50:
 			SignalBus.playerMaxShieldChanged.emit(value * upgrades.ShieldMult)
 	get:
 		if upgrades:
-			return SP_max * upgrades.ShieldMult
-		else: return SP_max
+			return SP_max * upgrades.ShieldMult * tradeoff_shield_mult
+		else: return SP_max * tradeoff_shield_mult
 var SP_current:float = SP_max:
 	set(value):
 		SP_current = value

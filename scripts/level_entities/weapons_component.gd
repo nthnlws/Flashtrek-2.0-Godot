@@ -1,9 +1,10 @@
 extends Node
 class_name WeaponsComponent
+## NPC-only primary weapon (torpedo). The player uses PrimarySlot / SecondarySlot
+## (scripts/ship_parts/) instead. AI calls attempt_primary_fire().
 
 var upgrades: ShipStatModifiers = ShipStatModifiers.new()
 
-@export var is_on_player: bool = false
 @export var apply_randomness: bool = false
 @export var accuracy_cone_angle: float = 3.0 # In degrees
 @export var base_rate_of_fire: float = 5.0
@@ -16,16 +17,12 @@ var upgrades: ShipStatModifiers = ShipStatModifiers.new()
 @export var shield: Shield
 @export var hitbox: HullDamageReceiver
 @export var firing_position: Marker2D
-@export var tractor_beam: ShipTractorBeam
-#@export_group("AI Settings")
 
 @export_group("PackedScenes")
 @export var torpedo_scene: PackedScene = preload("uid://dkwrosj64i8ur")
-@export var missile_scene: PackedScene = preload("uid://dj5rx83i8si03")
 
 @onready var cooldown_timer: Timer = $cooldown_timer
 
-var shooting_button_held: bool = false
 var rate_of_fire: float = 1.0 / base_rate_of_fire:
 	set(value):
 		cooldown_timer.wait_time = 1.0 / value
@@ -40,43 +37,6 @@ func _ready() -> void:
 	var prototype: Torpedo = torpedo_scene.instantiate()
 	_torpedo_cost = prototype.energy_drain
 	prototype.free()
-
-
-func _physics_process(delta: float) -> void:
-	if !is_on_player: return # Exit if not player
-	
-	if shooting_button_held and cooldown_timer.is_stopped():
-		var firing_position: Vector2 = firing_position.get_global_mouse_position()
-		attempt_primary_fire(firing_position)
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if !is_on_player: return # Exit if not player
-	
-	# Primary weapon firing
-	if event.is_action_pressed("left_click"):
-		shooting_button_held = true
-	if event.is_action_released("left_click"):
-		shooting_button_held = false
-	
-	if tractor_beam:
-		if event.is_action_pressed("right_click"):
-			if _can_fire(0): # Try "can fire" with 0 energy cost
-				#shoot_missile(get_global_mouse_position())
-				tractor_beam.visible = true
-				tractor_beam.try_activate_beam()
-		
-		if event.is_action_released("right_click"):
-			tractor_beam.visible = false
-			tractor_beam.deactivate_beam()
-		
-	# Secondary weapon firing
-	#if event.is_action_pressed("right_click"):
-		#if _can_fire_weapons(laser.energy_drain):
-			#laser.firing_button_held = true
-	#if event.is_action_released("right_click"):
-		#laser.firing_button_held = false
-		#laser.stop_firing()
 
 
 ## Returns true if fired. Safe to call every frame.
@@ -100,12 +60,9 @@ func attempt_primary_fire(target_location: Vector2) -> bool:
 		bullet.global_position = firing_position.global_position
 		bullet.rotation = firing_angle
 		bullet.shooterObject = parent_entity
-		bullet.damage *= ship_damage_multiplier * upgrades.DamageMult
-		bullet.damage_multipler = ship_damage_multiplier * upgrades.DamageMult
+		bullet.damage = Scaling.get_weapon_damage(bullet.damage, ship_damage_multiplier, upgrades)
+		bullet.damage_multipler = Scaling.get_damage_mult(ship_damage_multiplier, upgrades)
 		bullet.faction = parent_entity.ship_stats.current_faction
-		
-		#if is_on_player:
-			#bullet.damage *= parent_entity.upgrade_modifiers.DamageMult
 		
 		if hitbox:
 			bullet.exceptions.append(hitbox)
@@ -121,35 +78,6 @@ func attempt_primary_fire(target_location: Vector2) -> bool:
 	return false
 
 
-func shoot_missile(clicked_pos: Vector2) -> void:
-	var missile: HomingMissile = missile_scene.instantiate()
-	var cost: float = missile.energy_drain
-	
-	if _can_fire(cost):
-		missile.position = self.global_position
-		missile.rotation = self.rotation
-		missile.shooterObject = parent_entity
-		missile.max_damage = missile.max_damage * (ship_damage_multiplier + upgrades.DamageMult)
-		missile.damage_multiplier = (ship_damage_multiplier + upgrades.DamageMult)
-		missile.faction = parent_entity.ship_stats.current_faction
-		missile.target_position = clicked_pos
-		
-		if is_instance_valid(energy_component):
-			energy_component.consume_energy(cost)
-			energy_component.lock_regeneration(1.0) # 1 second
-		
-		if is_instance_valid(hitbox):
-			missile.exceptions.append(hitbox)
-		if is_instance_valid(shield):
-			missile.exceptions.append(shield.get_node("shield_area"))
-		
-		%HeavyTorpedo.pitch_scale = randf_range(0.95, 1.05)
-		%HeavyTorpedo.play()
-		LevelManager.rootLevel.add_child(missile)
-	else:
-		missile.queue_free()
-
-
 func randomize_position(predicted_position: Vector2) -> Vector2:
 	var distance: float = firing_position.global_position.distance_to(predicted_position)
 	var max_radius: float = distance * tan(deg_to_rad(accuracy_cone_angle))
@@ -159,21 +87,13 @@ func randomize_position(predicted_position: Vector2) -> Vector2:
 
 
 func _can_fire(cost: float) -> bool:
-	# 1. Universal early exits
 	if Utility.current_gamestate != Utility.GAMESTATE.SYSTEM:
 		return false
 		
 	if not cooldown_timer.is_stopped():
 		return false
 		
-	# 2. Player-specific early exits
-	if is_on_player:
-		if (parent_entity.overdrive_active or parent_entity.cloaked):
-			return false
-		
-	# 3. Final check: Energy consumption
 	if energy_component:
 		return energy_component.request_consume(cost)
 		
-	# 4. If there's no energy component and all other checks passed, they can fire
 	return true

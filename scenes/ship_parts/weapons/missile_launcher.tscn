@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ship_parts/weapons/missile_launcher.gd" id="1_ml"]
+[ext_resource type="AudioStream" uid="uid://bh1awpsj85dcd" path="res://assets/audio/effects/torpedo_heavy.ogg" id="2_snd"]
+
+[node name="MissileLauncher" type="Node2D"]
+script = ExtResource("1_ml")
+
+[node name="FireSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_snd")
+volume_db = -5.0
+max_distance = 4000.0
+attenuation = 0.5547841
+panning_strength = 3.0
+bus = &"Effects"

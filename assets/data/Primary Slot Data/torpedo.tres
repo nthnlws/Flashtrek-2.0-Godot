@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShipPartData" format=3 uid="uid://73qpum0vi7kk"]
+
+[ext_resource type="Script" uid="uid://db8esbmyavjmv" path="res://scripts/ship_parts/ship_part_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/ship_parts/weapons/torpedo_launcher.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"photon_torpedo"
+display_name = "Photon Torpedo"
+description = "Standard forward-firing torpedo. Hold to fire."
+scene = ExtResource("2_scene")
+damage = 15.0
+cooldown = 0.3
+energy_cost = 10.0

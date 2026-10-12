@@ -6,6 +6,8 @@ signal max_energy_changed(max: float)
 signal energy_depleted
 
 var upgrades: ShipStatModifiers = ShipStatModifiers.new()
+## Secondary-slot tradeoff multiplier (set by apply_tradeoffs, 1.0 = none)
+var tradeoff_energy_mult: float = 1.0
 
 @export var parent:Node
 @export var max_energy: float = 150.0:
@@ -15,8 +17,8 @@ var upgrades: ShipStatModifiers = ShipStatModifiers.new()
 		SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
 	get:
 		if upgrades:
-			return max_energy * upgrades.EnergyCapacityMult
-		else: return max_energy
+			return max_energy * upgrades.EnergyCapacityMult * tradeoff_energy_mult
+		else: return max_energy * tradeoff_energy_mult
 
 var current_energy: float = 0.0:
 	set(value):
@@ -55,6 +57,16 @@ func _ready() -> void:
 	# Initialize HUD values
 	SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
 	SignalBus.playerEnergyChanged.emit.call_deferred(current_energy)
+
+
+## Connected to SecondarySlot.tradeoffs_changed. Updates the max-energy
+## multiplier, clamps current energy and notifies the HUD.
+func apply_tradeoffs(tradeoffs: Dictionary) -> void:
+	tradeoff_energy_mult = tradeoffs.get(ShipPartTradeoffs.MAX_ENERGY_MULT, 1.0)
+	if current_energy > max_energy:
+		current_energy = max_energy
+	max_energy_changed.emit(max_energy)
+	SignalBus.playerMaxEnergyChanged.emit.call_deferred(max_energy)
 
 
 ## Attempt to spend energy. Returns true if successful.

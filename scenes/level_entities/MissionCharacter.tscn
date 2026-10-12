@@ -21,7 +21,6 @@ collision_mask = 70
 shape = SubResource("CircleShape2D_5w1xw")
 
 [node name="WeaponsComponent" parent="." index="11" unique_id=871976209 node_paths=PackedStringArray("parent_entity", "shield", "hitbox", "firing_position") instance=ExtResource("3_28hi0")]
-is_on_player = false
 parent_entity = NodePath("..")
 shield = NodePath("../Shield")
 hitbox = NodePath("../hitbox_area")
